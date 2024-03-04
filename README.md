@@ -12,7 +12,10 @@ Our dataset consists of:
 1. Obfuscated JavaScript code (obtained by applying different obfuscation tchniques to the JavaScript branch of our Non-Obfuscated Code dataset);
 2. Winner code of Internet Obfuscated C Code Contest (IOCCC);
 ## Results
+![Overall histogram regarding LoC statistics of our non-obfuscated source code dataset](images/FigCodeHist.jpg)
 Results of our analysis:
 1. Responses of different models on different code sample
 2. Statistics
 ## Case Studies
+![Android Case Study](images/FigAndroidDiagram.jpg)
+![WannaCry Case Study](images/FigWannaCry.jpg)
