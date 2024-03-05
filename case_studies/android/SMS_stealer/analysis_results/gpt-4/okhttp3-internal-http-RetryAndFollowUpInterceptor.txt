@@ -1,0 +1,17 @@
+The `RetryAndFollowUpInterceptor` class implements the `Interceptor` interface, providing methods to handle HTTP request retries and follow ups, usually in case of failures or redirections. Here are the key details about the class:
+
+1) It defines a constant `MAX_FOLLOW_UPS = 20` which stands for the maximum number of follow-up requests.
+
+2) The constructor `RetryAndFollowUpInterceptor(OkHttpClient paramOkHttpClient, boolean paramBoolean)` initializes an instance with an `OkHttpClient` and a boolean indicating whether the request is for a WebSocket (`forWebSocket`).
+
+3) `createAddress(HttpUrl paramHttpUrl)` is used to create an `Address` instance from the `HttpUrl`. For HTTPS `HttpUrl`, it additionally requires `SSLSocketFactory` and `HostnameVerifier`.
+
+4) `followUpRequest(Response paramResponse, Route paramRoute)` method is used to build a follow-up request in case of a redirection or re-authentication response.
+
+5) The `recover(IOException paramIOException, StreamAllocation paramStreamAllocation, boolean paramBoolean, Request paramRequest)` method is used to handle recoverable failures. It will decide whether to retry or reopen the connection based on the settings.
+
+6) `isRecoverable(IOException paramIOException, boolean paramBoolean)` method is used to check if the exception occurred in a HTTP call is recoverable.
+
+7) The `intercept(Interceptor.Chain paramChain)` method is the core part which processes the request and handles redirections and recoverable exceptions based on response codes.
+
+8) The `cancel()`, `isCanceled()`, `setCallStackTrace(Object paramObject)`, and `streamAllocation()` methods are utility functions for managing the request and logging/debugging respectively.

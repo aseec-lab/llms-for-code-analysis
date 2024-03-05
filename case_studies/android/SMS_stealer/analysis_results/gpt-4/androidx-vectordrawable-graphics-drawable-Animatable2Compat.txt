@@ -1,0 +1,7 @@
+The `Animatable2Compat` class extends the `Animatable` interface and provides additional methods for managing animation callbacks. It has `clearAnimationCallbacks()` for removing all callbacks, `registerAnimationCallback()` for adding new callbacks, and `unregisterAnimationCallback()` for removing specific callbacks.
+
+Nested within `Animatable2Compat` is the abstract class `AnimationCallback`. An animation callback class is designed to be overridden with methods (`onAnimationEnd()` and `onAnimationStart()`) to handle what happens when an animation starts or ends.
+
+It includes an `Animatable2.AnimationCallback` object `mPlatformCallback`, provides methods to retrieve `mPlatformCallback`, and defines basic `onAnimationEnd()` and `onAnimationStart()` methods which can be overridden.
+
+There's also an anonymous inner class that extends `Animatable2.AnimationCallback` and overrides its `onAnimationEnd()` and `onAnimationStart()` methods to delegate these calls to the outer `Animatable2Compat.AnimationCallback` instance. This allows the outer instance to work with the Android platform Animatable2 API.

@@ -1,0 +1,11 @@
+The `ActionProvider` is an abstract class that provides a mechanism to interact with and control items appearing in the action bar in an Android application. It has a number of methods and two internal interfaces. 
+
+Key Parts:
+- `onCreateActionView()`: This abstract method is used to create the action view, it doesn't have an implementation in the abstract class itself, but should be implemented in subclasses.
+- `isVisible()` and `hasSubMenu()`: These methods return visibility of the action provider and whether it has sub menu respectively. 
+- `onPerformDefaultAction()` and `onPrepareSubMenu(SubMenu paramSubMenu)`: These methods are for performing default actions and preparing a sub menu. They return false and do nothing respectively by default, but can be overridden.
+- `refreshVisibility()`: It's used to refresh visibility status.
+- `setVisibilityListener(VisibilityListener paramVisibilityListener)`: It's used to set the visibility change listener.
+  
+Interfaces:
+- `SubUiVisibilityListener` and `VisibilityListener` are two static interfaces used for providing callback methods for visibility changes, with methods `onSubUiVisibilityChanged(boolean param1Boolean)` and `onActionProviderVisibilityChanged(boolean param1Boolean)` respectively.

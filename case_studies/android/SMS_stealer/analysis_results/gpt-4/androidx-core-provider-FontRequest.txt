@@ -1,0 +1,12 @@
+The `FontRequest` class provides a way to request a font from a font provider. It stores information about a font request such as:
+
+- `mProviderAuthority`: Name of the font provider.
+- `mProviderPackage`: Package name for the font provider.
+- `mQuery`: Query to request specific fonts.
+- `mCertificatesArray`: Reference to array resource containing certificate data.
+- `mCertificates`: List of lists of certificate hashes.
+- `mIdentifier`: Identifier for the font request, constructed from the authority, package, and query strings.
+
+It provides two constructors, one of which accepts an integer `paramInt` (representing certificate array resource ID), and another which takes a list of lists of byte arrays `paramList` (representing certificate data).
+
+The class also exposes getters for all these properties. The `toString()` method generates a String representation of the `FontRequest` object including all the properties. If a certificate array resource ID is used, the hashes are encoded in base64 for the string representation.

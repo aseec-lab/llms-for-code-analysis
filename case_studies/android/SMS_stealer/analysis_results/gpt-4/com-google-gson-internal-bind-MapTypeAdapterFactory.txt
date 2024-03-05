@@ -1,0 +1,18 @@
+The `MapTypeAdapterFactory` class is used by GSON to handle serialization and deserialization of Java `Map` objects to and from JSON strings. 
+
+The class contains a private sub-class `Adapter` that extends `TypeAdapter`. This `Adapter` handles the actual conversion of a map object to JSON representation (`write()`) and from a JSON representation to a map object (`read()`).
+
+Key notes about `MapTypeAdapterFactory`:
+
+- `MapTypeAdapterFactory` class implements `TypeAdapterFactory` interface, which means it creates TypeAdapters for various types.
+- A flag `complexMapKeySerialization` is maintained which suggests whether the map's key should be serialized complexly or not.
+- The `create()` method checks if the type of objects is `Map`. If yes, it gets the types of the map's key and value, plus the adapters of those types, using `getKeyAdapter()` and `GSON.getAdapter()`. Then it constructs a new `Adapter` instance.
+- `MapTypeAdapterFactory` uses `ConstructorConstructor` to create new instances of the map that needs to be populated with deserialized data.
+  
+Key points about `Adapter`:
+
+- In `read()`, JSON data is read and a map is populated by keys/values as it reads the JSON data. If it encounters a duplicate key, a `JsonSyntaxException` is thrown.
+- In `write()`, if `complexMapKeySerialization` is true, the keys are turned into a `JsonElement` and then serialized. If the flag is false, it just converts them to strings and directly writes to the JsonWriter. Also, if value in the map is `null`, the writer writes null, else it writes the stringified version of the value. 
+- `keyToString()` is a utility function to convert a `JsonElement` to a `String`.
+  
+This factory class takes care of scenarios where Map keys are not just plain strings but complex objects. That's why `complexMapKeySerialization` is important to manage.stringify Map keys.

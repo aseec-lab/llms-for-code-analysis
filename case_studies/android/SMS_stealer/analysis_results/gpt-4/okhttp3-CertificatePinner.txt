@@ -1,0 +1,15 @@
+The `CertificatePinner` class is used to manage and validate server certificates during an SSL or TLS handshake. 
+
+The class keeps track of a list of `Pin`s for certificates. A `Pin` is a combination of a host and the hashed public key of its certificate. By pinning certificates, it enables an application to confirm that a server's certificate is one it knows about, and not a forged certificate presented by an attacker.
+
+The `check` method is used to confirm that at least one of the pins in the `CertificatePinner` matches the certificates in the server's certificate chain. If none of the pins match, it'll throw an `SSLPeerUnverifiedException`.
+
+The `sha1` and `sha256` methods are static utility functions to hash a certificate's public key.
+
+The `pin` method is a utility function to generate a pin string from a certificate.
+
+The `Builder` inner class is used to construct an instance of `CertificatePinner`.
+
+The `Pin` static inner class represents an individual certificate pin, including the host pattern it matches, the hashing algorithm used (sha256/sha1), and the hashed value of the certificate's public key.
+
+It appears that the class was decompiled from a `.jar` file, which is typically used to distribute Java libraries or applications.

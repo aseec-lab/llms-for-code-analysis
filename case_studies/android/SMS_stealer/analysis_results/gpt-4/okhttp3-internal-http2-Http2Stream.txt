@@ -1,0 +1,41 @@
+The `Http2Stream` class represents a single stream within an HTTP/2 connection, encapsulating the sending and receiving of frames to and from the peer. It includes features like flow control, stream cancellation, and error handling.
+
+This class contains the following properties:
+- `StreamTimeout` objects `readTimeout` and `writeTimeout` to enforce timeouts for reading from and writing to the stream.
+- A `FramingSource` object `source` and a `FramingSink` object `sink` to read from and write to the stream, respectively.
+- `Http2Connection` object `connection` representing the HTTP/2 connection this stream is part of.
+- `bytesLeftInWriteWindow` to track the remaining bytes in the write window.
+- `unacknowledgedBytesRead` to record the unacknowledged bytes read from the stream.
+- `List<Header>` objects `requestHeaders` and `responseHeaders` to hold the headers of the request and response.
+- `ErrorCode` object `errorCode` to hold the error code in case of a failed stream.
+
+Some key methods are:
+- `close` and `closeLater`: These methods are used to close the HTTP/2 Stream immediately or later when an error occurs.
+- `isLocallyInitiated`: Checks if the stream was initiated by the local endpoint.
+- `isOpen`: Checks if the stream is open by verifying that no error has occurred.
+- `getSink` and `getSource`: These methods return the sink and source of this stream, respectively.
+
+At the end of the code provided, it's incomplete being cut-off after the `isOpen()` method. More code/downstream methods are expected but are not provided in the text.This script continues the Http2Stream class's functionality definitions. 
+
+Some key methods included are:
+- `readTimeout`: Returns a Timeout object linked to the reading operation.
+- `receiveData`: Processes incoming data from a Buffered Source.
+- `receiveFin`: Handles the termination of a stream.
+- `receiveHeaders`: Processes incoming headers.
+- `receiveRstStream`: Handles a Reset command for a stream.
+- `sendResponseHeaders`: Sends headers for a response.
+- `takeResponseHeaders`: Retrieves headers associated with a response.
+- `waitForIo`: Waits for I/O operations to complete. 
+
+The code also includes handling of exceptions, thread synchronization, and other lower-level functionality, like stream removal and flushing.The code continues the Http2Stream class's implementation, with private StreamTimeout and FramingSource classes and their required methods. 
+
+- `FramingSource`: Provides functionalities for reading data from a stream, closing the stream, setting timeouts, and receiving data. 
+- `StreamTimeout`: Defined as a child class, it provides functionality for timeouts, including throwing an exception if timed out. It extends from AsyncTimeout class. 
+
+These classes help manage the reading and writing of data in a stream, handling interruptions, checking if the stream is closed, and clearing the buffer when necessary. It also monitors the size of the data read. Parallel processes are managed using the 'synchronized' keyword to ensure no data corruption or inconsistencies arise due to simultaneous operations. 
+
+The FramingSink class is also included; it writes data into a stream, handles frame emissions, tracks whether the stream is closed and finished, and manages operations for buffer size restrictions.
+
+Error handling is considered in detail, especially regarding connection interruptions and stream resets. The `StreamTimeout` class adds another layer of error handling, specifically for scenarios when operations take too long and time out.
+
+Some operations like `waitUntilReadable()` and `checkNotClosed()` aid in data flow synchronization, data integrity and smooth functioning of the stream. Attention is also given to window size update rules and adjusting unacknowledged byte count, maintaining the HTTP2 protocol's requirements.

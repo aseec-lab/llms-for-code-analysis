@@ -1,0 +1,9 @@
+The `ServiceCompat` class provides compatibility methods for interacting with `Service` instances on different versions of the Android platform.
+
+It defines 3 constants indicating the service state: `START_STICKY`, `STOP_FOREGROUND_DETACH`, and `STOP_FOREGROUND_REMOVE`.
+
+The method `stopForeground(Service paramService, int paramInt)` is used to stop the service from running in the foreground. If the Android SDK version is 24 (Android 7.0 Nougat) or higher, it directly passes the `paramInt` as a flag to `stopForeground`. On the other hand, for lower SDK versions, it checks if the least significant bit of `paramInt` is 0 (indicates the service should continue running until it is stopped) -- the result `bool` is passed as a flag to `stopForeground`.
+
+The `@Retention(RetentionPolicy.SOURCE)` annotation is applied to `StopForegroundFlags` interface to indicate that this meta-annotation should be discarded by the compiler and not included in the .class file.
+
+Side note: this file appears to have been decompiled from a .jar file with `dex2jar`.

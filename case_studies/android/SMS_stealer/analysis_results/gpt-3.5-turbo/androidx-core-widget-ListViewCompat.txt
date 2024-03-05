@@ -1,0 +1,7 @@
+The `ListViewCompat` class in the `androidx.core.widget` package provides compatibility methods for working with `ListView` on different versions of Android.
+
+The `canScrollList` method checks if a `ListView` can be scrolled in a specified direction. It uses different implementations based on the Android version. On API 19 and above, it calls the `canScrollList` method of the `ListView` itself. Otherwise, it manually calculates if the list can be scrolled based on the number of child views, first visible position, and list padding.
+
+The `scrollListBy` method scrolls a `ListView` by a specified amount. It also uses different implementations based on the Android version. On API 19 and above, it calls the `scrollListBy` method of the `ListView`. Otherwise, it calculates the new position based on the first visible position and the top position of the first child view, and sets the new position using `setSelectionFromTop` method.
+
+The class also includes a comment with the file location and version information.

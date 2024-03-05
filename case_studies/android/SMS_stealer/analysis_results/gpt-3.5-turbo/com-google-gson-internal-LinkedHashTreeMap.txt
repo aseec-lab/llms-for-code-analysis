@@ -1,0 +1,41 @@
+The `LinkedHashTreeMap` class is a data structure that implements the `Map` interface and uses a linked tree to store key-value pairs. It provides methods for adding, removing, and retrieving elements, as well as iterating over the elements in the map. The class also provides methods for performing operations such as clearing the map and checking if a key is present. It internally uses nodes to represent the elements in the map, and employs a hash table to efficiently store and retrieve elements. The class also supports serialization and implements the `Serializable` interface.The `AvlBuilder` class is used by the `LinkedHashTreeMap` class to build an AVL tree structure. It keeps track of the leaves to skip and the current size of the tree, and provides a method to add nodes to the tree. The class also has a method to reset the tree and a method to retrieve the root node.
+
+The `AvlIterator` class is used to iterate over the nodes of an AVL tree in ascending order. It maintains a reference to the top node of the stack and provides a method to get the next node in the iteration.The `Node` class represents a node in the AVL tree. It implements the `Map.Entry` interface and stores a key-value pair. The class provides methods to access the key, value, and left and right child nodes of the current node. It also has a method to calculate the hash code for the node based on the key and value. The class has methods to find the first and last nodes in the subtree rooted at the current node.
+
+The `first()` method returns the leftmost node in the subtree rooted at the current node, while the `last()` method returns the rightmost node. These methods are useful for iterating over the nodes of the AVL tree in ascending or descending order.
+
+The `getKey()` and `getValue()` methods are standard Java methods that return the key and value of the node, respectively.
+
+The `equals()` method compares the current node with another object to check if they are equal. It first checks if the other object is an instance of `Map.Entry`, and then compares the keys and values of the two objects.
+
+The `hashCode()` method calculates the hash code for the node based on the key and value. It uses the XOR operator to combine the hash codes of the key and value.
+
+Overall, the `Node` class encapsulates the properties and behavior of a node in the AVL tree used by the `LinkedHashTreeMap` class.The `setValue()` method in the `Node` class sets the value of the current node to the given parameter and returns the previous value.
+
+The `toString()` method generates a string representation of the key-value pair stored in the current node. It uses a `StringBuilder` to concatenate the key, "=", and value.
+
+The `LinkedHashTreeMap` class is the main class that represents the AVL tree data structure. It is a custom implementation of the `Map` interface. The class contains fields for the root node, size of the map, and comparator for ordering the keys.
+
+The class has methods to manipulate the map such as `put()`, `get()`, `remove()`, `size()`, `containsKey()`, and `clear()`. It also has methods to iterate over the map such as `entrySet()`, `keySet()`, `values()`, `firstEntry()`, and `lastEntry()`.
+
+The `put()` method inserts a key-value pair into the map. If the key already exists, the value is updated. Otherwise, a new node is created and added to the tree. The method also ensures that the tree remains balanced by performing AVL rotations if necessary.
+
+The `get()` method retrieves the value associated with the given key from the map. If the key is not found, `null` is returned.
+
+The `remove()` method removes the key-value pair associated with the given key from the map. The method also rebalances the tree if necessary.
+
+The `size()` method returns the number of key-value pairs in the map.
+
+The `containsKey()` method checks if the map contains the specified key.
+
+The `clear()` method removes all key-value pairs from the map.
+
+The `entrySet()` method returns a set containing all the key-value pairs in the map.
+
+The `keySet()` method returns a set containing all the keys in the map.
+
+The `values()` method returns a collection containing all the values in the map.
+
+The `firstEntry()` method returns the first key-value pair in the map in ascending order.
+
+The `lastEntry()` method returns the last key-value pair in the map in ascending order.

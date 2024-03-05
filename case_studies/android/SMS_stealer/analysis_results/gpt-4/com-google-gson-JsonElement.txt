@@ -1,0 +1,9 @@
+The `JsonElement` class in the Google Gson library is an abstract class intended to be the superclass of the various types of JSON elements that can exist (i.e., `JsonObject`, `JsonArray`, `JsonPrimitive`, `JsonNull`). 
+
+- It contains abstract method `deepCopy()` which will be implemented by subclasses to return a deep copy of the instance.
+
+- There are a series of `getAsX` and `isX` methods. The `getAsX` methods attempt to get the value of a `JsonElement` as a particular type. By default, these methods throw an `UnsupportedOperationException`, unless they're overridden by subclasses.
+
+- Similarly, the `isX` methods check whether this element is of a particular type. By default, these return false, again unless overridden by subclasses.
+
+- It also implements a `toString()` method that attempts to convert the `JsonElement` to a JSON string, throwing an `AssertionError` if this cannot be done due to an `IOException`.

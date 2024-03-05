@@ -1,0 +1,15 @@
+`LoaderManagerImpl.java` is an extension of the `LoaderManager` class. It helps handle loader instances in an activity or fragments. It has bool definitions to handle debugging, lifecycle owner fields, and a loader view model. 
+
+It includes several methods such as `createAndInstallLoader()`, `destroyLoader()`, `dump()`, `getLoader()`, `hasRunningLoaders()`, `initLoader()`, `markForRedelivery()`, `restartLoader()`, `toString()` to manage the loaders.
+
+In addition to these, there's an inner class `LoaderInfo<D>` which extends the 'MutableLiveData' class and implements 'Loader.OnLoadCompleteListener'. The class is itself a loader that provides methods for starting and stopping, dumping, and managing its lifecycle. 
+ 
+It overrides the `onLoadComplete()` method to handle the action when a loader finishes loading data. It also provides mechanisms to stop loading when it's no longer needed, and restart when needed again, providing robust data handling during lifecycle changes.
+
+Please note that all these methods must be called on main thread, which is ensured by checks for the current looper being the main looper.`LoaderObserver<D>` is an internal class that implements `Observer<D>`. It includes methods `dump()`, `hasDeliveredData()`, `onChanged()`, `reset()`, and `toString()`. This class is primarily responsible for handling changes and resets for the loader.
+
+`LoaderViewModel` extends `ViewModel` and contains several methods such as `dump()`, `finishCreatingLoader()`, `getLoader()`, `hasRunningLoaders()`, `isCreatingLoader()`, `markForRedelivery()`, `putLoader()`, `removeLoader()` and `startCreatingLoader()`. This model handles the state of the various loaders, creating and managing them as necessary. 
+
+Finally, there's a `ViewModelProvider.Factory` interface implementation that creates an instance of `LoaderViewModel`. 
+
+Please note all these are inner classes/interfaces in the `LoaderManagerImpl` class.

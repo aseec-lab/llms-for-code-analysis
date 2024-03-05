@@ -1,0 +1,11 @@
+The `LruBitmapCache` class is a cache for storing Bitmap objects with string keys. It implements the `ANImageLoader.ImageCache` interface and extends the `LruCache` class, which is a cache with a Least Recently Used policy.
+
+This class provides the following functionalities:
+
+- In the constructor `LruBitmapCache(int paramInt)`, it calls the superclass' constructor, passing along a size limit for the cache.
+
+- There are methods to manipulate the cache, such as `putBitmap(String paramString, Bitmap paramBitmap)` for adding an entry to the cache, `getBitmap(String paramString)` for retrieving an entry from the cache, and `evictBitmap(String paramString)` and `evictAllBitmap()` for removing entries from the cache.
+
+- The `sizeOf(String paramString, Bitmap paramBitmap)` method calculates the size of a Bitmap in memory, helpful for properly controlling the cache size.
+
+Thanks to this class, Bitmaps can be efficiently cached and retrieved, saving memory by only keeping the most recently used items.

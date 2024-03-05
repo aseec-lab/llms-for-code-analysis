@@ -1,0 +1,53 @@
+This `AlertController` class forms the backbone of the alert dialogs in the Android Support Library. It is responsible for configuring and displaying an alert dialog to the user, extending the dialog functions with more controls.
+
+The class contains a variety of declarations including text, buttons, icons, and handlers associated with a dialog, and internal methods to set up and manage a dialog, such as `canTextInput()`, `centerButton()`, and `manageScrollIndicators()`. 
+
+This class also contains a constructor `AlertController()` that initializes the dialog, enabling window features and obtaining styling attributes to layout the dialog. 
+
+The dialog has the ability to listen to scroll changes (with `mScrollView.setOnScrollChangeListener()`) and manage scroll indicators under different scenarios. 
+
+All these allow for creating standard dialogs as well as giving developers the ability to create more customized dialog messages.This block of code expands the `AlertController` class by adding several methods for configuring Alert dialog box. 
+
+The `setupButtons(ViewGroup paramViewGroup)` method initializes the Positive, Negative, and Neutral buttons of the Alert Dialog box. It checks if the text or icon for these buttons are set, and if not, makes the button invisible. 
+
+The `setupContent(ViewGroup paramViewGroup)`, `setupCustomContent(ViewGroup paramViewGroup)` and `setupTitle(ViewGroup paramViewGroup)` methods are used to setup the content, custom content, and title for the Alert Dialog box respectively.
+
+The `setupView()` method sets up the overall view of the Alert Dialog. It checks if the custom view, title, and button panel are visible, and adjusts the spacing and dividers based on these.
+
+The `shouldCenterSingleButton(Context paramContext)` method determines if a single button in the dialog box should be centered based on the provided context.
+
+The `getButton(int paramInt)` method returns one of the Positive, Negative, or Neutral buttons based on the parameter.
+
+The `getIconAttributeResId(int paramInt)` retrieves the resource Id of a drawable based on the attribute in the theme of the context. 
+
+The `getListView()` method returns the ListView associated with this Alert Dialog.
+
+The `installContent()` method determines the content view for the dialog, sets this view, and then sets up the view.
+
+The `onKeyDown(int paramInt, KeyEvent paramKeyEvent)` method processes a key down event. If the ScrollView in the alert dialog handled the key event, this method returns true, else false.This block of code is the continuation of AlertController class from AlertDialog in Android.
+
+The `onKeyUp(int paramInt, KeyEvent paramKeyEvent)` method of class `AlertController` acts upon key up events for a dialog. It returns true if scroll view of dialog processed the event, false otherwise.
+
+The `setButton(int paramInt, CharSequence paramCharSequence, DialogInterface.OnClickListener paramOnClickListener, Message paramMessage, Drawable paramDrawable)` method sets the text, icon, message and the click listener for a dialog button based on button type (defined by paramInt).
+
+`setButtonPanelLayoutHint(int paramInt)`, `setCustomTitle(View paramView)`, `setIcon(int paramInt)`, `setIcon(Drawable paramDrawable)`, `setMessage(CharSequence paramCharSequence)` and `setTitle(CharSequence paramCharSequence)` methods are used for setting the layout hint, custom title, icons, message, and title of a dialog respectively.
+
+`setView(int paramInt)`, `setView(View paramView)`, `setView(View paramView, int paramInt1, int paramInt2, int paramInt3, int paramInt4)` methods are used to set a custom view for a dialog, with the latter also setting the spacing around the view.
+
+The `AlertParams` inner static class represents parameters for creating an alert dialog. It includes variables and methods for setting the adapter, cancellability, checked items, cursor, custom title, icon, inflater, listeners, message, button texts, title, and custom view.
+
+The `createListView(AlertController dialog)` method of `AlertParams` sets up the list view for a dialog given the parameters. If it's a multi-choice list, an `ArrayAdapter` or `CursorAdapter` is used with checkbox layout. If not, `SimpleCursorAdapter` or `CheckedItemAdapter` is used with list item layout. Listeners are set based on the `OnClickListener` or `OnCheckboxClickListener` provided. In the case of it being a single choice list, the list view's choice mode is set to single.This block continues the AlertController class and its inner classes. 
+
+The `apply(AlertController param1AlertController)` method of the `AlertParams` class is used to apply the alert parameters to the alert controller.
+
+The `null` classes extend from `ArrayAdapter<CharSequence>` and `CursorAdapter`, respectively, override the `getView()` and `bindView()`, `newView()` methods to control the presentation of list items.
+
+The `OnPrepareListViewListener` interface is a callback that receives a ListView before the dialog displays it.
+
+The `ButtonHandler` class extends `Handler` and is used to handle click events on one of the buttons in the dialog and dismissing the dialog box.
+
+The `CheckedItemAdapter` class is an `ArrayAdapter<CharSequence>` that provides stable IDs, meaning the ID of each item in the list doesn't change so it can be safely used in `ListView`.
+
+The `RecycleListView` class is a custom `ListView` where padding can be provisory removed from the top and bottom parts of the list if the list items do not reach the top edge of the screen, or there are no buttons.
+
+The `setHasDecor(boolean param1Boolean1, boolean param1Boolean2)` method of `RecycleListView` is used to adjust the padding of the list view based on whether a title or a button is present in the dialog.

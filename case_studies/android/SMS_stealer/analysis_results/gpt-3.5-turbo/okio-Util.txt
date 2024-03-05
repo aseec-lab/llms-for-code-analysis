@@ -1,0 +1,10 @@
+The `Util` class in the `okio` package contains various utility methods for working with byte arrays and performing byte manipulation.
+
+Here are the key features of the `Util` class:
+
+- The class defines a `UTF_8` constant of type `Charset` and initializes it with the UTF-8 character set.
+- The `arrayRangeEquals()` method compares two byte arrays for equality within a specified range. It iterates over the range and checks if each byte is equal. If any byte differs, the method returns `false`. Otherwise, it returns `true`.
+- The `checkOffsetAndCount()` method checks if a given offset and count values are within the bounds of a specified size. If any of the conditions fail, an `ArrayIndexOutOfBoundsException` is thrown.
+- The `reverseBytesInt()`, `reverseBytesLong()`, and `reverseBytesShort()` methods reverse the byte order of an integer, long, and short value, respectively.
+- The `sneakyRethrow()` method rethrows a given throwable without declaring it in the method signature. It calls a private helper method `sneakyThrow2()` to perform the actual throw.
+- The `sneakyThrow2()` method is a private helper method that throws a given throwable. It uses a generic type parameter `T` to cast the throwable before throwing it.

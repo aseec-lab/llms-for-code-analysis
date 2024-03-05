@@ -1,0 +1,13 @@
+This code defines a `Guideline` class which extends the `View` class from Android.
+
+- It provides four constructors, each with different parameters: context alone, context and attribute set, context with attribute set and an integer parameter, and context with attribute set and two integers.
+  
+- The `draw(Canvas)` method is empty and hence, Guidelines do not draw anything on the canvas. 
+
+- `onMeasure(int, int)`: This method is the part of the Android measurement process, which measures the width and height of the View; it sets both width and height to 0 explicitly.
+
+- `setGuidelineBegin(int)`, `setGuidelineEnd(int)`, `setGuidelinePercent(float)`: These methods are used to dynamically set the guideline's position using code. They get the LayoutParams of the object, make changes, and then apply these changes back to it.
+
+- `setVisibility(int)`: This method is an empty method, which means the visibility of the Guideline is not settable and by default, it remains invisible.
+
+In Android's ConstraintLayout, a Guideline provides a flexible way to create and use imaginary lines both vertically and horizontally. Unlike a View, it doesn't display anything on the UI and it's more like an aid for positioning other views.

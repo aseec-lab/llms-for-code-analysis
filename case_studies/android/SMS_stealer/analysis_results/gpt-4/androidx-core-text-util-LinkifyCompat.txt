@@ -1,0 +1,21 @@
+The `LinkifyCompat` class in the `androidx.core.text.util` package is a final utility class that provides functionality for adding clickable links to the specified text. It has fallbacks to the `Linkify` class, but provides additional functionality.
+
+In the declaration phase, a static final Comparator is created to compare `LinkSpec` objects based on differences in their start and end points.
+
+`addLinkMovementMethod(TextView paramTextView)` Checks the movement method of the text view and sets it to LinkMovementMethod if it is not already set.
+
+Various overloaded `addLinks(...)` methods provide the functionality to add links to either a TextView or a Spannable, using either a regex Pattern and replacement string, a mask of link types, or both. 
+
+The `applyLink(String paramString, int paramInt1, int paramInt2, Spannable paramSpannable)` method applies the custom URLSpan to the segment of text defined by the start and end indices.
+
+`gatherLinks(ArrayList<LinkSpec> paramArrayList, Spannable paramSpannable, Pattern paramPattern, String[] paramArrayOfString, Linkify.MatchFilter paramMatchFilter, Linkify.TransformFilter paramTransformFilter)` and `gatherMapLinks(ArrayList<LinkSpec> paramArrayList, Spannable paramSpannable)` are used to identify and collect links in the provided text.
+
+`makeUrl(String paramString, String[] paramArrayOfString, Matcher paramMatcher, Linkify.TransformFilter paramTransformFilter)` and `findAddress(String paramString)` are helper functions used in making links.In the while loop inside the `makeUrl` method, each `paramArrayOfString` is checked if it matches the substring of `str2` (regardless of case). If the substring does not match the initial segment of `str2`, the code modifies `str2` to start with `paramArrayOfString[b]`. 
+
+The `pruneOverlaps` method removes overlapping spans. It first converts its spans to a list of `LinkSpecs`, sorts them, and then removes any `LinkSpec` that is entirely covered by another link of the same type and has a subclass of its span. 
+
+The `shouldAddLinksFallbackToFramework` method is a utility that checks if the current Android OS version is 28 or higher, returning a boolean based on the result.
+
+The `LinkSpec` class is a simple data class that holds information about a URLSpan and its start and end points in the text.
+
+The `LinkifyMask` is an interface representing source code retention policy. It is retained only in the source file and ignored by the compiler.

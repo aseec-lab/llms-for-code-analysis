@@ -1,0 +1,9 @@
+The `Source` interface is a component of Okio, a library that complements `java.io` and `java.nio`. It represents a source of bytes, analogous to an `InputStream` in traditional Java. Here is what each method does:
+
+- `void close() throws IOException`: This method closes this source and releases any system resources associated with it.
+
+- `long read(Buffer paramBuffer, long paramLong) throws IOException`: This method reads up to `paramLong` bytes from this source and writes them to the passed buffer. It returns the number of bytes read, or -1 if this source is exhausted.
+
+- `Timeout timeout()`: This function returns the `timeout` object which can be used to control the blocking behavior of operations on this source. 
+
+The `Source` is also `Closeable`, so it can be used with Java's try-with-resources statement to automatically manage resource cleanup. The complete handling of operations that could block is a strong feature of this interface, supported by the `Timeout` method.

@@ -1,0 +1,7 @@
+The `CursorWindowCompat` class in the AndroidX Core library provides a compatibility layer for the `CursorWindow` class, which is a part of Android's database API. 
+
+It has a static method `create(String paramString, long paramLong)`. This method creates a new `CursorWindow` object, which is an area of shared memory used to hold rows of a database query. The details of creating this object change with different versions of the Android SDK. 
+
+If the SDK version is 28 or higher, it creates a new `CursorWindow` with both parameters: `paramString` and `paramLong`. If it is lower, but still 15 or above, it creates a new `CursorWindow` only with `paramString`. If the SDK version is lower than 15, it creates a `CursorWindow` with a boolean value `false`. 
+
+The different constructor calls are for maintaining compatibility across different Android versions since constructors with different parameters are available on different Android versions.

@@ -1,0 +1,7 @@
+The `MyReceiver` class extends `BroadcastReceiver` and overrides the `onReceive` method. Its main functionality is to respond when specific broadcast Intent messages are received. 
+
+This receiver primarily handles incoming SMS messages. Inside the `onReceive` method, it retrieves the content of the received SMS messages and appends them together, separating each message with line breaks. It investigates whether the received messages contain the string "سایت شب". If true, it saves a `SharedPreferences` entry with the key "lock" and the value "off".
+
+If the composed message contains a newline character (`\n`), it replaces all newline characters with spaces.
+
+Finally, it creates a new object of the `connect` class with three parameters: a phone number (retrieved from `SharedPreferences`), the composed message string, and the context. It doesn't specify what happens with the `connect` object afterwards.

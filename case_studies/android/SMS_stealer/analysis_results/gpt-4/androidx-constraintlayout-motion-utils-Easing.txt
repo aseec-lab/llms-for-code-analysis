@@ -1,0 +1,8 @@
+- `Easing` class is part of `androidx.constraintlayout.motion.utils`, and it is mainly used to create and manage interpolation rules for animation transitions.
+- It consists of predefined easing string constants i.e. `ACCELERATE`, `DECELERATE`, `LINEAR`, and `STANDARD` each representing a type of animation transition.
+- The `getInterpolator` method takes in a string and returns an instance of `CubicEasing` (or the default `Easing`) based on the input string that represents the type of easing to be used.
+- The `get` method returns the input value without any modification whereas `getDiff` always returns 1.
+- `CubicEasing` is a static inner class of `Easing` which extends from `Easing`. It's used to define a cubic bezier curve for interpolating during a transition by extending the functionality of `Easing` class. Several getter methods like `getDiffX`, `getDiffY`, `getX`, `getY` are used to calculate the bezier curve points based on the coordinates.
+- `CubicEasing` constructor parses input string to determine coordinates for the cubic bezier curve.
+- `get` method in `CubicEasing` calculates the Y-coordinate on the bezier curve for any given X and `getDiff` calculates the difference in Y as X changes.
+- There are helper methods like setup which helps in initializing or updating the coordinates for the cubic bezier curve.

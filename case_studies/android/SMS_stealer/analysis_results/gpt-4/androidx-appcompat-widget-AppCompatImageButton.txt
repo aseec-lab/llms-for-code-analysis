@@ -1,0 +1,17 @@
+The `AppCompatImageButton` class extends the `ImageButton` class and implements the `TintableBackgroundView` and `TintableImageSourceView` interfaces. It's a part of the `AppCompat` library, which is a set of components that provide backward compatibility for Android UI controls and features.
+
+This class provides additional features such as the ability to apply image and background tints.
+
+1. `AppCompatImageButton` maintains two helper objects of type `AppCompatBackgroundHelper` and `AppCompatImageHelper`. These helpers are used to apply tints and handle the image/button states, like for drawable state changes.
+
+2. The `drawableStateChanged` method ensures that when the state of the drawable changes, the correct tint is applied according to the new state.
+
+3. The `getSupportBackgroundTintList`, `getSupportBackgroundTintMode`, `getSupportImageTintList`, and `getSupportImageTintMode` methods return the currently applied tints.
+
+4. The `hasOverlappingRendering` checks if the image/button has overlapping rending; it's the combination of the button's own overlapping rendering and that of the image helper.
+
+5. The `setBackgroundDrawable`, `setBackgroundResource`, `setImageBitmap`, `setImageDrawable`, `setImageResource`, and `setImageURI` methods allow setting the image or background of the button, and ensure the correct tint is applied when these properties change.
+
+6. The `setSupportBackgroundTintList`, `setSupportBackgroundTintMode`, `setSupportImageTintList`, and `setSupportImageTintMode` methods provide a way to set the tints that should be used.
+
+This class is beneficial for providing consistent UI behavior and appearance across various Android OS versions.

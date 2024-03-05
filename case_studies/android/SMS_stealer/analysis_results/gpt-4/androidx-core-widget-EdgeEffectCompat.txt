@@ -1,0 +1,18 @@
+The `EdgeEffectCompat` class is a utility class that adapts the `EdgeEffect` class to provide compatibility across various versions of Android.
+
+An `EdgeEffect` is a visual indicator (like glowing or over-scrolling) shown at the edges of scrollable areas in response to user actions like dragging or fling gestures.
+
+Most of the methods in `EdgeEffectCompat` are marked as deprecated, which indicates they should not be used due to the presence of better alternatives or removal in future android versions.
+
+Here's the summary of its methods:
+
+1. `EdgeEffectCompat(Context)`: Creates an instance of `EdgeEffect` with the given context. This is deprecated.
+2. `onPull(EdgeEffect, float, float)`: Static method to call the `onPull()` method on the given `EdgeEffect`. Supports invocation with two parameters if Android version is 21 or higher, and uses a fallback call with one parameter on older versions.
+3. `draw(Canvas)`: Draws the `EdgeEffect` onto the provided canvas. Deprecated.
+4. `finish()`: Used to indicate that the `EdgeEffect` has completed. Deprecated.
+5. `isFinished()`: Returns if the `EdgeEffect` has finished. Deprecated.
+6. `onAbsorb(int)`: Reacts to an absorbing effect (like a scroll reaching its end) with the given velocity. Deprecated.
+7. `onPull(float)`: Reacts to a pulling action with the given delta distance. Deprecated.
+8. `onPull(float, float)`: Reacts to a pulling action with the given delta distance and displacement. Deprecated.
+9. `onRelease()`: Reacts to the release of a previously initiated pull. After this, `EdgeEffect` might go into an animating state. Deprecated.
+10. `setSize(int, int)`: Sets the size of this `EdgeEffect` in pixels. Deprecated.

@@ -1,0 +1,9 @@
+The `UploadProgressHandler` class is a subclass of `Handler` and is used to handle progress updates for uploading data. It implements the `handleMessage()` method to process messages sent to it. 
+
+The class takes an instance of `UploadProgressListener` in its constructor, which is an interface for receiving progress updates during an upload operation. It ensures that the handling of progress updates happens on the main thread by using the main looper.
+
+In the `handleMessage()` method, it checks if the message has a `what` value of 1, which indicates a progress update message. If it does, it retrieves the `Progress` object from the message and calls the `onProgress()` method on the `UploadProgressListener` with the current and total bytes of the progress.
+
+If the message does not have a `what` value of 1, it delegates the handling to the super class.
+
+Overall, the `UploadProgressHandler` class is responsible for processing progress update messages during an upload operation and notifying the provided `UploadProgressListener` interface with the progress information.

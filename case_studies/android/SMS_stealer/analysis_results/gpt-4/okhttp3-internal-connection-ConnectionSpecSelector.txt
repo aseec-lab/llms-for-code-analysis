@@ -1,0 +1,13 @@
+The `ConnectionSpecSelector` class in the OkHttp library is intended to provide a mechanism for selecting and configuring a secure socket (SSLSocket) connection according to a given list of connection specifications (ConnectionSpec).
+
+Key features are:
+
+1. The class maintains an ordered list of `ConnectionSpec` objects (`connectionSpecs`) defined at the construction stage.
+
+2. `configureSecureSocket(SSLSocket paramSSLSocket)` steps through the list of `ConnectionSpec` objects until it finds one that is compatible with the provided SSLSocket. It applies that `ConnectionSpec`, or throws an exception if no suitable protocols can be found.
+
+3. `connectionFailed(IOException paramIOException)` checks whether the connection error that resulted in the provided `IOException` signifies that a fallback `ConnectionSpec` should be attempted.
+
+4. `isFallbackPossible(SSLSocket paramSSLSocket)` checks if there's another potential `ConnectionSpec` which is compatible with the provided socket.
+
+Overall, this class serves as a configuration chooser and error-handler in OkHttp's attempts to establish a secure connection.

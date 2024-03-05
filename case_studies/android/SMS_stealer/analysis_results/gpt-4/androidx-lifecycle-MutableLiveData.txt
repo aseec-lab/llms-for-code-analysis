@@ -1,0 +1,6 @@
+The `MutableLiveData` class in the `androidx.lifecycle` package is a subclass of `LiveData`. It provides two public methods:
+
+- `postValue(T paramT)`: This method is used to change and post a value to the LiveData that would notify its active observers. It can be called from any thread.
+- `setValue(T paramT)`: This method is also used to change the value held by the LiveData. However, it must be called from the main thread. If the code is invoked from the background thread, `setValue(T)` would throw an exception, unlike `postValue(T)`.
+
+In summary, this class allows other classes to modify the data stored in the `LiveData` object.

@@ -1,0 +1,15 @@
+The `MenuAdapter` class in the `androidx.appcompat.view.menu` package is a subclass of `BaseAdapter` that is used to provide data to a ListView that displays a menu. 
+
+The `MenuAdapter` class has a `MenuBuilder` field to store the menu data, as well as other fields to control the behavior of the adapter. It also has a constructor that takes in the menu data, a LayoutInflater, a boolean to specify if it should only show overflow items, and a layout resource for the items in the menu.
+
+The `findExpandedIndex()` method initializes the `mExpandedIndex` field by finding the index of the currently expanded item in the menu.
+
+The `getCount()` method returns the number of items in the menu, taking into account if the adapter should only show overflow items and if there is an expanded item.
+
+The `getItem()` method returns the MenuItemImpl object at the specified position in the menu, taking into account if the adapter should only show overflow items and if there is an expanded item.
+
+The `getView()` method inflates and returns a view for the item at the specified position in the menu.
+
+The `notifyDataSetChanged()` method updates the `mExpandedIndex` field and notifies the adapter that the data has changed.
+
+The `setForceShowIcon()` method sets whether or not to force showing the icons for the menu items.

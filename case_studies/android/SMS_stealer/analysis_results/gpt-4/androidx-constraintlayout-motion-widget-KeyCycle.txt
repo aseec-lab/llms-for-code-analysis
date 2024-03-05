@@ -1,0 +1,19 @@
+The `KeyCycle` class extends the `Key` class and is used to handle the transitions/effects like rotation, scale, translation etc in a motion layout widget. 
+
+It provides several variables like `mAlpha`, `mElevation`, `mRotation`, `mScaleX`, `mScaleY`, etc., which are used to manipulate the corresponding attributes of the widget as it undergoes a transition.
+
+It contains methods such as:
+- `addCycleValues()`: which adds motion points in the key cycle, useful for creating custom animations
+- `addValues()`: sets points on the spline set for the transitions
+- `getAttributeNames()`: which fetches the names of all available attributes.
+- `getValue()`: returns the current value of the attribute passed as a parameter
+
+The last part of the code seems to be an incomplete switch case inside the getValue() method, which returns the current attribute value according to the passed attribute name.The remaining code continues with setting different property values for the widget based on a `switch case` in the `setValue()` method. It sets properties like `mTranslationZ`, `mTranslationY`, `mTranslationX`, `mScaleY`, etc., based on the given attribute name. It converts the input data to a float before setting the property value. 
+
+The `load()` method reads the attributes from the context and AttributeSet and then store them in the member variables. 
+
+A private class `Loader` is also included, which reads the attribute values from a `TypedArray` in its `read()` method and assigns these values to a `KeyCycle` object passed as parameter. This method uses a `SparseIntArray` to map the attribute names to their indices. These attributes can be layout dimensions, rotation, scales, etc..
+
+The indices are then used in a switch case to assign the attribute values. It also checks the OS version before assigning attributes that are only available in newer Android versions.The remaining code includes the last part of the `switch` statement used to set properties for widgets. It uses `param1TypedArray` to get the resource ID and assigns it to `mTargetId` of `param1KeyCycle`. If the resource does not exist, it reads the string. Special handling for edit mode is also added. 
+
+Finally, the definitions at the end denote that the code is part of the 'KeyCycle' class in the 'androidx.constraintlayout.motion.widget' package, and the jar file it is located in. It indicates that this file was compiled using Java version 6 and decompiled using JD-Core version 1.1.3.

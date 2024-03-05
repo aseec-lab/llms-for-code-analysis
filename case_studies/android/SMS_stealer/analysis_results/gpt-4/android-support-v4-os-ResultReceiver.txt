@@ -1,0 +1,9 @@
+This Java code defines a `ResultReceiver` class which implements `Parcelable` interface from Android operating system. The class is used to receive a Parcelable result from another process or thread. It contains a `Handler` instance to deal with thread communication, an `IResultReceiver` stub for remote invocation, and a `mLocal` flag indicating whether the result receiver is local. 
+
+The `ResultReceiver` class has methods to receive and send results, which are represented as an integer and a `Bundle`. In the `send` method, it checks if the result receiver is local; if it is, it uses the `Handler` to post a `Runnable` to handle the result; if it is not, it uses the `IResultReceiver` to send the result.
+
+The class also includes `MyResultReceiver` and `MyRunnable` subclasses. `MyResultReceiver` extends `IResultReceiver.Stub` and its `send` method is similar to the `send` method of `ResultReceiver` class. `MyRunnable` is a `Runnable` that holds a result and calls `onReceiveResult` when run.
+
+`writeToParcel` method writes the `ResultReceiver` to a `Parcel`, invoking `asBinder` interface method of `mReceiver`. The method is synchronized to avoid concurrent modifications.
+
+Lastly, the code includes the `createFromParcel` and `newArray` methods, allowing `ResultReceiver` objects to be created from a `Parcel` and an array of `ResultReceiver` to be created, respectively.

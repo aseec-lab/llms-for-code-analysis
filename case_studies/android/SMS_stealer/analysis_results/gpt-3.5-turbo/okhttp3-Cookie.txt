@@ -1,0 +1,33 @@
+The code in `Cookie.java` defines the `Cookie` class in the `okhttp3` package. It provides functionality to parse and represent HTTP cookies.
+
+Key features of the code include:
+- The `Cookie` class represents an HTTP cookie and contains properties such as name, value, domain, path, expiration date, and various flags.
+- The class provides methods for parsing cookie strings and creating `Cookie` objects from them.
+- It also defines helper methods for parsing various components of cookie strings, such as the expiration date, domain, and maximum age.
+- The class has a constructor, getters, and a package-private constructor that is used by the `Builder` class to create `Cookie` objects.
+- The `Cookie` class also contains utility methods for matching domains and character offset calculations.
+- The class defines several static patterns that are used for parsing cookie strings.The remaining code is the implementation of various helper methods used in the `Cookie` class.
+
+- The `parseDomain` method is used to parse the domain from a cookie string. It ensures that the domain does not end with a dot and removes the leading dot if present. It also performs canonicalization of the host and throws an exception if the host is invalid.
+
+- The `parseExpires` method is used to parse the expiration date of a cookie from a string. It uses regular expressions to match the date and time components of the string and returns the corresponding timestamp. It also handles different date formats and throws an exception if the date is invalid.
+
+- The `parse` method is used to parse a cookie from a string representation. It extracts various properties such as name, value, domain, path, expiration date, and flags from the string and creates a new `Cookie` object with these properties. It calls the `parseDomain` and `parseExpires` methods to parse the domain and expiration date respectively.
+
+- The `parseAll` method is used to parse multiple cookies from the `Set-Cookie` headers in an HTTP response. It iterates over the headers, calls the `parse` method for each header, and creates a list of `Cookie` objects. It returns an empty list if no cookies are found.
+
+These helper methods contribute to the functionality of parsing and representing HTTP cookies in the `Cookie` class.The remaining code includes the implementation of the `Builder` class within the `Cookie` class.
+
+- The `Builder` class is used to construct instances of the `Cookie` class.
+- It provides methods to set properties such as domain, expiration date, path, name, value, etc.
+- The `domain` method is used to set the domain of the cookie. It performs canonicalization of the domain and throws an exception if the domain is invalid.
+- The `expiresAt` method is used to set the expiration date of the cookie. It validates the input date and sets the value accordingly.
+- The `hostOnlyDomain` method is used to set the domain of the cookie as a host-only domain.
+- The `httpOnly` method is used to set the `httpOnly` flag of the cookie, which indicates that the cookie should only be accessible over HTTP.
+- The `name` method is used to set the name of the cookie.
+- The `path` method is used to set the path of the cookie.
+- The `secure` method is used to set the `secure` flag of the cookie, which indicates that the cookie should only be sent over secure connections.
+- The `value` method is used to set the value of the cookie.
+- The `build` method is used to create a new `Cookie` object with the specified properties and returns it.
+
+The `Builder` class provides a convenient way to construct `Cookie` objects with various properties.

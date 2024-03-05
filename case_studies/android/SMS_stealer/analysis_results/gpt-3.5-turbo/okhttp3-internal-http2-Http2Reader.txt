@@ -1,0 +1,16 @@
+The `Http2Reader` class is responsible for reading HTTP/2 frames from a buffered source and invoking the appropriate handler methods based on the frame type.
+
+The class contains various methods to read and process different types of frames, such as data frames, headers frames, settings frames, etc.
+
+The `nextFrame` method is used to read the next frame from the source and dispatch it to the appropriate handler method.
+
+The class also has methods to read and parse different fields and data from the frames, such as stream ID, flags, payload length, etc.
+
+Additionally, the class handles error conditions by throwing appropriate exceptions with error messages.The `Http2Reader` class is responsible for reading HTTP/2 frames from a buffered source and invoking the appropriate handler methods based on the frame type.
+The class contains various methods to read and process different types of frames, such as data frames, headers frames, settings frames, etc.
+The `nextFrame` method is used to read the next frame from the source and dispatch it to the appropriate handler method.
+The class also has methods to read and parse different fields and data from the frames, such as stream ID, flags, payload length, etc.
+Additionally, the class handles error conditions by throwing appropriate exceptions with error messages.
+The `readConnectionPreface` method reads the connection header and checks if it matches the expected value. If running as a client, it will also read the SETTINGS frame.
+The `ContinuationSource` class implements the `Source` interface and handles reading of continuation frames. It reads the frame header and delegates the actual reading to the underlying buffered source.
+The `Handler` interface defines the methods to handle different types of HTTP/2 frames.

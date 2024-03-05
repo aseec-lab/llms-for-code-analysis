@@ -1,0 +1,9 @@
+The `Transformations` class in the androidx.lifecycle package provides two static methods for transforming LiveData.
+
+`map(LiveData<X> paramLiveData, final Function<X, Y> mapFunction):` Returns a LiveData that applies the given function to the value set on the source LiveData and propagates the result downstream. It does this by creating a `MediatorLiveData` object that listens to changes in the source LiveData and applies the map function to those changes.
+
+`switchMap(LiveData<X> paramLiveData, final Function<X, LiveData<Y>> switchMapFunction):` Returns a LiveData, which is updated by a function generating the LiveData source, according to the latest value produced by another LiveData source. It works by creating a MediatorLiveData and using it to observe changes to the source LiveData. Whenever the source data changes, it calculates new LiveData, removes it as a source to the mediator, and adds the new LiveData as a source. 
+
+Internally, both methods use `MediatorLiveData` - a LiveData subclass that may observe other LiveData objects and process their emissions on a transformation function. The resulting values are then forwarded to downstream consumers.
+
+Please note that `JD-Core Version: 1.1.3` refers to the version of a java decompiler used and is not directly related to the code.

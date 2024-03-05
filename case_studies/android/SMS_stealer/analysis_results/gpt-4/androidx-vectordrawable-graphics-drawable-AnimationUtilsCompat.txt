@@ -1,0 +1,7 @@
+The `AnimationUtilsCompat` class provides utility methods for animations. 
+
+1. `createInterpolatorFromXml`: This method creates an interpolator (that modifies animation speed) from an XML file. The method inspects the XML file and creates the corresponding interpolator (`LinearInterpolator`, `AccelerateInterpolator`, `DecelerateInterpolator`, `AccelerateDecelerateInterpolator`, `CycleInterpolator`, `AnticipateInterpolator`, `OvershootInterpolator`, `BounceInterpolator`, or `PathInterpolatorCompat`) based on the tags present.
+
+2. `loadInterpolator`: This method loads an interpolator from the animation resources using the provided context and interpolator id. It supports loading of `FastOutLinearInInterpolator`, `FastOutSlowInInterpolator`, and `LinearOutSlowInInterpolator`, and calls `createInterpolatorFromXml` for other types of interpolators. It distinguishes between devices having Android SDK 21 and above, or older. Finally, there is error handling to throw `Resources.NotFoundException` if the interpolator resource cannot be found. 
+
+The class relies on XML files to define the specifics of the interpolators, i.e., how the animation speed should be adjusted over time.

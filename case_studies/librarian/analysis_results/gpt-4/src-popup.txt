@@ -1,0 +1,11 @@
+The `popup.js` script is responsible for the functioning of a search and indexing feature, like one you might find in a browser extension or similar application.
+
+This script presents a user interface for entering a search query and viewing results. It also provides a clear button to reset the search input and the output. 
+
+The search process involves sending a message with the query to the chrome runtime and updating the display based on the response. Also, to maintain a good user experience, it shows and hides loaders to indicate that search processing or indexing is taking place.
+
+The search results are saved to the chrome storage sync area under the key 'librarian-saved-results' and are capable of being reopened, but they expire after a certain time (defaulting to 5 minutes).
+
+There is also a function `checkIndexingStatus()` that checks whether any indexing is in progress and updates a progress bar accordingly. 
+
+On loading of the window, it reopens any non-expired results, checks the indexing status immediately, and continues to check indexing status every 2 seconds.

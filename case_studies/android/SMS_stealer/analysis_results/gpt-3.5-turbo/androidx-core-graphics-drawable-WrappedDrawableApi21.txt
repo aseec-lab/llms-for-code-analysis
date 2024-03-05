@@ -1,0 +1,17 @@
+The `WrappedDrawableApi21` class in the `androidx.core.graphics.drawable` package is a subclass of `WrappedDrawableApi14` that provides additional functionality specific to API level 21 and above.
+
+Here's a summary of the code:
+
+- The class extends the `WrappedDrawableApi14` class, which itself extends `Drawable` and provides support for wrapping another drawable.
+- The constructor takes a `Drawable` object as a parameter and calls the superclass constructor with this parameter.
+- The `findAndCacheIsProjectedDrawableMethod` method checks if the `isProjected` method is available on the `Drawable` class using reflection and caches the method for future use.
+- The `getDirtyBounds` method returns the dirty bounds of the drawable.
+- The `getOutline` method forwards the call to the wrapped drawable to get its outline.
+- The `isCompatTintEnabled` method checks if compatibility tinting is enabled for the drawable based on the API level and the type of drawable.
+- The `isProjected` method calls the `isProjected` method on the wrapped drawable using reflection, if available.
+- The `setHotspot` method sets the hotspot of the drawable.
+- The `setHotspotBounds` method sets the bounds of the hotspot on the drawable.
+- The `setState` method calls the `setState` method on the wrapped drawable and invalidates the drawable if the state changes.
+- The `setTint`, `setTintList`, and `setTintMode` methods apply tinting to the drawable based on compatibility and the API level.
+
+This class primarily provides compatibility support for API level 21 and above and delegates most of the functionality to the wrapped drawable.

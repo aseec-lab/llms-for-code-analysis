@@ -1,0 +1,30 @@
+The `KeyCycleOscillator` class in AndroidX's Constraint Layout helps in achieving effects like movements, rotations, zoom etc. in a cyclic manner and synchronizing them with the progress of transition. It is mainly used for handling complex animations that contain many stages or keyframes. Here are some key methods:
+
+1. `makeSpline()`: This static method return an instance of `KeyCycleOscillator` depending on the input string. If a specific rule is provided to the method, it returns an instance of that rule. 
+
+2. `get()`: This method gets the values from the `CycleOscillator`.
+
+3. `getCurveFit()`: This method returns the `CurveFit` field of the `KeyCycleOscillator` object.
+
+4. `getSlope()`: This method gets the slope from the `CycleOscillator`.
+
+5. `setPoint()`: This method sets a point for wave period, wave shape, offset and value for the `CycleOscillator`.
+
+6. `setProperty()`: This method abstract method which different sub-classes implements to set property of a view.
+
+7. `setType()`: This method sets the type of the `KeyCycleOscillator`.
+
+8. `setup()`: This method prepares `CycleOscillator` and `CurveFit` for animation.
+
+9. `toString()`: This method returns the string representation of the object.
+
+The class has several inner-classes (`AlphaSet`, `CustomSet`, `CycleOscillator`) that extend `KeyCycleOscillator` and modify its functionality in various ways. These classes have their own defined behavior for how they manipulate the `CurveFit` or `CycleOscillator` instances.This code is implementation of KeyCycleOscillator of ConstraintLayout. It also includes multiple subclasses like `ElevationSet`, `IntDoubleSort`, `IntFloatFloatSort`, `PathRotateSet`, `ProgressSet` etc. These classes extend `KeyCycleOscillator` and provide different ways to animate the `View` properties like rotation, translation and scale.
+
+Some Key methods are: 
+
+- `getValues(float param1Float)`: This method retrieves the values of the properties to animate based on the provided float value.
+- `setPoint(int param1Int1, int param1Int2, float param1Float1, float param1Float2, float param1Float3)`: It sets the point for the period of the wave, offset and a value.
+- `setup(float param1Float)`: To setup the animation path.
+- `setProperty(View param1View, float param1Float)`: It is a method to set properties of a view, this method is abstract and implemented within it's sub-classes.
+
+The implementation also includes sorting methods and method to set the rotation, translation points on different axes using interpolation. The rotation, translation, and scale are all defined in terms of oscillations thereby giving complex animations.

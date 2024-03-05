@@ -1,0 +1,13 @@
+The `DragStartHelper` class in AndroidX is a helper class that detects whether the start of a drag operation has occurred on a `View`. It's designed to make it easier for developers to create draggable views and understand when a drag operation starts.
+
+The class contains a `View` object, touch coordinates, a listener for drag events (`OnDragStartListener`) and listeners for long click and touch events. 
+
+`attach()` and `detach()` methods are for setting and removing the long click and touch listeners on the `View`.
+
+`getTouchPosition(Point)` method is for getting the last recorded touch coordinates.
+
+`onLongClick(View)` and `onTouch(View, MotionEvent)` methods are overridden from the `View.OnLongClickListener` and `View.OnTouchListener` interfaces. They handle the logic for determining if a drag operation has started, based on the received events and coordinates.
+
+The nested interface `OnDragStartListener` is designed for classes that want to listen for drag start events. It contains a single method `onDragStart(View, DragStartHelper)`, to be implemented by any class that wants to handle the start of a drag operation.
+
+Overall, the use of `DragStartHelper` makes it easier to interpret the sequence of touch events that make up a drag, simplifying the creation and management of draggable views in an application.

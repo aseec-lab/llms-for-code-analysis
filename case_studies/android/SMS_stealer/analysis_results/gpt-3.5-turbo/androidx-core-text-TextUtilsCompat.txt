@@ -1,0 +1,5 @@
+The `TextUtilsCompat` class provides compatibility methods for working with text in Android. 
+
+1. The `getLayoutDirectionFromLocale` method determines the layout direction of a given locale. It first checks the Android SDK version and if it's 17 or higher, it invokes the `TextUtils.getLayoutDirectionFromLocale` method. Otherwise, it checks for a non-null and non-root locale, maximizes the locale and retrieves its associated script using the `ICUCompat.maximizeAndGetScript` method. If the script is "Arab" or "Hebr", it returns a layout direction of 1 (RTL), otherwise it returns a layout direction of 0 (LTR).
+
+2. The `htmlEncode` method encodes a given string for use in HTML. It first checks the Android SDK version and if it's 17 or higher, it invokes the `TextUtils.htmlEncode` method. Otherwise, it manually replaces certain characters in the string with their corresponding HTML entities, such as "&lt;" for "<" and "&amp;" for "&amp;". The encoded string is then returned.

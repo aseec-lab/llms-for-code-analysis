@@ -1,0 +1,72 @@
+The `ConstraintSet` class is used to define the constraints for views within a `ConstraintLayout`. It contains many static final integer constants which represent various constraints and properties that can be applied to a view.
+
+Notable features of this class include:
+
+- A HashMap of `Constraint` class objects. Each constraint defines the set of rules that should be applied to a specific view in the `ConstraintLayout`.
+- A `mapToConstant` which maps the styleable attributes defined in XML to the constants in this class.
+- The `mValidate` flag, when true, triggers a validation process that ensures the constraint set has the correct and usable form.
+- The `mForceId` flag, which, when true, forces the use of an Id for each view.
+- `mSavedAttributes` is a HashMap to save the attributes of a widget.
+
+All the integer attributes in the class correspond to different types of constraints or settings that could be used in a `ConstraintLayout`.
+
+This class is typically used to programmatically set or modify the constraints for views in a `ConstraintLayout`.The remaining code extends the mappings for different types of attributes that could be set on a `ConstraintSet`. These mappings connect certain Android or custom attribute definitions with the related constants in the class.
+
+Methods in this part of the code perform various functions:
+
+- `addAttributes()`: Adds attributes to the `mSavedAttributes` HashMap. If an attribute already exists with the same key but a different type, it throws an `IllegalArgumentException`.
+- `convertReferenceString()`: Gets the IDs of views based on a string supplied. This is useful for composite attributes that may reference multiple views, like barriers and chains in `ConstraintLayout`.
+- `createHorizontalChain()`: Defines rules for creating a horizontal chain of views within a `ConstraintLayout`.
+- `fillFromAttributeList()`: Populates a `Constraint` object with data found in a `TypedArray` of styleable attributes.
+- `get()`: Retrieves a constraint based on the view id. If the constraint does not exist, it creates a new one and returns it.
+- `lookupID()`: Retrieves the ID of a view from the `TypedArray` object.
+- `populateConstraint()`: Reads from a `TypedArray` of XML attributes and sets the appropriate fields on a `Constraint` object.
+  
+The `switch` statement then goes on to handle each of these constraints individually, setting their specific properties on the `Constraint` objects accordingly.This portion of the code defines a variety of additional methods:
+
+- The `sideToString()` method returns a string equivalent of the side (`left`, `top`, `right`, `bottom`, `baseline`, `start`, `end`, or `undefined`), given an integer representing that side.
+- The `splitString()` method splits a string into an array of strings, using commas (`','`) as separators and quotes (`'"'`) as grouping delimiters.
+- The `addColorAttributes()`, `addFloatAttributes()`, `addIntAttributes()`, `addStringAttributes()` methods add attributes to `mSavedAttributes`, based on the attribute type and the attribute names passed as varargs strings.
+- The `addToHorizontalChain()`, `addToHorizontalChainRTL()`, `addToVerticalChain()` methods define helper methods for adding a view to a chain in a `ConstraintLayout`.
+- The `applyCustomAttributes()` method sets the custom attributes on each child view of a given `ConstraintLayout`.
+- The `applyTo()` method applies the constraints represented by this `ConstraintSet` to a given `ConstraintLayout` and requests layout on it.
+- The `applyToHelper()` method applies the current `ConstraintSet` to the provided `ConstraintHelper` and `ConstraintWidget` in the given `ConstraintLayout`. This includes transferring parameters and updating the sparse array that maps view IDs to `ConstraintWidget` objects.This portion of the code continues defining more methods:
+
+- The `applyToInternal()` method applies the constraints internally to a given `ConstraintLayout`.
+- The `applyToLayoutParams()` method applies the constraints to the layout parameters of a specific view.
+- The `applyToWithoutCustom()` method applies the constraints to a `ConstraintLayout` without applying custom attributes.
+- The `center()` method centers a view in a `ConstraintLayout`, given the margins and bias.
+- The `centerHorizontally()`, `centerHorizontallyRtl()`, `centerVertically()` methods center a view in a `ConstraintLayout` along one of the three axes (horizontal, horizontal RTL, or vertical), given the margins and bias.
+- The `clear()` method removes a view from the `ConstraintSet`.
+- The `clone()` methods copy the constraints from a source (`Context`, `ConstraintLayout`, or `ConstraintSet`) to this `ConstraintSet`.
+
+The `clone()` methods are overloaded to accept different types of inputs such as a `Context` instance, a `ConstraintLayout` instance, or another `ConstraintSet`. 
+
+Each method contributes to defining how a `ConstraintSet` can be constructed, modified, or applied. Their overall purpose is to support the dynamic creation and manipulation of UI layouts in Android using `ConstraintLayout` and `ConstraintSet`.This part of the code continues defining more methods for manipulating a `ConstraintSet`:
+
+- The `connect()` methods add connections between a widget's side and another widget's side in the constraints set.
+- The `constrainCircle()` method sets a circular position constraint for a widget in the constraints set.
+- The `constrainDefaultHeight()` and `constrainDefaultWidth()` methods set the default height and width for a widget in the constraints set.
+- The `constrainHeight()` method sets the height of a widget in the constraints set.
+- The `constrainMaxHeight()` method sets the maximum height of a widget in the constraints set.
+
+These methods provide a way to programmatically create and adjust layout constraints and parameters for Android UI widgets. They support a variety of layout designs and help to handle different screen sizes and orientations. The `ConstraintSet` is a powerful tool for creating complex and adaptive layouts in Android.This section of the code continues to build on the methods for interacting with the ConstraintSet:
+
+- The `constrainMinHeight()` and `constrainMinWidth()` methods sets a minimum height or width constraint for a widget
+- The `constrainPercentHeight()` and `constrainPercentWidth()` sets height and width constraints as a percentage of the parent view's size
+- The `constrainWidth()` method sets a width constraint for a widget
+- The `constrainedHeight()` and `constrainedWidth()` methods determines whether a widget's height or width is constrained
+- The `createBarrier()` method creates a Barrier helper object for managing multiple widgets with dynamic widths or heights
+- The `createHorizontalChain()` method creates a horizontal chain of widgets with even distribution
+- The `createVerticalChain()` method creates a vertical chain of widgets with even distribution
+- The `dump()` method outputs the current state of the ConstraintSet to the console for debugging
+- The `getApplyElevation()` method checks whether an elevation is set for a specific widget
+- The `getHeight()`, `getWidth()` and `getKnownIds()` methods return the height, width, and IDs respectively of the set's constraints
+- The `isForceId()` method checks whether IDs are forced for the views in this set
+- The `load()` method loads constraints from a XML resource file
+
+These methods provide more ways to programmatically create and adjust layout constraints which allow maximum flexibility and control when laying out views in an android app.This final part of the code includes handling for parsing various attributes from XML files, including floats, integers, strings, and color values. It also provides methods to manipulate layout attributes programmatically, such as setting dimensions, editor absolute positions, as well as alpha and elevation values. 
+
+It also contains logic for adding or removing views from vertical and horizontal chains in the layout, checking the Android OS version for compatibility reasons, and handling errors where id attributes are missing for views in the layout. It also includes handling for copying layout properties when reading fallback constraints. 
+
+This is the continuation and completion of the `ConstraintSet` class designed to handle layout changes in response to various factors like user interactions or lifecycle events in an Android application.##########

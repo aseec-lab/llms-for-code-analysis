@@ -1,0 +1,10 @@
+The `ForwardingSource` class in the `okio` package is an abstract class that implements the `Source` interface. It acts as a wrapper for another `Source` object and delegates method calls to it.
+
+- The constructor takes a `Source` object as a parameter and assigns it to the `delegate` field.
+- The `close()` method is implemented to call the `close()` method on the `delegate` object.
+- The `read()` method is implemented to call the `read()` method on the `delegate` object and return the result.
+- The `timeout()` method is implemented to call the `timeout()` method on the `delegate` object and return the result.
+- The `delegate()` method returns the `delegate` object.
+- The `toString()` method is overridden to provide a string representation of the `ForwardingSource` object.
+
+This class allows for convenient subclassing to modify the behavior of the `Source` interface methods while keeping the delegation functionality intact.

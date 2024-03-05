@@ -1,0 +1,21 @@
+The `ClassesInfoCache` class is part of the AndroidX Lifecycle library and is responsible for managing information about classes that have lifecycle methods.
+
+The class defines several constants for different types of method calls: CALL_TYPE_NO_ARG, CALL_TYPE_PROVIDER, and CALL_TYPE_PROVIDER_WITH_EVENT.
+
+It has a private instance of the cache called `sInstance`, which is a singleton.
+
+The `ClassesInfoCache` has two maps: `mCallbackMap` and `mHasLifecycleMethods`. `mCallbackMap` maps a class to its `CallbackInfo` object, which contains the information about event handlers for that class. `mHasLifecycleMethods` map tracks whether a class has any lifecycle methods.
+
+The `createInfo()` method creates a `CallbackInfo` object for a class. It retrieves the superclass callback info, adds handlers from implemented interfaces, and collects event handler methods from the class itself.
+
+The `getDeclaredMethods()` method is a helper method that retrieves all methods declared in a class. It handles a `NoClassDefFoundError` and throws an exception with a specific message.
+
+The `verifyAndPutHandler()` method is a helper method that verifies if a method is already registered with the same event type and throws an exception if not. Otherwise, it adds the method to the map.
+
+The `getInfo()` method retrieves the `CallbackInfo` object for a class from the cache. If it doesn't exist, it creates a new one.
+
+The `hasLifecycleMethods()` method checks if a class has any lifecycle methods. It first checks the cache, and if not found, it scans the declared methods of the class and its superclasses for the `OnLifecycleEvent` annotation.
+
+The `CallbackInfo` class holds information about the callback methods for different lifecycle events. It has a map `mEventToHandlers` that maps an event to a list of method references that handle that event. It also has a map `mHandlerToEvent` that maps a method reference to an event. It provides methods to invoke the callbacks for a specific event.
+
+The `MethodReference` class is a helper class that holds the information about a method (call type and method object) and provides a way to invoke the callback method on the corresponding object.

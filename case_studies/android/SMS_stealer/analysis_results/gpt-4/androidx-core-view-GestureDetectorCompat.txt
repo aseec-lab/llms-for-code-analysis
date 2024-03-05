@@ -1,0 +1,30 @@
+The `GestureDetectorCompat` Java class in the `androidx.core.view` package is a compatibility wrapper for the `GestureDetector` class. This class allows applications to use the latest API level 17 methods of `GestureDetector` while maintaining backward compatibility with earlier Android versions. It does this by defining an interface `GestureDetectorCompatImpl` with methods for handling gestures, which is implemented differently depending on the Android version.
+
+The class uses the Factory method pattern to produce an instance of `GestureDetectorCompatImpl`. If the Android version is greater than 17, it creates an instance of `GestureDetectorCompatImplJellybeanMr2`, otherwise it creates an instance of `GestureDetectorCompatImplBase`.  
+
+The implementation of `GestureDetectorCompatImplBase` in this class handles gesture detection for versions of Android before Jellybean (API level 17). With this class, Android devices can detect various types of gestures including single and double taps, long presses, flinging and scrolling. It consists of callback methods such as `onTouchEvent` to handle the firing of these events and methods to enable and disable these events.The code appears to be a fragment from a class that implements gesture detection, where gestures detected may include scrolling, flinging, single and double taps amongst others. 
+
+The highlighted section of code corresponds to the event when a gesture stops (when fingers come off the screen or mouse button is released). It checks for various conditions such as double tapping, long press, or a completed tap. 
+
+In a tap event, it triggers the `onSingleTapUp` method. For a double-tap event, it triggers the relevant methods in the double tap listener. If a long press was in progress (which gets stopped), it simply resets the long press flag.
+
+If the event does not match any of the previous checks, the code checks for a fling event, getting the velocity of the movement and checking whether it exceeds the minimum fling velocity. 
+
+The handler appropriately handles these events, doing housekeeping such as removing queued messages which are no longer relevant.
+
+This code also updates variables to keep track of the last position of the focus, the fact whether the event is still down (in progress) etc.The code snippet provided seems to be a continuation of the previously discussed gesture detection class.
+
+- The block of code handles the remaining gesture detection scenarios to be considered. Specifically, it checks whether the event triggered corresponds to a valid double tap gesture. For the double tap, if a previous tap has not been detected, it schedules a check after a delay to confirm whether a subsequent tap is made (thus confirming a double-tap gesture). If an existing tap was detected and the timings and spacing between the taps are consistent with a double-tap gesture, it invokes the necessary methods for handling the event.
+
+- The snippet then writes about handling of long press event, similarly to a double tap, event is scheduled after a delay to confirm whether it was a long press.
+
+- It then ends with two setter methods `setIsLongPressEnabled` and `setOnDoubleTapListener` that are used to enable/disable long press detection and to set a custom listener for double tap events respectively.
+
+- The `GestureHandler` inner class handles the different types of gesture event messages, specifically 'Show Press', 'Long Press' and 'Double Tap'. Each case invokes the corresponding method depending on the message.
+
+- The `GestureDetectorCompatImplJellybeanMr2` subclass wrapper around Android's inbuilt GestureDetector class. It calls the corresponding GestureDetector methods to handle API version compatibility.The provided code snippet appears to be metadata or footer information, typically added to a source file. 
+
+- It includes the file's location on the local filesystem `C:\Users\Jason\Downloads\355cd2b71db971dfb0fac1fc391eb4079e2b090025ca2cdc83d4a22a0ed8f082-dex2jar.jar!`
+- It specifies that the file is part of the `androidx.core.view` package, under the `GestureDetectorCompat.class` class.
+- It indicates the Java compiler version used to compile this class is version 6 (50.0)
+- `JD-Core Version: 1.1.3` notes the version of JD-Core, a library that reconstructs Java source code from one or more ".class" files, that was used.

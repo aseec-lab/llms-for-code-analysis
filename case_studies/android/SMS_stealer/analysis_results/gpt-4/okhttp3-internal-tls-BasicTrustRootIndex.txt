@@ -1,0 +1,7 @@
+`BasicTrustRootIndex` is a public final class, meaning it can't be subclassed, that implements the `TrustRootIndex` interface. This class is designed to maintain a mapping between X500Principal (or certificate authority, CA) subjects and the associated set of `X509Certificate`s.
+
+The construction of this class takes one or more `X509Certificate`s as parameters. 
+
+The `findByIssuerAndSignature` method finds a certificate that matches the given certificate's issuer and signature. If such a matching certificate is found, this method will return it; otherwise, it returns null.
+
+The `equals()` and `hashCode()` methods are overridden to provide comparison and hashing functionality based on the `subjectToCaCerts` field.

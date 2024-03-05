@@ -1,0 +1,15 @@
+The `ForwardingSource` class is a basic implementation of the `Source` interface that forwards all its method calls to a delegated `Source` object. It contains the following methods:
+
+- `ForwardingSource(Source paramSource)`: Constructor method that takes an instance of the `Source` as an argument. If the parameter is null, it throws an `IllegalArgumentException`.
+
+- `close()`: Calls the close method on the delegate `Source` object.
+
+- `delegate()`: Returns the delegate `Source` object.
+
+- `read(Buffer paramBuffer, long paramLong)`: Calls the read method on the delegate `Source` object.
+
+- `timeout()`: Calls the timeout method on the delegate `Source` object.
+
+- `toString()`: Returns a String representation of the `ForwardingSource` object, specifically its class name and the delegate `Source` object.
+
+In general, this design pattern is known as the "Decorator" or "Wrapper" pattern, where an object is "wrapped" with a new interface to add behavior or alter its functionality. The `ForwardingSource` class doesn't add or alter behavior itself, but serves as a base for subclasses that can add or alter behavior.

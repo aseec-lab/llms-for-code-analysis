@@ -1,0 +1,15 @@
+The `FrameMetricsAggregator` class in the AndroidX Core library provides utilities to gather frame metrics data for debugging and profiling app performance.
+
+Key features are:
+
+1. Constant fields for various durations and indices - associated with types of operations in frame rendering lifecycle (`ANIMATION_DURATION`, `COMMAND_DURATION`, `DELAY_DURATION`, `DRAW_DURATION`, etc.).
+
+2. `FrameMetricsAggregator` constructor creates an instance of `FrameMetricsBaseImpl` or `FrameMetricsApi24Impl` depending on the Android build version.
+
+3. Public methods are provided for adding an activity to the metrics collector (`add`), getting the metrics data as an array of `SparseIntArray` (`getMetrics`), removing an activity from the collector (`remove`), resetting metrics data (`reset`), and stopping the metrics collection (`stop`).
+
+4. A nested `FrameMetricsApi24Impl` class is implemented for devices running Android 7.0 (API level 24) and later. The class collects frame rendering data using the Android `FrameMetrics` class and a `Window.OnFrameMetricsAvailableListener`. Metrics are stored in a `SparseIntArray`.
+
+5. A nested `FrameMetricsBaseImpl` class acts as a default implementation for earlier Android versions that do not support the `FrameMetrics` API.
+
+Overall, `FrameMetricsAggregator` serves as a utility for profiling and assessing rendering performance on Android, helpful for debugging or optimizing an application's graphical performance.

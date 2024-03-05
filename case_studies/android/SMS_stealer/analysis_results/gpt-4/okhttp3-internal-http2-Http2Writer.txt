@@ -1,0 +1,23 @@
+This provided code is a part of OkHttp's internal processing of HTTP/2 protocol. It's specifically used to write HTTP/2 frames to an `okio.BufferedSink`. 
+
+Key methods in this `Http2Writer` class include:
+
+- `Http2Writer(BufferedSink paramBufferedSink, boolean paramBoolean)`: The class constructor that initializes the instance with given `BufferedSink` and a flag to indicate whether it's for a client.
+- `writeContinuationFrames(int paramInt, long paramLong)`: Sends out a stream of continuation frames for long headers or data segments.
+- `writeMedium(BufferedSink paramBufferedSink, int paramInt)`: Writes out the HTTP/2 frame prefix (a 24-bit integer) to a `BufferedSink`.
+- `applyAndAckSettings(Settings paramSettings)`: Applies and acknowledges the settings received from the peer.
+- `close()`: Closes this writer and the underlying `BufferedSink`.
+- `connectionPreface()`: Sends out the HTTP/2 connection preface for new connections.
+- `data(boolean paramBoolean, int paramInt1, Buffer paramBuffer, int paramInt2)`: Sends out a data frame on a given stream.
+- `frameHeader(int paramInt1, int paramInt2, byte paramByte1, byte paramByte2)`: Constructs the binary structure of a HTTP/2 frame's header.
+- `goAway(int paramInt, ErrorCode paramErrorCode, byte[] paramArrayOfbyte)`: Sends a GOAWAY frame to the peer, informing them of an error and shutting down the connection.
+
+Most methods throw `IOException` if an error occurs during network I/O. Most methods are also thread-safe, using `synchronized` to prevent concurrent execution.- `headers(int paramInt, List<Header> paramList)`: Sends a list of headers on a single stream.
+- `void headers(boolean paramBoolean, int paramInt, List<Header> paramList)`: Helper method to write out headers on a HTTP/2 stream.
+- `maxDataLength()`: Returns the maximum allowed frame length.
+- `ping(boolean paramBoolean, int paramInt1, int paramInt2)`: Sends a ping frame to the peer.
+- `pushPromise(int paramInt1, int paramInt2, List<Header> paramList)`: Sends a push promise frame to the peer, containing headers of a request that the sender intends to satisfy in the future.
+- `rstStream(int paramInt, ErrorCode paramErrorCode)`: Sends a RST_STREAM frame to the peer to terminate one side of the connection abruptly. The `ErrorCode` gives reason why the stream is being terminated.- `settings(Settings paramSettings)`: Sends a settings frame to the HTTP/2 peer. The `Settings` includes parameters for the HTTP/2 protocol.
+- `synReply(boolean paramBoolean, int paramInt, List<Header> paramList)`: Sends a SYN_REPLY frame to the peer. The SYN_REPLY frame is the second part of a three-way handshake to establish a stream.
+- `synStream(boolean paramBoolean, int paramInt1, int paramInt2, List<Header> paramList)`: Sends a SYN_STREAM frame to the peer. The SYN_STREAM frame is the first part of a three-way handshake to establish a stream.
+- `windowUpdate(int paramInt, long paramLong)`: Sends a WINDOW_UPDATE frame to the peer, increasing the window size for the stream by the given increment. Throws an `IllegalArgumentException` if the increment is not within the valid range.

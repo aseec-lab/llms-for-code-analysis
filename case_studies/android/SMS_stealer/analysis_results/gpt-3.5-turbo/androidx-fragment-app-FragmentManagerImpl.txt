@@ -1,0 +1,53 @@
+The `FragmentManagerImpl` class in the `androidx.fragment.app` package extends the `FragmentManager` class and implements the `LayoutInflater.Factory2` interface. 
+
+The class includes member variables such as `mActive` to store active fragments, `mAdded` to store added fragments, `mBackStack` to store back stack records, `mContainer` to reference the fragment container, `mCurState` to store the current state of the fragment manager, and `mHost` to reference the host activity.
+
+The class includes methods to handle fragment transactions, manage the fragment lifecycle, animate fragment transitions, handle back navigation, and save/restore the fragment state.
+
+Overall, the `FragmentManagerImpl` class is responsible for managing and coordinating the lifecycle of fragments within the fragment manager.The `executeOps` method is used to execute a list of fragment operations specified by a `BackStackRecord`, such as adding or removing fragments. It iterates over the list of operations and executes them one by one.
+
+The `executeOpsTogether` method is similar to `executeOps`, but it is used when multiple operations are executed together as a batch. It also handles fragment transitions and manages the fragment state.
+
+The `executePostponedTransaction` method is used to execute any postponed transactions. It iterates over the list of postponed transactions, checks if they are ready to be executed, and completes the transaction if so.
+
+The `findFragmentUnder` method is used to find a fragment that is positioned below another fragment in the fragment hierarchy. It searches for a fragment with the same container as the specified fragment, but with a lower index in the `mAdded` list.
+
+The `forcePostponedTransactions` method is used to forcefully complete any pending transactions. It iterates over the list of pending transactions and calls the `completeTransaction` method on each of them.
+
+The `generateOpsForPendingActions` method is used to generate fragment operations for any pending actions. It iterates over the list of pending actions and calls the `generateOps` method on each of them to generate the fragment operations. It returns true if any operations were generated, otherwise false.The `allocBackStackIndex` method is used to allocate a new index for a `BackStackRecord` object. It first checks if there are any available indices in the `mAvailBackStackIndices` list. If there are, it removes the last index from the list and returns it. Otherwise, it returns -1, indicating that no more indices are available.The `dispatchConfigurationChanged` method is used to dispatch the `onConfigurationChanged` event to all fragments managed by this `FragmentManager`. It takes a `Configuration` object as a parameter and calls the `onConfigurationChanged` method of each fragment with the given configuration.The `dispatchDestroy()` method is used to dispatch the `onDestroy()` event to all fragments managed by this `FragmentManager`. It sets the `mDestroyed` flag to true, executes any pending fragment transactions, dispatches the state change to 0 (destroyed), and nullifies the `mHost`, `mContainer`, and `mParent` variables. 
+
+The `dispatchDestroyView()` method is used to dispatch the `onDestroyView()` event to all fragments managed by this `FragmentManager`. It dispatches the state change to 1 (view destroyed).
+
+The `dispatchLowMemory()` method is used to dispatch the `onLowMemory()` event to all fragments managed by this `FragmentManager`. It calls the `performLowMemory()` method on each fragment.
+
+The `dispatchMultiWindowModeChanged()` method is used to dispatch the `onMultiWindowModeChanged()` event to all fragments managed by this `FragmentManager`. It calls the `performMultiWindowModeChanged()` method on each fragment.
+
+The `dispatchOnFragmentActivityCreated()` method is used to dispatch the `onFragmentActivityCreated()` event to all registered fragment lifecycle callbacks. It calls the `onFragmentActivityCreated()` method on each callback.
+
+The `dispatchOnFragmentAttached()` method is used to dispatch the `onFragmentAttached()` event to all registered fragment lifecycle callbacks. It calls the `onFragmentAttached()` method on each callback.
+
+The `dispatchOnFragmentCreated()` method is used to dispatch the `onFragmentCreated()` event to all registered fragment lifecycle callbacks. It calls the `onFragmentCreated()` method on each callback.
+
+The `dispatchOnFragmentDestroyed()` method is used to dispatch the `onFragmentDestroyed()` event to all registered fragment lifecycle callbacks. It calls the `onFragmentDestroyed()` method on each callback.
+
+The `dispatchOnFragmentDetached()` method is used to dispatch the `onFragmentDetached()` event to all registered fragment lifecycle callbacks. It calls the `onFragmentDetached()` method on each callback.
+
+The `dispatchOnFragmentPaused()` method is used to dispatch the `onFragmentPaused()` event to all registered fragment lifecycle callbacks. It calls the `onFragmentPaused()` method on each callback.
+
+The `dispatchOnFragmentPreAttached()` method is used to dispatch the `onFragmentPreAttached()` event to all registered fragment lifecycle callbacks. It calls the `onFragmentPreAttached()` method on each callback.
+
+The `dispatchOnFragmentPreCreated()` method is used to dispatch the `onFragmentPreCreated()` event to all registered fragment lifecycle callbacks. It calls the `onFragmentPreCreated()` method on each callback.
+
+The `dispatchOnFragmentResumed()` method is used to dispatch the `onFragmentResumed()` event to all registered fragment lifecycle callbacks. It calls the `onFragmentResumed()` method on each callback.
+
+The `dispatchOnFragmentSaveInstanceState()` method is used to dispatch the `onFragmentSaveInstanceState()` event to all registered fragment lifecycle callbacks. It calls the `onFragmentSaveInstanceState()` method on each callback.
+
+The `dispatchOnFragmentStarted()` method is used to dispatch the `onFragmentStarted()` event to all registered fragment lifecycle callbacks. It calls the `onFragmentStarted()` method on each callback.
+
+The `dispatchOnFragmentStopped()` method is used to dispatch the `onFragmentStopped()` event to all registered fragment lifecycle callbacks. It calls the `onFragmentStopped()` method on each callback.
+
+The `dispatchOnFragmentViewCreated()` method is used to dispatch the `onFragmentViewCreated()` event to all registered fragment lifecycle callbacks. It calls the `onFragmentViewCreated()` method on each callback.
+
+The `dispatchOnFragmentViewDestroyed()` method is used to dispatch the `onFragmentViewDestroyed()` event to all registered fragment lifecycle callbacks. It calls the `onFragmentViewDestroyed()` method on each callback.
+
+The `dispatchPause()` method is used to dispatch the `onPause()` event to all fragments managed by this `FragmentManager`. It dispatches the state change to 3 (paused).##########

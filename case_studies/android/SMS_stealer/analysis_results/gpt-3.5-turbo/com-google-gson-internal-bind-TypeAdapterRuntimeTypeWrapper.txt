@@ -1,0 +1,12 @@
+The `TypeAdapterRuntimeTypeWrapper` class is a class used internally by Gson for handling runtime type information during JSON serialization and deserialization. It extends the `TypeAdapter` class and implements the methods `read()` and `write()` for parsing and writing JSON.
+
+The class has the following main components:
+- `context`: A reference to the Gson instance associated with this wrapper.
+- `delegate`: The delegate `TypeAdapter` that handles the actual serialization and deserialization logic.
+- `type`: The type of the value being serialized or deserialized.
+
+The `read()` and `write()` methods simply delegate the JSON parsing and writing tasks to the `delegate` type adapter.
+
+The `getRuntimeTypeIfMoreSpecific()` method is a helper method used to determine the runtime type of the object being serialized or deserialized. It checks if the `paramType` is more specific than `Object` or a generic type, and if so, returns the actual runtime type of the `paramObject`.
+
+Overall, the `TypeAdapterRuntimeTypeWrapper` class acts as a wrapper around the delegate `TypeAdapter` and handles runtime type information when serializing and deserializing objects using Gson.

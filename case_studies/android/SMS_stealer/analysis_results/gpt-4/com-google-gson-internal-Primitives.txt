@@ -1,0 +1,10 @@
+The `Primitives` class in the Gson library contains utility methods to assist with managing primitive data types in Java.
+
+- `PRIMITIVE_TO_WRAPPER_TYPE` and `WRAPPER_TO_PRIMITIVE_TYPE` are immutable hash maps that hold mappings between each primitive type and its corresponding wrapper class, and vice versa.
+- The static initialization block populates these maps with appropriate mappings for boolean, byte, char, double, float, int, long, short, and void types.
+- The `add` method is used to populate these maps, taking in the primitive and wrapper classes as parameters and adding them to the maps.
+- The `isPrimitive` method checks if a given type is a primitive type.
+- The `isWrapperType` method checks if a given type is a wrapper type.
+- The `unwrap` method maps the provided wrapper class to its corresponding primitive class, if it exists in the map.
+- The `wrap` method maps the provided primitive class to its corresponding wrapper class, if it exists in the map.
+- An instance of this class cannot be created as the constructor is private and throws an `UnsupportedOperationException`. This signifies that `Primitives` acts as a utility class and doesn't need instantiation.

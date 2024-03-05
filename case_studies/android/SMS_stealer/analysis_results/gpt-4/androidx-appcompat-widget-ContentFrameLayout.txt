@@ -1,0 +1,13 @@
+The `ContentFrameLayout` class extends Android's `FrameLayout` and provides extra functionalities. This class has fields for holding dimension values (`TypedValue`) for width and height, both for major and minor axis and minimum width for major and minor axis (`mFixedWidthMajor`, `mFixedWidthMinor`, `mMinWidthMajor`, `mMinWidthMinor`, etc.). There's also an interface `OnAttachListener` for handling attachment and detachment from window events.
+
+This class has three constructors allowing it to be used in an XML layout file and be initialized with a set of attributes defined in XML.
+
+It includes methods for setting and getting these dimension values, handling the padding and margins within the view (`fitSystemWindows`), and managing the attachment of the view in the view hierarchy (`onAttachedToWindow`, `onDetachedFromWindow`).
+
+Furthermore, in the `onMeasure` method, it handles measuring the width and height of the view. It determines the display metrics and, based on these metrics and the `TypedValue`s mentioned before, sets the dimensions of the view. It uses two methods provided by `View.MeasureSpec`, `makeMeasureSpec` and `getSize`, to help perform the required calculations.The remainder of the code begins with a continuation of the `onMeasure` method, dealing with the measurement of the view based on `TypedValue` for dimensions, display metrics, and padding.
+
+It then defines the `setAttachListerner` method, which allows a caller to set an `OnAttachListener` to the `ContentFrameLayout`.
+
+The `setDecorPadding` method sets the left, top, right, and bottom padding for a view and triggers a layout update if the view has already been laid out.
+
+The last part of the code outlines the `OnAttachListener` interface, which defines two methods: `onAttachedFromWindow` and `onDetachedFromWindow`, which should be implemented to handle custom behavior when the `ContentFrameLayout` is attached to and detached from a window respectively.

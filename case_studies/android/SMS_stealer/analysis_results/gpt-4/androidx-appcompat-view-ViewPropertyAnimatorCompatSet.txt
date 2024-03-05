@@ -1,0 +1,11 @@
+The `ViewPropertyAnimatorCompatSet` class is designed to help manage and manipulate a set of `ViewPropertyAnimatorCompat` objects. It maintains an internal list of these animator objects to which you can add instances and manipulate them collectively.
+
+- `play(ViewPropertyAnimatorCompat animator)` adds an animator to the list provided it's not yet started.
+- `playSequentially()` allows you to play two animations sequentially.
+- `cancel()` cancels all animations in the list.
+- `setDuration(long duration)`, `setInterpolator(Interpolator interpolator)`, and `setListener(ViewPropertyAnimatorListener listener)` set the shared properties for all animators in the set.
+- `start()` starts all animations.
+
+This class also keeps track of the animation lifecycle (started or not, animation ends, etc) with the use of `ViewPropertyAnimatorListenerAdapter` and `ViewPropertyAnimatorListener`.
+
+Please note the code file may not be complete. It seems part of a larger Android project with dependencies on other parts of the codebase that aren't included in the provided segment.

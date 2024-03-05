@@ -1,0 +1,22 @@
+The code defines the `RealConnection` class, which represents a real network connection. It implements the `Connection` interface.
+
+The class maintains various fields, such as `allocationLimit`, `allocations`, `connectionPool`, `handshake`, `http2Connection`, etc., to manage the connection state and properties.
+
+The class provides methods to connect the socket, establish a TLS tunnel, and establish the protocol for the connection. It also has a method to cancel the connection.
+
+Additionally, the class defines a static method `testConnection` for testing a connection by creating an instance of `RealConnection` with an existing socket.
+
+Overall, this class is responsible for establishing and managing a real network connection in the OkHttp library.The code continues with the implementation of various methods in the `RealConnection` class.
+
+1. `handshake()`: This method returns the `Handshake` object associated with the `RealConnection`.
+2. `isEligible()`: This method checks if the connection is eligible for reuse based on the provided `Address` and `Route`. It considers factors like the number of allocations, host equality, HTTP/2 support, and SSL certificate verification.
+3. `isHealthy()`: This method checks if the connection is healthy. It determines the health based on whether the socket is closed or shutdown and checks if the HTTP/2 connection is shutdown in case it is active.
+4. `isMultiplexed()`: This method checks if the connection is multiplexed, i.e., if it supports multiple concurrent streams using the HTTP/2 protocol.
+5. `newCodec()`: This method creates a new `HttpCodec` for the connection. It sets the socket timeout and creates either an `Http2Codec` or `Http1Codec` based on the availability of the HTTP/2 connection.- `newWebSocketStreams()`: This method creates a new `RealWebSocket.Streams` object with the provided `source` and `sink`. It also overrides the `close()` method to notify the `StreamAllocation` that the stream has finished.
+- `onSettings()`: This method updates the `allocationLimit` of the connection based on the maximum concurrent streams allowed by the HTTP/2 connection.
+- `onStream()`: This method closes the provided `Http2Stream` with the `REFUSED_STREAM` error code.
+- `protocol()`: This method returns the protocol associated with the connection.
+- `route()`: This method returns the `Route` associated with the connection.
+- `socket()`: This method returns the `Socket` associated with the connection.
+- `supportsUrl()`: This method checks if the connection supports the given `HttpUrl`. It compares the port and host of the URL with the port and host of the connection's `route` and also verifies the hostname using the `handshake` if available.
+- `toString()`: This method returns a string representation of the connection, including the host, port, proxy, cipher suite, and protocol.

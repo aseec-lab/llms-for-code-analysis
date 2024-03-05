@@ -1,0 +1,41 @@
+The `ArraySet` class is a part of AndroidX list collection libraries, implementing both `Collection` and `Set` interfaces.
+
+- Several static variables are declared for caching, including base array, double the base array and their sizes, an array of int, and an array of objects.
+
+- It has four constructors: an empty constructor, one with an integer parameter (capacity), and two others that take in `ArraySet` or `Collection` parameters, respectively.
+
+- The `allocArrays()` method attempts to pool the arrays to improve memory usage. The `ArraySet` has a cache of arrays of size `4` and `8`. If a new `ArraySet` of these sizes is created, an array is pulled from the cache instead of being created. Alternatively, when packets are disposed, they're recycled back into the cache for future instances.
+
+- The `freeArrays()` method is the opposite of `allocArrays()`. It places the arrays into the cache when they're no longer needed.
+
+- `getCollections()` returns an anonymous class of `MapCollections` type to provide a map-based API for the `ArraySet`.
+
+The above code does not have all the methods of the `ArraySet` class, so functionalities like adding/removing values or getting sizes are not covered here.The remaining part of the `ArraySet` class contains several crucial methods:
+
+- `indexOf()` and `indexOfNull()` methods are used to find the index of a particular object or null value in the set.
+  
+- `add(E paramE)` and `addAll()` methods are used to add elements to the set. The latter method has two overloaded variants, one accepts another `ArraySet` and the other accepts a `Collection`.
+
+- `clear()` and `ensureCapacity(int paramInt)` methods are provided for clearing the set and ensuring its capacity, respectively.
+
+- `contains(Object paramObject)` and `containsAll()` methods check if the set contains a particular object or all elements of a given collection.
+
+- `equals()` and `hashCode()` methods override the base class methods to work with the specific implementation of `ArraySet`.
+
+- `remove()` and `removeAll()` methods help to remove a single object or all elements of a given collection from the set. There's an additional `removeAt(int paramInt)` method that removes an element at a specific position in the set.
+
+- `isEmpty()` and `iterator()` methods check if the set is empty and provide an iterator for the set, respectively.
+
+- Finally, fields `mSize`, `mHashes`, and `mArray` hold the size and the actual data of the set.The remaining part of the `ArraySet` class includes methods for other common operations:
+
+- `retainAll(Collection<?> paramCollection)` method removes all the elements from the set which are not present in the specified collection, and returns a boolean indicating whether the set was modified.
+
+- `size()` returns the number of elements in the set.
+
+- `toArray()` and `toArray(T[] paramArrayOfT)` methods return an array containing all of the elements in the set. The latter method allows passing an existing array to be filled with the elements.
+
+- `toString()` method returns a string representation of the set.
+
+- `valueAt(int paramInt)` method returns the element at the specified position in the set.
+
+The end of the code includes a file location comment and meta information about the Java compiler version and JD-Core Version used.

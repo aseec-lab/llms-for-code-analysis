@@ -1,0 +1,15 @@
+The `Jdk9Platform` class in the `okhttp3.internal.platform` package is responsible for configuring TLS extensions for SSL sockets in JDK 9+ environments.
+
+The class extends the `Platform` class and has two instance variables, `getProtocolMethod` and `setProtocolMethod`, which are `Method` objects representing the methods to get and set the protocol of an SSL socket.
+
+The class has a constructor that takes these two methods as parameters and sets them to the instance variables.
+
+The `buildIfSupported` method is a static factory method that attempts to create an instance of `Jdk9Platform` if the necessary methods are available in the JDK. If the methods are not found, the method returns `null`.
+
+The `configureTlsExtensions` method takes an SSL socket, a protocol string, and a list of protocols as parameters. It uses reflection to retrieve the SSL parameters of the socket, sets the protocol to the given list of protocols, and then sets the updated parameters back to the socket.
+
+The `getSelectedProtocol` method takes an SSL socket as a parameter and uses reflection to invoke the `getProtocolMethod` to retrieve the selected protocol of the socket. It returns the selected protocol if it is not null or an empty string.
+
+The `trustManager` method takes an SSL socket factory as a parameter and throws an `UnsupportedOperationException` since it is not supported on JDK 9+.
+
+Overall, the `Jdk9Platform` class is responsible for configuring TLS extensions for SSL sockets in JDK 9+ environments using reflection to invoke the necessary methods.

@@ -1,0 +1,11 @@
+The `PermissionChecker` class is used for handling permission checks in Android. It offers four static methods: `checkCallingOrSelfPermission`, `checkCallingPermission`, `checkPermission`, and `checkSelfPermission`, used to confirm whether the calling or self process has been granted a specific permission or not.
+
+- `checkCallingOrSelfPermission`: Checks whether the calling process or the application itself has a specific permission. If the calling process is the application itself, it checks the permission for the application packaged.
+
+- `checkCallingPermission`: It's checking the permission for the calling process. If the calling process is the application itself, it directly returns permission denied. 
+
+- `checkPermission`: Checks the permission for the specific process and user ID. This method also checks AppOps restrictions, which may override standard Android permissions.
+
+- `checkSelfPermission`: Checks whether the current application has a specific permission.
+
+If permission is granted, PERMISSION_GRANTED (0) is returned; if permission is denied, PERMISSION_DENIED (-1) is returned. If the denial is due to an AppOps restriction, PERMISSION_DENIED_APP_OP (-2) is returned.

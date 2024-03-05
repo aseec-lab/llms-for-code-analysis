@@ -1,0 +1,13 @@
+The `EventListener` class in OkHttp provides a mechanism for monitoring the lifecycle of a network call. 
+
+It is an abstract class with several methods that correspond to different events in the lifecycle of a network call. All these methods are empty in `EventListener`, and are meant to be overridden in subclasses to provide specific functionality for each event. 
+
+Briefly, the lifecycle methods in this class can track when a call starts, ends or fails (`callStart`, `callEnd` and `callFailed`), when a connection begins, ends or fails (`connectStart`, `connectEnd`, `connectFailed`), as well as request body and header start and end, response body and header start and end.
+
+These events are interwoven with network events. For instance, `dnsStart` and `dnsEnd` detect the start and completion of DNS lookup. `connectionAcquired` and `connectionReleased` events relate to obtaining and releasing a connection from the connection pool.
+
+The nested `Factory` interface defines a factory method for creating instances of `EventListener`. 
+
+A static `NONE` object is provided as a default no-operation instance of `EventListener` that can be used when no specific handling is required for these events. 
+
+This class is very useful for logging, analytics and debugging purposes.

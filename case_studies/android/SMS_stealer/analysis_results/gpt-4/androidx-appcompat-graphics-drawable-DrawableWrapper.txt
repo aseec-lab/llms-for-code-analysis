@@ -1,0 +1,13 @@
+The `DrawableWrapper` class in the `androidx.appcompat.graphics.drawable` package extends the Android `Drawable` class and implements the `Drawable.Callback` interface. 
+
+As the name suggests, this class is a wrapper for another Drawable object, which is stored in the `mDrawable` field. The purpose of this class is mainly to delegate all the methods of the Drawable class to the `mDrawable` field.
+
+It includes a constructor `DrawableWrapper(Drawable paramDrawable)`, which allows to set another Drawable instance that this class would wrap around.
+
+The class exposes methods for getting and setting properties of the Drawable it wraps, including alpha, color filter, configuration, size, padding, state, and more. These methods typically just call through to the underlying Drawable.  
+
+In addition, changes applied to this wrapper (e.g., bounds change, level change, scheduling runs) are passed onto the wrapped Drawable.
+
+In the `setWrappedDrawable(Drawable paramDrawable)` method, the callback of the current Drawable is removed before the new one is set and its callback is added. This makes sure that the old one is not connected to this `DrawableWrapper` instance anymore and that the new one is.
+
+The `invalidateDrawable(Drawable paramDrawable)` and `unscheduleDrawable(Drawable paramDrawable, Runnable paramRunnable)` methods call back to the wrapper's own `invalidateSelf()` and `unscheduleSelf(paramRunnable)` methods respectively, maintaining the state of the Wrapper synchronized with the wrapped Drawable.

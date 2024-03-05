@@ -1,0 +1,39 @@
+The `FragmentTabHost` class is a deprecated class that extends the `TabHost` class. It creates a tabbed interface for managing fragments. 
+
+The class has several instance variables including `mAttached`, `mContainerId`, `mContext`, `mFragmentManager`, `mLastTab`, `mOnTabChangeListener`, `mRealTabContent`, and `mTabs`. 
+
+The constructor initializes the `FragmentTabHost` object and calls the `initFragmentTabHost` method. 
+
+The `doTabChanged` method is called when a tab is changed. It gets the `TabInfo` object associated with the new tab and performs transaction operations on the fragments. 
+
+The `ensureContent` method ensures that the tab content is properly set. If it is not set, an exception is thrown. 
+
+The `ensureHierarchy` method ensures that the tab host and its components are properly set up. 
+
+The `getTabInfoForTag` method returns the `TabInfo` object associated with the given tag. 
+
+The `initFragmentTabHost` method initializes the `FragmentTabHost` object by parsing the attributes and setting the tab changed listener. 
+
+The `addTab` method adds a new tab to the tab host. It creates a `DummyTabFactory` to set the content for the tab, creates a new `TabInfo` object, and adds it to the list of tabs. 
+
+The `onAttachedToWindow` method is called when the tab host is attached to a window. It sets up the fragments and performs transaction operations. 
+
+The `onDetachedFromWindow` method is called when the tab host is detached from a window. It sets the `mAttached` variable to false. 
+
+The `onRestoreInstanceState` method restores the tab state from a saved state. 
+
+The `onSaveInstanceState` method saves the tab state. 
+
+The `onTabChanged` method is called when a tab is changed. It performs transaction operations and calls the listener's `onTabChanged` method. 
+
+The `setOnTabChangedListener` method sets the listener for tab changes. 
+
+The `setup` method throws an exception and must be called with a `Context` and `FragmentManager` parameter. This method sets up the tab host and its components. 
+
+The `DummyTabFactory` class is a dummy implementation of the `TabContentFactory` interface. It returns a dummy view for tab content. 
+
+The `SavedState` class is a subclass of `View.BaseSavedState` and is used to save and restore the state of the tab host.The remaining part of the code includes the definition of the `TabInfo` class, which is a helper class for storing information about each tab in the `FragmentTabHost`. It has instance variables for the tag, class, arguments, and fragment associated with each tab.
+
+The `TabInfo` class has a constructor that initializes these variables based on the provided parameters.
+
+Below the `TabInfo` class, there is a comment block with information about the file location, Java compiler version, and JD-Core Version.

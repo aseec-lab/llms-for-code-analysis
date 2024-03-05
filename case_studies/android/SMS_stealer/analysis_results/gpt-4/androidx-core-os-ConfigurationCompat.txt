@@ -1,0 +1,9 @@
+The `ConfigurationCompat` class is a utility class that provides compatibility methods related to device configuration in Android. It includes a single method, `getLocales(Configuration paramConfiguration)`.
+
+The `getLocales(Configuration paramConfiguration)` method retrieves a list of locales represented as a `LocaleListCompat` object from the given `Configuration` object (`paramConfiguration`).
+
+If the Android version of the device running the app is >= API level 24 (Android 7.0–7.1.1, Nougat), `paramConfiguration.getLocales()` method is used to get the list of locales. The obtained `LocaleList` object is then wrapped by `LocaleListCompat.wrap()` to return a `LocaleListCompat` object.
+
+If the Android version of the device is < API level 24, this method assumes that there is only a single locale available - `paramConfiguration.locale`. It then creates and returns a new `LocaleListCompat` object with this single locale using `LocaleListCompat.create(new Locale[] { paramConfiguration.locale })`.
+
+To summarise, this method provides a consistent way to get a list of locales from a `Configuration` object regardless of the Android API level of the device.

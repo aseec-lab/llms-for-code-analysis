@@ -1,0 +1,13 @@
+The `FormBody` class in the OkHttp3 library is a subclass of `RequestBody`. Its primary role is to encode form data to be sent as the body of a HTTP request. 
+
+The form data consists of pairs of URL-encoded names and values, and the `FormBody` includes methods to retrieve these (e.g., `encodedName(int paramInt)`, `encodedValue(int paramInt)`, and so on).
+
+The data provided when constructing an instance of `FormBody` is encoded and stored in lists (`encodedNames` and `encodedValues`).
+
+The `writeOrCountBytes()` method writes the encoded form data to a provided `BufferedSink` or counts the byte size of the form data if no `BufferedSink` is provided. 
+
+The `contentLength()` method counts the byte size of the form data, the `contentType()` specifies the content media type as `"application/x-www-form-urlencoded"`.
+
+The `writeTo()` method writes the contents of the `FormBody` to a provided `BufferedSink`.
+
+The nested `Builder` class facilitates the creation of `FormBody` instances. It uses the builder pattern and allows clients to specify form data names and values either in unencoded form (`add(String, String)`) or in encoded form (`addEncoded(String, String)`), before generating a new `FormBody` instance using `build()`.

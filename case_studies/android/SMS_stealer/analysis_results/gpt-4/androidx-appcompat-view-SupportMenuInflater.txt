@@ -1,0 +1,50 @@
+`SupportMenuInflater` is a class in Android used to convert an XML file into menu items. It extends from `MenuInflater`, enabling it to add additional functionality to the menu inflation process.
+
+- `findRealOwner(Object paramObject)` method is used to find the real owner of an item. It recursively checks if the context is a `ContextWrapper` and if so, it retrieves the base context, continuing until it finds an `Activity`.
+
+- `parseMenu(XmlPullParser paramXmlPullParser, AttributeSet paramAttributeSet, Menu paramMenu)` is used to parse the XML file and build the menu from it.
+
+- `getRealOwner()` method is used to get the real owner of the menu. If it is not yet set, it will try to find and set it.
+
+- `inflate(int paramInt, Menu paramMenu)` method is used to inflate a menu from an XML resource.
+
+- `InflatedOnMenuItemClickListener` class is used to set an on-click listener for a menu item.
+
+- `MenuState` class is used to hold the state of a menu during the inflation process. It maintains properties such as group categories, checkable state, enabled state, etc.
+
+- `itemActionProvider` is a reference to the `ActionProvider` for an item.
+
+This class is part of the Androidx AppCompat library and supports older Android versions with updated features.- `itemActionViewClassName`: A String to hold the class name of the action view.
+- `itemActionViewLayout`: An integer that defines the layout of the action view.
+- `itemAdded`: A boolean to track if an item has been added to the menu or not.
+- `itemAlphabeticModifiers`: An integer for alphabetic shortcut modifiers.
+- `itemAlphabeticShortcut`: A char that represents the alphabetic shortcut.
+- `itemCategoryOrder`: An integer to define the order of the item.
+- `itemCheckable`: An integer to check whether the item is checkable or not.
+- `itemChecked`: A boolean to check whether the item is checked.
+- `itemContentDescription`: A character sequence to describe the content.
+- `itemEnabled`: A boolean to enable the item.
+- `itemIconResId`: An integer to set the icon of the item.
+- `itemIconTintList`: A variable of type `ColorStateList` that defines the tint of the icon.
+- `itemIconTintMode`: A variable of type `PorterDuff.Mode` that defines the tint mode for the item's icon.
+- `itemId`: An integer to set the ID of the item.
+- `itemListenerMethodName`: A String to set a listener method for the item.
+- `itemNumericModifiers`: An integer for numeric shortcut modifiers.
+- `itemNumericShortcut`: A char that represents the numeric shortcut.
+- `itemShowAsAction`: An integer to show the item as an action.
+- `itemTitle`: A character sequence for the title of the item.
+- `itemTitleCondensed`: A character sequence for the condensed title of the item.
+- `itemTooltipText`: A character sequence for the tooltip text of the item.
+- `itemVisible`: A boolean to check whether the item is visible.
+- `menu`: A variable of type `Menu` that contains a reference to the menu.
+- `this$0`: A reference to the enclosing instance of `SupportMenuInflater`.
+- `MenuState(Menu param1Menu)`: A constructor that sets the menu and resets the group.
+- `getShortcut(String param1String)`: Converts a given string into a shortcut character.
+- `newInstance(String param1String, Class<?>[] param1ArrayOfClass, Object[] param1ArrayOfObject)`: Creates a new instance of the class with the given name and parameters.
+- `setItem(MenuItem param1MenuItem)`: Populates menu item details.
+- `addItem()`: Adds menu item to the menu.
+- `addSubMenuItem()`: Adds a submenu item to the menu.
+- `hasAddedItem()`: Checks if menu item has been added.
+- `readGroup(AttributeSet param1AttributeSet)`: Reads menu group attributes.
+- `readItem(AttributeSet param1AttributeSet)`: Reads menu item attributes.
+- `resetGroup()`: Resets mutex group properties to their default values.

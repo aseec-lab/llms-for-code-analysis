@@ -1,0 +1,5 @@
+The `DatagramSocketWrapper` class in the `androidx.core.net` package is a wrapper for the `DatagramSocket` class that extends `Socket`. It has a constructor that takes a `DatagramSocket` and a `FileDescriptor` as arguments, and initializes a `DatagramSocketImplWrapper` instance by passing these two arguments.
+
+The `DatagramSocketImplWrapper` class extends `SocketImpl`, and inside it, the `localport` and `fd` fields are initialized using the `getLocalPort()` method of the DatagramSocket and the FileDescriptor passed to its constructor, respectively.
+
+All methods in `DatagramSocketImplWrapper` are overridden from the `SocketImpl` class, and they all throw an `UnsupportedOperationException`. This means that any call to these methods will result in an exception, indicating that the operation is not supported.

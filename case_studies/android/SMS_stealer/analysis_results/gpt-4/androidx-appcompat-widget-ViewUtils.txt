@@ -1,0 +1,9 @@
+The `ViewUtils` class provides utility methods for work with Android views within the `androidx.appcompat.widget` package.
+
+The `ViewUtils` class uses reflection to invoke specific methods that are only available on certain API's. It provides three methods:
+
+1. `computeFitSystemWindows(View, Rect, Rect)`: This method computes the "system windows" overlays into the given `Rect` objects if the `sComputeFitSystemWindowsMethod` is accessible. These Rects might include areas for the status bar or navigation bar. If the method can't be accessed, it logs the exception.
+
+2. `isLayoutRtl(View)`: This method returns a `boolean` value indicating whether the layout direction of the given `View` is right-to-left (RTL).
+
+3. `makeOptionalFitsSystemWindows(View)`: This method tries to make the `View` optional fit system windows. If it fails to do so due to not finding the method `makeOptionalFitsSystemWindows` or facing any `IllegalAccessException` or `InvocationTargetException`, it logs the exceptions.

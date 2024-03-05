@@ -1,0 +1,9 @@
+This file, `AppCompatCompoundButtonHelper.java`, is a helper class in the AndroidX AppCompat library that's used for applying consistent styling or tinting to compound buttons, primarily checkboxes and radio buttons, across all Android versions.
+
+The class stores values for color, tint mode, and drawable attributes of a CompoundButton. It provides methods for setting these values and applying the corresponding tint using the `DrawableCompat` class from AndroidX Core Library. The attributes are processed and applied when setting button drawables.
+
+The `loadFromAttributes` method is used to load attributes from specified XML and apply them to the CompoundButton. It also uses methods to handle exceptions if resources for attributes aren't found.
+
+Callbacks like `onSetButtonDrawable` are provided for lifecycle events of the button, controlling when and how tints are applied. Protective checks are done before applying a tint to prevent endless loops.
+
+Finally, it includes methods for modifying and retrieving the compound button margins. It also ensures backward compatibility by checking the Android version before applying certain attributes.

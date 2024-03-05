@@ -1,0 +1,27 @@
+The `FragmentTabHost` class extends the `TabHost` class and implements `TabHost.OnTabChangeListener` interface. This class facilitates the hosting of `Fragment` objects inside a `TabHost`. It handles a lot of the boilerplate required to set up a classic tab UI with a `TabHost`.
+
+1. `mAttached`, `mContainerId`, `mContext`, and `mFragmentManager` are some of the private attributes it maintains for internal manipulation and tracking of tab states. 
+
+2. The `doTabChanged()` method is used to perform the tab-switching operation which involves attaching and detaching fragments in accordance with the tab change.
+
+3. The `addTab()` method permits adding a 'TabSpec' item to the host, coupled with a class and optional bundle.
+
+4. `onAttachedToWindow()`, `onDetachedFromWindow()`, `onRestoreInstanceState()`, `onSaveInstanceState()`, `onTabChanged()`, and `setup()` methods override their counterparts in superclass `TabHost` for maintaining lifecycle and state preservation of the tabs.
+
+5. `DummyTabFactory`, a static internal class, is a simple implementation of `TabHost.TabContentFactory` interface, responsible for creating the view associated with the tab.
+
+6. `SavedState`, another static internal class, extends the `View.BaseSavedState`. It aids in preserving the state across configuration changes. A particular emphasis is given in preserving the selected tab's information. 
+
+7. The class has been marked deprecated, indicating it should not be used in new projects due to better alternatives or that it will be removed in future updates of the library.The `TabInfo` class is a static internal class of `FragmentTabHost` that is used to store information about each tab. 
+
+1. `args`, a `Bundle`, is used to pass data to the fragment when it is created.
+
+2. `clss`, a `Class<?>` object, is used to create instances of the fragment. 
+
+3. `fragment`, a `Fragment`, is the fragment that corresponds to the tab.
+
+4. `tag`, a `String`, is the identifier for the tab.
+
+The constructor for `TabInfo` takes three parameters: `param1String`, `param1Class`, and `param1Bundle` and assigns these values to `tag`, `clss`, and `args`, respectively.
+
+The commented lines after the class refer to the file location and the version of Java and JD-Core used to compile the code. However, such information usually doesn't have significant importance in the logic or functionality of the class.

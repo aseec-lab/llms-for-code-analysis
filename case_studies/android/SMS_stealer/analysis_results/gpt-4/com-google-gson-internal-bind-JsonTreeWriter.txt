@@ -1,0 +1,8 @@
+The `JsonTreeWriter` is a class that extends `JsonWriter` and is used for creating a `JsonElement` tree structure in memory from streaming JSON data. This class overrides methods in `JsonWriter` to build the tree in memory as the JSON data is being written.
+
+- A unique characteristic of `JsonTreeWriter` is its use of a `stack` to keep track of which `JsonElement` is currently being worked with, this is especially useful when dealing with nested JSON arrays or objects.
+- It provides methods to start and end JSON arrays (`beginArray` and `endArray`), start and end JSON objects (`beginObject` and `endObject`), set `null` values (`nullValue`), and set various primitive types (`value`).
+- Each of the `value` methods take the supplied value and add a new `JsonPrimitive` with this value to the current `JsonElement` on the top of the stack.
+- Any attempts to write data after the `JsonWriter` has been closed will cause an exception to be thrown (`UNWRITABLE_WRITER`), as will any attempts to write incorrect / mismatched JSON structures (`IllegalStateException` thrown in `endArray` and `endObject`).
+- The `get` method returns the created `JsonElement`, but will throw an `IllegalStateException` if the `stack` is not empty, i.e., if the written JSON was not well structured.
+- The class includes additional tools to detect mismatches in the JSON structure, such as maintaining a `pendingName` field (which is used to enforce that a name must be set before setting a value in a JSON object) and a `product` field (which is the top-level JSON element).

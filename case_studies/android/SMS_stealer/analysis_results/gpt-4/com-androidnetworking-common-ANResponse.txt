@@ -1,0 +1,23 @@
+The `ANResponse` class in the Android Networking library is a generic wrapper for both successful and failed network requests. 
+
+- The `ANError mANError` field represents an error, if any occurred during the network request.
+- The `T mResult` field represents a result of a successful request.
+- The `Response response` field represents the OkHttp response.
+
+The constructor methods are overloaded to create an instance of `ANResponse` with either an `ANError` object or a result object. 
+
+Other methods in the class include:
+
+- `public static <T> ANResponse<T> failed(ANError paramANError)`: This static method returns a new `ANResponse` instance by using an `ANError` object.
+
+- `public static <T> ANResponse<T> success(T paramT)`: This static method returns a new `ANResponse` instance by using a result object.
+
+- `public ANError getError()`: This method returns an `ANError` object if the request failed, typically null if the request was successful.
+
+- `public T getResult()`: This method returns the result of the successful request, typically null if the request failed.
+
+- `public boolean isSuccess()`: This method checks if the network request was successful or not. If `mANError` is null, then the request was successful and true is returned otherwise false is returned.
+  
+- `public void setOkHttpResponse(Response paramResponse)`, `public Response getOkHttpResponse()`: These methods are used to set and get the OkHttp response respectively. 
+
+- `ANResponse(ANError paramANError)`, `ANResponse(T paramT)`: Two constructors that initialize an `ANResponse` object with either an error (in case of failure) or the requested object (in case of success).

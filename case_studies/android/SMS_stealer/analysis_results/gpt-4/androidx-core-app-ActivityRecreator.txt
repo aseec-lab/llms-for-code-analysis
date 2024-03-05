@@ -1,0 +1,15 @@
+The `ActivityRecreator` class in the AndroidX Core library is used to recreate an activity, often used in situations where configurations have changed (like rotation).
+
+Here are key features:
+
+1. Various static fields are declared for classes, fields, and methods potentially using reflection. These are initialized in a static initialization block (`activityThreadClass`, `mainThreadField`, `tokenField`, `performStopActivity3ParamsMethod`, `performStopActivity2ParamsMethod`, `requestRelaunchActivityMethod`).
+
+2. Utility methods for retrieving these fields and methods using reflection are provided (`getActivityThreadClass`, `getMainThreadField`, `getPerformStopActivity2Params`, `getPerformStopActivity3Params`, `getRequestRelaunchActivityMethod`, `getTokenField`) along with a `needsRelaunchCall` check.
+
+3. The `queueOnStopIfNecessary` method checks whether an activity should be stopped, using provided token and activity reference.
+
+4. The `recreate` method attempts to recreate an activity taking reference as input. Compatibility checks are made based on build version, and then recreation is attempted.
+
+5. Nested class `LifecycleCheckCallbacks` implements `Application.ActivityLifecycleCallbacks` interface and uses to maintain lifecycle state of the activity being recreated - whether it's been destroyed, started, or had stop queued.
+
+Overall, `ActivityRecreator` provides robust, version-aware handling for recreating Android activities that may need to renew their state following a lifecycle event or configuration change.

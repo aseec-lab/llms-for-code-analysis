@@ -1,0 +1,21 @@
+The `RemoteInput` class is used to receive input from the user in various forms, primarily used for notifications. It facilitates receiving voice input from a user, with the input then used by the app.
+
+This class supports several input types, including Free Form Text Input, allowing users to enter arbitrary text and Edit Choices Before Sending, which control when and where users can make choices about inputs.
+
+The `RemoteInput` class also provides methods to handle both standard and data results from the intent, allowing intents to interact with the contents of clip data, and other components to access the results.
+
+The `Builder` class is a nested static class in `RemoteInput` which provides a way to set properties for and create an instance of `RemoteInput`.
+
+The `getAllowFreeFormInput()`, `getAllowedDataTypes()`, `getChoices()`, `getExtras()`, `getLabel()`, `getResultKey()`, and `isDataOnly()` functions get the corresponding properties of the `RemoteInput`. The `addExtras(Bundle param1Bundle)` and  `setAllowDataType(String param1String, boolean param1Boolean)` methods in the `Builder` class are to add extras and allow data type respectively.
+
+The `build()` method in `Builder` class returns a new `RemoteInput` object using the values supplied to the builder.Additional methods in the Builder class of the `RemoteInput` class:
+
+`setAllowFreeFormInput` method allows free-form text input.
+
+`setChoices` method lets you set up choices for the input.
+
+`setEditChoicesBeforeSending` method enables you to edit the choices before sending the input.
+
+`setLabel` method is used to set the label for the RemoteInput.
+
+Two interfaces `EditChoicesBeforeSending` and `Source` are defined but don't contain methods. They are annotated with `@Retention` set to `RetentionPolicy.SOURCE`, thus they disappear after compile-time, and won't be a part of the compiled .class and .dex files.

@@ -1,0 +1,7 @@
+The code defines the `BasicCertificateChainCleaner` class within the `okhttp3.internal.tls` package.
+
+- The class extends the `CertificateChainCleaner` class.
+- It has a constructor that takes a `TrustRootIndex` object as a parameter.
+- The class has a private method `verifySignature` that checks if the signature of a given certificate is valid.
+- It also has a `clean` method that takes a list of certificates and a string as parameters. It removes untrusted certificates from the list and returns a cleaned list of certificates. If the chain is too long or no trusted certificate is found, it throws an `SSLPeerUnverifiedException`.
+- The class overrides the `equals` and `hashCode` methods to compare instances based on the `trustRootIndex` field.

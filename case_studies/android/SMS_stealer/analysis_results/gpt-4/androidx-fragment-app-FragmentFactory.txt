@@ -1,0 +1,10 @@
+The `FragmentFactory` class is a part of the AndroidX Fragment library, responsible for creating and managing Fragment instances.
+
+Key components of the class:
+- `sClassMap`: A static SimpleArrayMap that maps string keys (signifying class names) to respective class objects.
+- `isFragmentClass(ClassLoader, String)`: Static method that checks if a certain class, (specified by the string parameter and loaded by the classloader), is assignable from `Fragment` class and therefore can be treated as a Fragment.
+- `loadClass(ClassLoader, String)`: Static method that loads a class using the specified class loader and class string name. It also caches the loaded class in the `sClassMap`.
+- `loadFragmentClass(ClassLoader, String)`: Public static method that loads a class extended from Fragment, taking a class loader and a class name string as parameters. If the specified class could not be loaded or is not a valid Fragment subclass, it throws an exception.
+- `instantiate(ClassLoader, String)`: Public method that returns an instance of the Fragment class (specified with class loader and class name string). The instances are created using parameterless constructors. If the class could not be instantiated due to various reasons like non-existence, non-public nature, absence of public empty constructor etc., it throws an exception.
+
+This class uses reflection heavily for dynamic class loading and instance creation, and handles associated exceptions meticulously.

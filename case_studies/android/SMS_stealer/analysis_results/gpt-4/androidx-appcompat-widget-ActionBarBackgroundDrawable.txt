@@ -1,0 +1,13 @@
+The class `ActionBarBackgroundDrawable` extends the Drawable class. This class is used to draw the background for the ActionBar in an Android application. 
+
+It contains one member: `mContainer` of type `ActionBarContainer`.
+
+In the constructor, an `ActionBarContainer` object is passed, which is then assigned to the `mContainer` member.
+
+The `draw(Canvas paramCanvas)` method is used to draw different backgrounds depending on whether the ActionBar is split. If it is, it uses the `mSplitBackground` drawable, otherwise, it uses the `mBackground` drawable and possibly the `mStackedBackground` drawable if `mIsStacked` is true.
+
+The `getOpacity()` method returns 0, meaning the drawable is transparent.
+
+The `getOutline(Outline paramOutline)` method is used to get the outline of the drawable for showing a shadow or for doing clipping. Again it chooses the correct drawable based on whether the ActionBar is split.
+
+The `setAlpha(int paramInt)` and `setColorFilter(ColorFilter paramColorFilter)` methods are overriden from the Drawable class but have no implementation. This indicates the transparency and color cannot be altered in the `ActionBarBackgroundDrawable`.

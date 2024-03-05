@@ -1,0 +1,27 @@
+The `ActionMenuView` class extends `LinearLayoutCompat` and implements `MenuBuilder.ItemInvoker` and `MenuView`. It represents an action bar with menu items that are used for enabling actions directly in the action bar. `MenuPresenter` generates views for menu items and then adds to the instance of `ActionMenuView`.
+
+Various properties are defined for managing menu items and behaviors, such as `mMenu` for the MenuBuilder object, `mMinCellSize` for the minimum cell size, `mFormatItems` as a boolean flag, and `mOnMenuItemClickListener` for handling item click events.
+
+It comes with different types of constructors that accept contexts and attribute sets. It also includes methods for layout configurations, menu initialization, and behavior definition when an item is invoked. The class is mainly designed to handle and represent menu actions in a toolbar.
+
+The `measureChildForCells` method measures the size of the children views, and there is also a private `onMeasureExactFormat` method which precisely measures the whole view and its child views that calculates measurement of the view based on exact format including checking for menu item view, calculating cell measurements, centering single buttons and handling show overflow menu settings. It is where most of the custom arrangement and layout code for items in the menu is managed.The code is part of a larger method that is involved in layout calculation and positioning of items in `ActionMenuView`. In this part, it checks for conditions under which the menu layout should be recalculated, includes calculations for horizontal padding, and updates the layout parameters for each child element (each menu item). It adjusts sizes based on whether an item is expandable and whether preventing edge offset is enabled. Bitwise operations are used to manipulate and check the property states for various layout scenarios. The code loops through each child, updates its parameters, and sets its padding when needed.The code continues to calculate the positioning and layout of menu items in `ActionMenuView`. It includes conditions to handle both regular menu items and overflow buttons. The code specifically handles padding and margin adjustments for these elements. Overflow buttons have their right margin updated. Regular menu items have their left or right margin adjusted based on their position and expansion property. 
+
+After that, it checks if the layout has been modified. If it has been expanded, then it updates their layout parameters accordingly, recalculates their size, and loops through each one. 
+
+Finally, the code includes additional methods relevant to `ActionMenuView`, such as checking layout parameters, dismissing popup menus, generating default layout parameters, handling accessibility, generating popup overflow button layout parameters, animating the menu window, handling item selection, and responding to configuration changes. 
+
+The last part begins laying out child views (menu items) inside `ActionMenuView` according to their computed layout parameters. It starts by determining the number of these items, their position, and setting some variables for further calculations.This code continues from the previous part and finalizes the positioning and layout of menu items in `ActionMenuView`. If there is only one item and no overflow, it makes sure the item is in the center. The `onMeasure` function is defined next to set the size of the view and its child views. 
+
+There are additional functions to manage the menu's presentation, which include:
+
+1. `peekMenu()`: Returns the current menu in use.
+2. `setExpandedActionViewsExclusive(boolean paramBoolean)`: Sets whether action view expands exclusively.
+3. `setMenuCallbacks(MenuPresenter.Callback paramCallback, MenuBuilder.Callback paramCallback1)`: Sets callbacks for menu actions.
+4. `setOnMenuItemClickListener(OnMenuItemClickListener paramOnMenuItemClickListener)`: Sets a listener for when a menu item is clicked.
+5. `setOverflowIcon(Drawable paramDrawable)`: Sets the overflow icon shown on menus.
+6. `setOverflowReserved(boolean paramBoolean)`: Sets whether overflow items are reserved, which can be helpful for viewing larger menus.
+7. `setPopupTheme(int paramInt)`: Changes the popup theme. 
+8. `setPresenter(ActionMenuPresenter paramActionMenuPresenter)`: Sets the presenter for the menu view, which has control over when and how menus are displayed.
+9. `showOverflowMenu()`: Shows the overflow menu.
+
+Then there are two interfaces and two classes: `ActionMenuChildView`, `ActionMenuPresenterCallback`, `LayoutParams`, and `MenuBuilderCallback`. Each of these plays different roles in the layout and functioning of the `ActionMenuView`.

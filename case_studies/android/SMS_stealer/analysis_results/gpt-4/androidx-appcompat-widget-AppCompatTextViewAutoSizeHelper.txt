@@ -1,0 +1,47 @@
+The `AppCompatTextViewAutoSizeHelper` class is a utility class that helps to manage automatic text resizing for `TextView` in Android. It adjusts the text size based on the size of the TextView's bounds, either specified as presets or based on a range and granularity. 
+
+Inside the constructor, it checks the Android version and uses appropriate implementation based on it.
+
+ `accessAndReturnWithDefault` method is a utility function used to get the value of a private field from the TextView using reflection. 
+
+`cleanupAutoSizePresetSizes` method sorts and removes duplicates from a given array of integers representing text sizes.
+
+ `clearAutoSizeConfiguration` method resets all the auto size configurable parameters.
+
+`createStaticLayoutForMeasuring` method creates a new `StaticLayout` instance for the purposes of measuring text. 
+
+`findLargestTextSizeWhichFits` method finds and returns the largest text size among all auto-size presets that fits in the given bounds.
+
+`setupAutoSizeText` method checks if auto size text is supported and sets the configuration for it. It uses the predetermined sizes if available, else it calculates the sizes. 
+
+Lastly, `setupAutoSizeUniformPresetSizes` method populates the text sizes array with the values from the specified TypedArray.The `setupAutoSizeUniformPresetSizesConfiguration` method checks if there are any text sizes set in `mAutoSizeTextSizesInPx` and if they exist, the minimum and maximum auto size text size values are set and the auto size type is set to 1. If no predefined sizes exist, this method returns false. 
+
+The `suggestedSizeFitsInSpace` method checks if the text fits into the provided space by creating a static layout instance. 
+
+The `supportsAutoSizeText` method checks if auto size text is supported. If the text view is not an instance of `AppCompatEditText`, it returns true. 
+
+The `validateAndSetAutoSizeTextTypeUniformConfiguration` method validates and sets the uniform auto size text type configuration. If the minimum or maximum prefine size or the step size is less than or equal to zero, it throws an `IllegalArgumentException`.
+
+The `autoSizeText` method adjusts the text size of the TextView to fit within its bounds.
+
+`createLayout` method creates a new layout based on certain parameters.
+
+`getAutoSizeMaxTextSize`, `getAutoSizeMinTextSize`, `getAutoSizeStepGranularity`, `getAutoSizeTextAvailableSizes`, & `getAutoSizeTextType` are getter methods to fetch respective properties.
+
+`initTempTextPaint` method initializes `mTempTextPaint` with the same properties of the current text view except the text size.
+
+The `isAutoSizeEnabled` checks if `mAutoSizeTextType` is not zero and auto size text is supported.
+
+`loadFromAttributes` method sets up auto size text from XML attributes.
+
+`setAutoSizeTextTypeUniformWithConfiguration` sets the auto size text parameters and the text size of the TextView. 
+
+`setAutoSizeTextTypeUniformWithPresetSizes` sets the array of sizes (in pixels(unit)) and scales it depending on the given unit then sorts and removes duplicates from the array.
+
+`setAutoSizeTextTypeWithDefaults` sets the auto size text type.
+
+`setTextSizeInternal` method sets the absolute text size in the TextView and later updates the auto sizing.
+
+Classes `Impl`, `Impl23`, `Impl29`  are used to segregate the different implementations based on Android's build version. For example, `Impl23` is specifically used when the Android version is 23 and above. `computeAndSetTextDirection` and `isHorizontallyScrollable` methods are defined and overridden to adapt different behaviors based on the Android version.The last portion of the code doesn't contain any code logic but contains metadata for the class `AppCompatTextViewAutoSizeHelper`.
+
+It specifies the original location of the class file and the Java compiler version (`6 (50.0)`) used to compile this class. `JD-Core Version: 1.1.3` refers to the version of the Java Decompiler used to decompile this class. This type of metadata is usually added by the decompiler software and it doesn't affect the code execution.

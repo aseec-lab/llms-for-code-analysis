@@ -1,0 +1,21 @@
+The `ActionMenuView` class is a subclass of `LinearLayoutCompat` and implements the `MenuView` and `MenuBuilder.ItemInvoker` interfaces. It is used to display a menu of actions, typically as a toolbar or overflow menu.
+
+The class contains numerous fields including `mActionMenuPresenterCallback`, `mFormatItems`, `mFormatItemsWidth`, `mGeneratedItemPadding`, `mMenu`, `mMenuBuilderCallback`, `mMinCellSize`, `mOnMenuItemClickListener`, `mPopupContext`, `mPopupTheme`, `mPresenter`, and `mReserveOverflow`, to hold various properties and objects related to the menu view.
+
+The constructor initializes some of these fields, sets the baseline alignment to false, and calculates the minimum cell size and generated item padding based on the device's density.
+
+The `measureChildForCells()` method measures a child view to determine the number of cells it occupies, based on the specified cell width and measured spec for the available width. It returns the number of cells occupied by the child.
+
+The `onMeasureExactFormat()` method is responsible for measuring and layouting the child views of the `ActionMenuView` in an exact format. It calculates the available width for the child views, divides it by the minimum cell size to determine the number of cells that can fit, and measures each child accordingly. It also keeps track of the maximum height and the number of expandable and overflow button items. Finally, it sets the measured dimensions of the `ActionMenuView` based on the measured dimensions of its child views.This part of the code retrieves the number of cells used by each child view in the ActionMenuView. It keeps track of the maximum number of cells used, the number of expandable items, and the bitmask of which child views are expanded.
+
+Then, it calculates the required width for each child view based on the number of cells it occupies and whether it is expandable. If there is enough space, it expands or collapses the child views accordingly.
+
+Finally, it calculates the horizontal offset needed to center the child views within the available width and adjusts the padding of each child view accordingly.This part of the code is a method called `onLayout()`, which is responsible for laying out the child views of the ActionMenuView. It starts by checking if the `mFormatItems` flag is set, which determines whether the child views should be formatted or not. If the flag is not set, it calls the superclass implementation of `onLayout()`.
+
+If the `mFormatItems` flag is set, it proceeds to calculate the positions of the child views. It gets the total number of child views using the `getChildCount()` method and calculates the center position of the ActionMenuView.
+
+Then, it calculates the available width for the child views by subtracting the padding and divider width from the total width. It also checks if the layout is right-to-left using the `isLayoutRtl()` method.
+
+Next, it iterates through each child view and checks if it is visible. If the child view is visible, it retrieves its layout parameters and calculates its position based on its width, the available width, and whether the layout is right-to-left. It then calls `layout()` method to set the child view's position.
+
+Finally, it updates the dimensions of the ActionMenuView based on the positions of the child views and the padding, and returns.The remaining code includes the `onMeasure()` method, which calculates the size of the ActionMenuView based on the available space and the number of child views. It also includes methods for setting various properties of the ActionMenuView, such as the menu callbacks, overflow icon, and presenter. Additionally, there is a nested class called `LayoutParams` that extends `LinearLayoutCompat.LayoutParams` and represents the layout parameters for the child views of the ActionMenuView. The code also includes a nested class called `MenuBuilderCallback` that implements the `MenuBuilder.Callback` interface and is used to handle menu item selection and mode change events. Lastly, there is an interface called `OnMenuItemClickListener` that defines a callback for handling menu item clicks.

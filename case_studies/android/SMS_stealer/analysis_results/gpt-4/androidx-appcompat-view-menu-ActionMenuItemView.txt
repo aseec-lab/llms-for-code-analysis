@@ -1,0 +1,17 @@
+The class `ActionMenuItemView` is an extension of `AppCompatTextView` and implements several interfaces. It represents an action menu item in an Android context. Instances of this class are essentially textual menu items that can be clicked by the user as part of the application menu.
+
+Key behaviors of this class:
+- It encapsulates a menu item `mItemData` and its interface `mItemInvoker`.
+- It has states indicating whether it allows a text with an icon `mAllowTextWithIcon`, whether it's in an expanded format `mExpandedFormat`, etc.
+- It encapsulates a drawable icon `mIcon`, and important layout parameters like minimum width `mMinWidth` and maximum icon size `mMaxIconSize`.
+- Two constructors initialize an instance of `ActionMenuItemView` in different ways. A private method `shouldAllowTextWithIcon()` determines if showing an icon with the text is allowed based on the current configuration.
+- `updateTextButtonVisibility()` method updates the visibility of the text button based on various conditions.
+- It has `initialize()` and `setItemInvoker()` methods to associate a `MenuItemImpl` object and a `MenuBuilder.ItemInvoker` object with this view respectively.
+- It has methods like `needsDividerAfter()`, `needsDividerBefore()`, `onClick()`, `onConfigurationChanged()`, `onMeasure()`, `onRestoreInstanceState()`, `onTouchEvent()`, `prefersCondensedTitle()]` to handle specific situations, responses to events, and to maintain its UI state.
+- Setters `setCheckable()`, `setChecked()`, `setExpandedFormat()`, `setIcon()` modify the state of the object and, in some cases, change the user interface accordingly.- `setPadding()` method overrides the default method, stores the left padding value, and then sets padding for the view.
+- `setPopupCallback()` method sets the `PopupCallback`.
+- `setShortcut()` method is empty and does not do anything in its current implementation.
+- `setTitle()` method sets the title for the menu item and updates its visibility.
+- `showsIcon()` method always returns true, indicating that the menu item view should always show an icon.
+- An inner private class `ActionMenuItemForwardingListener` extends `ForwardingListener` and handles event forwarding. The `getPopup()` method here fetches the popup object, while the `onForwardingStarted()` method decides when to start forwarding events.
+- An `abstract` inner class `PopupCallback` with a single abstract method `getPopup()` is defined as well. This should be implemented by subclasses to provide the popup menu.

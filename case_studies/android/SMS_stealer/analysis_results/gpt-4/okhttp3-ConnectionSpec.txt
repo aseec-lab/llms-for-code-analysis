@@ -1,0 +1,13 @@
+The `ConnectionSpec` class in the OkHttp library defines the specification for a connection, including whether the connection uses TLS, which cipher suites to use if it does, which TLS versions to use, and whether TLS extensions are supported.
+
+Important attributes include:
+- `APPROVED_CIPHER_SUITES`: An array of safe-to-use cipher suites.
+- `MODERN_TLS`: A predefined `ConnectionSpec` that uses a modern, secure set of standards for connection.
+- `COMPATIBLE_TLS`: A less secure, but more compatible `ConnectionSpec`.
+- `CLEARTEXT`: A `ConnectionSpec` for non-encrypted, clear text connections.
+
+The `ConnectionSpec` class also provides several methods to manipulate these settings and check if a SSLSocket is compatible and several encapsulated/connection specific features as well in a safe way.
+
+The nested `Builder` class is used to build instances of `ConnectionSpec`, providing methods to define whether TLS is used, cipher suites, TLS versions, and support for TLS extensions.
+
+Remember, `ConnectionSpec` hence gives users the opportunity to set the type of cipher suites and TLS versions that will be used in Secure Socket communication.

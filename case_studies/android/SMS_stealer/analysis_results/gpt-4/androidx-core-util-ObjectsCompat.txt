@@ -1,0 +1,9 @@
+The `ObjectsCompat.java` file provides a compatibility layer for the `java.util.Objects` class, providing support for older Android operating system versions which may not have the `Objects` class available.
+
+The file consists of three static methods:
+
+1. `equals(Object paramObject1, Object paramObject2)`: This method checks if two objects are equal. For Android SDK version 19 and above this is done using the native `Objects.equals()` method, while for older versions equality is determined using a combination of reference equality (`paramObject1 == paramObject2`) and invoking the `equals()` method on `paramObject1`.
+
+2. `hash(Object... paramVarArgs)`: This method computes the hash code of several objects. It uses `Objects.hash()` on SDK 19 and above, and `Arrays.hashCode()` for lower versions.
+
+3. `hashCode(Object paramObject)`: This method returns the hash code of a single object. If the object is `null`, it returns `false`, otherwise, it returns the hash code of the `paramObject`.

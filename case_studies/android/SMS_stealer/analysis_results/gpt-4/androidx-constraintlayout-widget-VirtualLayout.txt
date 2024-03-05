@@ -1,0 +1,13 @@
+The `VirtualLayout` class extends `ConstraintHelper` class and is an abstract class - meaning it's intended to be a base class for other classes with common functionality. 
+
+It provides three constructors for different scenarios, and the visibility and elevation properties for the `VirtualLayout` that will be applied to its children when it gets attached to a window.
+
+Notable methods in this class:
+
+- `init(AttributeSet)`: This method initializes the object with attributes from an XML description. If either the android:visibility or android:elevation attributes are set, the corresponding flags will be set to apply those settings to the children when the layout is attached to the window.
+
+- `onAttachedToWindow()`: This method applies the visibility or elevation on the child views whenever the `VirtualLayout` is attached to the window. The settings only get applied if the parent is a `ConstraintLayout`.
+
+- `onMeasure()`: This method is empty in the `VirtualLayout` class, but its existence suggests that it would be implemented in subclasses to provide specific measuring logic.
+
+- `setElevation(float)` and `setVisibility(int)`: These methods set the elevation and visibility of the `VirtualLayout` respectively, and call the `applyLayoutFeatures()` method. However, the `applyLayoutFeatures()` method isn't defined in this class, suggesting it's either defined in the superclass or meant to be overridden in subclasses.

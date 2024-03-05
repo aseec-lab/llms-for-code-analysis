@@ -1,0 +1,7 @@
+`OnLifecycleEvent` is a custom Java annotation defined within the androidx.lifecycle package. This annotation is designed to be used on methods (as specified by `@Target({ElementType.METHOD})`), and it is retained at runtime (as specified by `@Retention(RetentionPolicy.RUNTIME)`).
+
+The annotation takes one parameter, which is an event of type `Lifecycle.Event`. 
+
+The purpose of this annotation is to mark methods as lifecycle event handlers within components that observe lifecycle events, such as Activities, Fragments, or other LifecycleObserver types in the Android lifecycle-aware components architecture. 
+
+For example, using this annotation, you could designate a method to run when the `ON_PAUSE` event occurs in an Activity or Fragment's lifecycle. The lifecycle library's processor will call these annotated methods automatically at the appropriate lifecycle events.

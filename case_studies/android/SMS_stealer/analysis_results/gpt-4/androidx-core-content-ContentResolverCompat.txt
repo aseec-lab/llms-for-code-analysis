@@ -1,0 +1,7 @@
+The `ContentResolverCompat` class in the `androidx.core.content` package provides a static `query()` method that retrieves data from the provided `Uri` using the given `ContentResolver`. 
+
+It queries with specific projection (columns to include in the cursor), selection (SQL WHERE clause), selection arguments (selection argument values), and sort order. It also accepts a `CancellationSignal` which you can use to cancel a long-running operation.
+
+The method checks if the Android SDK version is 16 or higher. If that's the case, it attempts to use the `CancellationSignal` with the `query()`. 
+
+If the version is less than 16 or if the `CancellationSignal` is not given, it falls back to using the `query()` method without `CancellationSignal`, maintaining compatibility with older Android versions. Furthermore, it checks if the operation was cancelled for less than API 16 to throw an exception if necessary.

@@ -1,0 +1,35 @@
+This code defines the `NotificationManagerCompat` class, which is used to abstract the native Android `NotificationManager` and enhance its features. 
+
+The `NotificationManagerCompat` class includes several constants and methods for managing app notifications such as creating, updating, and clearing notifications.
+
+The class also incorporates versions compatibility checks for methods and performs operations based on the Android version running on the device like creating notification channels for Android Oreo (API level 26) and above. 
+
+The class includes methods for managing the notifications side channel, which allows older apps to use modern notification features. 
+
+Furthermore, the class has methods to get the list of enabled listener packages, get and set the importance of the notifications, and others. 
+
+The class includes various helpers and inner classes to manage tasks related to notifications such as `CancelTask` and `NotifyTask`.
+
+Finally, the class contains `notify` methods that use the side channel for notifications if applicable, otherwise, it delegates to the system `NotificationManager`.This continues with the `SideChannelManager` class, a private static inner class for managing aspects related to side channels. Methods within this class ensure services are properly bound and unbound, handle task queues, manage retries for failed attempts to contact a service, and maintain up-to-date listener maps.
+
+This section then presents several other private static inner helper classes like `CancelTask`, `NotifyTask`, and `ServiceConnectedEvent` — each encapsulating different tasks related to the notification management.
+
+The `CancelTask` class incorporates the task of canceling a given notification. It has two constructors for handling different scenarios of notification cancellation. The `NotifyTask` class encapsulates the task of notifying a specific notification. Lastly, the `ServiceConnectedEvent` class stores the connection information when a service connects.
+
+All these classes have `toString()` methods to facilitate debugging by providing human-readable string representations of their instances.
+
+The inner class `SideChannelManager` also handles service connections and provides methods to manage messaging between the notification manager and its connected services. This is typically used for inter-process communication.
+
+Finally, the code provides the setup for a `handleMessage` method- an important part of the `Handler.Callback` interface, which receives a Message object and processes the contained data based on its type and information. It must return `true` if the message is processed successfully, or `false` if the message is unknown or cannot be handled.The remaining part of the code further expands on the `SideChannelManager` inner class. 
+
+It provides the behaviors `onServiceConnected` and `onServiceDisconnected`. These behaviors log service connection and disconnection events respectively, send targeted messages to recognize these events, and handle the `ServiceConnectedEvent`.
+
+The `queueTask` function allows tasks to be added to the handler via targeted messages.
+
+Within this class, there is a further implementation of another private static class named `ListenerRecord`. This encapsulates the aspects of a listener including whether it is bound or not, its component name, retry count, the service it is attached to and a queue of tasks for it. Its instances are used to manage and control the listener records.
+
+Finally, there is a private interface `Task`, which defines a single method `send`. This method accepts an `INotificationSideChannel` parameter and can throw a `RemoteException`. 
+
+Two copies of `ListenerRecord` are present, which seems like an error or repetition.
+
+The code ends with information about the file location where the class was originally located and the versions of Java compiler and JD-Core used.

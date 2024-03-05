@@ -1,0 +1,15 @@
+`OkHostnameVerifier` is a public final class that implements the `HostnameVerifier` interface and is responsible for name-based verification of hosts.
+
+This class contains a singleton instance `INSTANCE` of itself. 
+
+The `allSubjectAltNames(X509Certificate paramX509Certificate)` method is used to retrieve all subject alternative names from the given `X509Certificate`.
+
+The `verifyHostname(String paramString, X509Certificate paramX509Certificate)` method checks if the provided string matches any of the alternative names in the certificate.
+
+The `verifyIpAddress(String paramString, X509Certificate paramX509Certificate)` method checks if the provided IP address matches any of the alternative names in the certificate.
+
+The `verify(String paramString, X509Certificate paramX509Certificate)` method verifies if the provided string or IP address matches any of the alternative names. 
+
+The `verify(String paramString, SSLSession paramSSLSession)` method attempts to verify the peer's certificate during an SSL handshake.
+
+The `verifyHostname(String paramString1, String paramString2)` method verifies that the host name is a match for the given certificate. Wildcards (*) are only used for subdomain parts and the comparison is case-insensitive.

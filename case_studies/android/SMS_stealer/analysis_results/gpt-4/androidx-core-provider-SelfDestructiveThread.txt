@@ -1,0 +1,18 @@
+The `SelfDestructiveThread` class is essentially creating a thread that's capable of shutting down or "self-destructing" if it isn't being used. 
+
+Here are the key components:
+- The class constructor `SelfDestructiveThread(String paramString, int paramInt1, int paramInt2)` creates a new instance and takes a thread name, priority, and time until self-destruction (in milliseconds) as parameters.
+
+- The method `post(Runnable paramRunnable)` is responsible for starting the HandlerThread if it hasn't been started yet and then posting a new task to it.
+
+- The method `postAndReply(Callable<T> callable, ReplyCallback<T> reply)` posts a new task to the thread and replies with the results using a callback.
+
+- The method `postAndWait(Callable<T> callable, int paramInt) throws InterruptedException` is a blocking call that will post a task and wait for the result.
+
+- `onInvokeRunnable(Runnable paramRunnable)` and `onDestruction()` are internal methods responsible for running tasks and destructing the thread respectively.
+
+- `isRunning()` checks whether the thread is still running and `getGeneration()` returns the generation of the thread. A new generation is created every time a thread starts.
+
+- The private `MSG_DESTRUCTION` and `MSG_INVOKE_RUNNABLE` constants are used as message identifiers in the Handler. 
+
+Note: Every time a new task is posted, current scheduled self-destruction is cancelled. Self-destruction is rescheduled when a task finishes their work.

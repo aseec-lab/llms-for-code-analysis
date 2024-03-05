@@ -1,0 +1,27 @@
+The `Response` class in OkHttp represents an HTTP response. 
+
+The class contains several fields like `body`, `cacheResponse`, `code`, `handshake`, `headers`, `message`, `networkResponse`, `priorResponse`, `protocol`, `receivedResponseAtMillis`, `request`, and `sentRequestAtMillis`. These fields represent the various parts of an HTTP response.
+
+There are methods to get and manipulate all these fields. The `cacheControl()` method returns an instance of `CacheControl` parsed from the headers. The `isSuccessful()` method checks if the HTTP code represents a successful response (i.e., the code is in 200-299 range). The `peekBody(long paramLong)` method provides a sneak peek into the response body without consuming it. 
+
+The `Builder` class nested inside the `Response` class allows building instances of `Response` using several setter methods. It validates the response (using methods like `checkPriorResponse()` and `checkSupportResponse()`) before building it to ensure it's well-formed. For example, it checks if the previous response's body was null (a requirement for a well-formed response).
+
+This class is located at `okhttp3/Response.java`.The provided code is a part of the Builder class within the Response class of OkHttp library. The Builder class assists in the construction of HTTP response objects.
+
+- `body(@Nullable ResponseBody param1ResponseBody)` sets the response body.
+- `build()` validates the response and returns an instance of Response.
+- `cacheResponse(@Nullable Response param1Response)` sets the cache response.
+- `code(int param1Int)` sets the response code.
+- `handshake(@Nullable Handshake param1Handshake)` sets the handshake.
+- `header(String param1String1, String param1String2)` sets a header.
+- `headers(Headers param1Headers)` sets multiple headers.
+- `message(String param1String)` sets the message.
+- `networkResponse(@Nullable Response param1Response)` sets the network response.
+- `priorResponse(@Nullable Response param1Response)` sets the prior response.
+- `protocol(Protocol param1Protocol)` sets the protocol.
+- `receivedResponseAtMillis(long param1Long)` sets the time when the response was received.
+- `removeHeader(String param1String)` removes a header.
+- `request(Request param1Request)` sets the request.
+- `sentRequestAtMillis(long param1Long)` sets the time when the request was sent. 
+
+The "Location" comment indicates the path of the original source file and its Java compiler version.

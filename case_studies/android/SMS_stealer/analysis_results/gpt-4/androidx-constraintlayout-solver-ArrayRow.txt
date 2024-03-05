@@ -1,0 +1,87 @@
+The `ArrayRow` class implements the `LinearSystem.Row` interface. It contains some instance variables like `constantValue`, `variable`, `variables`, and a few others which are used in constraint layout solving.
+
+The class constructor `ArrayRow(Cache paramCache)` takes a `Cache` object and creates a new `ArrayLinkedVariables` object from it.
+
+The `isNew` private method checks if a `SolverVariable` is new in a `LinearSystem`.
+
+The `pickPivotInVariables` private method selects a pivot from the available variables.
+
+The `addError` overloaded methods are adding error variables to the system with specified strength or weight.
+
+The `addSingleError` method adds a single error with a specific weight to a particular `SolverVariable`.
+
+The `chooseSubject` method decides whether to choose a subject in the variables or not.
+
+The `chooseSubjectInVariables` method helps in selecting a subject from the available variables.
+
+The `clear` method is used to reset all the instance variables to default values.
+
+The `createRowCentering` method creates a centered row with some parameters like SolverVariables, integer, float values, etc.
+
+All methods and operations of this class assist in the function of the linear equation solving system.The remaining part of the `ArrayRow` class contains several methods which allow for operations dealing with linear equations in a constraint layout.
+
+`createRowDimensionPercent`, `createRowEqualDimension`, `createRowEqualMatchDimensions`, `createRowGreaterThan`, and `createRowLowerThan` are all methods which create new rows with different conditions using various parameters related to dimensions and ratios.
+
+`createRowWithAngle` creates a row with an angle variable, using the specified parameters.
+
+`ensurePositiveConstant` ensures that the constant is a positive number by checking if it's negative, and if so, multiplies it by -1.
+
+`getKey` returns the variable key of the row.
+
+`getPivotCandidate` selects a pivot candidate from the available variables based on a system of linear equations and boolean array.
+
+`hasKeyVariable` and `hasVariable` check if a certain key or solver variable exists.
+
+`initFromRow` initializes a row from another row.
+
+`isEmpty` checks if a row is empty, based on if the variable is null, the constant value is 0, and there are no current size variables.
+
+`pickPivot` picks a pivot in the linear equations.
+
+`pivot` adjusts the pivot of a linear equation based on a solver variable.
+
+`reset` resets the variable, variables, constant value, and isSimpleDefinition to their default states.
+
+`sizeInBytes` returns the size of a row in bytes.
+
+`toReadableString` converts the row to a human-readable string.The above code snippet shows the remaining part of the `ArrayRow` class for the Android's constraint layout solver system.
+
+- The `toReadableString` method builds a string representation of the current `ArrayRow` state using string builders. 
+
+- The `toString` method simply returns the result of `toReadableString` when the `ArrayRow` instance is printed.
+
+- The `updateFromFinalVariable`, `updateFromRow`, and `updateFromSynonymVariable` methods are used to update the state of the current `ArrayRow` from a given `SolverVariable`. These methods are used when a variable is a final value, updates from a row, or updates from a synonym variable. 
+
+- The `updateFromSystem` method is used to update the current `ArrayRow` instance from a given `LinearSystem` instance.
+
+- The interface `ArrayRowVariables` is declared inside the `ArrayRow` class, which expects the implementing classes to define the `add` method.The continued part of the `ArrayRow` class includes the methods inside the `ArrayRowVariables` interface.
+
+- `clear`: It will clear the variables in the row.
+
+- `contains`: This method will check if a given `SolverVariable` is present in the row.
+
+- `display`: This method will display the status of the row.
+
+- `divideByAmount`: This method will divide all the variable coefficients in the row by a given value.
+
+- `get`: This method returns the coefficient of a given `SolverVariable`.
+
+- `getCurrentSize`: This method gets the current size of the row.
+
+- `getVariable`: This method gets the variable at the specified index.
+
+- `getVariableValue`: This method gets the value of the variable at the specified index.
+
+- `indexOf`: This method finds the index of a given `SolverVariable`.
+
+- `invert`: This method inverts the row.
+
+- `put`: This method puts a given `SolverVariable` and its coefficient into the row.
+
+- `remove`: It removes a `SolverVariable` from the row, and also normalize the row if requested.
+
+- `sizeInBytes`: Computes the memory size in bytes of the array row.
+
+- `use`: Used when we want to apply the row to another one.
+
+Finally, the commented part at the end gives the location path of the `ArrayRow.class` file, a mention of the Java compiler version (6/50.0), and the JD-Core Version (1.1.3) used.

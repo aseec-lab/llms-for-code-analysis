@@ -1,0 +1,16 @@
+The `GzipSink` class in the `okio` package is an implementation of the `Sink` interface. The class provides functionality for compressing data using the Gzip format.
+
+Here are the key features of the `GzipSink` class:
+
+- The class has a `closed` boolean variable, a `CRC32` object, a `Deflater` object, a `DeflaterSink` object, and a `BufferedSink` object.
+- The constructor accepts a `Sink` parameter and initializes the `deflater`, `sink`, and `deflaterSink` objects. It also calls the `writeHeader()` method to write the Gzip header to the buffer.
+- The `updateCrc()` method updates the CRC32 checksum with the data from the buffer.
+- The `writeFooter()` method writes the CRC32 checksum and the number of compressed bytes to the buffer.
+- The `writeHeader()` method writes the Gzip header to the buffer.
+- The `close()` method finishes deflating the data, writes the Gzip footer to the buffer, and sets the `closed` flag.
+- The `deflater()` method returns the `Deflater` object used for compression.
+- The `flush()` method flushes the deflater sink.
+- The `timeout()` method returns the timeout of the underlying sink.
+- The `write()` method writes data from the buffer to the deflater sink and updates the CRC32 checksum.
+
+This is the end of the file.

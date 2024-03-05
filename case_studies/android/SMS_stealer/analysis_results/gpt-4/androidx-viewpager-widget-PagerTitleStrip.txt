@@ -1,0 +1,37 @@
+The `PagerTitleStrip` class is a component in the AndroidX view-pager library that displays the title of the current, next, and previous pages of a `ViewPager`. This is typically used to identify individual pages as the user navigates through them.
+
+Key components and methods in the class are:
+
+1. `ATTRS`, `SIDE_ALPHA`, `TEXT_ATTRS`, `TEXT_SPACING` - Constant values for styling and layout.
+
+2. `mCurrText`, `mPrevText`, `mNextText` - TextView objects for displaying the titles of the current, previous, and next pages.
+
+3. `mPager` - The associated `ViewPager` object.
+
+4. `mLastKnownCurrentPage`, `mLastKnownPositionOffset` - Variables to keep track of the last known page and position offsets.
+
+5. `mPageListener` - A listener for page changes in the `ViewPager`.
+
+6. `PagerTitleStrip(Context, AttributeSet)` - Constructor to initialize the PagerTitleStrip.
+
+7. `onAttachedToWindow()`, `onDetachedFromWindow()` - Lifecycle methods to manage the attachment and detachment of the view from the parent ViewPager.
+
+8. `onLayout()`, `onMeasure()` - Measures and lays out the child views, namely the title TextViews.
+
+9. `updateAdapter(PagerAdapter, PagerAdapter)`, `updateText(int, PagerAdapter)`, `updateTextPositions(int, float, boolean)` - These methods update the displayed titles and their positions based on the current page position and the associated `PagerAdapter`.
+
+The `PagerTitleStrip` provides the user with context as they scroll between pages, and it is a useful component to use in conjunction with a `ViewPager` when building applications with horizontal paging navigation patterns.The remaining part of the code continues defining the functionality of the `PagerTitleStrip` class:
+
+1. `onLayout()`: This method is further laying out elements (TextViews) based on the current state.
+
+2. `PageListener`: It's an inner class in `PagerTitleStrip` that extends `DataSetObserver` and implements `ViewPager.OnPageChangeListener` and `ViewPager.OnAdapterChangeListener`. It's handling the responses to changes on both pages and adapters.
+
+3. `onAdapterChanged()`: This method is notified when there is a change in the `ViewPager`.
+
+4. `onChanged()`: This method is notified when there's a change in the underlying data. It updates the text and positions.
+
+5. `onPageScrollStateChanged()`, `onPageScrolled()`, `onPageSelected()`: These are event handlers for page scroll state changes, page scroll operations, and page selection events.
+
+6. `SingleLineAllCapsTransform`: This is another inner class which extends `SingleLineTransformationMethod`. This appears to be a helper class that transforms a CharSequence into a single line uppercase string, with locale support.
+
+The code at the bottom seems to indicate the location of the file and the version of the Java compiler used.

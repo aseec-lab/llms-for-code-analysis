@@ -1,0 +1,139 @@
+The `MotionLayout` class extends the `ConstraintLayout` class and implements the `NestedScrollingParent3` interface. It is used to define a layout in which views move according to specified motion constraints.
+
+The class contains various fields to manage states and keep track of transition progress, sizes, helpers, cache etc.
+
+It includes two constructors for necessary Android context and attribute definitions. 
+
+The `checkStructure()` method ensures that the defined motion scene transitions have unique start and end states and that they are appropriately defined. The method also makes sure that every view has an ID and is associated with a constraint.
+
+The class also initializes a `MotionScene` object which is responsible for managing transitions and animations within the `MotionLayout`. Additionally, it contains several other classes and instances (like `DecelerateInterpolator`, `DevModeDraw`, `StopLogic` etc.) and data structures used in the animation and transition logic.This segment of code performs various operations associated with view transitions within a MotionLayout. 
+
+The `checkStructure(ConstraintSet paramConstraintSet, int paramInt)` method finds views in the layout that do not match the requested ID, do not have a set height, or do not have a set width.
+
+The `checkStructure(MotionScene.Transition paramTransition)` method checks that the start and end sets of a transition are not the same.
+
+The `computeCurrentPositions()` method sequentially sets the starting states for child views in the layout.
+
+The `debugPos()` method logs the current positions of all child views in the layout.
+
+The `evaluateLayout()` method calculates a new interpolated position for each child view in the layout and repositions it accordingly. 
+
+The `fireTransitionChange()` method alerts any active transition listeners to changes in transition state. 
+
+Additionally, this segment of code handles a number of exceptions and edge cases. It also keeps detailed logs of all its operations for debugging and error-tracking purposes.This segment of code continues with operations associated with view transitions within a MotionLayout, also handling touch events:
+
+The `fireTransitionStarted(MotionLayout paramMotionLayout, int paramInt1, int paramInt2)` method triggers the start of a transition with the provided parameters.
+
+The `handlesTouchEvent(float paramFloat1, float paramFloat2, View paramView, MotionEvent paramMotionEvent)` method determines if a given touch event is handled by the view.
+
+The `init(AttributeSet paramAttributeSet)` method initializes the layout by obtaining and setting the appropriate attributes.
+
+The `processTransitionCompleted()` method handles the actions to be taken once a transition is completed.
+
+The `setupMotionViews()` method prepares motion-related views for transitions.
+
+The `willJump(float paramFloat1, float paramFloat2, float paramFloat3)` method determines if a given transition with the provided parameters will cause a jump in the animation.
+
+The `addTransitionListener(TransitionListener paramTransitionListener)` method adds a transition listener to the MotionLayout. If the listener already exists, it doesn't add it again.This segment of the code contains the logic to animate the transition:
+
+The `animateTo(float paramFloat)` method animates the transition to the provided position paramFloat via a series of mathematical calculations.
+
+The `disableAutoTransition(boolean paramBoolean)` method disables automatic transition based on the boolean value passed as an argument. It calls the `disableAutoTransition` method of the MotionScene class with the passed boolean value as a parameter.
+
+The `dispatchDraw(Canvas paramCanvas)` method dispatches the draw command to the canvas. It draws frames per second (fps) value, current state and transition progress on the view by interacting with a `MotionScene`.
+
+The `enableTransition(int paramInt, boolean paramBoolean)` method enables or disables a transition. If paramBoolean is true, it enables the transition. If paramBoolean is false, it disables the transition and swaps the current transition with the next valid one.
+
+The `evaluate(boolean paramBoolean)` method evaluates the progress of a transition. It calculates the new interpolated position using either a linear interpolation (simple progress calculation) or the motion interpolator and updates the position.The provided code continues manipulating the animation state variables and drawing the constraints as appropriate:
+
+The code calculates and sets the transition position `mTransitionLastPosition` based on interpolation, handling cases for positive and negative interpolations.
+
+The `MotionController` consequently handles the children view's animation interpolations.
+
+The block checks if the goal position `mTransitionGoalPosition` has been reached for each transition. If it's not completed yet, the function iterates over all children of the `MotionLayout`, adjusts their layout according to the progress in the animation and schedules another layout pass.
+
+If the current state equals either the beginning or ending state, it sets attributes from the appropriate `ConstraintSet`, sets animation state to FINISHED, and mark the layout as requiring another layout pass, to animate the transition to the next frame.
+
+The `MotionLayout$TransitionState` instance is changed to `FINISHED` when the animation is done. An invalidation is requested if the layout needs to keep animating.The provided code contains multiple functions in the `MotionLayout` class for managing animations and transitions:
+
+- The `fireTransitionCompleted()` function handles completion of a transition animation, notifying listeners and setting the `mListenerState` field.
+- The `fireTrigger(int, boolean, float)` function fires off a trigger when a certain condition is met.
+- The `getAnchorDpDt(int, float, float, float, float[])` function calculates the rate of change of a view's position, notifying if the specified view ID cannot be found.
+- The `getConstraintSet(int)` function returns the `ConstraintSet` corresponding to an ID.
+- The `getCurrentState()` function returns the current state ID.
+- The `getDebugMode(boolean)` function toggles the debug path.
+- The `getDefinedTransitions()` function fetches defined transitions from the `MotionScene`.
+- The `getDesignTool()` function returns a `DesignTool` instance, initializing it if needed.
+- The `getEndState()` function returns the ID of the end state.
+- The `getNanoTime()` function returns the current time in nanoseconds.
+- The `getProgress()` function returns the last transition position as a float.
+- The `getStartState()` function gives the starting state ID.
+- The `getTargetPosition()` function returns the goal position of the transition.
+- The `getTransition(int)` function retrieves the transition given an ID.
+- The `getTransitionState()` function provides the current transition state as a bundle.
+- The `getTransitionTimeMs()` function provides the duration of a transition in milliseconds.
+- The `getVelocity()` function fetches the last known velocity.  
+- The `getViewVelocity(View, float, float, float[], int)` function calculates the velocity of a specific view during an animation.
+- The `isAttachedToWindow()` function checks if the contextual view is attached to the window of the application.The given code includes several functions that provide behavior for a `MotionLayout`:
+
+- The `isInteractionEnabled()` function checks if interactions are currently enabled for the layout.
+- The `loadLayoutDescription(int)` function loads a motion scene from a resource ID, and throws an `IllegalArgumentException` if the motion scene cannot be parsed.
+- The `lookUpConstraintId(String)` function retrieves the ID associated with a given constraint string.
+- The `onAttachedToWindow()` function handles change-of-state events when the `MotionLayout` is attached to a window. It sets constraints from the current layout state and handles transition-related events.
+- The `onInterceptTouchEvent(MotionEvent)` function intercepts touch events and acts accordingly based on the motion scene's current transition information.
+- The `onLayout(boolean, int, int, int, int)` function positions and sizes views within the layout. It rebuilds the scene and re-evaluates conditions if the layout dimensions have changed.
+- The `onMeasure(int, int)` function measures views within the layout. It re-evaluates conditions and measures views based on transition positions.
+- Methods like `onNestedFling(View, float, float, boolean)`, `onNestedPreFling(View, float, float)`, and `onNestedPreScroll(View, int, int, int[], int)` handle nested scrolling interactions for views in the layout.
+- The `onNewStateAttachHandlers()` function handles events related to changes of layout state. It attaches click and touch listeners as required.
+- The `onTouchEvent(MotionEvent)` function handles touch events. It processes the touch event relative to the current state of the motion scene.
+- The `onViewAdded(View)` function is a method that is called when a new view is added to the layout.- `onViewRemoved()` removes the view from `mOnShowHelpers` and `mOnHideHelpers` lists when it is removed from the layout. 
+- `parseLayoutDescription()` resets `mConstraintLayoutSpec` to `null`.
+- `rebuildMotion()` is a deprecated method. Now `rebuildScene()` is used to re-evaluate the state and invalidating the layout.
+- `removeTransitionListener()` removes the specified transition listener.
+- `requestLayout()` determines if layout calculation is necessary based on set conditions then if necessary, calls the parent method.
+- `setDebugMode()` sets the debug parameter and invalidates the layout.
+- `setInteractionEnabled()` allows or disallows user interaction.
+- `setInterpolatedProgress()` sets the interpolated progress of the motion. If an interpolator is present, it applies the interpolation before setting the progress.
+- `setOnHide()`, `setOnShow()` iterate over motion helpers and setting their progress.
+- `setProgress()`, `setProgress(float, float)` sets the motion progress and if the second method is used, starts animation.
+- `setScene()` updates the motion scene and rebuilds it, `setState()` applies constraints based on the new state, `setState(TransitionState)` sets the internal transitional state and fires events if necessary.
+- `setTransition(int)`, `setTransition(int, int)` changes the current transition to the specified one, the second method allows for specifying both the start and the end state.
+- `setTransition(MotionScene.Transition)` is another way to change the current transition, this time based on a provided `Transition` object.
+- `setTransitionDuration()` sets the duration of the transition in the motion scene.
+- `setTransitionListener()` sets the transition listener for this motion layout.
+- `setTransitionState()` sets the state of transition based on the values provided in the Bundle.
+- `toString()` is overridden to provide a custom string description of the object.- `config(float, float, float)` is used to configure the DecelerateInterpolator. It sets the initial velocity, current position, and maximum acceleration.
+- `getInterpolation()` calculates the interpolated position given a time fraction.
+- `getVelocity()` returns the last known velocity of the motion.
+- `transitionToEnd()` starts animation to the end state.
+- `transitionToStart()` starts animation to the start state.
+- `transitionToState(int)` initiates a transition to a specified state.
+- `transitionToState(int, int, int)` provides a way to transition to a state with specific start and end constraints.
+- `updateState()` updates the current state of the layout to the new constraints.
+- `updateState(int, ConstraintSet)` is used to update the layout state with a new set of constraints and a specific state id.
+- `DevModeDraw()` is a constructor for the `DevModeDraw` class. This class is used to draw debugging information on the layout.
+- The code also includes various configurations for drawing elements in Dev Mode, such as colors, paint styles, text size, and dash line effects.- `Model()` is a constructor for the `Model` class within `MotionLayout`. The class stores information required for morphing the layout based on start and end states.
+- The `debugLayout(String, ConstraintWidgetContainer)` method is a private helper function used for logging layout information during debugging.
+- `apply(MotionLayout)` is used to apply the layout settings contained in the current instance of `Model` to the given `MotionLayout`.
+- `initFromConstraints(ConstraintLayout)` initializes the `Model` instance with specific constraints of a given `ConstraintLayout`.
+- `reEvaluateState()` is used to refresh the current layout and reapply its configurations.
+- `setMeasuredId(int, int)` sets the start and end state ids.
+- `clear(ConstraintWidgetContainer)` clears the entire layout and all its child widgets.
+- `setStartState(ConstraintWidgetContainer)` sets the start state for the transition.
+- `setEndState(ConstraintWidgetContainer)` sets the end state for the transition.
+- `read(ConstraintWidget, ConstraintSet)` sets the properties of a widget according to the constraints defined in a `ConstraintSet`.
+- `read(ConstraintSet, int)` reads and sets the properties of a widget based on the constraints defined in a `ConstraintSet` with a specific style id.
+- `disableAutoTransition(boolean)` disables or enables automatic transitions.
+- `measured(boolean)` is used to measure the layout.
+- `layout(int, int, int, int)` performs layout changes like resizing and relocating views.
+- `setState(ConstraintWidgetContainer)` sets the current state of the Model layout in terms of constraints.- `debugLayoutParam(String, ConstraintLayout.LayoutParams)` is a debugging function that logs specific layout properties for a given ConstraintLayout instance.
+- `debugWidget(String, ConstraintWidget)` is a debugging function that logs information about a specific ConstraintWidget instance.
+- `setupConstraintWidget(ConstraintWidgetContainer, ConstraintSet)` sets up a ConstraintWidget based on a given ConstraintSet.
+- In `build()`, the beginning of a method can be seen, but the complete definition is absent. Presumably, this method would be responsible for constructing or initializing something in the Model class.- This `StateCache` class is a simple class used for storing key values for saving instance state. This class contains keys to save or retrieve information like `"motion.EndState"`, `"motion.progress"`, `"motion.StartState"` and `"motion.velocity"` from a bundle or similar data structure.
+- `KeyEndState` is used for storing or retrieving the end state of the motion.
+- `KeyProgress` is used for storing or retrieving the progress of the motion.
+- `KeyStartState` is used for storing or retrieving the start state of the motion.
+- `KeyVelocity` is used for storing or retrieving the velocity of the motion.- The `StateCache` class also contains various set and get methods for updating or retrieving the motion states and its corresponding values from the created object.
+- `TransitionListener`: This is an interface that includes four methods that are triggered at different points of a motion transition.
+- `TransitionState`: This is an enum used to specify the current state of the motion transition, which can be UNDEFINED, SETUP, MOVING, or FINISHED.
+- The said remaining part of the class is used to handle state and transition management in the motion layout widget.

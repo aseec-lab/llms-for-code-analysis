@@ -1,0 +1,57 @@
+The `SimpleArrayMap` class is a structure from the AndroidX library for efficient usage of collections, designed as a more memory efficient replacement for HashMap.
+
+Here is the breakdown of the class members and methods provided:
+
+1. `mBaseCache`, `mBaseCacheSize`, `mTwiceBaseCache`, `mTwiceBaseCacheSize`: Static arrays and counters used for caching arrays, allowing efficient allocation and deallocation of memory.
+
+2. `mArray`, `mHashes`, `mSize`: Members defining the size and contents of the array map's dataset.
+
+3. Constructors: The class provides three constructors for different use cases: `SimpleArrayMap()`, `SimpleArrayMap(int paramInt)`, and `SimpleArrayMap(SimpleArrayMap<K, V> paramSimpleArrayMap)`.
+
+4. `allocArrays(int paramInt)`: This method is used to allocate memory for the internal arrays.
+
+5. `binarySearchHashes(int[] paramArrayOfint, int paramInt1, int paramInt2)`: This method, upon receiving an array of integers, the size of the array, and a key to search for, performs a binary search to find the key.
+
+6. `freeArrays(int[] paramArrayOfint, Object[] paramArrayOfObject, int paramInt)`: This method is used to return arrays to the cache after they're no longer needed.
+
+7. `clear()`: This method clears out the data within the map.
+
+8. `containsKey(Object paramObject)`: This method is not shown in full but it is used to check whether a particular key is in the map.
+   
+The `allocArrays(int paramInt)` and `freeArrays(int[] paramArrayOfint, Object[] paramArrayOfObject, int paramInt)` methods are noteworthy because they use an internal cache to avoid creating too many short-lived objects and reduce memory churn.1. `containsValue(Object paramObject)`: This method checks if a certain value exists in the map.
+
+2. `ensureCapacity(int paramInt)`: Ensures that the map has enough capacity and throws a `ConcurrentModificationException` if the size of the map changed concurrently.
+
+3. `equals(Object paramObject)`: Overridden `equals` method for comparing this instance to another object.
+
+4. `get(Object paramObject)`, `getOrDefault(Object paramObject, V paramV)`: These two methods are for retrieving the value associated with a specific key from the map.
+
+5. `hashCode()`: Overridden `hashCode` method that computes the hashcode of this instance.
+
+6. `indexOf(Object paramObject, int paramInt)`, `indexOfKey(Object paramObject)`, `indexOfNull()`, `indexOfValue(Object paramObject)`: These methods find the index of a key/value in the internal array of the map.
+
+7. `isEmpty()`: This method checks if the map is empty.
+
+8. `keyAt(int paramInt)`: This method gets the key at a specified index in the internal array.
+
+9. `put(K paramK, V paramV)`: Puts a new key-value pair into the map. If the key already exists its value is updated.
+
+10. `putAll(SimpleArrayMap<? extends K, ? extends V> paramSimpleArrayMap)`: Given another SimpleArrayMap, it puts all its key-value pairs into this map.
+
+11. `putIfAbsent(K paramK, V paramV)`: This method inserts the specified key-value pair into the map only if the key does not exist.
+
+12. `remove(Object paramObject)`: This method removes a key-value pair from the map by the key.13. `remove(Object paramObject1, Object paramObject2)`: This method removes a key-value pair from the map if the key and value match with the provided objects.
+
+14. `removeAt(int paramInt)`: This method removes a key-value pair from the map according to the specific index.
+
+15. `replace(K paramK, V paramV)`: This method replaces the value of a specified key with a new value if the key exists in the map.
+
+16. `replace(K paramK, V paramV1, V paramV2)`: If the key-value pair exists in the map, replaces the old value with the new one.
+
+17. `setValueAt(int paramInt, V paramV)`: This method sets a new value at a specified index of the internal array.
+
+18. `size()`: This method returns the number of key-value pairs in the map.
+
+19. `toString()`: Overridden `toString` method to represent the map as a string.
+
+20. `valueAt(int paramInt)`: This method gets the value at a specified index in the internal array.

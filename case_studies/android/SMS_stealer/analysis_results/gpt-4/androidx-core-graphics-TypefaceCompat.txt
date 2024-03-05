@@ -1,0 +1,21 @@
+The `TypefaceCompat` class provides methods to create and load custom typefaces in Android, taking into account different platform versions for compatibility. It maintains a cache (`sTypefaceCache`) of recently used typefaces to improve performance.
+
+Key methods:
+
+- `create(Context, Typeface, int)`: Creates a new typeface based on the given one, adding a style if specified.
+
+- `createFromFontInfo(...)`: Creates a new typeface based on a variety of font details provided in `FontInfo`.
+
+- `createFromResourcesFamilyXml(...)`: Handles the creation of a typeface from XML font resources. 
+
+- `createFromResourcesFontFile(...)`: It retrieves a Typeface object from a font file present in the Resources.
+
+- `createResourceUid(Resources, int, int)`: It generates a unique ID string for caching purpose.
+
+- `findFromCache(Resources, int, int)`: Attempts to retrieve a typeface from the cache using a UID generated from resource details.
+
+- `getBestFontFromFamily(Context, Typeface, int)`: It gets the best fit font from the font family.
+
+The static initialization block at the bottom selects the appropriate implementation based on the Android SDK version.
+
+This class is part of Android's Jetpack `androidx` libraries, which are designed to provide backwards compatibility for new Android features on older devices.

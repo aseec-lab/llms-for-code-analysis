@@ -1,0 +1,21 @@
+The `TimeCycleSplineSet` is an abstract class that manages a set of motion curves defined by key frame points, and the curve's shape is decided by the oscillator `mWaveShape`.
+
+The class contains methods to get and set the values of supported animated properties such as `alpha`, `elevation`, `rotation`, `scaleX`, `scaleY`, `translationX`, `translationY`, `translationZ`, `progress`, and `transitionPathRotate`. 
+
+The method `get(float paramFloat, long paramLong, View paramView, KeyCache paramKeyCache)` returns a float value processed by the curve and updates the `last_cycle` and `last_time`. 
+
+The method `setPoint(int paramInt1, float paramFloat1, float paramFloat2, int paramInt2, float paramFloat3)` is used to set a point on the motion curve.
+
+The method `boolean setProperty(View paramView, float paramFloat, long paramLong, KeyCache paramKeyCache)` is an abstract method that is left to subclasses to define.
+
+The method `setup(int paramInt)` organizes the curve points in a double array `arrayOfDouble[]` and double two-dimensional array `arrayOfDouble1[][]` for further calculations.
+
+Key points in `TimeCycleSplineSet` are stored in the `mTimePoints` and `mValues` arrays.This code continues creating the `TimeCycleSplineSet` class, and includes all of its non-abstract subclasses. These subclasses each represent a specific animatable property of a `View` (`AlphaSet`, `CustomSet`, `ElevationSet`, etc.), and each only implements the `setProperty()` method. 
+
+The `setProperty()` method applies an animated value to the associated property of a `View` at a specific point in time and updates the `last_cycle` and `last_time`.
+
+The `CustomSet` class is for custom attributes and requires the attributes to be passed as a `SparseArray` of `ConstraintAttribute`. It also overrides the `setPoint()` method and adds a new overloaded `setPoint()` method for `ConstraintAttribute`. 
+
+Moreover, it includes an inner static class `Sort` which has helper methods for quick-sorting an array of integers. 
+
+The `toString()` method in `TimeCycleSplineSet` returns a string representation of each animated property, with its keyframes and corresponding values.

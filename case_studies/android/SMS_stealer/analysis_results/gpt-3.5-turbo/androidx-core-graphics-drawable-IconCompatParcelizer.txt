@@ -1,0 +1,7 @@
+The `IconCompatParcelizer` class is used for reading and writing `IconCompat` objects to and from a `VersionedParcel`, which is a mechanism for serializing and deserializing objects. 
+
+The `read()` method reads an `IconCompat` object from the `paramVersionedParcel` and returns it. It reads various properties of the `IconCompat` object, such as its type, data, parcelable, int1, int2, tint list, and tint mode. After reading the object, it calls the `onPostParceling()` method of the `IconCompat` object.
+
+The `write()` method writes the properties of the `paramIconCompat` object to the `paramVersionedParcel`. It sets the serialization flags of the parcel, calls the `onPreParceling()` method of the `IconCompat` object, and writes the type, data, parcelable, int1, int2, tint list, and tint mode to the parcel.
+
+Both methods are static, allowing them to be called without an instance of the `IconCompatParcelizer` class.

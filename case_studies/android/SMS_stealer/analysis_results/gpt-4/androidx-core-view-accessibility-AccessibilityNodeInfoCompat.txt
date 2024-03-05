@@ -1,0 +1,87 @@
+`AccessibilityNodeInfoCompat` is a class that provides compatibility for accessibility services in Android applications. 
+
+- This class contains many static final variables which represent various actions that can be performed by an Accessibility service (for example `ACTION_FOCUS`, `ACTION_PASTE`, `ACTION_CONTEXT_CLICK`, etc.).
+
+- `mInfo` is an instance of `AccessibilityNodeInfo` which provides information about a view and is used by the Accessibility services.
+
+- Several key-value pair constants are defined to store and access span data from the extras of an Accessibility Node Info.
+
+- `addSpanLocationToExtras()` method is used to add the location of a span to the extras of an Accessibility Node Info.
+
+- `clearExtrasSpans()` is used to remove spans from the extras of an Accessibility Node Info.
+
+- The `getActionSymbolicName()` method converts an action code into a readable string format.
+
+- `getBooleanProperty()` method fetches a boolean property value from the extras of an Accessibility Node Info.
+
+- It also includes methods to handle `ClickableSpan` arrays, which are generally used in TextViews for handling click events on substrings of the text. 
+
+Overall, this class simplifies interaction with the Accessibility API and provides compatibility, making it easier to build apps that are usable by people with disabilities.The remaining part of the code has numerous method definitions.
+
+- `removeCollectedSpans(View paramView)`: Removes any collected spans from the provided view using a SparseArray of WeakReference to ClickableSpan and an ArrayList of Integer.
+- `setBooleanProperty(int paramInt, boolean paramBoolean)`: Sets a boolean property on the AccessibilityNodeInfoCompat instance.
+- `wrap(AccessibilityNodeInfo paramAccessibilityNodeInfo)`: Wraps an AccessibilityNodeInfo instance in an AccessibilityNodeInfoCompat instance.
+- `wrapNonNullInstance(Object paramObject)`: Checks if an object is non-null and if so, wraps it in an AccessibilityNodeInfoCompat instance.
+- `addAction(int paramInt)`, `addAction(AccessibilityActionCompat paramAccessibilityActionCompat)`, `addChild(View paramView)`, `addChild(View paramView, int paramInt)`, `addSpansToExtras(CharSequence paramCharSequence, View paramView)`: These methods provide a way to add actions, children, and spans to the AccessibilityNodeInfoCompat instance.
+- `canOpenPopup()`: This method checks whether the info of the instance can open a popup.
+-  Similarly, `equals(Object paramObject)`, `findAccessibilityNodeInfosByText(String paramString)`, `findAccessibilityNodeInfosByViewId(String paramString)`, `findFocus(int paramInt)`, `focusSearch(int paramInt)`, `getActionList()`, `getActions()`, `getBoundsInParent(Rect paramRect)`, `getBoundsInScreen(Rect paramRect)`, `getChild(int paramInt)` are methods that provide more functionalities and operations involving AccessibilityNodeInfoCompat.
+- `getRangeInfo()`: Returns the RangeInfoCompat if available
+- `getText()`: This method is used to get the text associated with the node. If the node has spans, it does additional calculations to properly retrieve the text.- `getTextSelectionEnd()`, `getTextSelectionStart()`: These methods return the end and start indexes of the selected text. They return -1 for Android versions less than 18.
+- `getTooltipText()`: This method returns the tooltip text for this node.
+- `getTouchDelegateInfo()`: This method retrieves the touch delegate information, if available.
+- `getTraversalAfter()`, `getTraversalBefore()`: These methods get the successor and predecessor nodes in a traversal respectively.
+- `getViewIdResourceName()`: This method gets the id resource name of the view that this node represents.
+- `getWindow()`, `getWindowId()`: These methods get the information about the window of the view that this node represents and the id of the window respectively.
+- `hashCode()`: This method yields the hash code of this node.
+- `isAccessibilityFocused()`, `isCheckable()`, `isChecked()`, `isClickable()`, `isContentInvalid()`, `isContextClickable()`: These methods reveal respective properties of this node.
+- `isScreenReaderFocusable()`: This method checks if the node is focusable by a screen reader.
+- `performAction(int paramInt, Bundle paramBundle)`: This method performs a certain action with a bundle of additional information.
+- `removeAction(AccessibilityActionCompat paramAccessibilityActionCompat)`, `removeChild(View paramView, int paramInt)`: These methods remove an action or a child from this node.
+- `setCheckable(boolean paramBoolean)`, `setChecked(boolean paramBoolean)`, `setClassName(CharSequence paramCharSequence)`, `setClickable(boolean paramBoolean)`: These methods set respective characteristics of this node.
+- `setCollectionInfo(Object paramObject)`, `setCollectionItemInfo(Object paramObject)`: These methods set information about the collections that this node is a part of.- `setHintText(CharSequence paramCharSequence)`: Sets the hint text for this node. Uses appropriate method depending on Android version.
+- `setImportantForAccessibility(boolean paramBoolean)`: Marks this node as important (or not) for accessibility.
+- `setInputType(int paramInt)`: Specifies the type of data handled by this node. 
+- `setLabelFor(View paramView)` and `setLabelFor(View paramView, int paramInt)`: Sets the label for another view within the hierarchy.
+- `setLabeledBy(View paramView)` and `setLabeledBy(View paramView, int paramInt)`: Specifies another view that labels this one.
+- `setLiveRegion(int paramInt)`: Sets the live region mode of a view.
+- `setLongClickable(boolean paramBoolean)`: Marks this node as long-clickable (or not).
+- `setMaxTextLength(int paramInt)`: Sets the maximum length for text input.
+- `setMovementGranularities(int paramInt)`: Sets the movement granularities for this node.
+- `setMultiLine(boolean paramBoolean)`: Indicates whether this node supports multi-line text.
+- `setPackageName(CharSequence paramCharSequence)`: Sets the package name for this node.
+- `setPaneTitle(CharSequence paramCharSequence)`: Sets the pane title for this node.
+- `setParent(View paramView)` and `setParent(View paramView, int paramInt)`: Sets the parent view for this node.
+- `setPassword(boolean paramBoolean)`: Marks this node as containing password information (or not).
+- `setRangeInfo(RangeInfoCompat paramRangeInfoCompat)`: Sets the range information for this node.
+- `setRoleDescription(CharSequence paramCharSequence)`: Sets the role description for this node.
+- `setScreenReaderFocusable(boolean paramBoolean)`: Makes this node focusable (or not) for screen readers.
+- `setScrollable(boolean paramBoolean)`: Marks this node as scrollable (or not).
+- `setSelected(boolean paramBoolean)`: Marks this node as selected (or not).
+- `setShowingHintText(boolean paramBoolean)`: Determines whether this node shows hint text.
+- `setSource(View paramView)` and `setSource(View paramView, int paramInt)`: Sets the source for this node.
+- `setText(CharSequence paramCharSequence)`: Sets the text associated with this node.
+- `setTextEntryKey(boolean paramBoolean)`: Marks this node as an entry key for text (or not).
+- `setTextSelection(int paramInt1, int paramInt2)`: Specifies the selection range within the text.
+- `setTooltipText(CharSequence paramCharSequence)`: Sets the tooltip text for this node.
+- `setTouchDelegateInfo(TouchDelegateInfoCompat paramTouchDelegateInfoCompat)`: Sets the touch delegate information for this node.
+- `setTraversalAfter(View paramView)` and `setTraversalAfter(View paramView, int paramInt)`: Specifies the successor for traversal.
+- `setTraversalBefore(View paramView)` and `setTraversalBefore(View paramView, int paramInt)`: Specifies the predecessor for traversal.
+- `setViewIdResourceName(String paramString)`: Sets the resource name for the view ID.
+- `setVisibleToUser(boolean paramBoolean)`: Controls whether this node is visible to the user.
+- `toString()`: Generates a text description of this node, including many of its properties.
+- `unwrap()`: Retrieves the underlying `AccessibilityNodeInfo`.
+- The inner class `AccessibilityActionCompat` contains a number of predefined actions for accessibility services to perform.- `SELECTION_MODE_MULTIPLE`: Constant for selection mode indicating that multiple items in the collection can be selected.
+- `SELECTION_MODE_NONE`: Constant for selection mode indicating that no items in the collection can be selected.
+- `SELECTION_MODE_SINGLE`: Constant for selection mode indicating that only one item at a time in the collection can be selected.
+- `mInfo`: Object representing the accessibility node's collection information.
+- `CollectionInfoCompat(Object param1Object)`: Constructor that initializes the object with the provided collection information object.
+- `obtain(int param1Int1, int param1Int2, boolean param1Boolean)`: Factory method for creating new instances. Returns an instance based on the parameters: row count, column count, and whether the collection is hierarchically ordered.
+- `obtain(int param1Int1, int param1Int2, boolean param1Boolean, int param1Int3)`: Overloaded factory method for creating new instances. Can additionally set the selection mode.- `getColumnCount()`: Returns the number of columns in the current collection if the Android SDK version is 19 or above; if not it returns -1.
+- `getRowCount()`: Returns the number of rows in the current collection if the Android SDK version is 19 or above; if not it returns -1.
+- `getSelectionMode()`: Returns the selection mode of the current collection if the Android SDK version is 21 or above; if not it returns 0.
+- `isHierarchical()`: Returns whether the current collection is hierarchically ordered if the Android SDK version is 19 or above; if not it returns false.
+- `CollectionItemInfoCompat(Object param1Object)`: Constructor that initializes the `CollectionItemInfoCompat` object with the provided collection info.
+- `obtain(...)`: Factory methods that return a new `CollectionItemInfoCompat` instance based on different sets of parameter values and Android SDK versions.
+- `CollectionItemInfoCompat` getter functions: Various methods that get information about the collection item like its column index, column span, row index, row span etc., based on the Android SDK version.
+- `RangeInfoCompat` class: A helper class for dealing with range-related accessibility node information. Methods in this class get or create `RangeInfoCompat` objects based on the Android SDK version and provided parameters.
+- `TouchDelegateInfoCompat` class: A helper class for dealing with touch delegate-related accessibility node information. Methods in this class get information about touch delegate regions, their count, and targets based on the Android SDK version.

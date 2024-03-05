@@ -1,0 +1,23 @@
+The `KratosKnife.py` script defines the `Payload` class, a significant part of a botnet that controls the targeted machines.
+
+Below is a breakdown of the class methods:
+
+1. `__init__(self, panelURL)`: Initializes the panel URL, the machine ID, username, operating system, and other necessary attributes.
+
+2. `detect_vm_and_quit()`: Checks whether the targeted device is a virtual machine. If it is, it stops the execution of the script.
+
+3. `become_persistent(self, time_persistent)`: Establishes persistence on the targeted machine by copying itself into the appdata folder and adding to the startup registry keys.
+
+4. `gen_machine_id()`: Generates a unique machine ID using the targeted device's UUID.
+
+5. `find_operating_system()`: Identifies the operating system of the targeted device.
+
+6. `find_antivirus()`: Identifies the antivirus installed on the targeted machine.
+
+7. `find_user_privilege()`: Checks if the current user has administrator rights.
+
+8. `connect()`: Connects to the server and sends it data such as the machine ID, username, operating system type, antivirus name, etc.
+
+9. `start()`: Establishes an infinite loop to regularly receive commands from the command and control (C2) server and executes them. The actions include uploading files, showing message boxes, taking screenshots, executing scripts, DDOS attacks, stealing cookies, shutting down or restarting the computer, etc.
+
+The script ends with a call to instantiate the `Payload` class and start the whole process. Incase of disconnection, it makes several attempts to reconnect. If the exception is not a disconnection, it prints the error and exits the program.

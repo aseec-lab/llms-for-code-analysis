@@ -1,0 +1,11 @@
+The `LogWriter` class in the `androidx.core.util` package is used to write logs in Android. It extends the `java.io.Writer` abstract class. A `LogWriter` object is initialized with a tag string that identifies the source of a log message. The class maintains an internal StringBuilder to buffer the output for efficiency. The key methods of the class include:
+
+- `LogWriter(String paramString)`: Constructor that initializes the log writer with a specific tag.
+
+- `flushBuilder()`: Appends the content of the StringBuilder to the Log and clears the StringBuilder afterwards.
+
+- `close()` and `flush()`: Both methods call `flushBuilder()` method, they ensure that all buffered output has been outputted to log before the LogWriter is closed or flushed.
+
+- `write(char[] paramArrayOfchar, int paramInt1, int paramInt2)`: Writes characters from a portion of an array to the Log. The method identifies newline characters and automatically flushes the current content of the StringBuilder to the log for each newline character. Any non-newline characters are appended to the StringBuilder.
+
+The class is marked as `@Deprecated` because it is no longer recommended for use. Generally, this indicates that the class or method has been replaced by more effective alternatives.

@@ -1,0 +1,22 @@
+The `LongSparseArray` class provides a way to map `Long` keys to `Object` values, simulating a `HashMap<Long, E>`. It supports operations including add, get, delete, and contains. It is more memory-efficient than using a HashMap.
+
+This class provides methods like:
+
+- `append()`: adds a new value at the end of the array. If the key is at or past its end, it appends. Otherwise, it calls `put()`.
+- `clear()`: resets the size of the array to zero and sets mGarbage to false.
+- `containsKey()`, `containsValue()`: checks if an array contains a specific key or value.
+- `get()`, `keyAt()`, `valueAt()`, `indexOfKey()`, `indexOfValue()`: retrieves a key or value by index or searches for a specific key or value index.
+- `put()`: maps a key to a value. It sets the key and value at the specified index if key already exists, else it inserts them at the appropriate place to keep the array ordered.
+- `remove()`, `removeAt()`: removes the mapping by the specific key or from the specific index.
+- `size()`, `isEmpty()`: returns the size of the array or checks if it's empty.
+- `gc()`: called when the value at an index is removed - it does not actually remove the element, but marks it as "DELETED". 
+
+The `gc` method works by compacting the array, removing the "DELETED" elements and keeping track of the new valid size of the keys and values arrays.
+
+Please provide the latter part of the code to analyze the complete class.This part of the code provides two more methods for the `LongSparseArray` class:
+
+1. `toString()`: This method generates a `String` representation of the array. It iterates over all the elements, and for each one, it adds the key, the equals sign '=', and the value to the StringBuilder, separated by commas. If the value is the same as the current instance of `LongSparseArray` (which indicates a circular reference), it appends the string "(this Map)" instead of invoking `toString` on the value, which would cause infinite recursion.
+
+2. `valueAt(int paramInt)`: This method retrieves the value at the specified index. Before accessing the value, it checks if the array has any "garbage" elements (indications that some values have been removed but the array hasn't been compacted yet). If there are "garbage" elements, it calls the `gc()` method to compact the array, and then returns the value at the requested index.
+
+Please note that the last few lines appear to be metadata related to the location and version of the Java compiler that was used to compile this class. They do not perform any function in the class itself.

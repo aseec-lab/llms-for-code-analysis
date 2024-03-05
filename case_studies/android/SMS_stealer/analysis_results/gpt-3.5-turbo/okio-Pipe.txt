@@ -1,0 +1,9 @@
+The `Pipe` class in the `okio` package provides a way to transfer data between a `Source` and a `Sink`. It internally uses a `Buffer` to store the data being transferred.
+
+The `Pipe` class has a maximum buffer size, which is set during initialization. It has a `Sink` and a `Source`, which represent the writing and reading ends of the pipe, respectively.
+
+The `PipeSink` class is an implementation of the `Sink` interface. It provides methods to write data to the pipe. It ensures that the sink is not closed before writing and waits if the buffer is full.
+
+The `PipeSource` class is an implementation of the `Source` interface. It provides methods to read data from the pipe. It waits if the buffer is empty and ensures that the source is not closed before reading.
+
+Overall, the `Pipe` class provides a convenient way to transfer data between two ends of a pipe using a buffer.

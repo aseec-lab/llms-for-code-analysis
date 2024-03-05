@@ -1,0 +1,13 @@
+The `FragmentState` class is a Parcelable representation of a fragment's state, making it possible to write a snapshot of a fragment to a Parcel, which can later be retrieved to instantiate a new Fragment with the same properties.
+
+This class has a set of properties that represent the state of a fragment such as `mArguments`, `mClassName`, `mContainerId`, `mHidden`, `mFromLayout` and others.
+
+The two constructors in `FragmentState` initialize these properties either from a `Parcel` object or a `Fragment` object. 
+
+The `instantiate(ClassLoader paramClassLoader, FragmentFactory paramFragmentFactory)` method is used to create a new Fragment instance using the saved state.
+
+The `describeContents()`, `toString()`, and `writeToParcel(Parcel paramParcel, int paramInt)` methods are overrides from the Parcelable interface. They handle how the `FragmentState` object is written to a `Parcel` and how it presents its content as a string. 
+
+Note that in `writeToParcel(Parcel paramParcel, int paramInt)`, it writes the variables that represent the state of the fragment to a `Parcel` object for later retrieval, while in `toString()`, it returns a string representation of the Fragment's state.
+
+The `CREATOR` field is a static Parcelable.Creator implementation that can create new instances of `FragmentState` from a Parcel.

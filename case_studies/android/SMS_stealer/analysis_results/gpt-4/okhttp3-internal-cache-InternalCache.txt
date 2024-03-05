@@ -1,0 +1,15 @@
+The `InternalCache` interface in OkHttp is used to represent a caching mechanism for HTTP requests/responses. The main methods are:
+
+1. `get(Request paramRequest)`: This retrieves a cached `Response` for the provided `Request`, if one exists.
+
+2. `put(Response paramResponse)`: This stores a `Response` in the cache. It returns a `CacheRequest` which is used to write the body of that response. 
+
+3. `remove(Request paramRequest)`: This removes any cached response for the provided `Request`.
+
+4. `trackConditionalCacheHit()`: This is invoked when a cache validation succeeds and the existing cache will be used without having to re-fetch from the server.
+
+5. `trackResponse(CacheStrategy paramCacheStrategy)`: This tracks the caching strategy used for a response. It will help track how many responses were served from cache, how many were validated, and how many needed to be fetched afresh.
+
+6. `update(Response paramResponse1, Response paramResponse2)`: This updates the cached values for a `Response` with the values from another `Response`. This is typically used after validating a cached response with a server. The original cache response is `paramResponse1`, and the network response used to update it is `paramResponse2`. 
+
+The interface allows for flexible implementations of caching behavior.

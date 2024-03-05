@@ -1,0 +1,15 @@
+The `JsonAdapterAnnotationTypeAdapterFactory` is an implementation of `TypeAdapterFactory` interface in GSON, which provides custom `TypeAdapter`s. 
+
+Its constructor takes a `ConstructorConstructor` object which is used to construct instances of required objects.
+
+The central method in this class is `create(Gson, TypeToken)`, which looks for the `@JsonAdapter` annotation on the given `TypeToken's` raw type. If this annotation isn't found, it returns null. If it is found, it delegates to `getTypeAdapter(ConstructorConstructor, Gson, TypeToken, JsonAdapter)` method.
+
+The `getTypeAdapter()` method retrieves an object from the value specified in `@JsonAdapter` annotation. It uses the provided object which must be either: a `TypeAdapter`, a `TypeAdapterFactory`, a `JsonSerializer`, or a `JsonDeserializer`, otherwise an `IllegalArgumentException` is thrown. 
+
+- If a `TypeAdapterFactory` is retrieved, it calls the `create()` method on this factory to get the `TypeAdapter`. 
+- If a `TypeAdapter` is retrieved, it is used directly. 
+- If any of `JsonSerializer` or `JsonDeserializer` are obtained, a new `TreeTypeAdapter` is created and used. 
+
+The `getTypeAdapter()` method then checks if `@JsonAdapter` annotation has `nullSafe()` set to true. If true, it makes the obtained `TypeAdapter` nullSafe and returns.
+
+This class is used to identify and create custom `TypeAdapter`s specified using `@JsonAdapter` annotation in GSON library.

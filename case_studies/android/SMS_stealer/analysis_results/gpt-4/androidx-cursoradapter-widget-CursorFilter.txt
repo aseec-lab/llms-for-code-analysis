@@ -1,0 +1,9 @@
+The `CursorFilter` class extends the `Filter` class of Android. The purpose of this class is to perform dynamic filtering on the data based on user input. It works with the Cursor data from your database and does the following:
+
+1. `convertResultToString` method: It converts the result of a filtering operation to a textual form.
+
+2. `performFiltering` method: Executes filtering on a background thread. The method takes `CharSequence` as input, runs a query on a background thread and then puts the results inside a `FilterResults` object.
+
+3. `publishResults` method: This method gets the result from filtering and uses it to update the data cursor of the client.
+
+4. The nested interface `CursorFilterClient` is used to delegate the calls to handle the data. It has 4 methods commonly used in cursor handling operations: `changeCursor` for changing the current cursor, `convertToString` for converting cursor to a string value, `getCursor` for getting the current data cursor and `runQueryOnBackgroundThread` for running queries on a background thread.

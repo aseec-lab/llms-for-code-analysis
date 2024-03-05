@@ -1,0 +1,13 @@
+The `KeyFrames` class handles keyframes in Android's MotionLayout. Keyframes are used to define various state changes during the animation. 
+
+The class has a map `mFramesMap` with keys of view IDs and values as lists of keys. 
+
+`sKeyMakers` is a static map that associates the key string with its class constructor (e.g., "KeyAttribute" is associated with the constructor of `KeyAttributes` class); this is used to create `Key` instances of the corresponding type.
+
+The `addKey` method adds a `Key` instance to `mFramesMap`.
+
+`addFrames` uses a `MotionController` to add relevant keys to the animation. 
+
+`getKeyFramesForView` retrieves the list of keyframes for a particular view. 
+
+`getKeys` returns all keys, i.e., all views that have keyframes.

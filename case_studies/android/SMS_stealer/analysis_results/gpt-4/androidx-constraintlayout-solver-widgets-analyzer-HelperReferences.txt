@@ -1,0 +1,21 @@
+This is a Java class named `HelperReferences` that extends the `WidgetRun` class. It functions as a helper class to add and manage dependencies for a `ConstraintWidget` in the context of an Android UI Layout constraint system. 
+
+There are several key methods in this class:
+
+1. `HelperReferences(ConstraintWidget paramConstraintWidget)`: This is the constructor of the class. It takes a `ConstraintWidget` object as a parameter and invokes the constructor of the super class `WidgetRun`.
+
+2. `addDependency(DependencyNode paramDependencyNode)`: This method adds the given `DependencyNode` to the start dependencies and also adds the start node to the targets of the given `DependencyNode`.
+
+3. `apply()`: This method checks if the widget is an instance of `Barrier`, and if yes, it delegates it to `WidgetRun` and determines the type of the barrier. Depending on the type, it adds the start and end nodes of the horizontal or vertical run of each visible widget in the barrier to the dependencies and targets of the start node.
+
+4. `applyToWidget()`: This method updates the x or y coordinate of the widget depending on the barrier type.
+
+5. `clear()`: This method clears the associated run group and dependencies of the start node.
+
+6. `reset()`: This method resets the resolved state of the start node to false.
+
+7. `supportsWrapComputation()`: This method returns false indicating that this HelperReferences does not support wrap computation.
+
+8. `update(Dependency paramDependency)`: This method updates the start node based on the barrier type and margin.
+
+The final block provides information about the file location, Java's compiler version and JD-Core Version.

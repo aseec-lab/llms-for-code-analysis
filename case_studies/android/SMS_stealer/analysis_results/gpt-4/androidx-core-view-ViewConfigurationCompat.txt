@@ -1,0 +1,17 @@
+This file contains a class named `ViewConfigurationCompat` that helps in maintaining compatibility with different versions of Android when using `ViewConfiguration`. It contains static methods for getting scaled scrolling factors, hover slop, paging touch slop, vertical scrolling factors, and more.
+
+Key features:
+
+1. `getScaledHorizontalScrollFactor()`: Returns the horizontal scroll factor based on the Android version. For version 26 and above, it uses the built-in function in `ViewConfiguration`. For previous versions, it uses the custom method `getLegacyScrollFactor()`.
+
+2. `getScaledHoverSlop()`: Returns the hover slop based on the Android version. For version 28 and above, it uses the built-in function in `ViewConfiguration`. For previous versions, it uses half of the touch slop.
+
+3. `getScaledPagingTouchSlop()`: Returns the scaled paging touch slop.
+
+4. `getScaledVerticalScrollFactor()`: Returns the vertical scroll factor based on the Android version.
+
+5. `hasPermanentMenuKey()`: Returns whether the device has a permanent menu key.
+
+6. `shouldShowMenuShortcutsWhenKeyboardPresent()`: Returns whether menu shortcuts should be shown when the keyboard is present based on the Android version.
+
+The class also includes private static methods for getting the legacy scroll factor based on the Android version (`getLegacyScrollFactor()`). It uses reflection to try and access a `getScaledScrollFactor()` function on `ViewConfiguration` if it is available.

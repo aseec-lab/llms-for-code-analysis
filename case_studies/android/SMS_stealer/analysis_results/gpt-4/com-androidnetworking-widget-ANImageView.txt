@@ -1,0 +1,11 @@
+The provided code defines a custom `ImageView` widget for the Android operating system. This widget is an extension of the `AppCompatImageView` class and is named `ANImageView`.
+
+It has several additional fields to handle images: `mDefaultImageId` (ID for the default image), `mErrorImageId` (ID for a generic error image), `mUrl` (URL from which it will download and display an image), and `mImageContainer` (a container for the image being handled).
+
+It has several constructors, allowing the image view to be initialized with various context parameters and attributes.
+
+Two of the important methods here are `loadImageIfNecessary(boolean)` and `setImageUrl(String)`. `loadImageIfNecessary(boolean)` handles the loading of an image based on several conditions like the widget's width, height, etc. It also cancels a request if a new image is set while a previous load operation is still in progress. `setImageUrl(String)` takes a URL as a parameter and orders the loading if necessary.
+
+The `drawableStateChanged()` and `onDetachedFromWindow()` methods are overridden to ensure any ongoing image requests are cancelled when the widget state changes or it is removed from the window. The `onLayout()` method is also overridden to load the image when the widget is laid out on the screen.
+
+Lastly, the `setDefaultImageResId(int)` and `setErrorImageResId(int)` methods are used to set the default image and error image that should display for the ImageView.

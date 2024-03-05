@@ -1,0 +1,13 @@
+The `CacheInterceptor` class is part of the `okhttp3` library and implements the `Interceptor` interface. It is used to intercept network requests and responses and perform caching operations.
+
+The main purpose of the `CacheInterceptor` is to provide caching functionality for HTTP requests. It interacts with an `InternalCache` instance to read cached responses and store new responses.
+
+The `intercept` method is the main entry point of the class. It takes an `Interceptor.Chain` object as a parameter, which represents the request and response chain. It first checks if there is a cached response available for the request. If so, it returns the cached response.
+
+If there is no cached response, it creates a `CacheStrategy` object, which determines the strategy for handling the request and response. Based on the `CacheStrategy`, it may make a network call to retrieve the response, or return a 504 response indicating that the request is not satisfiable from the cache.
+
+The `cacheWritingResponse` method is a helper method that is responsible for writing the response to the cache. It takes a `CacheRequest` object and a `Response` object as parameters. It extracts the response body and writes it to the cache using a `Sink`, creating a new `ResponseBody` with the content type and length of the response body.
+
+Other methods in the class are utility methods for combining headers, checking if headers are content-specific or end-to-end, and stripping the response body.
+
+The class also has a constructor that takes an `InternalCache` object as a parameter, which is used to initialize the `cache` field.

@@ -1,0 +1,11 @@
+The `ArrayTypeAdapter` class extends the `TypeAdapter` class and overloads its methods to read and write array types. It helps in converting Java arrays to JSON and vice versa.
+
+- The `create()` method in the `FACTORY` object checks if a given type is an array and if so, it creates a new `ArrayTypeAdapter`.
+
+- The constructor takes a `Gson` object, a `TypeAdapter` and a `Class` as parameters. It assigns the `TypeAdapter` and `Class` parameters to instance variables.
+
+- The `read()` method takes a `JsonReader` and reads a JSON array into a Java array. It does this by reading each item in the JSON array, deserializing it into the corresponding Java object using the appropriate `TypeAdapter`, and collecting these objects into a Java array.
+
+- The `write()` method takes a `JsonWriter` and a Java array, and writes the Java array into a JSON array. This is done by extracting each item from the Java array, serializing it into JSON using the appropriate `TypeAdapter`, and writing the JSON representation into the `JsonWriter`.
+
+The component type of the arrays (specified by the `Class` parameter) is inferred from the context in which this adapter is used. This enables the adapter to handle arrays of any type, not just arrays of objects of a specific type.

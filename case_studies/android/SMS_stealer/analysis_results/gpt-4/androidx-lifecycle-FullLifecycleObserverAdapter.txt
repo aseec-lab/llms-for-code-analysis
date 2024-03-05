@@ -1,0 +1,11 @@
+The `FullLifecycleObserverAdapter` class in the `androidx.lifecycle` package implements `LifecycleEventObserver`, holding references to `FullLifecycleObserver` and an optional additional `LifecycleEventObserver`. It acts as an adapter that maps lifecycle events from a `LifecycleOwner` to method calls on a `FullLifecycleObserver`.
+
+On instantiation, it takes a `FullLifecycleObserver` and an optional `LifecycleEventObserver` as parameters. 
+
+In `onStateChanged` method, which is overridden from `LifecycleEventObserver`, it checks the lifecycle event type and calls the appropriate lifecycle event method on the `FullLifecycleObserver` instance. This could be any of `onCreate()`, `onStart()`, `onResume()`, `onPause()`, `onStop()`, or `onDestroy()`. 
+
+Then, if the optional `LifecycleEventObserver` is present, it also calls its `onStateChanged()` method.
+
+Please, note that the case blocks in your code snippet seem to be missing their conditions. Normally, there would be specific Lifecycle.Event conditions (like `Lifecycle.Event.ON_CREATE`, `Lifecycle.Event.ON_START`, etc.). The provided code has `null` for each case which doesn't seem correct.
+
+In general, the purpose of this class is to connect `LifecycleOwner` events with `FullLifecycleObserver` methods, with support for an additional `LifecycleEventObserver`.

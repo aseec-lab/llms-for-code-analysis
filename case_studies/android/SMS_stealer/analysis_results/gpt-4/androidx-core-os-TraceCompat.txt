@@ -1,0 +1,17 @@
+The `TraceCompat` class provides static methods for using system trace features, with backward compatibility across various Android OS versions. This class uses reflection to access trace-related methods and fields when unavailable in the Android SDK your app is using.
+
+Here's a rundown of its main methods:
+
+- `beginAsyncSection(String, int)`: Begins an asynchronous trace section. If the SDK version is 29 or higher, it directly calls `Trace.beginAsyncSection()`. For SDK version 18 or higher, it invokes the method using reflection.
+ 
+- `beginSection(String)`: Begins a synchronous trace section. It directly calls `Trace.beginSection()` if the SDK version is 18 or higher.
+
+- `endAsyncSection(String, int)`: Ends an asynchronous trace section. Functions similarly to `beginAsyncSection(String, int)`.
+
+- `endSection()`: Ends a synchronous trace section. It directly calls `Trace.endSection()` if SDK version is 18 or higher.
+
+- `isEnabled()`: Checks if the trace is enabled. Functions similarly to `beginAsyncSection(String, int)`.
+  
+- `setCounter(String, int)`: Sets the counter for the trace. Functions similarly to `beginAsyncSection(String, int)`.
+
+Please note, this class primarily deals with Android's system trace tool, which is used for collecting timing and execution data from your app, which can be useful for diagnosing performance issues.

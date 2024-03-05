@@ -1,0 +1,13 @@
+The `SavedStateRegistryController` class is a utility class used for dealing with saving and restoring states. It encapsulates the handling of a `SavedStateRegistry` within an object that follows the `LifecycleOwner` semantic.
+
+Key methods in the class represent the following functionalities:
+
+- Constructor: Accepts a `SavedStateRegistryOwner` object. In the constructor, it associates the owner with a fresh new `SavedStateRegistry`.
+
+- `create(SavedStateRegistryOwner owner)`: A static method that creates a new `SavedStateRegistryController` associated with the provided owner.
+
+- `getSavedStateRegistry()`: This method returns the `SavedStateRegistry` object associated with the owner.
+
+- `performRestore(Bundle bundle)`: This method is for restoring the saved state from a bundle. It must be called during the initialization stage of the owner.
+
+- `performSave(Bundle bundle)`: This method handles saving the state to a bundle object when required.

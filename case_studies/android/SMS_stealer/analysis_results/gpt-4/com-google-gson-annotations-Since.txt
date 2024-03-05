@@ -1,0 +1,11 @@
+The `Since` annotation is part of the Gson library and is used to indicate that certain fields or classes should only be considered for Serialization and Deserialization from a certain version of your API onwards.
+
+- The `value()` method returns the version number from which the field or class should be considered. The `double` type allows for versions like 1.1, 1.2, etc.
+
+- This annotation can be used on both fields (`ElementType.FIELD`) and whole classes (`ElementType.TYPE`).
+
+- The `@Retention(RetentionPolicy.RUNTIME)` annotation tells the JVM to keep this annotation during runtime, allowing Gson to access it.
+
+- The `@Documented` annotation indicates that any use of the `Since` annotation will be included in JavaDoc. 
+
+The use of `@Since` can help in maintaining backward compatibility while evolving your API. Please note, for this to work, the Gson instance must be created using `GsonBuilder.setVersion(double)`.

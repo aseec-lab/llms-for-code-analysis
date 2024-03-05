@@ -1,0 +1,11 @@
+The `ResponseProgressBody` class in the `com.androidnetworking.internal` package is an extension of the `ResponseBody` class in OkHttp. 
+
+- It contains a `ResponseBody` object `mResponseBody` and a `DownloadProgressHandler` object `downloadProgressHandler`. 
+
+- In its constructor, it initialises the `mResponseBody` with a passed `ResponseBody` and constructs an instance of `DownloadProgressHandler` using a provided `DownloadProgressListener`. 
+
+- `source(Source paramSource)` method creates a `ForwardingSource` instance and keeps track of the bytes read from the response in `totalBytesRead`. It sends download progress updates via the `DownloadProgressHandler`.
+
+- It also overrides `ResponseBody` methods `contentLength()`, `contentType()` and `source()`. `contentLength()` and `contentType()` methods return the content length and content type of `mResponseBody`, respectively. `source()` method initializes `bufferedSource` if it hasn't been initialised, with a source obtained from `mResponseBody`, and then returns it.
+
+Hence, this class is primarily used in order to handle response bodies for file downloads and track the download progress.

@@ -1,0 +1,11 @@
+The `ConnectInterceptor` class implements the `Interceptor` interface from the OkHttp3 library in Java. 
+
+The purpose of this class is to initiate a connection for a given request and pass it onto the next interceptor in an interceptor chain, which effectively handles the response.
+
+Key points:
+
+1. `public final OkHttpClient client;`: An instance of the `OkHttpClient` class. This instance is used to create the request over HTTP/HTTPS protocols.
+
+2. `public ConnectInterceptor(OkHttpClient paramOkHttpClient)`: A constructor that takes an `OkHttpClient` parameter and initializes the `client` field with it.
+
+3. `public Response intercept(Interceptor.Chain paramChain) throws IOException`: This is the central method of the class that overrides the `intercept` method of the implemented `Interceptor` interface. It uses information in the `Chain` object instance, such as request details and stream allocation, to create a new stream for the request. It checks if the request method is "GET"; if it is, it opens a new connection stream. Finally, the request is passed along to the next interceptor in the chain for further processing.

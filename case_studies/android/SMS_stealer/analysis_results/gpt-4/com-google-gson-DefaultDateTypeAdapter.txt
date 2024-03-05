@@ -1,0 +1,17 @@
+The `DefaultDateTypeAdapter` class extends the abstract `TypeAdapter` of Gson library and is used to serialize and deserialize `Date` objects in JSON.
+
+Here's a brief rundown of what the class does:
+
+- Ensures the date type to be serialized/deserialized is either `java.util.Date`, `java.sql.Date`, or `java.sql.Timestamp` through constructors.
+
+- Constructs date formats for serialization/deserialization in both US locale and system locale.
+
+- `read(JsonReader)` method deserializes date from a JSON string. If encountered JsonToken is `NULL`, returns null; otherwise, converts string to `Date` using local format first. If parsing fails, tries EN-US format, and finally ISO8601 before throwing a `JsonSyntaxException`.
+
+- `write(JsonWriter, Date)` method serializes a `Date` object to JSON string using local date format.
+
+- `deserializeToDate(String)` is a private method to help convert string to `Date` object as described in read method.
+
+- `toString()` method to provide a representation of the class in format: "DefaultDateTypeAdapter(class name of local format)”
+
+The class appears to provide a robust and flexible way to deal with date type properties during serialization/deserialization, as it attempts multiple parsing methods and can adapt to different specific Date subclasses.

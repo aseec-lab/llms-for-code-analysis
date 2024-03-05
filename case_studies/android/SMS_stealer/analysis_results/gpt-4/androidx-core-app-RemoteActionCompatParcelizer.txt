@@ -1,0 +1,7 @@
+The `RemoteActionCompatParcelizer` class helps to serialize and deserialize `RemoteActionCompat` objects for compatibility across different versions of Android. This serialization process makes it possible to write a `RemoteActionCompat` object into a `VersionedParcel` or read a `RemoteActionCompat` object from a `VersionedParcel`. 
+
+- The `read` method takes as parameter a `VersionedParcel` and returns a `RemoteActionCompat` object. It reads the various fields of the `RemoteActionCompat` from the parcel.
+
+- The `write` method, on the other hand, takes a `RemoteActionCompat` object and a `VersionedParcel` as its parameters. It writes the fields of the `RemoteActionCompat` object to the Parcel. 
+
+Functions such as these are typically used in cases where you need to distribute instances of `Parcelable` objects across processes or through IPC. They are essential in Android for passing data between activities, services, or broadcasts.

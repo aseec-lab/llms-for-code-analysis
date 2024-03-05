@@ -1,0 +1,239 @@
+This is part of the ViewPager class in Android which handles the functionality of paging, swiping, and animations in a UI. It's used where you need the user to swipe left and right to navigate through different independent views (also known as pages).
+
+Some of the implemented features in this portion:
+
+1. It has multiple constants used throughout the class, such as DEFAULT_GUTTER_SIZE, DEFAULT_OFFSCREEN_PAGES, DRAW_ORDER_DEFAULT, INVALID_POINTER, etc. These are used for defining default values and identifiers within the class.
+
+2. Many variables have been declared to be used in the class for tracking touch events, determining page sizes, observing page changes, scrolling, etc.
+
+3. There are also several Interpolator and Comparator objects declared. These are used in animation and sorting the items.
+
+4. It shows two constructors - a default and an overloaded constructor. These initialize and setup the ViewPager which includes setting the scrolling cache and initiating some of the private variables used for tracking touch inputs.
+
+5. The `calculatePageOffsets()` function seems to handle adjustments of the ViewPager when a new page has been selected. It appears to adjust the offset of each page based on the currently selected page.
+
+This class also seems to be handling touch events, likely to respond to user interactions like swipe gestures. Typically, these gestures enable the user to navigate through pages. However, implementation details for these features would be found in a different section of the ViewPager class.In addition to the previously explained features, this part of the ViewPager class implements various functionalities:
+
+1. `completeScroll(boolean paramBoolean)`: Handles behavior after a scroll action, including animation cleanup and notifying listeners. It also checks the 'scrolling' state of each child view, and if necessary, schedules the 'end of scroll' behavior to be handled.
+
+2. `determineTargetPage(int paramInt1, float paramFloat, int paramInt2, int paramInt3)`: This method calculates the target page to display, based on factors like page speed, the direction of the swipe, and the current page position.
+
+3. `dispatchOnPageScrolled(int paramInt1, float paramFloat, int paramInt2)`, `dispatchOnPageSelected(int paramInt)`, `dispatchOnScrollStateChanged(int paramInt)`: These three methods are for notifying registered listeners of page scroll events, page selected events, and scroll state changes.
+
+4. `enableLayers(boolean paramBoolean)`: This method enables or disables layering of its child views based on the passed boolean value.
+
+5. `endDrag()`: This method is called when user stops dragging the ViewPager to cleanup dragging state and recycle the velocity tracker object used for tracking drag speed.
+
+6. `getChildRectInPagerCoordinates(Rect paramRect, View paramView)`: This method calculates the position and size of a child view relative to the ViewPager.
+
+7. `getClientWidth()`: This method simply returns the width of the client area of the ViewPager.
+
+8. `infoForCurrentScrollPosition()`: This method calculates the current scrolling position and returns the corresponding ItemInfo.
+
+9. `isGutterDrag(float paramFloat1, float paramFloat2)`: This method checks if the user is dragging the gutter (margins of the ViewPager).
+
+10. `onSecondaryPointerUp(MotionEvent paramMotionEvent)`: This method handles an 'UP' event for a non-primary pointer. This could be for multi-touch gestures, for example when a second finger is lifted from the screen. It updates the active pointer ID if necessary.The final part of the ViewPager code:
+
+1. `pageScrolled(int paramInt)`: This method checks if a page has been scrolled and throws an exception if onPageScrolled did not call the superclass implementation.
+
+2. `performDrag(float paramFloat)`: This method performs the scroll operation when the user is dragging the view.
+
+3. `recomputeScrollPosition(int paramInt1, int paramInt2, int paramInt3, int paramInt4)`: This method recalculates the scroll position after the layout calculation is complete.
+
+4. `removeNonDecorViews()`: This method removes all views that are not marked as decor views (for example, page titles and borders).
+
+5. `requestParentDisallowInterceptTouchEvent(boolean paramBoolean)`: This method disallows parent views from interrupting touch events.
+
+6. `resetTouch()`: This method resets the touch controls when the user stops interacting with the ViewPager.
+
+7. `scrollToItem(int paramInt1, boolean paramBoolean1, int paramInt2, boolean paramBoolean2)`: This method scrolls to a given item, optionally with a smooth scroll animation. 
+
+8. `setScrollingCacheEnabled(boolean paramBoolean)`: This method enables or disables the scrolling cache. 
+
+9. `addNewItem(int paramInt1, int paramInt2)`: This method creates and adds a new item to the ViewPager.
+
+10. `addView(View paramView, int paramInt, ViewGroup.LayoutParams paramLayoutParams)`: This method adds a view to the ViewPager with specified layout parameters.
+
+11. `arrowScroll(int paramInt)`: This method performs scrolling operation when user is using arrow keys for navigation.1. `beginFakeDrag()`: This method is used to start a fake drag which does not actually do a real drag.
+   
+2. `canScroll(View paramView, boolean paramBoolean, int paramInt1, int paramInt2, int paramInt3)`: This method checks if a particular view or its children can be scrolled horizontally.
+
+3. `canScrollHorizontally(int paramInt)`: This method checks if the view pager itself can be scrolled horizontally.
+
+4. `checkLayoutParams(ViewGroup.LayoutParams paramLayoutParams)`: This method checks the validity of the given layout parameters.
+
+5. `clearOnPageChangeListeners()`: This method clears all registered page change listeners.
+   
+6. `computeScroll()`: This method checks if current the page has been scrolled completely and scrolls to next page if needed.
+
+7. `dataSetChanged()`: This method is called when the dataset has changed. It gets the new count, check if the required conditions are satisfied and adjusts the items list accordingly. If the item position is no longer valid, it is removed from the items list and destroyed. If the item position has changed, the new position is updated.8. `dispatchKeyEvent(KeyEvent paramKeyEvent)`: This method dispatches a KeyEvent to the view or its children.
+
+9. `dispatchPopulateAccessibilityEvent(AccessibilityEvent paramAccessibilityEvent)`: This method dispatches an AccessibilityEvent to the view or its children, which can populate the event with more information.
+
+10. `distanceInfluenceForSnapDuration(float paramFloat)`: This method calculates the influenced distance for the snap duration.
+
+11. `draw(Canvas paramCanvas)`: This method is called to draw the view or its children.
+
+12. `drawableStateChanged()`: This method is called when the state of the drawable has been changed.
+
+13. `endFakeDrag()`: This method ends a fake drag, which does not actually do a real drag.
+
+14. `executeKeyEvent(KeyEvent paramKeyEvent)`: This method tries to execute a key event.
+
+15. `fakeDragBy(float paramFloat)`: This method simulates dragging by a certain distance. It does not actually do a real drag.16. `generateDefaultLayoutParams()`: Generates and returns default layout parameters.
+
+17. `generateLayoutParams(AttributeSet paramAttributeSet)`: Generates and returns layout parameters based on the provided attributes.
+
+18. `generateLayoutParams(ViewGroup.LayoutParams paramLayoutParams)`: Generates and returns layout parameters based on the provided view group parameters.
+
+19. `getAdapter()`: Returns the view pager adapter.
+
+20. `getChildDrawingOrder(int paramInt1, int paramInt2)`: Calculates and returns the drawing order for the child views.
+
+21. `getCurrentItem()`: Returns the current item in the view pager.
+
+22. `getOffscreenPageLimit()`: Returns the offscreen page limit for the view pager.
+
+23. `getPageMargin()`: Returns the page margin for the view pager.
+
+24. `infoForAnyChild(View paramView)`: Returns `ItemInfo` for any view child.
+
+25. `infoForChild(View paramView)`: Returns `ItemInfo` for a child view.
+
+26. `infoForPosition(int paramInt)`: Returns `ItemInfo` for a specified position. 
+
+27. `initViewPager()`: Initializes the view pager and its properties.
+
+28. `isFakeDragging()`: Checks and returns if fake dragging is in progress.
+
+29. `onAttachedToWindow()`: Called when the view is attached to a window.
+
+30. `onDetachedFromWindow()`: Called when the view is detached from a window.
+
+31. `onDraw(Canvas paramCanvas)`: This method is called to draw the view on a passed canvas.
+
+32. `onInterceptTouchEvent(MotionEvent paramMotionEvent)`: Called when a touch event is intercepted by the view.
+
+33. `onLayout(boolean paramBoolean, int paramInt1, int paramInt2, int paramInt3, int paramInt4)`: This method sets out the positioning of the view and its child views.34. `onMeasure(int paramInt1, int paramInt2)`: This method calculates and sets the measurements for the view -- width and height -- and its child views.
+
+35. `performAccessibilityAction(int paramInt, Bundle paramBundle)`: This method performs the specified accessibility action.
+
+36. `performDrag(float paramFloat)`: This method handles all the operations during a drag.
+
+37. `populate()`: This method populates the view pager with the necessary child views.
+
+38. `populate(int paramInt)`: This is an overloaded method which populates the view pager with child views at the specified position.
+
+39. `recomputeScrollPosition(int paramInt1, int paramInt2, int paramInt3, int paramInt4)`: This method recomputes the scroll position after a change in scroll parameters.
+
+40. `removeNonDecorViews()`: This method removes any child views that aren't marked as decor views.
+
+41. `requestParentDisallowInterceptTouchEvent(boolean paramBoolean)`: This method asks the parent to not intercept touch events.
+
+42. `setCurrentItemInternal(int paramInt1, boolean paramBoolean, int paramInt2)`: This method sets the current item in the view pager.
+
+43. `setCurrentItemInternal(int paramInt1, boolean paramBoolean1, int paramInt2, boolean paramBoolean2)`: This is an overloaded method which sets the current item in the view pager and can update selected page after the action.
+
+44. `setScrollState(int paramInt)`: This method sets the current scroll state. 
+
+45. `setScrollingCacheEnabled(boolean paramBoolean)`: This method enables or disables the scrolling cache.
+
+46. `sortChildDrawingOrder()`: This method sorts the child drawing order.
+
+47. `startDrag()`: This method starts a fake drag.
+
+48. `stopDrag()`: This method stops a fake drag.
+
+49. `superAwakenScrollBars(int paramInt, boolean paramBoolean)`: This method super awaken scroll bars for a specific duration.50. `onPageScrolled(int paramInt1, float paramFloat, int paramInt2)`: This method is used to understand when a page has been scrolled. It also modifies the position of a page as per the user's interaction.
+
+51. `onRequestFocusInDescendants(int paramInt, Rect paramRect)`: This function requests focus on a particular descendant view of a ViewPager according to the parameters given.
+
+52. `onRestoreInstanceState(Parcelable paramParcelable)`: Restores a previous state of the ViewPager with the Parcelable object that was previously saved in the `onSaveInstanceState` method.
+
+53. `onSaveInstanceState()`: Saves the current state of a ViewPager to a Parcelable object so it can be restored later.
+
+54. `onSizeChanged(int paramInt1, int paramInt2, int paramInt3, int paramInt4)`: This method adjusts the size of the view pager if there are any changes in size.
+
+55. `onTouchEvent(MotionEvent paramMotionEvent)`: This method is called when a touch event is dispatched on the view pager. It handles the motion event passed to it.
+
+56. `onSecondaryPointerUp(MotionEvent paramMotionEvent)`: This method is called when a secondary pointer up action occurred.
+
+57. `sortChildDrawingOrder()`: This method is used to sort the child views according to their drawing order.58. `boolean pageLeft()`: This method is used to navigate to the page on the left side of the current page. If successful, it returns true.
+
+59. `boolean pageRight()`: This method is used to navigate to the page on the right side of the current page. If successful, it returns true.
+
+60. `void populate()`: This method is used to populate the `ViewPager` with views.
+
+61. `void populate(int paramInt)`: This method is used to populate the `ViewPager` with views starting from a specified position index, which is passed as an argument.
+   
+The code further seems to carry out operations such as checking if the index of the current item is not equal to the provided parameter index, looking up any information available for the new position using the `infoForPosition` method, and updating the `mCurItem` index. There are also checks to prevent further execution if the adapter is null or in a pending state, and retrieve and verify the window token of the host view.62. This portion of the code is iterating over a list of items on the `ArrayList` starting from the last item until it hits the beginning of the list. It refers to the current item and the item on the left of the current item in this looping process.
+
+63. The code seems to be checking the position of the current item in relation to other items in the list. It removes an item from the list if it isn't scrolling and adds the `widthFactor` of the item to a variable `f`.
+
+64. If the current item's position doesn't match with the index being iterated on, then a new item is added to the list. This process continues until the variable `f` becomes less than a calculated target value or all items have been iterated.
+
+65. The code then checks a condition to add the `widthFactor` of the current page to a variable `f`. If `f` is still less than 2 and the current page index is less than a certain number, then it keeps on adding the `widthFactor` of the next page to `f` until the condition is satisfied.
+
+66. Finally, if the page position surpasses a certain value, the iteration process ends.67. The code checks some conditions again and if the conditions match, the code removes an item from the list, destroys the item (in terms of the ViewPager's record, the item is not actually deleted), updates the related variables and goes back to the iteration process.
+
+68. In another condition where the current item's position matches a certain value, the code accumulates the `widthFactor` and updates the related variables before going back to the iteration process.
+
+69. In a third condition, the code adds a new item to the list, updates the related variables and goes back to the iteration process.
+
+70. The code then checks if a condition is satisfied, if it is, the code calculates some offsets for the page, sets a primary item and finishes updating the ViewPager. 
+
+71. The code then finds the child count and iterates over the children. After that, it sorts the child's drawing order and checks for focus conditions.
+
+72. If the focus condition fails, it iterates over the children trying to request focus for them. If any child gets focus, it ends the iteration.
+
+73. The `removeOnAdapterChangeListener` method removes an existing instance of the `OnAdapterChangeListener` from the `mAdapterChangeListeners` list if it exists.74. The `removeOnPageChangeListener` removes an instance of `OnPageChangeListener` from the `mOnPageChangeListeners` list if it exists.
+
+75. The `removeView` method removes a view in layout if inLayout is true, else it calls the super's method to remove the view.
+
+76. The `setAdapter` method sets the adapter in the ViewPager. If any previous adapter existed, the method first releases resources used by that adapter. It then assigns the new adapter and adds a DataSetObserver to the new adapter to listen to data changes.
+
+77. The `setCurrentItem` function updates the current item and determines if the UI should be updated.
+
+78. The `setCurrentItemInternal` method is used to change the current item presented. The method handles a lot of housekeeping tasks such as validating item positions and offsets.
+
+79. The `setInternalPageChangeListener` method allows to set an internal OnPageChangeListener and returns the previous listener.
+
+80. The `setOffscreenPageLimit` method sets the number of pages that should be retained to either side of the current page. It also populates items if necessary.
+
+81. The `setOnPageChangeListener` method sets the listener that will be notified of any changes in scroll state or position.
+
+82. The `setPageMargin` method sets the margin between pages.
+
+83. The `setPageMarginDrawable` methods set the drawable to be used between pages.
+
+84. The `setPageTransformer` method sets a PageTransformer that will be called for each attached page whenever the scroll position is changed. It also calls `populate()` when necessary.
+
+85. The `setScrollState` method sets the current scroll state and enables layer drawing if necessary.
+
+86. The `smoothScrollTo` method smoothly scrolls the View to the specified position.
+
+87. The `verifyDrawable` method validates a drawable.
+
+88. Documentation for `DecorView` annotation states that it can be inherited, retained during runtime and targeted at elements of TYPE ElementType.
+
+89. The `ItemInfo` is a static class that holds properties of an item in the ViewPager. These properties include the actual object reference (`object`), item position (`position`), if it's currently scrolling (`scrolling`), its width factor (`widthFactor`), and offset of the page (`offset`).90. `LayoutParams` is a subclass of `ViewGroup.LayoutParams`, which provides layout parameters specific to `ViewPager`.
+
+91. `MyAccessibilityDelegate` helps add accessibility support for `ViewPager`.
+
+92. `OnAdapterChangeListener` is an interface for listening to changes in the adapter.
+
+93. `OnPageChangeListener` interface provides callbacks for changes to the selected page.
+
+94. `PageTransformer` interface provides mechanism to transform page visuals during a scroll or slide.
+
+95. `PagerObserver` is a `DataSetObserver` for observing data changes.
+
+96. `SavedState` is a subclass of `AbsSavedState` which saves the state of a `ViewPager`.
+
+97. `SimpleOnPageChangeListener` is a simple implementation of `OnPageChangeListener` with empty method bodies.
+
+98. `ViewPositionComparator` is a `Comparator` that orders views based on their positions and decoration status.
+
+99. `null` is a `ClassLoaderCreator` for creating `SavedState` instances from `Parcel`.
+
+100. Finally, the class is located at: `C:\Users\Jason\Downloads\355cd2b71db971dfb0fac1fc391eb4079e2b090025ca2cdc83d4a22a0ed8f082-dex2jar.jar!\androidx\viewpager\widget\ViewPager.class` and compiled with Java version 6.

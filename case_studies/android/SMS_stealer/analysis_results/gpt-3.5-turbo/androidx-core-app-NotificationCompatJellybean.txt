@@ -1,0 +1,17 @@
+The `NotificationCompatJellybean` class is part of the `androidx.core.app` package in the Android Support Library. It contains methods related to building and working with notifications on Android Jellybean (API level 16) devices.
+
+The class defines various constants and fields used to access and manipulate notification actions and extras. It also provides methods to convert bundles to remote inputs and actions, get actions from notifications, and get the count of actions in a notification.
+
+The class uses reflection to access and manipulate private fields and methods in the Android framework related to notifications. It handles possible errors and failures when accessing these fields and methods.
+
+This class is used internally by the Android Support Library to provide backward compatibility for notification features on older Android versions.This code appears to be part of the Android Support Library's `NotificationCompatJellybean` class. 
+
+The first part of the code is a method called `ensureActionReflectionExtrasLocked()`, which is used internally to get or create the extras bundle of a notification using reflection. The method uses a private field called `sExtrasField` to access the notification's extras. If the field is null, the method initializes it by accessing the `extras` field of the `Notification` class using reflection. If the field is not of type `Bundle`, an error message is logged and the method returns null. Otherwise, the method retrieves the current extras bundle from the notification object or creates a new one if it is null. The extras bundle is then returned.
+
+The second part of the code is a method called `readAction()`, which is used to deserialize a `NotificationCompat.Action` object from a bundle. The method retrieves various data such as the action's icon, title, intent, and remote inputs from the provided bundle and creates a new `NotificationCompat.Action` object with the retrieved data.
+
+The third part of the code is a method called `toBundle()`, which is used to convert a `RemoteInput` object to a bundle. The method creates a new bundle and adds various properties of the `RemoteInput` object to the bundle, such as the result key, label, choices, allow free form input flag, and extras.
+
+The fourth part of the code is a method called `toBundleArray()`, which is used to convert an array of `RemoteInput` objects to an array of bundles. The method iterates over each `RemoteInput` object in the array and calls the `toBundle()` method to convert it to a bundle. The resulting bundles are then returned in an array.
+
+The last part of the code is a method called `writeActionAndGetExtras()`, which is used to add a `NotificationCompat.Action` to a `Notification.Builder` and return the extras bundle of the action. The method first retrieves the icon of the action, adds the action to the builder with the icon, title, and intent. The extras of the action are then added to a new bundle, and if the action has remote inputs or data-only remote inputs, they are converted to bundles and added to the extras bundle. Finally, the `allowGeneratedReplies` flag is added to the extras bundle and returned.

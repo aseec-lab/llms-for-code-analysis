@@ -1,0 +1,10 @@
+The `ActivityRecreator` class in the `androidx.core.app` package provides methods for recreating activities and handling their lifecycle callbacks.
+
+Here's a brief summary of what the code does:
+
+- The class initializes static fields and methods related to activity recreation and lifecycle management.
+- It obtains the `ActivityThread` class, `mMainThread` field, `mToken` field, and methods for performing stop activity and requesting activity relaunch through reflection.
+- It defines a method to determine if the relaunch call is needed based on the SDK version.
+- The `queueOnStopIfNecessary()` method posts a runnable to the main handler, which flags the activity as currently recreating and stops it if necessary.
+- The `recreate()` method recreates an activity by registering an activity lifecycle callbacks to check if the activity has been stopped, and then calls `recreate()` if the SDK version is 28 or higher, or performs stop activity and requests relaunch activity if necessary.
+- The inner class `LifecycleCheckCallbacks` implements the `Application.ActivityLifecycleCallbacks` interface to track the activity's lifecycle and check if it should be stopped during recreation.

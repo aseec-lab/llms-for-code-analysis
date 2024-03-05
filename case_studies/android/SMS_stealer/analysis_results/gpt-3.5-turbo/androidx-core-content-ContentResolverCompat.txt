@@ -1,0 +1,9 @@
+The code defines a class named `ContentResolverCompat` in the `androidx.core.content` package.
+
+Inside the class, there is a static method `query()` that provides a backward-compatible way to perform a query on a `ContentResolver`. The method takes various parameters such as the `ContentResolver` instance, the `Uri` of the content to query, the selection criteria, and others.
+
+If the device's SDK version is 16 or higher, the method checks if a `CancellationSignal` is provided. If it is, it retrieves the cancellation signal object and uses it in the query. Otherwise, it sets the cancellation signal to null. The method then calls the `query()` method on the `ContentResolver` instance, passing in the appropriate parameters.
+
+If the device's SDK version is lower than 16, the method checks if a `CancellationSignal` is provided and throws an exception if it is canceled. It then calls the `query()` method on the `ContentResolver` instance, passing in the appropriate parameters.
+
+The method returns a `Cursor` object that represents the result of the query.

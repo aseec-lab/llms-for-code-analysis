@@ -1,0 +1,63 @@
+The `JsonReader` class is used to read JSON data from a `Reader` and provide a structured representation of the data.
+
+Here's what the code does:
+
+- It declares and initializes several constant variables representing different character types and token types.
+
+- It initializes some instance variables such as `buffer`, `in`, `lenient`, `limit`, etc.
+
+- There's a static block that sets `JsonReaderInternalAccess.INSTANCE`.
+
+- The class defines constructors, methods, and helper functions to perform various operations on the JSON data, such as reading different types of values, advancing to the next token, checking for specific token types, etc.
+
+- The `fillBuffer` method is used to read characters from the `Reader` into the buffer.
+
+- The `nextNonWhitespace` method is used to skip whitespace characters and return the next non-whitespace character.
+
+That's a high-level overview of what the code does. Let me know if you need more specific details about any part of the code.The remaining part of the code includes methods to parse and read different types of values from the JSON data.
+
+The `nextQuotedValue` method is used to parse a string value enclosed in quotes. It reads characters from the buffer until it encounters the closing quote character. It handles escaped characters and newlines properly.
+
+The `nextUnquotedValue` method is used to parse an unquoted string value. It reads characters from the buffer until it encounters a character that is not allowed in the unquoted string value.
+
+The `peekKeyword` method is used to peek at the next token and check if it matches a keyword (true, false, or null). It compares the characters in the buffer against the characters in the keyword and returns the corresponding token if it's a match.
+
+The `peekNumber` method is used to peek at the next token and check if it represents a number. It reads characters from the buffer and performs checks to determine if it's a valid number.
+
+These methods are all used internally by the `JsonReader` class to parse and read values from the JSON data.The `push` method is used to add an element to the stack. It checks if the stack is already full and if so, it resizes the stack by creating larger arrays and copying the elements to the new arrays.
+
+The `readEscapeCharacter` method is used to read and handle escape sequences in a JSON string. It reads the next character from the buffer and checks if it represents a valid escape sequence. If so, it returns the corresponding escaped character.
+
+The `skipQuotedValue` method is used to skip a quoted string value in the JSON data. It reads characters from the buffer until it encounters the closing quote character. It handles escaped characters and newlines properly.
+
+The `skipTo` method is used to skip characters until a specified string is found in the JSON data. It checks if the current characters in the buffer match the characters in the specified string. If not, it reads more characters into the buffer until a match is found or the buffer is filled.
+
+The `skipToEndOfLine` method is used to skip characters until the end of the current line in the JSON data. It reads characters from the buffer and increments the line number until it encounters a newline character.
+
+These methods are all used internally by the `JsonReader` class to skip and handle different parts of the JSON data.The `hasNext` method is used to check if there is a next token in the JSON data. It calls the `doPeek` method to peek the next token and returns `true` if the token is not the end of the JSON data (`END_DOCUMENT`).The `isLenient` method returns whether the JSON parser is lenient or strict.
+
+The `locationString` method returns a string representation of the current location in the JSON data (line number, column number, and path).
+
+The `nextBoolean` method reads a boolean value from the JSON data.
+
+The `nextDouble` method reads a double value from the JSON data.
+
+The `nextInt` method reads an integer value from the JSON data.
+
+The `nextLong` method reads a long value from the JSON data.
+
+The `nextName` method reads a JSON object field name from the JSON data.
+
+The `nextNull` method reads a null value from the JSON data.
+
+The `nextString` method reads a string value from the JSON data.The `skipValue` method is used to skip the next JSON value without parsing it.
+
+The `toString` method returns a string representation of the `JsonReader` object.
+
+The `setLenient` method is used to set the JSON parser to be lenient or strict.
+
+The `peek` method returns the type of the next JSON token without consuming it.
+
+The `nextString` method reads a string value from the JSON data.
+
+The remaining code is the implementation of the `JsonReader` class, which provides methods to read JSON data.

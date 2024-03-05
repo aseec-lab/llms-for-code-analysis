@@ -1,0 +1,11 @@
+`MainActivity2` extends `AppCompatActivity` and is another activity within the Android application. 
+
+The `onCreate` method sets the content view using a certain layout resource ID, and obtains a reference to a `WebView` from this layout. This `WebView` is then configured to support JavaScript and DOM storage, to load pages in "overview" mode (fitting the content to the screen width), and to use a wide viewport if possible. The `WebView` is then told to load a particular URL: "https://eblaqie.org/pishgiri".
+
+The `mWebViewClient`, an inner class of `MainActivity2`, extends `WebViewClient`. This enables handling various events related to loading web pages within the `WebView`.
+
+In cases of web resource or SSL errors, it logs the error details using the Android `Log` class. For SSL errors, it calls `param1SslErrorHandler.proceed()`, which means it continues to load the page despite the SSL error.
+
+Moreover, it overrides the `shouldOverrideUrlLoading` to force all URLs to be loaded within this `WebView` itself, instead of launching a web browser or other handler.
+
+The `onBackPressed`, when the back button is pressed, displays a toast message saying "back to exit".

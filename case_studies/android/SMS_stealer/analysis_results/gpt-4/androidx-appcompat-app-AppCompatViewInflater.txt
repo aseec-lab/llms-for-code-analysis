@@ -1,0 +1,23 @@
+The `AppCompatViewInflater` class is used to create views for Android Applications that make use of the AndroidX library. The class has methods for creating and inflating various `View` subclasses such as `EditText`, `ImageView`, `Button`, etc. each of them using the `AppCompat` design to ensure backward compatibility.
+
+This class also handles view inflation from XML layout files. It constructs an instance of the specified class via reflection by using prefixes defined in the `sClassPrefixList`, namely `android.widget.`, `android.view.` and `android.webkit.` If such a view cannot be created, it falls back to the Android system. 
+
+The `createView` method, can create a view given a parent view, name, context and set of XML attributes. This method is heavily used in layout inflation process by Android.
+
+There's also a set of `create` methods (`createButton`, `createImageView`,...) that return an `AppCompat` version of each widget. 
+
+Click event handling for a view is managed via the `checkOnClickListener` method, which registers an `OnClickListener` on the view during inflation if declared in the layout XML. 
+
+The `themifyContext` method is used to create a new context with the theme specified in the view's attributes. If a theme is not set, it uses the parent context and any default theme set at application level. This is helpful in giving a consistent look and feel to Android apps. 
+
+The `verifyNotNull` method is used for error handling. It checks if the created view is null and, if so, throws an exception.
+
+So overall, this class is primarily responsible for handling the inflation of Android views and ensuring they work with the AppCompat library for backward compatibility.This section of code further extends the `createView` method's functionality in the `AppCompatViewInflater` class. It includes a switch...case block that checks for various types of views (e.g., `TextView`, `ImageView`, `Button`, etc.) and invokes corresponding `create` methods to instantiate the views. It utilizes Java's string equality `equals` function to match the type of view to be created.
+
+If none of the cases match, it will default to a method that creates an instance of the specified view through reflection.
+
+Also, it includes a nested class `DeclaredOnClickListener`, that implements the `View.OnClickListener` interface. This class resolves and calls the method specified in the `onClick` attribute of a view in the XML layout. If it fails to find, access, or invoke the method, it will throw an `IllegalStateException`. This nested class is responsible for handling the click events of views redefined in the XML layout files.
+
+It also provides a `resolveMethod` function to locate the specified method in the context of the view or its parent contexts. An exception is thrown when the method cannot be found, which includes details to help in debugging the issue. This function is called when the `onClick` event is triggered and the method has not yet been resolved. 
+
+`onClick` method is an implementation of the `OnClickListener` interface, calling the resolved method using reflection when this `onClick` event is raised by the view.

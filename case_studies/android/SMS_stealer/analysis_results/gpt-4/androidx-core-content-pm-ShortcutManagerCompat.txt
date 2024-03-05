@@ -1,0 +1,23 @@
+The `ShortcutManagerCompat` class in the `androidx.core.content.pm` package provides methods for managing app shortcuts, ensuring compatibility across different versions of Android. 
+
+Here's a brief rundown of the class's methods:
+
+1. `addDynamicShortcuts(Context, List<ShortcutInfoCompat>)`: Adds dynamic shortcuts. If the Android version is 25 or higher, it converts `ShortcutInfoCompat` to `ShortcutInfo`, else it uses `ShortcutInfoCompatSaver`. 
+
+2. `createShortcutResultIntent(Context, ShortcutInfoCompat)`: Produces an Intent that can be used to create a shortcut.
+
+3. `getDynamicShortcuts(Context)`: Returns a list of dynamic shortcuts. If the Android version is less than 25, it uses `ShortcutInfoCompatSaver`.
+
+4. `getMaxShortcutCountPerActivity(Context)`: Returns the maximum number of dynamic and pinned shortcuts that each launcher icon can have for an activity.
+
+5. `isRequestPinShortcutSupported(Context)`: Checks whether creating app shortcut is supported.
+
+6. `removeAllDynamicShortcuts(Context)`: Deletes all dynamic shortcuts.
+
+7. `removeDynamicShortcuts(Context, List<String>)`: Removes dynamic shortcuts based on the provided IDs.
+
+8. `requestPinShortcut(Context, ShortcutInfoCompat, IntentSender)`: Tries to create a pinned app shortcut.
+
+9. `updateShortcuts(Context, List<ShortcutInfoCompat>)`: Updates existing shortcuts with the same IDs.
+
+The class checks whether the Android version is above 25 and then accordingly uses `ShortcutManager` or `ShortcutInfoCompatSaver` for managing shortcuts. This is essential to maintain backward compatibility across different Android versions.

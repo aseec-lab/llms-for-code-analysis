@@ -1,0 +1,9 @@
+`ListViewAutoScrollHelper` is a class that extends the `AutoScrollHelper` class and is used for handling auto-scrolling within a `ListView`. This class internally keeps a reference to the ListView it is supposed to manage, which is passed to it through its constructor.
+
+- `canTargetScrollHorizontally(int paramInt)` is a method that always returns false, indicating that the `ListView` does not support auto-scrolling horizontally.
+
+- `canTargetScrollVertically(int paramInt)` is a method that checks whether the `ListView` can auto-scroll vertically. It returns true if the `ListView` is not empty and either its first element is visible and is not scrolled to the top or its last element is visible and is not scrolled down to the bottom.
+
+- `scrollTargetBy(int paramInt1, int paramInt2)` is a method that scrolls the ListView by a certain amount that is specified by the second parameter. It uses `ListViewCompat.scrollListBy()` method for performing the actual scroll action. 
+
+The use of this helper class makes it easier and more convenient to manage auto-scrolling within a `ListView` control in Android applications. The class is tailored to the specific auto-scrolling behaviour that is natural for ListViews, making it a plug-and-play addition for basic ListView controls.

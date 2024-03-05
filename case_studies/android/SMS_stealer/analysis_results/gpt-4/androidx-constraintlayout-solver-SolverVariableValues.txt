@@ -1,0 +1,23 @@
+The `SolverVariableValues` class in the ConstraintLayout Solver Library is used for representing and manipulating the values of the solver variables in a constraint row.
+
+The class implements `ArrayRow.ArrayRowVariables` interface and it provides a way to add, remove, get and divide the values of the solver variables. It also provides methods to check if a specific variable is contained in the array row, and to get the current size of the row.
+
+The object of this class also maintains references to `ArrayRow` and `Cache` which seems to be used for retrieving the solver variable information and for tracking the state.
+
+It also uses some methods like `addToHashMap()`, `addVariable()`, `increaseSize()`, `insertVariable()`, and `removeFromHashMap()`. These methods are used internally for managing the state of the object and for implementation details.
+
+Overriding the `toString()` method, it returns a string representing the current state of the object.
+
+The class uses arrays instead of lists for storing the keys of the variables. It is likely done for performance reasons to avoid the overhead of object wrappers for primitive types in lists.The `invert()` method multiplies each value in the row by -1. This technique of sign inversion is commonly used in linear equation systems for reducing constraints and normalizing the system. 
+
+The `put(SolverVariable paramSolverVariable, float paramFloat)` is to insert a variable into the solver with a specific coefficient. It inserts the variable into the variables list and the hash map at the same time.
+
+The `remove(SolverVariable paramSolverVariable, boolean paramBoolean)` function checks whether a variable is contained in the current array row and removes it, considering whether this variable should also be removed from the SolverVariable's list of constraints as determined by the second parameter (Connect to: paramBoolean).
+
+The `toString()` method, it converts and returns the current state of the SolverVariableValues object into a string format. This is particularly useful for debugging as it allows to visualize the content and structure of the object.
+
+The `sizeInBytes()` method is used to get the size of the solver variables. This method currently returns 0.
+
+The `use(ArrayRow paramArrayRow, boolean paramBoolean)` method removes a variable from one row and adds the remaining variables from that row to this row, scaled by a factor. It is used during the process of the gaussian elimination in the solver.
+
+Each method in the class manages the internal state of the `SolverVariableValues`, helps maintain the correctness of the system, and provides tools to use and debug the solver.

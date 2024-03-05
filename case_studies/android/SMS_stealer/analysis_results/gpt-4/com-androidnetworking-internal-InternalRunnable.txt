@@ -1,0 +1,15 @@
+The `InternalRunnable` class implements the `Runnable` interface and is designed to perform various HTTP operations like GET, POST, PUT, DELETE, DOWNLOAD, UPLOAD, etc.
+
+- It contains properties for an `ANRequest` instance, a `Priority` enum value, and a sequence integer.
+
+- Its constructor accepts an `ANRequest` object and sets the object, its sequence number, and its priority.
+
+- `getPriority()` returns the priority of the request.
+
+- `run()` oversees the execution of HTTP requests according to their type (e.g., simple, download, or upload).
+
+- `executeSimpleRequest()`, `executeDownloadRequest()`, and `executeUploadRequest()` manage the execution of simple, download, and upload requests, respectively. They send the request, handle the response or failures, and pass responses/errors to the main thread.
+
+- `deliverError()` is a helper method that assists in passing errors to the main thread.
+
+In essence, this class is the main workhorse behind sending network requests, receiving responses, and handling response delivery and error handling.

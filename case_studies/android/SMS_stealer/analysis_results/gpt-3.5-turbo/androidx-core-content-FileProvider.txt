@@ -1,0 +1,29 @@
+The `FileProvider` class is a content provider that allows sharing files between apps. It extends the `ContentProvider` class and provides methods for managing file access and permissions.
+
+Key Features:
+- Manages file access and permissions for sharing files between apps.
+- Provides methods for deleting, inserting, querying, and updating files.
+- Determines the MIME type of a file based on its extension.
+- Handles URI permissions for accessing files.
+- Implements a path strategy to map file paths to URIs.
+
+Main Methods:
+- `attachInfo`: Attaches the provider to the context and verifies its exported and grantUriPermissions attributes.
+- `delete`: Deletes a file specified by the URI.
+- `getType`: Retrieves the MIME type for a file.
+- `insert`: Inserts a new file (unsupported in this implementation).
+- `onCreate`: Initializes the provider.
+- `openFile`: Opens a file as a `ParcelFileDescriptor` for reading or writing.
+- `query`: Queries the provider for file information.
+- `update`: Updates a file (unsupported in this implementation).
+
+Other Features:
+- The class uses a path strategy to map file paths to URIs.
+- It supports reading and parsing XML metadata for defining file paths.
+- It offers utility methods for building file paths and copying arrays.The remaining part of the code defines the `getFileForUri` and `getUriForFile` methods of the `FileProvider` class.
+
+The `getFileForUri` method takes a `Uri` as parameter and returns the corresponding `File` object. It decodes the encoded path from the `Uri`, extracts the root and path components, and constructs a new `File` object. It then ensures the resolved file is within the configured root directory by checking the canonical path. If the resolved path is not within the root, it throws a `SecurityException`. If the root is not found in the configured roots, it throws an `IllegalArgumentException`.
+
+The `getUriForFile` method takes a `File` as parameter and returns the corresponding `Uri` object. It gets the canonical path of the file and iterates through the configured roots to find the root that contains the file. It constructs the encoded path by removing the root path from the file path and encoding the remaining path. Finally, it constructs a `Uri` object with the scheme, authority, and encoded path, and returns it. If no root is found that contains the file, it throws an `IllegalArgumentException`. If there is an error resolving the canonical path, it throws an `IllegalArgumentException`.
+
+This completes the definition of the `FileProvider` class.

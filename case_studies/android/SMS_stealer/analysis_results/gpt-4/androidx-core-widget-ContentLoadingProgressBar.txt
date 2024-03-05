@@ -1,0 +1,19 @@
+The `ContentLoadingProgressBar` is a subclass of Android's `ProgressBar`. It is designed to prevent "flashing" in the user interface when the progress bar is shown for a very brief period of time. By default, the content loading progress bar will delay showing the progress bar for a brief period (500 ms), and once visible, it will stay visible for a minimum amount of time (500 ms) to avoid "flashing" the progress bar in the UI.
+
+Following are the key methods in the code:
+
+1. `ContentLoadingProgressBar(Context paramContext)`: Constructor that creates a new instance of the `ContentLoadingProgressBar`.
+
+2. `ContentLoadingProgressBar(Context paramContext, AttributeSet paramAttributeSet)`: Overloaded constructor that creates a new instance of the `ContentLoadingProgressBar` with the specified attributes.
+
+3. `removeCallbacks()`: Private method that removes the delayedHide and delayedShow runnables from the message queue.
+
+4. `hide()`: Public method that hides the progress bar after a minimum delay.
+
+5. `onAttachedToWindow()`: Overridden method from `android.view.View` that's called after the view is attached to a window. It's used here to remove any pending callbacks.
+
+6. `onDetachedFromWindow()`: Overridden method from `android.view.View` that's called before the view is detached-from a window. It's used here to remove any pending callbacks.
+
+7. `show()`: Public method to show the progress bar. It posts a Runnable to start the progress bar after a minimum delay. If the progress bar is already visible for at least this delay, the method post a Runnable to hide the progress bar after a minimum showing time.
+
+NOTE: The `hide()` and `show()` methods are synchronized to ensure thread safety.

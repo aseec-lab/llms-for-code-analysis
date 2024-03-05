@@ -1,0 +1,17 @@
+The `InflaterSource` class implements the `Source` interface for reading data into `Buffer`s. It uses a `Inflater` object (for decompression) and a `BufferedSource` from which the data is read.
+
+Key variables:
+- `bufferBytesHeldByInflater`: the number of bytes from the buffer that the inflater holds.
+- `closed`: whether the source has been closed or not.
+- `inflater`: the `Inflater` object used for decompression.
+- `source`: the `BufferedSource` from which data is read.
+
+Key methods:
+- `InflaterSource()`: constructor, takes in a `BufferedSource` and an `Inflater` and checks if they're not null.
+- `releaseInflatedBytes()`: releases bytes that have been inflated. The buffer reduces the number of bytes it holds by the number of bytes remaining in the inflater after inflation.
+- `close()`: closes the source if it's not closed yet. Ends the inflater and closes the source.
+- `read()`: reads data into a buffer. The data is inflated from the source and written into writable segments of the target buffer until the inflater finishes, needs a dictionary (pre-defined data for inflation), or the source is exhausted.
+- `refill()`: refills the data to be decompressed if the inflater needs input. The method releases inflated bytes and sets the inflater's input to a segment of data from the source.
+- `timeout()`: returns the source's timeout.
+
+This class is an efficient bridge between `Source` and `Inflater`. It can decompress data on the fly as it reads from the source.

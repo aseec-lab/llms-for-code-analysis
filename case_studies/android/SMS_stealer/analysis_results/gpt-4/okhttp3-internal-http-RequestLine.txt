@@ -1,0 +1,7 @@
+The `RequestLine` class is responsible for formatting an HTTP request line according to the specified `Proxy.Type`. The class contains three methods:
+
+1) `get(Request paramRequest, Proxy.Type paramType)`: Creates the HTTP request line string. If `includeAuthorityInRequestLine()` is `true`, it appends the whole URL from `paramRequest` to the string, otherwise, it appends only the request path. It also adds an "HTTP/1.1" at the end of the string.
+
+2) `includeAuthorityInRequestLine(Request paramRequest, Proxy.Type paramType)`: Determines if the authority (hostname and port number) should be included in the request line. The authority is included if the request is not HTTPS and the `Proxy.Type` is `HTTP`.
+
+3) `requestPath(HttpUrl paramHttpUrl)`: Returns the request path from `paramHttpUrl`, which includes the encoded path and the encoded query (if any).

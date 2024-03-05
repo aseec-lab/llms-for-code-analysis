@@ -1,0 +1,14 @@
+The `FingerprintManagerCompat` class provides a backward-compatible implementation for accessing the fingerprint detection hardware. 
+
+It contains several methods related to fingerprint authentication:
+
+- `from(Context paramContext)`: It's a factory method to instantiate FingerprintManagerCompat object.
+- `authenticate(...)`: It uses the provided cryptographic object and callback to authenticate the user with the fingerprint sensor. 
+- `hasEnrolledFingerprints()`: Checks whether the user has enrolled fingerprints in the device. Returns true if fingerprints are enrolled.
+- `isHardwareDetected()`: Checks if the device has a fingerprint sensor. Returns true if a sensor is present.
+
+Two inner classes are also evident:
+- `AuthenticationCallback`: An abstract class that provides several authentication-related methods that can be overridden to respond to different authentication events.
+- `CryptoObject`: A helper class to hold the Crypto objects, such as an instance of `Signature`, `Cipher`, or `Mac`.
+
+The class is marked as deprecated, suggesting that it is no longer recommended for use due to changes in the Android framework, particularly the introduction of the Biometric API that handles more biometric modalities than just fingerprints.

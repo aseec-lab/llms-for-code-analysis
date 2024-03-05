@@ -1,0 +1,8 @@
+The `TintResources` class is a subclass of `ResourcesWrapper` in the `androidx.appcompat.widget` package. It is responsible for providing tinted drawables for resources.
+
+The class has the following member:
+- `mContextRef` is a `WeakReference` to the `Context` for which the tint resources are being provided.
+
+The class overrides the `getDrawable()` method to obtain the drawable from the superclass and then tint it using the `ResourceManagerInternal` class. This tinting is performed by calling the `tintDrawableUsingColorFilter()` method of the `ResourceManagerInternal` class, passing in the context, resource ID, and drawable.
+
+The purpose of the `TintResources` class is to provide tinted drawables when they are requested from resources in the context of AppCompat.

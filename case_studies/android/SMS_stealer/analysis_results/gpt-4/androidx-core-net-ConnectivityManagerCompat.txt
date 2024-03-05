@@ -1,0 +1,9 @@
+The `ConnectivityManagerCompat` class provides compatibility methods for working with connectivity services on Android. It provides methods to get network info from a broadcast, check the status of background data restrictions, and determine whether the active network is metered. 
+
+The `getNetworkInfoFromBroadcast()` method retrieves network information from a provided Intent and a ConnectivityManager instance. 
+
+The `getRestrictBackgroundStatus()` method checks for a device's background data restriction status. The method determines this based on the API version of the running Android system. For API version 24 (Android Nougat) and above, it will check the restriction status using ConnectivityManager's `getRestrictBackgroundStatus()` method, returning the status. If the API version is less than 24, it simply returns `RESTRICT_BACKGROUND_STATUS_ENABLED`.
+
+The `isActiveNetworkMetered()` method checks whether the active network is metered, a sort of network that can have charges or limitations. It checks this based on the type of network being utilized. 
+
+Also, the `RestrictBackgroundStatus` interface is an annotation interface used for marking and storing constants related to the restriction status of background data usage.

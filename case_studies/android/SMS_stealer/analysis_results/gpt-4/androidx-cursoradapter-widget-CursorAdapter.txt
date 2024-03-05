@@ -1,0 +1,17 @@
+The `CursorAdapter` is an abstract base class used to provide an interface between a `ListView` and a database `Cursor`. It can automatically manage `Cursor` queries and data updates to keep the `ListView` content fresh. It is meant to be subclassed and provides a template for how your `ListView` interacts with your cursor.
+
+- Cursor handling and swapping: The `CursorAdapter` uses two inner classes: `ChangeObserver` and `MyDataSetObserver` to monitor changes in the underlying data retrieved by the `Cursor`. When the adapter's `swapCursor` method is called, the old cursor is closed and replaced with the new cursor.
+
+- Data binding: The `bindView` method is used to bind the `Cursor`'s data to your `ListView` item layout, and `newView` method is used to inflate the layout for each item in your `ListView`.
+
+- View creation: `newView` and `newDropDownView` methods are used to create new views for data items and dropdown items respectively. These methods are abstract and should be overridden in a subclass.
+
+- Conversion to String: The `convertToString` method is used to convert a Cursor item to a CharSequence. 
+
+- Filters: `CursorAdapter` implements the `Filterable` interface to allow for filtering of the data displayed in the ListView, and it uses `CursorFilter` to perform filtering. 
+
+- Observers: The `ChangeObserver` and `MyDataSetObserver` inner classes extend `ContentObserver` and `DataSetObserver` to observe changes to the underlying data and update the cursor accordingly.
+
+- Threading: The `runQueryOnBackgroundThread` is executed in a worker thread. It either delegates to a `FilterQueryProvider` or returns the existing cursor. 
+
+This class should be extended and the `bindView` and `newView` methods overridden to bind data from the `Cursor` to your `ListView`'s item views.

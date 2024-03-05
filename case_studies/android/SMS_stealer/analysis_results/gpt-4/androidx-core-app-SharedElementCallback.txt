@@ -1,0 +1,18 @@
+This code defines the abstract class `SharedElementCallback` within the `androidx.core.app` package. It seems to be part of the shared element transition functionality used between activities in Android.
+
+Methods in the class:
+
+1. `createDrawableBitmap`: Converts a drawable into a bitmap.
+2. `onCaptureSharedElementSnapshot`: Captures a snapshot of a shared element, converting either an ImageView or a general view into a bitmap. The resulting bitmap and additional parameters are stored in a Parcelable object.
+3. `onCreateSnapshotView`: Receives a Parcelable object and reconstructs a snapshot of the shared element as an ImageView, based on bitmap and other data from the Parcelable.
+4. `onMapSharedElements`: An empty method intended to let the user process a list of shared elements. 
+5. `onRejectSharedElements`: An empty method to handle the rejection of some shared elements.
+6. `onSharedElementEnd`: An empty method to be executed when the shared element transition has finished.
+7. `onSharedElementStart`: An empty method to be called at the start of the shared element transition.
+8. `onSharedElementsArrived`: Performs an action (calls `paramOnSharedElementsReadyListener.onSharedElementsReady()`) once shared elements have arrived at their destination.
+
+The class also includes an inner interface `OnSharedElementsReadyListener`, which defines the method `onSharedElementsReady`. This, though, is empty and needs to be overridden by the user.
+
+The end of the code contains location and version comments suggesting that this file was decompiled from a jar file. 
+
+Though many of the methods are abstract and need to be overridden, this class provides a standard way to work with shared element transitions in Android.

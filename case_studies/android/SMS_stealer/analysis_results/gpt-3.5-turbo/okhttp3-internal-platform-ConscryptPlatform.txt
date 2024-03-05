@@ -1,0 +1,13 @@
+The `ConscryptPlatform` class is a platform implementation for the OkHttp library. It provides support for the Conscrypt SSL provider, which is an alternative implementation of the Java Secure Socket Extension (JSSE).
+
+The class has a `buildIfSupported()` method that checks if Conscrypt is available and returns an instance of `ConscryptPlatform` if it is. The `getProvider()` method returns an instance of the Conscrypt `OpenSSLProvider`.
+
+The class overrides various methods of the `Platform` class to configure TLS extensions, retrieve the selected protocol, and obtain an SSLContext and X509TrustManager.
+
+The `configureTlsExtensions()` method sets session tickets and the hostname on the SSLSocket if Conscrypt is being used. It also sets application protocols.
+
+The `getSSLContext()` method returns an SSLContext instance using the Conscrypt provider.
+
+The `getSelectedProtocol()` method returns the selected protocol if Conscrypt is being used.
+
+The `trustManager()` method retrieves the X509TrustManager from the SSLParameters of the SSLSocketFactory if Conscrypt is being used.

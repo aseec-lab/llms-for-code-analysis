@@ -1,0 +1,23 @@
+The `PublicSuffixDatabase` class works with URLs to identify and differentiate between public domains and private domains, based on a list owned by Mozilla, which get updated regularly. This class reads and stores the domain list and provides utility methods for search operations on the list.
+
+Here’s a summary of its main components:
+
+1) It's a Singleton class with its instance initialized in the static block.
+ 
+2) It defines some constants such as `EMPTY_RULE, PREVAILING_RULE, PUBLIC_SUFFIX_RESOURCE`, `WILDCARD_LABEL`, etc.
+
+3) Two `AtomicBooleans`, `CountDownLatch` and byte-arrays are defined. These are used to manage the loading and processing of the public suffix list.
+
+4) The `binarySearchBytes` method is used to search the matching rule for a given domain from the public suffix list.
+
+5) The `findMatchingRule` method calls the binary search method to find a matching rule for a given array of domain labels.
+
+6) The class also defines some private methods to read and load the public suffix list file from the resources.
+
+The class helps make dealing with URLs safer by allowing developers to determine whether a particular domain is a public suffix or not.The `readTheList` method reads the public suffix list from a `publicsuffixes.gz` resource file. If the file is found, the method reads the file and saves the content of the list and the exception list into byte arrays. If the file is not found, the method does nothing.
+
+The `readTheListUninterruptibly` method is a wrapper around `readTheList`, handling potential exceptions. If an `InterruptedIOException` is caught, the method simply repeats the attempt to read the list, ignoring the interruption.
+
+The `getEffectiveTldPlusOne` attempts to identify the effective TLD (top level domain) in the provided domain string by splitting the domain into labels and searching for them in the suffix list and exception list. If the domain isn't listed or is an exception (marked with a '!' symbol), the method returns `null`.
+
+The `setListBytes` method is used to manually set the public suffix list and exception list byte arrays from outside the class, marking the list as ready to use and signaling any threads waiting on the `readCompleteLatch`.

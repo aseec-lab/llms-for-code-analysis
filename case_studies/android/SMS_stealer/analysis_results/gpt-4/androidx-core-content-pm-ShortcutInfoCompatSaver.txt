@@ -1,0 +1,13 @@
+`ShortcutInfoCompatSaver` is an abstract class, meant to act as a blueprint for how to handle saved shortcut information. Classes that extend `ShortcutInfoCompatSaver` should be responsible for managing operations on shortcut information – including adding, removing, or getting all saved shortcuts.
+
+This class has the following abstract methods which are meant to be overridden:
+
+1. `addShortcuts(List<ShortcutInfoCompat> paramList)`: Meant to accept a `List` of `ShortcutInfoCompat` objects and handle the addition of these shortcut objects in a customized way.
+
+2. `removeAllShortcuts()`: Meant to handle the removal of all shortcut objects.
+
+3. `removeShortcuts(List<String> paramList)`: Given a list of shortcut names or identifiers, this method should handle the removal of the corresponding shortcuts.
+
+Also, there's a concrete method `getShortcuts()` that always returns a new, empty ArrayList of `ShortcutInfoCompat` objects.
+
+The class contains a nested static class `NoopImpl` which extends the `ShortcutInfoCompatSaver` class and implements the abstract methods to do nothing (they all return null). This is a No-Op (no operation) implementation which is typically used when the base class requires certain methods to be implemented, but in some instances, there's no meaningful action to be taken.

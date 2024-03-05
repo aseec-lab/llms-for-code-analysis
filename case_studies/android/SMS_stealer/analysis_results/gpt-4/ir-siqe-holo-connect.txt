@@ -1,0 +1,5 @@
+The `connect` class appears to handle network connections to a specified URL, with the primary function being to send GET requests. It receives three parameters in its constructor: a URL, an information string, and a context.
+
+In its constructor, `connect` uses `AndroidNetworking` to perform the GET request to the URL specified by the input parameters. It appends these parameters to the base URL for the request.
+
+In case the first GET request produces an error (`onError` method), the code attempts to send another GET request to a different URL (notably "https://google.com"). It should be noted that the response to both GET requests isn't being utilized in this class (as seen in the empty `onResponse` methods).

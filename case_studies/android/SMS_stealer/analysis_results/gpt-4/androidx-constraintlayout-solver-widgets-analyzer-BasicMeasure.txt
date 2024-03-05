@@ -1,0 +1,17 @@
+The `BasicMeasure` class provides the functionality to measure layout according to various properties of a ConstraintWidget such as its dimensions, behavior and additional measurement constraints. 
+
+It contains various properties such as AT_MOST, DEBUG, EXACTLY, FIXED, MATCH_PARENT, UNSPECIFIED, WRAP_CONTENT, and their corresponding integer values.
+
+Its constructor initializes the `constraintWidgetContainer` with a `ConstraintWidgetContainer`, `mMeasure` with a new `Measure` and `mVariableDimensionsWidgets` with a new `ArrayList<ConstraintWidget>`.
+
+The `measure` method performs the measurement based on the widget's behavior and dimensions. It sets the `measuredWidth`, `measuredHeight`, `measuredHasBaseline` and `measuredBaseline` fields of the `paramConstraintWidget`.
+
+The `measureChildren` method iterates over all children of the `paramConstraintWidgetContainer` and measures them if they meet certain conditions based on their dimensions and whether they are in a virtual layout or not.
+
+The `solveLinearSystem` method performs a linear layout of the `paramConstraintWidgetContainer` after temporarily setting its minimum width and height to zero and fixing its width and height to the supplied parameters.
+
+The `solverMeasure` method is used to set the dimensions and measure the `paramConstraintWidgetContainer` as per the various input parameters. It goes through all the children of `paramConstraintWidgetContainer` and updates their dimensions. It also checks if the optimizer is enabled.The `updateHierarchy` method clears the `mVariableDimensionsWidgets` list and adds any child widgets of `paramConstraintWidgetContainer` to it if they have either horizontal or vertical dimension behavior set as match constraint.
+
+The `Measure` static inner class has several fields that describe the dimensions and behavior of the constraint widget. It also has several integer constants representing different measurement strategies.
+
+The `Measurer` interface declares two methods. The `didMeasures` method is invoked when measurements have been conducted. The `measure` method is invoked to conduct measurements on a specified `ConstraintWidget` using a specified `Measure`.This commented portion of the code shows metadata about the source and compilation details of the `BasicMeasure` class. It indicates that the `BasicMeasure` class file is located at the specified path on the user's system (C:\Users\Jason\Downloads\355...). The class appears to have been compiled with Java compiler version 6 (50.0). The binary version of the class is handled by the JD-Core Java decompiler.

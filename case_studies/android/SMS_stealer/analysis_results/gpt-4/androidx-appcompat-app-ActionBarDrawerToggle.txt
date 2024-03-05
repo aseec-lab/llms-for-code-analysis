@@ -1,0 +1,22 @@
+The `ActionBarDrawerToggle` class is a utility class in Android that assists in tying together the functionality of a `DrawerLayout` and the app bar (often an `ActionBar`). This class provides automatic animation and syncing of the app bar's home/up affordance with the open/close state of the drawer.
+
+In general, the `ActionBarDrawerToggle`:
+- Monitors the current state of the drawer, and animates an icon within the app bar to indicate whether the navigation drawer is visible or not.
+- Listens for user interactions with the icon in the app bar, and toggles the visibility of the navigation drawer accordingly.
+- Ensures that accessibility information about the status of the drawer is communicated to the user.
+
+It also provides other customization methods like `setDrawerIndicatorEnabled` for changing the drawer indicator and `setHomeAsUpIndicator` for setting the home as up indicator. The `onDrawerOpened`, `onDrawerClosed`, `onDrawerSlide`, `onDrawerStateChanged` methods are overridden from the `DrawerLayout.DrawerListener` interface to respond to navigation drawer state changes.
+
+The `Delegate` interface provides hooks into events related to the `ActionBarDrawerToggle` and the `DelegateProvider` interface provides a hook to get a hold of the `Delegate` instance.
+
+`FrameworkActionBarDelegate`, `ActionBarDrawerToggleHoneycomb.SetIndicatorInfo` and `ToolbarCompatDelegate` are used to support different versions of Android, providing compatibility for handling ActionBar related operations. Inside these subclasses, they handle operations like setting the action bar up indicator, description, and checking if the navigation is visible.This provided code snippet includes a subclass `ToolbarCompatDelegate` which implements the `Delegate` interface. 
+
+In this subclass, the following key methods are implemented related to the toolbar:
+
+1. `getActionBarThemedContext()`: It returns the context of the toolbar.
+2. `getThemeUpIndicator()`: It returns the default up navigation icon of the toolbar.
+3. `isNavigationVisible()`: In this case, it always returns `true` to indicate that the navigation is visible.
+4. `setActionBarDescription(int param1Int)`: It sets up the content description for the toolbar's navigation. If `param1Int` is zero, it uses the default content description.
+5. `setActionBarUpIndicator(Drawable param1Drawable, int param1Int)`: It sets the up navigation icon and description for the Toolbar. Here, `param1Drawable` is the drawable to set as the icon and `param1Int` is the resource ID for description.
+
+This class is helpful when the application is using a `Toolbar` in place of traditional ActionBar, providing compatibility for handling toolbar related operations.

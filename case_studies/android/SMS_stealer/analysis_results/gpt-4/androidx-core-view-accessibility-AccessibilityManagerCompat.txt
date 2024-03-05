@@ -1,0 +1,23 @@
+`AccessibilityManagerCompat` is a public helper class in Jetpack's androidx library, that provides static methods for interacting with an `AccessibilityManager`. It provides compatibility methods for interacting with newer Android features on older versions of the platform.
+
+Here is a quick rundown of this class's main components:
+
+1. `addAccessibilityStateChangeListener()`: Registers an `AccessibilityStateChangeListener`, returning true if successful. This method is deprecated.
+
+2. `addTouchExplorationStateChangeListener()`: Registers a `TouchExplorationStateChangeListener`, returning true if successful for Android versions 19 and above.
+
+3. `getEnabledAccessibilityServiceList()`: Returns a list of installed and enabled accessibility services.
+
+4. `getInstalledAccessibilityServiceList()`: Returns a list of all installed accessibility services.
+
+5. `isTouchExplorationEnabled()`: Checks whether touch exploration is enabled or not.
+
+6. `removeAccessibilityStateChangeListener()`: Unregisters an `AccessibilityStateChangeListener`, returning true if successful.
+
+7. `removeTouchExplorationStateChangeListener()`: Unregisters a `TouchExplorationStateChangeListener`, returning true if successful for Android versions 19 and above.
+
+8. Nested interfaces `AccessibilityStateChangeListener` and `TouchExplorationStateChangeListener`: Define the methods to be implemented by listeners for accessibility state changes and touch exploration state changes respectively.
+
+Other methods, like `equals()` and `hashCode()`, are overridden to provide the expected behavior for listener wrappers.
+
+The private classes `AccessibilityStateChangeListenerWrapper` and `TouchExplorationStateChangeListenerWrapper` implement platform-specific listener interfaces and delegate to instances of the corresponding `AccessibilityManagerCompat` interfaces.

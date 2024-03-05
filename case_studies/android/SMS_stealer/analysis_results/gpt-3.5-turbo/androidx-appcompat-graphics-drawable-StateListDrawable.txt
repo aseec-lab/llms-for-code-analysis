@@ -1,0 +1,13 @@
+The `StateListDrawable` class is a subclass of `DrawableContainer` and represents a drawable that changes its appearance based on the current state. It is used to create a drawable that can have different visual representations for different states, such as pressed, focused, or disabled.
+
+- The `StateListDrawable` class extends the `DrawableContainer` class, which is a container for managing a list of `Drawable` objects.
+- The class has a private boolean field `mMutated` to track if the drawable has been mutated.
+- The class has a private `StateListState` field `mStateListState` to store the state list and its associated drawables.
+- The class provides several constructors, including a default constructor and constructors that take a `StateListState` object or a `StateListState` object and a `Resources` object.
+- The class has a method `inflateChildElements` that is used to parse the XML file and add the drawables and state sets to the state list.
+- The class has a method `updateStateFromTypedArray` that is used to update the state list based on the values specified in a `TypedArray`.
+- The class provides methods to add a state set and drawable to the state list, retrieve the number of states, retrieve a drawable for a specific state, and retrieve the index of a state set in the state list.
+- The class overrides the `mutate` method to apply mutations to the state list drawable.
+- The class overrides the `onStateChange` method to handle state changes and select the appropriate drawable based on the current state.
+- The class overrides the `setConstantState` method to set the constant state of the drawable container.
+- The class contains a nested class `StateListState` that extends `DrawableContainerState` and represents the state list and its associated drawables. It provides methods to add a state set and drawable, grow the state array, find the index of a state set, and mutate the state list.

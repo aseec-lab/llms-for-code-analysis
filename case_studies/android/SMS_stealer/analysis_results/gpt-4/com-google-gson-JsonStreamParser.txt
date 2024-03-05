@@ -1,0 +1,13 @@
+The `JsonStreamParser` class in the `com.google.gson` package is used to parse a JSON stream into individual JSON elements. It implements the `Iterator` interface and thus, its instances can be used to sequentially read JSON elements from the source stream.
+
+Here is the brief description of the methods in the class:
+
+- The `JsonStreamParser(Reader)` and `JsonStreamParser(String)` constructors create an instance of `JsonStreamParser` by initializing a `JsonReader` with provided reader or string that contains JSON. 
+
+- `hasNext()`: This method checks if there are more JSON elements in the source stream. If there is a malformed JSON exception or IOException while parsing the JSON stream, it throws a `JsonSyntaxException` or `JsonIOException`, respectively.
+
+- `next()`: This method retrieves the next JSON element from the source stream. If there are no other elements left, it throws a `NoSuchElementException`. If there are issues like `StackOverflowError` or `OutOfMemoryError`, it wraps them in a `JsonParseException`.
+
+- `remove()`: This method is unsupported and thus, always throws an `UnsupportedOperationException`. 
+
+Internally, the class uses a lock object for thread safety when checking the availability of more elements or when fetching the next element from the source.

@@ -1,0 +1,9 @@
+The `AppLaunchChecker` class is designed to check whether an application has been started from the launcher. The class uses two static string constants: `KEY_STARTED_FROM_LAUNCHER` and `SHARED_PREFS_NAME`.
+
+It provides two public static methods:
+
+1. `hasStartedFromLauncher(Context paramContext)`: This method checks saved shared preferences with the name `android.support.AppLaunchChecker` for a boolean value against the key `startedFromLauncher`. If this value exists and is true, it means the app has been previously started from the launcher. If this value isn't present (or is false), it implies the app was not launched from the launcher.
+
+2. `onActivityCreate(Activity paramActivity)`: This method is expected to be called in `onCreate()` method of an activity. It checks if the app is started from launcher by inspecting the intent's action and category. If the action is `android.intent.action.MAIN` and the category is either `android.intent.category.LAUNCHER` or `android.intent.category.LEANBACK_LAUNCHER`, this indicates the app was started from the launcher. It then sets the `startedFromLauncher` field in shared preferences to `true`.
+
+In short, this class is useful for checking whether or not the app has been launched from the device's launcher for the first time or not.

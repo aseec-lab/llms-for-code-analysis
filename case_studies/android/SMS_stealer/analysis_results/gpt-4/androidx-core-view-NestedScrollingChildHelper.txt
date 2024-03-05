@@ -1,0 +1,9 @@
+The `NestedScrollingChildHelper` class is a helper class that assists views in handling nested scrolling scenarios. It provides a series of methods to dispatch nested scrolling operations to compatible parent views, check whether the nested scrolling is enabled, and start or stop the nested scrolling. 
+
+This class holds information about the view it aids (`mView`), the parent views that handle touch (`mNestedScrollingParentTouch`) and not-touch scrolls (`mNestedScrollingParentNonTouch`), such as fling scrolls, whether nested scrolling is currently enabled (`mIsNestedScrollingEnabled`), and some temporary variables for maintaining the state of scrolling (`mTempNestedScrollConsumed`). 
+
+An instance of `NestedScrollingChildHelper` is usually used by a view that implements the `NestedScrollingChild2` interface. With these nested scrolling methods, a scroll operation on a view can propagate both up(root view) and down(child view) the view hierarchy, allowing multiple views to scroll (at different speeds or distances) simultaneously in response to a single physical scroll. 
+
+This class supports both direct (`dispatchNestedScroll`) and pre (`dispatchNestedPreScroll`) scroll operations in every direction. It also supports fling motions (`dispatchNestedFling` and `dispatchNestedPreFling`). Operations are delegated according to the touch event types using the `ViewParentCompat`'s methods. 
+
+On a side note, when nested scrolling is enabled and a view is detached from the window or stopped nested scrolling, the class stops any active nested scroll (`onDetachedFromWindow`, `onStopNestedScroll`, and `setNestedScrollingEnabled`).

@@ -1,0 +1,11 @@
+The `ICUCompat` class in the `androidx.core.text` package provides compatibility methods for ICU (International Components for Unicode) functionality.
+
+It includes the following methods:
+
+1. `addLikelySubtags(Locale paramLocale)`: This private method takes a `Locale` parameter and returns a `String` with additional likely subtags. It uses reflection to invoke the `addLikelySubtags` method from the ICU library.
+
+2. `getScript(String paramString)`: This private method takes a `String` parameter representing a language tag and returns the script associated with it. It uses reflection to invoke the `getScript` method from the ICU library.
+
+3. `maximizeAndGetScript(Locale paramLocale)`: This public method takes a `Locale` parameter and returns the maximal version of the locale with added likely subtags and its associated script. It checks the Android SDK version and uses different methods based on the SDK version to maximize and retrieve the script. If the SDK version is 24 or higher, it directly invokes the `addLikelySubtags` and `getScript` methods from the ICU library. If the SDK version is between 21 and 23, it uses reflection to invoke the methods. If the SDK version is lower than 21, it invokes the private `addLikelySubtags` and `getScript` methods defined in the class.
+
+The class also includes initialization code in a static block that initializes the `sAddLikelySubtagsMethod` and `sGetScriptMethod` fields using reflection based on the Android SDK version.

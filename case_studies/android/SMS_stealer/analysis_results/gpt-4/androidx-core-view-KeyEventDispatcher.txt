@@ -1,0 +1,12 @@
+The `KeyEventDispatcher` Java class in the `androidx.core.view` package is used to dispatch Key events to a view or a window in an Android application. It works by checking for backwards compatibility and on the basis of that it decides whether to use the item's `superDispatchKeyEvent` method or its own method. 
+
+Main methods include:
+
+1. `actionBarOnMenuKeyEventPre28`: Invokes an ActionBar's onMenuKeyEvent if it exists.
+2. `activitySuperDispatchKeyEventPre28`: Handles dispatching of key events for Activities for Android versions less than 28 (Android Pie).
+3. `dialogSuperDispatchKeyEventPre28`: Handles dispatching of key events for Dialogs for Android versions less than 28.
+4. `dispatchBeforeHierarchy`: Dispatches unhandled key events before the hierarchy processes it.
+5. `dispatchKeyEvent`: Dispatches key events considering if the current version of Android is more than 28 or not.
+6. `getDialogKeyListenerPre28`: Reflection-based method to fetch `mOnKeyListener` field from the Dialog class.
+
+The class also contains a nested interface `Component` which has a single method `superDispatchKeyEvent`. The classes implementing this interface, such as `Activity` or `Dialog`, are expected to provide an implementation for the `superDispatchKeyEvent` method.

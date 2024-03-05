@@ -1,0 +1,11 @@
+This code defines an interface, `PushObserver`, within the package `okhttp3.internal.http2`. This interface represents an observer for HTTP/2 Push requests from the server side to the client side. 
+
+It contains the following methods:
+- `onData`: This method is a callback invoked when a DATA frame is received in the current Push Promise. 
+- `onHeaders`: This method is used on receiving a HEADERS frame for the current Push Promise.
+- `onRequest`: This method is invoked when a new Push Promise is received.
+- `onReset`: If a RST_STREAM frame is received canceling the current Push Promise, this method is invoked.
+
+Moreover, a default `PushObserver` implementation called `CANCEL` is created which approves all requests and skips all incoming data; it performs no actions upon canceling. 
+
+This interface itself does nothing and serves as a specification. The methods need to be implemented elsewhere. The part at the end of the code provides metadata on the Java compiler used and the original file location.

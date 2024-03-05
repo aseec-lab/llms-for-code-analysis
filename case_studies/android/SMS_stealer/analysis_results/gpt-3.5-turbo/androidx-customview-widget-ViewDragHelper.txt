@@ -1,0 +1,25 @@
+The `ViewDragHelper` class is a utility class provided by the AndroidX library. It facilitates the implementation of custom view dragging and animation behavior. It allows for dragging a view within its parent view, applying friction and velocity-based animation. The code includes constants for drag directions, edge types, and states, as well as methods for checking drag thresholds, clamping values, and computing animation durations. The class also provides callbacks and event tracking for handling touch input and motion events.The `dragTo` method is responsible for moving the captured view by the specified amount in the horizontal and vertical directions. It takes the current position of the captured view, the desired position, and the amount of movement in each direction as input. It first calculates the difference between the desired position and the current position in each direction. Then, it calls the appropriate methods to update the position of the captured view, using ViewCompat.offsetLeftAndRight and ViewCompat.offsetTopAndBottom. Finally, if there was any movement, it calls the onViewPositionChanged method of the callback to notify it of the changes in position of the captured view.The `setDragState` method is responsible for changing the drag state of the DragHelper instance. It removes any pending callbacks to the `mSetIdleRunnable`, updates the drag state to the new value, and calls the `onViewDragStateChanged` method of the callback to notify it of the change. If the drag state is set to 0 (STATE_IDLE), it also sets the `mCapturedView` to null.
+
+The `setEdgeTrackingEnabled` method is used to specify which edges of the parent view should be tracked for edge drags. It takes an integer parameter that represents the edges to track, and sets the `mTrackingEdges` field to the specified value.
+
+The `setMinVelocity` method is used to set the minimum velocity for a fling gesture. It takes a float parameter that represents the minimum velocity in pixels per second, and sets the `mMinVelocity` field to the specified value.
+
+The `settleCapturedViewAt` method is responsible for settling the captured view at the specified position. It checks if the release is in progress and calls the `forceSettleCapturedViewAt` method to settle the view using the specified position, and the x and y velocities obtained from the velocity tracker. It returns the result of the `forceSettleCapturedViewAt` method.
+
+The `shouldInterceptTouchEvent` method is responsible for determining whether the DragHelper should intercept the touch event. It first checks if the action is one that requires canceling and cancels the current gesture if necessary. Then, it adds the touch event to the velocity tracker. The method then checks the action type and handles the different cases by calling the appropriate methods, such as `cancel`, `clearMotionHistory`, and `saveInitialMotion`. Finally, the method returns false, indicating that the touch event should not be intercepted.The `clampViewPositionHorizontal` method of the `Callback` class is used to clamp the horizontal position of a view being dragged. It takes three parameters: the dragged view, the desired left position, and the desired right position. The method should be overridden to restrict the range of the view's horizontal position based on the desired left and right positions. The default implementation of this method simply returns the desired left position.
+
+The `clampViewPositionVertical` method of the `Callback` class is used to clamp the vertical position of a view being dragged. It takes three parameters: the dragged view, theThis is the remaining part of the `Callback` class in the `ViewDragHelper` class.
+
+- `getOrderedChildIndex`: Returns the index of the child view in the parent's view group.
+- `getViewHorizontalDragRange`: Returns the range of valid horizontal drag distances for the dragged view.
+- `getViewVerticalDragRange`: Returns the range of valid vertical drag distances for the dragged view.
+- `onEdgeDragStarted`: Called when the edge of a view is touched to initiate a drag.
+- `onEdgeLock`: Checks if the edge drag should be locked.
+- `onEdgeTouched`: Called when the edge of a view is touched.
+- `onViewCaptured`: Called when a view is captured for dragging.
+- `onViewDragStateChanged`: Called when the drag state of the view changes.
+- `onViewPositionChanged`: Called when the position of a captured view changes during dragging.
+- `onViewReleased`: Called when a captured view is released after dragging.
+- `tryCaptureView`: Determines if the view should be captured and dragged.
+
+This is the end of the `Callback` class and the end of the file.

@@ -1,0 +1,23 @@
+The `LoaderManager` class in Android is an abstract class and is part of the `androidx.loader.app` package.
+
+The `LoaderManager` is responsible for managing one or more `Loader` instances within an Activity or Fragment. It provides several methods to control and interact with these loaders including:
+
+- `destroyLoader(int paramInt)`: This abstract method is used to stop and remove a loader from the manager.
+  
+- `getLoader(int paramInt)`: This abstract method returns loader for given id, either last created or already running.
+
+- `initLoader(int paramInt, Bundle paramBundle, LoaderCallbacks<D> paramLoaderCallbacks)`: This abstract method ensures a loader is initialized and active.
+
+- `markForRedelivery()`: This abstract method is used to make the LoaderManager retain its instance so data is not lost when an activity or fragment is destroyed and recreated.
+
+- `restartLoader(int paramInt, Bundle paramBundle, LoaderCallbacks<D> paramLoaderCallbacks)`: This abstract method is used to restart a loader, discarding any existing data.
+
+In addition to these methods, there are other helper methods such as `getInstance` for getting an instance of `LoaderManager` and `enableDebugLogging` which helps in enabling or disabling debug logging.
+
+The inner interface `LoaderCallbacks<D>` provides three callback methods that keep track of the `Loader`'s state:
+
+- `onCreateLoader(int param1Int, Bundle param1Bundle)`: This is called by the LoaderManager when a new Loader needs to be created.
+
+- `onLoadFinished(Loader<D> param1Loader, D param1D)`: Called when a loader has finished loading data.
+
+- `onLoaderReset(Loader<D> param1Loader)`: Called when a previously created loader is reset, making its data unavailable.

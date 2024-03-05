@@ -1,0 +1,11 @@
+The `AnyThread` annotation in the code belongs to the `androidx.annotation` package of the Android Jetpack library.
+
+This is a marker annotation used to indicate that a method, constructor, type, or parameter can be used from any thread. It doesn't enforce anything, but serves as a hint for developers about the intended and safe usage race conditions-wise.
+
+The annotation is tagged with `@Documented`, `@Retention(RetentionPolicy.CLASS)`, and `@Target({ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE, ElementType.PARAMETER})` annotations. 
+
+- `@Documented` denotes that this annotation should be included in the documentation of annotated elements.
+- `@Retention(RetentionPolicy.CLASS)` means that this annotation is available to the Java Virtual Machine (JVM) at runtime, but not necessarily available through reflection.
+- `@Target` specifies the program element types that this annotation can be applied to, which in this case are methods, constructors, types, and parameters.
+
+Note that the usage of `AnyThread` doesn't imply thread safety or synchronization semantics, it's just a reminder that it is okay to call or use the annotated element from any thread.

@@ -1,0 +1,12 @@
+The `DragStartHelper` class in the `androidx.core.view` package provides a way to handle dragging gestures on a view. Here's what the code does:
+
+- It stores the `View` object and an `OnDragStartListener` object passed to the constructor.
+- It has private fields to keep track of whether dragging is currently happening (`mDragging`), and the last touch coordinates (`mLastTouchX` and `mLastTouchY`).
+- It defines an `OnLongClickListener` and an `OnTouchListener` as anonymous inner classes. These listeners are used to detect long clicks and touch events on the `View`.
+- It provides methods to attach and detach the drag start functionality to the `View`.
+- The `getTouchPosition` method returns the last touch coordinates.
+- The `onLongClick` method is called when a long click is detected on the `View`. It invokes the `onDragStart` method of the `OnDragStartListener` and returns its result.
+- The `onTouch` method is called when a touch event is detected on the `View`. It checks the action of the event and updates the touch coordinates accordingly. If a specific condition is met (e.g., mouse button is pressed, not already dragging, touch coordinates have changed), it invokes the `onDragStart` method of the `OnDragStartListener` and sets the `mDragging` flag. It returns the result of the `onDragStart` method.
+- There is an `OnDragStartListener` interface that defines a single method `onDragStart`. This method is called when the drag start event occurs, and it should return a boolean indicating whether dragging should start.
+
+Overall, the `DragStartHelper` class provides a convenient way to handle dragging gesture callbacks on a `View`.

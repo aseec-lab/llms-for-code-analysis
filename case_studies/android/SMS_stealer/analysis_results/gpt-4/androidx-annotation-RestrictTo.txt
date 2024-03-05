@@ -1,0 +1,21 @@
+The `@RestrictTo` is an annotation from the AndroidX library that helps to limit the visibility of a program element (e.g., methods, classes, constructors, fields, packages, or other annotations). This is not enforced by the Java compiler, but is intended to be enforced by lint tools, IDEs, etc.
+
+It's used in conjunction with a `Scope` which indicates what the element should be restricted to. The possible Scopes are:
+
+- `SUBCLASSES`: Restricts usage to subclasses of the class that this annotation is applied on.
+
+- `LIBRARY`: Restricts usage to within the same "library" (e.g., a Gradle library module).
+
+- `LIBRARY_GROUP`: Restricts usage to other libraries in the same group.
+
+- `LIBRARY_GROUP_PREFIX`: Restricts usage to other libraries in the same group defined by the prefix in the group ID. 
+
+- `GROUP_ID`: For use with artifacts that are published with a "groupId" (i.e., Maven group) 
+
+- `TESTS`: Restricts usage to tests
+
+The `@Retention(RetentionPolicy.CLASS)` annotation ensures the `@RestrictTo` annotation is stored in the class file during compilation but not needed at runtime. 
+
+The `@Target` annotation indicates that this annotation can be used on types, methods, constructors, fields, packages, and other annotations.
+
+The `value()` method is used to get the scope/s to which the restriction applies.

@@ -1,0 +1,21 @@
+The `WidgetRun` Java class is an abstract class which implements the `Dependency` interface. This class models a runnable constraint widget (either a horizontal or vertical layout chain) in the ConstraintLayout's dependency graph analysis.
+
+Below are some main characteristics:
+
+1. It contains the main reference to a corresponding `ConstraintWidget` instance.
+
+2. Through the `DimensionDependency` class it handles the dimension resolution of a widget.
+
+3. The class also contains `DependencyNode` instances for both the start and end of a run.
+
+4. There are various methods in this class which perform operations such as applying constraints to a widget, clearing a runnable widget, resetting a widget and updating the state of a runnable widget based on declared dependencies.
+
+5. It also contains methods for handling CENTER, MATCH_CONSTRAINT and WRAP dimension resolution.
+
+With this in mind, the `WidgetRun` class is a crucial element in the declarative UI management of widgets in ConstraintLayout. It helps handle constraints, dimensions, positioning and updates to ConstraintWidgets in a layout.1. `updateRunStart(Dependency paramDependency)`: This is a placeholder method designed to be overridden in subclasses. It doesn't have a body.
+
+2. `wrapSize(int paramInt)`: This method calculates the dimension of a widget taking into account the constraints and margins. It takes an integer parameter `paramInt` and returns a long value representing the size of the widget. If the dimension is already resolved, it will return either the value of the dimension adjusted by the margins, or 0L if not resolved.
+
+3. `RunType`: This is an inner enum which classifies the type of a run, including NONE, START, END, and CENTER. It's presumably used to identify different types of constraints or dependencies for a given widget run.
+
+4. The final block provides the file location and metadata regarding Java's compiler version and JD-Core Version, which is related to Java Decompiler.

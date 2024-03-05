@@ -1,0 +1,120 @@
+The code defines a class called "ANRequest" in the "com.androidnetworking.common" package.
+The class is a generic type and is used for making network requests.
+It contains various instance variables for storing request parameters, such as URL, headers, parameters, file, and listeners for different types of responses.
+The class has constructor methods for different types of requests, such as Get, Post, Download, and Multipart.
+It also has methods for delivering error responses to the appropriate listeners.The code provides implementation for delivering success response, canceling requests, delivering error response, and delivering OkHttp response. It also includes methods for executing requests and setting listeners for different types of responses.1. The `getAsJSONObject` method sets the response type to JSON object and sets a JSON object request listener. It adds the request to the request queue.
+2. The `getAsObject` method sets the response type to Parsed and sets a parsed object request listener. It adds the request to the request queue.
+3. The `getAsObjectList` method sets the response type to Parsed and sets a parsed object list request listener. It adds the request to the request queue.
+4. The `getAsOkHttpResponse` method sets the response type to OkHttp response and sets an OkHttp response listener. It adds the request to the request queue.
+5. The `getAsOkHttpResponseAndBitmap` method sets the response type to Bitmap and sets an OkHttp response and bitmap listener. It adds the request to the request queue.
+6. The `getAsOkHttpResponseAndJSONArray` method sets the response type to JSON array and sets an OkHttp response and JSON array listener. It adds the request to the request queue.
+7. The `getAsOkHttpResponseAndJSONObject` method sets the response type to JSON object and sets an OkHttp response and JSON object listener. It adds the request to the request queue.
+8. The `getAsOkHttpResponseAndObject` method sets the response type to Parsed and sets an OkHttp response and parsed object listener. It adds the request to the request queue.
+9. The `getAsOkHttpResponseAndObjectList` method sets the response type to Parsed and sets an OkHttp response and parsed object list listener. It adds the request to the request queue.
+10. The `getAsOkHttpResponseAndParsed` method sets the response type to Parsed and sets an OkHttp response and parsed object listener with a custom type. It adds the request to the request queue.
+11. The `getAsOkHttpResponseAndString` method sets the response type to String and sets an OkHttp response and string listener. It adds the request to the request queue.
+12. The `getAsParsed` method sets the response type to Parsed and sets a parsed object request listener with a custom type. It adds the request to the request queue.
+13. The `getAsString` method sets the response type to String and sets a string request listener. It adds the request to the request queue.
+14. The `getCacheControl` method returns the cache control object used in the request.
+15. The `getCall` method returns the OkHttp call object associated with the request.
+16. The `getDirPath` method returns the directory path where the downloaded file will be saved.
+17. The `getDownloadProgressListener` method returns a download progress listener.
+18. The `getFileName` method returns the name of the file to be downloaded.
+19. The `getFuture` method returns the future object associated with the request.
+20. The `getHeaders` method returns the headers of the request.
+21. The `getMethod` method returns the HTTP method of the request.
+22. The `getMultiPartRequestBody` method returns the request body for multipart form data requests.
+23. The `getOkHttpClient` method returns the OkHttp client used for the request.
+24. The `getPriority` method returns the priority of the request.
+25. The `getRequestBody` method returns the request body of the request.
+26. The `getRequestType` method returns the type of the request (Simple, Download, Upload).
+27. The `getResponseAs` method returns the desired response type of the request.
+28. The `getScaleType` method returns the scale type for image requests.
+29. The `getSequenceNumber` method returns the sequence number of the request.
+30. The `getTag` method returns the tag associated with the request.
+31. The `getType` method returns the custom type used for parsed object requests.
+32. The `getUploadProgressListener` method returns an upload progress listener.
+33. The `getUrl` method returns the URL of the request with path and query parameters resolved.
+34. The `getUserAgent` method returns the user agent string used in the request.
+35. The `isCanceled` method checks if the request has been canceled.In the given code:
+
+- The `isCancelled` method checks if the request has been cancelled.
+- The `isRunning` method checks if the request is currently running.
+- The `parseNetworkError` method parses the network error and sets the error body in the ANError object.
+- The `parseResponse` method parses the response based on the response type and returns an ANResponse object.
+- The `prefetch` method sets the response type to PREFETCH and adds the request to the request queue.
+- The `setAnalyticsListener` method sets the analytics listener for the request.
+- The `setCall` method sets the OkHttp call object for the request.
+- The `setDownloadProgressListener` method sets the download progress listener for the request.
+- The `setFuture` method sets the future object for the request.
+- The `setProgress` method sets the progress of the request.
+- The `setResponseAs` method sets the response type for the request.
+- The `setRunning` method sets the running state of the request.
+- The `setSequenceNumber` method sets the sequence number of the request.
+- The `setType` method sets the custom type for parsed object requests.
+- The `setUploadProgressListener` method sets the upload progress listener for the request.
+- The `setUserAgent` method sets the user agent string for the request.
+- The `startDownload` method starts the download request and adds it to the request queue.
+- The `toString` method returns a string representation of the request.
+- The `DeleteRequestBuilder` is a subclass of `PostRequestBuilder` that represents a DELETE request builder.
+- The `DownloadBuilder` is a builder class for download requests that allows setting various parameters.The remaining code contains additional builder classes for different types of requests. 
+
+- The `GetRequestBuilder` is a builder class for GET requests that allows setting various parameters such as headers, cache control, max width/height for image decoding, etc.
+- The `HeadRequestBuilder` is a subclass of `GetRequestBuilder` that represents a HEAD request builder.
+- The `MultiPartBuilder` is a builder class for multi-part requests that allows adding headers, files, and parameters. It also allows setting various parameters such as cache control, percentage threshold for cancelling, etc.The `OptionsRequestBuilder` is a builder class for OPTIONS requests. It extends the `GetRequestBuilder` class and sets the request method to OPTIONS.
+
+The `PatchRequestBuilder` is a builder class for PATCH requests. It extends the `PostRequestBuilder` class and sets the request method to PATCH.
+
+The `PostRequestBuilder` is a builder class for POST requests. It allows setting various parameters such as headers, body parameters, file body, byte body, etc. It also allows setting the cache control, custom content type, executor, priority, tag, etc.The `addHeaders` method adds a header to the request. It checks if the header already exists and adds it if it doesn't.
+
+The `addHeaders` method adds multiple headers to the request by iterating over a map of headers and calling the `addHeaders` method for each entry.
+
+The `addJSONArrayBody` method sets the JSON array as the body of the request by converting it to a string.
+
+The `addJSONObjectBody` method sets the JSON object as the body of the request by converting it to a string.
+
+The `addPathParameter` method adds a path parameter to the request by converting the object to a map of string key-value pairs using `ParseUtil.getParserFactory().getStringMap()`.
+
+The `addPathParameter` method adds a path parameter to the request by directly specifying the key-value pair.
+
+The `addPathParameter` method adds multiple path parameters to the request by iterating over a map of parameters and calling the `addPathParameter` method for each entry.
+
+The `addQueryParameter` method adds a query parameter to the request by converting the object to a map of string key-value pairs using `ParseUtil.getParserFactory().getStringMap()`.
+
+The `addQueryParameter` method adds a query parameter to the request by directly specifying the key-value pair.
+
+The `addQueryParameter` method adds multiple query parameters to the request by iterating over a map of parameters and calling the `addQueryParameter` method for each entry.
+
+The `addStringBody` method sets the given string as the body of the request.
+
+The `addUrlEncodeFormBodyParameter` method adds a URL-encoded form body parameter to the request by converting the object to a map of string key-value pairs using `ParseUtil.getParserFactory().getStringMap()`.
+
+The `addUrlEncodeFormBodyParameter` method adds a URL-encoded form body parameter to the request by directly specifying the key-value pair.
+
+The `addUrlEncodeFormBodyParameter` method adds multiple URL-encoded form body parameters to the request by iterating over a map of parameters and calling the `addUrlEncodeFormBodyParameter` method for each entry.
+
+The `build` method creates an `ANRequest` object with the specified parameters.
+
+The `doNotCacheResponse` method sets the cache control of the request to no-store.
+
+The `getResponseOnlyFromNetwork` method sets the cache control of the request to force network.
+
+The `getResponseOnlyIfCached` method sets the cache control of the request to force cache.
+
+The `setContentType` method sets the custom content type of the request.
+
+The `setExecutor` method sets the executor that will be used for executing the request.
+
+The `setMaxAgeCacheControl` method sets the max age cache control of the request.
+
+The `setMaxStaleCacheControl` method sets the max stale cache control of the request.
+
+The `setOkHttpClient` method sets the `OkHttpClient` instance to be used for executing the request.
+
+The `setPriority` method sets the priority of the request.
+
+The `setTag` method sets a tag that can be used to identify the request.
+
+The `setUserAgent` method sets the user agent header of the request.
+
+The `PutRequestBuilder` is a builder class for PUT requests. It extends the `PostRequestBuilder` class and sets the request method to PUT.

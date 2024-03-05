@@ -1,0 +1,12 @@
+The `FrameMetricsAggregator` class in the `androidx.core.app` package is used to aggregate and collect frame metrics for activities.
+
+Here's a summary of what the code does:
+
+- The class defines constants for various frame metric types and their corresponding indices.
+- It has an instance of `FrameMetricsBaseImpl` which is used to handle frame metrics based on the device's SDK version.
+- The constructor initializes `mInstance` based on the SDK version of the device.
+- The class provides methods to add an activity, get metrics, remove an activity, reset the metrics, and stop tracking the metrics.
+- The `FrameMetricsApi24Impl` inner class extends `FrameMetricsBaseImpl` and provides implementation for handling frame metrics on devices with SDK version 24 or higher.
+- The inner class uses a handler thread to listen for frame metrics events and adds duration items to the metrics array.
+- The `null` inner class implements the `Window.OnFrameMetricsAvailableListener` interface to handle frame metrics availability events.
+- The `FrameMetricsBaseImpl` inner class provides empty implementations of the frame metrics handling methods for devices with SDK version below 24.

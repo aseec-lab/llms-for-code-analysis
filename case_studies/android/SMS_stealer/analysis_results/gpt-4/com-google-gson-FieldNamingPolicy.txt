@@ -1,0 +1,13 @@
+The `FieldNamingPolicy` class in the `com.google.gson` package is an enumeration that defines several policies on how to translate Java field names into JSON field names. 
+
+It provides different strategies for this purpose, including: 
+
+- `IDENTITY`, which returns original field name, 
+- `LOWER_CASE_WITH_UNDERSCORES`, 
+- `LOWER_CASE_WITH_DASHES`, 
+- `UPPER_CAMEL_CASE`, which will return the name with first letter in uppercase and remaining parts as is, and 
+- `UPPER_CAMEL_CASE_WITH_SPACES`, where the name is split by spaces at camel case changes, and the first letter is capitalized. 
+
+It also provides several utility methods that are used for modifying and manipulating strings according to the different naming policies. These methods include `modifyString()`, `separateCamelCase()` and `upperCaseFirstLetter()`.
+
+The actual conversion of a field name according to a given naming policy is done by calling the `translateName(Field)` method, which is declared in each enum instance.

@@ -1,0 +1,28 @@
+The class `DesignTool` is used for designing or modifying animations in a `MotionLayout`. This class implements the `ProxyInterface` interface.
+
+The `DesignTool` class provides functionality for handling key frame animations, such as obtaining frame positions, changing state or dumping animation constraints.
+
+It also has methods for:
+
+1. Interacting with the layout editor
+2. Handling dimensions
+3. Setting positions
+4. Interface connections
+5. Adjusting and measuring position of a specific view object.
+
+The class provides utility methods to calculate pixel positions from dp and create connections of constraints between layout elements with applicable margins. 
+
+The fundamental operation of `DesignTool` class is to grant detailed control over the `MotionLayout` animations and transitions, so you can program them in precise ways rather than just using the standard, pre-set behavior provided by Android and its layout system.
+
+In its constructor, it takes a `MotionLayout` parameter, and stores it into its private final variable `mMotionLayout`. The private methods in this class are used internally to execute calculations and manipulations needed for the animations.1. `getStartState()`: Returns the name of the start state from the `MotionLayout`.
+2. `getState()`: Returns the state of animation based on the progress.
+3. `getTransitionTimeMs()`: Returns the transition time in milliseconds from the `MotionLayout`.
+4. `isInTransition()`: Checks if the design tool is currently in transition.
+5. `setAttributes()`: Sets attributes such as dimensions, connections, biases, absolute positions for a given constraint in the `MotionLayout`.
+6. `setKeyFrame()`: Sets the key frame position of the `MotionLayout`.
+7. `setKeyFramePosition()`: Calculates and sets key frame parameters like percentX and percentY depending on position.
+8. `setKeyframe()`: Sets the value of a keyframe property if it's of type `Key`.
+9. `setState()`: Changes the state to the given state if it exists or sets to "motion_base" otherwise.
+10. `setToolPosition()`: Sets the tool's progress position and updates the layout.
+11. `setTransition()`: Sets the start and end positions for the transition from the `MotionLayout`.
+12. `setViewDebug()`: Sets the drawing path for debugging the view in the `MotionLayout`.

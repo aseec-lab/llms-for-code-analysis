@@ -1,0 +1,7 @@
+This code provides compatibility methods for the `ListView` class, allowing older versions of Android to use certain `ListView` methods that are only available in newer versions.
+
+There are two main methods:
+
+1. `canScrollList()`: This method returns a boolean value indicating whether the `ListView` can be scrolled in a specified direction. For devices running Android 4.4 (KitKat) or higher, it calls the built-in `canScrollList()` method. For devices with older Android versions, it calculates this value based on the positions of the first and last visible items in the list.
+
+2. `scrollListBy()`: This method scrolls the `ListView` content by a specified number of pixels. For devices running Android 4.4 or higher, it calls the built-in `scrollListBy()` method. For older versions, it manually calculates and sets the new position by modifying the current position and the top offset of the first visible item.

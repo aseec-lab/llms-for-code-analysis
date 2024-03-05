@@ -1,0 +1,9 @@
+The `AccessibilityNodeProviderCompat` class provides compatibility support for accessibility service in different versions of Android. It creates or retrieves accessibility information about views on the screen.
+
+- `HOST_VIEW_ID` is a constant for representing the host view id.
+- `mProvider` is a provider object for accessing the accessibility service.
+- The class has two constructors, one without parameters and one with an `Object` parameter `paramObject`.
+- The parameter-less constructor checks the Android SDK version. If the version is 19 or above, it initializes `mProvider` with `AccessibilityNodeProviderApi19`. If the version is between 16 and 19, it initializes `mProvider` with `AccessibilityNodeProviderApi16`. For earlier versions, `mProvider` is `null`.
+- The constructor with the `paramObject` parameter initializes `mProvider` directly from the parameter.
+- The class has several methods: `createAccessibilityNodeInfo`, `findAccessibilityNodeInfosByText`, `findFocus`, `getProvider`, and `performAction`. These methods, however, return `null` or `false`, and potentially should be overridden in subclasses to provide specific implementations.
+- `AccessibilityNodeProviderApi16` and `AccessibilityNodeProviderApi19` are inner classes extending `AccessibilityNodeProvider`. They serve as wrappers for the corresponding platform classes, providing common interface for accessibility operations. Various methods in these classes convert or adapt the Compat class method calls to the specific platform calls.

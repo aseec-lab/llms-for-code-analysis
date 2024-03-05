@@ -1,0 +1,10 @@
+The `FormBody` class in the `okhttp3` package is responsible for representing a request body that consists of form data in the `application/x-www-form-urlencoded` format. 
+
+Key Features:
+- It extends the `RequestBody` class, which is a base class for representing the request body.
+- It maintains two lists, `encodedNames` and `encodedValues`, that store the encoded form field names and values, respectively. These lists are constructed using the `immutableList()` method from the `Util` class.
+- It provides methods to get the number of form fields (`size()`), retrieve the encoded name and value of a specific form field (`encodedName()` and `encodedValue()`), decode the name and value of a specific form field (`name()` and `value()`), and to calculate the content length of the form body (`contentLength()`).
+- It provides a method `writeTo()` to write the form body to a `BufferedSink` object.
+- It contains a static nested class `Builder`, which is responsible for constructing instances of `FormBody`. The `Builder` class provides methods to add form fields (`add()` and `addEncoded()`) and to create a new `FormBody` instance (`build()`).
+
+Overall, the `FormBody` class in the OkHttp library allows you to easily create and manipulate form data request bodies in the `application/x-www-form-urlencoded` format.

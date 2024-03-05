@@ -1,0 +1,9 @@
+The `RouteDatabase` class is a class that keeps track of failed HTTP routes. It holds a `Set` of `Route` objects representing failed routes.
+
+- The `connected` method is used to indicate that connection to a specific route was successful. It removes the route from the set of failed routes.
+
+- The `failed` method is used to indicate that the connection attempt to a particular route has failed. It adds the route to the set of failed routes.
+
+- The `shouldPostpone` method checks if a route is in the set of failed routes. If it is, it advises to postpone the connection attempt to this route. 
+
+All the methods are `synchronized` to prevent issues in multi-threading context.

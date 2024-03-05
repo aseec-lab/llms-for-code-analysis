@@ -1,0 +1,17 @@
+The `Lifecycling` class in the `androidx.lifecycle` package is used to bind lifecycle events with their observers. This class contains methods that manage and fetch lifecycle observers through reflection and auto-generated adapters. It uses two caches (`sCallbackCache` and `sClassToAdapters`) to speed up lookup for lifecycle methods.
+
+The `createGeneratedAdapter` method creates a new instance of a `GeneratedAdapter` using reflection.
+
+The `generatedConstructor` method returns a constructor that can create instances of classes named using the "Adapter" convention.
+
+The `getAdapterName` method is a utility method to produce the canonical name of an adapter.
+
+The `getCallback` method fetches a `LifecycleEventObserver` for a given object.
+
+The `getObserverConstructorType` method returns the integer value representing the type of constructor used for the lifecycle observer.
+
+The `isLifecycleParent` method checks if the passed class is a parent of the `LifecycleObserver` class.
+
+The `lifecycleEventObserver` method returns a `LifecycleEventObserver` instance which could be any of the four observers (FullLifecycleObserverAdapter, SingleGeneratedAdapterObserver, CompositeGeneratedAdaptersObserver, ReflectiveGenericLifecycleObserver).
+
+The `resolveObserverCallbackType` method checks if the class has lifecycle methods or lifecycle observers in its superclass or interfaces and updates the cache (`sClassToAdapters`) accordingly. It returns an integer value representing the type of lifecycle callbacks it has.

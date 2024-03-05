@@ -1,0 +1,15 @@
+The `ContentLoadingProgressBar` class in the `androidx.core.widget` package extends the `ProgressBar` class. It provides a progress bar that can show and hide content loading indicators, with a minimum delay and show time.
+
+The class contains constants for the minimum delay and minimum show time, and implements `Runnable` objects for delayed hide and show actions.
+
+There are boolean fields to track whether the progress bar is dismissed, whether the hide action is posted, whether the show action is posted, and the start time.
+
+The class has constructors that initialize a `ContentLoadingProgressBar` instance and call the super constructor.
+
+Private methods are provided to remove any pending callbacks for the hide and show actions.
+
+The `hide` method is used to hide the progress bar. It sets the dismissed flag, removes the show action callback, and checks if the progress bar should be hidden immediately or after a delay.
+
+The `onAttachedToWindow` and `onDetachedFromWindow` methods override the corresponding methods in the super class and remove any pending callbacks.
+
+The `show` method is used to show the progress bar. It resets the start time and dismissed flag, removes the hide action callback, and checks if the progress bar should be shown immediately or after a delay.

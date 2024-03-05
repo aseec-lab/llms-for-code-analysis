@@ -1,0 +1,27 @@
+The `ActionBarContainer` class is primarily a customized FrameLayout used to store the various components of an action bar in an Android UI. 
+
+Some key member variables include `mActionBarView`, `mContextView`, `mTabContainer` which hold references to the main action bar view, context action bar view, and tab bar view respectively. 
+
+Several methods help manage the behavior of the action bar, including setting dimensions, managing drawable graphics, handling various touch and system events, and performing layout and inflation.
+
+The `setPrimaryBackground(Drawable paramDrawable)` method sets the primary background of the container and updates the bounds accordingly. 
+
+The `setSplitBackground(Drawable paramDrawable)` method behaves similarly but for a split action bar.
+
+The `onMeasure` method measures the dimensions of the action bar container, adjusting based on whether a tab container is present and visible. 
+
+The `onLayout` method helps place the container's child views at the correct locations. 
+
+Events like touch, hover, etc. are also intercepted and handled within the class. 
+
+The constructors (`ActionBarContainer(Context paramContext)` and `ActionBarContainer(Context paramContext, AttributeSet paramAttributeSet)`) establish the initial state of the ActionBarContainer, including obtaining styled attributes for the action bar and setting the background.The `setStackedBackground(Drawable paramDrawable)` method sets and adjusts the bounds of the stacked background of the action bar container. It also toggles drawing capabilities depending on whether an action bar is split or stacked.
+
+The `setTabContainer(ScrollingTabContainerView paramScrollingTabContainerView)` method serves to exchange an existing tab container for a new one.
+
+The `setTransitioning(boolean paramBoolean)` method manages the focusability of the action bar container's children depending on if it is transitioning.
+
+The `setVisibility(int paramInt)` method manages the visibility states of the various drawables based on the visibility setting of the action bar container.
+
+The `startActionModeForChild(View paramView, ActionMode.Callback paramCallback)` and `startActionModeForChild(View paramView, ActionMode.Callback paramCallback, int paramInt)` methods are for starting an action mode for a child view but they return a null implying action mode is not supported in this class.
+
+The `verifyDrawable(Drawable paramDrawable)` evaluates whether a given drawable is one of the action bar container's known drawables.

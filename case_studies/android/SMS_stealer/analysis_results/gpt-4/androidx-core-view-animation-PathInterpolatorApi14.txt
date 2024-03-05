@@ -1,0 +1,9 @@
+The `PathInterpolatorApi14` class in the `androidx.core.view.animation` package implements the `Interpolator` interface which is used to adjust the rate of change in animations. 
+
+This class specifically is used to create smooth animations along a path. A higher precision (here, `0.002F`) results in smoother movements along the path. The class maintains two float arrays `mX` and `mY` which represent the X and Y coordinates of the path points.
+
+The class allows for the creation of interpolators using quadratic (`createQuad`) or cubic (`createCubic`) paths, or directly from a `Path` object. The `getInterpolation` method returns an interpolated value based on the input, smoothly transitioning between `mX` points with respect to given `mY` points.
+
+During the instantiation of `PathInterpolatorApi14`, it stages out the path into roughly equal segments using `PathMeasure` and stores the X and Y coordinates of these segments in `mX` and `mY` respectively.
+
+The created interpolator can then be used with animations to make objects follow the path defined while creating an instance of this class.

@@ -1,0 +1,18 @@
+The `GzipSource` class in the Okio library is designed to handle Gzip-compressed sources. It implements the `Source` interface, indicating that it can be a source of data when read with Okio. 
+
+The key components include:
+- `CRC32` instance: A cyclic redundancy check object used to calculate checksums and ensure that data hasn’t been corrupted during transmission or storage.
+- An `Inflater` instance: A decompressor for data compressed in the gzip format.
+- A `BufferedSource` instance: A buffered variant of the source (of data to be read) provided to the constructor.
+
+The key methods include:
+- `GzipSource(Source paramSource)`: Constructor initialized with a source and sets up the inflater, buffer and inflater source.
+- `checkEqual(String, int, int)`: Utility method to check equality and throw an IOException when unexpected values occur.
+- `consumeHeader()`: Method to consume the header section of the gzip data stream, validating the checksum and skipping metadata as required.
+- `consumeTrailer()`: Method to consume trailer of the gzip data stream, validating the checksum and checking that the size of the inflated data matches the original size recorded.
+- `updateCrc(Buffer, long, long)`: Method to update the value of the CRC32 object with a segment of newly-read data.
+- `close()`: Method that closes the underlying source.
+- `read(Buffer, long)`: Method that reads from the inflater source and updates the CRC.
+- `timeout()`: Method that retrieves the current timeout value of the source.
+
+This class, essentially, reads gzip compressed data from a provided source, inflates it and maintains a checksum to ensure data integrity. It can throw an `IOException` in several circumstances, such as corrupted data or unexpected data in the stream.

@@ -1,0 +1,27 @@
+The `WidgetGroup` class is another part of Android's `constraintlayout.solver` package that helps manage layouts. Each `WidgetGroup` instance represents a collection of `ConstraintWidget` objects that are related in some way in the layout. It features variables for grouping ID, orientation, and authority of the group, along with methods for manipulating these widgets.
+
+Some of the methods included in WidgetGroup class are:
+
+1. `contains(ConstraintWidget)`: This method checks if a given `ConstraintWidget` is contained within the current `WidgetGroup`.
+   
+2. `measureWrap()': This function measures the wrap value for a given widget.
+
+3. `solverMeasure()': Solve the layout using the LinearSystem solver provided, returning the calculated value.
+
+4. `add()`: This method is used to add new `ConstraintWidget` to the current widget list. 
+
+5. `apply()`: Applies stored measurement results if authoritative.
+
+6. `cleanup()`: The method helps clean up the list of `WidgetGroups`, taking into consideration the size of widgets in the group.
+
+7. `clear()`: It empties the widgets list in the group.
+
+8. `intersectWith()`: Checks if this `WidgetGroup` intersects with another in terms of containing the same `ConstraintWidget`.
+
+9. `moveTo()`: Moves all widgets in this group to another `WidgetGroup`.
+
+10. `setAuthoritative()`: Used to set the authoritative status of the widget group.
+
+The `MeasureResult` inner class is used to store the results of a measurement operation for a specific widget within the group.
+
+In short, the class helps in managing groups of widgets in complex layouts, controlling their positioning and sizing including adding or moving widgets between groups.

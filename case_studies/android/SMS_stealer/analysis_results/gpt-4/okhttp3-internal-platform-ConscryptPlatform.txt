@@ -1,0 +1,11 @@
+This file defines a class `ConscryptPlatform`, which is another specific implementation of the `Platform` class in OkHttp. It is optimized for platforms using Conscrypt, a Java Security Provider that provides cryptographic services.
+
+The class contains methods to configure TLS extensions for a socket, get SSL context, select protocol and get trust managers. The implementation leverages Conscrypt's functionality for achieving these tasks when Conscrypt is the active security provider, and falls back to the base behavior if it is not.
+
+The `buildIfSupported()` is a helper method that attempts to create an instance of `ConscryptPlatform` if the necessary Conscrypt classes are available, returns `null` otherwise. 
+
+This is observed in the method that attempts to use Conscrypt's own application protocol configuration method ('Conscrypt.setApplicationProtocols') when configuring TLS extensions, and falls back to the super class's implementation if the socket isn't a Conscrypt socket.
+
+Finally, the `trustManager(SSLSocketFactory paramSSLSocketFactory)` method tries to get a `X509TrustManager` instance to trust SSL certificates, with the Conscrypt-specific implementation if Conscrypt is available and a more generic fallback if it is not. 
+
+The JDK version being used here is 6, and the class seems to be part of a larger project that is aimed to be compiled into a jar file.

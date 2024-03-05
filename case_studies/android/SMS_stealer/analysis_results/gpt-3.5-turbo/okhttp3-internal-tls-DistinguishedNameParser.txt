@@ -1,0 +1,18 @@
+The code defines the `DistinguishedNameParser` class, which is responsible for parsing a distinguished name (DN) string according to the RFC 2253 specification.
+
+- The class has private fields to store the DN string, its length, and the current position and state during parsing.
+- The class provides a constructor that takes an `X500Principal` object as input and extracts the DN string from it.
+- The class provides several private helper methods to parse the different components of the DN string.
+- The `escapedAV` method is used to parse an escaped attribute value (AV), which is a sequence of characters terminated by a space, comma, semicolon, or plus sign. It handles character escaping and returns the parsed AV as a string.
+- The `getByte` method is used to convert a pair of hexadecimal characters to a byte value.
+- The `getEscaped` method is used to handle character escaping and returns the next escaped character.
+- The `getUTF8` method is used to parse a UTF-8 character encoded as a sequence of bytes.
+- The `hexAV` method is used to parse a hex-encoded attribute value (AV), which is a sequence of hexadecimal characters terminated by a space, comma, semicolon, or plus sign. It returns the parsed AV as a string.
+- The `nextAT` method is used to parse the next attribute type (AT), which is the part of the DN before the equals sign. It returns the AT as a string.
+- The class follows a stateful parsing approach, where the state is maintained using the `pos`, `beg`, and `end` fields.
+- The class throws an `IllegalStateException` if the DN string is malformed or if there is an unexpected end of the DN string during parsing.The remaining part of the code includes:
+
+- The `quotedAV` method, which is used to parse a quoted attribute value (AV) enclosed in double quotes. It handles character escaping and returns the parsed AV as a string.
+- The `findMostSpecific` method, which is used to find the most specific attribute value for a given attribute type in the distinguished name (DN). It iterates through the DN and parses different types of AVs (escaped, hex-encoded, or quoted) to find the desired attribute type. It returns the corresponding attribute value as a string.
+- The method uses a stateful parsing approach, where the state is maintained using the `pos`, `beg`, `end`, and `cur` fields.
+- The method throws an `IllegalStateException` if the DN is malformed or if there is an unexpected end of the DN string during parsing.

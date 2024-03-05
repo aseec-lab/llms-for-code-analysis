@@ -1,0 +1,13 @@
+This code is for the `GzipSink` class which is a custom `Sink` that can write GZIP-compressed data to a destination `Sink`. Here are the most notable elements:
+
+- `crc` is a `CRC32` object, a class used to calculate the CRC32 of a data stream.
+- `deflater`, `deflaterSink` and `sink` are used to compress the data and write it to the destination `Sink`.
+- The class provides methods to `write()`, `flush()`, `close()` and `timeout()`, akin to a typical stream. It overrides these methods from the `Sink` interface.
+- The `write()` method updates a CRC (cyclic redundancy check) value for error checking, then writes the data to the `DeflaterSink`.
+- The `writeHeader()` and `writeFooter()` methods are used to write the GZIP format header and footer to the `sink`.
+- The `updateCrc()` method updates the running CRC32 value with a specified segment of the data.
+- On `close()`, it ensures that all compressed data is written to the destination `Sink`, writes the GZIP footer and finally close the `DeflaterSink` and destination `Sink`. 
+
+In general, it provides a way to compress a data stream with GZIP while performing error checking to help ensure data integrity.
+
+Note: The exact behavior of `timeout()`, `deflater()`, and handling of exceptions during close operation depends on definition elsewhere in the code and can't be fully judged by this snippet.

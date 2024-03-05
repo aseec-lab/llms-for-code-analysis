@@ -1,0 +1,17 @@
+The `Utf8` class is a utility class providing functionality related to UTF-8 encoded strings:
+
+- `size(String paramString)` is a method that returns the number of bytes in the UTF-8 encoded form of the input string.
+
+- `size(String paramString, int paramInt1, int paramInt2)` is an overloaded version of the previous method, but instead of processing the entire string, it only processes characters from `paramInt1` (inclusive) up to `paramInt2` (exclusive). 
+
+It does this by walking through the characters in the specified range of the string and incrementing a counter based on the number of bytes that UTF-8 would use to encode each character:
+
+- If the character's Unicode code point is < 128, UTF-8 would use just 1 byte and we increment the counter by 1.
+
+- If the character's Unicode code point is < 2048 (and >= 128), UTF-8 uses 2 bytes, so it increments the counter by 2.
+
+- Otherwise, if the character is not part of a surrogate pair (used in UTF-16 to represent characters outside the Basic Multilingual Plane), UTF-8 uses 3 bytes, so it increments the counter by 3.
+
+- If the character is part of a surrogate pair, UTF-8 uses 4 bytes, so we increment the counter by 4 and skip the next character in the string (since it is the second half of the surrogate pair). If the next character does not exist, or if it isn't the second half of a surrogate pair, we instead increment the counter by 1 (since the surrogate pair is not valid UTF-16 and would be replaced by the replacement character in UTF-8).
+
+The method also includes several input validation checks, which throw `IllegalArgumentExceptions` with appropriate error messages if the inputs are invalid (i.e., the string is null, the start index being negative, end index being less than the start index, or the end index being greater than the length of the string).

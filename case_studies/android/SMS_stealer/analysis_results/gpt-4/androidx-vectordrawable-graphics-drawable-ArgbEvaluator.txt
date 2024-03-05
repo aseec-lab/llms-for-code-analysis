@@ -1,0 +1,11 @@
+The `ArgbEvaluator` is a class that implements Android's `TypeEvaluator` interface. It's used for evaluating an animation between two ARGB (Alpha, Red, Green, Blue) values represented as `Integer` objects.
+
+Its static method, `getInstance()`, allows for a singleton instance retrieval. 
+
+The `evaluate()`, method starts by converting the ARGB color values into separate A, R, G, B components that are then converted to the range `[0, 1]`. These values are then transformed using a power of `2.2`, which applies a gamma correction to the ARGB colors to handle non-linear response in the perception of color. 
+
+Then, it successfully generates individual color transitions for each ARGB component using a linear interpolation between the start and end values, multiplies the result with `255.0F` to return it back to its original range, and then rounds it off to the nearest integer.
+
+Finally, it combines all the individual color transitions back into one single integer representing the ARGB color, and returns this value.
+
+This evaluator is most likely used for producing color transitions in animations.

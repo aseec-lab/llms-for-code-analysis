@@ -1,0 +1,11 @@
+The `TimeTypeAdapter` class is a custom `TypeAdapter` that is used to control the serialization and deserialization of `java.sql.Time` objects in JSON using the GSON library.
+
+The `FACTORY` field is an example of `TypeAdapterFactory` which generates `TimeTypeAdapter` instances when the required type is exactly `java.sql.Time`.
+
+It contains a `DateFormat` object named `format` for formatting the time in the format of "hh:mm:ss a".
+
+It overrides two main methods `read(JsonReader)` and `write(JsonWriter, Time)` from `TypeAdapter<Time>` class.
+
+The `read(JsonReader)` method reads a time value from JSON string. It first checks whether the next token is JSON null, if true, it proceeds to next token and returns null. Otherwise, it reads next string from JSON, parses it using the `DateFormat` object into a `Date` object and converts it to a `java.sql.Time` object.
+
+The `write(JsonWriter, Time)` method writes the time value into JSON string. If the time object to write is null, it sends null in JSON. Otherwise, it formats the `java.sql.Time` object using the `DateFormat` object into a string and writes it into JSON. Both the `read()` and `write()` methods are thread-safe as they are synchronized on `this`.

@@ -1,0 +1,19 @@
+The `TaskStackBuilder` class is a utility class that helps with the construction of a synthetic task stack, which can be useful when you’re creating an Intent to start an Activity. 
+
+It maintains an internal stack of intents. When initialized, it takes a context as a parameter and retains this context for further operations.
+
+- `create(Context paramContext)`: a static factory method that creates an instance of the `TaskStackBuilder`.
+
+- `addNextIntent(Intent paramIntent)`: this method adds an intent to the internal stack.
+
+- `addNextIntentWithParentStack(Intent paramIntent)`: this method adds an intent and tries to add its parent to the task stack.
+
+- `addParentStack(Activity paramActivity)` or `addParentStack(ComponentName paramComponentName)` add the parent activity to the task stack.
+
+- `editIntentAt(int paramInt)`: this method provides access to the Intent at the specified index.
+
+- `getIntents()`: this method returns a copy of intents as an array.
+
+- `getPendingIntent(int paramInt1, int paramInt2, Bundle paramBundle)`: this method creates a PendingIntent with all the stacked intents.
+
+- `startActivities(Bundle paramBundle)`: this method tries to start all activities as described by the intents inside the bundle, with the root activity (lowermost in the stack of intents) in a fresh task.

@@ -1,0 +1,45 @@
+The `AnimatedStateListDrawableCompat` class is a subclass of `StateListDrawable` and implements the `TintAwareDrawable` interface. It represents a drawable that can display different states and transitions between states with animations.
+
+The class includes constants, instance variables, and methods for managing the state and appearance of the drawable. It allows you to define items and transitions in an XML file and creates the appropriate drawables for each state or transition.
+
+The class provides methods to create an instance of the `AnimatedStateListDrawableCompat` from XML, parse items and transitions from XML, initialize the drawable, and handle state changes and animation transitions.
+
+It also includes methods for inflating and managing child elements, parsing items and transitions from XML, and handling errors related to missing drawables or attributes in the XML.
+
+Overall, the `AnimatedStateListDrawableCompat` class allows you to create and manage animated state list drawables that can be used for displaying different drawable resources based on the current state or transitioning between states with animations.The code includes methods for adding state sets and transitions to an animated state list drawable, initializing the drawable, handling state changes and animation transitions, and updating the drawable's state from a typed array.
+
+The `addState` method adds a state set with a drawable and an associated state id to the drawable's state list.
+
+The `addTransition` method adds a transition between two state sets with an associated transition drawable to the drawable's transition list.
+
+The `updateStateFromTypedArray` method updates the drawable's state based on attributes in a typed array.
+
+The `onStateChange` method handles state changes by selecting a transition or drawable based on the current state and updating the drawable's appearance.
+
+The `inflate` method inflates the drawable from an XML file by parsing child elements and initializing the drawable.
+
+The `setVisible` method sets the visibility of the drawable and starts or stops any active transitions.
+
+The `mutate` method makes the drawable mutable by cloning its transition and state id data.
+
+The `isStateful` method returns true indicating that the drawable is stateful.
+
+The `jumpToCurrentState` method stops any active transition and selects the current drawable.
+
+The `cloneConstantState` method clones the drawable's constant state.
+
+The `clearMutated` method clears the mutated flag on the drawable.
+
+The `setConstantState` method sets the drawable's constant state.
+
+Overall, the code provides functionality for creating and managing an animated state list drawable, including adding state sets and transitions, handling state changes and animation transitions, and updating the drawable's state and appearance.The remaining part of the code includes classes for transitioning between drawables in an animated state list drawable.
+
+The `AnimatedVectorDrawableTransition` class extends the `Transition` class and wraps an `AnimatedVectorDrawableCompat` object. It provides methods to start and stop the animation.
+
+The `AnimationDrawableTransition` class extends the `Transition` class and wraps an `AnimationDrawable` object. It provides methods to start, stop, and reverse the animation. It also handles frame interpolation to calculate the current frame based on the duration of each frame.
+
+The `FrameInterpolator` class implements the `TimeInterpolator` interface and is used by the `AnimationDrawableTransition` class to interpolate between frames in an `AnimationDrawable`.
+
+The `Transition` class is an abstract class that provides a common interface for transitions. It includes methods to start and stop the transition and a `canReverse` method to check if the transition can be reversed.
+
+Overall, these classes provide functionality for transitioning between drawables in an animated state list drawable, including handling animation of vector drawables and animation drawables.

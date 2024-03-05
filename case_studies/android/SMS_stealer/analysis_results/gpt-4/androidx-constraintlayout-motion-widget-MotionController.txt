@@ -1,0 +1,57 @@
+The `MotionController` class in this script is responsible for controlling motion in a given view. This class uses various methods like `getAdjustedPosition`, `getPreCycleDistance`, `insertKey`, `readView`, `addKey`, `addKeys` and `buildBounds`.
+
+`MotionController` creates an animation pathway for Android animations, following specified constraints and keys. It defines rules for adjusting the position, finding the distance before the cycle, inserting keys for custom animations, reading the view's boundaries, and building bounds for the motion.
+
+This class contains an array of MotionPaths, which is a trajectory in time-space of the widget during a transition. Each path holds a start and end attribute, plus other partway attributes, and it interpolates between these. This information is processed into curve fits that enable efficient calculation of the progress of a widget during the transition.
+
+The `buildBounds` method constructs the animation path using a set of Key objects, which are added via the `addKey` and `addKeys` methods. The animation path can also be altered with `insertKey` method that adds a key at a specific position in the path. The method `getAdjustedPosition` adjusts the position that considers staggered motions and time-based interpolation. `getPreCycleDistance` calculates the pre-cycle distance to cover during the motion. `readView` method simply reads the boundaries of the view to animate.
+
+Complex animations with translation, scale, rotation... effects are achieved through the use of the `SplineSet` and `KeyCycleOscillator` classes in conjunction with the `MotionController`. The `SplineSet` class manages the numeric data to be interpolated over the animation path. The `KeyCycleOscillator` class, on the other hand, handles oscillations in the animation, like the spring movement. 
+
+Particularly, the `buildBounds` function creates the animation bounds based on a set of conditions like the presence of an easing function or attributes to be animated. The function also takes into account properties like translationX and translationY, which shift the position of the View along the X or Y axis, respectively.This part of the code extends the functionality of the `MotionController` class by implementing methods such as `buildKeyBounds`, `buildKeyFrames`, `buildPath`, `buildRect`, `buildRectangles`, `getAttributeValues`, `getDpDt`, `getDrawPath`, `getFinalX`, `getFinalY`, `getKeyFrame`, `getKeyFrameInfo`, `getKeyFrameParameter`, and `getPositionKeyframe`.
+
+The `buildKeyBounds` and `buildKeyFrames` methods generate the key bounds and key frames for an animation respectively. Methods like `buildPath` and `buildRect` are used for building the path of the animation and the rectangle representing the area of the animation, respectively. 
+
+`getAttributeValues` retrieves the attribute values for a given string. The `getDpDt` method calculates the partial derivatives of the animation path at a given point. Functions like `getFinalX` and `getFinalY` respectively return the final x and y coordinates of the animation.
+
+The `getKeyFrameParameter` method finds the parameter of the keyframe at the given point. `getPositionKeyframe` retrieves the keyframe that controls the position of the motion.  
+
+The `getDrawPath` method returns the maximum draw path level of all the motion paths, essentially establishing the depth of the animation. The `getKeyFrame` and `getKeyFrameInfo` methods returns a specific `MotionPaths` object and information about key frames respectively.
+
+Two `RectF` objects are defined: `rectF1` and `rectF2`. They denote the start and end positions of objects in motion, calculated by coordinates and dimensions of the path. Both RectF objects have top, bottom, left, and right properties that determine their position and size.This part of the code performs interpolation and positions the animation according to the calculated interpolation, it checks for attribute mapping and gets the values if exists, and then iterate through the values and sets properties to the `View`. It then interpolates the animation as per the computed time in the key frame. 
+
+This code interacts with the `View` in an animated state by setting its position using a calculated interpolation value. It gets position and slope information from the spline and transforms data onto the `View` using `setView` method. The code recalculates properties for the `View` using an updated position and slopes.This part of the code performs transformations on the object using the set of Java classes 'MotionPaths', 'SplineSet', 'KeyTrigger' and other user-defined properties obtained from the `mInterpolateVelocity` class towards the Display. It additionals fires the conditions specified by the user based on triggers for the parent view of the component. 
+
+First, it checks if the object is an instance of PathRotate of SplineSet, then it sets the path rotation using the `setPathRotate()`. Then it calculates new positions by interpolating along with key points, which are represented by arrays containing position and velocity data. It also checks and applies visibility parameters depending on whether the spline reaches its start or endpoint, adjusting the visibility of the `View`. 
+
+For every detected key trigger, it conditionally fires a pre-defined action. Then, it gets the dimensions and update the `View` with the provided width and height and measures it. 
+
+Finally, if a `CycleMap` defined, then for each `CycleOscillator` defined inside the `CycleMap`, the code checks if it's a PathRotateSet. If so, it updates PathRotate with newly calculated positions and sets that to the View.The continuation of the code in this segment primarily performs various setup tasks for the motion paths and interpolations.
+
+In the `setup` method, it focuses on setting up motion paths and interpolations with different types of keys (KeyPosition, KeyCycle, KeyTimeCycle, KeyTrigger, and KeyAttributes). It does this by creating and setting properties for motion paths and instantiating different types of SplineSets based on the keyframes defined.
+
+Then it fetches the attribute names from these keys, setups the corresponding SplineSets or TimeCycleSplineSets, and stores them in the attributes maps. 
+
+It also adjusts the visibility of the `View` based on the positions of the keys and the specified motion paths.
+
+In the next part of the code, it goes into details of preparing the path and attributes with the respective motion, interpolations, and dataset. It creates an array of `MotionPaths` and fills it with start and end positions along with the interpolated motion paths.
+
+The code then filters custom attributes that exist at both starting and ending motion paths but are not part of the predefined attribute sets, these attributes will be used later for interpolation. 
+
+Then, create a set of indices for the attributes to be interpolated, and fill two separate arrays with the indices of the interpolating variables and their initial values respectively.
+
+Finally, it defines a grid of double values that hold motion path data across all the specified interpolation variables for later processing throughout the motion simulation. It cycles through the motion paths, filling each row in the grid with the respective data, and an array that holds the timeline of each motion path.The second part of the code focuses on setting up custom motion paths and eventually prepares the motion attributes for animation. 
+
+It continues from the first part to iterate over the `mAttributeNames` (motion attributes), running a nested loop on each MotionPath and checking if it has custom data for the current attribute. If so, it gets this data and adds it to a 2D double array. 
+
+The `CurveFit` class is used to generate interpolation curves based on these attributes and the key times corresponding to them. These curves are stored in the mSpline array for each attribute.
+
+If 'PathMotionArc' attribute is specified, it also creates a unique 'ArcCurveFit' for it.
+
+After this, it constructs the oscillation (cycle) map for each attribute. If the key attribute varies by path, it calculates the distance before cycling it and sets this distance in the `KeyCycleOscillator`. 
+
+Furthermore, each `KeyCycle` is looped over to add cycle values to this map, and then each resultant `KeyCycleOscillator` is setup with the pre-calculated cycle distance.
+
+The `toString` method simply returns a string representation of the `MotionController` object, describing start and end poses.
+
+The final part of the code still seems to be performing set up tasks, but now it's focused on pre-cycling and cycle oscillation of the motion attributes.

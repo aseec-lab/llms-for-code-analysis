@@ -1,0 +1,17 @@
+The `MbmsHelper` class in the `androidx.core.telephony.mbms` package provides a static method for getting the best name for a service. The `getBestNameForService` method takes a `Context` object and a `ServiceInfo` object as parameters.
+
+Here's what the code does:
+
+- It first checks the version of the Android SDK being used. If it is below version 28, it immediately returns `null`, indicating that the operation is not supported.
+
+- It retrieves the `LocaleList` from the resources of the given `Context` object.
+
+- It checks if the `ServiceInfo` object has any named content locales. If not, it returns `null`.
+
+- It creates an array of strings to store the language tags of the named content locales.
+
+- It iterates over the named content locales of the `ServiceInfo` object and adds their language tags to the array.
+
+- It tries to find the best matching locale from the `LocaleList` using the language tags array. If a match is found, it retrieves the name of the service in that locale.
+
+- Finally, it returns the retrieved name as a `CharSequence` object.

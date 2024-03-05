@@ -1,0 +1,7 @@
+The code defines a class named `PermissionInfoCompat` in the `androidx.core.content.pm` package.
+
+Inside the class, there are two static methods:
+1. `getProtection(PermissionInfo paramPermissionInfo)`: Returns the protection level of the given `PermissionInfo` object. If the device's SDK version is 28 or later, it calls the `getProtection()` method of the `PermissionInfo` class. Otherwise, it extracts the protection level by performing a bitwise AND operation with the value `0xF` on the `protectionLevel` field.
+2. `getProtectionFlags(PermissionInfo paramPermissionInfo)`: Returns the protection flags of the given `PermissionInfo` object. If the device's SDK version is 28 or later, it calls the `getProtectionFlags()` method of the `PermissionInfo` class. Otherwise, it extracts the protection flags by performing a bitwise AND operation with the value `0xFFFFFFF0` on the `protectionLevel` field.
+
+The class also includes two annotations: `@Protection` and `@ProtectionFlags`, both annotated with the `@Retention` annotation with the `RetentionPolicy.SOURCE` value.

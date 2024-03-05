@@ -1,0 +1,14 @@
+The `Interceptor` interface in the OkHttp library provides a mechanism to observe, transform, and potentially short-circuit requests going out and the corresponding responses coming back in.
+ 
+The `intercept(Chain paramChain) throws IOException` method needs to be implemented in classes that implement the `Interceptor` interface. This is where you define what should happen during the interception of network requests/responses. 
+
+Nested within the Interceptor interface, there is a `Chain` interface that represents a chain of interceptors. This chain that has a `request()` method to get the original request and a `proceed() method` that gets a response for the request.
+
+The `Chain` interface defines several methods allowing fine control over the request:
+
+- `call()` returns the `Call` of the current request.
+- `connectTimeoutMillis()`, `readTimeoutMillis()`, and `writeTimeoutMillis()` return the current timeout values.
+- `connection()` returns the connection the request is executed on.
+- `withConnectTimeout()`, `withReadTimeout()`, and `withWriteTimeout()` allow modifying the timeouts.
+- `proceed()` is used to invoke the request.
+- `request()` returns the original request that was sent to the chain.

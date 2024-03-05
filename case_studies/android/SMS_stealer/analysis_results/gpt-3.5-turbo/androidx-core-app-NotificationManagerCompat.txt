@@ -1,0 +1,17 @@
+The code is the implementation of the NotificationManagerCompat class in the androidx.core.app package. It provides compatibility methods for managing notifications.
+
+The code includes methods for canceling and posting notifications, checking if notifications are enabled, creating notification channels and groups (available from Android 26 and above), and getting information about notification channels and groups.
+
+The code also includes a SideChannelManager class for managing tasks related to side channel notifications. It uses a queue to handle tasks asynchronously.
+
+Overall, the code provides a wrapper around the NotificationManager class to ensure compatibility across different Android versions.The remaining code defines the inner classes `CancelTask`, `NotifyTask`, `ServiceConnectedEvent`, and `SideChannelManager`.
+
+The `CancelTask` class represents a task to cancel a notification. It has fields for the package name, notification ID, and tag. It implements the `Task` interface and overrides the `send()` method to call the `cancel()` or `cancelAll()` method of the `INotificationSideChannel` interface.
+
+The `NotifyTask` class represents a task to post a notification. It has fields for the package name, notification ID, tag, and the notification object. It implements the `Task` interface and overrides the `send()` method to call the `notify()` method of the `INotificationSideChannel` interface.
+
+The `ServiceConnectedEvent` class represents an event when a notification service is connected. It has fields for the component name and the service binder object.
+
+The `SideChannelManager` class handles tasks related to side-channel notifications. It implements the `Handler.Callback` and `ServiceConnection` interfaces. It has methods to ensure service binding and unbinding, process task queues, and handle service connection and disconnection events. It also updates the listener map based on the enabled listener packages obtained from the `NotificationManagerCompat` class.The remaining part of the code defines the `ListenerRecord` inner class, which represents a listener for notification events. It keeps track of whether it is bound to a service, the component name, the number of retry attempts, the service reference, and a queue of tasks.
+
+The `Task` interface is also defined as an inner class, representing a task to be performed on the notification side channel. It has a single method, `send()`, which takes an `INotificationSideChannel` object as a parameter and throws a `RemoteException`.

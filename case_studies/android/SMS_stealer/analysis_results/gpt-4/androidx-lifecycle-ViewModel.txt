@@ -1,0 +1,11 @@
+This code is defining the `ViewModel` class in Android. It's part of the Android Jetpack's `androidx.lifecycle` library that is used to construct ViewModels. 
+
+The `ViewModel` class holds and prepares the data for the UI while also taking care of the lifecycle, allowing data to survive configuration changes such as screen rotations.
+
+The class has a `Map mBagOfTags` for holding tags connected to specific view models. There is a boolean flag `mCleared` indicating whether the ViewModel has been cleared or not.
+
+The `closeWithRuntimeException()` method is a helper method to close an object and throws a `RuntimeException` if an `IOException` occurs.
+
+The `clear()` method sets the `mCleared` flag to `true`, and any object held in `mBagOfTags` that implements the `Closeable` interface is closed. On completion, it calls `onCleared()`, which is an empty method that can be overridden by child classes.
+
+The `getTag()` and `setTagIfAbsent()` methods are used to retrieve and store data to the `mBagOfTags` map. During the `setTagIfAbsent()` operation, if the ViewModel is flagged as cleared (`mCleared = true`), it tries to close the object which is being added as a tag using `closeWithRuntimeException()`.

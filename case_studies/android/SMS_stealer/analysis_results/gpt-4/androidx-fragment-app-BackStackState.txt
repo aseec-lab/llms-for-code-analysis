@@ -1,0 +1,15 @@
+The `BackStackState` is a utility class used internally in the AndroidX Fragment library to save and restore the state of a `BackStackRecord`. As an implementation of `Parcelable`, `BackStackState`'s main purpose is to allow `BackStackRecord` objects (the state of a Fragment back stack operation) to be written to and restored from a `Parcel`, enabling it to be stored and passed between components and across process boundaries.
+
+Key parts of the class include:
+
+- `mOps`, `mFragmentWhos`, `mOldMaxLifecycleStates`, `mCurrentMaxLifecycleStates`, `mTransition`, `mTransitionStyle`, `mName`, `mIndex`, and `mReorderingAllowed`: These fields store the various components of the `BackStackRecord` state.
+  
+- `BackStackState(Parcel paramParcel)`: A constructor that creates a `BackStackState` from a `Parcel`.
+  
+- `BackStackState(BackStackRecord paramBackStackRecord)`: Another constructor that converts a `BackStackRecord` into a `BackStackState`.
+  
+- `describeContents()`: Describes the type of special objects contained in this Parcelable instance.
+  
+- `instantiate(FragmentManagerImpl paramFragmentManagerImpl)`: Recreates a `BackStackRecord` from this `BackStackState`.
+  
+- `writeToParcel(Parcel paramParcel, int paramInt)`: Writes the `BackStackRecord` state to a `Parcel`.

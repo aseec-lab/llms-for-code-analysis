@@ -1,0 +1,13 @@
+The `AppCompatMultiAutoCompleteTextView` class is a custom view extending from `MultiAutoCompleteTextView`. It supports automated UI tinting according to the current app theme while providing all the functionality of a standard `MultiAutoCompleteTextView`. 
+
+This class also implements the `TintableBackgroundView` interface, which provides methods to adjust the view's background tint.
+
+It has constructors that allow for instantiation in code or from XML layout with custom attributes. It uses `AppCompatBackgroundHelper` to support background tint and `AppCompatTextHelper` to load custom styles and apply compound drawables' tints.
+
+It overrides several methods, like `setBackgroundDrawable`, `setBackgroundResource`, `setDropDownBackgroundResource`, `setSupportBackgroundTintList`, `setSupportBackgroundTintMode`, and `setTextAppearance` to make sure that the background tinting and text appearance is appropriate.
+
+It also overrides `onCreateInputConnection` method to provide the `InputConnection` instance for this view using `AppCompatHintHelper`. 
+
+All these added functionalities help in keeping consistency with the AppCompat theme styling.
+
+The class provides getters such as `getSupportBackgroundTintList` and `getSupportBackgroundTintMode` to retrieve currently applied background tint list and mode. It also overrides `drawableStateChanged` to ensure the background tint and text tint are updated when the state changes.

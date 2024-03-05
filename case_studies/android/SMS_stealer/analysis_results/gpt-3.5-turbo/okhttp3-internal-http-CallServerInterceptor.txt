@@ -1,0 +1,11 @@
+The `CallServerInterceptor` class is an implementation of the `Interceptor` interface in the OkHttp library. It is responsible for intercepting outgoing HTTP requests and handling the server's response.
+
+The `intercept` method is the main method of the class, which intercepts the HTTP request and response. It begins by retrieving necessary objects from the `RealInterceptorChain` parameter, such as the `HttpCodec`, `StreamAllocation`, `RealConnection`, and `Request`. It also records the current time.
+
+The method then notifies the `EventListener` about the start of the request headers and writes the request headers using the `HttpCodec`. It determines if the request method permits a request body and if there is a request body present. If so, it handles sending the request body to the server. Otherwise, it continues with the request.
+
+The method finishes the request by calling `finishRequest` on the `HttpCodec`. It then reads the response headers and constructs a `Response` object. If the response has a code of 100 (Continue), it reads the response headers again and constructs a new `Response` object. It notifies the `EventListener` about the end of the response headers.
+
+If the interceptor is configured for a WebSocket and the response code is 101 (Switching Protocols), it constructs a new `Response` object with an empty response body. Otherwise, it opens the response body using the `HttpCodec` and constructs a new `Response` object.
+
+If the connection is to be closed based on the `Connection` headers of the request or the response, it disables the creation of new streams on the `StreamAllocation`. If the response code is 204 (No Content) or 205 (Reset Content) and the response body has a non-zero content length, it throws a `ProtocolException`. Otherwise, it returns the constructed `Response` object.

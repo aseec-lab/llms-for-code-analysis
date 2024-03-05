@@ -1,0 +1,14 @@
+The `OptionalMethod` class in the `okhttp3.internal.platform` package is a utility class that provides a way to invoke methods on an object through reflection.
+
+The class has a constructor that takes the return type of the method, the method name, and the parameter types. It also has a private method `getMethod` that retrieves the method from the object's class.
+
+There are several public methods in the class:
+- `invoke` - invokes the method on the object with the specified arguments and returns the result.
+- `invokeOptional` - similar to `invoke`, but returns `null` if the method is not supported.
+- `invokeOptionalWithoutCheckedException` - similar to `invokeOptional`, but throws an `AssertionError` if an unexpected exception occurs.
+- `invokeWithoutCheckedException` - similar to `invoke`, but throws an `AssertionError` if an unexpected exception occurs.
+- `isSupported` - checks if the method is supported on the object.
+
+The class also has a private static method `getPublicMethod` that retrieves a public method from a class.
+
+Overall, the `OptionalMethod` class provides a way to invoke methods on an object using reflection, with optional checks and exception handling.

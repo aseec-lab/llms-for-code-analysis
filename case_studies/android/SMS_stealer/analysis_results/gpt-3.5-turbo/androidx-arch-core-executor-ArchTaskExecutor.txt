@@ -1,0 +1,10 @@
+The `ArchTaskExecutor` class in the `androidx.arch.core.executor` package is responsible for managing the execution of tasks on disk I/O and main threads.
+
+1. It implements the `TaskExecutor` abstract class, which provides methods for executing tasks.
+2. It has a static instance variable `sInstance` that holds the singleton instance of `ArchTaskExecutor`.
+3. It has `sIOThreadExecutor` and `sMainThreadExecutor` that are Executors for disk I/O and main thread respectively.
+4. The constructor initializes `mDefaultTaskExecutor` and `mDelegate` members with `DefaultTaskExecutor` instance.
+5. The `getInstance()` method returns the singleton instance of `ArchTaskExecutor`.
+6. The `getIOThreadExecutor()` and `getMainThreadExecutor()` methods return the corresponding Executors for disk I/O and main thread.
+7. The `executeOnDiskIO()`, `isMainThread()`, and `postToMainThread()` methods delegate the tasks to the `mDelegate` member.
+8. The `setDelegate()` method is used to set a custom task executor as the delegate, or use the `mDefaultTaskExecutor` if no delegate is provided.

@@ -1,0 +1,9 @@
+This Java class `DrawableCompat` provides static utility methods for dealing with `Drawable`. It has methods that mirror the ones in the Android `Drawable` class, providing backward compatibility. It performs actions on `Drawable` objects such as checking if it can apply a theme, clearing color filters, returning alpha value, checking if it's auto mirrored, inflating it from XML, setting tint and tint mode, wrapping it, etc., while ensuring compatibility with different Android SDK versions.
+
+The class also makes use of reflection to access or invoke specific `Drawable` methods (`getLayoutDirection` and `setLayoutDirection`) in some Android versions. This means these methods will be searched for and executed at runtime instead of compile time which is what typically happens.
+
+It also provides a way to wrap `Drawable` to a backward-compatible version using `TintAwareDrawable` and its subclass `WrappedDrawableApi21` and `WrappedDrawableApi14`, thereby offering more flexibility when dealing with icons, images, or other visual media that can be drawn to the screen. 
+
+The class uses an interface `TintAwareDrawable` that indicates that a `Drawable` can be tinted with a color filter. 
+
+Bear in mind that some methods are deprecated since they may not work as expected with newer versions of the Android SDK.

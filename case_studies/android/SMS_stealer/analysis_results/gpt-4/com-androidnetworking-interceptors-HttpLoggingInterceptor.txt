@@ -1,0 +1,21 @@
+The `HttpLoggingInterceptor` class implements OkHttp's `Interceptor` interface, and is used to log HTTP request and response data. 
+
+It uses an enum `Level` to define different logging levels (NONE, BASIC, HEADERS, BODY). The interceptor can be customized with desired `Level` and according to this level, it logs appropriate details.
+
+In short, while making a network request, this interceptor logs details like requested URL, headers, body (if not binary), and response received from the server. This is especially useful for debugging.
+
+If an error occurs during making a network call, it will log the error message and then throws it back to ensure the chain of interceptors goes on. 
+
+The logging detail level can be updated using the `setLevel(Level paramLevel)` method. The class also consists of the `intercept(Interceptor.Chain paramChain)` method, which is where the main logic lies. It logs the request/response details while a network call is processed. 
+
+If the `bodyEncoded` returns true, it just logs an "encoded body omitted" message instead of the real body content. Before logging, it also checks if the content is in plain text. If not, the binary data is omitted. 
+
+The class also has two helper methods, `isPlaintext(Buffer paramBuffer)` and `bodyEncoded(Headers paramHeaders)`, for checks before logging, ensuring some form of safety and convenience.This code defines three components of the HttpLoggingInterceptor class:
+
+1. The `Level` enum: This allows different logging levels (BASIC, BODY, HEADERS, NONE) to be specified. It has a static block that initializes these levels.
+
+2. The `Logger` interface: This has a single method `log(String param1String)`. It also provides a default implementation that uses the `Platform.get().log(4, param1String, null)` method to write log messages.
+
+3. The `null` class: This implements the `Logger` interface but it just seems to be a repeated version of the `Logger.DEFAULT`, which uses the same `Platform.get().log(4, param1String, null)` method for logging. 
+
+The code at the bottom is a common footer comments found in Java classes, which generally shows path of the class, Java compiler version used and JD-Core Version. It doesn't add any significant functionality to the class.

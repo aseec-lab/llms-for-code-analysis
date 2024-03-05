@@ -1,0 +1,11 @@
+The `MimeTypeFilter` is a utility class in AndroidX that is used to filter MIME types. It provides several static methods to match a MIME type against a filter, or against an array of filters.
+
+The methods are as follows:
+
+- `matches(String paramString, String[] paramArrayOfString)`: This method checks if the MIME type (defined by `paramString`) matches any of the MIME types defined in `paramArrayOfString`. The MIME types are split using '/', indicating they have a format of 'type/subtype'.
+- `matches(String[] paramArrayOfString, String paramString)`: This method checks if any of the MIME types (defined in `paramArrayOfString`) matches the MIME type (`paramString`).
+- `matches(String paramString1, String paramString2)`: This method checks if MIME type (`paramString1`) matches another MIME type (`paramString2`).
+- `matchesMany(String[] paramArrayOfString, String paramString)`: This method checks if any MIME types (in `paramArrayOfString`) match a MIME type (`paramString`). It returns an array of matching MIME types.
+- `mimeTypeAgainstFilter(String[] paramArrayOfString1, String[] paramArrayOfString2)`: This is a private helper method that compares a MIME type against a filter.
+  
+These methods throw an `IllegalArgumentException` if the provided MIME types are improperly formatted. It checks if the length of the split string array is 2 (meaning it must have a 'type' and a 'subtype'), and neither 'type' nor 'subtype' should be empty. It allows wildcard '*' denoting it matches any 'type' or 'subtype'.

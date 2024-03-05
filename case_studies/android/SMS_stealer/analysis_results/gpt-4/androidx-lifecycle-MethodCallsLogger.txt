@@ -1,0 +1,5 @@
+The `MethodCallsLogger` class is a utility class in Android's Lifecycle library. It maintains a `Map`, `mCalledMethods`, where the keys are method names and the values are integers. 
+
+It has one public method, `approveCall(String paramString, int paramInt)`, which checks if a particular method (represented by `paramString`) has been called (tracked by checking if `paramInt` bit is set in the corresponding map value). If the method has been called, it returns false; otherwise, it updates the map to indicate the method is now called and returns true.
+
+This class can help prevent redundant lifecycle method calls or to track method calls order and frequency in the lifecycle of an Android component like Activity or Fragment.

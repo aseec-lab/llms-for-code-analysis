@@ -1,0 +1,31 @@
+The `TextViewCompat` class provides various methods to support text view related features in a backwards-compatible way.
+
+The class includes methods for:
+
+- Getting the maximum and minimum text size for auto-size, the auto-size step granularity and the available auto-size text sizes.
+- Setting how the auto-size feature should work in the `TextView`, either uniformly with a specific configuration or with preset sizes.
+- Getting and setting the tint list and mode for the compound drawables.
+- Getting and setting drawables to TextView.
+- Retrieving the specified number of lines.
+- Getting the height of the TextView from its first baseline to its top and from its last baseline to its bottom.
+- Getting the `PrecomputedTextCompat.Params` of the `TextView` for measuring text.
+- Accessing and setting private fields such as `mMaxMode`, `mMaximum`, `mMinMode`, and `mMinimum` via reflection.
+
+This class is helpful for performing complex operations on `TextView` while maintaining compatibility with earlier versions of Android. It takes into account the Android version and performs the right operation accordingly. 
+
+The `AutoSizeableTextView` and `TintableCompoundDrawablesView` interfaces are used to provide compatibility for auto-sizing TextView behavior with compound drawables' tint list and tint mode.This is the remaining part of the TextViewCompat class in Android. It includes the following methods:
+
+- `setCompoundDrawablesRelativeWithIntrinsicBounds()` : This method sets compound drawables with intrinsic bounds.
+- `setCustomSelectionActionModeCallback()`: This method sets a callback for custom selection action mode.
+- `setFirstBaselineToTopHeight() and setLastBaselineToBottomHeight()`: These methods are used for setting the heights from the baseline.
+- `setLineHeight()`: This method sets the line height of the text view.
+- `setPrecomputedText()`: This method sets the pre-computed text to the text view.
+- `setTextAppearance()`: This method sets the text appearance of the text view.
+- `setTextMetricsParams()`: This method sets text metrics parameters.
+- `OreoCallback`: This is an inner class with methods for creating text processing intents and recomputing process text menu items. 
+
+All above methods have checks for android version for backward compatibility. 
+
+This class uses reflection to access internal APIs which aren't part of the public Android SDK. Using reflection can potentially break your app if these APIs change in future versions of Android. 
+
+Also, various annotations such as `@Retention(RetentionPolicy.SOURCE)` and `@interface AutoSizeTextType` are used in this class which provide metadata about the program that is not part of the program itself.

@@ -1,0 +1,15 @@
+The `DeflaterSink` class in the `okio` package implements the `Sink` interface and provides a way to compress data using the `Deflater` class from the `java.util.zip` package.
+
+The `DeflaterSink` takes a `BufferedSink` and a `Deflater` as arguments in its constructor. It uses the `BufferedSink` to write the compressed data and the `Deflater` to compress the data.
+
+The `deflate()` method is used to compress the data. It gets a buffer from the `BufferedSink`, calls the `deflate()` method of the `Deflater` to compress the data, and then updates the buffer and emits complete segments.
+
+The `close()` method finishes the deflate operation and closes the sink. It ensures that any remaining compressed data is written to the sink.
+
+The `finishDeflate()` method finishes the deflate operation by calling the `finish()` method on the `Deflater` and then calls `deflate()` to compress any remaining data.
+
+The `flush()` method compresses any remaining data and flushes it to the sink.
+
+The `timeout()` method returns the timeout of the underlying sink.
+
+The `write()` method is used to write data to the sink. It takes a `Buffer` and a length as arguments, and it compresses the data segment by segment using the `Deflater`, updating the buffer and emitting complete segments.

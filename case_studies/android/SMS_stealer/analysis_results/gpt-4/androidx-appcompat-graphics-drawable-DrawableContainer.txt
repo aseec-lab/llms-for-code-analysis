@@ -1,0 +1,69 @@
+The `DrawableContainer` class in the `androidx.appcompat.graphics.drawable` package extends the Android `Drawable` class and implements the `Drawable.Callback` interface. 
+
+This class is a container for a group of `Drawable` objects. These objects will be only one `Drawable` from the group is visible at any time.
+
+Primary attributes of this class include `mCurIndex` (which represents the index of the current drawable), `mCurrDrawable` and `mLastDrawable` (current and last drawable objects), `mDrawableContainerState` (which is the state of this drawable container), amongst others.
+
+Methods present within this class provide functionalities like applying theme on the container (`applyTheme`), getting the current drawable (`getCurrent`), getting and setting the opacity of the parent and child drawables (`getOpacity`, `setAlpha`), and many more.
+
+The `DrawableContainer` also has methods to control animations, apply changes in the state of the drawable and it holds its own `Drawable.Callback` - `mBlockInvalidateCallback`, which is instantiated and used within the `initializeDrawableForDisplay` method.
+
+In general, this class is utilized for grouping drawable objects and controlling their state and mutual properties.The remaining part of the code contains several methods to control the properties and behaviour of the `Drawable` object that the `DrawableContainer` class holds. 
+
+The `mutate()` method  mutates this drawable if its constant state supports mutation. 
+
+The `onBoundsChange(Rect paramRect)` method is called when the bounds of the drawable change. 
+
+The `onLayoutDirectionChanged(int paramInt)` method is called when the layout direction changes. 
+
+The `onLevelChange(int paramInt)` and `onStateChange(int[] paramArrayOfint)` methods are used when the drawable level or state changes. 
+
+The `scheduleDrawable(Drawable paramDrawable, Runnable paramRunnable, long paramLong)` and `unscheduleDrawable(Drawable paramDrawable, Runnable paramRunnable)` methods are called to schedule or unschedule specific actions on the drawable. 
+
+The `selectDrawable(int paramInt)` method selects a specific drawable by its index. 
+
+The `setAlpha(int paramInt)`, `setAutoMirrored(boolean paramBoolean)`, `setColorFilter(ColorFilter paramColorFilter)`, `setDither(boolean paramBoolean)` methods sets the alpha, auto-mirrored, color filter, and dither properties of the drawable, respectively.
+
+The `setVisible(boolean paramBoolean1, boolean paramBoolean2)` method sets the visibility of the drawable.
+
+The nested `BlockInvalidateCallback` class implements the `Drawable.Callback` interface and wraps the block invalidate callback around the drawable. It contains methods that perform various callback functionalities such as invalidating the drawable, scheduling or unscheduling the drawable.
+
+Finally, the nested `DrawableContainerState` abstract class extends `Drawable.ConstantState`, representing the constant state of a drawable. It contains code that manages properties such as auto-mirroring, config changes, color filtering, padding, etc., which can be shared by different instances of the drawable.In the continuation of the previous DrawableContainer class, there are more instance variables, methods, and an inner class `DrawableContainerState` defined.
+
+Instance variables consist of factors configuring the DrawableContainer state, such as the layout direction, the source resource, and characteristics of the drawable, like its opacity and whether it has been mutated.
+
+The `DrawableContainerState` constructor sets these attributes, taking another DrawableContainerState, a DrawableContainer, and Resources as parameters.
+
+The `createAllFutures()` method gets all the future states for the drawables in the DrawableContainer.
+
+The `prepareDrawable()` method prepares the drawable to be shown, this includes setting its layout direction and mutating it.
+
+The `addChild()` method adds a child drawable to the DrawableContainer, and updates children-related configurations.
+
+The `applyTheme()` method applies a particular theme to all the drawable children within the DrawableContainer, checking each if they are able to apply a theme.
+
+The `canApplyTheme()` checks if any child drawable within the DrawableContainer can apply a theme.
+
+The `canConstantState()` method checks if the drawables within the DrawableContainer container are in a constant state, and loops through each drawable to check this.
+
+The `clearMutated()` method clears the `mMutated` field.
+
+The `computeConstantSize()` method computes and sets the constant size of the drawables within the DrawableContainer.
+
+The `getCapacity()` method returns the length of the drawables within the DrawableContainer.
+
+Finally, the `getChangingConfigurations()` method returns the config changes for the children.The code further defines more behavior and states for the `DrawableContainer` class and the inner class `DrawableContainerState`. 
+
+Methods include `getConstantHeight()`, `getConstantMinimumHeight()`, `getConstantMinimumWidth()`, `getConstantPadding()`, `getConstantWidth()`, `getEnterFadeDuration()`, `getExitFadeDuration()`, `getOpacity()` all of which return the respective values for the DrawableContainer's size, padding, fade durations and opacity, in some cases also computing these values.
+
+The `invalidateCache()` method invalidates the opacity and stateful check cache, forcing a recalculation next time these values are requested.
+
+The `isConstantSize()` and `isStateful()` methods return the constant size state and statefulness of the DrawableContainer respectively, also potentially calculating these values.
+
+The `mutate()` method mutates all child drawables within the DrawableContainer.
+
+The `setConstantSize()`, `setEnterFadeDuration()`, `setExitFadeDuration()`, `setLayoutDirection()`, `setVariablePadding()`, and `updateDensity()` methods set the respective DrawableContainer attributes to specified values.
+
+The `growArray()` method increases the size of the `mDrawables` array.
+
+The `getChildCount()` method returns the number of child drawables within the DrawableContainer.

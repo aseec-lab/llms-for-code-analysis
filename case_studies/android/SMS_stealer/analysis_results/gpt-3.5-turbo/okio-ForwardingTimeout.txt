@@ -1,0 +1,27 @@
+The `ForwardingTimeout` class in the `okio` package extends the `Timeout` class and is used to delegate timeout operations to another `Timeout` instance.
+
+Here's what the code does:
+
+- The class has a single field `delegate` of type `Timeout`, which is the instance to which timeout operations are delegated.
+
+- The constructor takes a `Timeout` parameter and assigns it to the `delegate` field. If the parameter is null, it throws an `IllegalArgumentException`.
+
+- The `clearDeadline()` method delegates the call to the `clearDeadline()` method of the `delegate` instance.
+
+- The `clearTimeout()` method delegates the call to the `clearTimeout()` method of the `delegate` instance.
+
+- The `deadlineNanoTime()` method returns the value returned by the `deadlineNanoTime()` method of the `delegate` instance.
+
+- The `deadlineNanoTime(long paramLong)` method delegates the call to the `deadlineNanoTime(long paramLong)` method of the `delegate` instance.
+
+- The `delegate()` method returns the `delegate` instance.
+
+- The `hasDeadline()` method returns the value returned by the `hasDeadline()` method of the `delegate` instance.
+
+- The `setDelegate(Timeout paramTimeout)` method assigns the parameter to the `delegate` field. If the parameter is null, it throws an `IllegalArgumentException`.
+
+- The `throwIfReached()` method delegates the call to the `throwIfReached()` method of the `delegate` instance.
+
+- The `timeout(long paramLong, TimeUnit paramTimeUnit)` method delegates the call to the `timeout(long paramLong, TimeUnit paramTimeUnit)` method of the `delegate` instance.
+
+- The `timeoutNanos()` method returns the value returned by the `timeoutNanos()` method of the `delegate` instance.

@@ -1,0 +1,41 @@
+The `ToolbarWidgetWrapper` class implements the `DecorToolbar` interface and serves as a wrapper for the `Toolbar` class. It provides functionality for ActionBar widgets to be implemented via a Toolbar widget, including setting and getting properties such as title, subtitle, logo, navigation mode, etc.
+
+The constructor initializes the toolbar and sets various attributes based on a styled attributes array `tintTypedArray`. These attributes include title, subtitle, logo, display options, custom view, height, inset dimensions, text appearances and themes.
+
+Several private methods are defined for updating the toolbar's navigation icon (`updateNavigationIcon`), logo (`updateToolbarLogo`), accessibility (`updateHomeAccessibility`), and title (`setTitleInt`). There's also a method to ensure that a spinner view exists (`ensureSpinner`).
+
+The public methods provide necessary toolbar operations like setting visibility, checking if overflow menu can be shown, collapsing action view, getting the toolbar's context, height, menu, dropdown item, selected position, subtitle, title, view group, visibility, display options, custom view, and navigation mode, and checking if the toolbar has embedded tabs.
+
+It also overrides methods from the `DecorToolbar` interface like `animateToVisibility`, `dismissPopupMenus`, `getMenu`, `hasExpandedActionView`, `hideOverflowMenu`, `inflateMenu`, `isOverflowMenuShowPending`, `isOverflowMenuShowing`, `setMenuCallbacks`, `setMenuPrepared`, `setNavigationContentDescription`, `setWindowCallback`, etc. These methods are used to provide necessary actions for the toolbar.
+
+Lastly, an `OnClickListener` is set in the constructor for the toolbar's navigation button, creating an `ActionMenuItem` and invoking the window callback's `onMenuItemSelected` method when clicked.These methods in the `ToolbarWidgetWrapper` class provide several functionalities:
+
+- `hasExpandedActionView()`, `hasIcon()`, `hasLogo()`, `hideOverflowMenu()` return boolean values indicating whether toolbar has expanded action view, an icon, a logo, and perform action of hiding overflow menu respectively.
+  
+- `initIndeterminateProgress()`, `initProgress()` methods log a message indicating 'Progress display unsupported'.
+  
+- `isOverflowMenuShowPending()`, `isOverflowMenuShowing()`, `isTitleTruncated()` are used to check various conditions in the toolbar like overflow menu showing pending, overflow menu showing, and title truncated.
+
+- `restoreHierarchyState()`, `saveHierarchyState()` methods manage to save and restore the state of the toolbar's hierarchy.
+
+- `setBackgroundDrawable()`, `setCollapsible()`, `setCustomView()` set the background drawable, collapsible property, and a custom view for the toolbar.
+  
+- `setDefaultNavigationContentDescription()`, `setDefaultNavigationIcon()` set default navigation content description and icon.
+  
+- `setDisplayOptions()`, `setDropdownParams()`, `setDropdownSelectedPosition()`, `setEmbeddedTabView()` provide setting display options, dropdown parameters and selected position, and an embedded tab view to toolbar.
+  
+- `setIcon()`, `setLogo()`, `setMenu()`, `setMenuCallbacks()`, `setMenuPrepared()` set icon, logo, menu, menu callbacks, and prepared menu to the toolbar.
+  
+- `setNavigationContentDescription()`, `setNavigationIcon()`, `setNavigationMode()` set navigation content description, navigation icon, and navigation mode respectively.
+
+- `setSubtitle()`, `setTitle()` set subtitle and title of the toolbar.The remaining methods in the `ToolbarWidgetWrapper` class provide several functionalities:
+
+- `setVisibility(int paramInt)` is used to set the visibility of the toolbar.
+
+- `setWindowCallback(Window.Callback paramCallback)` sets the callback for window events. 
+
+- `setWindowTitle(CharSequence paramCharSequence)` sets the window title if the title has not previously been set.
+
+- `setupAnimatorToVisibility(final int visibility, long paramLong)` returns an animation that transitions the toolbar's visibility over a certain duration. If the visibility argument is 0, the toolbar's alpha is set to 1, otherwise it's set to 0. A listener is also added to the animation to handle changes in the visibility of the toolbar at the start and end of the animation.
+
+- `showOverflowMenu()` returns a boolean indicating whether the overflow menu is showing.

@@ -1,0 +1,9 @@
+The `TypefaceCompatApi28Impl` class is a subclass of `TypefaceCompatApi26Impl` that provides additional capabilities specifically for API 28.
+
+Key methods:
+
+- `createFromFamiliesWithDefault(Object)`: Attempt to instantiate a new `Typeface` object from font families with "sans-serif" as default. It creates an array of font families, sets its only element to the passed object, and then invokes the method `createFromFamiliesWithDefaul`, which exists in the `Typeface` class of Android API 28 and above. If any exception occurs during invocation, it throws a `RuntimeException` with that exception.
+
+- `obtainCreateFromFamiliesWithDefaultMethod(Class<?>)`: This method tries to get the `createFromFamiliesWithDefault` method from the Typeface class through reflection. It gets the method, makes it accessible and returns.
+
+The purpose of this class is to provide a compatibility layer for operating with Typefaces on different versions of Android, specifically API 28 and onwards. It employs reflection to access and invoke methods that may not be publicly available or may vary between Android versions. In particular, it provides a way to create a `Typeface` instance using a default font family.

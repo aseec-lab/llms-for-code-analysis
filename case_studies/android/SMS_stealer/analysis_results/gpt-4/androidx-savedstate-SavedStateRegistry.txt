@@ -1,0 +1,11 @@
+The `SavedStateRegistry` class is a component that manages saving and restoring UI state in Android. It allows you to register `SavedStateProvider` instances to save their state, and automatically restores their state when needed.
+
+Some key methods include:
+- `consumeRestoredStateForKey(String key)`: This method retrieves and removes the saved state associated with the given key. State can only be consumed after the component's `super.onCreate()` is called.
+- `performRestore(Lifecycle lifecycle, Bundle bundle)`: This method restores the saved state from a `Bundle`. It throws an `IllegalStateException` if the registry has already been restored.
+- `performSave(Bundle bundle)`: This method saves all the states of registered `SavedStateProvider` instances into a `Bundle`.
+- `registerSavedStateProvider(String key, SavedStateProvider provider)`: This method registers a `SavedStateProvider`. It throws an `IllegalArgumentException` if a provider was already registered under the given key.
+- `runOnNextRecreation(Class<? extends AutoRecreated> clazz)`: This method marks a class implementing `AutoRecreated` to be automatically recreated and run in the next onCreate call.
+- `unregisterSavedStateProvider(String key)`: This method removes a `SavedStateProvider` from the registry using its key.
+
+The `AutoRecreated` interface defines a method `onRecreated` that is called upon recreation, while `SavedStateProvider` interface has `saveState()` for classes to implement their state-saving logic.

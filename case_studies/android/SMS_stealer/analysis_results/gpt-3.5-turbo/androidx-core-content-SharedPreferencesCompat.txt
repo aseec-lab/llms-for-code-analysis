@@ -1,0 +1,13 @@
+The code defines a class named `SharedPreferencesCompat` in the `androidx.core.content` package.
+
+The class is marked as deprecated, indicating that it is no longer recommended for use.
+
+The class provides a nested class `EditorCompat` which serves as a compatibility layer for the `SharedPreferences.Editor` class. It provides a method `apply()` that applies the changes made in the `SharedPreferences.Editor` object.
+
+The `EditorCompat` class has a singleton pattern implementation where an instance of `EditorCompat` is created and stored in a static variable `sInstance` if it doesn't already exist.
+
+The `EditorCompat` class has a private inner class `Helper` which provides a helper method `apply()` to handle applying changes to the `SharedPreferences.Editor` object. It tries to use the `apply()` method directly, and if that throws an `AbstractMethodError`, it falls back to using the `commit()` method.
+
+The `SharedPreferencesCompat` class also has a private inner class `Helper` with the same purpose and implementation as the one in the `EditorCompat` class.
+
+Overall, the `SharedPreferencesCompat` class provides compatibility for applying changes to `SharedPreferences` objects by using the `EditorCompat` class.

@@ -1,0 +1,13 @@
+The `webpack.config.js` file is used for configuring Webpack, a popular static module bundler for JavaScript applications.
+
+Here's what each part of the code does:
+
+- The `mode: 'development'` switches Webpack to development mode, which offers debugging-related features like detailed error messages and the generation of source maps. The `devtool: 'inline-source-map'` keys in on what kind of source map to produce, in this case, it opts for inline source maps.
+
+- The `entry` property specifies the entry points of the application: `background.js`, `popup.js`, and `content.js`. 
+
+- The `output.path` property sets the location where the bundled files will be placed, in this case, the 'build' directory. The `output.filename` property specifies the naming structure of the created bundles.
+
+- The `plugins` array is where plugins are added. It uses the `HtmlWebpackPlugin` to generate an HTML file that includes all your webpack bundles in the body using script tags. Also, the `CopyPlugin` is used to directly copy certain files from specified 'from' locations to 'to' locations when Webpack runs.
+
+Basically, this configuration is used to specify how the project will be built and bundled utilizing Webpack, along with the paths for relevant files and actions to take during the process.

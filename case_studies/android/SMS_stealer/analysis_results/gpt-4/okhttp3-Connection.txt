@@ -1,0 +1,11 @@
+The `Connection` interface in OkHttp3 library provides the blueprint for establishing a network connection via sockets. It declares these methods:
+
+1. `Handshake handshake()`: This method is expected to return the TLS handshake of the connection, if any. Returns null if the connection is not HTTPS. 
+
+2. `Protocol protocol()`: This method is expected to return the protocol that the connection uses like HTTP/1.1, spdy/3.1, or HTTP/2.0.
+
+3. `Route route()`: This method is expected to return the route that this connection is serving. A route specifies the series of connections that are established to communicate with a remote server over the internet.
+
+4. `Socket socket()`: This method is expected to return the raw socket underlying the connection.
+
+The metadata at the end provides additional information regarding the file's location, the Java compiler version used, etc.

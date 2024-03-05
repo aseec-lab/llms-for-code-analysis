@@ -1,0 +1,5 @@
+The `DisplayCutoutCompat` class provides a compatibility wrapper for working with display cutouts on Android devices. A display cutout is an area where the device's primary display is not present, such as the notch on top of some newer smartphones.
+
+The class contains methods to get the safe area insets and a list of bounding rectangles for the cutout areas. These methods delegate their call to the respective methods of the `DisplayCutout` class from the Android API. If the device's Android API version is less than 28 (i.e., Android 9 Pie), these methods will return default values (either 0 or null) since the `DisplayCutout` API is not available.
+
+The class also contains a `wrap()` static method to create an instance of `DisplayCutoutCompat` using an `Object`, `unwrap()` method to return the underlying `DisplayCutout` object, `equals()`, `hashCode()`, and `toString()` methods which are standard Java methods often used for comparison and string representation of object state.

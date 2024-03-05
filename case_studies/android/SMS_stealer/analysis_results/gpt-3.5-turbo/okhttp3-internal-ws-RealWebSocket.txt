@@ -1,0 +1,53 @@
+The `RealWebSocket` class is an implementation of the `WebSocket` interface. It handles the WebSocket connection and provides methods for sending and receiving messages.
+
+The class maintains a queue to store outgoing messages and a separate queue for incoming pong messages. It also keeps track of the number of received and sent pings.
+
+The constructor initializes various fields, including the WebSocket listener, the random number generator, and the ping interval. It also sets up a writer Runnable that will be executed by a scheduled executor to send messages.
+
+The `send` method is used to send a message by adding it to the outgoing message queue and calling the `runWriter` method to asynchronously write the message to the WebSocket.
+
+The `close` method is used to close the WebSocket connection. It checks if the connection is already closed or if the message and pong queues are full. If not, it adds a close message to the outgoing message queue and calls the `runWriter` method.
+
+The `checkResponse` method is called after the WebSocket handshake to validate the server's response and ensure that the connection was successfully upgraded to the WebSocket protocol.
+
+The `awaitTermination` method is used to wait for the termination of the WebSocket connection, allowing the caller to specify a timeout.
+
+The class also provides a `cancel` method to cancel the WebSocket connection and a method to validate WebSocket close codes.This section of code handles the WebSocket connection. The `connect` method is used to establish a WebSocket connection by making an HTTP call and upgrading the connection to the WebSocket protocol.
+
+The `failWebSocket` method is called when there is a failure in the WebSocket connection. It sets the `failed` flag to true, cancels any scheduled tasks, and shuts down the executor. It then notifies the WebSocket listener of the failure.
+
+The `initReaderAndWriter` method initializes the WebSocket reader and writer. It sets up the `WebSocketWriter` with the provided streams and random number generator. If a ping interval is set, it schedules a ping task on the executor. If there are pending messages in the queue, it triggers the writer to send them.
+
+The `loopReader` method continuously processes frames received from the WebSocket until a close frame is received.
+
+The `onReadClose` method is called when a close frame is received from the WebSocket. It sets the received close code and reason, checks if there are any enqueued close messages, and if not, closes the streams and cancels scheduled tasks. It then notifies the WebSocket listener of the closing.This code handles writing frames to the WebSocket connection. The `writeOneFrame` method is called to write a single frame to the WebSocket, by getting a frame from the pong queue and sending it using the WebSocket writer. It returns true if a frame was written successfully.
+
+The `ping` method is used to send a ping frame by adding the ping message to the pong queue and triggering the writer to send it.
+
+The `writePing` method sends a ping frame directly without adding it to the pong queue.
+
+The `writePong` method sends a pong frame with the specified payload.
+
+The `cancel` method is used to cancel a queued ping or pong message. It removes the message from the pong queue and returns true if the message was found and removed.
+
+The `runWriter` method is called to write pending frames from the message and close queue. It pops frames from the queue and sends them using the WebSocket writer.
+
+The `send` method is used to send a text or binary message. It adds the message to the message and close queue and triggers the writer to send it.
+
+The `failWebSocket` method is called when there is a failure in the WebSocket connection. It sets the `failed` flag to true and notifies the WebSocket listener of the failure.
+
+The `runReader` method is called to read frames from the WebSocket in a loop until a close frame is received.
+
+The `writeClose` method is used to send a close frame with the specified code and reason. It adds the close message to the message and close queue and triggers the writer to send it.
+
+The `close` method is used to initiate the WebSocket closing process. It sets the enqueued close flag and triggers the writer to send the close message.
+
+The `closeQuietly` method is used to close the WebSocket and ignore any exceptions that may occur.
+
+The `failWebSocket` and `onReadClose` methods handle the reception of a close frame from the WebSocket. They set the received close code and reason, close the streams, and notify the WebSocket listener.This code snippet contains the `writePingFrame` method that writes a ping frame to the WebSocket connection. It also handles the logic for tracking sent ping/pong frames and setting an awaitingPong flag. If a pong frame is not received within the specified ping interval, a SocketTimeoutException is thrown.The code snippet defines a `Streams` class that represents the input and output streams for a WebSocket connection. It includes a `client` flag to indicate whether it's a client-side or server-side connection.
+
+The `Message` class encapsulates a WebSocket message, including its format opcode and data.
+
+The code also includes a `PingRunnable` class that implements the `Runnable` interface. It is used to run a task that writes a ping frame to the WebSocket connection.
+
+Overall, this code snippet provides some utility classes and a runnable task related to WebSocket communication.

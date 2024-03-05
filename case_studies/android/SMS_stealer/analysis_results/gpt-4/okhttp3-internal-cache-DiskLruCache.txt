@@ -1,0 +1,65 @@
+The `DiskLruCache` class implements an LRU cache in Java for disk storage purposes that are used by OkHttp to cache network responses. Here's what some parts of this code do:
+
+- The `checkNotClosed` function checks whether the cache is closed, and raises an exception if so.
+
+- The `create` function verifies the parameters and calls the class constructor to create an instance of the DiskLruCache. If any parameters are incorrect, it throws an error. 
+
+- The `newJournalWriter` function creates a new BufferedWriter for the journal file. If there is an IOException, it will set `hasJournalErrors` to true, indicating that the journal has an error.
+
+- The `processJournal` function goes through all entries in the cache and either sums up the total size of the current cache if an entry is not being edited, or removes an entry and its associated files if it is being edited.
+
+- The `readJournal` function reads and interprets the metadata of the cache stored in the journal file. If the metadata does not meet the expected format or entries, it will throw an IOException.
+
+- The `readJournalLine` function interprets a line of metadata from the journal file. It updates an entry's metadata in the system based on the contained information. If the line does not meet the expected format, it will throw an IOException.- The `validateKey` function checks if the input string matches the given regex pattern. If it does not, it throws an IllegalArgumentException with a description message. 
+
+- The `close` function shuts down the cache. If the cache is not initialized or is already set to close, it simply sets the state to `closed`. Else it processes each entry, aborts edits in progress, trims files as necessary, and closes the journal writer. 
+
+- The `completeEdit` function updates the cache after a write operation. It checks if there are new files created and validates them, if it fails it aborts the operation. It renames dirty files to clean ones if they exist, updates their sizes, and updates the total size. If the entry is readable or is marked to commit, it logs the operation to the journal and assigns a sequence number if the file is new. If not, it records a remove operation in the journal.
+
+Please note that this code is a bit complex since it's handling file operations with numerous checks, exceptions and synchronized blocks involved.- The `delete` function closes the cache and deletes all files in the cache's directory.
+
+- The `edit` function attempts to edit a specific entry in the cache at a given sequence number. If an entry with the sequence number doesn't exist or if the entry has a current edit in progress, the function returns null. Otherwise, it records the edit operation in a journal and returns the new Editor object.
+
+- The `evictAll` function removes all entries from the cache.
+
+- The `flush` function commits all pending edits to the disk. If the cache is not yet initialized or already closed, it does nothing. Otherwise, it trims the cache size if necessary and flushes the journal writer.
+
+- The `get` function retrieves a snapshot of a cache entry by its key. If the cache is uninitialized, closed or an entry with a given key isn't found, the function returns null. If the entry is readable, it returns a snapshot and increments the `redundantOpCount` value by 1. If the journal needs to be rebuilt, it schedules a cleanup job.- The `getDirectory` function returns the directory where the cache is located.
+
+- The `getMaxSize` function retrieves the maximum size of the cache.
+
+- The `initialize` function is responsible for checking and setting up the initial state of the cache. If the cache is already initialized, it does nothing. If the cache's journal file exists, it reads the journal and processes it. If the cache's journal file is corrupted, it clears the cache, makes sure the cache is open and rebuilds the journal file.
+
+- The `isClosed` function checks whether the cache is closed.
+
+- The `journalRebuildRequired` function determines if a rebuild of the journal file is required, which is true whenever the `redundantOpCount` is greater than or equal to 2000 and also greater than or equal to the size of the `lruEntries`.
+
+- The `rebuildJournal` function performs the process of rebuilding the entire journal file, including closing the existing journal writer, creating a new journal file, and then writing the header and all entries to the new journal file. If an exception is thrown while writing to the journal, it catches the exception, logs the error and clears the cache.
+
+- The `addOnFileClosedListener` function adds a listener for when files in the cache are closed.- The `remove` function deletes the entry specified by the string key passed in. It first checks whether the cache is initialized and not closed. If the specified entry exists, it calls the `removeEntry` function to remove it from the cache.
+
+- The `removeEntry` function checks if the current entry editor is open. If it is, it detaches the entry editor. Then it deletes the file corresponding to the current entry and recalculates the size of the cache. Then it removes the entry from the `lruEntries` map. If a journal rebuild is required, it initiates the cleanup process.
+
+- The `setMaxSize` function sets the max size of the cache. If the cache is initialized, it runs the cleanup process.
+
+- The `size` function returns the current size of the cache.
+
+- The `snapshots` function returns an iterator that provides access to snapshots of all entries in the cache.
+
+- The `trimToSize` function continues removing the least recently used entries from the cache until its size falls below the max size.
+
+- The `Editor` class provides methods for editing cache entries, such as `commit` and `abort` methods for completing or aborting the editing process respectively. `abortUnlessCommitted` aborts the edit unless the changes have been committed.- The `detach` function in the `Editor` class checks if the current editing is happening in the current entry or not. If it is, it deletes the temporary files associated with the entry and sets the `currentEditor` for the entry as `null`.
+
+- The `newSink` method in `Editor` returns a new `Sink` that can be used to write data at the specified index in the entry. If the entry is not readable yet, it marks the index as written.
+
+- The `newSource` method in `Editor` returns a `Source` that can be used to read data at the specified index in the entry.
+
+- The `Entry` class represents a stored entry in the cache. An entry has keys and corresponding files for clean and dirty states. The clean file represents the committed and completed data whereas, the dirty file represents the ongoing edits on the data.
+
+- The `setLengths` function in `Entry` sets the lengths of the entries. If the length data provided is incorrectly formatted or doesn't have equal length as the value count, it throws an exception. 
+
+- The `snapshot` function in `Entry` returns a snapshot of the entry. If the clean files for the entry are not found, it removes the entries and returns null.
+
+- The `writeLengths` function in `Entry` writes the lengths of the entries into a `BufferedSink`.
+
+- The `Snapshot` class contains a copy of an entry that can be read without modifying the entry data. It closes associated `Source` objects when closed, and it can also be used to edit the entry data.

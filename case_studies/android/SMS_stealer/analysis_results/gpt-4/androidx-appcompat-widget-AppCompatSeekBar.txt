@@ -1,0 +1,13 @@
+The `AppCompatSeekBar` class provides a SeekBar widget compatible with older Android versions. This class is a direct subclass of `SeekBar` and includes additional features for better support on older platforms.
+
+- `mAppCompatSeekBarHelper`: A private instance variable for the `AppCompatSeekBarHelper` class that provides functionality for the seek bar.
+
+- Constructors: It provides three constructors. It uses the `AppCompatSeekBarHelper` helper class to load attributes from the XML layout files based on context and attribute set passed.
+
+- `drawableStateChanged()`: Overridden method from the `SeekBar` class that is called when the drawable state of the SeekBar is changed. Inside this, it also calls the helper method for state change.
+
+- `jumpDrawablesToCurrentState()`: Overridden method that makes sure the state of drawables matches the state of the SeekBar. It will also change the state of the SeekBarHelper.
+
+- `onDraw(Canvas paramCanvas)`: An overridden function that is triggered when the SeekBar needs to be redrawn. This also calls the helper method to draw tick marks on the SeekBar. 
+
+The `AppCompatSeekBarHelper` helps with managing the compatibility related aspects like drawables states, tick marks etc for the `AppCompatSeekBar` class.

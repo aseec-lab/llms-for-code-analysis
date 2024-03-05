@@ -1,0 +1,7 @@
+The `Core` class is a singleton class in the Android Networking library. It is responsible for providing an instance of the `ExecutorSupplier` and managing the lifecycle of the `Core` object.
+
+The `getInstance()` method is synchronized and follows the double-checked locking pattern to ensure that only one instance of the `Core` class is created. If the instance is null, it creates a new instance of the `Core` class and assigns it to the `sInstance` field.
+
+The `shutDown()` method sets the `sInstance` field to null, effectively shutting down the `Core` instance.
+
+The `getExecutorSupplier()` method returns the `ExecutorSupplier` instance.

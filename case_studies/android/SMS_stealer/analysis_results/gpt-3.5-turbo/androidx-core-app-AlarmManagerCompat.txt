@@ -1,0 +1,9 @@
+The `AlarmManagerCompat` class in the `androidx.core.app` package provides compatibility methods for working with the `AlarmManager` system service.
+
+The `setAlarmClock()` method sets an alarm clock that will trigger the provided `PendingIntent`. If the device is running on API level 21 or higher, it uses the `setAlarmClock()` method of `AlarmManager` to set the alarm. Otherwise, it falls back to the `setExact()` method to ensure precise timing.
+
+The `setAndAllowWhileIdle()` method sets an alarm that will trigger the provided `PendingIntent`, which will be allowed to execute even when the device is in the idle mode. If the device is running on API level 23 or higher, it uses the `setAndAllowWhileIdle()` method of `AlarmManager` to set the alarm. Otherwise, it falls back to the `set()` method.
+
+The `setExact()` method sets an alarm that will trigger the provided `PendingIntent` at the exact specified time. If the device is running on API level 19 or higher, it uses the `setExact()` method of `AlarmManager` to set the alarm. Otherwise, it falls back to the `set()` method.
+
+The `setExactAndAllowWhileIdle()` method sets an alarm that will trigger the provided `PendingIntent`, which will be allowed to execute even when the device is in the idle mode, at the exact specified time. If the device is running on API level 23 or higher, it uses the `setExactAndAllowWhileIdle()` method of `AlarmManager` to set the alarm. Otherwise, it falls back to the `setExact()` method.

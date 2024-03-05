@@ -1,0 +1,45 @@
+The `RealConnection.java` file implements the actual HTTP connections which each handle multiple HTTP requests. Key characteristics of the class include:
+
+1. Fields: these maintain the connection's state, e.g., the connection pool (`connectionPool`), the route (`route`), the socket (`socket` and `rawSocket`), references to currently active streams (`allocations`), and counters (`successCount`, `allocationLimit`)/flags (`noNewStreams`).
+
+2. `RealConnection(ConnectionPool paramConnectionPool, Route paramRoute)`: the constructor.
+
+3. `connectSocket(...)` and `connectTls(...)`: these methods establish network connections through creating a socket and initiating a TLS handshake, respectively.
+   
+4. `connectTunnel(...)`: this method attempts to establish a tunnel with an HTTP proxy using the CONNECT method for each segment.
+
+5. `createTunnelRequest()` and `createTunnel(...)`: this pair of methods helps create and handle proxy tunnel requests.
+   
+6. `connect(...)`: this method begins the network connection process.
+   
+7. `establishProtocol(...)`: this method determines which protocol to use for the connection: HTTP/1.1 or HTTP/2.
+
+8. `isValid(SSLSession paramSSLSession)`: this method checks if an SSL session is valid based on session protocol and cipher suite.
+
+9. `cancel()`: this method interrupts the connection attempt or active data transfer.
+   
+10. `testConnection(...)`: a static method that creates a connection for test purposes.
+   
+This class is typical for network libraries with HTTP support. Its functionality covers the full lifecycle of a connection and handles many corner cases, such as idle connections, retries, and proxy tunnels.1. `public Handshake handshake()`: This method simply returns the `handshake` object of the `RealConnection`.
+   
+2. `public boolean isEligible(Address paramAddress, @Nullable Route paramRoute)`: This method checks if the connection can be used for a new request. It returns true if the connection can carry more allocations and if the given address is the same as the route's address, and the HTTP/2 connection has not reached its limit, or if there is a direct connection to the proxy.
+   
+3. `public boolean isHealthy(boolean paramBoolean)`: This method checks the health status of the connection. It returns false if the socket is closed, if the input or output has been shutdown, or if the HTTP/2 connection has been shutdown. If a parameter is true, it also checks if the source has been exhausted. 
+
+4. `public boolean isMultiplexed()`: This method checks if the connection is multiplexed i.e., handles multiple HTTP/2 requests/responses simultaneously on a single connection.
+
+5. `public HttpCodec newCodec(...)`: This method creates a new `HttpCodec` for the connection. If it's a HTTP/2 connection, it returns an instance of `Http2Codec` else it sets timeouts and returns an instance of `Http1Codec`.1. `public RealWebSocket.Streams newWebSocketStreams(final StreamAllocation streamAllocation)`: This method returns a new instance of `RealWebSocket.Streams` well-suited for socket programming involving streams of data.
+
+2. `public void onSettings(Http2Connection paramHttp2Connection)`: This method updates the allocation limit for connection concurrent streams based on settings received from the HTTP/2 connection.
+
+3. `public void onStream(Http2Stream paramHttp2Stream)`: This method closes a given HTTP/2 stream, refusing the incoming stream.
+
+4. `public Protocol protocol()`: This method simply returns the `protocol` object of the `RealConnection`.
+
+5. `public Route route()`: This method returns the `route` object that encapsulates the addressed socket connections.
+
+6. `public Socket socket()`: This method returns the `socket` object representing the endpoint of a connection.
+
+7. `public boolean supportsUrl(HttpUrl paramHttpUrl)`: This method checks if the `RealConnection` supports the given URL. It returns true if the port and the hostname match, and if the hostname is verified by the SSL peer certificate.
+
+8. `public String toString()`: Override method which provides a human-readable representation of the `RealConnection` object, including its host, port, proxy, host address, cipher suite, and protocol information.

@@ -1,0 +1,16 @@
+The `ImageFilterView` class extends `AppCompatImageView` and provides additional functionalities for image manipulation. This class introduces attributes like brightness, contrast, saturation, warmth, and more, which are not available in the default `ImageView` provided by Android.
+
+Specifically, the class consists of:
+
+- Fields that represent image manipulation parameters such as contrast, warmth, saturation, brightness, round, roundPercent, crossfade, and others.
+- Constructors that initialize an `ImageFilterView` instance with a `Context`, an `AttributeSet`, or both, plus an optional style attribute.
+- The `init` method, used within constructors to initialize the `ImageFilterView` instance, which acquires style attributes, sets up drawables if needed, and other initialization parameters.
+- Multiple getter and setter methods for aforementioned image manipulation parameters. These methods also include the necessary routines to reflect the changes in the image.
+- Overridden `draw` method which introduces customized operations before calling the `super.draw` method. This is particularly used when a rounded clip path is needed in versions before Android 21.
+- `ImageMatrix` class is an inner class for handling color matrix manipulations which are used for brightness, contrast, saturation, and warmth transformations. Its methods include `updateMatrix` for applying transformations to ImageView, as well as individual transformation methods like `brightness`, `warmth`, `saturation`, and `contrast`.
+
+Notably, multiple operations within this class also take into account the Android SDK version for backward compatibility.The `saturation` method modifies the saturation state of the `ImageFilterView`. The current saturation value is passed as a parameter to this method which then creates a scale of the saturation value using constants predefined in the method.
+
+The `warmth` method adjusts the warmth state of the `ImageFilterView`. The current warmth value is passed as a parameter to this method, this method then creates a scale of the warmth value using constants predefined in the method. 
+
+Finally, the `updateMatrix` method is responsible for updating the `ColorMatrix` of the `ImageFilterView`. It checks whether saturation, contrast, warmth, or brightness have been modified and if so, it applies these modifications to the `ColorMatrix`. It then applies this modified `ColorMatrix` to the `ImageView` using a `ColorMatrixColorFilter`, or if there are no modifications, it clears any color filters on the `ImageView`.

@@ -1,0 +1,31 @@
+The `ConnectionPool` class in OkHttp3 library manages reuse of HTTP and HTTP/2 connections for reduced network latency. It caches connections in a pool for later reuse.
+
+Key elements in the class include:
+
+1. `connections`: A deque that stores `RealConnection` objects representing an active or idle network connection.
+
+2. `cleanupRunnable`: Runnable for cleaning up idle connections in the connection pool.
+
+3. `maxIdleConnections`, `keepAliveDurationNs`: Specify the maximum number of idle connections and the keep-alive duration for the pool.
+
+4. `executor`: An Executor that runs cleanup tasks for the connection pool.
+
+Methods:
+
+1. `pruneAndGetAllocationCount(RealConnection, long)`: removes leaked connections and returns the number of remaining live connections for the `RealConnection`.
+
+2. `cleanup(long)`: cleans up the connection pool, closing and removing idle connections. 
+
+3. `connectionBecameIdle(RealConnection)`: If a connection has become idle in the pool, it may be closed and removed from the pool.
+
+4. `connectionCount()`: returns the current size of the connection pool.
+
+5. `deduplicate(Address, StreamAllocation)`: attempts to find an existing pool connection that can be used for a new client request. 
+
+6. `evictAll()`: removes and closes all connections in the connection pool.This code continues the description of the ConnectionPool class we analyzed earlier. Following are the method descriptions:
+
+5. `get(Address, StreamAllocation, Route)`: This method iterates over `connections` deque and checks if any `RealConnection` is eligible for a given `Address` and `Route`. If an eligible connection is found, it is acquired by the `StreamAllocation` and also returned. If none of the connections are eligible, `null` is returned.
+
+6. `idleConnectionCount()`: This method returns the count of idle connections in the connection pool. It iterates over all the connections and checks if allocations list of each connection is empty. It increments the count for each idle connection. An empty list implies that the connection is idle.
+
+7. `put(RealConnection)`: If the `cleanupRunning` flag is not set, it sets the flag to true and executes the `cleanupRunnable` executor. It then adds the `RealConnection` to the `connections` deque of the connection pool.

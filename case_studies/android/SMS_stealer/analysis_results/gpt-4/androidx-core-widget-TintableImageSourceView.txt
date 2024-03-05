@@ -1,0 +1,11 @@
+The `TintableImageSourceView` is an interface that is designed to support tinting of views that can have an image source. The tinting is done using a `ColorStateList` and a `PorterDuff.Mode`.
+
+- `getSupportImageTintList()` is a method which should return the `ColorStateList` currently applied to the image.
+
+- `getSupportImageTintMode()` is a method which should return the blending mode (`PorterDuff.Mode`) used to apply the tint to the image.
+
+- `setSupportImageTintList(ColorStateList paramColorStateList)` is a method meant to be used to apply a specific `ColorStateList` to the image.
+
+- `setSupportImageTintMode(PorterDuff.Mode paramMode)` is a method meant to be used to set the specific blending mode for applying the tint to the image.
+
+Any view that represents an image, and wants to support tinting should implement this interface. The actual implementation of the tinting behavior is left to the class that implements this interface.

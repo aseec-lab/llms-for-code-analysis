@@ -1,0 +1,17 @@
+The `HelperWidget` class is an abstract class that extends `ConstraintWidget` and implements the `Helper` interface. It's used as a base class for helper objects that manage a set of widgets in a ConstraintLayout. 
+
+The class has a field `mWidgets`, an array that contains the managed widgets, and `mWidgetsCount` that keeps track of the number of widgets in the array.
+
+Key methods in this class include:
+
+1. `add(ConstraintWidget paramConstraintWidget)`: Adds a widget to the helper, increasing the size of `mWidgets` array if necessary.
+
+2. `addDependents(ArrayList<WidgetGroup> paramArrayList, int paramInt, WidgetGroup paramWidgetGroup)`: Adds the managed widgets to dependency groups.
+
+3. `copy(ConstraintWidget paramConstraintWidget, HashMap<ConstraintWidget, ConstraintWidget> paramHashMap)`: Copies widgets from another helper to this helper.
+
+4. `findGroupInDependents(int paramInt)`: Finds the ID of the group that has a dependency on the widget located at `paramInt`.
+
+5. `removeAllIds()`: Removes all widget identifiers from the helper.
+
+6. `updateConstraints(ConstraintWidgetContainer paramConstraintWidgetContainer)`: An abstract method that must be implemented in subclasses to update the layout constraints.

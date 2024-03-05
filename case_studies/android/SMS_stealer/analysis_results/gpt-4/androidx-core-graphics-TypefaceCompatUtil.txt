@@ -1,0 +1,13 @@
+The `TypefaceCompatUtil` class in the `androidx.core.graphics` package provides utility methods for working with `Typeface` objects in a way that's compatible with various versions of Android.
+
+The `closeQuietly` method is used to close an instance of a `Closeable`(such as `InputStream`, `OutputStream`, etc) object without throwing an `IOException`.
+
+The `copyToDirectBuffer` method copies the resource with the given resource ID to a temporary file, and then maps that file into a `ByteBuffer`.
+
+The `copyToFile` methods are used to copy content from `Resources` or `InputStream` to a file.
+
+The `getTempFile` method creates a new, empty file in the internal cache directory using a unique name.
+
+The `mmap` methods are used to create a `ByteBuffer` which maps to a file (either specified by a `File` object or a `Uri`). These buffer objects can then be used for low-level read/write operations.
+
+Exception handling is carried out extensively in this class to manage errors during I/O operations like attempting to close a null `Closeable`, errors during copying resources or creating new files. All these methods are potentially used when working with custom fonts in an Android application.

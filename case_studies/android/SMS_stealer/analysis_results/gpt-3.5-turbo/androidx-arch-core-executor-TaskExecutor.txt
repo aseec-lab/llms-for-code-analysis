@@ -1,0 +1,11 @@
+The `TaskExecutor` class in the `androidx.arch.core.executor` package is an abstract class that provides methods for executing tasks on disk I/O and main threads. 
+
+- The `executeOnDiskIO()` method is an abstract method that needs to be implemented by subclasses. It is used to submit a task to be executed on a disk I/O thread.
+
+- The `executeOnMainThread()` method checks whether the current thread is the main thread by calling the `isMainThread()` method. If it is the main thread, the provided `Runnable` is directly executed. Otherwise, the `Runnable` is posted to be executed on the main thread using the `postToMainThread()` method.
+
+- The `isMainThread()` method is an abstract method that needs to be implemented by subclasses. It is used to check whether the current thread is the main thread.
+
+- The `postToMainThread()` method is an abstract method that needs to be implemented by subclasses. It is used to post a `Runnable` to be executed on the main thread.
+
+Overall, the `TaskExecutor` class serves as a base class for implementing task executors that distribute tasks to be executed on different threads, such as the disk I/O thread and the main thread.

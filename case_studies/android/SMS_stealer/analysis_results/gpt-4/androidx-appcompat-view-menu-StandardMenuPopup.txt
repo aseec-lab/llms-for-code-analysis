@@ -1,0 +1,13 @@
+The `StandardMenuPopup` class in the `androidx.appcompat.view.menu` package is a concrete implementation of a `MenuPopup`. It's used to present a menu in a standard popup window. The menu items are typically inflated from a layout resource defined in XML.
+
+Key methods in this class:
+- `StandardMenuPopup`: Creates a new instance of the `StandardMenuPopup`, setting up the initial configuration.
+- `tryShow`: Attempts to show the menu popup, returns true if successful.
+- `dismiss`: Closes the popup if it's currently showing.
+- `isShowing`: Checks whether the popup is currently being displayed.
+- `getListView`: Gets the `ListView` where the menu items are displayed.
+- `onDismiss`: Handles the dismissing of the popup.
+- `onKey`: Handles key events when a key is pressed. Dismisses if key code is KEYCODE_MENU (82).
+- `setAnchorView`, `setCallback`, `setForceShowIcon`, `setGravity`, `setHorizontalOffset`, `setOnDismissListener`, `setShowTitle`, `setVerticalOffset`: Configuration methods to set various properties for the popup.
+- `show`: Tries to show the popup, throws an `IllegalStateException` if unsuccessful.
+- `updateMenuView`: Forces an update/re-measurement of the popup menu's content width. This is often called after dataset changes.

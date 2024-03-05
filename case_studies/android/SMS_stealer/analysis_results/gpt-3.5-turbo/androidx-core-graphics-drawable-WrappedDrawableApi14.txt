@@ -1,0 +1,18 @@
+The `WrappedDrawableApi14` class in the `androidx.core.graphics.drawable` package is a wrapper class that wraps another `Drawable` and provides additional functionality.
+
+Here's a summary of the code:
+
+- The class extends the `Drawable` class and implements the `Drawable.Callback`, `WrappedDrawable`, and `TintAwareDrawable` interfaces.
+- It has several member variables, such as the wrapped `Drawable`, current color and mode, and a flag to indicate if the color filter is set.
+- The class provides methods for setting and getting the wrapped drawable, as well as methods for setting the tint color and mode.
+- The `updateTint` method updates the tint color and mode of the drawable based on the current state.
+- The class overrides various methods from the `Drawable` class, such as `draw`, `getChangingConfigurations`, `getConstantState`, and `getOpacity`.
+- The `mutate` method is overridden to create a new constant state and mutate the wrapped drawable if necessary.
+- The class also provides implementation for methods related to callback handling and scheduling.
+- Some methods, such as `getIntrinsicHeight` and `getIntrinsicWidth`, delegate the calls to the wrapped drawable.
+- The `onBoundsChange` method updates the bounds of the wrapped drawable when the bounds of the wrapper are changed.
+- The `setState` method sets the state of the wrapped drawable and updates the tint color if necessary.
+- The `isVisible` and `setVisible` methods delegate the calls to the wrapped drawable.
+- The `setTintList` and `setTintMode` methods set the tint color and mode of the wrapper.
+- The `invalidateDrawable` and `unscheduleDrawable` methods invalidate and unschedule the drawable callback.
+- The constructor initializes the wrapped drawable and sets the wrapper as the callback for the wrapped drawable.

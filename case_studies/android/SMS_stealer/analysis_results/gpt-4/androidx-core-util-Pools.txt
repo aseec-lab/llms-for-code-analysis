@@ -1,0 +1,9 @@
+This Java code is a part of AndroidX Core library. It provides a lightweight object pooling utility that helps in reusing and recycling expensive objects without needing to create them more times than necessary, thereby saving system resources.
+
+It has 3 classes: 
+
+1. Pool: an interface for pools, it defines a contract for acquiring and releasing objects.
+
+2. SimplePool: this class implements the Pool interface and caters for simple object pooling operations. It throws an exception if trying to release an already pooled object. It does not handle concurrency.
+
+3. SynchronizedPool: this class extends SimplePool and overrides the acquire and release methods to handle concurrency using synchronized blocks ensuring that only one thread is able to access the pool at a time.

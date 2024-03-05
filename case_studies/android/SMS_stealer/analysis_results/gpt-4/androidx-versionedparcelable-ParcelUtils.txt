@@ -1,0 +1,21 @@
+The `ParcelUtils` class in the `androidx.versionedparcelable` package is a utility class that provides a set of methods for handling `VersionedParcelable` objects, with the main aim of packaging and unpacking these objects for transmission between system processes (IPC) in Android.
+
+Here's what the key methods do:
+
+- `fromInputStream(InputStream paramInputStream)`: This method creates a `VersionedParcelStream` from the given InputStream and reads a `VersionedParcelable` from it.
+  
+- `fromParcelable(Parcelable paramParcelable)`: This method retrieves a `VersionedParcelable` from a given `Parcelable`. If the provided `Parcelable` is not an instance of `ParcelImpl`, it throws an IllegalArgumentException.
+  
+- `getVersionedParcelable(Bundle paramBundle, String paramString)`: This method retrieves a `VersionedParcelable` from a Parcel inside a given `Bundle` using the provided String as a key.
+  
+- `getVersionedParcelableList(Bundle paramBundle, String paramString)`: This method retrieves a list of `VersionedParcelable` from a Parcel inside a given `Bundle` using the provided String as a key.
+  
+- `putVersionedParcelable(Bundle paramBundle, String paramString, VersionedParcelable paramVersionedParcelable)`: This method stores a `VersionedParcelable` inside a Bundle using the given String as a key.
+  
+- `putVersionedParcelableList(Bundle paramBundle, String paramString, List<? extends VersionedParcelable> paramList)`: This method stores a list of `VersionedParcelable` objects inside a Bundle using the given String as a key.
+  
+- `toOutputStream(VersionedParcelable paramVersionedParcelable, OutputStream paramOutputStream)`: This method writes a `VersionedParcelable` to a given OutputStream.
+  
+- `toParcelable(VersionedParcelable paramVersionedParcelable)`: This method wraps a `VersionedParcelable` into a `ParcelImpl` object, which implements the `Parcelable` interface.
+
+The `ParcelUtils` class is part of Android's IPC and allows for data to be parceled and unparceled across process boundaries.

@@ -1,0 +1,21 @@
+The code in `FragmentTransition.java` is a part of the Android framework and is responsible for managing fragment transitions. It includes methods for adding shared elements, handling fragment transactions, and managing the back stack. The code defines various helper methods for managing fragment transitions, such as adding fragments to the back stack, calculating fragment states, and calculating name overrides for shared elements.The remaining part of the code includes the implementation of methods for configuring shared elements during fragment transitions. It includes a method for configuring shared elements in an ordered manner and another method for configuring shared elements in a reordered manner. These methods use the FragmentTransitionImpl interface to perform the necessary actions.The code segment startsTransitions is responsible for starting fragment transitions. It takes in the FragmentManagerImpl object, an ArrayList of BackStackRecords, an ArrayList of Booleans, and two integers as parameters. It also takes a boolean flag as a parameter.
+
+The method iterates through the BackStackRecords in the ArrayList. For each BackStackRecord, it checks if it is a pop operation. If it is, it checks if the operation is a remove or show operation. If it is a remove operation, it calls the removePopTransitions method. If it is a show operation, it calls the showFragment method.
+
+If the BackStackRecord is not a pop operation, the method checks if the current index is not the last index. If it is not the last index, it calls the configureTransitionsReordered method. If it is the last index, it calls the configureTransitionsOrdered method.
+
+Finally, if the boolean flag is true, it calls the setFirstOut method on the first BackStackRecord in the ArrayList.
+
+In conclusion, the startTransitions method is responsible for starting fragment transitions based on the operations specified in the BackStackRecords.The remaining code segment continues with the implementation of the startTransitions method. 
+
+In the remaining code, the method first checks if the current state of the FragmentManager is less than 1. If it is, the method returns.
+
+Next, a SparseArray object called sparseArray is created. 
+
+Then, a loop iterates through the specified range of BackStackRecords in the ArrayList parameter. For each BackStackRecord, the method checks if it is a pop operation. If it is, the calculatePopFragments method is called. If it is not a pop operation, the calculateFragments method is called.
+
+After calculating the fragments, if the sparseArray is not empty, a dummy View object called "view" is created. Then, another loop iterates through the sparseArray. For each entry in the sparseArray, it calculates name overrides using the calculateNameOverrides method. 
+
+Then, depending on the paramBoolean flag, either the configureTransitionsReordered method or the configureTransitionsOrdered method is called.
+
+Finally, the method checks if the current platform supports transitions by calling the supportsTransition method.

@@ -1,0 +1,14 @@
+The `CircularIntArray` class represents a resizable circular array (also known as a "ring" buffer) of integers. In terms of functionality, it allows you to add, remove, and access elements both at the start and end of the array.
+
+It works by maintaining a dynamic array under the hood (`mElements`), bounds pointers (`mHead` and `mTail`), and a capacity bitmask (`mCapacityBitmask`). It offers various methods including:
+
+- `addFirst()` and `addLast()`: adding an element at the start and end of the list respectively, and double the capacity of the array if the array is full.
+- `get()`, `getFirst()`, `getLast()`: getting elements at specific positions or the first/last element.
+- `clear()`: removing all items.
+- `popFirst()`, `popLast()`: removing and returning the first and last element.
+- `size()` and `isEmpty()`: returning the size of the array or checking if it's empty.
+- `removeFromStart(int paramInt)`, `removeFromEnd(int paramInt)`: removing an amount of elements from the start or end of the array. 
+
+The constructor `CircularIntArray(int paramInt)` ensures the size of the array is a power of two, which allows us to use bitwise AND operation to wrap indices around the end of the array back to the start. If the size is not a power of two, it sets the size to the next power of two which is greater than `paramInt`.
+
+The `doubleCapacity()` method is used when the buffer becomes full, creating a new array that is twice the size and copying the original elements to the new array.

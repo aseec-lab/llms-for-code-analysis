@@ -1,0 +1,13 @@
+The `StateListDrawable` is a subclass of `DrawableContainer` that manages a set of `Drawable` objects with each associated with a unique array of state sets. This means the `StateListDrawable` will draw a different `Drawable` depending on its own current state. 
+
+The class maintains an instance of `StateListState`, a subclass of `DrawableContainerState`. This instance keeps track of each `Drawable`'s associated state sets in a nested array `mStateSets`.
+
+Many methods such as `addState()`, `getStateCount()`, `getStateDrawable()`, `getStateDrawableIndex()`, and `getStateSet()` are for managing and retrieving `Drawable` objects and their associated states. 
+
+The `inflateChildElements()` and `updateStateFromTypedArray()` methods are used to parse and process XML data.
+
+The `mutate()` method is used to make sure each `Drawable` in the `StateListDrawable` is mutable, implying any changes applied to this `Drawable` will not affect any other `Drawable`.
+
+The `onStateChange()` checks which drawable should be displayed for the current state and selects it.
+
+The `StateListState` inner class extends `DrawableContainerState`, holding the set of states associated with each `Drawable`. New `StateListDrawable` instances can be created from this `StateListState`.

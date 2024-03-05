@@ -1,0 +1,7 @@
+The `TwilightManager` class is designed to manage twilight states based on location. Twilight here refers to the sun's position relative to the horizon and the consequent light condition. There is an inner class `TwilightState` that holds the properties of the twilight state, like whether it's night, this and tomorrow's sunrise/sunset times etc.
+
+The `TwilightManager` has methods to get its instance, and get the last known location of the device. Depending on the location, it calculates whether it currently is a night or not using sun rise and sunset times. It makes use of some external class or service, `TwilightCalculator`, for sunset and sunrise calculations.
+
+The `isNight()` method returns true if it's night, based on either the twilight state, or, the last known location. If location is not available, it uses hardcoded fallback times. 
+
+Essentially, `TwilightManager` can be used to determine it is day time or night time according to the device's last known location.

@@ -1,0 +1,13 @@
+The `Huffman` class is used for the Huffman coding, which is a common algorithm used for lossless data compression. It contains a set of `CODES` and `CODE_LENGTHS` which represent the Huffman codes of the HTTP/2's Huffman encoding for headers.
+
+The `Huffman` class has methods to encode and decode the Huffman codes. `decode(byte[] paramArrayOfbyte)` is used to decode the Huffman codes into human-readable format, and `encode(ByteString paramByteString, BufferedSink paramBufferedSink)` is used to encode human-readable strings into Huffman codes. `encodedLength(ByteString paramByteString)` calculates the length of an encoded string in bytes.
+
+The `Node` inner class is used in building the Huffman coding tree. Each `Node` can either be an internal node or a terminal node representing a symbol. The internal node can have children, while the terminal node contains a symbol and the number of bits it represents. 
+
+In `buildTree()` method, a Huffman tree is built using the `addCode(int paramInt1, int paramInt2, byte paramByte)` method. `addCode()` is used to add Huffman codes to the Huffman tree. Each unique prefix of a Huffman code on a Huffman tree represents a different character.
+
+The static block of `$d2j$hex$f7f6d28c$decode_I, $d2j$hex$f7f6d28c$decode_J, $d2j$hex$f7f6d28c$decode_S and $d2j$hex$f7f6d28c$decode_B` methods are used to decode the hexadecimal strings to generate the Huffman codes and lengths.
+
+The `Huffman` instance is a singleton, and can be accessed globally by the `get()` method. 
+
+This class is a part of the OkHttp library used for HTTP/2 header compression.

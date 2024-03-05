@@ -1,0 +1,17 @@
+The `JsonWriter` class allows writing a stream of JSON data to a Writer. This class provides methods to write primitive values, begin and end writing objects and arrays. 
+
+- The `writeDeferredName` method is used to defer writing the name of a JSON object's property, saving it for later writing. 
+- `beforeName` and `beforeValue` functions are used to insert necessary symbols (like a comma) before the name and the value of a JSON property, depending on the current context of the JSON structure being written.
+- `open` and `close` functions are used to start writing a JSON array or object, and to end it. 
+- The constructor accepts the `Writer` instance. 
+- There are also methods like `beginArray`, `beginObject`, `endArray` and `endObject`, which set the state of the writer and write opening or closing JSON syntax to the output.
+- The `JsonWriter` can be configured to serialize nulls, be lenient and be htmlSafe.
+- For flushing and closing the underlying writer, `flush` and `close` methods are used.
+- `string` method is used to apply escape sequences to a string value in a JSON. 
+- The `push`, `peek` and `replaceTop` methods manage the context stack which reflects the hierarchy levels of the structure being written. 
+
+This class ensures that all JSON outputted is well-formed.- `setIndent` method sets the string used for indentation while outputting, or removes indentation if the string is empty.
+- `setLenient` method controls whether the writer is lenient or not.
+- `setSerializeNulls` method sets whether null should be serialized or not.
+- `value` methods are several overloaded methods to write various primitive types and their respective wrapper classes as values in the JSON text. The methods ensure that names are deferred and correct separators are placed. For numeric values, the methods make sure the value is finite (if leniency is off), and for boolean values, they write `true` or `false`.
+- The class ends with information related to compiler version.

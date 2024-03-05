@@ -1,0 +1,92 @@
+The `LinearSystem` class is part of Android's ConstraintLayout library which is used to model and solve a system of linear equations. It is used by the `ConstraintLayout` ViewGroup to create and solve a system of constraints set by a layout.
+
+Here are some key data members and methods:
+
+- `sMetrics`: stores metrics about solver performance.
+- `mCache`: Cache object to manage reused instances of ArrayRow and SolverVariable.
+- `mRows`: Array of ArrayRow each representing a linear equation.
+- `mGoal`: Represents the row which will hold the final value after solving system of equations.
+- `mTempGoal`: Represents a temporary row to be used when testing potential solutions.
+- `mVariables`: Holds the SolverVariable objects, that are the variables in the equations.
+- `graphOptimizer`, `newgraphOptimizer`: Flags to indicate whether to use graph optimization.
+- `populateFromSolverVariable()`: add data from `SolverVariable` or reset it.
+
+Methods like `createVariable()`, `createRowDimensionPercent()`, `displayRows()` and `displaySolverVariables()` are used to create solver variables, create rows with percentage dimensions, display the rows and solver variables of the system respectively.
+
+The `enforceBFS()` method performs the Breadth-First Search algorithm to find a valid solution for the system of equations.
+
+The constructor initializes cache, goal, tempGoal variables and sets up rows. Also, it configures initial state for the class instance based on whether optimized engine is used or not.This part of the code is yet another part of the `LinearSystem` class of Android's ConstraintLayout library. It package includes several methods:
+
+- `getDisplaySize(int paramInt)`: Returns a string representing the given parameter in the most suitable unit - bytes, Kb or Mb. 
+
+- `getDisplayStrength(int paramInt)`: Translates the strength parameter into a string representation, including "LOW", "MEDIUM", "HIGH", "HIGHEST", and etc.
+
+- `getMetrics()`: A static getter method for sMetrics, which store metrics about solver performance.
+
+- `increaseTableSize()`: Increases the size of the table storing the rows of the system.
+
+- `optimize(Row paramRow, boolean paramBoolean)`: This method tries to optimize the given row of the system, possibly performing many iterations. 
+
+Then `releaseRows()` method helps to clear and release memory resources that was occupied by rows of the system.
+
+Lastly, the `addCenterPoint()` and `addCentering()` are constraint adding methods which are used to add constraints related to center points and centering of layout elements respectively. 
+
+`addConstraint(ArrayRow paramArrayRow)` is a general method to add a single given constraint to the system. If sMetrics are tracking, it increases the count of added constraints. 
+
+The use of these methods highly depends on the specific layout scenario and constraints set by a layout.This part of the code is responsible for adding different types of constraints and handling conditions related to constraint addition in the `LinearSystem` class of the Android's ConstraintLayout library. 
+
+- `addGreaterBarrier()` and `addLowerBarrier()`: These methods are for adding greater than or lower than constraints, but with an additional barrier.
+
+- `addGreaterThan()` and `addLowerThan()`: These methods are for adding greater than or lower than constraints.
+
+- `addRatio()`: This method is used to add ratio constraint between given variables.
+
+- `addSynonym()`: This method sets the given variable as a synonym of another variable or an equality constraint if required(synonym is not possible). 
+
+- `addEquality()`: There are two overloaded versions of `addEquality()`. The first version deals with final values and synonyms. If possible, it directly sets final values and updates synonyms. Otherwise, it calls the second version. The second version adds equality constraint for simple definitions, or if needed, creates a new row for the constraint. 
+
+- `cleanupRows()`: This function simplifies the array row representation by removing any rows that are marked as 'simpleDefinitions'.
+
+- `createErrorVariable()`: This method creates error type solver variable for dealing with error scenarios in constraint solving process. It is used mainly in debugging and tracking purpose (to get error-related metrics).- `createExtraVariable()`: This function creates an extra slack variable for the LinearSystem. A slack variable is used in the simplex method to convert inequality constraints to equality constraints.
+
+- `createObjectVariable(Object paramObject)`: This function creates an object variable, referencing a given object - specifically a ConstraintAnchor. The function also handles the logic to reset the variable and increase table size if necessary.
+
+- `createRow()`: This method creates a new empty row for the LinearSystem. It first tries to fetch a row from the cache if the cache is full it creates a new row from scratch.
+
+- `createSlackVariable()`: This function creates a slack variable for the LinearSystem. The function also ensures that the LinearSystem has enough capacity to add the new variable by increasing the table size if needed.
+
+- `displayReadableRows()`: This method is for pretty-printing the LinearSystem for debugging purposes. It prints final values, synonyms and display system equations.
+
+- `displaySystemInformations()`: This method prints out various information about the linear system, such as the table size, number of rows and columns, and memory usage.
+
+- `displayVariablesReadableRows()`: This function prints out a human-readable version of all the rows in the LinearSystem that have unrestricted solver variables.
+
+- `fillMetrics(Metrics paramMetrics)`: This function sets the metrics object which is used to collect information about the LinearSystem optimization process.
+
+- `getCache()`: This function simply returns the Cache object used by the LinearSystem.
+
+- `getGoal()`: This function returns the goal row, representing the target of the optimization process.
+
+- `getMemoryUsed()`: This function calculates and returns the total amount of memory used by the LinearSystem.
+
+- `getNumEquations()`: This method returns the number of equations ie, the number of rows in the LinearSystem.
+
+- `getNumVariables()`: This method returns the current number of solver variables.
+
+- `getObjectVariableValue(Object paramObject)`: This function retrieves the computed value of a solver variable associated with a ConstraintAnchor object.
+
+- `getRow(int paramInt)`: This function takes an index as an argument and returns the corresponding row from the system of equations.
+
+- `getValueFor(String paramString)`: This function retrieves the computed value of a solver variable with a given name. If the variable doesn't exist, it returns 0.0.- `getVariable(String paramString, SolverVariable.Type paramType)`: This function returns a SolverVariable reference that matches the input name string and type. The variable is selected from the LinearSystem's HashMap of variables, by key name. If the variable does not exist, it is created.
+
+- `minimize()`: This method initiates the minimization process for the LinearSystem. It checks optimization conditions and either delegates to further methods (`minimizeGoal(this.mGoal)`, `computeValues()`) or runs the minimization itself.
+
+- `minimizeGoal(Row paramRow)`: This function minimizes the goal by calling other methods such as `enforceBFS(paramRow)`, `optimize(paramRow, false)`, and `computeValues()`.
+
+- `removeRow(ArrayRow paramArrayRow)`: This method removes the specified row from the LinearSystem. It modifies the array of rows directly to rebalance after removal. It also releases the input ArrayRow back into the Cache.
+
+- `reset()`: This function resets the LinearSystem by resetting all SolverVariables, releasing all SolverVariables back into the pool, clearing the variable map, resetting the goal, releasing the Rows, and finally resetting internal counters and goal Row.
+
+- `Row` interface: This interface is used to represent a row in the linear system.matrix. It defines methods to handle errors, get keys and pivot candidates, update rows from final variables, other rows and system, initialize from a row and check if a row is empty.
+
+- `ValueRow` class: This is a subclass of ArrayRow designed to better handle updates to the system, which inherits methods from ArrayRow and offers more efficient handling of SolverVariables. It's constructor is designed to accept the Cache object.

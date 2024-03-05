@@ -1,0 +1,25 @@
+The `MenuPopupHelper` class is responsible for creating and managing a popup menu for a menu builder. It provides methods to show, dismiss, and check if the popup menu is currently showing. The class also handles the layout and positioning of the popup menu.
+
+The class has the following key methods:
+
+- `createPopup`: Creates an instance of a `MenuPopup` based on the available screen size. It determines whether to use a `CascadingMenuPopup` or a `StandardMenuPopup` based on the screen width.
+- `showPopup`: Shows the popup menu at the specified x and y position on the screen. It also handles the positioning and size of the popup menu based on the anchor view.
+- `dismiss`: Dismisses the popup menu if it is currently showing.
+- `getPopup`: Gets the current instance of the `MenuPopup` associated with the helper.
+- `tryShow`: Attempts to show the popup menu if it is not currently showing. It returns true if the popup menu is successfully shown.
+- `tryShow(int, int)`: Attempts to show the popup menu at the specified x and y position on the screen. It returns true if the popup menu is successfully shown.
+- `getListView`: Gets the `ListView` associated with the popup menu.
+- `isShowing`: Returns true if the popup menu is currently showing.
+- `setAnchorView`: Sets the anchor view for positioning the popup menu.
+- `setForceShowIcon`: Sets whether to show icons for menu items.
+- `setGravity`: Sets the gravity for positioning the popup menu.
+- `setOnDismissListener`: Sets the listener to be notified when the popup menu is dismissed.
+- `setPresenterCallback`: Sets the callback for the presenter of the popup menu.
+- `show`: Shows the popup menu. If the anchor view is not set, it throws an `IllegalStateException`.
+- `show(int, int)`: Shows the popup menu at the specified x and y position. If the anchor view is not set, it throws an `IllegalStateException`.
+
+The class also has private variables for the anchor view, menu, context, popup style attributes and resources, as well as flags for showing icons and handling overflow menus.
+
+In addition to the methods, the class has a private inner class `mInternalOnDismissListener`, which implements the `PopupWindow.OnDismissListener` interface and calls the `onDismiss()` method of the `MenuPopupHelper` class.
+
+The `MenuPopupHelper` class is used to manage the display and behavior of a popup menu in the Android framework.

@@ -1,0 +1,14 @@
+The `RunGroup` class is utilized in the `androidx.constraintlayout.solver.widgets.analyzer` package. It's a part of Android's ConstraintLayout, which is used to create complex layouts.
+
+The class contains several numerically labelled constants (BASELINE, END, START) as well as a number of variables and arrays to hold information about the run group. 
+
+The primary purpose of this class seems to be managing 'runs' (essentially sequences of operations or instructions) on widgets in a layout. This involves calculating layout measurements (sizes), running operations on individual widgets within the group, and specifying their start and end points.
+
+The class employs several private and public methods for its operation, including but not limited to:
+1. `defineTerminalWidget`: Used to determine if a widget is terminal (i.e. at the end of a sequence) or not.
+2. `add`: Method to add new `WidgetRun` to the current run group.
+3. `traverseEnd` & `traverseStart`: Both these methods tracks the existence of dependencies in widget runs and return measured long values accordingly.
+4. `defineTerminalWidgets`: Configures the terminal widget with respect to the orientation of the widget run.
+5. `computeWrapSize`: Method to compute the size a widget should be when wrapped in a `ConstraintWidgetContainer`.
+
+A run group appears to be utilized in managing app layouts that are responsive to dynamically changing constraints, such as an app being used on different screen sizes or orientations.

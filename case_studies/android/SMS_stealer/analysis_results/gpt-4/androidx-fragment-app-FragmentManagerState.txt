@@ -1,0 +1,9 @@
+`FragmentManagerState` is a class that contains and manages the state of a `FragmentManager`. The `FragmentManager` is a class in Android that manages fragments, which are modular sections of an activity. 
+
+The class implements `Parcelable`, making its instances serializable to a `Parcel` and then reconstructed later.
+
+It keeps track of active fragments through `mActive`, which is a list of `FragmentState` objects. The `mAdded` list stores identifiers of added fragments. It also manages a stack of fragment transactions (`mBackStack`), the identifier of the primary navigation fragment (`mPrimaryNavActiveWho`), and an index for the next fragment (`mNextFragmentIndex`).
+
+The class offers a `CREATOR` field to create instances of `FragmentManagerState` from a `Parcel`, and includes methods for reading from and writing to a `Parcel`, plus a method that describes content for `Parcelable`.
+
+In summary, it leverages Android's `Parcelable` interface to provide a mechanism for saving and restoring the state of a `FragmentManager`, allowing the respective `FragmentManager` to resume its state seamlessly even after system process death.

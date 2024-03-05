@@ -1,0 +1,9 @@
+This file, `DragAndDropPermissionsCompat.java`, is a class in the `androidx.core.view` package. It provides compatibility methods for working with drag and drop permissions, specifically for devices running Android API level 24 or higher.
+
+The class has a private field `mDragAndDropPermissions` to hold an instance of the `DragAndDropPermissions` class (from the Android framework) and a private constructor to initialize this field.
+
+The `request()` method is a static method that takes an `Activity` object and a `DragEvent` object as parameters. It checks if the device's API level is 24 or higher. If so, it calls the `requestDragAndDropPermissions()` method on the provided `Activity` object using the `DragEvent` object, and if the result is not null, it returns a new instance of `DragAndDropPermissionsCompat` with the obtained `DragAndDropPermissions` object. Otherwise, it returns null.
+
+The `release()` method is a public instance method that releases the drag and drop permissions. It checks if the device's API level is 24 or higher and calls the `release()` method on the `DragAndDropPermissions` object stored in the `mDragAndDropPermissions` field.
+
+The code also includes comments indicating the location of the file and the compiler version used.

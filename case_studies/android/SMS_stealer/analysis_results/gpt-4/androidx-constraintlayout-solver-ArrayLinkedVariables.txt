@@ -1,0 +1,35 @@
+The `ArrayLinkedVariables` class is part of the ConstraintLayout's solver package and implements the `ArrayRow.ArrayRowVariables` interface. It is used for mathematical calculations involving constraints. This class contains several methods for manipulating variables representing constraints, such as `add()`, `clear()`, `contains()`, `divideByAmount()`, `get()`, among others.
+
+The `add()` method is used to add an element to the array if it is not already present. If it already exists, the method updates the value.
+
+The `clear()` method empties the entire array. It also takes care of removing SolverVariables from its row.
+
+The `contains()` method returns true if the provided SolverVariable exists in the array.
+
+The `divideByAmount()` function takes a float argument and divides all elements of the array by this value.
+
+Method `get()` is used to get the value of a specific SolverVariable. This method does not remove the element.
+
+The `getPivotCandidate()` method is used to get the pivot candidate from an available SolverVariable. This method gives preference to weaker elements.
+
+The class also maintains an index of constraint variables, along with values related to those variables, in several parallel arrays, which allows efficient iteration and modification of constraint variables.The `getValue(int paramInt)` function returns the float value at the specified index.
+
+The `getVariable(int paramInt)` method gets a SolverVariable at the specified index.
+
+The `getVariableValue(int paramInt)` function returns the value of a variable at a specific index.
+
+The `hasAtLeastOnePositiveVariable()` method checks if there's at least one positive variable in the array.
+
+The `indexOf(SolverVariable paramSolverVariable)` function is used to get the index of a specific SolverVariable.
+
+The `invert()` method reverses the sign of all values in the array.
+
+The `put(SolverVariable paramSolverVariable, float paramFloat)` function inserts a SolverVariable and its corresponding float value into the array.
+
+The `remove(SolverVariable paramSolverVariable, boolean paramBoolean)` method removes a SolverVariable from the array and returns its float value.
+
+The `sizeInBytes()` function returns the size of the array in bytes.
+
+The `toString()` function returns a string representation of the object, which includes SolverVariable and their corresponding float values.
+
+The `use(ArrayRow paramArrayRow, boolean paramBoolean)` function gets value of variable from paramArrayRow and removes it, then, for each variable in paramArrayRow, adds it to the array with its value multiplied by the retrieved float value, finally returns the retrieved float value.

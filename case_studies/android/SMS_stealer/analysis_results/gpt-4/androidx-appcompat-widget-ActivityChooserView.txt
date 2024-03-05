@@ -1,0 +1,31 @@
+`ActivityChooserView` is a custom ViewGroup meant for presenting a list of activities to handle a given intent. The list of activities can either be popped up in a list, into a `ListPopupWindow`, or as inline content within the parent view.
+
+Custom layout and drawables are leveraged (obtained using `LayoutInflater` and `TypedArray respectively`) during initialization.
+
+The logic to show and dismiss the associated `ListPopupWindow` is encapsulated within the methods `showPopupUnchecked`, `showPopup`, and `dismissPopup`.
+
+Two interface callbacks, `onAttachedToWindow` and `onDetachedFromWindow`, are used to register and unregister a `DataSetObserver` from the associated `ActivityChooserModel`.
+
+It uses an internal `View.AccessibilityDelegate` and `ViewTreeObserver.OnGlobalLayoutListener` to handle various interactions and layout changes.
+
+The `setActivityChooserModel` method is used to set the data model on `ActivityChooserView's` adapter.
+
+Various setters are implemented for customization such as `setExpandActivityOverflowButtonDrawable`, `setInitialActivityCount`, and `setOnDismissListener`.This part of code features additional methods for `ActivityChooserView`:
+
+The `updateAppearance` method is used to update the UI based on the current state of the data model.
+
+The nested class `ActivityChooserViewAdapter` extends `BaseAdapter` and includes methods to manage the data model and views within the `ActivityChooserView`.
+
+- Methods include `getActivityCount`, `getCount`, `getDataModel`, `getDefaultActivity`, `getHistorySize`, `getItem`, `getItemId`, `getItemViewType`, `getShowDefaultActivity`, `getView`, `getViewTypeCount`, `measureContentWidth`, `setDataModel`, `setMaxActivityCount`, `setShowDefaultActivity`, and `setShowFooterView`.
+
+The nested class `Callbacks` implements several interfaces (`AdapterView.OnItemClickListener`, `View.OnClickListener`, `View.OnLongClickListener`, `PopupWindow.OnDismissListener`) to handle various user interactions with the `ActivityChooserView`. This includes handling click and long click events, item clicks, and the dismissal of the popup window.
+
+The `onClick` method in `Callbacks` class handles click events, identifying which view was clicked (whether the default activity button or listed activities) and launching the appropriate activity. If the clicked activity is an intent, it is handled by launching it with the `Context.startActivity` method.The remaining part of the code demonstrates the continued implementation of various callback methods:
+
+- `onDismiss` function is triggered when the popup window is dismissed. It notifies any dismissal listeners and updates the visibility of the UI provider.
+- `onItemClick` function is triggered when an item is clicked in the adapter view. Depending on the item view type, it either shows the popup unchecked or starts the activity associated with the clicked item.
+- `onLongClick` function is triggered when an item is long clicked in the view. If the default activity button is long pressed, and there are choices available, it sets the `mIsSelectingDefaultActivity` flag to `true` and shows the popup unchecked.
+
+There's also the `InnerLayout` class that extends `LinearLayout` and is used internally within the `ActivityChooserView`. This class reads the background attribute from XML and applies it to the layout.
+
+Finally, the file path and compiler versions used are commented out at the end of the code.

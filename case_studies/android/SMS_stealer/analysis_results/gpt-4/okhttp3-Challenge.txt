@@ -1,0 +1,17 @@
+The `Challenge` class in OkHttp represents an HTTP authorization challenge. It is mainly used for HTTP authentication purposes. 
+
+The class associates a scheme (like "Digest" or "Basic"), a realm, and a charset with each instance. 
+
+The class provides constructors to create an instance of `Challenge` using `String`, `String`, and `Charset` parameters. It ensures none of the these values are null.
+
+It provides getter methods for scheme, realm, and charset.
+
+The `equals` method is overridden to consider two `Challenge` instances equal if their scheme, realm, and charset are all equal.
+
+The `hashCode` method is overridden to generate a unique hash code using the realm, scheme, and charset.
+
+The `toString` method is overridden to return a string that represents the `Challenge` instance, including its scheme, realm, and charset.
+
+The `withCharset` method is used to create a new `Challenge` instance using the current scheme and realm with a different charset.
+
+This class is part of the OkHttp library designed to make HTTP requests to a web server. The `Challenge` class represents a single HTTP authentication challenge.

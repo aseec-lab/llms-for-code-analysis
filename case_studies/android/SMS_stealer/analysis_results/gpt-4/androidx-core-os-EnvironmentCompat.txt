@@ -1,0 +1,11 @@
+The `EnvironmentCompat` class is a utility class containing methods related to the Android device's environment.
+
+The `getStorageState(File paramFile)` method is used to get the storage state of the file passed as an argument. 
+
+The functionality of this method changes based on the Android SDK version:
+
+- For SDK version 21 and above, it uses the `Environment.getExternalStorageState(paramFile)` method to get the storage state.
+- For SDK version 19 and above, it uses the `Environment.getStorageState(paramFile)` method.
+- If the SDK version is less than 19, it checks if the file is on the external storage and then use `Environment.getExternalStorageState()` method. 
+
+If any error occurs in the process, it catches the exception, logs a warning message and finally returns `"unknown"`.

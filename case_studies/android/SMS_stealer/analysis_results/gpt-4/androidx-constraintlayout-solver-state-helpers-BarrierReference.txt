@@ -1,0 +1,13 @@
+The `BarrierReference` class is a helper class used to create a barrier in Android's ConstraintLayout solver. A barrier is a helper object that can block widgets from passing its area. 
+
+Here's a breakdown of the main parts:
+
+- In the constructor `BarrierReference()`, a `State` object is passed as a parameter.
+
+- `apply()` method is used to apply the barrier settings. It first retrieves the barrier widget, then sets its type and margin based on the instance's properties (`mDirection` for the type, `mMargin` for the margin). The way the barrier type is chosen seems to be dictated by the aforementioned `mDirection` property and a switch statement.
+
+- `getHelperWidget()`: This method returns the `Barrier` object. If the internal `Barrier` (`mBarrierWidget`) is `null`, it will instantiate a new `Barrier` object.
+
+- `margin(int paramInt)` and `margin(Object paramObject)` : These two are overloads where you set the margin of the Barrier either directly with an integer or by passing an object that gets converted to a dimension.
+
+- `setBarrierDirection(State.Direction paramDirection)`: As the name implies, this method is for assigning a direction to the barrier.

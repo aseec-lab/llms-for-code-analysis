@@ -1,0 +1,23 @@
+`FragmentStatePagerAdapter` is a class that provides base adapter for pager views that generate fragment-based pages. It is typically used with `ViewPager` for paging across a collection of fragments. 
+
+The key parts of the class are:
+
+- `BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT` and `BEHAVIOR_SET_USER_VISIBLE_HINT`: Constants defining the operations of the adapter.
+  
+- `mFragmentManager`, `mBehavior`, `mFragments`, `mSavedState`, `mCurTransaction`, and `mCurrentPrimaryItem`: Various fields used to maintain the state of the adaptor and fragments.
+  
+- `destroyItem()` method: Removes a page for the given position, updating the internal management of the transaction and current primary item.
+  
+- `finishUpdate()` method: Commits any changes that have been made to the adapter, requires to be called after `instantiateItem()` or `destroyItem()`.
+  
+- `getItem()` method: Must be overridden to return the fragment to be displayed at a given position.
+  
+- `instantiateItem()` method: Adds a new page for the given position, creating the fragment and starting a transaction.
+  
+- `isViewFromObject()` method: Determines whether a page view is associated with a specific key object.
+  
+- `restoreState()` and `saveState()` methods: To save and restore the fragment's and adapter's state.
+  
+- `setPrimaryItem()` method: Provide the adapter with the currently viewed fragment.
+
+It also provides methods for dealing with the begin (`startUpdate()`) and end (`finishUpdate()`) of pager updates to ensure proper state.

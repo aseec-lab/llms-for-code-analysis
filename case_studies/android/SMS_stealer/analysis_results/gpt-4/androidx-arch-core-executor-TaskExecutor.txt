@@ -1,0 +1,11 @@
+The `TaskExecutor` class defines an abstract class for managing threading in applications. It provides an interface for executing tasks in a background thread or the main thread based on requirements. It has four methods:
+
+1. `executeOnDiskIO(Runnable paramRunnable)`: An abstract method for executing tasks in a background thread. 
+
+2. `executeOnMainThread(Runnable paramRunnable)`: This method executes the given `Runnable` on the main UI thread. If the current thread is the main thread, it directly runs the `Runnable`; otherwise, it posts the `Runnable` to the main thread.
+
+3. `isMainThread()`: An abstract method that should return true if the current thread is the main thread.
+
+4. `postToMainThread(Runnable paramRunnable)`: An abstract method for posting tasks to the main UI thread. 
+
+Each method dealing with tasks requires a `Runnable` argument, which is the task that will be executed. The exact implementations of these methods would be in a derived class of `TaskExecutor` which determines the actual behavior of task executions.

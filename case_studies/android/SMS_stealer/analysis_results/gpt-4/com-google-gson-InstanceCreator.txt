@@ -1,0 +1,5 @@
+The `InstanceCreator` is an interface provided by Gson library in Java. It defines a single method `createInstance(Type paramType)`. This interface is used to create instances for a specific type. It can be used while deserializing JSON when Gson's default behavior is not enough and you need to create objects in a specific way.
+
+For instance, it's useful when you're dealing with classes that do not have default (no-argument) constructors, or when you want to instantiate an interface or an abstract class during deserialization. 
+
+This interface should typically be implemented and then hook up via `GsonBuilder.registerTypeAdapter(Type, Object)`. An implementation should ensure that a new instance is returned each time it is invoked.

@@ -1,0 +1,9 @@
+The `HashingSource` class in the `okio` package is a class that extends the `ForwardingSource` class and implements functionality for reading and hashing data from a source. It supports different hashing algorithms such as MD5, SHA-1, and SHA-256, as well as HMAC-SHA1 and HMAC-SHA256.
+
+The class has two constructors: one for creating a `HashingSource` with a specific hashing algorithm, and another for creating a `HashingSource` with a specific hashing algorithm and a secret key.
+
+The class provides static methods for creating instances of `HashingSource` with different hashing algorithms.
+
+The `hash()` method returns a `ByteString` representation of the hash calculated from the data read by the `HashingSource`.
+
+The `read()` method is overridden to update the hash state while reading data from the underlying source. It updates either the `MessageDigest` or `Mac` instance depending on the hashing algorithm being used.

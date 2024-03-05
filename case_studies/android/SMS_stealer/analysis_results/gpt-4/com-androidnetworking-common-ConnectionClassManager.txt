@@ -1,0 +1,10 @@
+The `ConnectionClassManager` class manages the connection quality, maintaining an estimate of the device's current bandwidth and connection quality. This information is used to adapt responses and data transfers according to network connectivity.
+
+Here are elements within this class:
+
+- A singleton pattern is used for the class instantiation (`getInstance` method and `sInstance` variable).
+- The `BANDWIDTH_LOWER_BOUND`, `BYTES_TO_BITS`, `DEFAULT_GOOD_BANDWIDTH`, `DEFAULT_MODERATE_BANDWIDTH`, `DEFAULT_POOR_BANDWIDTH`, `DEFAULT_SAMPLES_TO_QUALITY_CHANGE`, and `MINIMUM_SAMPLES_TO_DECIDE_QUALITY` are constant values defining the boundaries for bandwidth estimation. 
+- The `mConnectionQualityChangeListener` instance variable and `setListener`/`removeListener` methods are for setting a listener to connectivity quality changes.
+- The `updateBandwidth` method updates the bandwidth based on the amount of data transferred and the time taken. It also triggers the listener if the connection quality has changed.
+- `getCurrentBandwidth` and `getCurrentConnectionQuality` methods provide access to the current estimated bandwidth and connection quality.
+- `shutDown` method nullifies the singleton instance.

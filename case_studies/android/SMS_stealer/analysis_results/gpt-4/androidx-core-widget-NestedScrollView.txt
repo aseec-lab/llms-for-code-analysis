@@ -1,0 +1,193 @@
+This is the implementation of `NestedScrollView` class in Android, which extends the `FrameLayout` and implements `NestedScrollingParent3`, `NestedScrollingChild3`, and `ScrollingView` interfaces. The `NestedScrollView` is a more advanced version of the traditional `ScrollView` that supports both vertical scrolling and nested scrolling.
+
+Some key methods and properties include:
+
+1. `initScrollView():` Initializes the ScrollView, setting properties like `mTouchSlop`, `mMaximumVelocity` and `mMinimumVelocity`.
+
+2. `ensureGlows():` Checks if we should show edge glows (a visual cue at the top/bottom of a scrollview to denote the end of the scrollable content).
+
+3. `findFocusableViewInBounds():` Finds the next focusable view within the bounds.
+
+4. `doScrollY()`: Performs a scroll along the y-axis.
+
+5. `canScroll()`: Checks if the scroll view's content can be scrolled.
+
+6. `endDrag()`: Ends a drag operation, cleaning up the velocity tracker and other properties.
+
+7. `abortAnimatedScroll()`: Aborts any ongoing animation scroll. 
+
+8. `clamp()`: Restricts a value to be within a specified range.
+
+The class also includes constructor implementations that initialize the `NestedScrollingParentHelper` and `NestedScrollingChildHelper`, and sets the accessibility delegate.This code snippet is part of an Android application implementing a `NestedScrollView`. `NestedScrollView` is a more flexible subclass of `ScrollView` that supports both vertical scrolling and nested scrolling.
+
+The methods in this code section are used for a variety of ScrollView operations, including:
+
+1. `getVerticalScrollFactorCompat()`: Computes the vertical scroll factor based on the current display metrics.
+
+2. `inChild()`: Defines if the given (x, y) coordinates are within a specific child view.
+
+3. `initOrResetVelocityTracker()`, `initVelocityTrackerIfNotExists()`, `recycleVelocityTracker()`: These methods manage the initialization, resetting, and recycling of a `VelocityTracker`. It is used to measure the velocity of scrolls and flings.
+
+4. `initScrollView()`: Initializes the scrollbar, taking the view configuration, touch slop, and velocity values into account.
+
+5. `isOffScreen()`, `isViewDescendantOf()`, `isWithinDeltaOfScreen()`: These functions check the relationship of specific views with the screen or with each other.
+
+6. `onNestedScrollInternal()`: Accommodates nested scrolling, updating scroll values and dispatching events as necessary.
+
+7. `onSecondaryPointerUp()`: Handles the event when a secondary pointer goes up (stops touching the screen).
+
+8. `runAnimatedScroll()`, `scrollAndFocus()`, `scrollToChild()`, `scrollToChildRect()`: These functions manage scrolls and focus, allowing the view to move its visual content smoothly to the specified destination.
+
+9. `smoothScrollBy()`: Scrolls the view by the specified pixel amount.
+
+10. `addView()`: Overridden methods from the `ViewGroup` class to ensure that ScrollView can host only one direct child. Adds a child view with the specified layout parameters.
+
+11. `arrowScroll()`: Handles arrow-scrolling in the specified direction.
+
+12. `computeHorizontalScrollExtent()`, `computeHorizontalScrollOffset()`, `computeHorizontalScrollRange()`: Compute the horizontal range that can be scrolled.
+
+13. `computeScroll()`: Called by the framework after a call to `invalidate()` to compute new scroll values.
+
+These implementations help create scrolling behavior that's more complex and flexible than the standard `ScrollView`.This code snippet is a continuation of previous `NestedScrollView` methods in an Android application:
+
+1. `computeScrollDeltaToGetChildRectOnScreen(Rect paramRect)`: Calculates the amount of scrolling needed to make a rectangle visible on the screen. 
+
+2. `computeVerticalScrollExtent()`, `computeVerticalScrollOffset()`, `computeVerticalScrollRange()`: Methods to compute the vertical range that can be scrolled within the nested scroll view.
+
+3. `dispatchKeyEvent(KeyEvent paramKeyEvent)`: This method dispatches a key event, returning true if the event was handled by the view.
+
+4. `dispatchNestedFling(...)`, `dispatchNestedPreFling(...)`, `dispatchNestedPreScroll(...)`,`dispatchNestedScroll(...)`: These methods dispatch different types of scrolls and fling actions to any nested child views.
+
+5. `draw(Canvas paramCanvas)`: Overrides the `draw` method from the View class to provide custom drawing behavior for the `NestedScrollView` based on the current scroll state and adjustments.
+ 
+6. The end part of the code defines the dimensions and positioning of the `EdgeEffect` (glow effect when a view is scrolled beyond its content) for the top and bottom edges.1. `executeKeyEvent(KeyEvent paramKeyEvent)`: This method is used to handle key events such as scrolling up (key code 19), down (key code 20) and page jump (key code 62). It performs arrow scrolling and full scrolling based on the key codes and user input.
+
+2. `fling(int paramInt)`: This method initiates a fling operation with the specified velocity. If the scroll view contains children, it sets the scrolling direction and velocity, and then starts the animation.
+
+3. `fullScroll(int paramInt)`: This method scrolls the NestedScrollView to the top or bottom, depending on the direction parameter (`paramInt`), and then focuses on that direction.
+
+4. `getBottomFadingEdgeStrength()`: This method returns the strength or opacity of the bottom fading edge.
+
+5. `getMaxScrollAmount()`: This method returns the maximum amount the NestedScrollView can scroll.
+
+6. `getNestedScrollAxes()`: This method retrieves the current axes of nested scrolling for this view.
+
+7. `getScrollRange()`: This method returns the maximum scroll range of the NestedScrollView.
+
+8. `getTopFadingEdgeStrength()`: This method returns the strength or opacity of the top fading edge.
+
+9. `hasNestedScrollingParent()`: This method returns a boolean indicating whether this NestedScrollView has a nested scrolling parent.10. `hasNestedScrollingParent(int paramInt)`: This method checks if this view has a nested scrolling parent for the given direction or type of touch.
+
+11. `isFillViewport()`: This method checks if this ScrollView should stretch its content height to fill the viewport.
+
+12. `isNestedScrollingEnabled()`: Returns whether the NestedScrollView is enabled for nested scrolling.
+
+13. `isSmoothScrollingEnabled()`: Checks whether the smooth scrolling is enabled or not.
+
+14. `measureChild(View paramView, int paramInt1, int paramInt2)`: Override method to measure the specified child.
+
+15. `measureChildWithMargins(View paramView, int paramInt1, int paramInt2, int paramInt3, int paramInt4)`: Override method to measure the specified child with margins.
+
+16. `onAttachedToWindow()`: This method marks the flag as false when the view is attached to a window.
+
+17. `onGenericMotionEvent(MotionEvent paramMotionEvent)`: Override method to handle generic motion events.
+
+18. `onInterceptTouchEvent(MotionEvent paramMotionEvent)`: Override method to intercept touch screen motion events.
+
+19. `onLayout(boolean paramBoolean, int paramInt1, int paramInt2, int paramInt3, int paramInt4)`: This method positions all children within this layout.
+
+20. `onMeasure(int paramInt1, int paramInt2)`: Protected method that measures the view and its content to determine the measured width and the measured height.
+
+21. `onNestedFling(View paramView, float paramFloat1, float paramFloat2, boolean paramBoolean)`: Method to execute a fling at a given velocity.
+
+22. `onNestedPreScroll(View paramView, int paramInt1, int paramInt2, int[] paramArrayOfint, int paramInt3)`: Method to assist parent view in processing a scroll action.
+
+23. `onNestedScroll(View paramView, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int[] paramArrayOfint)`: Method to help scroll the view in response to an embedded scroll operation.
+
+24. `onOverScrolled(int paramInt1, int paramInt2, boolean paramBoolean1, boolean paramBoolean2)`: This method is called when the scroll position of a child view changes.
+
+25. `onRequestFocusInDescendants(int paramInt, Rect paramRect)`: Override method for the focus to be granted a particular descendant view.
+
+26. `onRestoreInstanceState(Parcelable paramParcelable)`: Method to restore this view's state.
+
+27. `onSizeChanged(int paramInt1, int paramInt2, int paramInt3, int paramInt4)`: Override method to adjust scrolling to a new size. 
+
+28. `onTouchEvet(MotionEvent paramMotionEvent)`: Override method for handling touch screen motion events.29. `overScrollByCompat(int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6, int paramInt7, int paramInt8, boolean paramBoolean)`: Determines if over-scrolling should be handled by `NestedScrollView` in compatibility mode.
+
+30. `pageScroll(int paramInt)`: Performs a scroll on the content of `NestedScrollView` in the specified direction.
+
+31. `getChildCount()`: Returns the number of child views present in `NestedScrollView`.
+
+32. `getHeight()`: Returns the vertical size of `NestedScrollView`.
+
+33. `getScrollY()`: Returns the top edge of the displayed part of the content view, indicating how far the top edge of the content view is offset from the top edge of the `NestedScrollView`. 
+
+34. `mTempRect.top`: Top coordinate of the `Rect` object used for temporary computations and transformations on the `View`.
+
+35. `getChildAt(int index)`: Returns a `View` child at the specified index.
+
+36. `getBottom()`: Returns the bottom edge of this `View`.
+
+37. `Math.min(int a, int b)`: Returns the smaller of two `int` values. In this case, it's used to limit the scrolling range within the content boundaries. 
+
+38. `rectContainingVisibleSegment(Rect rect)`: Determines whether the `NestedScrollView` boundaries contain a specific rectangle area.
+
+39. `getMaxScrollAmount()`: Returns the maximum amount that the scroll view will scroll in response to an operation like `pageScroll(int)`.
+
+40. `fling(int velocityY)`: Initiates a fling operation. 
+
+41. `smoothScrollBy(int dx, int dy)`: Smoothly scrolls by a certain pixel amount.
+
+42. `computeScrollOffset()`: Computes the current scroll offset. 
+
+43. `getScrollRange()`: Returns the scroll range of the nested content within the `NestedScrollView`.
+
+44. `startNestedScroll(int axes, int type)`: Begins a nested scroll operation along the specific axes.
+
+45. `dispatchNestedPreScroll(int dx, int dy, int[] consumed, int[] offsetInWindow, int type)`: Dispatches a nested pre-scroll event.
+
+46. `animateOffsetTo(int offset, boolean immediate)`: If not scrolling immediately, it animates the scrolling to reach to desired offset.
+
+47. `ensureGlows()`: Ensures that the edge glow effect objects are instantiated and ready for use.
+
+48. `computeVerticalScrollRange()`: Computes the vertical range of the scroll view.
+
+49. `computeVerticalScrollExtent()`: Computes the vertical extent of the scroll view. This is usually the viewport or display area for the scroll view. 
+
+50. `computeHorizontalScrollRange()`: Computes the horizontal range of the scroll view.
+
+51. `computeHorizontalScrollExtent()`: Computes the horizontal extent of the scroll view. This is usually the viewport or display area for the scroll view.  
+
+52. `getOverScrollMode()`: Returns the over-scroll mode for `NestedScrollView`. The over-scroll mode determines what to do when the view's content exceeds the normal bounds.53. `requestChildFocus(View paramView1, View paramView2)`: Handles the request of a focus change to a specific child view. 
+
+54. `requestChildRectangleOnScreen(View paramView, Rect paramRect, boolean paramBoolean)`: Attempts to position the rectangle rectangle on the screen within this view's bounds.
+
+55. `requestDisallowInterceptTouchEvent(boolean paramBoolean)`: Asks the NestedScrollView not to intercept touch events. 
+
+56. `requestLayout()`: Call this when something has changed which has invalidated the layout of this view. 
+
+57. `scrollTo(int paramInt1, int paramInt2)`: Scroll to a certain position.
+
+58. `setFillViewport(boolean paramBoolean)`: Sets whether the NestedScrollView should stretch its content height to fill the viewport. 
+
+59. `setNestedScrollingEnabled(boolean paramBoolean)`: Enables or disables nested scrolling.
+
+60. `setOnScrollChangeListener(OnScrollChangeListener paramOnScrollChangeListener)`: Sets a listener to receive notifications when the scroll position changes.
+
+61. `setSmoothScrollingEnabled(boolean paramBoolean)`: Enables or disables smooth scrolling.
+
+62. `shouldDelayChildPressedState()`: Whether or not a child view's pressed state should be delayed.
+
+63. `smoothScrollBy(int paramInt1, int paramInt2)`, `smoothScrollBy(int paramInt1, int paramInt2, int paramInt3)`: Smoothly scroll by a certain number of pixels.
+
+64. `smoothScrollTo(int paramInt1, int paramInt2)`, `smoothScrollTo(int paramInt1, int paramInt2, int paramInt3)`: Smoothly scroll to a certain position.
+
+65. `startNestedScroll(int paramInt)`, `startNestedScroll(int paramInt1, int paramInt2)`: Start a nested scrolling event.
+
+66. `stopNestedScroll()`, `stopNestedScroll(int paramInt)`: Stop a nested scrolling event.
+
+67. `AccessibilityDelegate`: A static nested class that acts as a bridge between an Android View and Android accessibility services.
+
+68. `OnScrollChangeListener`: An interface for receiving notifications when the NestedScrollView's scroll position changes.
+
+69. `SavedState`: A static nested class that save the scroll position of the NestedScrollView. It's a Parcel, which can be written to and restored from a Parcel.

@@ -1,0 +1,11 @@
+This `ImageFilterButton` extends the `AppCompatImageButton` and provides several additional features. It allows to set image filters such as brightness, contrast, saturation and warmth. 
+
+The image can also be cross-faded between two drawable layers, with a percentage control over the crossfade between them (i.e., `mCrossfade` variable). Control over the roundness of the corners of the button's image is provided with the `setRound` or `setRoundPercent` method. 
+
+The class uses an `ImageFilterView.ImageMatrix` to manage and apply the filter effects to the image. In the `init` method, the class retrieves attribute values for all these features from the layout XML where the button has been added.
+
+The `setOverlay` method determines whether the base image should be visible during a crossfade.
+
+The `draw` method supports lower API levels for achieving rounded corners using `Canvas.clipPath`.
+
+Overall, this class provides an ImageButton with advanced filtering and layout options.

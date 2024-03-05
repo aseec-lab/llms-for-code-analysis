@@ -1,0 +1,29 @@
+The `ScrollingTabContainerView` class, a subclass of Android's `HorizontalScrollView`, is used to implement a horizontally scrolling set of tabs, typically seen in action bars. This class helps manage the collection of tabs and adding views for each tab to the scrollable tab container.
+
+Here are some of the essential parts of its functionality:
+
+- It defines several custom views for displaying tabs, a `TabView` for individual tabs, and a `TabAdapter` for providing views to the `Spinner` that's used when the tab set is collapsed.
+  
+- `createTabView(ActionBar.Tab paramTab, boolean paramBoolean)`: This function creates tab views for each tab.
+  
+- `addTab(ActionBar.Tab paramTab, int paramInt, boolean paramBoolean)` and `addTab(ActionBar.Tab paramTab, boolean paramBoolean)`: These functions add a tab to this container view at a specific position or at the end of the list.
+  
+- `removeTabAt(int paramInt)`: This function removes a tab from a certain position.
+  
+- `setTabSelected(int paramInt)`: This function sets the given tab as selected.
+  
+- `performCollapse()` and `performExpand()`: These two functions help in managing the collapsing and expanding of the tabs when there are more tabs than the view can display in its width.
+  
+- `animateToTab(int paramInt)`: This function provides smooth scrolling to the selected tab.
+
+This class is specifically designed to work within a host view (`ActionBar`) and does not support being used outside of this context.The provided code expands the ScrollingTabContainerView class of Android's HorizontalScrollBar. It includes:
+
+- `TabAdapter` that extends `BaseAdapter`: A custom adapter that is used to fill the scrolling tab with tab views.
+  
+- `TabClickListener` that implements `View.OnClickListener`: An on-click listener for each individual tab view. It selects the clicked tab and unselects all others.
+  
+- `TabView` that extends `LinearLayout`: A custom view for individual tabs. It updates the tab view when the bound tab (ActionBar.Tab) changes.
+  
+- `VisibilityAnimListener` that extends `AnimatorListenerAdapter`: This listener is used to detect visibility changes and apply animations correspondingly. It is able to cancel and finish animations and update the visibility when the animation ends. 
+
+The remaining part of the program remains explaining the above classes more in depth and encompasses functionality for handling accessibility, measuring, setting and updating tabs, and animation.

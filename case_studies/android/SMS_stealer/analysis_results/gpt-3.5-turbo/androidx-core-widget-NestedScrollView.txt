@@ -1,0 +1,105 @@
+The `NestedScrollView` class is a subclass of `FrameLayout` that provides functionality for a scrollable view with nested scrolling support. The class implements the `NestedScrollingParent3`, `NestedScrollingChild3`, and `ScrollingView` interfaces.
+
+Some key features and methods of the `NestedScrollView` class include:
+- Support for nested scrolling, allowing the `NestedScrollView` to be nested within another scrollable view.
+- Smooth scrolling behavior with adjustable duration.
+- OverScrollMode to control the behavior of scrolling past the content boundaries.
+- Handling touch events to determine scrolling behavior.
+- Handling scroll gestures using an `OverScroller` object for smooth scrolling animation.
+- Support for edge effects, giving visual feedback when scrolling reaches the content boundaries.
+- Accessibility support through the `AccessibilityDelegateCompat` and `AccessibilityEvent` classes.
+
+Overall, the `NestedScrollView` class provides a versatile and customizable scrollable view with nested scrolling support.This code implements the methods for scrolling functionality in the `NestedScrollView` class.
+
+- The `getVerticalScrollFactorCompat` method returns the vertical scroll factor for touch events.
+- The `inChild` method checks if a given position is within the bounds of a child view.
+- The `initOrResetVelocityTracker` method initializes or clears the velocity tracker for tracking touch events.
+- The `initScrollView` method initializes the nested scroll view with necessary settings and configurations.
+- The `initVelocityTrackerIfNotExists` method initializes the velocity tracker if it does not exist yet.
+- The `isOffScreen` method checks if a given view is off-screen.
+- The `isViewDescendantOf` method checks if a given view is a descendant of another view.
+- The `isWithinDeltaOfScreen` method checks if a given view is within a delta distance from the screen.
+- The `onNestedScrollInternal` method handles internal nested scrolling events by scrolling the view and dispatching nested scroll events.
+- The `onSecondaryPointerUp` method handles the pointer up event for secondary touch points.
+- The `recycleVelocityTracker` method recycles the velocity tracker after use.
+- The `runAnimatedScroll` method runs the animated scroll operation using the nested scroll mechanism.
+- The `scrollAndFocus` method scrolls the view and focuses on a child view, if necessary.
+- The `scrollToChild` method scrolls to a specified child view so that it becomes visible on the screen.
+- The `smoothScrollBy` method scrolls the view smoothly by a specified amount.
+- The `addView` methods override the corresponding methods in the `ViewGroup` class to enforce the restriction of having only one direct child view in the `NestedScrollView`.
+- The `arrowScroll` method performs arrow key-based scrolling.
+- The `computeHorizontalScrollExtent`, `computeHorizontalScrollOffset`, and `computeHorizontalScrollRange` methods override the corresponding methods in the `View` class to provide horizontal scrolling support.This code segment is responsible for drawing the `EdgeEffect` at the top of the `NestedScrollView`.
+- It checks if the `EdgeEffect` at the top is not finished (i.e., still active).
+- If not finished, it saves the current canvas state and configures the canvas to draw the `EdgeEffect`.
+- The width and height of the `NestedScrollView` are obtained using the `getWidth()` and `getHeight()` methods.
+- The minimum value between the current scroll position and the height of the `NestedScrollView` is computed.
+- Finally, the canvas is translated and drawn using the `EdgeEffect`'s `onDraw()` method.
+- The canvas state is then restored.This code segment implements the `executeKeyEvent()` method for handling key events.
+- It first checks if the view can scroll.
+- If it cannot scroll, it checks if the view is focused and detects if the key pressed was the back key.
+- If the back key was not pressed, it tries to find the next focusable view within the view hierarchy and requests focus on it.
+- Finally, it returns a boolean value indicating whether the event was consumed or not.
+
+---
+
+This code segment implements the `fling()` method for performing a fling animation.
+- It checks if there are any child views in the `NestedScrollView`.
+- If there are child views, it uses the `Scroller` class to perform the fling animation.
+- The `fling()` method of the `Scroller` class calculates the final position of the scroll based on the velocity parameter.
+- The `runAnimatedScroll()` method is then called to start the animation.
+
+---
+
+This code segment implements the `fullScroll()` method for scrolling the view to the top or bottom.
+- It takes a parameter indicating whether to scroll to the top or bottom.
+- It calculates the top and bottom positions for the scroll based on the height of the `NestedScrollView`.
+- If scrolling to the bottom, it checks if there are any child views and adjusts the bottom position accordingly.
+- Finally, it calls the `scrollAndFocus()` method to perform the scroll animation and if necessary, request focus on the newly visible view.
+
+---
+
+This code segment implements the `getBottomFadingEdgeStrength()` method for determining the fading edge strength at the bottom of the `NestedScrollView`.
+- It first checks if there are any child views in the `NestedScrollView`. If not, it returns 0.0.
+- It calculates the distance between the bottom of the first child view and the bottom edge of the `NestedScrollView`, taking into account margins and padding.
+- It then compares this distance to the fading edge length and returns either the ratio of the distance to the fading edge length or 1.0, whichever is smaller.
+
+---
+
+This code segment implements the `getMaxScrollAmount()` method for getting the maximum scroll amount that can be scrolled in one step.
+- It calculates the maximum scroll amount by multiplying the height of the `NestedScrollView` by 0.5 and returns the result as an integer.
+
+---
+
+This code segment implements the `getNestedScrollAxes()` method for getting the axes of nested scrolling for the `NestedScrollView`.
+- It simply returns the nested scrolling axes obtained from the `NestedScrollingParentHelper` class.
+
+---
+
+This code segment implements the `getScrollRange()` method for getting the total scroll range of the `NestedScrollView`.
+- It first checks if there are any child views in the `NestedScrollView`.
+- If there are, it gets the first child view and calculates the total scroll range by taking into account the height of the view, its top and bottom margins, and the height of the `NestedScrollView`, as well as its top and bottom padding.
+- Finally, it returns the result as an integer.The remaining code handles various touch events on the `NestedScrollView`:
+- The `onGenericMotionEvent()` method handles generic motion events, such as scrolling with a trackpad or joystick.
+- The `onInterceptTouchEvent()` method intercepts touch events to determine if scrolling should be enabled or if child views should handle the touch events.
+- The `onLayout()` method is responsible for laying out the child views of the `NestedScrollView`.
+- The `onMeasure()` method measures the dimensions of the `NestedScrollView` and its child views.
+- The `onNestedFling()` and `onNestedPreFling()` methods handle nested fling events.
+- The `onNestedPreScroll()` and `onNestedScroll()` methods handle nested scroll events.
+- The `onNestedScrollAccepted()` and `onStopNestedScroll()` methods handle the start and end of nested scroll operations.
+- The `onScrollChanged()` method is called when the scroll position of the `NestedScrollView` changes.
+- The `onSizeChanged()` method is called when the size of the `NestedScrollView` changes.
+- The `onStartNestedScroll()` method determines if the `NestedScrollView` should start a nested scroll operation.
+- The `onStopNestedScroll()` method is called when the nested scroll operation ends.
+- Finally, the `onTouchEvent()` method handles touch events on the `NestedScrollView`.This code handles various touch events on a NestedScrollView:
+- The onGenericMotionEvent() method handles generic motion events, such as scrolling with a trackpad or joystick.
+- The onInterceptTouchEvent() method intercepts touch events to determine if scrolling should be enabled or if child views should handle the touch events.
+- The onLayout() method is responsible for laying out the child views of the NestedScrollView.
+- The onMeasure() method measures the dimensions of the NestedScrollView and its child views.
+- The onNestedFling() and onNestedPreFling() methods handle nested fling events.
+- The onNestedPreScroll() and onNestedScroll() methods handle nested scroll events.
+- The onNestedScrollAccepted() and onStopNestedScroll() methods handle the start and end of nested scroll operations.
+- The onScrollChanged() method is called when the scroll position of the NestedScrollView changes.
+- The onSizeChanged() method is called when the size of the NestedScrollView changes.
+- The onStartNestedScroll() method determines if the NestedScrollView should start a nested scroll operation.
+- The onStopNestedScroll() method is called when the nested scroll operation ends.
+- Finally, the onTouchEvent() method handles touch events on the NestedScrollView.The NestedScrollView class extends ScrollView and provides support for nested scrolling. It handles various touch events and scroll operations, and also provides methods for smooth scrolling and setting scroll listeners. The class also includes an AccessibilityDelegate for handling accessibility events, and a SavedState class for saving and restoring the scroll position.

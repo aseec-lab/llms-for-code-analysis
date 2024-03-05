@@ -1,0 +1,9 @@
+The `TimeTypeAdapter` class is a Gson type adapter for `Time` objects. It extends the `TypeAdapter` class and implements methods for reading from and writing to JSON.
+
+The class includes a `FORMAT` field, which is an instance of `DateFormat` with a specific date/time format. This format is used to parse and format `Time` objects.
+
+The `read` method reads a `Time` object from JSON. It checks if the JSON token is `null` and returns `null` if it is. Otherwise, it parses the JSON string using the specified date/time format and creates a new `Time` object with the parsed time. If any parse error occurs, it throws a `JsonSyntaxException`.
+
+The `write` method writes a `Time` object to JSON. If the `Time` object is `null`, it writes `null` to the JSON writer. Otherwise, it formats the `Time` object as a string using the specified date/time format and writes the string to the JSON writer.
+
+Overall, the `TimeTypeAdapter` class provides serialization and deserialization support for `Time` objects in Gson.

@@ -1,0 +1,19 @@
+The `NestedScrollingParent` interface defines a contract between ViewParent subclasses and their children which want to interact with the parent to respond to scroll events.  
+
+Here are the methods:
+
+1. `getNestedScrollAxes()`: This returns the current axes of nested scrolling for this NestedScrollingParent.
+
+2. `onNestedFling(paramView, paramFloat1, paramFloat2, paramBoolean)`: This is called when a nested scrolling child is performing a fling. 
+
+3. `onNestedPreFling(paramView, paramFloat1, paramFloat2)`: This is called when a nested scrolling child is about to start a fling. 
+
+4. `onNestedPreScroll(paramView, paramInt1, paramInt2, paramArrayOfint)`: This method is used to report a scroll event before it is processed by the nested scrolling child.
+
+5. `onNestedScroll(paramView, paramInt1, paramInt2, paramInt3, paramInt4)`: This is used to relay a relevant nested scroll event to the NestedScrollingParent.
+
+6. `onNestedScrollAccepted(paramView1, paramView2, paramInt)`: This is a notification to the NestedScrollingParent that a nested scroll has been accepted.
+
+7. `onStartNestedScroll(paramView1, paramView2, paramInt)`: This method returns True if this `ViewParent` has nested scrolling enabled and should accept the nested scroll operation.
+
+8. `onStopNestedScroll(paramView)`: This method is called when a nested scroll operation ends.

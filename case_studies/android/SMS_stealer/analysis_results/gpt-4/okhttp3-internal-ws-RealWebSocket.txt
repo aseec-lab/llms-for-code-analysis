@@ -1,0 +1,63 @@
+The `RealWebSocket` class implements the WebSocket interface as well as the `FrameCallback` interface from the `WebSocketReader`. It represents a WebSocket connection and contains methods and fields to manage communication over the WebSocket.
+
+Key members include:
+
+1. `RealWebSocket`: This constructor expects the HTTP request, WebSocket listener, Random object for generating random numbers, and the ping interval in milliseconds. It prepares the WebSocket connection and sets up the thread to run the writer for sending messages on the WebSocket.
+
+2. `runWriter`: This method executes the writer thread which is responsible for writing the data to the WebSocket.
+
+3. `send`: A synchronized method used to add a message to the messageAndCloseQueue. It checks if there is enough space in the queue and if the WebSocket is open before adding the message. Messages in the queue are later written to the WebSocket on the writer thread.
+
+4. `awaitTermination`: This method waits for the executor (which controls writing on the WebSocket) to terminate for the given time duration.
+
+5. `cancel`: This method cancels the HTTP call for upgrading the connection to the WebSocket protocol.
+
+6. `checkResponse`: This method checks the HTTP response after making the call to upgrade the connection. It throws a ProtocolException if the response is not acceptance for the upgrade.
+
+7. `close`: This method closes the WebSocket with the given status code, reason, and delay before cancelling the connection. It validates the close code, add the close code and reason to the message queue, and submits the writing task to the executor.
+
+Note : This is only parts of complete class, you may require to send remaining parts for complete analysis.1. `onReadClose`: This method is called when a close frame is read from the remote peer. It updates the `receivedCloseCode` and `receivedCloseReason` properties, then checks if there are pending messages in the queue. If there are no pending messages, it closes the streams and cancels the scheduled future tasks. Later it invokes the WebSocket listener's `onClosing` and `onClosed` methods.
+
+2. `connect`: This method is used to set up a WebSocket connection. It creates an HTTP request to upgrade the HTTP connection to a WebSocket using `newWebSocketCall` method. It also sets four key request headers required by WebSocket protocol (`Upgrade`, `Connection`, `Sec-WebSocket-Key`, `Sec-WebSocket-Version`). Then it enqueues a callback to handle the HTTP response.
+
+3. `failWebSocket`: This method is invoked when there is an exception on the WebSocket connection. It sets `failed` property to true, closes all open resources (streams, futures, and executors), and invokes the WebSocket listener's `onFailure` method.
+
+4. `initReaderAndWriter`: This method initializes the WebSocket reader and writer. It also sets up a scheduled executor to periodically send Pings to the remote peer if the `pingIntervalMillis` is greater than zero. It Finally, starts the writer if there are pending messages in the queue.
+
+5. `loopReader`: This method continually reads frames from the WebSocket until a close frame is received. The action taken on reading a frame is determined by the `WebSocketReader`'s frame callback. 
+
+6. `connect`: This method is to connect the WebSocket. It creates a new WebSocket call and schedules a callback that handles both failures and responses. In the case of response, it checks the response if its valid or not and if valid, initializes the reader and writer and starts the loop reader.1. `onReadMessage`: This is a listener method which is called when a new message is read. It has two versions, one which accepts a String message and another which accepts a ByteString. Both methods call the WebSocket's `onMessage` method passing the message.
+
+2. `onReadPing`: This method is called when a Ping frame is read. It increments the count of received pings and schedules the writing of a corresponding Pong frame if the WebSocket has not failed or closed.
+
+3. `onReadPong`: This method is called when a Pong frame is read. It increments the count of received pongs and resets the boolean variable `awaitingPong` to false.
+
+4. `pong`: This method adds a Pong frame to the queue and runs the writer if the WebSocket has not failed or closed.
+
+5. `processNextFrame`: This method calls the WebSocket reader's `processNextFrame` method. If a close frame is read during this process, it calls `failWebSocket` method and returns false.
+
+6. `queueSize`: This method simply returns the size of the message queue.
+
+7. `receivedPingCount` and `receivedPongCount`: These methods return the count of received Ping and Pong frames respectively.
+
+8. `request`: This method returns the original HTTP request used to initiate the WebSocket connection.
+
+9. `send`: This method has two versions; one accepts a String and another accepts a ByteString. The string is encoded to ByteString before sending.
+
+10. `sentPingCount`: This method returns the count of sent Ping frames.
+
+11. `tearDown`: This method cancels the future tasks, stops the executor, and waits for the executor to finish currently running tasks.
+
+12. `writeOneFrame`: This method checks if the WebSocket has failed, then calls the `writePing` or `writePong` method of the WebSocket writer as appropriate. If the WebSocket has failed, then it doesn't attempt to write.1. `writePingFrame`: This method is synchronized. If the WebSocket has not failed, it gets the WebSocket writer, and if a Pong is expected, it notes the count of sent Pings. It then increments the sent Ping count and marks that it's awaiting a Pong.
+
+2. `CancelRunnable`: A nested subclass of `RealWebSocket`. This implements the `Runnable` interface and in its `run` method, it calls the `cancel` method of the outer `RealWebSocket` class.
+
+3. `Close`: A nested class inside `RealWebSocket`, which represents a closing operation on a WebSocket. It has three attributes: `code` for the closing status code, `reason` for the closing reason as a `ByteString`, and a `cancelAfterCloseMillis` to specify the delay after which to cancel the WebSocket. All of these are set through the constructor.
+
+4. `cancel`: This method is used to cancel a running web socket. The actual function is part of the missing code.1. `Message`: A static inner class inside `RealWebSocket`. This class represents a WebSocket message with two attributes: `formatOpcode` for the opcode of the message format (such as text or binary), and `data` as the content of the message in `ByteString` format. Both are set through the constructor.
+
+2. `PingRunnable`: An inner class that implements `Runnable`. It's used to run the `writePingFrame` method of `RealWebSocket` class in a separate thread.
+
+3. `Streams`: This is an abstract static nested class and it represents the input and output streams of a WebSocket. This class has three attributes: `client` to indicate if the streams are on the client side, `source` for the `BufferedSource` of the WebSocket stream, and `sink` for the `BufferedSink` of the WebSocket stream. All are set through the constructor. 
+
+4. The provided file location and other commented details indicate that this code was possibly decompiled from a JAR file, indicating this may not be the original source and may be a reconstruction of it. The `JD-Core Version: 1.1.3` suggests it has been decompiled using JD-Core, a library that is frequently bundled with Java Decompiler tools.

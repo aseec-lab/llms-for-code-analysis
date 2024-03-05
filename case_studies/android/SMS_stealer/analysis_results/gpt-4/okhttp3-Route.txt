@@ -1,0 +1,9 @@
+The `Route` class in okhttp3 package encapsulates information about a network route, including `Address`, `Proxy`, and `InetSocketAddress` of a request. When an instance of this class is created, the constructor ensures that none of these parameters are null.
+
+It includes getters for these values (i.e., `address()`, `proxy()`, and `socketAddress()`). 
+
+The `equals()` method is overridden to check for equality based on address, proxy, and socket address. Similarly, `hashCode()` is overridden to let Route objects be used reliably in collections.
+
+The method `requiresTunnel()` checks if a tunnel is needed for the route; this depends on the type of connection i.e., if it's SSL and through an HTTP proxy, then a tunnel is required.
+
+A `toString()` method is also overridden to display route information in a readable format.

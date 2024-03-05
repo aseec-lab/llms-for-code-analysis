@@ -1,0 +1,13 @@
+`ComputerCMD.py` is a script that defines the `ComputerCMD` class and is used to manage a computer remotely via a Command and Control (C2) server, leveraging the HTTP protocol for communication. 
+
+Upon initialization, `ComputerCMD` sets up an HTTP connection with the server using a panel URL and machine ID, and captures the computer's temporary directory.
+
+The class includes the following methods:
+
+1. `shutdown`: This method tries to execute a system shutdown command. If it's successful, it logs a success message to the C2 server. In case of an error, it catches the exception, logs a failure message to the C2 server, and prints the error details.
+
+2. `restart`: Functions the same as `shutdown`, but tries to execute a system restart command instead.
+
+3. `logoff`: This method logs off the current computer user, again logging success or failure to the C2 server. 
+
+In all three methods, the `CleanCommands` message is sent to the C2 server after command execution, possibly for the purpose of notifying the server that the operation is complete or to request new instructions.

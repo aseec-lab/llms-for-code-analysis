@@ -1,0 +1,19 @@
+The `AutoScrollHelper` class in the `androidx.core.widget` package provides functionality for automatically scrolling a view in response to touch actions.
+
+Key features of the code:
+
+- The class extends `View.OnTouchListener` and can be used to handle touch events for a specific view.
+- It allows scrolling in both horizontal and vertical directions.
+- The scrolling behavior can be customized based on various properties such as activation delay, edge type, maximum and minimum velocity, and relative edges and velocity.
+- The class uses a `ClampedScroller` instance to calculate and handle the scrolling animations.
+- The `onTouch` method is implemented to detect touch events and initiate scrolling based on the touch position and view dimensions.
+- The `startAnimating` method starts the scrolling animations.
+- The `cancelTargetTouch` method cancels the touch event being handled.
+
+Overall, the code provides a flexible and customizable solution for implementing automatic scrolling behavior for a view.The remaining part of the code introduces two additional inner classes: `ClampedScroller` and `ScrollAnimationRunnable`.
+
+The `ClampedScroller` is a private inner class that handles the calculation and animation of scroll deltas. It provides methods to start, stop, and compute the scroll deltas based on the current target velocity.
+
+The `ScrollAnimationRunnable` is a nested class that implements the `Runnable` interface. It is used to initiate and control the scrolling animations. It runs in a loop until the animations are finished or explicitly cancelled. The `scrollTargetBy` method is called to update the target view's scroll position based on the computed deltas.
+
+Both of these inner classes contribute to the automatic scrolling functionality by managing the scroll animations and updating the view's scroll position accordingly.

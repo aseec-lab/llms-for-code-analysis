@@ -1,0 +1,17 @@
+The `MultipartBody` class in OkHttp represents an HTTP request body with multiple parts, which is typically used for file uploads. 
+
+It includes several `MediaType` constants to represent different multipart types, such as `MIXED`, `ALTERNATIVE`, `DIGEST`, `PARALLEL`, and `FORM`. 
+
+The class associates a boundary (to define the beginning and end of each part), a content type, and a list of the parts with each instance.
+
+It provides constructors to create an instance of `MultipartBody` using `ByteString`, `MediaType`, and `List<Part>` parameter. The class includes getter methods for boundary, content length, content type, individual part, list of parts, size, and original type.
+
+It has an inner static builder class `Builder` that is used to build a multipart body instance. With `Builder`, you can set the type, add parts (in the form of RequestBody instances and headers), and add form data.
+
+The `Part` inner class represents a part of the multipart body, which includes the `RequestBody` and headers. It provides several methods to create a `Part` instance. 
+
+It overrides the `writeTo` method from RequestBody, where it writes the multipart body to the `BufferedSink`.
+
+The `writeOrCountBytes` method is used to calculate the length of the MultipartBody or write it to BufferedSink. This is used in methods like `writeTo` and `contentLength`.
+
+The `appendQuotedString` static method appends an input string into a StringBuilder and return it. During this process, it replaces newline, carriage return, and double quotation with their respective percentage-encoded values.

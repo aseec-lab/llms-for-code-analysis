@@ -1,0 +1,13 @@
+The `GravityCompat` class provides compatibility for the Android's `Gravity` class by wrapping its methods to allow your application to use features introduced in newer versions of the Android platform regardless of the SDK version your application is actually running on.
+
+The class provides the following static methods:
+
+1. `apply(int, int, int, Rect, int, int, Rect, int)`: It is a utility to handle the application of gravity to an object. For Android versions 17 and above, it calls the Gravity's original `apply` method. Otherwise, it calls the `apply` method with fewer arguments.
+
+2. `apply(int, int, int, Rect, Rect, int)`: It is a utility function to perform gravity application where the desired size of the object is unknown. It behaves similar to the above `apply` method.
+
+3. `applyDisplay(int, Rect, Rect, int)`: Adjusts `desiredChild` based on `display` and `gravity`. It calls different `applyDisplay` methods based on the Android version.
+
+4. `getAbsoluteGravity(int, int)`: Adjusts the specified gravity based on the absolute layout direction. If the SDK version is smaller than 17, it can only adjust the gravity to handle the direction.
+
+This class aims to provide support for features introduced in newer Android versions, maintaining backward compatibility with older platforms.

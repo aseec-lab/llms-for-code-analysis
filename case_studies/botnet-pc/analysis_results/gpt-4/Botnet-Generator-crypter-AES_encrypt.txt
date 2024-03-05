@@ -1,0 +1,13 @@
+`AES_encrypt.py` is a Python script to encrypt files using the AES encryption algorithm. The script asks the user to enter a numeric key and the path of the file to be encrypted.
+
+Here are the tasks it performs:
+
+1. `__init__(self, key, file_name)`: The class `Encryptor` initializes with a key (that is hashed using SHA-256) and the name of the file to be encrypted.
+
+2. `pad(self, s)`: This function standardizes the length of all blocks of data to the AES block size by padding null bytes.
+
+3. `encrypt(self, message, key, key_size=256)`: This function encrypts a given message using the AES algorithm in CBC mode.
+
+4. `encrypt_file(self)`: This function opens the file to be encrypted, reads the plaintext, and uses the `encrypt` function above to encrypt it. It then writes the encrypted text to the same file, along with code that can be used for brute-forced decryption.
+
+In the script's main execution, it takes user input for a key and file path, creates an `Encryptor` object with these parameters, and calls its `encrypt_file` method to encrypt the provided file. This process is followed by a success message.

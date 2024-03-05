@@ -1,0 +1,28 @@
+This file is a part of the androidx.appcompat.view package and contains the SupportMenuInflater class. 
+
+The SupportMenuInflater class is a subclass of MenuInflater and is responsible for inflating menus from XML resources. It provides methods for parsing XML menus and adding menu items to the provided Menu object.
+
+The class has private fields for the Context, the real owner of the menu (used for resolving onClick handlers), and arrays of objects for storing constructor arguments for ActionProviders and ActionViews.
+
+The class provides a constructor that takes a Context parameter. It initializes the Context field and sets the constructor arguments arrays.
+
+The class also provides a method for retrieving the real owner of the menu, which is found by traversing the object hierarchy of the provided Context.
+
+The main method of the class is the inflate() method, which takes a menu resource ID and a Menu object. It retrieves the XML resource parser for the specified menu and parses the XML to add menu items to the provided Menu object. It handles exceptions and closes the resource parser after parsing is complete.
+
+The class also includes inner classes for handling menu state and onItemClick listeners. These inner classes provide methods for reading menu attributes from XML and creating onItemClick listeners for menu items.The remaining part of the code defines the private inner class `MenuState` within the `SupportMenuInflater` class.
+
+- The `MenuState` class is responsible for maintaining the state of individual menu items during menu inflation.
+- It contains fields representing various attributes of a menu item, such as its ID, title, icon, shortcuts, visibility, and more.
+- The `MenuState` class has methods for setting the attributes of a menu item based on the values parsed from XML.
+- It also provides methods for adding items to the menu and submenus.
+- The `readGroup()` method reads the attributes of a menu group from XML.
+- The `readItem()` method reads the attributes of a menu item from XML.
+- The `addItem()` method adds a menu item to the menu.
+- The `addSubMenuItem()` method adds a submenu item to the menu and returns the corresponding `SubMenu` object.
+- The `hasAddedItem()` method checks whether an item has been added to the menu.
+- The `resetGroup()` method resets the attributes of the menu group to their default values.
+- The `getShortcut()` method retrieves the first character from a string, which is used to set the shortcuts for a menu item.
+- The `newInstance()` method dynamically creates an instance of a class using reflection.
+- The `setItem()` method applies the attributes stored in a `MenuState` object to a `MenuItem` object.
+- The `MenuState` constructor takes a `Menu` object as a parameter and initializes the menu field and other necessary fields.

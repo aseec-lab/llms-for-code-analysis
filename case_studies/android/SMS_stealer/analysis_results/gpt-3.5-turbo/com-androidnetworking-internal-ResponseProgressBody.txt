@@ -1,0 +1,11 @@
+The `ResponseProgressBody` class is a part of the AndroidNetworking library and is responsible for monitoring the progress of a network response body during a file download. It extends the `ResponseBody` class and overrides some of its methods.
+
+The class contains a `bufferedSource` field of the `BufferedSource` type and a `downloadProgressHandler` field of the `DownloadProgressHandler` type. It also has a constructor that takes a `ResponseBody` object and a `DownloadProgressListener` object as parameters.
+
+The `source()` method returns the `bufferedSource` object by creating it if it is null. This method also creates a new `ForwardingSource` object that wraps the original source of the response body. The purpose of this custom source is to intercept the read operations on the response body and calculate the total bytes read. It also sends progress updates to the `DownloadProgressHandler` if it is not null.
+
+The class overrides the `contentLength()` and `contentType()` methods from the `ResponseBody` class and delegates the calls to the corresponding methods of the original response body.
+
+The `source()` method is also overridden to return the custom source created earlier.
+
+Overall, the `ResponseProgressBody` class allows for progress monitoring of network response bodies during file downloads.

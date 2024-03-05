@@ -1,0 +1,15 @@
+The `ConnectionSpecSelector` class is responsible for selecting the appropriate `ConnectionSpec` for establishing a secure connection with an SSLSocket.
+
+The class has the following fields:
+- `connectionSpecs`: A list of `ConnectionSpec` objects.
+- `isFallback`: A boolean flag indicating whether a fallback connection is possible.
+- `isFallbackPossible`: A boolean flag indicating whether a fallback connection is possible.
+- `nextModeIndex`: An integer representing the index of the next `ConnectionSpec` to be checked.
+
+The class has the following methods:
+- `ConnectionSpecSelector(List<ConnectionSpec> connectionSpecs)`: Constructor that initializes the `connectionSpecs` field with the provided list of `ConnectionSpec` objects.
+- `isFallbackPossible(SSLSocket paramSSLSocket)`: Checks whether a fallback connection is possible for the given SSLSocket.
+- `configureSecureSocket(SSLSocket paramSSLSocket)`: Configures the secure socket by selecting the appropriate `ConnectionSpec` and applying it using the `Internal.instance.apply()` method. Returns the selected `ConnectionSpec`.
+- `connectionFailed(IOException paramIOException)`: Handles connection failures by determining if a fallback connection should be attempted. Returns a boolean value indicating whether a fallback connection is possible.
+
+Note: This code snippet is a part of a larger project and may not provide the complete functionality of the `ConnectionSpecSelector` class.

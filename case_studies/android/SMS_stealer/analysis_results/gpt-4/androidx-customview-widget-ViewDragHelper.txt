@@ -1,0 +1,34 @@
+The `ViewDragHelper` class in `androidx.customview.widget` is a utility class for writing custom ViewGroups. It provides various dragging and settling functionality. It helps track motion on individual views within the group and coordinates animated scrolling.
+
+- The class uses the `OverScroller` API for animating horizontal and vertical motion with an interpolation of a power function for smooth settling.
+- It provides both the steady-state constants (such as motion in progress, motion at rest, etc.) and the necessary methods to track motion events and settle the view to its final position.
+- It has methods to clear motion history, check dragging or touch slop in all directions, clamp the dragging magnitude to touch slop or max velocity, and compute settling durations.
+- The class also provides factory methods, `create`, which can construct a `ViewDragHelper` and set touch slop appropriately.
+  
+Initialization checks and setup are done in the private constructor, receiving a reference to the parent view and a callback object. Other touch-tracking fields are also initialized here.The remaining code includes various methods for the `ViewDragHelper` class. It includes methods to create a `ViewDragHelper` instance, drag a view to a specific location, force a captured view to settle at a certain location, detect touch slop (the minimum distance in pixels that is considered to be a touch "move"), save the initial location of a touch event, and others.
+
+These functions are part of the inner workings of the `ViewDragHelper` class, designed to help with dragging and settling Views within a parent ViewGroup. Touch events are tracked and handled, and interactions with the interface are managed, including actions like cancelling the current movement, determining if a view can scroll, and processing motion events, among others.
+
+The functions are used in conjunction to provide smooth, dynamic touch functionality in an Android app. The class works as a helper in making an Android UI responsive and intuitive, allowing views within a ViewGroup to react naturally to touch inputs.The rest of the previous code contains methods to set the frame state, enable edge tracking, specify minimum velocity, set set a captured view at a certain point, intercept touch events, and more. 
+
+There are also methods to access information like the active pointer ID, captured view, edge size, minimum velocity, touch slop, and view drag state. There's also a process touch event function that handles various touch actions such as move, up, down, pointer down, and pointer up.
+
+These methods are crucial for handling touch inputs in Android app UI and ensuring that the view elements respond accordingly. They work together to make the ViewDragHelper class functional and efficient in managing touch events to allow for a seamless and responsive UI interaction within a ViewGroup.In the continuation of the previous code, there are more MotionEvent actions being processed like ACTION_POINTER_UP, ACTION_UP, and ACTION_DOWN. MotionEvent action processing includes checking if a call has been made for a certain pointer, handling pointer actions during drag state, reporting new edge drags or saving last motion event, and checking various conditions before moving to further event processing.
+
+There are also functions to smoothly slides view to a given position, and tries to capture view for dragging based on conditions.
+
+Lastly, the code defines an abstract class Callback, which may include methods for overriding in subclasses. One such method might be clampViewPositionHorizontal(), whose implementation is not given here. These callback methods typically serve for customizing control beyond the standard behavior.In the remaining part of the code, various methods of the abstract class 'Callback' are defined with their default behavior. These methods include:
+
+- `clampViewPositionVertical()`: This method determines the vertical distance within which a specific view can move.
+  
+- `getOrderedChildIndex()`: This method returns the child index that should be examined first when evaluating which child view to move or capture. 
+
+- `getViewHorizontalDragRange()` and `getViewVerticalDragRange()`: These methods return the range of allowable motion for the captured view along the horizontal and vertical axes respectively.
+
+- `onEdgeDragStarted()`, `onEdgeLock()`, and `onEdgeTouched()`: These methods are invoked when the user's interaction with the edge of the view starts, locks, or touches respectively.
+
+- `onViewCaptured()`, `onViewDragStateChanged()`, `onViewPositionChanged()`, and `onViewReleased()`: These methods are invoked when the view is captured, the drag state is changed, the view position is changed, or the view is released respectively.
+
+- `tryCaptureView()`: This abstract method checks if the view should be captured. The implementation of this method should be provided by the subclass.
+
+The final few lines denote the location, compiler version, and JD-Core version for this class file.

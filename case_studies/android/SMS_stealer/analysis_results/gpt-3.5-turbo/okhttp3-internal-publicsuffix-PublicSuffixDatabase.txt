@@ -1,0 +1,21 @@
+The `PublicSuffixDatabase` class is responsible for maintaining a database of public suffixes used in domain names. It provides methods to search for matching rules based on domain names.
+
+The class has fields such as `EMPTY_RULE`, `EXCEPTION_MARKER`, `PREVAILING_RULE`, `PUBLIC_SUFFIX_RESOURCE`, `WILDCARD_LABEL`, `instance`, `listRead`, `publicSuffixExceptionListBytes`, `publicSuffixListBytes`, and `readCompleteLatch`.
+
+The class defines methods such as `binarySearchBytes`, `findMatchingRule`, `readTheListUninterruptibly`, and `split`.
+
+The `binarySearchBytes` method performs a binary search on a byte array to find a matching rule based on domain names.
+
+The `findMatchingRule` method searches for rules that match the given domain names and returns the best matching rule found. It reads the public suffix list from a resource file if it has not been read yet.
+
+Overall, the `PublicSuffixDatabase` class provides functionality for searching and matching public suffix rules based on domain names.The `getEffectiveTldPlusOne` method returns the effective top-level domain plus one (ETLD+1) for a given domain name. It splits the domain name into its labels, finds the matching rule in the public suffix list, and constructs the ETLD+1 by combining the remaining labels.
+
+The `setListBytes` method sets the public suffix list bytes and exception list bytes, indicating that the lists have been read and processed.
+
+The `readTheList` method reads the public suffix list from a resource file, decompresses it, and stores the list bytes and exception list bytes in the corresponding fields.
+
+The `readTheListUninterruptibly` method attempts to read the public suffix list, handling interrupted and IO exceptions. It also logs any IO exceptions using the platform logger.
+
+The `get` method returns the singleton instance of the `PublicSuffixDatabase` class.
+
+Overall, the `PublicSuffixDatabase` class provides functionality for reading and processing the public suffix list, finding matching rules based on domain names, and determining the effective top-level domain plus one for a given domain name.

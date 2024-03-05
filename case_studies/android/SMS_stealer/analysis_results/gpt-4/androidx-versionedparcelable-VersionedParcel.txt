@@ -1,0 +1,109 @@
+The `VersionedParcel` is an abstract class that provides a way to read/write serializable objects, used in Android system intercommunication (IPC).
+
+- It's visualized with three private fields: `mReadCache`, `mWriteCache`, `mParcelizerCache`(all of type `ArrayMap<String, Method>`).
+
+- The constructor accepts three parameters of type `ArrayMap<String, Method>` corresponding to `mReadCache`, `mWriteCache` and `mParcelizerCache`.
+  
+- The `createException` method creates specific exceptions based on the type code input.
+
+- `findParcelClass` returns a `classmethod`, it seeks for a `Class` within `mParcelizerCache` before fetching it using reflect api.
+
+- `getReadMethod`: Fetches a 'read' method pertaining to a string name. It checks `mReadCache` first, and then uses reflection if cache hit fails. Similarly, `getWriteMethod` does the same for 'write' methods.
+
+- `getType` returns the type code of the input object based on its instance type.
+
+- `readCollection` retrieves a `Collection` object from the parcel data.
+
+- `readException` creates an exception based on input code and string and `readExceptionCode` retrieves an integer code from parcel.
+
+- The `writeCollection` methods write a `Collection` object to parcel.
+
+- `writeSerializable` attempts to write a `Serializable` object to the parcel.
+
+- `writeVersionedParcelableCreator` Writes `VersionedParcelable` object to a parcel. 
+
+The `VersionedParcel` class is designed to bring better stability and maintainability for parcelable objects, especially when they need to change over time.The `createSubParcel` method creates a subparcel for nested serializable data.
+
+The `readArray` method retrieves an array object from the parcel data, while `readArray(Object[], int)` does the same checking if specific field is available.
+
+The `readBoolean` returns boolean data from the parcel, and `readBoolean(boolean, int)` does the same if a specific field is available.
+
+The `readBundle` retrieves a Bundle object from the parcel, while `readBundle(Bundle, int)` does the same with a field check.
+
+The `readCharArray` retrieves char array from the parcel data if specific field is available.
+
+The `readDoubleArray` fetches a double array from the parcel data, and `readDoubleArray(double[], int)` does the same with a field check.
+
+The `readFromParcel` method reads VersionedParcelable data from a parcel.
+
+`readInt` retrieves integer data from the parcel, while `readIntArray` retrieves an int array.
+
+The `readLongArray` fetches a long array from the parcel data, `readLongArray(long[], int)` does the same with a field check.
+
+The `readMap` function retrieves a Map object from the parcel data.
+
+Finally, the `readSet` method retrieves a Set object from the parcel.The `readSize` method reads the size from a parcel data.  
+
+The `readSizeF` method retrieves the fixed size from the parcel data.  
+
+The `readSparseBooleanArray` method reads a SparseBooleanArray from the parcel.  
+
+The `readString` method is an abstract method to read a string from the parcel.
+
+The `readStrongBinder` method reads an IBinder object from the parcel.  
+
+The `readVersionedParcelable` method is designed to read VersionedParcelable from a parcel.
+
+The `setOutputField` method is an abstract method to set an output field in the parcel.
+
+The `setSerializationFlags` method sets serialization flags.
+
+The `writeArray` method writes an array into the parcel. 
+
+The `writeBoolean` method writes a boolean value into the parcel. 
+
+The `writeByteArray` method writes a byte array to the parcel.
+
+The `writeCharArray` method writes a char array to the parcel.
+
+The `writeDouble` method writes a double to the parcel. 
+
+The `writeException` method writes an exception to the parcel.
+
+The `writeFloat` method writes a float to the parcel. 
+
+The `writeInt` method writes an integer to the parcel. 
+
+The `writeIntArray` method writes an int array to the parcel. 
+
+The `writeList` method writes a list to the parcel. 
+
+Finally, the `writeLong` method writes a long value to the parcel.The `writeLongArray` method writes a long array to the parcel with a specified output field.
+
+The `writeMap` method writes a map to the parcel with the provided output field.
+
+The `writeNoException` method writes '0' into the parcel, indicating no exception.
+
+The `writeParcelable` methods write a Parcelable object to the parcel, one being abstract and the other sets an output field before writing.
+
+The `writeSerializable` method writes a Serializable object to the parcel with a specified output field.
+
+The `writeSet` method writes a set to the parcel with a given output field.
+
+The `writeSize` method writes a Size object to the parcel with an associated output field.
+
+The `writeSizeF` method writes a SizeF object to the parcel along with an output field.
+
+The `writeSparseBooleanArray` method writes a SparseBooleanArray to the parcel with a specified output field.
+
+The `writeString` methods write a string into the parcel, one is abstract and the other one sets an output field before writing.
+
+The `writeStrongBinder` methods are used to write an IBinder to the parcel, one is abstract and the other one sets an output field before writing.
+
+The `writeStrongInterface` methods write an IInterface to the parcel, one is abstract and the other one sets an output field before writing.
+
+The `writeToParcel` method writes a VersionedParcelable object to another parcel.
+
+The `writeVersionedParcelable` methods write a VersionedParcelable object to the parcel, one is abstract and the other one sets an output field before writing.
+
+The `ParcelException` class is a custom exception class that extends RuntimeException.

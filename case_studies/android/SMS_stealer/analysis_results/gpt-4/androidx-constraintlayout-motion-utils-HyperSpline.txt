@@ -1,0 +1,13 @@
+The `HyperSpline` class is used for managing smooth transitions in multi-dimensional spaces using cubic splines. 
+
+- The `mCtl` 2D array stores the control points. 
+- The `mCurve` 2D array stores a set of `Cubic` objects for each dimension. 
+- The `mCurveLength` array holds the approximate length of each curve segment and `mTotalLength` is the sum of all these lengths.
+- The constructor `HyperSpline(double[][] paramArrayOfdouble)` initializes the object by calling the `setup` method.
+- The `setup` method populates the details of all cubic curves (i.e., control points, approximate lengths).
+- The `getPos` methods get the position on the curve by taking a fraction of total length and an array to store the resulting point.
+- The `calcNaturalCubic` static method creates and returns an array of Cubic curves for a set of points in one dimension.
+- The `approxLength` method returns the approximate length of the cubic curve.
+- There's an inner static class `Cubic` used for cubic polynomial representation and operations like evaluation of the polynomial at a certain point and computation of velocity.
+  
+Please note that the `location` comment gives the original Java bytecode location where the `HyperSpline` class was generated.

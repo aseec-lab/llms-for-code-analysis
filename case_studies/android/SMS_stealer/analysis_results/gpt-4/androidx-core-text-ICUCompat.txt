@@ -1,0 +1,11 @@
+`ICUCompat` is a utility class in the AndroidX Core Text library that provides compatibility with International Components for Unicode (ICU).
+
+The class provides methods to work with ICU related tasks, like getting the script of a language (writing system) or adding likely subtags to a `Locale`.
+
+- Static block: Depending on the SDK version, static reflection is used to find methods in the `libcore.icu.ICU` class such as `getScript` and `addLikelySubtags`. 
+
+- `addLikelySubtags(Locale paramLocale)`: This method uses reflection to call the `addLikelySubtags` method of the ICU library on the passed locale.
+
+- `getScript(String paramString)`: This method returns the script part of the given locale string by calling the `getScript` method of the ICU library.
+
+- `maximizeAndGetScript(Locale paramLocale)`: Maximizes the passed locale using ICU's addLikelySubtags method and then fetches the script associated with this maximized locale. The script returned will be the one used for rendering the text in the corresponding language.

@@ -1,0 +1,11 @@
+The code defines a class called MessageCompat in the package androidx.core.os.
+
+The class provides two static methods: isAsynchronous and setAsynchronous.
+
+The isAsynchronous method checks if the Android version is at least 22 using the Build.VERSION.SDK_INT constant. If the version is at least 22, it calls the isAsynchronous method on the given Message object and returns the result. If the version is not at least 22, it checks if the sTryIsAsynchronous flag is set to true and if the version is at least 16. If both conditions are met, it attempts to call the isAsynchronous method on the Message object and returns the result. If any exceptions occur during the method call, the sTryIsAsynchronous flag is set to false and the method returns false.
+
+The setAsynchronous method works similarly to the isAsynchronous method. It checks the Android version, calls the setAsynchronous method on the Message object if the version is at least 22, and attempts to call the method if the version is not at least 22. Any exceptions during the method call will set the sTrySetAsynchronous flag to false.
+
+Both methods are marked as final, indicating that they cannot be extended or overridden.
+
+A comment at the end of the code includes the file path, Java compiler version, and JD-Core version.

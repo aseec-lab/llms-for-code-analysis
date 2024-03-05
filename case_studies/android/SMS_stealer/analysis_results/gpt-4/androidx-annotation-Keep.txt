@@ -1,0 +1,9 @@
+The `@Keep` annotation provided by AndroidX is a way of ensuring that the annotated class, method or field is not stripped away when the app is minified at compile time.
+
+- `@Retention(RetentionPolicy.CLASS)`: This means that the annotation will be retained at compile time but not at runtime.
+
+- `@Target`: This is used to mark the program elements (packages, types, annotation types, constructors, methods, fields) which can be annotated with `@Keep`.
+
+The `@Keep` annotation is useful to prevent vital code from being removed during the build process when using tools that optimize the code by removing unused code sections. 
+
+The comment at the end is metadata used by Java Decompiler (JD-Core) but does not affect how the `@Keep` annotation works.

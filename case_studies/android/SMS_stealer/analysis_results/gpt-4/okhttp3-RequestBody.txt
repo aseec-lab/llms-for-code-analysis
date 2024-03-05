@@ -1,0 +1,14 @@
+This `RequestBody` class in OkHttp is where you can setup the body of your HTTP requests. 
+
+You can create an instance of RequestBody by using static `create()` methods that can take in different types of content and a MediaType.
+
+You can attach a `File`, `String`, `ByteString`, or `byte[]` as your body with an optional MediaType.
+
+The `create()` method checks for null values, and then serialized input into the request body using the `writeTo(BufferedSink paramBufferedSink)` function.
+
+It also features methods like:
+- `contentLength()`: which returns the length of the request body.
+- `contentType()`: returns the media type of the request, and 
+- `writeTo()`: an abstract function that writes the request to the BufferedSink specified.
+
+This class defines how the body of an HTTP request will be transmitted to the server.

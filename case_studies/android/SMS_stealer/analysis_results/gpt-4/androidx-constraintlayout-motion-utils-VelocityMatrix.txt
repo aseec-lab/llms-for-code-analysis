@@ -1,0 +1,9 @@
+The `VelocityMatrix` class is used to handle transformations related to motion in the constraint layout, covering rotation, translation, and scaling. 
+
+- It stores the rate of change of rotation (`mDRotate`), translation in X and Y directions (`mDTranslateX`, `mDTranslateY`), and the scale in X and Y directions (`mDScaleX`, `mDScaleY`), and the angle of rotation (`mRotate`).
+- `applyTransform` method applies these transformations (translation, rotation, and scaling) to an array of float values.
+- The `clear` function resets all transformation velocities back to zero. 
+- The `setRotationVelocity`, `setScaleVelocity` and `setTranslationVelocity` methods accept either a `KeyCycleOscillator` or `SplineSet` object and a float value, updating the respective transformation velocities and if `SplineSet` object is given, it also updates rotation as well.
+- `SplineSet` and `KeyCycleOscillator` classes are used for animation interpolations and cycles in the constraint layout's motion component.
+
+Please note that the `location` comment is providing information about where the original Java bytecode for the `VelocityMatrix` class was generated.

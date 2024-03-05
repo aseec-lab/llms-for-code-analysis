@@ -1,0 +1,14 @@
+The `OptionalMethod` class is a utility class in the OkHttp library. It is used to handle reflective method invocation, including methods that may not exist on all platforms or versions, hence the `Optional` prefix.
+
+The class encapsulates the method name, the return type, and the parameter types. It provides the capability to discover the method on a class and invoke it if it exists. If the method doesn't exist, it appropriately handles the situation without causing a `NoSuchMethodError` to be thrown.
+
+The class has several methods: 
+
+- The constructor takes in the method's return type, name, and parameter types.
+- The `getMethod()` method gets a specific method from a given class, returning null if the method doesn't exist or isn't public, or the return type isn't as specified.
+- The `invoke()` method attempts to invoke the specific method, throwing an `InvocationTargetException` if the method doesn't exist and mirroring any exceptions thrown by the method itself.
+- The `invokeOptional()` method is similar but returns null if the method doesn't exist or isn't accessible.
+- The `invokeWithoutCheckedException()` and `invokeOptionalWithoutCheckedException()` methods are similar to the above but throw an `AssertionError` in place of any checked exceptions.
+- The `isSupported()` method checks whether the specified method exists and is public on the given object's class.
+
+This class helps in handling differences between Android and Java platforms, and contributes to the library's resilience and adaptability.

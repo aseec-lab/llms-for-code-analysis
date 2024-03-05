@@ -1,0 +1,7 @@
+This code defines the `RoundedBitmapDrawableFactory` class which is used to create a rounded corner version of a bitmap image. It has three `create()` methods that return a `RoundedBitmapDrawable` from a given `Bitmap`, `InputStream`, or `String` path respectively. 
+
+When creating a `RoundedBitmapDrawable`, the method checks whether the Android SDK version is 21 or higher to decide whether to instantiate a `RoundedBitmapDrawable21` or `DefaultRoundedBitmapDrawable`.
+
+In case the bitmap decoding fails (returns null), a warning is logged with information about the failed decode source.
+
+The internal subclass `DefaultRoundedBitmapDrawable` extends `RoundedBitmapDrawable` and overrides several methods. It includes a method to apply a specific gravity to a `Rect`, as well as methods to check if a bitmap has mipmaps (smaller versions used for certain rendering modes) and to set mipmaps.

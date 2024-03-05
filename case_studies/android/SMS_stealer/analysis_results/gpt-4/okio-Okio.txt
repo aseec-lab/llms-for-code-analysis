@@ -1,0 +1,15 @@
+The `Okio.java` is part of Okio library from Square, which is an I/O library that makes it easier to access, store, and process data in your application. The `Okio` class provides a collection of static method utilities that cover a range of common tasks involving sinks, sources, and buffers for sources of I/O.
+
+The class contains methods for creating various types of `Sink` and `Source` objects that can be used to read and write data. These include methods like `appendingSink()`, `sink()`, `source()`, which can take in file paths, sockets, OutputStream, InputStream, and more for dealing with file I/O and network I/O.
+
+The static method `buffer()` method is used to decorate Sink and Source objects with buffered versions of themselves, enhancing their performances by providing buffering capabilities.
+
+The `blackhole()` method returns a Sink that silently consumes any data written to it and releases resources associated with it when the `close()` method is called. The actual data is never stored and each write is effectively a no-op.
+
+The classes `RealBufferedSink` and `RealBufferedSource` provide actual implementations for a buffered sink and source, respectively.
+
+It also includes an `isAndroidGetsocknameError` method to catch specific error thrown on Android platform.
+
+The `timeout()` method helps in managing socket read/write timeouts. It wraps a socket in a `AsyncTimeout` which can be then used to set or determine I/O timeouts.
+
+The class also includes methods for dealing with IO on Paths with `sink(Path paramPath, OpenOption... paramVarArgs)` and `source(Path paramPath, OpenOption... paramVarArgs)`. These methods make use of java.nio package's Files class to create new InputStreams and OutputStreams.

@@ -1,0 +1,33 @@
+The `AutoScrollHelper.java` file provides an abstract class for creating a helper that will automatically scroll any provided view when the view is touched. 
+
+The class contains the following methods:
+
+- `AutoScrollHelper(View paramView)`: Constructor for initializing the helper. It takes a view onto which it will apply the auto-scrolling effect.
+
+- `computeTargetVelocity(...)` and `constrain(...)`: These private methods are used to calculate the scrolling velocity and constrain it within specified limits to ensure smooth and controlled scrolling. 
+
+- `requestStop()`: This method stops the auto scrolling when called.
+
+- `startAnimating()`: This method starts the auto scrolling on the target view. 
+
+- `canTargetScrollHorizontally(int paramInt)` and `canTargetScrollVertically(int paramInt)`: These abstract methods are for determining if the target view can scroll in the given direction, and must be implemented in the class that extends `AutoScrollHelper`.
+
+- `cancelTargetTouch()`: This method cancels the current touch event, causing the view to stop scrolling.
+
+- `isEnabled()`, `isExclusive()`,` setActivationDelay(...)`, `setRampUpDuration(...)`, `setRampDownDuration(...)`: These are method to set and get various configuration settings.
+
+- `onTouch(View paramView, MotionEvent paramMotionEvent)`: This method handles touch events which, when detected, will trigger the auto-scrolling or stop it depending on the event action.
+
+This helper is useful for views like a map or a zoomable image where the user scrolls by holding down a finger and dragging it on the screen.The remaining part of the `AutoScrollHelper` class introduces additional methods for controlling and adjusting the auto-scrolling behavior.
+
+- `scrollTargetBy(int paramInt1, int paramInt2)`: An abstract method that needs to be implemented in the class extending `AutoScrollHelper` to define how the target scrolls.
+
+- Various `set...` methods (`setActivationDelay(int paramInt)`, `setEdgeType(int paramInt)`, `setEnabled(boolean paramBoolean)`, etc.): These are methods for configuring the scroll behavior and properties, such as activation delay, edges, scroll velocity, etc.
+
+- `shouldAnimate()`: This methods checks and returns whether the target should animate based on user's scroll direction.
+
+The code declares two inner classes:
+
+- `ClampedScroller`: A class that encapsulates the logic for scrolling, dealing with scroll speed, duration, velocity, etc., and includes methods for starting, stopping and checking if the scrolling is finished.
+
+- `ScrollAnimationRunnable`: A class implementing the `Runnable` interface. Its `run()` method controls the flow and handling of the scrolling. If the Scroller is not finished and the target should animate, it calculates the deltas, scrolls the target view and posts the Runnable back for the next frame. Otherwise, it stops the scrolling. This class helps to make the scrolling smoother and more responsive to user interaction.

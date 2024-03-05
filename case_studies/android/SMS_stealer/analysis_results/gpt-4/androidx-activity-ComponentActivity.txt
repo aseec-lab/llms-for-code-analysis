@@ -1,0 +1,9 @@
+The `ComponentActivity` class extends `androidx.core.app.ComponentActivity` and implements `LifecycleOwner`, `ViewModelStoreOwner`, `SavedStateRegistryOwner`, and `OnBackPressedDispatcherOwner`. It is a base class for activities that use architecture components along with functionality inherited from `androidx.core.app.ComponentActivity`.
+
+- `mContentLayoutId` is an integer variable representing the layout resource ID of the content view.
+- `mLifecycleRegistry` is an instance of LifecycleRegistry which is responsible for maintaining the current lifecycle state.
+- `mOnBackPressedDispatcher` is responsible for managing onBackPressed callbacks.
+- `mSavedStateRegistryController` is a controller for `SavedStateRegistry`, assisting in storing the state of the activity.
+- `mViewModelStore` is a store for ViewModels.
+
+The class includes some methods which manage lifecycle states such as `onCreate()`, `onSaveInstanceState()` and so on. The class also has mechanisms for keeping and retrieving non-configuration instances, managing the ViewModelStore, and dealing with the activity's back-press operation. The constructor ensures that lifecycle observers are correctly added and throws an exception if `getLifecycle()` returns `null`.

@@ -1,0 +1,13 @@
+The `WindowCallbackWrapper` class is a wrapper class that implements the `Window.Callback` interface. It serves as an intermediary between the `Window.Callback` implementation provided by the application and the actual `Window.Callback` implementation used internally by the Android framework.
+
+This class delegates all the `Window.Callback` method calls to the wrapped `Window.Callback` instance that is passed in during construction. It provides a way to modify the behavior of the original `Window.Callback` implementation by overriding specific methods.
+
+The constructor takes a `Window.Callback` parameter and throws an exception if the parameter is null.
+
+The class then overrides all the methods defined in the `Window.Callback` interface and delegates the method calls to the wrapped `Window.Callback` instance.
+
+Some of the overridden methods include `dispatchKeyEvent()`, `dispatchTouchEvent()`, `onWindowFocusChanged()`, `onCreatePanelMenu()`, and more. These methods allow customization and interception of various events and actions related to the window and views.
+
+The class also provides a `getWrapped()` method that returns the wrapped `Window.Callback` instance.
+
+Overall, the `WindowCallbackWrapper` class allows for customization and modification of the behavior of the `Window.Callback` implementation used by the Android framework.

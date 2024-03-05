@@ -1,0 +1,7 @@
+The `MotionEventCompat` class provides a set of utility methods and constants to work with `MotionEvent` objects in a backward-compatible way. It defines several constants that categorize different moments of interaction in terms of motion events, such as `ACTION_HOVER_ENTER`, `ACTION_HOVER_EXIT`, and `AXIS_BRAKE` among others, many of which are deprecated.
+
+A good chunk of its functions are getters to retrieve information from `MotionEvent` objects like the action index, action masked, axis value, button state, pointer count, pointer id, source, X and Y values. These methods are also deprecated and implementations for handling motion events should use equivalent methods directly on the `MotionEvent` object.
+
+The `isFromSource` method is the only non-deprecated method, which checks if the given `MotionEvent` came from a particular source.
+
+The deprecations are present because the class provides compatibility wrappers around the `MotionEvent` methods which have been present natively in the Android SDK since API level 12 (3.1 Honeycomb MR1). Therefore, direct usage of `MotionEvent` is recommended over the use of this class for most apps.

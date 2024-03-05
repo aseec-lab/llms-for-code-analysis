@@ -1,0 +1,11 @@
+The `ButtonBarLayout` is a subclass of `LinearLayout`. The primary purpose of this class is to create a layout that can stack its child views vertically or horizontally based on the space available.
+
+When the layout width is larger than its previous width and the layout is in stacked mode, it will be reset to non-stacked mode.
+
+The `setStacked` method is used to stack children vertically when there is not enough horizontal space. If stacked, the gravity is set to RIGHT(`5`), and a child view with id `spacer` is hidden; otherwise gravity is set to BOTTOM(`80`) and `spacer` is partially hidden.
+
+The `onMeasure` method is overridden to recalculate its size and decide whether views should be stacked or not based on the available width. If stacking is required, the `onMeasure` method is called again after stacking the views.
+
+The `setAllowStacking` method is used to allow or disallow stacking. If stacking is disallowed and the orientation is vertical, it resets the stacking.
+
+This layout class is typically used in dialogs for actions like 'CANCEL'/'OK' which can be stacked vertically or horizontally based on available space.

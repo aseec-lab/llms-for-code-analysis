@@ -1,0 +1,9 @@
+The `MethodCallsLogger` class in the `androidx.lifecycle` package is a utility class for logging method calls. 
+
+It maintains a map `mCalledMethods` that associates method names (strings) with an integer value. 
+
+The `approveCall()` method is used to check if a method call should be approved or not based on the method name and an integer parameter. It retrieves the current value associated with the method name from the map. If the value is not null, it assigns it to the variable `i`, otherwise it assigns 0. 
+
+It then checks if the bitwise AND of `i` and `paramInt` is not zero, indicating that the method call has already been approved. If it is not zero, it sets the boolean variable `bool` to true. 
+
+Finally, it updates the map with the bitwise OR of `paramInt` and `i`, and returns the negation of `bool`.

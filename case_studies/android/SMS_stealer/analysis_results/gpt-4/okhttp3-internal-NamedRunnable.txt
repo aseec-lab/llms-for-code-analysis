@@ -1,0 +1,5 @@
+`NamedRunnable` is an abstract class implementing the `Runnable` interface, providing a named thread when ran. The class consists of an abstract method `execute()` that must be defined by any classes extending `NamedRunnable`. 
+
+In its constructor, it accepts a format string and an optional set of arguments to establish a name for the thread, which is formatted via the `Util.format()` method.
+
+The `run()` method sets the current thread's name to the established name, attempts to execute the `execute()` method, and then resets the thread's name to its original name in a finally block to ensure the thread's name is always re-set, regardless of whether an exception is thrown within the `execute()` method.

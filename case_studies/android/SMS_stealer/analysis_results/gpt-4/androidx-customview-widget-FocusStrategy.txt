@@ -1,0 +1,20 @@
+The class `FocusStrategy` is a helper class for finding next focus in different directions. It contains methods that calculate and decide which view should be next based on the given direction. A series of calculations are performed using the Rect class which is representing the rectangle area of a View on the screen.
+
+- `beamBeats()`: Returns whether the focus area overlaps in horizontal direction and if so, if the view is to the right or left direction of the current view.
+- `beamsOverlap()`: Returns true if two areas (rectangles) are overlapped either horizontally (if direction is left/right) or vertically (if direction is up/down).
+- `findNextFocusInAbsoluteDirection()`: Returns the view that should be focused given an absolute direction.
+- `findNextFocusInRelativeDirection()`: Returns the view that should be focused in a relative direction, that is, focus forward or backward in presence of the root view and the currently focused view.
+- `getNextFocusable()`, `getPreviousFocusable()`: These methods return the view that can be focused in a forward or backward direction relative to the current focus.
+- `getWeightedDistanceFor()`: Returns weighted distance which will be used to decide if a view could be focused or not.
+- `isBetterCandidate()`: This method decides whether a view is a better candidate to be focused based on several calculations.
+- `isCandidate()`: Determines whether a view could be a potential focus candidate.
+- `isToDirectionOf()`: Determines if the view is toward the specified direction of current view.
+- `majorAxisDistance()`, `majorAxisDistanceRaw()`, `majorAxisDistanceToFarEdge()`, `majorAxisDistanceToFarEdgeRaw()`: These methods calculate distances in different directions which help in focus decision. 
+
+This is a utility class for managing focus navigation within an application's user interface.This part of the code provides the remaining part of the `FocusStrategy` class and introduces several nested interfaces and a nested class:
+
+- `BoundsAdapter<T>`: An interface with a single method `obtainBounds` which should be implemented to get the bounds (`Rect`) of an object.
+- `CollectionAdapter<T, V>`: An interface with two methods to be implemented. `get` retrieves the `V` type object at a particular index from a `T` type collection, and `size` gets the count of objects in the collection.
+- `SequentialComparator<T>`: A private static nested class implementing the `Comparator` interface for custom comparison logic on list items. `compare` method contains the logic for comparison based on position and dimensions of views. 
+
+The values returned from these methods are used by `FocusStrategy` to determine the next views to navigate to based on directional inputs. The logic takes into account whether the layout is left-to-right or right-to-left, and orders the elements based on their bounds and in multiple directions.

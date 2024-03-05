@@ -1,0 +1,12 @@
+The `OneShotPreDrawListener` class in the `androidx.core.view` package provides a way to add a one-time pre-draw listener to a view. Here's what the code does:
+
+- It implements the `ViewTreeObserver.OnPreDrawListener` and `View.OnAttachStateChangeListener` interfaces.
+- It has private fields to store the `View`, `ViewTreeObserver`, and a `Runnable` passed to the constructor.
+- The constructor initializes the fields and adds the listener to the `ViewTreeObserver` and the `View`'s attach state changes.
+- The `add` method is a static helper method that creates a new instance of `OneShotPreDrawListener`, adds the listener to the `ViewTreeObserver` and the `View`'s attach state changes, and returns the instance.
+- The `onPreDraw` method is called when a pre-draw event occurs. It removes the listener, runs the `Runnable`, and returns `true`.
+- The `onViewAttachedToWindow` method is called when the `View` is attached to a window. It updates the `ViewTreeObserver` reference.
+- The `onViewDetachedFromWindow` method is called when the `View` is detached from a window. It removes the listener.
+- The `removeListener` method removes the listener from the `ViewTreeObserver` and the `View`'s attach state changes.
+
+Overall, the `OneShotPreDrawListener` class provides a convenient way to add a one-time pre-draw listener to a view and perform a task when the pre-draw event occurs.

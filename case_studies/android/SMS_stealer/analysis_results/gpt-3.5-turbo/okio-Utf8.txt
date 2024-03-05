@@ -1,0 +1,10 @@
+The `Utf8` class in the `okio` package contains static methods for working with UTF-8 encoded strings.
+
+Here are the key features of the `Utf8` class:
+
+- The `size()` method calculates the size of a UTF-8 encoded string. It takes a string parameter and returns the size as a `long` value.
+- There are two overloaded versions of the `size()` method. The first version calculates the size of the entire string. The second version calculates the size within a specified range.
+- The method performs several checks to ensure the validity of the input parameters. It checks if the string is not null, if the begin index is non-negative, and if the end index is greater than or equal to the begin index and less than or equal to the length of the string.
+- The method uses a loop to iterate over each character in the specified range of the string. It checks the value of each character to determine its size in UTF-8 encoding.
+- If the character is within the ASCII range (0 to 127), its size is 1 byte. If it is within the range `0x80` to `0x7FF`, its size is 2 bytes. If it is within the range `0x800` to `0xFFFF`, its size is 3 bytes. If it is a surrogate character representing a Unicode code point outside the BMP, its size is 4 bytes.
+- The method increments the size based on the character's size, and finally returns the calculated size as a `long` value.

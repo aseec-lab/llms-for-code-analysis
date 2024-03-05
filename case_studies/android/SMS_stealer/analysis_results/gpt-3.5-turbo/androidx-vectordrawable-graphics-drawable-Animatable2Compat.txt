@@ -1,0 +1,14 @@
+The code defines the interface `Animatable2Compat` in the package `androidx.vectordrawable.graphics.drawable`. 
+
+The `Animatable2Compat` interface extends the `Animatable` interface from the `android.graphics.drawable` package. It provides additional methods for managing animation callbacks.
+
+The interface declares the following methods:
+- `clearAnimationCallbacks()`: Clears all animation callbacks.
+- `registerAnimationCallback(AnimationCallback)`: Registers an animation callback.
+- `unregisterAnimationCallback(AnimationCallback)`: Unregisters an animation callback.
+
+The `AnimationCallback` inner abstract class is defined within the `Animatable2Compat` interface. It provides empty implementations for the `onAnimationStart()` and `onAnimationEnd()` methods.
+
+The `AnimationCallback` class also has a `getPlatformCallback()` method, which returns an instance of `Animatable2.AnimationCallback`. This is used to bridge the `Animatable2Compat` interface with the platform's `Animatable2` interface for compatibility.
+
+The code also includes a null implementation of the `AnimationCallback` class, which overrides the `onAnimationStart()` and `onAnimationEnd()` methods to call the corresponding methods in the enclosing `Animatable2Compat.AnimationCallback` instance.

@@ -1,0 +1,14 @@
+The `MultipartBody.java` file in the `okhttp3` package defines the `MultipartBody` class, which represents a request body for multipart form data. Here is a summary of the code:
+
+- The class extends the `RequestBody` class, which is a base class for HTTP request bodies.
+- It defines constants for various media types such as "multipart/mixed", "multipart/form-data", etc.
+- The class has private fields for the boundary, content length, content type, original type, and list of parts.
+- It has a static initializer block that initializes the media type constants.
+- The constructor is package-private and is called with the boundary, media type, and list of parts.
+- There is a static method `appendQuotedString` that appends a quoted string to a `StringBuilder` object.
+- The class has a private method `writeOrCountBytes` that writes the multipart form data to a buffer or counts the number of bytes if `paramBoolean` is true.
+- The class provides getter methods for the boundary, content length, content type, parts, and original type.
+- It implements the `writeTo` method to write the multipart form data to a `BufferedSink`.
+- It overrides the `contentLength` method to calculate and return the content length.
+- The inner class `Builder` is a builder for creating `MultipartBody` objects.
+- The inner class `Part` represents a part of the multipart form data and includes the headers and body of the part. It has a constructor and static factory methods for creating instances of `Part`.

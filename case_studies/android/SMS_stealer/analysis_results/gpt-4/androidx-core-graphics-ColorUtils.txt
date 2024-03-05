@@ -1,0 +1,28 @@
+The `ColorUtils` class provides various utility methods for manipulating and transforming colors commonly used in graphics design and image processing. It can convert colors between RGB, HSL, LAB, and XYZ color spaces, can perform alpha blending of colors, calculate color contrasts and luminance. 
+
+Key methods in this class include 
+
+- `HSLToColor(float[])`: Converts HSL (Hue, Saturation, Lightness) values to a color integer.
+- `LABToColor(double, double, double)`: Converts LAB (Lightness, a*, b*) values to a color integer.
+- `LABToXYZ(double, double, double, double[])`: Converts LAB values to XYZ (X, Y, Z) values.
+- `RGBToHSL(int, int, int, float[])`: Converts RGB (Red, Green, Blue) values to HSL values.
+- `RGBToLAB(int, int, int, double[])`: Converts RGB values to LAB values.
+- `RGBToXYZ(int, int, int, double[])`: Converts RGB values to XYZ values.
+- `XYZToColor(double, double, double)`: Converts XYZ values to a color integer.
+- `XYZToLAB(double, double, double, double[])`: Converts XYZ values to LAB values.
+- `blendARGB(int, int, float)`: Blends two color values by a provided ratio.
+- `blendHSL(float[], float[], float, float[])`: Blends two HSL colors by a provided ratio.
+- `blendLAB(double[], double[], double, double[])`: Blends two LAB colors by a provided ratio.
+- `calculateContrast(int, int)`: Calculates the contrast ratio between two colors.
+- `calculateLuminance(int)`: Calculates the relative luminance of a color.
+- `calculateMinimumAlpha(int, int, float)`: Calculates the minimum alpha value a color should have for a desired contrast ratio when overlaid on a background color.- `colorToXYZ(int, double[])`: Converts a color to its XYZ representation.
+- `compositeAlpha(int, int)`: Composites two alpha values.
+- `compositeColors(int, int)`: Composites two color values.
+- `compositeColors(Color, Color)`: Composites two `Color` objects. This method throws an `IllegalArgumentException` if the color models of the two `Color` objects do not match.
+- `compositeComponent(int, int, int, int, int)`: Composites RGB color components.
+- `constrain(float, float, float)`: Constrains a float value to a specified range.
+- `constrain(int, int, int)`: Constrains an integer value to a specified range.
+- `distanceEuclidean(double[], double[])`: Computes the Euclidean distance between two points in a three-dimensional color space.
+- `getTempDouble3Array()`: Retrieves a temporary array with three elements.
+- `pivotXyzComponent(double)`: Pivots an XYZ component value.
+- `setAlphaComponent(int, int)`: Sets the alpha component for a color value. This method throws an `IllegalArgumentException` if the alpha value is not in the range 0 to 255.

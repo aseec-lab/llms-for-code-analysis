@@ -1,0 +1,25 @@
+`ForwardingTimeout` is a class that extends the `Timeout` class. It serves as a wrapper around another `Timeout` object (called `delegate` in the class). The class ensures that any operation performed on an instance of a `ForwardingTimeout` is in reality performed on its `delegate` `Timeout`.
+
+Specifically, the class has the following methods:
+
+- `clearDeadline()`: Clears the deadline of the delegate.
+  
+- `clearTimeout()`: Clears the timeout of the delegate.
+  
+- `deadlineNanoTime()`: Returns the nano time for the delegate's deadline.
+  
+- `deadlineNanoTime(long paramLong)`: Sets the nano time for the delegate's deadline.  
+  
+- `delegate()`: Returns the delegate `Timeout` object.
+  
+- `hasDeadline()`: Checks if the delegate has a deadline.
+  
+- `setDelegate(Timeout paramTimeout)`: Sets a new `Timeout` delegate. Throws an `IllegalArgumentException` if null is passed.
+  
+- `throwIfReached()`: Throws an `IOException` if the deadline has been reached or if the thread has been interrupted.
+  
+- `timeout(long paramLong, TimeUnit paramTimeUnit)`: Sets a timeout with a `TimeUnit` for the delegate.
+  
+- `timeoutNanos()`: Returns the delegate's timeout in nanoseconds.
+
+All methods return or operate on the delegate `Timeout` object. The idea is to allow changes to a `Timeout` object indirectly through the `ForwardingTimeout` class.

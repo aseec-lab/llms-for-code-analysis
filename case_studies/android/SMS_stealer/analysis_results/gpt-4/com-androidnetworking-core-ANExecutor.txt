@@ -1,0 +1,15 @@
+`ANExecutor` is a custom executor service extending `ThreadPoolExecutor`.
+
+- `DEFAULT_THREAD_COUNT`: This constant specifies the default number of threads for the executor.
+
+- `ANExecutor(int paramInt, ThreadFactory paramThreadFactory)`: The constructor for `ANExecutor` which calls the parent class constructor with priority queue as the work queue and a custom thread count.
+
+- `setThreadCount(int paramInt)`: Sets the core and maximum thread pool size to the passed integer.
+
+- `adjustThreadCount(NetworkInfo paramNetworkInfo)`: Adjusts the thread count based on network conditions. It kinks thread count to the type of network (cellular, WIFI, WIMAX...) and network subtype. The number of threads can be 1, 2, 3, or 4.
+
+- `submit(Runnable paramRunnable)`: It wraps the given `InternalRunnable` task into `AndroidNetworkingFutureTask` and submits to the executor.
+
+- `AndroidNetworkingFutureTask`: This is an inner class extending `FutureTask`. Implements `Comparable` interface to ensure priority-based task execution. It overrides `compareTo` method for priority checks.
+
+In general, `ANExecutor` is a custom-made executor for the Android networking library in order to alter the thread count based on the network conditions.

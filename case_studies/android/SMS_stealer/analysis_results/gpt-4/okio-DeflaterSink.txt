@@ -1,0 +1,17 @@
+`DeflaterSink` is a class that implements the `Sink` interface. It is used to compress data using the `Deflater` object from the `java.util.zip` package. Its methods allow for writing data to the sink, flushing the sink, closing the sink, and forcefully finishing the deflating process.
+
+The constructor of the class expects a `BufferedSink` and a `Deflater` object. It uses the provided `BufferedSink` to write the deflated data and the `Deflater` to perform the deflation.
+
+The `write` method takes a Buffer and a long parameter representing the size of the data to compress. It compresses the data from the Buffer and writes it to its sink.
+
+`flush` deflates any remaining data in the `Deflater` and then flushes the sink.
+
+`close` finishes the deflation process, closes the `Deflater` and the `sink`.
+
+The `deflate` method is a private helper to compress the data using `Deflater` object and write it to the `BufferedSink`. It caters two cases, one in which it needs to flush data, and another where it isn't required.
+
+`finishDeflate` finishes the deflation process by stopping the input to the `Deflater`.
+
+`timeout` method simply returns the timeout value defined in the `sink`.
+
+`toString` provides a String representation of `DeflaterSink` object.

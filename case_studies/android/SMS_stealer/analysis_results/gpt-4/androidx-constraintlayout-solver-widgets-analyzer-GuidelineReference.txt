@@ -1,0 +1,19 @@
+The `GuidelineReference` class extends the `WidgetRun` class and is used for handling guidelines in the ConstraintLayout.
+
+- In the class constructor, it takes a `ConstraintWidget`, clears its horizontal and vertical runs, and sets the orientation of the guideline. 
+
+- The `addDependency()` method is used to add dependencies between different nodes.
+
+- The `apply()` method sets the targets and dependencies according to the widget position for horizontal or vertical guidelines. 
+
+- In the `applyToWidget()`, it adjusts the widget position based on the start value and orientation.
+
+- The `clear()` method clears the start value.
+
+- The `reset()` method resets whether the start and end are resolved.
+
+- The `supportsWrapComputation()` always returns false, suggesting it does not support wrap computation.
+
+- The `update()` method resolves the start value according to the first target and relative guidelines percentage considering the widget is ready to solve and not resolved. 
+
+In general, the class seems to be used for positioning and resolving the layout guidelines, where guidelines are invisible helper objects that you can use to align other widgets within a ConstraintLayout.

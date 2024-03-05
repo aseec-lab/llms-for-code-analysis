@@ -1,0 +1,9 @@
+The `ImmLeaksCleaner` class is a helper class in AndroidX to prevent memory leaks related to the InputMethodManager (IMM). Instances of this class are tied to a specific activity and are initialized with it.  
+
+The class implements the `LifecycleEventObserver` interface and overrides `onStateChanged` method to clean up any potential leaks when the associated activity is destroyed.
+
+It uses reflection to gain access to otherwise hidden fields within the `InputMethodManager`. These fields include `mServedView`, `mNextServedView`, and `mH`, which are involved in tracking the current view that is receiving input events. 
+
+In the `onStateChanged` method, when the activity is destroyed (`Lifecycle.Event.ON_DESTROY`), the fields `sServedView`, `sNextServedView`, `mH` are reset to prevent leaks.
+
+If, for any reason, any reflection operation fails (due to a NoSuchFieldException, IllegalAccessException, or ClassCastException), the method will return without doing anything.

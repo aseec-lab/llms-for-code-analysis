@@ -1,0 +1,17 @@
+`FaultHidingSink` is a class that extends `ForwardingSink`, and it used to "hide" IO exceptions. It is used to encapsulate another `Sink` and silently aborts operations after an error occurs.
+
+Here is the breakdown of the methods in the class:
+
+1. `FaultHidingSink(Sink paramSink)`: A constructor that creates a new `FaultHidingSink` for a given `Sink`.
+   
+2. `void close()`: Closes the `Sink` and catches and "hides" any `IOException` that may occur, by marking `hasErrors` to true and handling the exception in `onException` method.
+
+3. `void flush()`: Flushes the `Sink` and catches and "hides" any `IOException` that may occur, similarly to `close()`.
+   
+4. `void onException(IOException paramIOException)`: A method that gets called when an `IOException` gets caught. It doesn't do anything by default, but it can be overridden by subclasses to provide custom error handling.
+   
+5. `void write(Buffer paramBuffer, long paramLong)`: Writes to the `Sink` and catches and "hides" any `IOException`that may occur. If `hasErrors` is true, no operation is performed and skips the given number of bytes.
+
+The `hasErrors` field is a flag that marks whether an `IOException` has occurred already. If it's true, then all further operations (`write`, `close`, `flush`) become no-ops and silently ignore the given payloads.
+
+The purpose of this class is to "shield" the cache system from unexpected `IOException`s, which could leave the cache in an invalid state, by discarding any errors.

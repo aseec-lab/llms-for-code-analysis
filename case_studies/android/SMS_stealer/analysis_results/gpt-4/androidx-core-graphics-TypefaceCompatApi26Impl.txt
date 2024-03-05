@@ -1,0 +1,17 @@
+The `TypefaceCompatApi26Impl` class extends the `TypefaceCompatApi21Impl` class, adding compatibility for the Android API 26+. It provides an implementation to use new font APIs available from API 26 and above, while also maintaining backwards compatibility with older versions.
+
+The class includes methods for:
+
+- Creating new font families.
+   - Checking if private APIs are available for the font family.
+- Adding fonts from Asset Manager.
+- Adding a font from a Buffer.
+- Freezing the font object to prevent further addition of fonts to a particular font family.
+- Creating a Typeface from the specific font family.
+- Finding the best font information for creating a Typeface.
+- Aborting Typeface creation.
+- Creating Typeface from resources and font files.
+
+This class uses reflection to use methods from the `android.graphics.FontFamily` class. If the reflection fails, it falls back to the superclass implementation, ensuring that the app doesn't crash on devices running Android API versions less than 26. 
+
+In summary, `TypefaceCompatApi26Impl` is used to create a custom `Typeface` instance using the APIs introduced in Android 8.0 (API level 26) and maintaining backward compatibility.

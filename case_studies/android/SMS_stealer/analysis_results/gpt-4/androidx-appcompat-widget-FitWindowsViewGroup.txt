@@ -1,0 +1,5 @@
+`FitWindowsViewGroup` is an interface to provide a callback mechanism for Views that can have their window insets (read: padding) adjusted to account for system windows - most notably the system/status bar.
+
+Inside it, `setOnFitSystemWindowsListener` method is defined that allows setting up a listener for the changes in the system windows.
+
+`OnFitSystemWindowsListener` is a nested interface within `FitWindowsViewGroup`, having a single method `onFitSystemWindows`. This method is called with a `Rect` argument that represents the area of the window that is not covered by system windows. The intended use is to adjust the padding of the view so that its contents are not obscured by system windows.

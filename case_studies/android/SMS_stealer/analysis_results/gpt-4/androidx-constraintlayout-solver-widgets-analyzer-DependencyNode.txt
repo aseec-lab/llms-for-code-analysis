@@ -1,0 +1,17 @@
+This code represents the `DependencyNode` class, which is a potential dependency in calculation of layout constraints in an Android application.
+
+Key features of this class include:
+
+1. `dependencies`: A List of `Dependency` objects that this `DependencyNode` depends upon to be resolved.
+
+2. `addDependency(Dependency paramDependency)`: Method to add a `Dependency` to the list of dependencies. If the current node is already resolved, it triggers the `update` method on the new `Dependency`.
+
+3. `clear()`: Method to clear all dependencies and targets and reset relevant fields to their default states.
+
+4. `resolve(int paramInt)`: Method to resolve the `DependencyNode` with a specified value, provided the node is not already resolved.
+
+5. `update(Dependency paramDependency)`: Method to update the `DependencyNode` state based on the status of its targets.
+
+6. `Type` enum: An enum representing the potential types of `DependencyNode`, which could be referring to different types of layout properties (for example, LEFT, RIGHT, TOP, and BOTTOM).
+
+This `DependencyNode` class is used by a `WidgetRun` object to represent potential constraints that need to be resolved in order to determine the layout of a widget in ConstraintLayout.

@@ -1,0 +1,13 @@
+`AlertDialogLayout` is a subclass of `LinearLayoutCompat` under the package `androidx.appcompat.widget`. It provides a specific layout designed for alert dialog boxes. 
+
+It provides two constructors that initialize a new layout based on a `Context` object or both a `Context` and `AttributeSet` object.
+
+There are several private methods implemented:
+- `forceUniformWidth(int, int)` to ensure that all children in the layout are of the same width.
+- `resolveMinimumHeight(View)` to get the minimum height of a particular view.
+- `setChildFrame(View, int, int, int, int)` to set the positioning of a child view in the layout.
+- `tryOnMeasure(int, int)` for custom measurement handling of the layout.
+
+Finally, the class overrides `onLayout(boolean, int, int, int, int)` and `onMeasure(int, int)`. These methods are used when Android is performing layout calculations and necessary for custom view groups. 
+
+In `onLayout`, it iterates over each child view and assigns its position within the parent. In `onMeasure`, it attempts to measure the layout's dimensions using the custom `tryOnMeasure` method and falls back to a super class measurement otherwise.

@@ -1,0 +1,11 @@
+The `TypeAdapter` class is an abstract class that serves as a contract for converting Java objects from and to JSON representation. 
+
+It defines the methods `read()` and `write()`, which are intended to be overridden, to read and write data between a JSON and object representation, respectively.
+
+Several methods are defined for converting from and to JSON using `JsonReader` and `JsonWriter`, and using `String` and `Readers`. These methods call the `read()` and `write()` methods internally.
+
+A `nullSafe()` method provides a safe way to handle nulls during serialization and deserialization. It returns a new `TypeAdapter` that delegates to this object but returns `null` when the value being processed is `null`.
+
+The companion methods `toJsonTree()` and `fromJsonTree()` convert between an object and the tree representation of the JSON.
+
+The code also defines a static inner class for providing a null-safe wrapper around a `TypeAdapter`. This inner class overrides both `read()` and `write()`, checking for and skipping (or writing) `null` values before delegating to the parent `TypeAdapter`.

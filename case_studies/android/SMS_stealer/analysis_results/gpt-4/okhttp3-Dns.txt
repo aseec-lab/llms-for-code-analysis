@@ -1,0 +1,11 @@
+This `Dns` interface in OkHttp provides a mechanism to lookup IP addresses for domain names.
+
+There's a static field named `SYSTEM` in the `Dns` interface which is an instance of `Dns` and its `lookup()` method returns a list of `InetAddress` objects for a given domain name.
+
+This method checks if the given domain name (a string) is null or not. If it is null, it throws `UnknownHostException` with "hostname == null" message.
+
+If the domain name is not null, it invokes the method `InetAddress.getAllByName()`, which returns all IP addresses for a given domain name. It returns this array wrapped in a list.
+
+If a `NullPointerException` occurs in process, it wraps and throws it as an `UnknownHostException` with some additional description message. 
+
+The `Dns` interface also declares a `lookup(String paramString)` method that should be implemented by any class that needs a custom mechanism for DNS resolution. It also can throw an `UnknownHostException`.

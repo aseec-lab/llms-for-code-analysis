@@ -1,0 +1,13 @@
+The `FragmentHostCallback` is an abstract class that extends the `FragmentContainer`. It acts as the callback interface between fragments and the activity hosting them.
+
+1. It contains references to the `Activity`, `Context` and `Fragment Manager`, as well as a `Handler` for managing threads and a `WindowAnimations` int for managing window animations.
+
+2. It provides important methods such as `getActivity()`, `getContext()`, `getHandler()` for returning the respective class instances.
+
+3. Some methods are abstract like `onGetHost()`, which must be overridden by any class that extends `FragmentHostCallback`.
+
+4. Some other methods like `onAttachFragment()`, `onRequestPermissionsFromFragment()`, `onStartActivityFromFragment()`, and `onStartIntentSenderFromFragment()` are provided for handling specific interactions with fragments but their implementations are either empty or basic, suggesting that they're intended to be overridden by subclasses for more specific behavior.
+
+5. Lastly, it has methods that support fragment lifecycle such as `onFindViewById()`, `onGetLayoutInflater()`, `onHasView()`, `onHasWindowAnimations()` and `onShouldSaveFragmentState()`.
+
+In general, this class handles interactions between an activity and its hosted fragments, providing basic behavior while also allowing for customization through its abstract and non-final methods.

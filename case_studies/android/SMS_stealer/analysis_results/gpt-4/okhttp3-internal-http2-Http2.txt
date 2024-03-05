@@ -1,0 +1,13 @@
+This class `Http2` is a part of OkHttp library and provides support for HTTP/2 protocol in OkHttp. Here's a high-level overview of the main elements:
+
+- Connection Preface is defined which is a fixed 24-octet sequence that is sent by client to start the HTTP/2 communication.
+
+- The various flags and frame types used in HTTP/2 communication are defined as constants (like `FLAG_ACK`, `FLAG_COMPRESSED`, etc.) along with their binary representations.
+
+- It initializes `FLAGS` and `BINARY` arrays with corresponding string representation of each flag and each byte respectively.
+
+- It has static functions `formatFlags()` and `frameLog()` to generate human-readable representations of flags and frames for debugging purposes.
+
+- `illegalArgument()` and `ioException()` functions throw corresponding exceptions and take format strings and format arguments as input. These functions are often used to validate arguments and report errors during the runtime.
+ 
+Essentially, this class forms the basis of HTTP/2 communication implementation in OkHttp by defining all the necessary constants, flags, and frame names.

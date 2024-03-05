@@ -1,0 +1,13 @@
+The `Pools` class is a utility class in Android's ConstraintLayout library that manages object reusage to minimize memory allocation. 
+
+It contains an interface `Pool<T>` which declares methods related to acquiring, releasing, and releasing all objects of a generic type `T`.
+
+The nested class `SimplePool<T>` implements the Pool interface and provides the functionality for a basic recycling pool of objects. It has an array `mPool` to hold the objects and keeps track of the size with `mPoolSize`. The constructor of `SimplePool` takes an integer as an argument indicating the maximum pool size.
+
+The `acquire()` method retrieves an object from the pool, reducing the pool size. If the pool is empty, it returns null.
+
+The `release(T param1T)` method adds an object back to the pool, increasing the pool size. If the pool is already full, it returns false.
+
+The `releaseAll(T[] param1ArrayOfT, int param1Int)` releases an array of objects back into the pool.
+
+The `isInPool(T param1T)` is a private helper function to check if an object is currently in the pool.

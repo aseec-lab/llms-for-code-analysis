@@ -1,0 +1,15 @@
+The code in `CacheControl.java` defines a class used for representing and parsing HTTP cache control directives.
+
+The class has various boolean fields like `noCache`, `noStore`, etc., representing different cache control directives. It also has integer fields like `maxAgeSeconds`, `maxStaleSeconds`, etc., representing the corresponding values for the directives.
+
+The class provides methods to create instances of `CacheControl` using a builder pattern and to parse cache control directives from `Headers` objects.
+
+The `headerValue()` method builds the cache control header value by concatenating the cache control directives and their values.
+
+The `parse()` method parses cache control directives from `Headers` and returns a `CacheControl` instance with the parsed values.This code block is a series of if-else statements used to parse cache control directives from a given `Headers` object. Each directive is compared case-insensitively to known cache control directives such as "no-cache", "no-store", "max-age", etc. If a match is found, the corresponding boolean or integer field of the `CacheControl` instance is updated with the parsed value. The code also handles edge cases such as parsing negative or unlimited values for certain directives.This code defines a `Builder` class that is used to construct `CacheControl` instances with specific cache control directives. The `Builder` class provides methods to set various cache control directives such as `maxAge`, `maxStale`, `minFresh`, `noCache`, `noStore`, and `noTransform`. These methods modify the corresponding fields of the `Builder` instance.
+
+The `Builder` class also has a `build` method that creates a new `CacheControl` instance using the current values of the `Builder` fields. The `CacheControl` class has getter methods for each cache control directive, allowing access to the parsed values.
+
+The `immutable` method sets the `immutable` field to `true`, indicating that the cached response is considered immutable. The `maxAge` method sets the `maxAgeSeconds` field to the specified value in seconds. The `maxStale` method sets the `maxStaleSeconds` field to the specified value in seconds. The `minFresh` method sets the `minFreshSeconds` field to the specified value in seconds. The `noCache` method sets the `noCache` field to `true`, indicating that the cached response cannot be used without validating with the origin server. The `noStore` method sets the `noStore` field to `true`, indicating that the response should not be stored in any cache. The `noTransform` method sets the `noTransform` field to `true`, indicating that intermediaries should not modify the response body.The code uses the `onlyIfCached` method of the `Builder` class to set the `onlyIfCached` field to `true`, indicating that the cached response should be used even if it has expired. The method returns the current `Builder` instance, allowing for method chaining.
+
+The `CacheControl` class provides methods and fields to handle cache control directives.

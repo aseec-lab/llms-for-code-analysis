@@ -1,0 +1,31 @@
+The `JsonTreeReader` class extends `JsonReader` providing functionality to read JSON tree elements using GSON.
+
+It maintains a stack-based navigation (`stack`, `pathNames`, and `pathIndices`) for JSON object, where `stack` stores the JSON elements, `pathNames` stores the names of JSON properties, and `pathIndices` stores the indices for JSON arrays.
+
+The `UNREADABLE_READER` is a dummy reader used for super to satisfy the `JsonReader` constructor requirements.
+
+The `SENTINEL_CLOSED` constant is used when the reader is closed.
+
+The `JsonTreeReader` constructor sets up the reader using the `JsonElement`.
+
+The `expect` method throws an exception if the next token from the stack doesn't match the expected token.
+
+The various `next*` methods (`nextBoolean`, `nextDouble`, `nextInt`, `nextLong`, `nextName`, `nextNull`, `nextString`) fetches the next JSON primitive value of the respective type.
+
+The `peek` method checks the top of the stack and gives the type of the next token.
+
+The `beginArray`, `endArray`, `beginObject`, and `endObject` methods are used for managing array and object boundaries.
+
+The `hasNext` method checks if there are more elements.
+
+The `getPath` method returns the current path in the JSON tree.
+
+The `close` method closes the JsonTreeReader by setting the `stackSize` to 1 and putting `SENTINEL_CLOSED` to the stack.The `promoteNameToValue` method promotes JSON names to values, enabling their read operations.
+
+The `skipValue` method skips a JSON value, setting it to `null` in the tree, and increments the index for the path.
+
+The `toString` method simply returns the class name, useful for debugging purposes.
+
+The rest of the code deals with exception specifications. For example, the code will throw an `IllegalStateException` if the `peek` method is called after the `JsonReader` is closed. 
+
+The `/* Location: ... */` part is a compiler-generated comment indicating the location of the generated class file.

@@ -1,0 +1,13 @@
+The `ToolbarActionBar` class extends the `ActionBar` class and is used as a wrapper around toolbar in order to provide ActionBar-like behavior. This class provides a number of methods for interacting with and modifying a toolbar, the menu within that toolbar, or elements related to these.
+
+The class is instantiated using a toolbar, a CharSequence for title, and a callback for Window actions. The `onMenuItemClick` interface implementation is used to handle menu item clicks, while the `mMenuInvalidator` Runnable is used to populate the options menu.
+
+Methods are provided to manipulate menu visibility listeners, to get information about the ActionBar, to change the toolbar visibility, and to interact with the menu. However, tab operation is not supported in this class.
+
+Most of these support methods are fairly straightforward and are directly related to the manipulation of the associated toolbar. Particular methods of note are `onKeyShortcut()` and `onMenuKeyEvent()`, which are used to handle key events, `populateOptionsMenu()` which is used to set up the options menu, and `setCustomView()` which allows the setting of a custom view to be used for the ActionBar. 
+
+Please note that tabs are not supported in `ToolbarActionBar`, so the tab related methods just throw `UnsupportedOperationException`.The rest of the `ToolbarActionBar` class includes methods for setting various display options, setting the elevation, setting various content descriptions and indicators, setting the icon, the logo, the navigation mode, the selected navigation item, the subtitle, and the title. It also has a method for showing the toolbar.
+
+Also, it contains three inner classes - `ActionMenuPresenterCallback`, `MenuBuilderCallback`, `ToolbarCallbackWrapper` - which are responsible for handling various events related to the menu and its items. 
+
+The `ActionMenuPresenterCallback` inner class focuses on handling the opening and closing of the menu. The `MenuBuilderCallback` inner class is used to deal with the change in menu mode. The `ToolbarCallbackWrapper` class wraps a Window Callback, overrides the `onPreparePanel()` method to set up the toolbar menu and invokes the super class's implementation of other methods.

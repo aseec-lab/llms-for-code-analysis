@@ -1,0 +1,42 @@
+The `ArrayRow` class in the `androidx.constraintlayout.solver` package represents a row in a linear system solver.
+
+The class stores information about the row, such as the constant value and whether it is a simple definition.
+It also has a reference to a `SolverVariable` object and an `ArrayRowVariables` object, which manages the variables in the row.
+
+The class provides methods for adding errors to the row, adding a single error to a solver variable, and choosing a subject in the row based on certain criteria.
+
+The class is used to represent rows in the solver and perform calculations on them.The `createRow` methods in the `ArrayRow` class are used to create different types of rows in a linear system solver.
+
+- `createRowDefinition`: Creates a row that defines the value of a variable as a constant.
+- `createRowDimensionPercent`: Creates a row that represents a dimension as a percentage of another dimension.
+- `createRowDimensionRatio`: Creates a row that represents a dimension as a ratio of other dimensions.
+- `createRowEqualDimension`: Creates a row that represents two dimensions as equal with optional offset values.
+- `createRowEqualMatchDimensions`: Creates a row that represents multiple dimensions as equal with optional offset values.
+- `createRowEquals`: Creates a row that represents the equality or inequality of a variable with a constant or another variable.
+- `createRowGreaterThan`: Creates a row that represents a variable being greater than a constant or another variable.
+- `createRowLowerThan`: Creates a row that represents a variable being lower than a constant or another variable.
+- `createRowWithAngle`: Creates a row that represents an angle between two vectors.
+
+These methods set the variables and constant value of the row, and return the modified `ArrayRow` object.The `updateFromFinalVariable` method in the `ArrayRow` class updates the row based on a final variable in a linear system solver.
+
+- If the variable is not a final value, the method returns.
+- The method updates the constant value of the row by adding the product of the variable's computed value and its coefficient in the row to the current constant value.
+- The method removes the variable from the row's variables and its corresponding weight.
+- If the variable was removed from the row's variables, it is also removed from the variable's row.
+- If the flag `paramBoolean` is `true`, the variable is removed from the row's variables and its corresponding weight.
+- If the flag `paramBoolean` is `true`, the method checks if the row has no more variables, and if so, sets the `isSimpleDefinition` flag of the row and the linear system's `hasSimpleDefinition` flag to `true`.The remaining methods in the `ArrayRow` class:
+
+- `clear()`: Clears the row by removing all variables and setting the constant value to 0.
+- `contains(SolverVariable param1SolverVariable)`: Checks if the row contains a specific variable.
+- `display()`: Prints the equation represented by the row.
+- `divideByAmount(float param1Float)`: Divides every coefficient and the constant value of the row by a given amount.
+- `get(SolverVariable param1SolverVariable)`: Gets the coefficient of a specific variable in the row.
+- `getCurrentSize()`: Returns the current number of variables in the row.
+- `getVariable(int param1Int)`: Returns the variable at a specific index in the row.
+- `getVariableValue(int param1Int)`: Returns the value of the variable at a specific index in the row.
+- `indexOf(SolverVariable param1SolverVariable)`: Returns the index of a specific variable in the row.
+- `invert()`: Inverts the sign of every coefficient and the constant value in the row.
+- `put(SolverVariable param1SolverVariable, float param1Float)`: Sets the coefficient of a specific variable in the row.
+- `remove(SolverVariable param1SolverVariable, boolean param1Boolean)`: Removes a specific variable from the row. If the flag `param1Boolean` is `true`, the variable is also removed from its row.
+- `sizeInBytes()`: Returns the size of the row in bytes.
+- `use(ArrayRow param1ArrayRow, boolean param1Boolean)`: Sets the row as a linear combination of the given `param1ArrayRow` and the row itself. If `param1Boolean` is `true`, the coefficients are negated.

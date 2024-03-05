@@ -1,0 +1,27 @@
+The `Dispatcher` class in the `okhttp3` package is responsible for managing and scheduling HTTP calls to ensure efficient and optimal usage of network resources.
+
+Key Features:
+- It manages a thread pool for executing asynchronous HTTP calls in parallel.
+- It tracks the maximum number of requests that can be executed concurrently (`maxRequests`) and the maximum number of requests that can be executed concurrently for each host (`maxRequestsPerHost`).
+- It maintains separate queues (`readyAsyncCalls`, `runningAsyncCalls`, and `runningSyncCalls`) to track the state of each HTTP call.
+- It provides methods to enqueue new HTTP calls (`enqueue()`) and mark a call as executed and completed (`executed()` and `finished()`).
+- It promotes calls from the `readyAsyncCalls` queue to the `runningAsyncCalls` queue if there are available resources to execute them.
+- It provides a method to cancel all enqueued HTTP calls (`cancelAll()`).
+- It provides a method to retrieve the executor service used for executing HTTP calls (`executorService()`).
+- It provides a method to retrieve the current maximum number of requests that can be executed concurrently (`getMaxRequests()`).
+
+Overall, the `Dispatcher` class in the OkHttp library is responsible for managing the execution and scheduling of HTTP calls to ensure efficient utilization of network resources and optimal performance.The `getMaxRequestsPerHost()` method returns the maximum number of requests that can be executed concurrently for each host.
+
+The `queuedCalls()` method returns a list of `Call` objects that represents the HTTP calls that are currently in the queue and waiting to be executed.
+
+The `queuedCallsCount()` method returns the number of HTTP calls that are currently in the queue and waiting to be executed.
+
+The `runningCalls()` method returns a list of `Call` objects that represents the HTTP calls that are currently running.
+
+The `runningCallsCount()` method returns the number of HTTP calls that are currently running.
+
+The `setIdleCallback()` method sets a `Runnable` callback that will be called when there are no HTTP calls running or in the queue.
+
+The `setMaxRequests()` method sets the maximum number of requests that can be executed concurrently.
+
+The `setMaxRequestsPerHost()` method sets the maximum number of requests that can be executed concurrently for each host.

@@ -1,0 +1,138 @@
+The `AccessibilityNodeInfoCompat.java` file in the `androidx.core.view.accessibility` package provides a compatibility wrapper for the `AccessibilityNodeInfo` class.
+
+The file defines various constants for accessibility actions such as focus, click, scrolling, etc.
+
+The `AccessibilityNodeInfoCompat` class wraps an `AccessibilityNodeInfo` object and provides methods to access and modify its properties.
+
+The class has private variables to hold the `AccessibilityNodeInfo` object and the virtual descendant IDs.
+
+It also has methods to add span information and clear span extras, and to get and manipulate spans from view tags.
+
+There are methods to check for certain boolean properties and to get clickable spans from a `CharSequence` object.
+
+Overall, this file provides a compatibility layer for working with `AccessibilityNodeInfo` objects in a consistent and simplified manner.The code provided is a part of the `AccessibilityNodeInfoCompat` class. 
+
+- The `idForClickableSpan()` method is used to generate an ID for a clickable span by iterating over a `SparseArray` of clickable spans and checking if the given `ClickableSpan` matches the span at each index.
+
+- The `obtain()` methods are used to create an instance of `AccessibilityNodeInfoCompat` by wrapping an `AccessibilityNodeInfo` object obtained from various sources such as the default `obtain()` method, or when given a specific `View` or `AccessibilityNodeInfoCompat` object.
+
+- The `removeCollectedSpans()` method is used to remove collected weak references to `ClickableSpan` objects stored in a `SparseArray` obtained from view tags.
+
+- The `setBooleanProperty()` method is used to set boolean property in the extras of `AccessibilityNodeInfo` object.
+
+- The `wrap()` and `wrapNonNullInstance()` methods are used to wrap an `AccessibilityNodeInfo` object or any arbitrary object and return an instance of `AccessibilityNodeInfoCompat`.
+
+- The `addAction()`, `addChild()`, and other similar methods are used to perform various actions or modifications on the `AccessibilityNodeInfo` object wrapped by `AccessibilityNodeInfoCompat`.
+
+- The `findAccessibilityNodeInfosByText()`, `findAccessibilityNodeInfosByViewId()`, `findFocus()`, and other similar methods are used to find accessibility node information based on text, view id, or focus.
+
+- The `getBoundsInParent()`, `getBoundsInScreen()`, and other similar methods are used to get information about the bounds of the accessibility node.
+
+- The `getChild()`, `getChildCount()`, `getClassName()`, and other similar methods are used to get information about the child nodes, class name, etc.
+
+- The `getExtras()` method returns the extras bundle associated with the accessibility node information.
+
+- Other methods such as `getActions()`, `getContentDescription()`, `getInputType()`, `getPackageName()`, etc. are used to retrieve specific information about the accessibility node.The remaining part of the code includes methods for getting and setting various properties of the accessibility node.
+
+- `getTextSelectionEnd()`: Returns the end position of the text selection.
+- `getTextSelectionStart()`: Returns the start position of the text selection.
+- `getTooltipText()`: Returns the tooltip text associated with the accessibility node.
+- `getTouchDelegateInfo()`: Returns the touch delegate information for the accessibility node.
+- `getTraversalAfter()`: Returns the accessibility node that should be focused after this node.
+- `getTraversalBefore()`: Returns the accessibility node that should be focused before this node.
+- `getViewIdResourceName()`: Returns the resource name of the view.
+- `getWindow()`: Returns the window that contains the accessibility node.
+- `getWindowId()`: Returns the ID of the window that contains the accessibility node.
+- `hashCode()`: Returns the hash code of the accessibility node.
+- `isAccessibilityFocused()`: Returns whether the accessibility node is accessibility focused.
+- `isCheckable()`: Returns whether the accessibility node is checkable.
+- `isChecked()`: Returns whether the accessibility node is checked.
+- `isClickable()`: Returns whether the accessibility node is clickable.
+- `isContentInvalid()`: Returns whether the content of the accessibility node is invalid.
+- `isContextClickable()`: Returns whether the accessibility node is context clickable.
+- `isDismissable()`: Returns whether the accessibility node is dismissible.
+- `isEditable()`: Returns whether the accessibility node is editable.
+- `isEnabled()`: Returns whether the accessibility node is enabled.
+- `isFocusable()`: Returns whether the accessibility node is focusable.
+- `isFocused()`: Returns whether the accessibility node is focused.
+- `isHeading()`: Returns whether the accessibility node is a heading.
+- `isImportantForAccessibility()`: Returns whether the accessibility node is important for accessibility.
+- `isLongClickable()`: Returns whether the accessibility node is long clickable.
+- `isMultiLine()`: Returns whether the accessibility node is multi-line.
+- `isPassword()`: Returns whether the accessibility node represents a password field.
+- `isScreenReaderFocusable()`: Returns whether the accessibility node is screen reader focusable.
+- `isScrollable()`: Returns whether the accessibility node is scrollable.
+- `isSelected()`: Returns whether the accessibility node is selected.
+- `isShowingHintText()`: Returns whether the accessibility node is showing hint text.
+- `isTextEntryKey()`: Returns whether the accessibility node is a text entry key.
+- `isVisibleToUser()`: Returns whether the accessibility node is visible to the user.
+- `performAction(int)`: Performs an accessibility action on the accessibility node.
+- `performAction(int, Bundle)`: Performs an accessibility action on the accessibility node with additional arguments.
+- `recycle()`: Recycles the accessibility node, releasing its resources.
+- `refresh()`: Refreshes the accessibility node.
+- `removeAction(AccessibilityActionCompat)`: Removes an accessibility action from the accessibility node.
+- `removeChild(View)`: Removes a view as a child of the accessibility node.
+- `removeChild(View, int)`: Removes a view at a specific index as a child of the accessibility node.
+- `setAccessibilityFocused(boolean)`: Sets whether the accessibility node is accessibility focused.
+- `setBoundsInParent(Rect)`: Sets the bounds of the accessibility node in its parent's coordinate space.
+- `setBoundsInScreen(Rect)`: Sets the bounds of the accessibility node in screen coordinate space.
+- `setCanOpenPopup(boolean)`: Sets whether the accessibility node can open a popup.
+- `setCheckable(boolean)`: Sets whether the accessibility node is checkable.
+- `setChecked(boolean)`: Sets whether the accessibility node is checked.
+- `setClassName(CharSequence)`: Sets the class name of the accessibility node.
+- `setClickable(boolean)`: Sets whether the accessibility node is clickable.
+- `setCollectionInfo(Object)`: Sets the collection information of the accessibility node.
+- `setCollectionItemInfo(Object)`: Sets the collection item information of the accessibility node.
+- `setContentDescription(CharSequence)`: Sets the content description of the accessibility node.
+- `setContentInvalid(boolean)`: Sets whether the content of the accessibility node is invalid.
+- `setContextClickable(boolean)`: Sets whether the accessibility node is context clickable.
+- `setDismissable(boolean)`: Sets whether the accessibility node is dismissible.
+- `setDrawingOrder(int)`: Sets the drawing order of the accessibility node.
+- `setEditable(boolean)`: Sets whether the accessibility node is editable.
+- `setEnabled(boolean)`: Sets whether the accessibility node is enabled.
+- `setError(CharSequence)`: Sets the error message of the accessibility node.
+- `setFocusable(boolean)`: Sets whether the accessibility node is focusable.
+- `setFocused(boolean)`: Sets whether the accessibility node is focused.
+- `setHeading(boolean)`: Sets whether the accessibility node is a heading.
+- ... (remaining methods are also provided)- `setHintText(CharSequence paramCharSequence)`: Sets the hint text of the accessibility node.
+- `setImportantForAccessibility(boolean paramBoolean)`: Sets whether the accessibility node is important for accessibility.
+- `setInputType(int paramInt)`: Sets the input type of the accessibility node.
+- `setLabelFor(View paramView)`: Sets the label for the accessibility node.
+- `setLabelFor(View paramView, int paramInt)`: Sets the label for the accessibility node with a specific virtual descendant ID.
+- `setLabeledBy(View paramView)`: Sets the view that labels the accessibility node.
+- `setLabeledBy(View paramView, int paramInt)`: Sets the view that labels the accessibility node with a specific virtual descendant ID.
+- `setLiveRegion(int paramInt)`: Sets the live region of the accessibility node.
+- `setLongClickable(boolean paramBoolean)`: Sets whether the accessibility node is long clickable.
+- `setMaxTextLength(int paramInt)`: Sets the maximum text length of the accessibility node.
+- `setMovementGranularities(int paramInt)`: Sets the movement granularities of the accessibility node.
+- `setMultiLine(boolean paramBoolean)`: Sets whether the accessibility node is multi-line.
+- `setPackageName(CharSequence paramCharSequence)`: Sets the package name of the accessibility node.
+- `setPaneTitle(CharSequence paramCharSequence)`: Sets the title of the accessibility node's pane.
+- `setParent(View paramView)`: Sets the parent of the accessibility node.
+- `setParent(View paramView, int paramInt)`: Sets the parent of the accessibility node with a specific virtual descendant ID.
+- `setPassword(boolean paramBoolean)`: Sets whether the accessibility node represents a password field.
+- `setRangeInfo(RangeInfoCompat paramRangeInfoCompat)`: Sets the range information of the accessibility node.
+- `setRoleDescription(CharSequence paramCharSequence)`: Sets the role description of the accessibility node.
+- `setScreenReaderFocusable(boolean paramBoolean)`: Sets whether the accessibility node is screen reader focusable.
+- `setScrollable(boolean paramBoolean)`: Sets whether the accessibility node is scrollable.
+- `setSelected(boolean paramBoolean)`: Sets whether the accessibility node is selected.
+- `setShowingHintText(boolean paramBoolean)`: Sets whether the accessibility node is showing hint text.
+- `setSource(View paramView)`: Sets the source view of the accessibility node.
+- `setSource(View paramView, int paramInt)`: Sets the source view of the accessibility node with a specific virtual descendant ID.
+- `setText(CharSequence paramCharSequence)`: Sets the text of the accessibility node.
+- `setTextEntryKey(boolean paramBoolean)`: Sets whether the accessibility node is a text entry key.
+- `setTextSelection(int paramInt1, int paramInt2)`: Sets the text selection of the accessibility node.
+- `setTooltipText(CharSequence paramCharSequence)`: Sets the tooltip text of the accessibility node.
+- `setTouchDelegateInfo(TouchDelegateInfoCompat paramTouchDelegateInfoCompat)`: Sets the touch delegate information of the accessibility node.
+- `setTraversalAfter(View paramView)`: Sets the accessibility node that should be focused after this node.
+- `setTraversalAfter(View paramView, int paramInt)`: Sets the accessibility node with a specific virtual descendant ID that should be focused after this node.
+- `setTraversalBefore(View paramView)`: Sets the accessibility node that should be focused before this node.
+- `setTraversalBefore(View paramView, int paramInt)`: Sets the accessibility node with a specific virtualThis code defines a class `AccessibilityActionCompat` that represents an accessibility action that can be performed on a view. It provides methods for creating different types of accessibility actions and performing them on a view. The code also includes a nested class `CollectionInfoCompat` that represents information about a collection of views.The remaining part of the code defines additional nested classes in the `AccessibilityNodeInfoCompat` class:
+
+1. `CollectionInfoCompat`: Represents information about a collection of views. It provides methods for retrieving the column count, row count, selection mode, and hierarchical information of the collection.
+
+2. `CollectionItemInfoCompat`: Represents information about an item within a collection. It provides methods for retrieving the column index, column span, row index, row span, and selected status of the item.
+
+3. `RangeInfoCompat`: Represents information about a range. It provides methods for retrieving the range type, current value, minimum value, and maximum value of the range.
+
+4. `TouchDelegateInfoCompat`: Represents information about touch delegate regions. It provides methods for retrieving the number of regions and the target accessibility node info for a given region.

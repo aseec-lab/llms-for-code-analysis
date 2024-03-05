@@ -1,0 +1,11 @@
+The code in `ImmLeaksCleaner.java` is a class that implements the `LifecycleEventObserver` interface. It is responsible for cleaning up any potential memory leaks related to input method managers (`InputMethodManager`) in an `Activity` during the `ON_DESTROY` event of the activity's lifecycle.
+
+The class has several private static fields (`sHField`, `sNextServedViewField`, `sReflectedFieldsInitialized`, and `sServedViewField`) that are used to reflectively access certain fields of the `InputMethodManager` class.
+
+The constructor of `ImmLeaksCleaner` takes an `Activity` parameter and stores it as an instance member.
+
+The `initializeReflectiveFields()` method initializes the reflective fields by using reflection to access certain fields of `InputMethodManager` if they haven't been initialized already.
+
+The `onStateChanged()` method is called when the lifecycle of the associated `LifecycleOwner` changes. It specifically listens for the `ON_DESTROY` event. If the reflective fields have been initialized, it attempts to access the relevant fields of the `InputMethodManager`, checks if the associated `View` object is attached to the window, and clears any reference to it to avoid potential memory leaks.
+
+Overall, `ImmLeaksCleaner` is used to clean up input method manager-related memory leaks in an activity during its destroy lifecycle event.

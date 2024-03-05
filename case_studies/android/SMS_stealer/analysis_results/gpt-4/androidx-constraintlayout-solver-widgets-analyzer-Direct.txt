@@ -1,0 +1,41 @@
+This is a `Direct` Java class which is a part of the Android ConstraintLayout solver. It consists of a set of functions to calculate the layout parameters like width, height, position etc.
+
+Key functions include:
+
+1. `canMeasure`: Function to check if the widget can be measured based on several conditions like its parent's `DimensionBehaviour`.
+
+2. `horizontalSolvingPass`: Function to resolve the horizontal position and dimensions of a widget and its dependents. It calls itself recursively for nesting widgets.
+
+3. `solveBarrier`: Method to check if a barrier has been solved. This function takes a barrier, a `BasicMeasure.Measurer`, an integer variable, and a boolean variable as arguments.
+
+4. `solveChain`: This static method attempts to solve chains of widgets. It checks if the widgets in the chain are already resolved, then calculates values for the chain depending on its direction. It iteratively goes through the chain's widgets, checking each widget's visibility and dimension constraints, and using this info to adjust the remaining space in the chain.
+
+Apart from that, there are some constants defined in the class like `measure` and `APPLY_MATCH_PARENT`, `DEBUG`.This is the continuation of the `Direct` Java class which forms part of the Android ConstraintLayout solver. A set of methods are provided for solving various types of constraints in a vertical direction.
+
+Key methods include:
+
+1. `solveHorizontalCenterConstraints`: This function is used to calculate the final positions of a ConstraintWidget's left and right anchors in the horizontal plane.
+
+2. `solveHorizontalMatchConstraint`: This function takes in two ConstraintWidgets and solves for the horizontal position and size of the second widget.
+
+3. `solveVerticalCenterConstraints`: This function works similarly to `solveHorizontalCenterConstraints` but for a widget's top and bottom anchors in a vertical plane.
+
+4. `solveVerticalMatchConstraint`: This function works similarly to `solveHorizontalMatchConstraint` but in a vertical plane.
+
+5. `solvingPass`: This function acts as an overall problem-solver, going through every ConstraintWidget in a ConstraintWidgetContainer. It iteratively calls the various solve functions such as `horizontalSolvingPass` and `verticalSolvingPass`, to compute a widget's size and position.
+
+6. `verticalSolvingPass`: This function iterates through the widget's vertical Dependents and adjusts their final position and size.
+
+The Helper classes `Guideline` and `Barrier` are also being used in these methods.The remaining code completes the `verticalSolvingPass` method in the `Direct` Java class. This method is used to solve constraints in the vertical direction:
+
+1. It continues to check if each widget can be measured and taking measurements if they can and if a measure is requested.
+
+2. It sets final vertical positions for widgets depending on their existing constraints (e.g. if the widget only has a Top or Bottom constraint).
+
+3. It solves any vertical MATCH_CONSTRAINTs between widgets where a constraint exists.
+
+4. It handles additional rules for solving vertical constraints when they involve the BASELINE anchor. 
+
+It is important to note that only widgets which are not part of a chain or a virtual layout and do not have MATCH_CONSTRAINT set are processed through this method. 
+
+With the completion of this method, the entire `Direct` class, which directly solves constraints in Android's `ConstraintLayout` view without relying on a traditional Constraint Solver, is finished.

@@ -1,0 +1,12 @@
+The `RtlSpacingHelper` class aids in setting padding and margins considering the direction of language read. This is especially useful for languages that are read from right-to-left (such as Arabic), hence the name `RtlSpacingHelper`.
+
+- The default value for properties is `Integer.MIN_VALUE` which is equivalent to `UNDEFINED`. 
+- `mLeft`, `mRight`, `mExplicitLeft`, `mExplicitRight`, `mStart`, `mEnd` are spacing parameters adjusted based on text direction.
+- `mIsRtl` is a flag indicating if the current language is read from Right-to-Left.
+- `mIsRelative` is a flag indicating if the spacing is relative (depends on other parameters).
+- `getEnd()`, `getLeft()`, `getRight()`, `getStart()` methods return the respective spacing parameters based on the text direction.
+- `setAbsolute(int paramInt1, int paramInt2)` allows setting absolute left and right spacing regardless of text direction.
+- `setDirection(boolean paramBoolean)` adjusts the spacing parameters based on a provided direction (`true` for right-to-left language, `false` for left-to-right).
+- `setRelative(int paramInt1, int paramInt2)` sets the start and end spacing parameters relatively. The actual left and right spacings are then adjusted based on the text direction.
+  
+In summary, this class manages and adjusts layout margins/padding to support both left-to-right and right-to-left languages.

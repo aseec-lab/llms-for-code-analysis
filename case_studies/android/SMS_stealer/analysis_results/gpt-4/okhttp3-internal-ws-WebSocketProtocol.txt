@@ -1,0 +1,13 @@
+The `WebSocketProtocol` class in OkHttp contains constants and methods that pertain to the WebSocket protocol.
+
+Key methods include:
+
+1. `acceptHeader()`: This method appends a string to the WebSocket's unique identifier, encodes it in UTF-8, hashes it using SHA-1, and encodes it to Base64. This method is typically used during the WebSocket handshake process.
+
+2. `closeCodeExceptionMessage()`: This method produces an error message if the provided close code is not within the acceptable range. Certain codes are reserved in the WebSocket protocol and can't be utilized.
+
+3. `toggleMask()`: This method performs XOR operation between data in the supplied buffer and a masking key. This is utilised in WebSocket's data masking procedure to maintain data privacy.
+
+4. `validateCloseCode()`: This method checks if a provided close code is valid. If not, it throws an IllegalArgumentException.
+
+Moreover, the class defines various constants to designate flags, opcodes, and payload lengths used in the WebSocket frame structure, establishing rules and restrictions for the WebSocket protocol.

@@ -1,0 +1,9 @@
+The `ShareCompat` class offers convenient utilities for integrating the functionality of both "share" and "open" style actions into your activity. The class includes methods for creating a sharing `Intent`, changing its contents, and starting an activity to share the content.
+
+The `ShareCompat.IntentBuilder` inner class can be used to build a share `Intent`. It includes methods to build share intents, such as emails. The methods `addEmailTo()`, `addEmailCc()`, and `addEmailBcc()` add recipients to the email. The methods `addStream()` and `setStream()` allow adding or setting a `Uri` resource that you want to share. The method `getIntent()` finalizes the `Intent`.
+
+ Additionally, the `ShareCompat` class includes methods to configure share actions and retrieve the package name and activity that initiated the current activity. For example, `configureMenuItem(Menu paramMenu, int paramInt, IntentBuilder paramIntentBuilder)` configures a `MenuItem` to act as a sharing button, and `getCallingPackage(Activity paramActivity)` retrieves the package name that started the activity.This code segment features two classes: `IntentBuilder` and `IntentReader`, both found within the `ShareCompat` class.
+
+The `IntentBuilder` class allows the creation and manipulation of sharing Intents, which could involve setting multiple parameters such as the subject, text, type, and other elements of a sharing activity. The`startChooser()` method commences the sharing process.
+
+The `IntentReader` class facilitates the retrieval of information about sharing Intents and related aspects. This includes getting the calling package and activity, application icon or label, and other details associated with the sharing process. The class also comprises methods to retrieve email and shared content data as well as determine whether the sharing process involves single or multiple items.

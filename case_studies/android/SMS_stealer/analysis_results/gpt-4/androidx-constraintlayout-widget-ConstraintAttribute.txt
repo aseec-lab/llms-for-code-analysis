@@ -1,0 +1,22 @@
+The `ConstraintAttribute` class serves as a container for custom attributes applied to constraints in Android's ConstraintLayout. 
+
+Methods in this class include:
+
+- Constructors: There are three constructors that initialize `mName` and `mType`(type of attribute), and optionally set the attribute's value.
+- `clamp(int paramInt)`: This method makes sure a given `paramInt` stays in range 0-255.
+- `extractAttributes(...)`: returns a HashMap of attribute names associated with the corresponding constraint attribute after attempting to extract them from an associated view.
+- `parse(...)`: offers custom attribute parsing from an XmlPullParser.
+- `setAttributes(...)`: assigns constrained attributes to an object by invoking necessary methods via reflection. These attributes can apply to aspects such as color, dimension, float value, integer value, and string value.
+- `diff(...)`: checks whether a passed `ConstraintAttribute` object differs from the current `ConstraintAttribute` object.
+- `getType()`: Returns the `AttributeType` object pertaining to the ConstraintAttribute.
+- `getValueToInterpolate()`: Returns the value to interpolate, based on attribute type.
+
+This class is used to encapsulate custom attributes in the transition layout of constrained views.This section contains remaining methods in the `ConstraintAttribute` class.
+
+- `getValuesToInterpolate(float[])`: Gets values for specific attribute types (floating point number, boolean, color, etc.) to be interpolated/formulated.
+- `noOfInterpValues()`: Returns the number of interpolated values the attribute contains.
+- `setColorValue(int)`, `setFloatValue(float)`, `setIntValue(int)` and `setStringValue(String)`: These are setter methods for updating attribute's color, floating point number, integer and string values respectively.
+- `setInterpolatedValue(View, float[])`: Sets the interpolated/formulated value of a given view based on the specific attribute type. This method uses reflection to call the necessary setter method of the view.
+- `setValue(Object)`: Sets the current value of an attribute, casting the given Object to the appropriate data type based on the `AttributeType`.
+- `setValue(float[])`: Sets the value of an attribute based on an array of floats.
+- It also declares an inner enum `AttributeType` that represents the types of attributes. These include: `INT_TYPE`, `FLOAT_TYPE`, `COLOR_TYPE`, `COLOR_DRAWABLE_TYPE`, `STRING_TYPE`, `BOOLEAN_TYPE`, and `DIMENSION_TYPE`.

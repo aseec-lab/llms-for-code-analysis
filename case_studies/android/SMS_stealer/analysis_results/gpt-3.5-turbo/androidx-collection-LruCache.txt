@@ -1,0 +1,18 @@
+The `LruCache` class is a cache implementation based on the Least Recently Used (LRU) algorithm. It internally uses a `LinkedHashMap` to store the key-value pairs.
+
+The cache has a maximum size, specified during instantiation, and keeps track of various statistics such as the number of cache hits, misses, evictions, and creations.
+
+The `get` method allows retrieving a value associated with a given key from the cache. If the value is found in the cache, it is returned and the cache hit count is incremented. If the value is not found, the `create` method is called to generate a new value. The new value is then stored in the cache and the cache miss count is incremented.
+
+The `put` method allows storing a key-value pair in the cache. It updates the cache's size and puts the entry in the underlying `LinkedHashMap`.
+
+There are also methods for retrieving statistics such as the hit count, miss count, eviction count, and creation count.In the remaining part of the code, there are several methods implemented:
+
+- The `putCount` method returns the number of times the `put` method has been called.
+- The `remove` method removes a key-value pair from the cache and returns the value.
+- The `resize` method updates the maximum size of the cache and trims it if necessary.
+- The `size` method returns the current size of the cache.
+- The `sizeOf` method calculates the size of a key-value pair.
+- The `snapshot` method creates a new `LinkedHashMap` containing all the entries of the cache.
+- The `toString` method returns a string representation of the cache's statistics.
+- The `trimToSize` method trims the cache to a specified size by removing the least recently used entries.This part of the code implements the `remove` method of the LruCache class. It removes a key-value pair from the cache and updates the cache size and eviction count accordingly. It also calls the `entryRemoved` method to notify any registered listeners about the removal of the entry. If the `sizeOf` method returns inconsistent results, an `IllegalStateException` is thrown. Finally, the code uses monitor locks to ensure thread safety while accessing the cache.

@@ -1,0 +1,15 @@
+The `RouteException` class is a custom exception class in the `okhttp3.internal.connection` package. It inherits from `RuntimeException`.
+
+It's used to encapsulate `IOException` instances which likely occur during network routing operations. It maintains a record of the previous exception (`lastException`), and provides functionality for adding further connection exceptions to this base exception.
+
+Specifically:
+
+- `addSuppressedExceptionMethod`: A static field which is assigned a `Method` object representing the addSuppressed method from the `Throwable` class. It's assigned once at class-load time within a static initialization block.
+
+- `RouteException(IOException paramIOException)`: A constructor that takes in an `IOException` and sets it as both the cause of the `RuntimeException` (via `super(paramIOException)`) and the `lastException`.
+
+- `addSuppressedIfPossible(IOException paramIOException1, IOException paramIOException2)`: A private helper method which uses the `addSuppressedExceptionMethod` (if it's not null) to add the `paramIOException2` as a suppressed exception to `paramIOException1`.
+
+- `addConnectException(IOException paramIOException)`: This method wraps the previous helper method, updating `lastException` to be `paramIOException` after attempting to add the `paramIOException` as a suppressed exception to the previous `lastException`.
+
+- `getLastConnectException()`: A getter method that returns the `lastException` field.

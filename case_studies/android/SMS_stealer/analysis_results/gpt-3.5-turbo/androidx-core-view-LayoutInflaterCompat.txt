@@ -1,0 +1,15 @@
+The `LayoutInflaterCompat` class in the `androidx.core.view` package provides compatibility methods for working with `LayoutInflater` objects in Android.
+
+The class contains static methods to set and retrieve the factory used by a `LayoutInflater` object. These methods handle compatibility for different Android versions.
+
+The `forceSetFactory2` method is used to set the `Factory2` on the `LayoutInflater` using reflection. It attempts to find the `mFactory2` field on the `LayoutInflater` class and set it to the provided `Factory2`.
+
+The `getFactory` method retrieves the `Factory` set on the `LayoutInflater` and returns it as a `LayoutInflaterFactory` object. If the `Factory` is an instance of `Factory2Wrapper`, it returns the delegate factory.
+
+The `setFactory` method is deprecated and handles setting the factory on the `LayoutInflater` based on the Android version. If the version is 21 or higher, it creates a `Factory2Wrapper` and sets it as the factory using the `setFactory2` method. Otherwise, it sets the factory using the `setFactory2` method and also sets `Factory2Wrapper` as the `Factory2` if the original factory is an instance of `Factory2`.
+
+The `setFactory2` method sets the `Factory2` on the `LayoutInflater`. It also handles compatibility for Android versions below 21 by setting the `Factory2` using the `forceSetFactory2` method if the original factory is an instance of `Factory2`.
+
+The nested class `Factory2Wrapper` implements the `LayoutInflater.Factory2` interface and wraps an instance of `LayoutInflaterFactory`. It delegates the `onCreateView` method calls to the wrapped factory.
+
+Overall, this class provides compatibility methods for working with `LayoutInflater` factory objects across different Android versions.

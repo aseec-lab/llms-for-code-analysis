@@ -1,0 +1,11 @@
+The `TypefaceCompatApi29Impl` class extends the `TypefaceCompatBaseImpl` class to provide compatibility for the creation of Typefaces in Android API level 29 or later. It offers the following methods:
+
+1. `createFromFontFamilyFilesResourceEntry(...)`: Creates a Typeface from the provided FontFamilyFilesResourceEntry. It iterates over font file resource entries and creates a new font for each, adding them to a new or existing font family.
+
+2. `createFromFontInfo(...)`: Creates a Typeface from a given array of FontInfo objects. It opens a file descriptor for each FontInfo object's URI, builds a new Font from each file, then adds these fonts to a FontFamily.
+
+3. `createFromInputStream(...)`: Throws a RuntimeException. This method should not be used for API levels 29 and above.
+
+4. `createFromResourcesFontFile(...)`: Creates a Typeface from a font file located in the application's resources. It builds a new Font from the resource, creates a FontFamily from this Font, and then generates a Typeface from this FontFamily.
+
+5. `findBestInfo(...)`: Throws a RuntimeException. Like `createFromInputStream(...)`, this method should not be used for API levels 29 and above.

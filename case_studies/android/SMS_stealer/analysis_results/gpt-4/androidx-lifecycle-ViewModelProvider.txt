@@ -1,0 +1,13 @@
+This is a code for the `ViewModelProvider` class in Android architecture components which is used for creating and managing `ViewModel` class instances in a lifecycle-aware way.
+
+The `ViewModelProvider` constructor receives a `ViewModelStore` and a `Factory`. The `ViewModelStore` is used to keep instances of `ViewModels` while the `Factory` interface is used to create new instances of `ViewModels`.
+
+The `get()` methods retrieve instances of `ViewModels`. If no `ViewModel` of the specified class exists, a new instance is created using the `Factory`. That `ViewModel` is then saved in the `ViewModelStore`.
+
+The `Factory` interfaces and its inner implementation classes (`AndroidViewModelFactory`, `NewInstanceFactory`, `KeyedFactory`) define ways to instantiate `ViewModels.`
+
+The `AndroidViewModelFactory` is a `Factory` that extends `NewInstanceFactory`, but specifically for `AndroidViewModel` classes, which require an `Application` context.
+
+The `KeyedFactory` is an abstract Factory class that creates `ViewModels` with a `String` key.
+
+The `NewInstanceFactory` creates `ViewModels` without any arguments. This is useful for `ViewModels` classes without specific dependencies. If the `ViewModel` instantiation fails, it throws a `RuntimeException`.

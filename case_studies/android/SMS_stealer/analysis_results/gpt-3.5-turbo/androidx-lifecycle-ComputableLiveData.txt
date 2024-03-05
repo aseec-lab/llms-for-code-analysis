@@ -1,0 +1,16 @@
+The `ComputableLiveData` class in the `androidx.lifecycle` package is an abstract class that provides a way to compute and provide data to be observed by other components using the LiveData mechanism.
+
+Here are the key points regarding what this class does:
+
+- It has an atomic boolean `mComputing` that keeps track of whether the data computation is ongoing or not.
+- It has an executor `mExecutor` which is used to execute data computation and refresh tasks.
+- It has an atomic boolean `mInvalid` that indicates whether the computed data is valid or not.
+- It has a `mInvalidationRunnable` which is responsible for invalidating the computed data and triggering a refresh.
+- It has a `mLiveData` object which is a LiveData that holds the computed data and can be observed by other components.
+- It has a `mRefreshRunnable` which is responsible for actually computing the data and updating the `mLiveData` object.
+- It has a constructor that accepts an executor and initializes the `mExecutor` and `mLiveData` objects.
+- It defines an abstract `compute()` method which must be implemented by subclasses to perform the actual data computation.
+- It provides a `getLiveData()` method to retrieve the `mLiveData` object.
+- It provides an `invalidate()` method to mark the computed data as invalid and trigger a refresh.
+
+Overall, the `ComputableLiveData` class provides a convenient way to compute and provide data with the help of LiveData and allows other components to observe and react to changes in the computed data.

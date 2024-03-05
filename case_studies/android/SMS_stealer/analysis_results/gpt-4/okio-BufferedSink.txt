@@ -1,0 +1,13 @@
+The `BufferedSink` interface represents a destination to which byte data can be written, and provides a number of methods to write byte data in various forms, including as ByteString, from a Source, as UTF-8 strings, as part of an array, and as various primitives (byte, decimal long, hexadecimal unsigned long, int, short, etc). There are also methods to manipulate the buffer directly and handle flushing of data.
+
+Here's a brief overview of some key methods:
+
+- `buffer()`: Accessor for the underlying buffer holding the data to be written.
+- `emit()`: Writes all buffered bytes to the underlying sink and returns this sink.
+- `write()`: Various overloaded versions to write data in different forms.
+- `flush()`: Flushes this sink by writing any buffered bytes to the underlying sink and then flushing that sink.
+- `writeAll()`: Writes all the bytes from a source to this sink.
+- `writeString()`: Writes a string to the sink in a specified character set.
+- `writeUtf8()`: Writes a string to the sink as UTF-8. 
+
+Note that this interface extends the `Sink` and `WritableByteChannel` interfaces, inheriting their methods.

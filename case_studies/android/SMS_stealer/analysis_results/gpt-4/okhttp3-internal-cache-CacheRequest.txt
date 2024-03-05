@@ -1,0 +1,7 @@
+The `CacheRequest` interface in OkHttp is used for writing cached responses. It has two methods:
+
+1. `void abort()`: This method is used to indicate that the response couldn't be cached. After this method is called, no further `Sink` operations are permitted.
+
+2. `Sink body() throws IOException`: This method returns a `Sink` that the HTTP response body can be written to. If this method throws an IOException then the response body will not be cached. The `Sink` is an abstraction from Okio library which helps in encoding, compressing, and writing data to output streams. If the writing operation fails or gets aborted, the caller must also call `abort()` method.
+
+The interface helps in managing cache response write, and handling scenarios where the cache writing needs to be aborted.

@@ -1,0 +1,19 @@
+The `ModernAsyncTask` is a utility class inside the AndroidX loader content package that provides asynchronous computation for modern Android platforms. It resembles Android's AsyncTask but enhances the concept using Java's FutureTask and Executor. 
+
+Key elements:
+
+1. The class can take three type variables; `Params`, `Progress` and `Result`, and provides methods which allow for doing a computation in the background, and then publishing the results on the UI thread (requesting progress updates and/or cancelling the computation).
+
+2. `sDefaultExecutor`, `THREAD_POOL_EXECUTOR`, `sHandler`: These variables provide Executor, ThreadPoolExecutor and Handler for handling threads and the task queue.
+
+3. `executeOnExecutor(Executor paramExecutor, Params... paramVarArgs)`: This method facilitates running an instance of `ModernAsyncTask` on the given `Executor` with the provided parameters.
+
+4. `doInBackground(Params... paramVarArgs)`: This method is the placeholder for the intensive computation task, needs to be overridden in the subclass. Runs in a worker thread.
+
+5. `onProgressUpdate(Progress... paramVarArgs)`, `onPreExecute()`, `onPostExecute(Result paramResult)`: These methods are called on the UI thread and used to handle the task progression updates, task pre-execution, and post-execution events.
+
+6. `publishProgress(Progress... paramVarArgs)`: This method is used to push updates on the UI thread while the task is still executing.
+
+7. `cancel(boolean paramBoolean)`, `isCancelled()`: Functionality for handling task cancellation.
+
+8. `get()`, `get(long paramLong, TimeUnit paramTimeUnit)`: These methods are used to fetch the results of the computation, blocking the calling thread if necessary.

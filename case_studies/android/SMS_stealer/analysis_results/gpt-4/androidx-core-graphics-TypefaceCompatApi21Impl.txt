@@ -1,0 +1,11 @@
+The `TypefaceCompatApi21Impl` class extends `TypefaceCompatBaseImpl` and overrides its two methods: `createFromFontFamilyFilesResourceEntry` and `createFromFontInfo`. The primary responsibility of this class is to manage typefaces, particularly to create new typeface instances. 
+
+1. `private File getFile(ParcelFileDescriptor paramParcelFileDescriptor)`: This method is used to retrieve a file from a given ParcelFileDescriptor. 
+
+2. `private static void init()`: This method initializes the reflection methods used to access hidden APIs for handling fonts in older Android versions.
+
+3. `private static Object newFamily()`: This method creates a new font family.
+
+4. `public Typeface createFromFontFamilyFilesResourceEntry(Context paramContext, FontFamilyFilesResourceEntry paramFontFamilyFilesResourceEntry, Resources paramResources, int paramInt)`: Creates a new Typeface from the provided FontFamilyFilesResourceEntry. 
+
+5. `public Typeface createFromFontInfo(Context paramContext, CancellationSignal paramCancellationSignal, FontsContractCompat.FontInfo[] paramArrayOfFontInfo, int paramInt)`: This method creates a Typeface from the 'best' FontInfo, opening the matching Font files to do so.

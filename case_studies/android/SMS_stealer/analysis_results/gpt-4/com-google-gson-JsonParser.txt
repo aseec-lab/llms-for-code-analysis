@@ -1,0 +1,11 @@
+The `JsonParser` class is used to parse JSON (JavaScript Object Notation) data.
+
+The class has three `parse` methods:
+
+1. `parse(JsonReader paramJsonReader)`: This method accepts an instance of `JsonReader` (a reader that can read a JSON-encoded stream of data) and returns a `JsonElement` (the base class for all elements in the JSON object model Gson provides). If a `StackOverflowError` or `OutOfMemoryError` is thrown while parsing, this method will catch these errors and throw a `JsonParseException` instead.
+
+2. `parse(Reader paramReader)`: This method is similar to the previous one, but it accepts an instance of `java.io.Reader` instead. It creates an instance of `JsonReader` and passes it to the first `parse` method. If a `MalformedJsonException`, `IOException`, or `NumberFormatException` is thrown while parsing, this method will catch these exceptions and throw a corresponding `JsonSyntaxException` or `JsonIOException`.
+
+3. `parse(String paramString)`: This method accepts a JSON string and returns a `JsonElement`. It converts the string to an instance of `StringReader` and passes it to the second `parse` method. 
+
+In general, this class is responsible for converting JSON data to Gson's JSON object model. The actual parsing is delegated to the `Streams.parse()` method (which was not included in the provided code).

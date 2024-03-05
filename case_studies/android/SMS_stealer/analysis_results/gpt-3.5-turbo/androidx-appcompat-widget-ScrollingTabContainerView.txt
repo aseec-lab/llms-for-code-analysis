@@ -1,0 +1,19 @@
+The `ScrollingTabContainerView` class extends `HorizontalScrollView` and implements `AdapterView.OnItemSelectedListener`. It is used to display a tab bar with horizontally scrollable tabs.
+
+The class has various fields including `mAllowCollapse`, `mContentHeight`, `mMaxTabWidth`, `mSelectedTabIndex`, `mStackedTabMaxWidth`, `mTabClickListener`, `mTabLayout`, `mTabSelector`, `mTabSpinner`, `mVisAnimListener`, and `mVisibilityAnim`.
+
+The constructor initializes the view by setting the horizontal scroll bar to disabled and getting the tab container height from the `ActionBarPolicy`. It creates and adds the tab layout to the view.
+
+There are methods for creating a spinner, creating the tab layout, checking if the tabs are collapsed, performing collapse and expand animations, adding tabs to the layout, animating to a specific tab, and animating the visibility of the view.
+
+There are also methods for creating a tab view, handling attachment and detachment from the window, handling item selection in the spinner, handling configuration changes, measuring and layout of the view, and removing tabs and clearing the layout.
+
+Overall, the `ScrollingTabContainerView` class provides functionality for managing and displaying a horizontally scrollable tab bar.The `updateTab()` method updates the tab view at the specified index. It calls the `update()` method on the tab view to update its content. If a tab spinner is present, it notifies the spinner's adapter that the data has changed. If tab collapsing is allowed, it requests a layout for the view.
+
+The `TabAdapter` class is a private inner class that extends `BaseAdapter` and is responsible for providing views for the tab spinner. It overrides methods such as `getCount()`, `getItem()`, `getItemId()`, and `getView()`.
+
+The `TabClickListener` class is a private inner class that implements `View.OnClickListener`. It handles the click event on a tab view. When a tab view is clicked, it selects the corresponding tab and updates the selection state of all tab views.
+
+The `TabView` class is a private inner class that extends `LinearLayout` and represents the view for a tab. It has fields for the tab's icon, text, custom view, and the tab itself. The class provides methods for binding a tab to the view, updating the view's content, handling accessibility events, measuring the view, and handling the selected state.
+
+The `VisibilityAnimListener` class is a private inner class that extends `AnimatorListenerAdapter` and is used to animate the visibility of the view. It has fields for the final visibility state and a flag indicating if the animation was canceled. The class provides methods for handling animation events such as cancel, end, and start. It also provides a method for setting the final visibility state and associating it with a view property animator.

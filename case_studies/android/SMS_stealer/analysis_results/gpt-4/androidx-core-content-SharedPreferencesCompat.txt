@@ -1,0 +1,7 @@
+This is the `SharedPreferencesCompat` class from AndroidX library. It has been deprecated, meaning it's no longer recommended to be used as it might be removed in future releases.
+
+The class provides a backward compatibility layer for manipulating Shared Preferences in Android. It has an inner static class named `EditorCompat` which has a single instance (`sInstance`). `EditorCompat` provides a method `apply()` that safely applies changes to `SharedPreferences.Editor`.
+
+This function uses `SharedPreferences.Editor`'s `apply()` method to commit changes asynchronously. If `apply()` method does not exist (which might be the case in some older Android versions), it silently falls back to the `commit()` method which saves these changes synchronously.
+
+It also has an another `Helper` class, which does the same thing as `EditorCompat`. This seems to be redundant and possibly a mistake. It's worth noting that the `SharedPreferences.Editor`'s `apply()` method was added in Android 2.3, so this compatibility layer is primarily for very old Android versions.

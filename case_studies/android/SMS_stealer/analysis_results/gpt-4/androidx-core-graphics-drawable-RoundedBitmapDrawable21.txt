@@ -1,0 +1,14 @@
+The `RoundedBitmapDrawable21` is a specialization of the `RoundedBitmapDrawable` class specifically designed for Android 5.0 (Lollipop, API 21) and later.
+
+Key methods:
+- `RoundedBitmapDrawable21(Resources, Bitmap)`: constructor that sets the `Resources` and the `Bitmap` to be drawn
+
+- `getOutline(Outline)`: sets the outline of the drawable to be a rounded rectangle, where the roundness radius is equal to the current corner radius. It calls `updateDstRect()` before setting the outline, which recalculates the destination rectangle (where the Bitmap gets drawn)
+
+- `gravityCompatApply(int, int, int, Rect, Rect)`: applies the specified gravity, adjusting a 'source' rectangle based on the gravity to resultant 'destination' rectangle
+
+- `hasMipMap()` and `setMipMap(boolean)`: getter and setter for the MipMap property of the Bitmap. MipMap is a rendering technique used in 3D computer graphics to enhance the quality of textures when they are viewed at an angle or distance. It does not directly apply here as the Bitmap is 2D, but Android has a `hasMipMap` function that suggests if there are multiple precomputed scaled versions of the image present, and `setMipMap` is used to enable this feature.
+
+The logic for these is simple: if a Bitmap exists, `setMipMap` controls whether it should have MipMaps (making the Bitmap take more memory but render faster in some scenarios), while `hasMipMap` checks whether it currently has them.
+  
+These extra methods (compared to its parent class `RoundedBitmapDrawable`) allow this class to properly handle modern rendering features introduced in API 21 and beyond.

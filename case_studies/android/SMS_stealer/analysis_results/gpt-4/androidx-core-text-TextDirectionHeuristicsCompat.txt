@@ -1,0 +1,14 @@
+`TextDirectionHeuristicsCompat` is a utility class that provides several objects and methods to help determine the directionality of text. The directionality-based constants are: `LTR`, `RTL`, `FIRSTSTRONG_LTR`, `FIRSTSTRONG_RTL`, `ANYRTL_LTR`, and `LOCALE`. 
+
+- `isRtlText(int paramInt)`: Determines whether a given Unicode directionality value represents a right-to-left (RTL) character.
+- `isRtlTextOrFormat(int paramInt)`: Similar to `isRtlText`, but also considers directionality format characters.
+
+It defines a number of static nested classes/interfaces to implement this, including `AnyStrong`, `FirstStrong`, `TextDirectionAlgorithm`, `TextDirectionHeuristicImpl`, `TextDirectionHeuristicInternal`, and `TextDirectionHeuristicLocale`. These classes/interfaces include methods that perform the actual text direction checking or define a mechanism to perform such check.
+
+For instance:
+
+- `FirstStrong.INSTANCE.checkRtl(CharSequence param1CharSequence, int param1Int1, int param1Int2)`: Checks the text direction of a specific CharSequence sequence. 
+- `AnyStrong.INSTANCE_RTL.checkRtl(CharSequence param1CharSequence, int param1Int1, int param1Int2)`: Checks the text direction and determines if 'RTL' should be used. 
+- `TextDirectionHeuristicLocale.defaultIsRtl`: Returns a boolean representing the default text direction.
+
+The `TextDirectionHeuristicImpl` class is abstract and requires implementing classes to provide a `defaultIsRtl()` method. It also provides an interface to perform checks on both CharSequences and char arrays. The `TextDirectionHeuristicInternal` and `TextDirectionHeuristicLocale` classes extend `TextDirectionHeuristicImpl`, implementing the `defaultIsRtl` method in different ways.

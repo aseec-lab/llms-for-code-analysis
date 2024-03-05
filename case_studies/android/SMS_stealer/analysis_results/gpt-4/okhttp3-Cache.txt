@@ -1,0 +1,37 @@
+The `Cache` class in the `okhttp3` package is a concrete implementation of a cache for HTTP, HTTPS responses obtained through OkHttp. It supports methods for creating a cache, controlling its capacity, writing to it, reading from it, maintaining statistics like hit count and network count, and removing items from the cache. 
+
+The caching logic follows HTTP cache semantics to store, retrieve, and delete server responses. It employs a filesystem storage approach using the DiskLruCache class to manage cached responses. 
+
+The constructor of the `Cache` class accepts a `File` object and a long value representing maximum capacity. 
+
+The `get(Request paramRequest)` method attempts to retrieve a cached response to the given HTTP request.
+
+The `put(Response paramResponse)` method attempts to cache a HTTP server's response. 
+
+The `remove(Request paramRequest)` method deletes any cached response for the HTTP request. 
+
+Methods such as `size()`, `maxSize()`, `hitCount()`, `networkCount()`, `requestCount()`, `flush()`, `close()`, `delete()`, `initialize()`, `isClosed()`, `evictAll()`, and `directory()` are also provided for assisting the application in managing the cache.The method `trackResponse` updates the request count whenever a request is made, and then respectively increments the `networkCount` or `hitCount` based upon whether the request was served over the network or retrieved from the cache.
+
+The `update` method is used for updating the cache. It takes the original response and the new response as arguments, creates a cache entry for the new response, and attempts to edit the corresponding entry in the cache. If successful, its body is then written to the cache.
+
+The `urls` function returns an iterator of URLs present in the cache.
+
+The `writeAbortCount` and `writeSuccessCount` methods return the number of aborted and successful write operations to the cache respectively.
+
+The `CacheRequestImpl` is an inner class implementing `CacheRequest` that represents an ongoing cache write operation. It has an `abort` method which aborts the write operation.
+
+The `CacheResponseBody` is another inner class extending `ResponseBody` that uses a snapshot of a cache entry to service a read request. The original source is wrapped with a `ForwardingSource` which makes sure to close the cache snapshot when its `close` method is called. It provides methods to get the length and type of the content and to get a `BufferedSource` for reading the content.The `close` method in the `CacheResponseBody` class is used to close the cache snapshot and call the superclass `close` method.
+
+The `Entry` class is a representation of an HTTP response and it's corresponding request. It stores all the parameters of a request and response and provides methods to initialize it with a `Response`, parse an entry from a `Source`, write an entry to a `Sink` and check if an entry matches a `Request` and `Response`.
+
+The `isHttps` method checks if the URL of the request starts with "https://".
+
+The `readCertificateList` and `writeCertList` methods are used to read a list of certificates from a `BufferedSource` and write a list of certificates to a `BufferedSink` respectively.
+
+The `matches` method checks if the request URL and method match the parameters of this Entry and if the response parameters match the vary headers of the request.
+
+The `response` method gives a `Response` object that can be used to service a request with the parameters of this Entry.
+
+The `writeTo` method writes the parameters of this Entry to a `DiskLruCache.Editor` object which can be used to create a cache entry. 
+
+Finally, there appears to be an obfuscated file path at the bottom, which may indicate that this code was automatically decompiled from a JAR file.

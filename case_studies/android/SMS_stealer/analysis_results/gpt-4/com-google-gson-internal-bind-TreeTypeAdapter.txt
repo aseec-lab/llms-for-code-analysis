@@ -1,0 +1,11 @@
+The `TreeTypeAdapter` class in GSON extends `TypeAdapter` and is used to read/write JSON as Java objects and vice versa. It utilizes both the `JsonSerializer` and `JsonDeserializer` for the transformations. The important methods in this class are:
+
+- `delegate()`: It returns the delegate `TypeAdapter` for the given type. GSON internally uses this function for its read and write operations.
+
+- `read(JsonReader)`: This method uses the `JsonDeserializer` to convert JSON into a Java object. If `JsonDeserializer` is null, it delegates the operation to the delegate adapter.
+
+- `write(JsonWriter, T)`: This method uses the `JsonSerializer` to convert a Java object into JSON. 
+
+- `newFactory()`, `newFactoryWithMatchRawType()`, `newTypeHierarchyFactory()`: These static methods create `TypeAdapterFactory` instances, which can be used to create new instances of `TreeTypeAdapter`. These allow defining rules on how certain types of objects should be serialized/deserialized.
+
+- Nested within `TreeTypeAdapter` are classes `GsonContextImpl` and `SingleTypeFactory`. `GsonContextImpl` helps in serialization/deserialization contexts whereas `SingleTypeFactory` helps in the creation of `TypeAdapter` for a specified type.

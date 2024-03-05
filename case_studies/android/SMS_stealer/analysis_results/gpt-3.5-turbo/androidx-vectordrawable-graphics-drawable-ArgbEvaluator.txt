@@ -1,0 +1,11 @@
+The `ArgbEvaluator` class in the `androidx.vectordrawable.graphics.drawable` package implements the `TypeEvaluator` interface. 
+
+The class provides a method called `evaluate` that takes three parameters - a float value, and two `Object` values. It performs color interpolation between the two given color values based on the provided float value.
+
+The implementation converts the color values to their corresponding red, green, blue, and alpha components. It then applies gamma correction to these components using the formula `Math.pow(component, 2.2)`.
+
+Next, it interpolates each component based on the provided float value, and applies gamma correction again using the formula `Math.pow(interpolatedComponent, 0.45454545454545453)`.
+
+Finally, it combines the interpolated components into a single color value and returns it as an `Integer` object.
+
+Overall, the `ArgbEvaluator` class provides a convenient way to perform color interpolation in animations.

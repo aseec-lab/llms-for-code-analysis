@@ -1,0 +1,14 @@
+The Layer class extends the ConstraintHelper class from the AndroidX ConstraintLayout library. This class represents a helper widget that applies transformations, including translation, rotation and scaling, to a group of views in a ConstraintLayout. The transformations can be applied to all the views contained within the Layer.
+
+For example, you can use Layer to rotate a group of views together around a pivot point. Setting the rotation on the Layer applies the rotation to all views in the Layer around the Layer's pivot point. Same goes for translation and scaling. The pivot point itself can be set and defaults to the center of the bounding rectangle of the group of views.
+
+Methods available in the class are for activities like: 
+- Setting the pivot point for rotations.
+- Adjusting the scale and translation.
+- Adjusting visibility and elevation.
+
+This class is useful when you want to treat a group of views as a single view for the purpose of transformations.
+
+The constructors `Layer(Context)`, `Layer(Context, AttributeSet)`, and `Layer(Context, AttributeSet, int)` are used to create a new Layer instance. When a Layer is attached to a window, it finds all its associated views in the parent ConstraintLayout based on its list of reference ids.
+
+The transformation functions used in `transform()`, can be adjusted with `setPivotX()`, `setPivotY()`, `setRotation()`, `setScaleX()`, `setScaleY()`, `setTranslationX()`, and `setTranslationY()`. The transformation is calculated and applied to the views everytime one of these setters is invoked.

@@ -1,0 +1,23 @@
+The `TypefaceCompatBaseImpl` class provides a base implementation for managing typeface in Android. It is equipped with mechanisms to help find the best font file from an array of font files, create new typeface from different resources and handle all these operations considering different styles like weight and italics.
+
+Key methods in this class include:
+
+- `addFontFamily(Typeface, FontFamilyFilesResourceEntry)`: This caches a Typeface with its corresponding font file resource entries.
+
+- `findBestEntry(FontFamilyFilesResourceEntry, int)`: This finds the best font entry file from the font family provided.
+
+- `findBestFont(T[], int, StyleExtractor<T>)`: Generic function which is responsible for finding the best font from an array of fonts based on the weight and style.
+
+- `getUniqueKey(Typeface)`: This retrieves a unique key for a Typeface using reflection.
+
+- `createFromFontFamilyFilesResourceEntry(...)`: Creates a Typeface object from font family file resources.
+
+- `createFromFontInfo(...)`: This method creates a Typeface from fonts provided by a provider application.
+
+- `createFromInputStream(...)` and `createFromResourcesFontFile(...)`: These methods create a Typeface from an InputStream and a font file in resources respectively.
+
+- `findBestInfo(FontsContractCompat.FontInfo[], int)`: This method finds the best font information from an array of font information.
+
+- `getFontFamily(Typeface)`: This method retrieves a cached font family for a given typeface.
+
+The `StyleExtractor<T>` interface defines methods to retrieve weight and italics information from a given class, assisting in the process of selecting the best font.

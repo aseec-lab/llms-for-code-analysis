@@ -1,0 +1,7 @@
+The `CoreComponentFactory` class in `androidx.core.app` package extends the `AppComponentFactory` class and provides compatibility wrappers for various components in an Android application.
+
+The class includes a static method `checkCompatWrapper()` that checks if a given object is an instance of `CompatWrapped`, and if so, returns the wrapped object.
+
+The class overrides methods from `AppComponentFactory` such as `instantiateActivity()`, `instantiateApplication()`, `instantiateProvider()`, `instantiateReceiver()`, and `instantiateService()`, and calls the `checkCompatWrapper()` method on the super class implementation of these methods.
+
+The class also defines the `CompatWrapped` interface with a single method `getWrapper()`, which can be implemented by wrapper classes to provide access to the wrapped object.

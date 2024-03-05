@@ -1,0 +1,15 @@
+`FragmentManager` is an abstract class in the AndroidX library's fragment-app package. It manages fragments within an activity including adding, removing, or replacing fragments (using nested transactions if necessary), and adding transactions to the back stack.
+
+Key functionalities provided by `FragmentManager` include:
+
+1. Enabling debug logging through `enableDebugLogging(boolean paramBoolean)` method.
+2. It has two abstract inner interfaces `BackStackEntry` and `OnBackStackChangedListener`, to manage back stack entries and listen to changes respectively.
+3. `FragmentManager` provides methods to start transactions with fragments (`beginTransaction()`).
+4. It performs fragment searches by ID (`findFragmentById(int paramInt)`) and by tag (`findFragmentByTag(String paramString)`).
+5. It also retrieves back stack entries (`getBackStackEntryAt(int paramInt)`) and the total number of entries in the back stack (`getBackStackEntryCount()`).
+6. This class can also execute pending transactions (`executePendingTransactions()`) and retrieve associated fragments and navigation fragments.
+7. The `popBackStack()` method enables reverting of fragment transactions.
+8. Lifecycle methods are provided via abstract inner class `FragmentLifecycleCallbacks`, covering different stages from creation to destruction of fragments.
+9. The `getFragmentFactory()` and `setFragmentFactory(FragmentFactory)` are getter and setter methods for the `mFragmentFactory` which uses the `FragmentFactory` instance to instantiate new fragment instances.
+
+This class is a major component used for inter-fragment communication and controlling fragment behaviors within an activity.

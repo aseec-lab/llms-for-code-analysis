@@ -1,0 +1,19 @@
+The `PagerAdapter` class in this code is an abstract base class providing implementation to manage the data and views of a ViewPager in Android.
+
+In the class definition:
+
+1. Two constants `POSITION_NONE` and `POSITION_UNCHANGED` are declared for handling changes in position.
+
+2. A `DataSetObservable` object `mObservable` which notifies observers whenever data has changed, has been used.
+
+3. One can register and unregister `DataSetObserver` to observe the change in data.
+
+4. Method like `getCount()`, `isViewFromObject()`, `getItemPosition()`, `getPageTitle()`, `getPageWidth()`, etc. are implemented. Subclasses would override these methods for actual data and view handling. 
+
+5. `startUpdate()`, `finishUpdate()`, `instantiateItem()`, `destroyItem()`, `setPrimaryItem()` are the key methods to manage paging. They throw `UnsupportedOperationException` and should be overridden by subclasses which actually provide data to the pager adapter.
+
+6. `notifyDataSetChanged()` is especially useful, it signals that the data set has changed and any View reflecting the data set should refresh itself.
+
+7. `saveState()` and `restoreState()` are used to save and restore the pager adapter's state when screen orientation changes or when the activity is killed/recreated by the system.
+
+The class is thread safe where required; the `notifyDataSetChanged()` and `setViewPagerObserver()` methods are synchronized.

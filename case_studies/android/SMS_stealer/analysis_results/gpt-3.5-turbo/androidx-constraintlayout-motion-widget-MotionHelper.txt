@@ -1,0 +1,13 @@
+The `MotionHelper` class is a subclass of `ConstraintHelper` and implements the `Animatable` and `MotionLayout.TransitionListener` interfaces. It is used as a helper class for motion layouts in ConstraintLayout.
+
+The class has several fields, including `mProgress` to store the progress of the motion, `mUseOnHide` and `mUseOnShow` to determine if the helper should be used on hide and show transitions, and `views` to store an array of views.
+
+The class has three constructors that call the parent class constructor and an `init` method to initialize the attributes of the `MotionHelper` from XML attributes if provided.
+
+There are getter methods for `mUseOnHide` and `mUseOnShow`, as well as a setter method for `mProgress`.
+
+The class also implements several methods from the `MotionLayout.TransitionListener` interface, but they are empty and do not have any specific implementation in this class.
+
+The `setProgress` method updates the `mProgress` field and applies the progress to either the views directly attached to the `MotionHelper` or all the views in its parent view group, excluding other `MotionHelper` instances.
+
+The `setProgress(View paramView, float paramFloat)` method is empty and can be overridden in subclasses to provide custom behavior for setting the progress on individual views.

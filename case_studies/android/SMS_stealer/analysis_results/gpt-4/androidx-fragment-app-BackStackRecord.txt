@@ -1,0 +1,41 @@
+The `BackStackRecord` class in `androidx.fragment.app` is a type of `FragmentTransaction` that involves operations on a back stack of fragments, which might include the addition, removal, and replacements of fragments within an activity's view.
+
+Some critical methods in this file are as follows:
+
+- `isFragmentPostponed()`: This method checks if a fragment is postponed. Fragments can be postponed if they are not ready to commit yet. 
+- `bumpBackStackNesting()`: This method increases the back stack nesting count.
+- `commit()`, `commitAllowingStateLoss()`, `commitNow()`, `commitNowAllowingStateLoss()`: These methods implement different ways to commit a fragment transaction to the fragment manager's back stack.
+- `detach()`: This method detaches the fragment from its current FragmentManager.
+- `doAddOp()`: This method performs the addition of a fragment to the fragment manager.
+- `dump()`: This method dumps state information about the fragment and its manager to a `PrintWriter`.
+- `executeOps()`: This method executes operations in the `mOps` list. The type of operation is identified by `op.mCmd`.
+
+Essentially, this class manages a series of fragment transaction operations and allows them to be undone or redone if necessary.The `executePopOps` method performs the opposite of the operations listed in `mOps` and adjusts the fragment manager's state accordingly.
+
+The `expandOps` method takes in an ArrayList of fragment operations and a fragment, and adjusts the operations according to the fragment state and position in the list.
+
+The `generateOps` method adds the current BackStackRecord object and a boolean value to two separate ArrayLists.
+
+The `getBreadCrumbShortTitle`, `getBreadCrumbTitle`, `getId`, and `getName` methods are simple getter methods returning the breadcrumb short title, breadcrumb title, id and name of the BackStackRecord object respectively.
+
+The `hide` method overrides the same method in the parent class by adding additional checks for the fragment manager.
+
+The `interactsWith` method checks if any of the fragments in the `mOps` operations list interact with the provided parameters.
+
+The `isEmpty` method checks if the `mOps` list is empty.
+
+The `isPostponed` method checks if any operation in the `mOps` list is postponed.
+
+The `remove` method overrides the remove method of the parent class with additional checks for the fragment manager.
+
+The `runOnCommitRunnables` method executes any runnables that are meant to run on the commit of the transaction.
+
+The `setMaxLifecycle` method sets the maximum lifecycle state for the provided fragment.
+
+The `setOnStartPostponedListener` method sets the listner for the start of postponed operation of each fragment in the `mOps` list.The `setPrimaryNavigationFragment` method sets the provided fragment as the primary navigation fragment. If the provided fragment is attached to a different fragment manager, it throws an IllegalStateException.
+
+The `show` method shows the provided fragment. If the fragment is attached to a different fragment manager, it throws an IllegalStateException.
+
+Then `toString` method returns a string representation of the back stack entry, using the system's identity hash code, the index, and the name, if available.
+
+The `trackAddedFragmentsInPop` method iterates through the `mOps` list in reverse and adjusts the provided ArrayList and fragment according to the operation at each position.

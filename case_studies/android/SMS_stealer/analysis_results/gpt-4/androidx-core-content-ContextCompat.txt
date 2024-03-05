@@ -1,0 +1,14 @@
+The `ContextCompat` class is a utility class in AndroidX which provides additional context functionality for older versions of Android.
+
+This class provides static methods for various functionalities such as:
+
+- Checking permissions: `checkSelfPermission` method checks if a certain permission is granted.
+- Creating a device protected storage context: `createDeviceProtectedStorageContext` method creates a protected storage context for storing sensitive data.
+- File management:  Methods like `createFilesDir`, `getCodeCacheDir`, `getDataDir`, `getExternalCacheDirs`, `getExternalFilesDirs`, `getNoBackupFilesDir`, and `getObbDirs` are used for managing and accessing different types of directories in the application's file system.
+- Getting system services: `getSystemService` and `getSystemServiceName` methods are used to get a handle to a system-level service by name or by class.
+- Performing UI operations: Methods like `getColor`, `getColorStateList`, and `getDrawable` provide backward compatibility for accessing color and drawable resources.
+- Starting activities and services: `startActivities`, `startActivity`, and `startForegroundService` methods help in launching new activities or services.
+
+The class uses an internal `LegacyServiceMapHolder` static class that holds a map of system services along with their names. This map is used to return system services for older Android versions.The remaining part of the code establishes a map of Android system services using the `SERVICES.put()` method. It pairs each system service name (as a string) with its corresponding class object.
+
+Then the `MainHandlerExecutor` class is defined, which implements the `Executor` interface. This class has a constructor accepting a `Handler` object and an `execute()` method that posts `Runnable` tasks to the `Handler`. If the `Handler` cannot accept the task (usually because it's shut down), the method throws a `RejectedExecutionException` and indicates that the `Handler` is shutting down.

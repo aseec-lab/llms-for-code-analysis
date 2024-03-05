@@ -1,0 +1,9 @@
+The `AppOpsManagerCompat` class is a compatibility class for the `AppOpsManager` API available on Android starting from API level 19. It provides methods to check and handle application operations on different Android versions.
+
+Four static integer constants, `MODE_ALLOWED`, `MODE_DEFAULT`, `MODE_ERRORED`, and `MODE_IGNORED`, correspond to the modes that an operation can have according to the `AppOpsManager` specifications. 
+
+The class provides similar methods as `AppOpsManager`, with additional checks to ensure compatibility:
+
+- `noteOp`, `noteOpNoThrow`, `noteProxyOp`, `noteProxyOpNoThrow` are methods that correspond to the methods in `AppOpsManager`. They check if the current Android version is 19 or above (23 or above for the `noteProxyOp` methods) and by using the `AppOpsManager` directly if so. If the version is less, they return 1, corresponding to the `MODE_IGNORED` constant.
+ 
+- The `permissionToOp` method returns the operation corresponding to a permission. It requires API level 23 or above, otherwise, it returns null.

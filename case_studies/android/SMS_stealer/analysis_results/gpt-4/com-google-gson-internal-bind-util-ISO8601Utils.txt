@@ -1,0 +1,35 @@
+This `ISO8601Utils` class contains utility methods for dealing with ISO8601 strings in Google's Gson library. 
+
+1. `checkOffset(String paramString, int paramInt, char paramChar)` method: It determines whether the specific character exists at the given offset in the string.
+
+2. `format(Date paramDate)`, `format(Date paramDate, boolean paramBoolean)`, and `format(Date paramDate, boolean paramBoolean, TimeZone paramTimeZone)` methods: These are overloads of the method to format a Date object into its ISO8601 string representation with the ability to specify if the result should include milliseconds and to use a specific timezone.
+
+3. `indexOfNonDigit(String paramString, int paramInt)` method: It returns the index position of the non-digit character in the string starting from the given index.
+
+4. `padInt(StringBuilder paramStringBuilder, int paramInt1, int paramInt2)` method: Pads the integer with leading zeros up to the specified length and appends it to the passed string builder 
+
+5. `parse(String paramString, ParsePosition paramParsePosition)` method: It parses an ISO8601 string into a Date object. If it encounters a timezone indicator, it adjusts the date accordingly.This Java code continuation is part of a method used to parse ISO8601 strings into Date objects:
+
+- Lines 360-439: This part of the code evaluates and adjusts the offset variables for the hours, minutes and seconds from the timestamp string.
+
+- Lines 443-478: This checks if timezone indicator is 'Z' for UTC time. If finds 'Z', sets timezone to UTC and increments offset.
+
+- Lines 478-529: If it's '+' or '-', the string is passed on for further processing; if it's neither, throws an exception for invalid timezone indicator.
+
+- Lines 529-582: Timezone value is taken as a substring. If it does not have a predefined length, it's padded with "00" at the end to maintain the format.
+
+- Lines 582-692: Verifies the timezone and throws an exception in case of a mismatch between input and resolved timezone.
+
+- Lines 692-853: If the timezone is correct, it goes ahead and creates a new GregorianCalendar instance and sets up all units of time (like YEAR, MONTH, etc) in the calendar's timezone; finally, returns a Date object.
+
+- Line 854-869: Checks if no timezone indicator has been provided. If it does not exist, throws an IllegalArgumentException.
+
+- Lines 869-899: Catches exceptions. If the original date string is null, assigns null to a new date object; else, appends double quotes at both ends of the string to maintain the format.
+
+- Lines 899-1006: If the exception has a message, uses it; otherwise, generates a new one from the exception's class name and appends it.- Lines 993-1063: This part of the code generates a custom error message if there was a failure to parse the date, using StringBuilder. If there is a specific error message, it appends that message; otherwise, it generates a new error message using the exception's name. It then throws a new ParseException and attaches the cause to it.
+
+- Lines 1065 to End: Outlines the exception table which catches any IndexOutOfBoundsException, NumberFormatException and IllegalArgumentException which may arise from each line of code.
+
+- Lines 1081-1106: Defines a private static helper method named 'parseInt'. The method attempts to parse an 'int' from a given string within specified bounds, and throws an error if it encounters an invalid number.
+
+- Remaining Lines: These lines add the location and version information about the java compiler used to compile the ISO8601Utils class.

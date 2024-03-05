@@ -1,0 +1,7 @@
+The code in this file is for the `AnimationUtilsCompat` class in the `androidx.vectordrawable.graphics.drawable` package. 
+
+The class provides utility methods for loading and creating interpolators used in animations. 
+
+The `createInterpolatorFromXml` method is a helper method that parses an XML resource file to create an `Interpolator` object based on the defined attributes in the XML. 
+
+The `loadInterpolator` method is the main method of the class. It loads an interpolator based on the given resource ID. It checks the Android version and if it's at least version 21, it uses the `AnimationUtils.loadInterpolator` method to load the interpolator. Otherwise, it handles specific resource IDs (`17563663`, `17563661`, `17563662`) and creates the interpolator accordingly. For other resource IDs, it retrieves the XML resource parser and calls the `createInterpolatorFromXml` method to create the interpolator. It returns the created interpolator or throws an exception if the resource was not found.

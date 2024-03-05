@@ -1,0 +1,9 @@
+The `DownloadProgressHandler` class is a custom Handler class that runs on the Android main thread. 
+
+- An instance of the `DownloadProgressListener` interface is stored in `mDownloadProgressListener` at instantiation.
+
+- `handleMessage(Message paramMessage)` function is overridden to implement custom logic for received Android OS messages. 
+
+- It checks if the received message code is `1`. If it is, it extracts a `Progress` object from the message and calls `onProgress(currentBytes, totalBytes)` on `mDownloadProgressListener` with the current bytes and total bytes in the `Progress` object. Otherwise, it calls the `super` implementation of the method.
+
+This class is used to provide updates to the app's main thread about the progress of a file download. The download progress updates are provided from a background thread, and this handler instance helps to bring these updates to the main thread for UI-related operations, like progress bar updates.

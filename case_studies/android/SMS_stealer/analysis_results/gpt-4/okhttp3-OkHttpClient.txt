@@ -1,0 +1,52 @@
+The `OkHttpClient` class in OkHttp3 library is a factory for calls, which can be used to send HTTP requests and read their responses. It is designed to be efficient with the creation of multiple calls.
+
+The class properties include:
+
+- Timeout configurations for connect, read, write, and ping
+- Lists of interceptors and network interceptors for tweaking the calls
+- Settings such as follow redirects, follow SSL redirects, and retry on connection failure
+- Objects of Authentication, Cache, CertificatePinner, ConnectionPool, CookieJar, Dispatcher, Dns, EventListener.Factory etc.
+
+The constructor takes a `Builder` object parameter and assigns the builder parameters to the class properties. Afterwards, it performs some validation.
+
+The class also provides the getters for these configurations and settings.
+
+It also contains methods for setting up a default SSL Context and TrustManager, which are tools used in TLS/SSL protocols to ensure secure connections.
+
+In addition, it also implements `Cloneable`, `Call.Factory`, and `WebSocket.Factory`, making it capable of creating call and WebSocket instances, and being able to be cloned.The `Builder` class is a nested static class within the `OkHttpClient` class for building `OkHttpClient` instances.
+
+This class properties are almost same as the `OkHttpClient` class properties, with the default values initialised in the constructor.
+
+Two types of constructors are present; one default which initializes with default values and another which accepts an `OkHttpClient` object and initializes with its values.
+
+Methods `addInterceptor`, `addNetworkInterceptor`, `authenticator`, `certificatePinner`, `connectionPool`, `cookieJar`, `dispatcher`, `dns`, `eventListener`, `eventListenerFactory`, `followRedirects`, and `followSslRedirects` set respective class properties, taking various parameters.
+
+The `build` method creates a new `OkHttpClient` instance using the current set properties.
+
+Method `connectTimeout` sets the connection timeout, taking length and units as parameters.
+
+The `cache` method assigns the `Cache` object to the class's `cache` property and sets `internalCache` to `null`.
+ 
+Similarly, the `connectionSpecs` method sets `connectionSpecs` property and requires a list of `ConnectionSpec` objects.
+
+All these methods return the `Builder` object itself allowing for method chaining.The `hostnameVerifier` method takes an object of `HostnameVerifier` and sets it as the `hostnameVerifier`. Likewise the `proxyAuthenticator` method sets the `Authenticator` object as the `proxyAuthenticator`.
+
+`interceptors` and `networkInterceptors` return a list of interceptors and network interceptors respectively. 
+
+`pingInterval` method is used to set the ping interval duration.
+
+`protocols` method expects a list of `Protocol` objects. Builder class validates the list and sets it to class property `protocols`.
+
+The `proxy` method allows to set Proxy.
+
+The `proxySelector` method sets the `ProxySelector` object.
+
+`readTimeout` method is used to set read timeout length.
+
+`retryOnConnectionFailure` method sets the flag for retrying on connection failure.
+
+`socketFactory` and `sslSocketFactory` methods let builder set socket factory.
+
+`writeTimeout` manages the timeout for write operations.
+
+The rest of the methods mostly handle and assign network and communication parameters.

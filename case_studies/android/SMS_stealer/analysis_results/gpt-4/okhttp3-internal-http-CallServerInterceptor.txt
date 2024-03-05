@@ -1,0 +1,12 @@
+The `CallServerInterceptor` class implements the `Interceptor` interface and is responsible for making HTTP calls.
+
+Upon intercepting a request, the `intercept()` function:
+1) Extracts details about the request such as `HttpCodec`, `StreamAllocation`, `RealConnection`, and the original `Request`.
+2) Checks if the request method permits request body, and if a body exists, it is written to the `HttpCodec`'s request.
+3) Finishes the request and begins reading response headers.
+4) Validates the response code, and opens the response body.
+5) Manages connection based on the 'Connection' header value in the response.
+6) Ensures '204 No Content' and '205 Reset Content' responses do not have a response body.
+7) Throws a `ProtocolException` if a non-empty response body is encountered for '204' and '205' status codes.
+
+The inner class `CountingSink` is a type of `ForwardingSink` that keeps a count of the bytes successfully written to it. Each time the `write()` method is called, it increases the `successfulCount` by the length of the written content.

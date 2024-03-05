@@ -1,0 +1,114 @@
+The `MenuBuilder` class implements the `SupportMenu` interface and is used to create and manage a menu. 
+
+This class includes methods to manage menu items, presenters, and callbacks. It also includes methods to handle state changes, events and tie data to menu items. 
+
+Some key methods include `addInternal()` method for adding items to the menu, `dispatchPresenterUpdate()`, `dispatchRestoreInstanceState()` and `dispatchSaveInstanceState()` for presenter lifecycle management, `addMenuPresenter()`, and other utility methods for finding insert index, ordering of items, and handling shortcuts.
+
+The class allows a menu to be built programmatically with methods to add options with title, icons and set optional actions. It also has overloads for adding items from resources with provided ids and methods for handling submenus. 
+
+Constructor of `MenuBuilder` class takes a context as parameter and it initializes arrays for handling visible items, action items, non-action items, items for a shortcut list and registers an observer to manage visibility of the items. 
+
+The class also maintains state of menu items and dispatches changes to the menu items. If any change in any item from the menu happens, it will affect the overall state of the menu. 
+
+Overall, this class provides extensive functionality for building, managing, and presenting a menu in an Android application.The `addMenuPresenter()` method accepts `MenuPresenter` and `Context` as parameters to add a new menu presenter to the list of presenters with a weak reference. 
+
+The `addSubMenu()` methods are overloaded that accept different parameters variations to create a submenu for the menu and return that newly created submenu.
+
+The `changeMenuMode()` initiates a callback to change the menu mode.
+
+The `clear()` method clears all the menu items and calls `onItemsChanged(true)` to notify that items have been changed.
+
+The `clearAll()` method clears everything related to the menu, including the header and the presenters.
+
+The `clearHeader()` method clears all information regarding the menu header.
+
+The `close()` method ensures the menu can only be closed once even if this method is triggered multiple times.
+
+`collapseItemActionView()` method is used to collapse any expanded items in action view.
+
+`dispatchMenuItemSelected()` method is a boolean method that checks whether an item from the menu was selected.
+
+`expandItemActionView()` method is used to open a specific MenuItem in action view if not already opened.
+
+`findGroupIndex()` methods are used to find the index of a specific group in the menu.
+
+`findItem()` and `findItemIndex()` methods are used for finding specific items within the menu according to their ID values.
+
+`findItemWithShortcutForKey()` and `findItemsWithShortcutForKey()` methods are used to find items that are associated with a specific shortcut key.
+
+`flagActionItems()` checks if there are any flagged action items. If there are, it separates action items and non-action items. If there are not, it simply adds all visible items to the non-action items.
+
+`getActionItems()` returns a list of all action items in the menu.
+
+`getActionViewStatesKey()` returns a string that can be used as a key for saving and restoring the state of an action view.The `getContext()` returns the current context in which the menu is active.
+
+`getExpandedItem()` returns the item which is currently expanded on the menu.
+
+`getHeaderIcon()`, `getHeaderTitle()` and `getHeaderView()` methods return the icon, title, and view of the header of the menu respectively.
+
+`getItem(int paramInt)` fetches a menu item at a given index in the menu.
+
+`getNonActionItems()` fetches a list of all non-action items in the menu.
+
+`getOptionalIconsVisible()` returns a boolean indicating if the optional icons on the menu are visible or not.
+
+`getRootMenu()` returns a reference to the root menu itself.
+
+`getVisibleItems()` returns a list of all visible items in the menu
+
+`hasVisibleItems()` checks if the menu has any visible items and returns a boolean accordingly.
+
+`isGroupDividerEnabled()`, `isQwertyMode()`, `isShortcutKey(int paramInt, KeyEvent paramKeyEvent)`,
+`isShortcutsVisible()` essentially returns booleans indicating if certain conditions are true or not.
+
+`onItemActionRequestChanged(MenuItemImpl paramMenuItemImpl)` and `onItemVisibleChanged(MenuItemImpl paramMenuItemImpl)` methods are declared to handle the changes in the action request and visibility of the item respectively.
+
+`performIdentifierAction(int paramInt1, int paramInt2)`, `performItemAction(MenuItem paramMenuItem, int paramInt)`, and `performItemAction(MenuItem paramMenuItem, MenuPresenter paramMenuPresenter, int paramInt)` are public methods used to perform action when a specific menu item is selected.
+
+`performShortcut(int paramInt1, KeyEvent paramKeyEvent, int paramInt2)` method is used to perform action when a specific shortcut is triggered.
+
+`removeGroup(int paramInt)`,`removeItem(int paramInt)` and `removeItemAt(int paramInt)`are methods to remove a specific group, item or item at a specific point respectively.
+
+`removeMenuPresenter(MenuPresenter paramMenuPresenter)` is used to remove a specific menu presenter from the menu.
+
+`restoreActionViewStates(Bundle paramBundle)` is used to restore the action view states from the Bundle object.
+
+`restorePresenterStates(Bundle paramBundle)` method is used to restore presenter states from the provided bundle.
+
+`saveActionViewStates(Bundle paramBundle)` is a method used to store the current states of action views in the provided Bundle object.
+
+`savePresenterStates(Bundle paramBundle)` is used to save the current state of the presenters associated with this menu builder into the provided Bundle object.
+
+`setCallback(Callback paramCallback)` method sets the callback object.
+
+`setCurrentMenuInfo(ContextMenu.ContextMenuInfo paramContextMenuInfo)` sets the menu information.
+
+`setDefaultShowAsAction(int paramInt)` sets the default action option for the menu items.
+
+`setExclusiveItemChecked(MenuItem paramMenuItem)` adds a single menu item to the exclusivity check group.`setGroupCheckable(int paramInt, boolean paramBoolean1, boolean paramBoolean2)` method sets whether the items in a certain group are checkable and whether they can be exclusively checked.
+
+`setGroupDividerEnabled(boolean paramBoolean)` method enables or disables the divider in between the menu items group.
+
+`setGroupEnabled(int paramInt, boolean paramBoolean)` method sets all the items of a certain group as enabled or disabled based on the boolean flag
+
+`setGroupVisible(int paramInt, boolean paramBoolean)` method sets all the items of a certain group as visible or invisible based upon the boolean flag.
+
+`setHeaderIconInt(int paramInt)` and `setHeaderIconInt(Drawable paramDrawable)` methods set the icon of the menu header.
+
+`setHeaderTitleInt(int paramInt)` and `setHeaderTitleInt(CharSequence paramCharSequence)` methods set the title of the menu header.
+
+`setHeaderViewInt(View paramView)` method sets the view of the menu header.
+
+`setOptionalIconsVisible(boolean paramBoolean)` method reveals or hides optional icons based upon the boolean flag.
+
+`setOverrideVisibleItems(boolean paramBoolean)` method is used to override visibility configurations of menu items.
+
+`setQwertyMode(boolean paramBoolean)` method sets the QWERTY mode based on the boolean value.
+
+`setShortcutsVisible(boolean paramBoolean)` method reveals or hides shortcuts based on boolean flag.
+
+`size()` method returns the size of the menu.
+
+`startDispatchingItemsChanged()` and `stopDispatchingItemsChanged()` manage the dispatch of the changes in the menu items.
+
+`Callback` and `ItemInvoker` are interfaces that provide guidelines for handling menu item selection and invoking an item respectively.

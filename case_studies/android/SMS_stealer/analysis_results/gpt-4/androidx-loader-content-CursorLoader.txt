@@ -1,0 +1,21 @@
+`CursorLoader` is a subclass of `AsyncTaskLoader<Cursor>`, and it provides a mechanism for loading data from a content `Uri` into a `Cursor`. Here is a brief analysis of what each method does:
+
+1. `CursorLoader(...)`: Two constructor methods. One initializes just the `Context`, and the other initializes the `Context`, `Uri`, projection, selection parameters, selection arguments, and sort order.
+
+2. `cancelLoadInBackground()`: This method cancels the background load of the Cursor.
+
+3. `deliverResult(Cursor paramCursor)`: Delivers result if the loader has not been reset, replaces old cursor with new one and closes the old cursor.
+
+4. `dump(...)`: This is used for debugging purpose and dumps current loader state to the print writer.
+
+5. `getProjection()`, `getSelection()`, `getSelectionArgs()`, `getSortOrder()`, `getUri()`: Getter methods for respective member variables.
+
+6. `loadInBackground()`: Runs on a worker thread and loads cursor data in the background. It uses a cancellation signal to observe when loading needs to be cancelled.
+
+7. `onCanceled(Cursor paramCursor)`: Called if the task was cancelled before it completed, closes the Cursor if it is not already closed.
+
+8. `onReset()`, `onStartLoading()`, `onStopLoading()`: Lifecycle methods of the loader which are responsible for starting loading, stopping loading and performing cleanup respectively when loader is reset.
+
+9. `setProjection(String[] paramArrayOfString)`, `setSelection(String paramString)`, `setSelectionArgs(String[] paramArrayOfString)`, `setSortOrder(String paramString)`, `setUri(Uri paramUri)`: Setter methods for respective member variables.
+
+This class is useful when loading Cursor data and there is a possibility of data change notifications, which would imply a need to perform a new query.

@@ -1,0 +1,15 @@
+The `AppCompatPopupWindow.java` extends `android.widget.PopupWindow` to provide a customizable and compatibility-friendly popup window.
+
+Here's a breakdown of several prominent features:
+
+1. If the Android Build.VERSION.SDK_INT is below 21, the `COMPAT_OVERLAP_ANCHOR` is used to allow overlap anchoring, in order to support old versions by a compatibility fix.
+
+2. `AppCompatPopupWindow` has two constructors that initiate a popup window with the given attributes and params while also calling the `init()` method for further initialization like obtaining styled attributes and setting overlap anchor and background drawable.
+
+3. The `setSupportOverlapAnchor()` method sets whether the popup is allowed to overlap its anchor view vertically. If the device version is below 21, it sets `mOverlapAnchor` directly. If not, it uses `PopupWindowCompat.setOverlapAnchor()` for compatibility.
+
+4. The `showAsDropDown()` methods display the popup like a dropdown below its anchor view with specific offsets. If `COMPAT_OVERLAP_ANCHOR` is true and `mOverlapAnchor` is also true, it adjusts the dropdown position by subtracting the param view's height from the y-axis offset.
+
+5. The `update()` method updates the dimensions of the popup. Similar to the 'showAsDropDown()' methods, it adjusts the y-axis offset if `COMPAT_OVERLAP_ANCHOR` and `mOverlapAnchor` are both true.
+
+Overall, `AppCompatPopupWindow` is designed to provide a consistent UI element that works across different versions of Android.

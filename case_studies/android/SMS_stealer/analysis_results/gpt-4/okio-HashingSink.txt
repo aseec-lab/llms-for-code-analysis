@@ -1,0 +1,13 @@
+The `HashingSink` class extends the `ForwardingSink` class, providing a Sink that hashes its data using cryptographic algorithms. It calculates the hash while the data is being written into this sink.
+
+The constructor of this class takes a `Sink` and a string indicating the hash algorithm. It then tries to get an instance of `MessageDigest` for the given algorithm. If the algorithm is not found, it throws an `AssertionError`.
+
+The second constructor takes a `Sink`, a `ByteString`, and a string for the algorithm. It gets an instance of `Mac` for the given algorithm, and initializes it with a `SecretKeySpec` created from the `ByteString`. If the algorithm is not found, it throws an `AssertionError`. If the key is invalid, it throws an `IllegalArgumentException`.
+
+There are static methods for creating `HashingSink` with predefined hash algorithms (like `hmacSha1`, `md5`, `sha1`, `sha512`, etc.).
+
+The `hash` method calculates and returns the hash of the data that has been written to the sink. It uses either `MessageDigest` or `Mac` depending on which was initialized.
+
+The `write` method writes a piece of data to the buffer and updates the cryptographic hash. It throws an `IOException` if an error occurs during writing. The `Util.checkOffsetAndCount` which is invoked ensures to perform the write operation within valid limits. After each segment of data is written to the buffer, the hash is updated by either the `MessageDigest` or the `Mac` instance. 
+
+This class is part of the Okio library, which is a set of Java IO libraries for reading, writing, and manipulating data.

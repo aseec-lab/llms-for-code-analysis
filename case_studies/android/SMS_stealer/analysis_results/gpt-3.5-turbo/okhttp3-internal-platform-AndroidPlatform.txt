@@ -1,0 +1,41 @@
+The `AndroidPlatform` class is a subclass of `Platform` that provides platform-specific implementations for Android. 
+
+It includes methods for supporting various features such as handling TLS extensions, configuring TLS connections, managing certificate chains, checking if cleartext traffic is permitted, logging, and more.
+
+The `supportsAlpn` method checks if ALPN (Application-Layer Protocol Negotiation) is supported by the Android platform.
+
+The `connectSocket` method establishes a socket connection to a specified address.
+
+The `getSelectedProtocol` method returns the selected ALPN protocol for a given SSL socket.
+
+The `isCleartextTrafficPermitted` method checks if cleartext traffic is permitted for a specified hostname.
+
+The `log` method logs messages with different log levels.
+
+The `logCloseableLeak` method logs a warning if a closeable resource is not properly closed.
+
+The `trustManager` method retrieves the X509 trust manager from the specified SSL socket factory.
+
+These are just a few highlights from the `AndroidPlatform` class. The full implementation includes additional methods and logic for handling various platform-specific functionalities.The `AndroidCertificateChainCleaner` class is a utility class that cleans up a list of certificates. It implements the `CertificateChainCleaner` interface.
+
+The `clean` method takes a list of certificates and a hostname and returns a cleaned list of certificates.
+
+The `equals` method compares two `AndroidCertificateChainCleaner` objects for equality.
+
+The `hashCode` method returns the hash code of the `AndroidCertificateChainCleaner` object.
+
+The `AndroidTrustRootIndex` class implements the `TrustRootIndex` interface and provides a method (`findByIssuerAndSignature`) to find a certificate by its issuer and signature.
+
+The `equals` method compares two `AndroidTrustRootIndex` objects for equality.
+
+The `hashCode` method returns the hash code of the `AndroidTrustRootIndex` object.
+
+The `CloseGuard` class is a utility class for managing closeable resources. It provides methods to create and open closeable objects, as well as warn if a closeable object is still open.
+
+The `get` method returns an instance of the `CloseGuard` class.
+
+The `createAndOpen` method creates and opens a new closeable object with a given name.
+
+The `warnIfOpen` method warns if a closeable object is still open.
+
+These are the remaining parts of the code.

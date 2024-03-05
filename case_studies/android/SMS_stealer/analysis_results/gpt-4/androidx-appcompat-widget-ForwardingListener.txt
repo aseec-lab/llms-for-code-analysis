@@ -1,0 +1,7 @@
+The `ForwardingListener` class in this code listens for touch events on a view and handles when the user long presses on a view and when the touch is forwarded to another view. The long press functionality initializes a popup menu (`ShowableListMenu`). 
+
+The touch event methods (`onTouchForwarded`, `onTouchObserved`) determine the conditions for forwarding a touch event and when a pointer touch is possibly inside the view boundaries. They also take care of transformation of the touch event's coordinates to global or local related to the view. 
+
+There are two inner classes `DisallowIntercept` and `TriggerLongPress`, which act as `Runnable` with specific behaviors to be reused in touch event methods. The `DisallowIntercept` triggers a request to a parent view to stop intercepting a touch event. `TriggerLongPress` triggers the long press operation. There are also methods to manage the state of forwarding and attached callbacks.
+
+`onViewAttachedToWindow` and `onViewDetachedFromWindow` are methods for handling attachment state of the view this listener is assigned to, with operations for cleaning up state and callbacks.

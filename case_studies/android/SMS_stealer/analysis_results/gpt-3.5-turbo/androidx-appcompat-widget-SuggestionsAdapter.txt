@@ -1,0 +1,36 @@
+The `SuggestionsAdapter` class is a custom implementation of the `ResourceCursorAdapter` that is used to display suggestions in a search view.
+
+Some key points about the code:
+
+- The adapter extends `ResourceCursorAdapter` and implements `View.OnClickListener`.
+- It handles the display of suggestions in a search view by fetching data from a cursor.
+- It uses a `WeakHashMap` to cache drawable resources.
+- The `SearchView` and `SearchableInfo` are passed as constructor parameters.
+- It overrides methods such as `getView()`, `newView()`, and `bindView()` to customize the appearance of the suggestions.
+- It provides methods to retrieve icons, text, and other information from the cursor.
+- It handles click events on the suggestions by implementing `View.OnClickListener`.
+- It stores and retrieves icons from the cache to improve performance.
+- It formats URLs in a specific style by using `TextAppearanceSpan`.
+- It has a private method to update the state of the spinner based on the cursor.
+
+Overall, the `SuggestionsAdapter` class is responsible for managing the display and behavior of suggestions in a search view, including fetching and formatting data from a cursor.The remaining code snippet defines the remaining methods and helpers in the `SuggestionsAdapter` class.
+
+Here is a summary of the remaining methods and helpers:
+
+- The `changeCursor()` method is used to change the cursor and cache column indices.
+- The `close()` method closes the adapter by changing the cursor to null.
+- The `convertToString()` method converts a cursor to a string.
+- The `getDrawableFromResourceUri()` method retrieves a drawable from a resource URI.
+- The `getDropDownView()` method returns a view for a dropdown item in the suggestions list.
+- The `getQueryRefinement()` method returns the query refinement mode.
+- The `getSearchManagerSuggestions()` method retrieves search manager suggestions from a searchable info and query.
+- The `getView()` method returns a view for a single item in the suggestions list.
+- The `hasStableIds()` method checks if the adapter has stable IDs.
+- The `newView()` method creates a new view for a single item in the suggestions list.
+- The `notifyDataSetChanged()` and `notifyDataSetInvalidated()` methods notify that the data set has changed and update the spinner state.
+- The `onClick()` method handles click events on the refine icon in a suggestion.
+- The `runQueryOnBackgroundThread()` method runs a query on the background thread to retrieve search suggestions.
+- The `setQueryRefinement()` method sets the query refinement mode.
+- The `ChildViewCache` class is a static inner class that holds references to child views in a suggestion item view.
+
+Overall, these methods and helpers handle various tasks such as changing the cursor, retrieving suggestions, updating the view, handling click events, and managing the state of the adapter.

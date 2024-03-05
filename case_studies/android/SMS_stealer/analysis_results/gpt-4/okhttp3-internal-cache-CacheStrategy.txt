@@ -1,0 +1,11 @@
+The `CacheStrategy` class provides mechanisms for deciding whether or not a response should be stored in the cache, how to interpret headers related to cache control, and how to determine the suitability of a cache entry for a given request. 
+
+It has two public fields, `networkRequest` and `cacheResponse`, and a few methods:
+
+1. `isCacheable(Response paramResponse, Request paramRequest)`: Checks if a response can be cached.
+
+2. `Factory()` class: Handles cache response age calculations, freshness lifetime computations, and constructing cache strategies for specific requests.
+
+This class interacts closely with HTTP headers to determine caching behavior, relying on protocols like `Cache-Control`, `ETag`, `Expires`, and `Last-Modified`. It adheres to the rules set out in the HTTP/1.1 specification for cache behavior.
+  
+The `Factory` inner class basically looks like a builder of `CacheStrategy` objects. Based on the input `Request` and `Response` objects and the current time, it evaluates all the relevant cache control headers from both request and response and comes up with a strategy which indicates if the request should be sent over network or served from cache, and if the response should be saved in the cache for future use.

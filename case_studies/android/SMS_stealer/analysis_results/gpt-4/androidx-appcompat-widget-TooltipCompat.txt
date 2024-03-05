@@ -1,0 +1,5 @@
+The `TooltipCompat` class is a compatibility class within the AndroidX AppCompat library. It provides a static method `setTooltipText(View paramView, CharSequence paramCharSequence)` to set a tooltip text for a view. It's used to display some information about a particular view when a user hovers over it.
+
+The method checks the Android OS version. If it's 26 (Android 8.0 Oreo) or higher, it uses the built-in `setTooltipText` method of the `View` class. If it's lower, it uses a custom handler (`TooltipCompatHandler.setTooltipText`) from `TooltipCompatHandler` class to display the tooltip text. 
+
+This provides backward compatibility for apps that are still targeting lower Android OS versions while also utilizing newer features for those on newer Android OS versions.

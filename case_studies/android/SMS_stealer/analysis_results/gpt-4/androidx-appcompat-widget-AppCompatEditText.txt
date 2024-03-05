@@ -1,0 +1,19 @@
+The `AppCompatEditText` class extends the standard Android EditText. this class adds a number of features that older versions of Android do not support natively. 
+
+It has three helper classes: `AppCompatBackgroundHelper`, `AppCompatTextClassifierHelper`, and `AppCompatTextHelper`. 
+
+These provide the ability to apply a tint to EditText's background, handle text classification related tasks, and apply tints to the text drawables respectively.
+
+The class overrides certain functions such as `setBackgroundDrawable`, `setBackgroundResource`, `setTextAppearance`, and `setTextClassifier` These functions ensure the corresponding features are applied when these properties are set.
+
+The `getText` override ensures that the function behaves the same for API level 28 and above as it does for lower API levels.
+
+The `setCustomSelectionActionModeCallback` override provides a wrapping for the callback, this is done to be compatible with older versions of Android.
+
+The `getSupportBackgroundTintList` and `setSupportBackgroundTintList` functions allow for getting and setting of the background tint list respectively, and similarly with `getSupportBackgroundTintMode` and `setSupportBackgroundTintMode` for the background tint mode.
+
+The `drawableStateChanged` override ensures that any state change in the drawable triggers the appropriate tinting and background changes. 
+
+The `onCreateInputConnection` override creates an InputConnection for the EditText, compatible with older versions of Android. 
+
+In general, this class wraps an EditText in a way that provides better and consistent support for older versions of Android.

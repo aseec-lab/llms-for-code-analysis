@@ -1,0 +1,67 @@
+The `ActionMenuPresenter` class extends `BaseMenuPresenter` and implements the `ActionProvider.SubUiVisibilityListener`. It's designed to manage the presentation of actions in the action menu presented in the ActionBar.
+
+The `ActionMenuPresenter` constructor sets up the state of the presenter using the parent application's context.
+
+The `findViewForItem` method returns the corresponding view for a specific `MenuItem`.
+
+The `bindItemView` method associate specific view to a menu item in the action menu.
+
+The `dismissPopupMenus` method allows dismissing any popup menus that are shown.
+
+The `filterLeftoverView` method is used for determining what views to remove when there are more items than can be shown on the action menu.
+
+The `flagActionItems` method runs through all the menu items and determines which ones will be displayed on the action menu.
+
+The `getItemView` method is used to ensure that the associated view of each menu item is correctly initialized and measured. 
+
+This class maintains control and visibility states of menu items and the overflow action button, accommodating dynamic changes and user interactions. It helps in providing a seamless user experience by managing action item behaviors.The `initForMenu` method initializes the `ActionMenuPresenter` for a specific menu. It sets the width limit, resource overflow, and maximum number of items based on the `ActionBarPolicy` for the given context. If the overflow is reserved, it creates an `OverflowMenuButton`.
+
+The `isOverflowMenuShowPending` method determines whether the overflow menu is pending to be shown. 
+
+The `isOverflowMenuShowing` method checks if the overflow menu is currently displayed.
+
+The `isOverflowReserved` method returns a boolean indicating whether the overflow is reserved.
+
+The `onCloseMenu` method dismisses any popup menus before closing the menu.
+
+The `onConfigurationChanged` method sets the maximum number of items based on the `ActionBarPolicy` when the configuration changes. If the menu is not null, it updates the items in the menu.The `onRestoreInstanceState` method attempts to find the sub-menu item that was previously opened. If it finds the item, it opens the sub-menu.
+
+The `onSaveInstanceState` method saves the id of the currently opened sub-menu.
+
+The `onSubMenuSelected` method checks if the selected sub-menu has any visible items. If yes, it creates and shows a `ActionButtonSubmenu`.
+
+The `onSubUiVisibilityChanged` method either opens a sub-menu (if `paramBoolean` is true) or closes the menu (otherwise).
+
+The `setExpandedActionViewsExclusive` method sets whether expanded action views are exclusive.
+
+The `setItemLimit` method sets the maximum number of items that can be added to the menu.
+
+The `setMenuView` method sets the `ActionMenuView` for the menu.
+
+The `setOverflowIcon` method sets the overflow icon drawable.
+
+The `setReserveOverflow` method sets whether the overflow is reserved.
+
+The `setWidthLimit` method specifies whether the menu should be width-limited.
+
+The `shouldIncludeItem` method decides whether a specific menu item should be included on the action menu.
+
+The `showOverflowMenu` method tries to show the overflow menu and returns true if successful.
+
+The `updateMenuView` method updates the view of the menu and sets the overflow icon accordingly.
+
+The `ActionButtonSubmenu` private class, derived from `MenuPopupHelper`, is a submenu showing on an action button.
+
+The `ActionMenuPopupCallback` private class, derived from `ActionMenuItemView.PopupCallback`, provides a way to get the popup from an action menu item view.
+
+The `OpenOverflowRunnable` private class is used to open the overflow menu.
+
+The `OverflowMenuButton` private class, extended from `AppCompatImageView` and implementing `ActionMenuView.ActionMenuChildView`, represents the overflow menu button and handles its click events. For instance, it shows the overflow menu on click.The `onForwardingStopped` method attempts to stop forwarding and hides the overflow menu if no `PostedOpenRunnable` is present.
+
+The `OverflowPopup` private class, extended from `MenuPopupHelper`, represents the overflow popup menu on an action item. It specifies certain properties of the popup and handles its dismissal.
+
+The `PopupPresenterCallback` private class, implementing `MenuPresenter.Callback`, handles the closing and opening of submenus.
+
+The `SavedState` private static class implements `Parcelable` and functions to save the state of the menu. This includes saving and restoring the id of an opened submenu. It provides methods to describe its content, write its instance to a `Parcel`, and a `CREATOR` for creating instances of `SavedState` from a `Parcel`. 
+
+The `Creator` interface is used to create new instances of the `SavedState` class from a parcel, or an array of `SavedState`.

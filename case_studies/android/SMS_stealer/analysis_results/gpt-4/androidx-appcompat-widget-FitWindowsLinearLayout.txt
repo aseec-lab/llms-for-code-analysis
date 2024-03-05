@@ -1,0 +1,11 @@
+The `FitWindowsLinearLayout` class extends the `LinearLayout` class and implements the `FitWindowsViewGroup` interface, meaning it can provide a window inset to its children, to allow the children to position themselves within the window properly.
+
+This class is useful when you need to layout components beneath system UI components like the status bar or navigation bar. 
+
+1. You have two constructors that receive a `Context` object, and optionally an `AttributeSet` object. The objective is to initialize the parent `LinearLayout` with this information.
+
+2. The `setOnFitSystemWindowsListener()` method lets you set an `OnFitSystemWindowsListener` object, which will be notified when the system windows insets have changed, so it can rearrange the layout elements accordingly.
+
+3. The `fitSystemWindows()` function is used to adjust the padding of this view to fit the window insets. If the `OnFitSystemWindowsListener` has been set, it will also call its `onFitSystemWindows()` method notifying the system windows insets have changed. 
+
+In essence, this class provides a custom LinearLayout that can be aware of system window insets and enables its child views to adjust themselves accordingly.

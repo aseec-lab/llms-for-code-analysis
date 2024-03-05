@@ -1,0 +1,9 @@
+The `Core` class in the Android Networking library serves as a singleton that provides access to an `ExecutorSupplier`. This `ExecutorSupplier` is an interface that can supply different types of `ExecutorService` instances to perform networking operations.
+
+The `Core` class maintains a static instance of itself (`sInstance`), and provides the `getInstance()` method to access this instance. This method uses a synchronized block to ensure thread safety while initializing the `sInstance` if it is null. If `sInstance` is already initialized, it is directly returned.
+
+The `shutDown()` method allows external callers to nullify the singleton instance. It doesn't do anything if the instance is already null.
+
+`getExecutorSupplier()` is a getter method that returns the `ExecutorSupplier` held by the `Core` instance. This `ExecutorSupplier` can then be used elsewhere to retrieve executor services for performing tasks. 
+
+In sum, `Core` serves as a singleton gatekeeper for thread-pool management for the tasks in the Android Networking library.

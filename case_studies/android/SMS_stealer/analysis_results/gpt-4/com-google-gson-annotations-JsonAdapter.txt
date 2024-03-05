@@ -1,0 +1,11 @@
+The `JsonAdapter` annotation is used to attach a custom serializer/deserializer to a class or a field in Gson library.
+
+- `@Retention(RetentionPolicy.RUNTIME)` tells the JVM to keep this annotation accessible at runtime, so Gson can make use of it when serializing or deserializing objects.
+
+- `@Target({ElementType.TYPE, ElementType.FIELD})` denotes that this annotation can be used on classes (TYPE) and fields (FIELD) level.
+
+- `value()` method is used to specify the class of the Json adapter (serializer/deserializer).
+
+- `nullSafe()` method is used to specify if the adapter would be used to serialize/deserialize null values. Default value is true, meaning it can handle nulls. If set to false, the adapter will not be invoked for null values.
+
+This annotation aids in controlling the way objects are converted to/from JSON by providing a custom adapter.

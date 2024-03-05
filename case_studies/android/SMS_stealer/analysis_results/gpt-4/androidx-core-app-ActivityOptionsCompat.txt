@@ -1,0 +1,14 @@
+The `ActivityOptionsCompat` class is a compatibility class for `android.app.ActivityOptions` used for customizing activity transition animations. It allows you to specify how the transition animation should be performed when an Activity is launched.
+
+Various static factory methods are provided to create an instance of this class:
+1. `makeBasic()`: It creates the basic options which don't perform special animation.
+2. `makeClipRevealAnimation()`: It creates an activity options passing an animation where a view is revealed or concealed by a circular clip mask.
+3. `makeCustomAnimation()`: It creates activity options specifying custom animation resources to run when transitioning to another activity.
+4. `makeScaleUpAnimation()`: It creates an activity option to start a new activity with an animation where it scales from a small originating area of the screen.
+5. `makeSceneTransitionAnimation()`: It creates activities options for a cross-activity scene transition.
+6. `makeTaskLaunchBehind()`: It creates activity options for launching a new task.
+7. `makeThumbnailScaleUpAnimation()`: It creates activity options for a new activity launching, scaling up its containing window.
+
+There is an inner class `ActivityOptionsCompatImpl` which extends `ActivityOptionsCompat`. It contains a private final variable of `ActivityOptions` and provides definitions to methods like `getLaunchBounds()`, `requestUsageTimeReport()`, `setLaunchBounds()`, `toBundle()`, `update()`, as per the Android API level, and uses this variable for performing the actions.
+
+The two constants `EXTRA_USAGE_TIME_REPORT` and `EXTRA_USAGE_TIME_REPORT_PACKAGES` are used for usage time reporting.

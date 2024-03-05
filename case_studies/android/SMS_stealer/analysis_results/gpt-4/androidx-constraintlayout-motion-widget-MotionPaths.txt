@@ -1,0 +1,29 @@
+The `MotionPaths` class seems to be an auxiliary class for handling motion animation in the Android ConstraintLayout library. It includes functionality to initialize and adjust the different parameters of an animation path.
+
+The class includes fields for motion attributes like position, progress, drawing path, motion arc, path rotation, as well as Cartesian coordinates x, y, width, and height. There are also fields for temporary calculations and key frame easing.
+
+The `applyParameters` method appears to take a Constraint object and set the corresponding motion path attributes from this Constraint.
+
+The `compareTo` method compares two `MotionPaths` objects based on their positions.
+
+In the `different` method, it checks for differences in properties like height, width, position, x, and y between two `MotionPaths` objects.
+
+The `fillStandard` method seemingly fills the `paramArrayOfdouble` array with the values of the motion path attributes specified in `paramArrayOfint`.
+
+The `getBounds`, `getCenter` and `getRect` methods appear to calculate the bounds, center, and rectangle involved in a motion path, respectively.
+
+The `initCartesian` method is used to initialize the motion path parameters using a KeyPosition, and two other MotionPath objects; the computations involve position (time), width and height of these objects.
+
+The `getCustomData` and `getCustomDataCount` methods handle fetching of custom data related to an attribute specified by String. The `hasCustomData` checks if given custom data exists.
+
+In general, this class provides detailed control over animations and how they interpolate over time in a UI layout.The `initPath` method defines the points for the motion path. It adjusts heights, widths and other parameters to set the path animation should take.
+
+The `initScreen` method appears to set an animation path that scales or moves with the screen size. 
+
+The `setBounds` method is used to set the bounds or limits of a motion path. 
+
+The `setDpDt` method uses differential calculus to calculate rate of change in position for the path - useful for moving objects at constant speeds.
+
+The `setView` method applies the motion path modifications to a view. It changes the view's position, size, rotation based on the various values calculated previously. The method is also responsible for handling measuring and layouts of the view based on the motion path values. 
+
+The JD-Core Version comment suggests these source files were decompiled from Java bytecode to a readable format. The location comment gives the decompiled path where these files were stored.

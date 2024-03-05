@@ -1,0 +1,9 @@
+This file defines a class `JdkWithJettyBootPlatform`, which is a specific implementation of the `Platform` class in OkHttp, customized for platforms that utilize Jetty's ALPN (Application-Layer Protocol Negotiation) implementation. 
+
+Its important methods include `afterHandshake(SSLSocket paramSSLSocket)` that removes the socket after handshake, `configureTlsExtensions(SSLSocket paramSSLSocket, String paramString, List<Protocol> paramList)` which configures TLS extensions for the socket, and `getSelectedProtocol(SSLSocket paramSSLSocket)` which gets the selected protocol for the socket.
+
+The `JettyNegoProvider` private class, acts as an invocation handler which provides the protocols, selects the best protocol according to the server's preference, and stores the selected protocol.
+
+Overall, the code enables better interoperation between HTTP/2 protocol and Jetty's SSL/TLS negotiation. Java compiler version used here is 6. 
+
+The class also includes a `buildIfSupported` method which tries to build a `JdkWithJettyBootPlatform` instance if the necessary Jetty classes/methods are present, returning `null` otherwise, providing a way to check compatibility with the Jetty library at runtime.

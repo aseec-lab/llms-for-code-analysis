@@ -1,0 +1,9 @@
+The `JsonParser` class in the `com.google.gson` package provides methods for parsing JSON data into a `JsonElement` object.
+
+The `parse(JsonReader paramJsonReader)` method takes a `JsonReader` object as input and parses the JSON data from it using the `Streams.parse()` method. It temporarily sets the `JsonReader` to lenient mode, handles `StackOverflowError` and `OutOfMemoryError` exceptions, and then sets the lenient mode back to its original value.
+
+The `parse(Reader paramReader)` method takes a `Reader` object as input and creates a `JsonReader` object from it. It then calls the `parse(JsonReader paramJsonReader)` method and performs additional checks to ensure that the entire document is consumed.
+
+The `parse(String paramString)` method takes a JSON string as input and creates a `StringReader` object from it. It then calls the `parse(Reader paramReader)` method to parse the JSON data.
+
+Overall, the `JsonParser` class provides methods to parse JSON data from various sources and convert it into a `JsonElement` object.

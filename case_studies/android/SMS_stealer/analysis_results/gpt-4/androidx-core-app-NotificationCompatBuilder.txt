@@ -1,0 +1,25 @@
+The `NotificationCompatBuilder` class is used to build a notification that's compatible with all Android API versions. 
+
+The constructor initializes the builder based on the provided `NotificationCompat.Builder` parameter. Depending on the Android version, it sets various notification properties like title, text, icons, alert behavior, sounds, vibrations, etc., using builder design pattern.
+
+It includes methods: 
+1. `addAction`: adds a single action (button) to the notification. The method of implementation changes depending on the API level.
+2. `removeSoundAndVibration`: removes sound and vibration from the notification.
+3. `build`: creates the final `Notification` object, adding the views to the notification and ensuring compatibility based on Android version.
+4. `buildInternal`: helper method used to create the `Notification` object, called from `build`.
+
+The `build` and `addAction` methods use runtime checks for the Android version to ensure the right APIs are used. 
+
+This class also features backward compatibility. If a feature is not supported by a lower Android version, it will be skipped, ensuring the app doesn't crash on those devices.
+
+The built `Notification` object includes all properties set in the `NotificationCompat.Builder`.The remaining part of the `NotificationCompatBuilder` class includes logic for building the final Notification object for Android API levels 19 (KitKat) and above. It sets various optional aspects like content view and big content view based on the set properties. 
+
+The `buildActionExtrasMap()` method is used to get a SparseArray of Bundles containing the action's extras. If the SparseArray is not `null`, it's added to the `Notification.Builder`'s extras.
+
+There's additional handling for Android API level 16 (Jelly Bean), where existent keys are removed from the `Bundle` before adding all from `mExtras`.
+
+Finally, the `getNotification()` method of the `Notification.Builder` class is called if the Android API level is less than 16.
+
+There's also a getter method `getBuilder()` that returns the current Notification builder.
+
+Lastly, there's a comment noting the location of this class and that it has been compiled with Java version 6, with JD-Core version 1.1.3.

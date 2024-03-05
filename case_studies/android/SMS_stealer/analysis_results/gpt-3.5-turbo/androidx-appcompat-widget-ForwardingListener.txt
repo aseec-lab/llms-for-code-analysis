@@ -1,0 +1,9 @@
+The `ForwardingListener` class is a base class for implementing touch event forwarding on a `View`. It implements `View.OnTouchListener` and `View.OnAttachStateChangeListener`, allowing it to intercept touch events and forward them to another component.
+
+The class keeps track of the active pointer ID, handles touch event forwarding, and manages long press timeouts. It also provides methods to convert touch event coordinates between global and local coordinates.
+
+The `ForwardingListener` class contains two inner classes: `DisallowIntercept` and `TriggerLongPress`, which are used to run tasks to disallow parent intercept touch events and trigger a long press, respectively.
+
+The `ForwardingListener` class is intended to be subclassed to implement specific forwarding behavior by overriding the `getPopup()`, `onForwardingStarted()`, and `onForwardingStopped()` methods.
+
+The class is part of the `androidx.appcompat.widget` package and is located in the `androidx/appcompat/widget/ForwardingListener.java` file in the target project.

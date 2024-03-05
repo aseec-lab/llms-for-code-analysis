@@ -1,0 +1,15 @@
+The `TypedArrayUtils` class in the AndroidX library is a utility class that provides various static methods for dealing with `TypedArray` objects and XML resources. These methods provide extra functionality and ease-of-use compared to using the standard Android methods.
+
+Key methods include:
+
+- `getAttr(Context, int, int)`: Resolves a theme attribute to a resource id.
+
+- `getBoolean(TypedArray, int, int, boolean)`, `getInt(TypedArray, int, int, int)`, `getDrawable(TypedArray, int, int)`, etc: A series of utility methods that retrieve different types of data from a `TypedArray` based on the passed attribute indices.
+
+- `getNamed*` methods: Similar to the above, but these methods also require `XmlPullParser` and attribute name parameters. They check if an attribute exists before trying to retrieve it.
+
+- `hasAttribute(XmlPullParser, String)`: Checks if an attribute with specified name is declared in XML.
+
+- `obtainAttributes(Resources, Theme, AttributeSet, int[])`: A helper method for obtaining a `TypedArray`.
+
+- `peekNamedValue(TypedArray, XmlPullParser, String, int)`: Peeks at a named value in the `TypedArray`. If the attribute exists, it returns a `TypedValue` representation of the attribute. Otherwise, it returns null.

@@ -1,0 +1,13 @@
+This code defines the `ANExecutor` class, which extends `ThreadPoolExecutor`. It provides a custom implementation of an executor that can adjust its thread count based on the network connection type. 
+
+The `ANExecutor` constructor initializes the thread pool executor with a specified number of threads and a priority blocking queue for handling tasks.
+
+The `setThreadCount()` method sets the core pool size and maximum pool size of the executor.
+
+The `adjustThreadCount()` method adjusts the thread count based on the network information provided. It sets the thread count to a specific number depending on the network type and subtype.
+
+The `submit()` method submits a `Runnable` task to the executor and returns a `Future` representing the task.
+
+The `AndroidNetworkingFutureTask` class extends `FutureTask` and implements the `Comparable` interface. It is used to wrap the `InternalRunnable` task and provide a comparison method based on task priority.
+
+The code also includes file location and compiler version information as comments at the end.

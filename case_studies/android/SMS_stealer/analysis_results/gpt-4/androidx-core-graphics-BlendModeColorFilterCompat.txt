@@ -1,0 +1,7 @@
+The `BlendModeColorFilterCompat` class provides a compatibility layer for creating color filters on a range of Android platform versions. It contains the `createBlendModeColorFilterCompat` method that creates a `ColorFilter` based on the specified color and blend mode.
+
+- When the Android SDK version is 29 or above, it creates a `BlendModeColorFilter` if the blend mode obtained from `BlendModeUtils.obtainBlendModeFromCompat(paramBlendModeCompat)` is not null.
+
+- For SDK versions below 29, it creates a `PorterDuffColorFilter` if the PorterDuff mode obtained from `BlendModeUtils.obtainPorterDuffFromCompat((BlendModeCompat)blendModeColorFilter)` is not null.
+
+The blend modes allow for different ways for how colors of two layers are blended. Porter-Duff modes provide a way for handling transparency and layering of graphics. Both `BlendModeColorFilter` and `PorterDuffColorFilter` are subclasses of the `ColorFilter` class in Android.

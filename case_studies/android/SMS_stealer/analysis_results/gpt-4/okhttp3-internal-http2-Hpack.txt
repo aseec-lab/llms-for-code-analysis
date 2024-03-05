@@ -1,0 +1,31 @@
+The `Hpack` class represents HPACK encoding as specified in HTTP/2. This class uses Huffman encoding for compressing headers.
+
+- It initializes constants like `PREFIX_4_BITS`, `PREFIX_5_BITS`, `PREFIX_6_BITS`, and `PREFIX_7_BITS`, used for setting bit prefixes of different lengths.
+- `STATIC_HEADER_TABLE` array is used for storing frequently used HTTP/2 headers.
+- `NAME_TO_FIRST_INDEX` map is used to quickly look up the index of a header.
+- The `checkLowercase(ByteString paramByteString)` function checks whether all the characters in the input ByteString are lowercase, throwing an IOException if that is not the case.
+- The `nameToFirstIndex()` function creates a map from header names to the first index of the header in the STATIC_HEADER_TABLE.
+
+The `Reader` class that is nested within `Hpack` is responsible for reading HPACK-encoded headers.
+
+- The function `readHeaders()` is used to read headers. Depending on certain conditions, it calls different methods to read and store headers.
+- The `readByteString()` function reads a ByteString from the source.
+- `getAndResetHeaderList()` returns the list of headers and clears the list in memory afterwards. 
+
+The class also incorporates functions to handle the dynamic table used in HPACK, such as adjusting table size, evicting headers from it, inserting headers into it, and so on. 
+
+Overall, this class handles the core of the HTTP/2.0 header compression mechanism.The `Writer` class in `Hpack` is tasked with writing HTTP/2.0 encoded headers.
+
+- It maintains a dynamic table using an array of `Header` objects, along with metadata such as table byte count, number of headers, and next header index.
+- The `adjustDynamicTableByteCount()` method updates the dynamic table byte count according to the maximum allowed table byte count.
+- The `clearDynamicTable()` method clears the dynamic table by setting all entries to `null`.
+- The `evictToRecoverBytes(int param1Int)` method removes headers from the dynamic table to recover space when necessary.
+- Within `insertIntoDynamicTable(Header param1Header)`, the method first clears the dynamic table if the size of the incoming header exceeds the maximum table byte count. Then headers are evicted if necessary, and the header is inserted in the dynamic table.
+- The `setHeaderTableSizeSetting(int param1Int)` method adjusts the dynamic table size setting and modifies the dynamic table accordingly.
+- The `writeByteString(ByteString param1ByteString)` method writes a ByteString to the output Buffer.
+- The `writeHeaders(List<Header> param1List)` method writes a list of headers, either Raw or Indexed, depending on the situations.
+  
+The remaining code continues with the processing of writing headers. The operations include looking up the index of a header, computing sizes and adjusting table size, identifying duplicates, and finally writing the header.- The `writeInt(int param1Int1, int param1Int2, int param1Int3)` function writes an integer to the output buffer. The integer is broken down into smaller chunks if it exceeds the max size specified by `param1Int2`. These chunks are then combined with `param1Int3` to form the final writeByte parameter. 
+- The remaining part of the `writeHeaders(List<Header> param1List)` function continues to handle different cases on how to write the headers. The `if` conditions decide how headers are encoded according to their properties (like whether they are in the dynamic table or whether they start with a certain prefix).
+- There is repetitive logic to write bytes and optionally insert headers into the dynamic table.
+- The logic continues in a loop until all headers are processed.

@@ -1,0 +1,17 @@
+The `VisibleForTesting` is an annotation used in Android to indicate that the visibility of a type or member has been relaxed to make the code testable. 
+
+It is applicable to any member (class, method, field, etc.) which has a wider visibility than normally necessary for production code. This annotation signals to developers that the annotated element is more accessible than it should be, which is only done to allow testing.
+
+Its retention policy is `CLASS`, that means that the Java compiler records this annotation in the class file, but the VM does not retain it at runtime.
+
+The annotation has an optional `otherwise` element that can take one of the four specified constants: NONE, PACKAGE_PRIVATE, PRIVATE, or PROTECTED, with a default of PRIVATE. This `otherwise` element can be used to specify what the visibility would have been if not for testing.
+
+The four constants denote varying levels of visibility:
+- NONE = 5
+- PACKAGE_PRIVATE = 3
+- PRIVATE = 2
+- PROTECTED = 4
+
+These constants can be used to make explicit the intended visibility of elements, which might otherwise be unclear due to testing requirements.
+  
+This Java code might be decompiled code considering line starting with "Location" and was created with java compiler 6 version. JD-Core version signifies Java Decompiler version used.

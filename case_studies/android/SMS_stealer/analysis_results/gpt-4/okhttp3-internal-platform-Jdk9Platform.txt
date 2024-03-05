@@ -1,0 +1,11 @@
+The `Jdk9Platform` class extends the `Platform` class and is specifically designed to work with JDK Version 9 and above. Its role is to provide SSL configuration compatibility with newer versions of the JDK.
+
+The constructor takes two `Method` objects representing the `setApplicationProtocols` and `getApplicationProtocol` methods.
+
+The `buildIfSupported()` method tries to build the `Jdk9Platform` object by fetching the two methods mentioned above. If the methods are not found (as may be the case in older JDK versions), it returns null leaving the platform undetermined.
+
+The `configureTlsExtensions()` method is overridden to set the SSL parameters with the protocol names received using the application protocols method fetched via reflection.
+
+The `getSelectedProtocol()` method is also overridden to fetch the currently selected protocol using the reflection-fetched method. If the protocol name is null or an empty string, this method returns null.
+
+The `trustManager()` method throws an `UnsupportedOperationException`. While `trustManager` functionality is often used to set custom trust managers for SSLSocketFactory, it's unsupported in JDK 9+.

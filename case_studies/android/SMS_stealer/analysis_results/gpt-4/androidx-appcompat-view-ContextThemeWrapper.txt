@@ -1,0 +1,23 @@
+The `ContextThemeWrapper` is a class in Android that allows you to modify or overlay the theme of the objects being created within it, directly or via the LayoutInflater. 
+
+- It extends from `ContextWrapper`, meaning it wraps the original context but allows modifying and configuring the themes of the UI components.
+
+- `getTheme()` method returns the current theme. If none is set, it returns the default Light theme. 
+
+- `setTheme(int paramInt)` allows to set new theme resource id.
+
+- `getSystemService(String paramString)` is overridden to allow the system services to use the context with a different theme.
+
+- `applyOverrideConfiguration(Configuration paramConfiguration)` method is used to apply an override configuration to the context.
+
+- `initializeTheme()` checks whether a theme has already been set, if not, it initializes a new theme.
+
+- `onApplyThemeResource(Resources.Theme paramTheme, int paramInt, boolean paramBoolean)` is a method that applies the specified theme to the context. It is called when a new theme is set or the context is first created.
+
+- `getResourcesInternal()` checks if resources have been previously set, and if not, it creates a new resources instance. 
+
+- `getAssets()` and `getResources()` return the assets and resources associated with the context.
+
+- `attachBaseContext(Context paramContext)` and `getThemeResId()` are helper methods that attach a new base context and return the current theme resource id. 
+
+- There's also a constructor for setting a context and an optional theme.

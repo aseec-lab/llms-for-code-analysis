@@ -1,0 +1,13 @@
+`MediatorLiveData` is a subclass of `MutableLiveData` which performs the additional functionality of observing other `LiveData` objects, also known as sources. 
+
+It maintains a `SafeIterableMap` object - `mSources` of `LiveData` sources and corresponding `Observer` 'Source' objects. Each 'Source' holds its associated `LiveData` and `Observer` and manages observing and removing the observation on the `LiveData` through `plug` and `unplug` methods respectively. 
+
+The `addSource` method adds a `LiveData` and its associated `Observer` to the list of sources. It prevents adding a source that's already been added with a different observer. If the `MediatorLiveData` has active observers, it starts observing the added source. 
+
+The `removeSource` method removes the source from the list and stops observing it. 
+
+The `onActive` and `onInactive` methods are called when the `MediatorLiveData` transitions to active and inactive states respectively. They start or stop observing all sources. 
+
+The private `Source` subclass implements `Observer` and observes its `LiveData` object. When the `onChanged` callback is triggered, the method checks if the data version has changed and, if so, triggers a change in the 'Source' `Observer`. 
+
+This class acts as a mediator for multiple `LiveData` sources, enabling observing and propagation of changes from different sources.

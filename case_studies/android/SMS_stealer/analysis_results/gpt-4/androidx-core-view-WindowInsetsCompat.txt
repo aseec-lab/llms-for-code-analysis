@@ -1,0 +1,15 @@
+The `WindowInsetsCompat` class is used to handle Android window insets. It provides methods to get system window insets and stable insets from the top, bottom, left, and right and to create window insets. It also provides builder functionality to build window insets. 
+
+This class also has the `Builder` class that facilitates creating window insets. The `Builder` contains a `build()` method that returns created window insets and setter methods for different insets parameters.
+
+It uses different implementations based on Android version. For Android version greater than or equal to 29, it uses `Impl29()`, for version greater than or equal to 28 uses `Impl28()`, for version greater than or equal to 21 uses `Impl21()`, and for version greater than or equal to 20, it uses `Impl20()`. It uses the base `Impl()` for versions lower than this.
+
+The `BuilderImpl20` is a subclass of builder that specifically caters to building window insets for Android version 20. This class uses reflection to fetch the `WindowInsets` constructor and `sConsumedField`.The provided classes form the implementation of WindowInsetsCompat for different SDK levels in Android. 
+
+The `BuilderImpl20` class creates window insets for Android version 20. It has a `build()` method that returns created window insets and `setSystemWindowInsets()` method for setting different insets parameters. It also uses the `createWindowInsetsInstance()` function to create an instance of `WindowInsets`, handling any reflective operation exceptions that might occur.
+
+The `BuilderImpl29` class facilitates the creation of window insets for Android version 29. It has similar methods as `BuilderImpl20` but also includes setter methods for mandatory system gesture insets, stable insets, system gesture insets, and tappable element insets.
+
+The `Impl` class is the base class for handling window insets and their properties. It contains methods for tasks such as checking whether insets are round or consumed, getting system window insets, stable insets, and retrieving the display cutout.
+
+The `Impl20`, `Impl21`, `Impl28`, `Impl29`, are subclasses extending `Impl` providing consistent APIs while tailoring their implementations based on the Android version. For instance, `Impl21` introduces stable insets, `Impl28` brings in handling for display cutouts, and `Impl29` provides methods to access and manipulate gesture insets and tappable elements insets.The provided code snippet includes a function `inset()` within the `Impl` class. The function is used to make window insets within the parameters provided. It uses the `inset()` method from the `mPlatformInsets` object and converts the result to a `WindowInsetsCompat` object. The rest of the text pertains to the location details of the Java file containing these classes and methods.

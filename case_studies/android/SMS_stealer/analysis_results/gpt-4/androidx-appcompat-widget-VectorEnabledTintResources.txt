@@ -1,0 +1,9 @@
+This is the `VectorEnabledTintResources` class that extends the `Resources` class in Android. It's used in Android applications to correctly load and manage drawable resources, especially for handling Vector Drawables and tint resources efficiently. 
+
+Its member variables include a static integer `MAX_SDK_WHERE_REQUIRED`, a static boolean `sCompatVectorFromResourcesEnabled` to check if compatibility for vector resources is enabled, and a weak reference to the context `mContextRef`.
+
+The class holds methods like `isCompatVectorFromResourcesEnabled()` and `setCompatVectorFromResourcesEnabled()` for getting and setting whether the compatibility for Vector Drawables is enabled or not. It also uses `shouldBeUsed()` to determine if `VectorEnabledTintResources` should be used based on the current SDK version and whether Vector compatibility is enabled.
+
+The `getDrawable(int paramInt)` method is overridden to provide a Drawable object which has potentially been loaded and adjusted by the `ResourceManagerInternal` class to handle issues with Vector Drawables on varying API levels.
+
+It holds another method `superGetDrawable(int paramInt)` which just returns the Drawable by calling the parent's `getDrawable` method.

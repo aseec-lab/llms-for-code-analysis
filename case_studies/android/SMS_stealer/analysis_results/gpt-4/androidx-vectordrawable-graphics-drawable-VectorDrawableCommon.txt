@@ -1,0 +1,13 @@
+`VectorDrawableCommon` is an abstract class that extends the `Drawable` class and implements the `TintAwareDrawable` interface. This class serves as a base for other drawable classes that work with vector graphics.
+
+It includes a `Drawable` object `mDelegateDrawable` which represents the current instance of the drawable this class is working with.
+
+This class provides overrides for a variety of `Drawable` methods, such as `getMinimumWidth()`, `getMinimumHeight()`, `getPadding()`, `getState()`, `getTransparentRegion()`, etc.
+
+In each case, if `mDelegateDrawable` is not `null`, the method defers to the corresponding method of `mDelegateDrawable`; if `mDelegateDrawable` is `null`, it calls the superclass's version of the method.
+
+The class also contains methods to apply themes, change drawable bounds, change configurations, set color filters for the drawable, and set hotspots and hotspot bounds. 
+
+All these changes are applied to the `mDelegateDrawable` if it is not `null`. 
+
+In other words, this class works as a wrapper for `Drawable`, re-routing function calls to a `mDelegateDrawable` instance or behaving as a regular `Drawable`. It is likely used to extend the functionality and manage behavior of a `Drawable` object, particularly in relation to how it handles vector graphics.

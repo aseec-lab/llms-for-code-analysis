@@ -1,0 +1,10 @@
+The `LazilyParsedNumber` class is a wrapper class for a numerical value represented as a `String`. This class lazily parses the `String` into a numeric primitive data type only when necessary.
+
+- The constructor `LazilyParsedNumber` takes a string as a parameter and stores it internally.
+- The `writeReplace()` method is a built-in method for serializable classes that allows the developer to provide a replacement object to be serialized, instead of the original. In this case, the method returns a `BigDecimal` representation of the string.
+- The overridden `equals()` method checks the equality of the current instance with another object. It returns `true` if values are equal and `false` otherwise.
+- `doubleValue()`, `floatValue()`, `intValue()`, `longValue()` all parse and return the values as `double`, `float`, `int`, and `long` respectively. In case of `intValue()` and `longValue()`, if parsing throws a `NumberFormatException`, it tries to parse as `long` or returns the `BigDecimal` value.
+- The `hashCode()` method returns the hash code of the internal string value.
+- The `toString()` method returns the internally stored string value. 
+
+Please note that it's called a "LazilyParsedNumber" class since it doesn't immediately parse the string into a numeric type upon instantiation. It waits until a method like `doubleValue()`, `floatValue()`, `intValue()`, or `longValue()` is called to do so. This strategy can reduce unnecessary computation if the numeric value isn't needed in calculation immediately.

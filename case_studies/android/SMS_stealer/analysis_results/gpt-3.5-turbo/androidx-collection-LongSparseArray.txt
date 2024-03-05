@@ -1,0 +1,17 @@
+The `LongSparseArray` class in the `androidx.collection` package is a data structure that associates keys of type `long` with values of type `E`. It is similar to a regular `SparseArray`, but uses `long` keys instead of `int` keys.
+
+The class stores the keys and values in two arrays: `mKeys`, which is an array of `long`, and `mValues`, which is an array of `Object`. The size of the array is initially set to `10`, but it can be adjusted dynamically as needed.
+
+The class provides methods to add, remove, and access elements in the array. It also provides methods to check if a key or value is present in the array, and to get the index of a key or value.
+
+The class implements the `Cloneable` interface, allowing instances of `LongSparseArray` to be cloned.
+
+The `LongSparseArray` class uses a binary search algorithm to efficiently find elements in the array. It also has optimizations to handle situations where elements are marked as deleted, to avoid unnecessary memory usage.
+
+Overall, the `LongSparseArray` class provides a convenient and efficient way to store and access elements using `long` keys.The remaining part of the code provided is the implementation of the `toString()` and `valueAt()` methods in the `LongSparseArray` class.
+
+The `toString()` method returns a string representation of the `LongSparseArray`. It starts by creating a `StringBuilder` with an initial capacity based on the size of the array. Then, it iterates over the elements in the array, appending each key-value pair to the string builder. If the value is the current `LongSparseArray` instance, it appends a special message instead. Finally, it returns the string representation of the `LongSparseArray`.
+
+The `valueAt()` method returns the value at the specified index in the array. It first checks if the array has been marked as garbage (indicating that there are deleted elements), and calls the `gc()` method to clean up the array if necessary. Then, it returns the value at the specified index in the `mValues` array.
+
+Note that the code also includes some comments specifying the location, compiler version, and JD-Core version of the class.

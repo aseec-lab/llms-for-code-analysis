@@ -1,0 +1,13 @@
+The `WrappedDrawableApi21` class is a subclass of `WrappedDrawableApi14`, and is designed to add extra functionality that was introduced in Android 5.0 (Lollipop, API 21).
+
+Key methods:
+- `findAndCacheIsProjectedDrawableMethod()`: tries to find a specific method (`isProjected`) in the Drawable class and caches it for later use. This method is used to check if the Drawable follows the UI element's projected visual area, which was introduced in Android 9.0 (Pie, API 28).
+- `getDirtyBounds()`: gets dirty bounds of the Drawable, which represents a rectangle area that needs redrawing.
+- `getOutline(Outline)`: sets the outline for the drawable for shadow lighting. 
+- `isCompatTintEnabled()`: checks whether the `Drawable` instance should use compat tinting. The `Drawable` should be tinted using the compatible method if it's an instance of certain classes. This method has extra checks for API 21.
+- `isProjected()`: checks whether the `Drawable` is projected or not using the cached method from `findAndCacheIsProjectedDrawableMethod()`.
+- `setHotspot(float, float)`, `setHotspotBounds(int, int, int, int)`: used to set the hotspot of the `Drawable` for touch feedback animations.
+- `setState(int[])`: sets the state of the `Drawable`, returning true if the state has changed.
+- `setTint(int)`, `setTintList(ColorStateList)`, `setTintMode(PorterDuff.Mode)`: methods to apply tinting to the `Drawable` with some compatibility checks. If the `Drawable` is compatible, it uses the superclass's method, otherwise uses the `Drawable`'s own method. 
+
+The purpose of this class is to provide a compatibility layer for different versions of Android by providing the ability to treat Drawables uniformly and execute methods that may or may not be available on different API levels. This helps to reduce the complexity of conditional code in other parts of the program.

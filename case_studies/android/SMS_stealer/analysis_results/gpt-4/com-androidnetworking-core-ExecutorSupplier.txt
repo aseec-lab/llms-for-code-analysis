@@ -1,0 +1,9 @@
+The `ExecutorSupplier` interface in the Android Networking library declares methods for supplying different types of executors.
+
+- `forImmediateNetworkTasks()`: This method returns an `ANExecutor` which is meant for immediate network tasks. Likely this executor is optimized for small, short-lived networking tasks.
+
+- `forMainThreadTasks()`: This method returns an `Executor` which is meant for tasks to be executed on the main application thread. Operations on this executor should be lightweight to avoid blocking the UI.
+
+- `forNetworkTasks()`: This method returns an `ANExecutor` for general network tasks. This executor might have different configuration parameters (like larger thread pool, longer keep-alive) that are optimized for network operations.
+
+This interface provides an abstraction allowing different strategies for supplying executors based on the task at hand. Different implementations of this interface may provide different strategies for generating the required executors.

@@ -1,0 +1,11 @@
+The `ViewModelStore` class in the androidx.lifecycle library is used to store `ViewModel` objects in a `HashMap`. This allows for instances of ViewModel to be easily accessed, retained, and managed based on identifiable keys.
+
+The main methods in the class are:
+
+- `clear()`: This method is used to clear the store by iterating over all the ViewModels in the HashMap and calling their `clear` method, and then it clears the HashMap itself.
+  
+- `get(String paramString)`: This method is used to retrieve a ViewModel from the store based on its key as a String.
+
+- `keys()`: This function returns a Set of Strings which are the keys present in the HashMap.
+
+- `put(String paramString, ViewModel paramViewModel)`: This method is used to store a ViewModel object with its associated key in the map. If an old ViewModel was associated with the key, it calls the `onCleared` method on it.

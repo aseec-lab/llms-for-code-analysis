@@ -1,0 +1,13 @@
+The `SupportActionModeWrapper` class is a wrapper around the `ActionMode` class in Android, which provides a contextual action mode where actions can be performed on a specific piece of content. This wrapper is part of the AndroidX library's backward compatibility functionality.
+
+Here is a summary of the key methods in this class:
+
+- `finish()`, `getCustomView()`, `getMenu()`, `getMenuInflater()`, and others: These methods delegate the corresponding calls to the wrapped `ActionMode` object.
+
+- `setCustomView(View paramView)`, `setTitle(int paramInt)`, `setTitle(CharSequence paramCharSequence)`, and others: These methods are used to set certain properties of the action mode, delegating the corresponding calls to the wrapped `ActionMode` object.
+
+The nested `CallbackWrapper` class is a wrapper around the `ActionMode.Callback` interface in Android. This class handles the creation of the action mode, preparation for the action mode, click events on action items, and the destruction of the action mode. 
+
+All methods of `CallbackWrapper` implement the original `ActionMode.Callback` methods and delegate calls after wrapping relevant parameters to the wrapped `ActionMode.Callback` object, using wrapper classes such as `MenuWrapperICS` and `MenuItemWrapperICS`.
+
+Please note: Classes like these are commonly used to provide a compatibility layer in applications that need to support a variety of Android API levels and different behavior present in various API levels.

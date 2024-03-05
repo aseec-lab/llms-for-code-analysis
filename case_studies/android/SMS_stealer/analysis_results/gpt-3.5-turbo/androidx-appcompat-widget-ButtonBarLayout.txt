@@ -1,0 +1,10 @@
+The `ButtonBarLayout` class in the `androidx.appcompat.widget` package extends the `LinearLayout` class.
+
+- It has four private fields: `mAllowStacking` of type `boolean`, `mLastWidthSize` of type `int`, `mMinimumHeight` of type `int`, and `mButtonBarContainer` of type `LinearLayout`.
+- It has one constructor that retrieves the custom attributes and sets the `mAllowStacking` field based on the `allowStacking` attribute value.
+- It has a private method `getNextVisibleChildIndex` that returns the index of the next visible child view.
+- It has a private method `isStacked` that returns `true` if the layout orientation is vertical, indicating that the buttons are stacked.
+- It has a private method `setStacked` that sets the layout orientation and gravity based on the `paramBoolean` value and toggles the visibility of a spacer view.
+- It overrides the `getMinimumHeight` method to return the maximum of `mMinimumHeight` and the super class's minimum height.
+- It overrides the `onMeasure` method to handle stacking of buttons and adjust the minimum height of the layout based on the tallest visible child view.
+- It has a public method `setAllowStacking` that sets the `mAllowStacking` field and calls `setStacked` if necessary.

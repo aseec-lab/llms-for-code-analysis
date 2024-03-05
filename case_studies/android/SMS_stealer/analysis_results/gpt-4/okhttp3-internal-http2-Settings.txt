@@ -1,0 +1,19 @@
+The `Settings` class in package okhttp3.internal.http2 holds configurations for Http/2 protocol's settings. 
+
+HTTP/2 allows peers to communicate settings related to the Http2 connection. Each setting is an ID/value pair.
+
+The class contains several fields to specify each setting, each setting is a static integer value.
+ 
+The `values[]` array holds the current value for the setting associated with each index.
+ 
+The `set` variable is used to track which settings' values are set.
+
+The `get` methods extract information about specific settings, applying bit operations on the `set` integer and returning default values if the setting has not yet been set.
+
+The `merge` method merges multiple settings and applies new settings if they are set.
+
+The `set` method sets a specific setting to a specific value, updating both `set` and `values[]` fields as necessary.
+
+The `isSet` and `size` methods provide information about which settings have been set and how many settings are set respectively.
+
+The `clear` method resets all the settings.

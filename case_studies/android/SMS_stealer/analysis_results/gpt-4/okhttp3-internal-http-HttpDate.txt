@@ -1,0 +1,11 @@
+The `HttpDate` class in OkHttp is a utility class for handling HTTP dates. It provides functionality for formatting and parsing dates according to HTTP headers standards.
+
+1) It has `STANDARD_DATE_FORMAT` which is a ThreadLocal object that contains a SimpleDateFormat for formatting and parsing date Strings in HTTP headers. The format is "EEE, dd MMM yyyy HH:mm:ss 'GMT'", which is a standard HTTP/1.1 date format.
+
+2) The class contains an array of Strings, `BROWSER_COMPATIBLE_DATE_FORMAT_STRINGS`, which holds date formats that might be used in browsers but not strictly compliant with the HTTP/1.1 specification.
+
+3) There are two methods `format` and `parse`. The `format` method formats a Date object into the standard HTTP date format. The `parse` method parses a date String by firstly trying to parse it using the standard HTTP date format, if unsuccessful, it goes through the array of browser-compliant formats trying to parse the String until it finds a match.
+
+4) The `MAX_DATE` variable is the maximum possible date in milliseconds since the Epoch. This variable is used to prevent time value overflows.
+
+5) All of the date operations are in the UTC timezone, as indicated by the use of `Util.UTC`.

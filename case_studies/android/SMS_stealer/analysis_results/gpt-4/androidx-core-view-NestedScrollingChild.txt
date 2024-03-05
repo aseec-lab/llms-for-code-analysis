@@ -1,0 +1,21 @@
+The interface `NestedScrollingChild` in Java package `androidx.core.view` provides several methods to manage and dispatch nested scrolling events in Android:
+
+1. `dispatchNestedFling`: Dispatches a nested fling event to the parent view. This occurs after a screen-touch event where the user lifts their finger and the UI should keep scrolling by inertia.
+
+2. `dispatchNestedPreFling`: This occurs just before the `dispatchNestedFling` event, to afford the parent an opportunity to intercept and consume the fling.
+
+3. `dispatchNestedPreScroll`: This occurs before a scroll operation and inform the parent scroll, allowing it to consume some or all of the scroll operation before the child view does.
+
+4. `dispatchNestedScroll`: Handles scroll operations already in progress where the target view has begun an on-going scroll event.
+
+5. `hasNestedScrollingParent`: Checks whether this view has a nested scrolling parent.
+
+6. `isNestedScrollingEnabled`: Checks if nested scrolling is enabled for this view.
+
+7. `setNestedScrollingEnabled`: Enables or disables nested scrolling.
+
+8. `startNestedScroll`: Starts a nested scroll event along the given axes.
+
+9. `stopNestedScroll`: Stops a nested scroll in progress. 
+
+The implementing classes are expected to provide concrete definitions for these methods. These features are commonly used for UIs with complex scrolling behavior.

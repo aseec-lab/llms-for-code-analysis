@@ -1,0 +1,19 @@
+The `ViewConfigurationCompat` class in the `androidx.core.view` package provides compatibility methods for working with `ViewConfiguration` objects in Android.
+
+The class contains static methods to retrieve various configuration values related to user input and view behavior on different Android versions.
+
+The `getLegacyScrollFactor` method is used to get the scroll factor for older Android versions (below API 25) that do not provide a direct method for this. It uses reflection to invoke the `getScaledScrollFactor` method on the `ViewConfiguration` object.
+
+The `getScaledHorizontalScrollFactor` method returns the scaled horizontal scroll factor from the `ViewConfiguration`. It checks the Android version and either uses the direct method or falls back to the legacy method.
+
+The `getScaledHoverSlop` method returns the scaled hover slop value from the `ViewConfiguration`. It checks the Android version and returns either the direct value or a calculation based on the touch slop.
+
+The `getScaledPagingTouchSlop` method is deprecated and returns the scaled paging touch slop value from the `ViewConfiguration`.
+
+The `getScaledVerticalScrollFactor` method returns the scaled vertical scroll factor from the `ViewConfiguration`. It checks the Android version and either uses the direct method or falls back to the legacy method.
+
+The `hasPermanentMenuKey` method is deprecated and returns whether the device has a permanent menu key based on the `ViewConfiguration`.
+
+The `shouldShowMenuShortcutsWhenKeyboardPresent` method returns whether menu shortcuts should be shown when the keyboard is present. It checks the Android version and either uses the direct method or checks a configuration flag.
+
+Overall, this class provides compatibility methods for retrieving configuration values from `ViewConfiguration` objects based on the Android version.

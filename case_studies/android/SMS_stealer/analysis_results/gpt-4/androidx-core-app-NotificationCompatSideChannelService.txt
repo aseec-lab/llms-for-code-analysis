@@ -1,0 +1,12 @@
+`NotificationCompatSideChannelService` is an abstract Android `Service` class that provides a mechanism for managing notifications through the use of side channels.
+
+This service consists of abstract methods: 
+- `cancel(String paramString1, int paramInt, String paramString2)`: To cancel a particular notification. 
+- `cancelAll(String paramString)`: To cancel all notifications.
+- `notify(String paramString1, int paramInt, String paramString2, Notification paramNotification)`: Sends notification to the respective channels.
+
+The `checkPermission(int paramInt, String paramString)` method verifies the permission of the calling UID (User Identifier), throwing a `SecurityException` if the UID is not authorized.
+
+The `onBind(Intent paramIntent)` method binds an activity to the service, and returns an IBinder that the activity can use to communicate with the service.
+
+A nested `NotificationSideChannelStub` service class extends `INotificationSideChannel.Stub` and overrides its methods. It uses the `checkPermission()` method before allowing operations for cancellation and addition of notifications, and to prevent potential security compromise, changes the identity of the calling thread to that of the system before execution, then finally restores the initial identity after execution, ensuring permissions and limits of the system are enforced on the executed code block.

@@ -1,0 +1,15 @@
+This class, ExploreByTouchHelper, is an abstract helper class that hosts virtual view hierarchies. It allows users to interact with these views using touch exploration and Accessibility Services. It extends the AccessibilityDelegateCompat class, providing a default implementation for its methods. 
+
+The ExploreByTouchHelper accepts a view in its constructor and sets up necessary properties, including making the view focusable. 
+
+It has private methods for handling navigational and click keyboard interactions on the 'focused' view such as clickKeyboardFocusedVirtualView(), and moveFocus().
+
+The helper also includes methods for creating and manipulating AccessibilityNodeInfoCompat instances (representations of UI components in the accessibility tree), as well as generating descriptive accessibility events. These are vital to allow the accessible interaction and navigation of the views by the user. 
+
+Additionally, there are methods to handle visibility, focus, and bounds of views. These involve complex calculations based on parent-child relationships, focus direction, and view state (enabled, focusable, etc).This part of the code includes private methods for handling some of the children views along with keyboard and accessibility focus changes. The `performAction` method is implemented for both the host view (`performActionForHost()`) and child views (`performActionForChild()`), where accessibility actions are handled differently.
+
+The `dispatchHoverEvent` and `dispatchKeyEvent` methods handle hover and key events respectively. Both the `getAccessibilityFocusedVirtualViewId` and `getKeyboardFocusedVirtualViewId` methods provide IDs for accessibility and keyboard focused virtual views.
+
+The Nested class `MyNodeProvider` inherits `AccessibilityNodeProviderCompat` and overrides the `createAccessibilityNodeInfo`, `findFocus`, and `performAction` methods to obtain node info for a view ID, find which view currently has focus, and perform an action for a certain view ID respectively. The class `ExploreByTouchHelper` then has a variety of methods handling focus changes, accessibility event initialization, and populating accessibility event and node for host and virtual views. 
+
+The `invalidateVirtualView` invalidates the view with the given ID and fires a relayed type accessibility event if the accessibility manager is enabled. The `onFocusChanged` changes the focus depending on the boolean provided in the method's parameters. The `requestKeyboardFocusForVirtualView` requests focus for a specific view ID and alters the properties accordingly. The `sendEventForVirtualView` method sends an event for a virtual view ID, creating an Accessibility Event and requesting that it get sent.

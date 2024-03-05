@@ -1,0 +1,55 @@
+The class `SwitchCompat` extends `CompoundButton` and represents a switch that can be toggled on/off. The switch can also display text, which can be modified via XML or code. This class also includes:
+
+- Private variables like `mThumbPosition`, `mTouchMode`, and others, which hold different states and metrics of the switch.
+
+- `SwitchCompat()` constructors which help in creating an instance of `SwitchCompat` from different parameters.
+
+- Private methods like `applyThumbTint()`, `applyTrackTint()`, `animateThumbToCheckedState()`, `cancelPositionAnimator()` and so on for various internal operations like applying tints, animating the switch thumb, cancelling animations etc.
+
+- `getThumbOffset()` method calculates the offset of the thumb based on its current position.
+
+- `getThumbScrollRange()` method is also defined, but the code for it is not visible in this chunk. Its purpose is typically to compute the available scroll range for the thumb of the switch.This code is an extension to the previous `SwitchCompat` class, which describes the following methods:
+
+- The `hitThumb(float paramFloat1, float paramFloat2)` method checks if user's touch event lies within the thumb (draggable area) of switch element.
+
+- `makeLayout(CharSequence paramCharSequence)` returns a new `StaticLayout` object with the transformed text after measuring its widths.
+
+- `setSwitchTypefaceByIndex(int paramInt1, int paramInt2)` sets the typeface of the text displayed on the switch. Typeface would be monospace, serif or sans-serif based on the value of `paramInt1`.
+
+- The `stopDrag(MotionEvent paramMotionEvent)` method, to stop the drag movement of the switch based on speed of swiping gesture and whether the switch was enabled at the time of swiping.
+
+- The `draw(Canvas paramCanvas)` method customizes how the switch is drawn, including how the 'thumb' and 'track' parts of the switch are drawn on the screen. 
+
+- `drawableHotspotChanged(float paramFloat1, float paramFloat2)` method sets hotspot for the thumb and track drawables to the given x and y coordinates.This code essentially defines the additional methods for the `SwitchCompat` class extending the previous code:
+
+- `drawableStateChanged()` sets the current state of drawable thumb and track and redraws them if their state changes.
+  
+- `getCompoundPaddingLeft()` and `getCompoundPaddingRight()` calculate the appropriate padding to the left and right of the text on the switch based on the layout direction (Right-to-Left or Left-to-Right).
+  
+- Other getter methods return respective variables, like `getShowText()`, `getSplitTrack()`, `getSwitchMinWidth()`, `getSwitchPadding()`, `getTextOff()`, `getTextOn()`, `getThumbDrawable()`, `getThumbTextPadding()`, `getThumbTintList()`, `getThumbTintMode()`, `getTrackDrawable()`, `getTrackTintList()`, `getTrackTintMode()`
+
+- `jumpDrawablesToCurrentState()` updates the thumb and track drawable to the current state.
+  
+- `onCreateDrawableState(int paramInt)` includes the checked state of the switch in its drawable state.
+  
+- `onDraw(Canvas paramCanvas)` method is responsible for drawing thumb, track and text on the specific layout on the switch.
+  
+- `onInitializeAccessibilityEvent(AccessibilityEvent paramAccessibilityEvent)` and `onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo paramAccessibilityNodeInfo)` methods provide accessibility support for the switch, setting class name and text information for accessibility services.
+
+- `onLayout(boolean paramBoolean, int paramInt1, int paramInt2, int paramInt3, int paramInt4)` positions the thumb, track and text on the screen layout based on given parameters and gravity.
+  
+- `onMeasure(int paramInt1, int paramInt2)` calculates the size requirements for this view and its subviews based on layout parameters. This determines the measured width and height settings and whether to show text on the switch.The remaining part of the code defines further displaying and manipulative methods for the `SwitchCompat` class:
+
+- `onPopulateAccessibilityEvent(AccessibilityEvent paramAccessibilityEvent)`, sets the checked or not checked state in the accessibility event description.
+  
+- `onTouchEvent(MotionEvent paramMotionEvent)`, method handles touch events on the switch for different motion events including dragging and touching on the switch.
+
+- `setChecked(boolean paramBoolean)` method, provides the functionality of animating thumb to checked state when switch button status changes.
+
+- `setCustomSelectionActionModeCallback(ActionMode.Callback paramCallback)`, sets callback when a selection action mode starts for this `TextView`.
+  
+- Various setter methods like `setShowText(boolean paramBoolean)`, `setSplitTrack(boolean paramBoolean)`, `setSwitchMinWidth(int paramInt)`, `setSwitchPadding(int paramInt)`, `setSwitchTextAppearance(Context paramContext, int paramInt)`, `setSwitchTypeface(Typeface paramTypeface)`, `setSwitchTypeface(Typeface paramTypeface, int paramInt)`, `setTextOff(CharSequence paramCharSequence)`, `setTextOn(CharSequence paramCharSequence)`, `setThumbDrawable(Drawable paramDrawable)`, `setThumbPosition(float paramFloat)`, `setThumbResource(int paramInt)`, `setThumbTextPadding(int paramInt)`, `setThumbTintList(ColorStateList paramColorStateList)`, `setThumbTintMode(PorterDuff.Mode paramMode)`, `setTrackDrawable(Drawable paramDrawable)`, `setTrackResource(int paramInt)`, `setTrackTintList(ColorStateList paramColorStateList)`, `setTrackTintMode(PorterDuff.Mode paramMode)` are used to customize various attributes and appearance of the switch.
+  
+- `toggle()`, this method changes the toggled state of the switch.
+  
+- `verifyDrawable(Drawable paramDrawable)`, method checks if the provided drawable is the one used for the thumb or track visual elements on the switch.

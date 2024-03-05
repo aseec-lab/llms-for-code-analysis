@@ -1,0 +1,11 @@
+The `Platform` class is a part of the OkHttp library, which handles HTTP connections in Java. It wraps around various networking features and provides a unified interface for managing these features to the OkHttp client.
+
+The class has multiple static methods and some instance methods. The purpose of these methods is to handle various HTTP functionalities including SSL/TLS setup, determining the networking platform being used (like Conscrypt, Android, etc.), and providing an interface for logging messages.
+
+The `Platform` class has static methods for checking application-level protocol negotiation (ALPN) protocol names, concatenating length-prefixed elements, determining whether Conscrypt (a Java security provider) is preferred, reading a field or its value from a class, and obtaining the preferred platform. 
+
+The instance methods are responsible for SSL/TLS handshake, setting up socket connections, and building and cleaning SSL certificate chains, among other things. It also includes methods to retrieve the selected protocol for an SSL socket and check if cleartext network traffic is permitted for the platform.
+
+In addition, this class also deals with logging functionalities, specifically for connection related issues and closeable leaks. The `log()` method is used for logging messages, and the `logCloseableLeak()` method is used for logging closeable leaks with a message and throwable. 
+
+If no specific platform is selected, then the default platform (`Platform`) is used which implements some of the basic behaviours.

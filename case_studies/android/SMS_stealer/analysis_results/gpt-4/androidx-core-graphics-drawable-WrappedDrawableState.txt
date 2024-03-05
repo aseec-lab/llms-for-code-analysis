@@ -1,0 +1,9 @@
+The `WrappedDrawableState` class extends `Drawable.ConstantState`, which provides a default implementation of a constantly running drawable. It holds the constant state variables like `mChangingConfigurations`, `mDrawableState`, `mTint`, and `mTintMode`.
+
+A constructor is provided that takes another instance of `WrappedDrawableState` and copies its attributes. It also has a `canConstantState()` method to check if `mDrawableState` is not null.
+
+It overrides `getChangingConfigurations()` from `Drawable.ConstantState` to return the bitwise OR of `mChangingConfigurations` of the current state and `getChangingConfigurations()` of `mDrawableState`.
+
+It also overrides the `newDrawable()` method where it returns an instance of `WrappedDrawableApi21` for Android versions >= 21 or `WrappedDrawableApi14` for versions < 21, thus providing backward compatibility. It takes `Resources` as an optional parameter in the overloaded version of the method.
+
+This class encapsulates mutable versions of Drawable state variables, allowing changes to be made while maintaining backward compatibility across different versions of Android.

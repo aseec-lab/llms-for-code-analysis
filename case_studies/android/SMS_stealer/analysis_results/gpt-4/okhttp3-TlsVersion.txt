@@ -1,0 +1,11 @@
+The `TlsVersion` enum in OkHttp represents the Transport Layer Security (TLS) versions that can be used in HTTPS connections. Here's a breakdown of the enum:
+
+- It defines constants for different TLS versions. These include SSL_3_0, TLS_1_0, TLS_1_1, TLS_1_2, TLS_1_3. Each constant is associated with a `javaName` which is the equivalent standard string name of the TLS version.
+
+- The `forJavaName(String paramString)` static method takes a Java name of a TLS version and returns the corresponding TlsVersion enum. For example, calling `TlsVersion.forJavaName("TLSv1.2")` would return `TlsVersion.TLS_1_2`. If an unexpected string is passed, it throws an IllegalArgumentException.
+
+- The `forJavaNames(String... paramVarArgs)` static method takes an array of Java names of TLS versions and returns an unmodifiable list of corresponding TlsVersion enums.
+
+- The `javaName()` method simply returns the Java name of the TLS version.
+
+- The enum is built in a way that it can be easily indexed and searched using its `javaName`. It also ensures that only valid TLS versions can be represented, reducing the potential for programming errors.

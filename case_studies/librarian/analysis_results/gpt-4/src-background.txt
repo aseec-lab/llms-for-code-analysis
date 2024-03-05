@@ -1,0 +1,7 @@
+The provided code is the main background service script for the Librarian Chrome extension.
+
+The first part is an event listener that triggers when the extension is installed. It gets a singleton instance of the local database and indexes all bookmarks. It also sets an alarm named 'librarian-indexer' that rings every 60 minutes.
+
+The second part is another listener for the alarm. When the 'librarian-indexer' alarm rings, it re-indexes all the bookmarks.
+
+The third part is a message listener. When a message with the action 'search' is received, the function searches the local database for bookmarks that match the query. It sends a response to the sender with the search results and the count of total bookmarks in the database.

@@ -1,0 +1,18 @@
+The `ResponseBody` class represents the body of a response in the OkHttp library. It implements `Closeable`, so it can be closed to release any system resources associated with it. It contains functions to create a `ResponseBody`, access and manipulate the response's body, and handle encoding.
+
+- `charset()`: Returns the Charset for this body, defaulting to UTF-8 if it's not set or could not be found.
+- `create()`: Three different variations of this method are used to create a ResponseBody from MediaType and either long and BufferedSource, a string or a byte array.
+- `byteStream()`: Returns the body content as an InputStream.
+- `bytes()`: Reads the complete body content and returns it as a byte array, and throws an IOException if the body is too long.
+- `charStream()`: Returns the body content as a Reader.
+- `close()`: Closes the body.
+- `contentLength()`: Returns the length of the body content.
+- `contentType()`: Returns the MediaType of the body.
+- `source()`: Returns the content of the body as a BufferedSource.
+- `string()`: Reads the complete body content and returns it as a string.
+
+The `BomAwareReader` inner class is a reader that handles different formats based on the charset. It decomposes the characters according to the specific character set. 
+
+Note: BOM is Byte Order Mark. It's a unicode character used to denote the endianness of a text file or stream. Its presence interferes with the use of UTF-8 by software that does not expect non-ASCII bytes at the start of a file but that could otherwise handle the text stream. 
+
+Remember that OkHttp is a third-party library commonly used in Android development to manage network requests.

@@ -1,0 +1,9 @@
+The `PathInterpolatorCompat` class implements the `Interpolator` interface and helps to interpolate the values along an animation path specified in XML.
+
+This class stores details about the `pathData` and the control points for cubic bezier and quadratic bezier curves that define the path of an animated object. The `controlX1`, `controlY1`, `controlX2` and `controlY2` attributes represent the control points for the bezier curve that define the object's motion path.
+
+The class includes methods to parse control point attributes from a `TypedArray` (`parseInterpolatorFromTypeArray`) and initialize paths (`initPath`). The `initPath` method covers both cubic and quadratic bezier curves (`initCubic` and `initQuad` methods).
+
+The `getInterpolation(float)` method is used to get an interpolated value for an input value using the stored path. The interpolation is done based on the position of the provided input within the path. 
+
+This class provides a way to achieve complex animations that need to follow a specific path, rather than a simple linear or curved motion. Experimental results may vary depending on the complexity of the path and the input values for interpolation.

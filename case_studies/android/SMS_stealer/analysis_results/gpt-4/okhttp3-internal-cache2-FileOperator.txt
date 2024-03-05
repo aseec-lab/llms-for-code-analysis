@@ -1,0 +1,9 @@
+The `FileOperator` class provides methods to read from and write to a file using a `FileChannel`. 
+
+The class has two public methods `read` and `write`.
+
+- `read` method: This method reads data from a file into a `Buffer`. It uses the `transferTo` method of `FileChannel` to transfer bytes into the buffer. The number of bytes and the starting position in the file are given as parameters. The method will continue reading until it reads the given number of bytes or reaches the end of the file.
+
+- `write` method: This method writes data from a `Buffer` to a file. It uses the `transferFrom` method of `FileChannel` to transfer bytes from the buffer to the file. The number of bytes and the starting position in the file are given as parameters. The method will continue writing until it writes the given number of bytes or the buffer is emptied.
+
+In both methods, `IndexOutOfBoundsException` is thrown if the number of bytes to be read or written is negative or exceed the buffer size.

@@ -1,0 +1,7 @@
+The `MainThreadExecutor` class in the Android Networking project implements the `Executor` interface. This allows tasks (`Runnable` objects) to be run on the main application thread.
+
+The class maintains a `Handler` that is attached to the main application loop (`Looper.getMainLooper()`). The main loop is the thread where UI operations occur.
+
+When the `execute(Runnable paramRunnable)` method is called, the provided `Runnable` is scheduled to run on the main application thread via the `Handler` (`this.handler.post(paramRunnable)`). This is useful for performing operations that affect the UI or that should run on the main thread for other reasons. The `execute` method is part of the `Executor` interface.
+
+In sum, this class allows tasks to be scheduled to run on the main application thread in the Android Networking library.

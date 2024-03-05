@@ -1,0 +1,15 @@
+The `SavedStateRegistry` class in the `androidx.savedstate` package is responsible for managing and saving/restoring the state of components that implement the `SavedStateRegistry.SavedStateProvider` interface.
+
+It has a map called `mComponents` that stores the registered saved state providers, using a key-value pair of strings and `SavedStateProvider` objects.
+
+The class has methods to consume restored state for a specific key, check if the state has been restored, perform the restoration of the state, and perform the saving of the state. It also has methods to register and unregister saved state providers.
+
+The `performRestore()` method adds a `GenericLifecycleObserver` to the provided `Lifecycle` instance, which listens for the `ON_START` and `ON_STOP` events to enable/disable saving state. It also sets the `mRestored` flag to true once the restoration is performed.
+
+The `performSave()` method saves the state of the registered providers into a `Bundle`, which is then included in the provided `Bundle` parameter.
+
+The `runOnNextRecreation()` method adds the name of a class to a list of classes that will be automatically recreated when the component is recreated. It checks if the state saving is allowed and if the class has a default constructor.
+
+The `unregisterSavedStateProvider()` method removes a saved state provider from the `mComponents` map.
+
+The class also includes two interfaces: `AutoRecreated` and `SavedStateProvider`. The `AutoRecreated` interface defines a method to be called when a component is recreated, and the `SavedStateProvider` interface defines a method to save the state of a component into a `Bundle`.

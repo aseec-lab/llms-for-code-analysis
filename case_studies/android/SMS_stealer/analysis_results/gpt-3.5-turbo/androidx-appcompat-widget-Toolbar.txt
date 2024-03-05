@@ -1,0 +1,68 @@
+The `Toolbar` class in the `androidx.appcompat.widget` package is a subclass of the `ViewGroup` class. It represents a standard toolbar widget that is typically used for displaying title, navigation icon, and menu options in an Android app.
+
+The code initializes various properties and views of the toolbar, such as the collapse button, logo view, subtitle text view, menu view, etc. It also handles the layout and positioning of these views.
+
+The `Toolbar` class provides methods to set and get the title, subtitle, logo, navigation icon, and menu. It also supports customizing the appearance of these elements by setting text appearance, text color, etc.
+
+The toolbar can handle click events on the menu items and navigation icon. It also provides methods to add custom views to the toolbar and manage hidden views.
+
+Overall, the `Toolbar` class provides a flexible and customizable way to create and manage a toolbar in an Android app. It is widely used in building app UIs and providing navigation and menu functionality.The `getChildHorizontalGravity()` method calculates the horizontal gravity of a child view based on its gravity attribute and the layout direction of the toolbar.
+
+The `getChildTop()` method calculates the top position of a child view within the toolbar, taking into account the child's height, gravity, margins, and padding.
+
+The `getChildVerticalGravity()` method calculates the vertical gravity of a child view based on its gravity attribute and the layout direction of the toolbar.
+
+The `getHorizontalMargins()` method calculates the sum of the start and end margins of a view.
+
+The `getVerticalMargins()` method calculates the sum of the top and bottom margins of a view.
+
+The `getViewListMeasuredWidth()` method calculates the total width of a list of views, taking into account their margins.
+
+The `isChildOrHidden()` method checks if a view is a child of the toolbar or if it has been hidden.
+
+The `layoutChildLeft()` method positions a child view to the left of the toolbar, taking into account its left and right margins.
+
+The `layoutChildRight()` method positions a child view to the right of the toolbar, taking into account its left and right margins.
+
+The `measureChildCollapseMargins()` method measures a child view with collapse margins, taking into account the left and right margins and adjusting the measured width.
+
+The `measureChildConstrained()` method measures a child view with constrained dimensions, taking into account the left and right margins.
+
+The `postShowOverflowMenu()` method posts a runnable to show the overflow menu of the toolbar.
+
+The `shouldCollapse()` method checks if the toolbar should collapse based on the visibility and dimensions of its child views.
+
+The `shouldLayout()` method checks if a view should be laid out within the toolbar based on its parent and visibility.This code snippet contains various getter methods for retrieving properties of a Toolbar component in Android. These getter methods include retrieving content insets, logo, logo description, menu, navigation content description, navigation icon, overflow icon, popup context, popup theme, subtitle, title, title margins, and wrapper. The code also includes methods for inflating and hiding the overflow menu, checking if the overflow menu is pending or showing, and checking if the title is truncated. Additionally, there are methods for handling hover events and layout of the Toolbar.In this code snippet, the `onMeasure()` method is implemented to measure the dimensions of the Toolbar component and its child views. The method starts by determining the layout direction (`bool1`) and the start/end indices (`i1` and `n`) based on the layout direction. 
+
+The dimensions of the `mNavButtonView` (navigation button), `mCollapseButtonView` (collapse button), and `mMenuView` (menu) are measured and their dimensions are added to the total width (`m` in the LTR direction or `i1` in the RTL direction) and the height (`j`). The content inset start and end values are also updated accordingly.
+
+If the expanded action view (`mExpandedActionView`) is present, its dimensions are measured and added to the total width and height, and the content inset end value is updated.
+
+If the logo view (`mLogoView`) is present, its dimensions are measured and added to the total width and height.
+
+Next, the method iterates through the remaining child views and measures their dimensions if they are not marked with a `mViewType` of 0. The dimensions of these child views are added to the total width and height.
+
+Finally, if the title view (`mTitleTextView`) is present, its dimensions are measured and added to the total width and height.
+
+The final dimensions (`j` and `i1`) and the combined state (`i`) are used to set the measured dimensions and state of the Toolbar component.The remaining part of the code includes setters and getters for various properties of the Toolbar component.
+
+- `setCollapseContentDescription(int)` and `setCollapseContentDescription(CharSequence)`: Set the content description for the collapse button.
+- `setCollapseIcon(int)` and `setCollapseIcon(Drawable)`: Set the icon drawable for the collapse button.
+- `setCollapsible(boolean)`: Set whether the Toolbar can be collapsed.
+- `setContentInsetEndWithActions(int)`: Set the end content inset when there are action views present.
+- `setContentInsetStartWithNavigation(int)`: Set the start content inset when there is a navigation icon present.
+- `setContentInsetsAbsolute(int, int)`: Set the absolute content insets.
+- `setContentInsetsRelative(int, int)`: Set the relative content insets.
+- `setLogo(int)` and `setLogo(Drawable)`: Set the logo drawable of the Toolbar.
+- `setLogoDescription(int)` and `setLogoDescription(CharSequence)`: Set the content description for the logo.
+- `setMenu(MenuBuilder, ActionMenuPresenter)`: Set the menu for the Toolbar.
+- `setMenuCallbacks(MenuPresenter.Callback, MenuBuilder.Callback)`: Set the callbacks for the menu presenter and menu builder.
+- `setNavigationContentDescription(int)` and `setNavigationContentDescription(CharSequence)`: Set the content description for the navigation button.
+- `setNavigationIcon(int)` and `setNavigationIcon(Drawable)`: Set the icon drawable for the navigation button.
+- `setNavigationOnClickListener(View.OnClickListener)`: Set the click listener for the navigation button.
+- `setOnMenuItemClickListener(OnMenuItemClickListener)`: Set the click listener for menu items.
+- `setOverflowIcon(Drawable)`: Set the icon drawable for the overflow menu.
+- `setPopupTheme(int)`: Set the theme for the overflow popup menu.
+- `setSubtitle(int)` and `setSubtitle(CharSequence)`: Set the subtitle text of the Toolbar.The `OnMenuItemClickListener` interface is used to handle clicks on menu items in a Toolbar. It has a single method `onMenuItemClick(MenuItem)` that needs to be implemented.The remaining code includes the implementation of `SavedState` class which extends `AbsSavedState` and implements `Parcelable.Creator<SavedState>`. It has fields `expandedMenuItemId` and `isOverflowOpen`, along with constructors, methods for reading and writing the state to a parcel.
+
+There is also an anonymous class implementation of `Parcelable.ClassLoaderCreator<SavedState>` that provides the necessary methods for creating instances of `SavedState` from a parcel.

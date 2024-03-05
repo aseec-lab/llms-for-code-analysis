@@ -1,0 +1,9 @@
+This code defines an abstract class called `LookupTableInterpolator` which implements the `Interpolator` interface.
+
+The `LookupTableInterpolator` class has two private instance variables: a float array `mValues` and a float `mStepSize`.
+
+The constructor for `LookupTableInterpolator` takes an array of floats as input, sets `mValues` to this input, and calculates `mStepSize` based on the length of the input array.
+
+The `getInterpolation` method calculates the interpolated value for a given float input. If the input is less than 0 or greater than 1, it simply returns 0 or 1 respectively. Otherwise, it calculates the index in the `mValues` array by multiplying the input with the array length, clips it so it does not exceed the array length, then calculates the interpolation of the value at the index and the next one in the `mValues` array. The method returns this calculated float as the interpolated value.
+
+This class is used to define a method of interpolation using a lookup table of float values. Typically it is extended by other classes which provide the specific lookup table values. The output value is a mix of two values in `mValues` depending on the input. This interpolator class provides fine-grained control over animation behaviour in the AndroidX library.

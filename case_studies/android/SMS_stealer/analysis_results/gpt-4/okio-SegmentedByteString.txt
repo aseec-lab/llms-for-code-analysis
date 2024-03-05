@@ -1,0 +1,18 @@
+The `SegmentedByteString` class is a subclass of `ByteString` from the okio library. It's used to manage and manipulate Byte data in a more powerful and efficient manner compared to Java's traditional byte arrays or `ByteBuffer`.
+
+Key variables:
+- `directory`: an array of integers that stores the end index and position of each segment.
+- `segments`: a 2D byte array, where each inner array refers to a segment of data.
+
+Key methods:
+- `SegmentedByteString()`: constructor, initializes `segments` and `directory` from given `Buffer` and a specific size. Marks each added segment as `shared`.
+- `segment()`: a helper method to find which segment a given byte index falls into in the `ByteString`.
+- `toByteString()`: convert a segmented `ByteString` to a single `ByteString` instance.
+- `getByte()`, `size()`, `substring()`: provide functionality to operate on the `ByteString` data.
+- `rangeEquals()`: checks equality of a range of data. Overloaded versions support comparing with another `ByteString` or a byte array.
+- Various methods converting `SegmentedByteString` to other formats e.g. `base64`, `hex`, `sha1`, `sha256`, etc.
+- `toByteArray()`: converts the segmented data back to a byte array.
+- `write()`: writes data to an `OutputStream` or `Buffer`.
+- `hashCode()`, `equals()`, `toString()`: override Object's methods to provide correct behavior.
+
+This class works with segmented byte data rather than contiguous data, making it more efficient for larger datasets, as it can handle operations without the need to copy the entire dataset.

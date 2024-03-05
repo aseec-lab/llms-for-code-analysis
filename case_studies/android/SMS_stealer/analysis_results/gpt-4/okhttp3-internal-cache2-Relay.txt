@@ -1,0 +1,19 @@
+The `Relay` class is used to cache HTTP responses in a file. 
+
+It uses a `RandomAccessFile` to both read from and write to the disk. The cache file begins with a fixed-size 32-byte header, followed by a metadata section, and ends with the body of the HTTP response. 
+
+The cache file uses a marker system with "OkHttp cache v1\n" and "OkHttp DIRTY :(\n" as prefixes for clean and dirty states, respectively. The `edit` and `read` methods are used to initialize or retrieve a cache file. 
+
+This class also keeps track of the count of active sources and handles concurrency when multiple sources try to read the response body.
+
+The inner `RelaySource` class represents a snapshot of the response buffer at a specific point in time. Each source reads from the buffer independently.
+
+In the case of concurrent reads, the reads block until the writer signals a condition variable, at which point the reads continue. If the source reads further than the cache, it waits until the data is available.The `read` method of the `Relay` class reads bytes from the file into a given buffer, from a given position. This process operates differently when reading from a clean cache or when reading from the upstream source. It also handles synchronization properly when reading from the upstream source.
+
+The `timeout` method returns a Timeout object associated with the read operation.
+
+The `commit` method is invoked when the read operation is completed. If the Relay's file is in a dirty state, the upstream reader is set as `null` and the Relay object is notified.
+
+Most methods inside the `Relay` class are synchronized to prevent race conditions, except the `timeout` method as it only retrieves an attribute. 
+
+The end part contains bytecode metadata about the Relay class, including its location and compiler version.

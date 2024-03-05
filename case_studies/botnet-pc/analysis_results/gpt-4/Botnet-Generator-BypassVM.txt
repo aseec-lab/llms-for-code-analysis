@@ -1,0 +1,11 @@
+`BypassVM.py` is a script that is designed to determine whether the bot is running within a virtual environment. It looks for various markers that could indicate its operation within a VM, before attempting to execute further actions. 
+
+Here are the tasks it performs:
+
+1. `registry_check()`: It checks Windows Registry for entries that may indicate a presence of VMware.
+
+2. `processes_and_files_check()`: It checks for running processes and files in the system directory that are generally associated with virtual machines, such as VMware and VirtualBox.
+
+3. `mac_check()`: It looks at the MAC address of the machine to determine if it matches a list known to be associated with VMware.
+
+If any of the checks indicate that the bot is running in a virtual machine, the script will print a relevant message and then exit immediately. The purpose is to counteract analyses conducted in a contained environment, which is a common infosec practice to understand malware behaviour.

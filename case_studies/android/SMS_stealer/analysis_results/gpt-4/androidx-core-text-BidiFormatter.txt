@@ -1,0 +1,18 @@
+The `BidiFormatter` class is part of the AndroidX `core/text` package and it provides a mechanism for creating immutable Bidirectional (Bidi) formatters suitable for use in the current UI locale context. Bidi handles input that can flow either from left to right (LTR) or right to left (RTL), ideal for handling texts in languages such as Arabic, Hebrew, and Persian that are written from right to left.
+
+The class features static methods for getting a BidiFormatter instance based on the default locale or a specified one, and methods for checking the layout direction for a locale. 
+
+The formatter provides several methods like `unicodeWrap()`, `isRtl()`, including their overloaded versions to determine the writing direction of the given text parameter, and return a Unicode wrapped version of the text in the necessary format.
+
+The nested `Builder` class is a builder pattern implementation for creating a `BidiFormatter` with certain attributes, whilst the nested `DirectionalityEstimator` handles the determination of directional properties of a character sequence, such as in an HTML context.
+
+The `unicodeWrap()` method wraps the input string with Unicode markers to ensure that the string is perceived in a defined directionality (either LTR or RTL). Other utility methods are designed to check the format or wrap the text input for certain scenarios.This section of code is involved in the process of determining the directional properties of a character sequence, such as one you might find in an HTML context. It includes private methods for skipping tags and entities in a backward or forward direction. 
+
+`skipTagBackward()` and `skipTagForward()` handle the skipping of HTML tags, and `skipEntityBackward()` and `skipEntityForward()` handle the skipping of HTML entities.
+
+
+`dirTypeBackward()` and `dirTypeForward()` help in determining the directionality of individual characters. These methods use the `Character` class's methods to get each char's Unicode directional property. They also handle HTML syntax by skipping HTML entities and tags.
+
+`getEntryDir()` and `getExitDir()` return the inferred directionality based on the input string. They do this by iterating over chars in the string and monitoring changes in the directional level when encountering directional characters such as left-to-right (LTR) or right-to-left (RTL) embeddings. The "entry" directionality is the one at the start of the string, and the "exit" directionality is at the end.
+
+The `DirectionalityEstimator` class uses these methods in order to work out the directional properties of strings in either a plain-text or an HTML context. Each method deals with the complexities of the Bidi algorithm and HTML syntax; such as skipping over tags and entities, handling surrogate pairs, and caching directionalities for efficiency.

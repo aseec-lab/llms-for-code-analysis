@@ -1,0 +1,15 @@
+The `ANRequestQueue` class in the `com.androidnetworking.internal` package functions as a request queue for network requests (`ANRequest`). It manages the lifecycle of these requests by adding them to the queue, setting their execution order based on their priority, and removing finished requests from the queue. Also, this class has functionality for cancelling all requests or certain requests identified by a specific tag.
+
+- The singleton design pattern is used here, as indicated by the static `sInstance` variable and the `getInstance()` method. This ensures only one instance of the `ANRequestQueue` exists globally.
+
+- The `addRequest(ANRequest paramANRequest)` method adds a new request to the queue, assigns a sequence number to it, and submits it for execution with either the `forImmediateNetworkTasks` or the `forNetworkTasks` executor from an `ANExecutor` instance based on its priority. 
+
+- The `cancelAll(boolean paramBoolean)` method cancels all requests currently in the queue.
+
+- The `cancelRequestWithGivenTag(Object paramObject, boolean paramBoolean)` method cancels all requests matching a given tag.
+
+- The `isRequestRunning(Object paramObject)` method checks if there is any request that matches a given tag and if it's still running.
+
+- The `finish(ANRequest paramANRequest)` method removes a finished request from the queue.
+
+- `RequestFilter` is an interface used for applying some filtering condition to requests.

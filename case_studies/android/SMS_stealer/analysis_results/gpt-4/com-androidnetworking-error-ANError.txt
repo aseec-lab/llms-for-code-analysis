@@ -1,0 +1,11 @@
+The provided code defines a class `ANError` which extends `Exception`. This class appears to represent an error that can happen during network operations in the Android Networking library.
+
+`ANError` holds error details like `errorBody` (which is the error message), `errorCode` (numerical code representing the error), `errorDetail` (a more thorough description of the error), and `response` (the HTTP response object associated with the error, if any).
+
+The class has several constructors allowing you to create an `ANError` with different combinations of parameters. You can pass in just a message, just a `Throwable`, both, or include an `okhttp3.Response` object. This allows for flexibility in error reporting depending on the context.
+
+There are also getter methods for the fields (like `getErrorBody()`, `getErrorCode()`, etc.), and setter methods to set the error details (`setErrorBody()`, `setErrorCode()`, etc.). 
+
+A unique method here is `getErrorAsObject(Class<T> paramClass)` that tries to parse the error body as an Object of a specified class type. This may be useful if error messages are serialized objects of known types.
+
+Also, there's a `setCancellationMessageInError()` method that hardcodes the `errorDetail` as "requestCancelledError", which can be used to signal that an operation was cancelled.

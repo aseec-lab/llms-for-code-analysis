@@ -1,0 +1,13 @@
+The `SupportActionModeWrapper` class is a wrapper for the `ActionMode` class in the `android.view` package. It provides compatibility for older versions of Android by implementing the same methods as the `ActionMode` class and delegating the calls to an instance of `ActionMode`.
+
+It has a constructor that takes a `Context` and an `ActionMode` as parameters and initializes the class with these values.
+
+The class overrides methods such as `finish()`, `getCustomView()`, `getMenu()`, `getMenuInflater()`, `getSubtitle()`, `getTag()`, `getTitle()`, `getTitleOptionalHint()`, `invalidate()`, `isTitleOptional()`, `setCustomView()`, `setSubtitle()`, `setTag()`, `setTitle()`, and `setTitleOptionalHint()` to forward the calls to the wrapped `ActionMode` object.
+
+The `CallbackWrapper` inner class implements the `ActionMode.Callback` interface and serves as a wrapper for an `ActionMode.Callback` object. It wraps the provided `ActionMode.Callback` and provides compatibility by translating menu objects to `MenuWrapperICS` objects using a `SimpleArrayMap`.
+
+The `getActionModeWrapper()` method creates a `SupportActionModeWrapper` object for a given `ActionMode` and adds it to an array list of wrappers.
+
+The `onActionItemClicked()`, `onCreateActionMode()`, `onDestroyActionMode()`, and `onPrepareActionMode()` methods forward the calls to the wrapped `ActionMode.Callback` by translating the action mode and menu objects to their corresponding wrapper objects.
+
+Overall, the `SupportActionModeWrapper` class allows for compatibility with older versions of Android by wrapping and translating calls to the `ActionMode` class and its associated callback.

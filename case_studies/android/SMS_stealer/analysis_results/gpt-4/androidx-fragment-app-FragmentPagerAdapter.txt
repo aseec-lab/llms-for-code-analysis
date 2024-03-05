@@ -1,0 +1,17 @@
+`FragmentPagerAdapter` is an abstract base class that provides the boilerplate code for interacting with `Fragment` instances inside of a `ViewPager`. It provides behavior for instantiating, destroying and managing fragments as pages of the view pager. 
+
+It has two behavior modes:
+1. `BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT` (1) - only the current fragment will be in the Lifecycle.State.RESUMED state. All other fragments are capped at Lifecycle.State.STARTED.
+2. `BEHAVIOR_SET_USER_VISIBLE_HINT` (0) - this is the legacy mode which uses the deprecated setUserVisibleHint for determining fragment's visibility.
+
+Key methods include:
+- `instantiateItem(ViewGroup, int)`: creates the page for the given position; it will either reuse an existing fragment or create a new one. The created fragment is added to the `FragmentManager`.
+- `destroyItem(ViewGroup, int, Object)`: removes the given fragment as it's no longer needed.
+- `setPrimaryItem(ViewGroup, int, Object)`: sets the current item and notifies the adapter to track this item as the primary one.
+- `getItem(int)`: abstract method to be overriden by subclasses to instantiate the fragment for a given page.
+
+This class also ensures the fragment transactions are committed immediately by using a FragmentTransaction object (`mCurTransaction`), which is committed (using `commitNowAllowingStateLoss()`) after the ViewPager finishes updating. 
+
+The class also ensures that the ViewPager has a view id before performing any updates (`startUpdate(ViewGroup)` function), otherwise an `IllegalStateException` is thrown.
+
+The `saveState()` and `restoreState(Parcelable, ClassLoader)` methods in this class are no-op, subclasses can override these methods to save and restore adapter state respectively.

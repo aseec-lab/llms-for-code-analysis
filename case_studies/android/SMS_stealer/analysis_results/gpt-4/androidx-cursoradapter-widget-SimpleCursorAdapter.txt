@@ -1,0 +1,15 @@
+The `SimpleCursorAdapter` extends the `ResourceCursorAdapter` and is used to map columns from a cursor to `TextView` or `ImageView` views defined in an XML file. The binding from columns to views is done in the `bindView` method. This adapter also supports custom conversions via a `CursorToStringConverter` and `ViewBinder` defined by the user.
+
+- Find columns indices from a cursor: this is implemented in the `findColumns` method. It uses the column names to find their corresponding indices in the provided cursor and saves them in the `mFrom` member variable.
+  
+- Configure views: In the `bindView` a check is made to see if a custom ViewBinder is set. If it is not set, it would configure the View for you. It supports `TextView` and `ImageView` out of the box. Otherwise, with a custom `ViewBinder`, you can implement additional logic to bind data in any way you see fit.
+
+- Change Cursor and Columns: The `changeCursorAndColumns` method allows to replace the current cursor and the columns of the adapter.
+
+- Convert to String: The `convertToString` method converts a cursor to CharSequence. It first checks if there is a `CursorToStringConverter`, which is an interface used to convert a `Cursor` object to a character sequence, and uses it if exists. If not, it checks the `mStringConversionColumn`; if that column exists, it converts the column value to a string.
+
+- Setting Views: The `setViewImage` and `setViewText` methods are used to set the respective values of `ImageView` and `TextView`.
+
+- String Conversion: The `setStringConversionColumn` and `setCursorToStringConverter` methods are used to specify how the cursor is converted to a string. 
+
+- Swap Cursor: The `swapCursor` method finds the columns from the newly swapped cursor, then calls the `swapCursor` method of the super class to perform the actual swapping.

@@ -1,0 +1,9 @@
+The `Excluder` class in the Gson library is responsible for excluding certain fields and types during the serialization and deserialization process based on a particular set of rules or strategies.
+
+- It implements `TypeAdapterFactory` and `Cloneable` interfaces and includes methods to establish exclusion strategies.
+- It is responsible for determining whether a certain field or class should be included or excluded during the serialization/deserialization process. 
+- This exclusion could be based on certain rules such as whether the class is an inner class, or anonymous or local, or based on certain annotations such as `@Until`, `@Since`, and `@Expose`.
+- It also allows setting of the serialization/deserialization strategies, versioning of serialized data, skipping fields without `Expose` annotation and handling of inner class serialization.
+- Methods `excludeClass` and `excludeField` are used to determine if a specific class or field should be excluded based on the established rules or strategies.
+- It has provision to modify its state using `withExclusionStrategy`, `withModifiers` and `withVersion` methods and these modifications are always producing a cloned object to ensure immutability.
+- The `create` method is used to create a `TypeAdapter` for a given type, this adapter can later be used for the actual serialization/deserialization process.

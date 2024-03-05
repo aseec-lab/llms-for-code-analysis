@@ -1,0 +1,7 @@
+The `UnsafeAllocator` class in the `com.google.gson.internal` package is an abstract class that provides methods to allocate instances for a type. 
+
+The `assertInstantiable()` method is a utility function that checks whether a given class can be instantiated. It cannot be an interface or an abstract class. If either is the case, it throws an `UnsupportedOperationException`.
+
+The `create()` method tries to create a new instance of `UnsafeAllocator` through a variety of methods, which are attempted in turn if the previous one fails. It attempts to use the `sun.misc.Unsafe` class, or alternatively reflection methods in the `ObjectStreamClass` or `ObjectInputStream` class to create new instances of types. If none of these methods work, it falls back to a default `UnsafeAllocator` where every call to `newInstance()` throws an `UnsupportedOperationException`.
+
+The `newInstance()` method in `UnsafeAllocator`, which is declared as abstract, is meant to create a new instance of a given class. The specific implementation of this method depends on each concrete subclass of `UnsafeAllocator`.

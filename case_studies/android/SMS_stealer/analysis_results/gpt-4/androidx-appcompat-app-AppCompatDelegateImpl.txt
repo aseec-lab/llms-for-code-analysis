@@ -1,0 +1,131 @@
+The `AppCompatDelegateImpl` class extends the `AppCompatDelegate` class and implements the `MenuBuilder.Callback` and `LayoutInflater.Factory2` interfaces. It's primarily responsible for implementing backwards-compatible features on behalf of its hosting activity when running on newer Android versions. It has constructors for Activity, Dialog, and Window.
+
+This class uses a variety of methods and fields to manipulate menus, action modes, animations, event handling, and other key aspects of the user interface. It has a `handle` method that handles menu creation and implements other callback methods, such as those to respond to the opening and closing of sub-menus. 
+
+This class allows custom layout inflating with the help of the Factory2 interface. It also deals with the night mode logic among a plethora of other UI and functionality aspects, assuring backwards compatibility. 
+
+This class is also a part of the AppCompat library which is a set of support libraries designed to provide newer features on older versions of Android with backward compatibility.- `ensureWindow()`: This method ensures that the `mWindow` object (which represents the activity's window) has been initialized, either as the window of the host `Activity` or with a window provided directly.
+- `attachToWindow(Window paramWindow)`: Attaches the AppCompatDelegate to a window. Also installs a decorator and decorates the window if it's not already done.
+- `applyDayNight(boolean paramBoolean)`: Responsible for applying the Night Mode related changes, and managing the cleanup process for the relevant resources.
+- `createSubDecor()`: Creates the sub decor view (the decor view is the root of a window's hierarchy). It setups the window decor and ActionBar properly.
+- `ensureSubDecor()`: Ensures that the sub decor is installed in the window.
+- `applyFixedSizeWindow()`: This method applies fixed size attributes to a window.
+- `calculateNightMode()`: Calculates and returns the current night mode state.
+- `cleanupAutoManagers()`: This method handles the cleanup process for the auto night mode managers.
+- `createOverrideConfigurationForDayNight()`: Creates and returns a new Configuration with the appropriate night mode UI mode set.
+- `generateConfigDelta()`: Returns a Configuration instance representing 'what's different' between two provided configurations.- `getAutoBatteryNightModeManager()`: This method initializes and returns the `AutoBatteryNightModeManager` object which handles night mode changes based on battery saver status.
+- `getAutoTimeNightModeManager()`: This method initializes and returns the `AutoTimeNightModeManager` object that handles night mode changes based on time of day.
+- `initWindowDecorActionBar()`: This method initializes the window decor and the action bar.
+- `initializePanelContent()`: This method initializes the content of the panel. If the menu or the panel view is null, it returns false, otherwise shows the panel menu and returns true.
+- `initializePanelDecor()`: Initializes the decor view for a panel. It sets the style for the panel and returns true.
+- `initializePanelMenu()`: Initializes the panel menu and sets up theme, also sets the callback and applies the style.
+- `invalidatePanelMenu()`: This method marks the panel menu as needing to be recreated. If invalidation has not been posted, it also posts a call to the runnable to perform the invalidate action.
+- `isActivityManifestHandlingUiMode()`: This method checks if the activity is handling UI mode changes itself by checking the `configChanges` field in the activity's manifest file.
+- `onKeyDownPanel()`: Handles key down events for the panel. If the panel is not already open, this method will prepare the panel.
+- `onKeyUpPanel()`: This method handles key up events for the panel. It either shows or hides the overflow menu, or toggle the panel state between open and closed.
+- `preparePanel()`: This method prepares the panel for showing. It calls the necessary setup methods and checks if it's possible to show the panel.- `openPanel(PanelFeatureState paramPanelFeatureState, KeyEvent paramKeyEvent)`: This method opens the panel after performing various checks, such as checking if the panel is not open, the activity is destroyed, or if the panel is properly prepared.
+- `performPanelShortcut(PanelFeatureState paramPanelFeatureState, int paramInt1, KeyEvent paramKeyEvent, int paramInt2)`: This method performs a shortcut action, if possible. If the event passed is a system event, it returns false, otherwise it checks if the panel is prepared and if the menu item with the given key id performs a shortcut. If all conditions are met and shortcut is performed, and additionally, if the panel is not closed and does not have a content parent, it also closes the panel. Returns true if the shortcut is performed, and false in all other cases.
+- `preparePanel(PanelFeatureState paramPanelFeatureState, KeyEvent paramKeyEvent)`: This method prepares the panel for showing. If the application is destroyed or the panel is already prepared, it returns the state of existence of the panel.- `reopenMenu(boolean paramBoolean)`: This method re-opens the context menu. It checks the menu state and depending on that it either opens or closes the menu. 
+- `sanitizeWindowFeatureId(int paramInt)`: This method takes an integer as input and if it matches the values of 8 or 9 it logs a message accordingly recommending the use of `FEATURE_SUPPORT_ACTION_BAR` and `FEATURE_SUPPORT_ACTION_BAR_OVERLAY` respectively.
+- `shouldInheritContext(ViewParent paramViewParent)`: This method checks if a given ViewParent should inherit the context from its parent. It returns true if there is no parent or if the parent is already attached to the context; returns false otherwise.
+- `throwFeatureRequestIfSubDecorInstalled()`: This function throws an exception if sub decor is already installed.
+- `tryUnwrapContext()`: This method removes the wrappers around the context and returns the AppCompatActivity if it exists.
+- `updateForNightMode(int paramInt,boolean paramBoolean)`: This method updates the display for night mode.
+- `updateResourcesConfigurationForNightMode(int paramInt, boolean paramBoolean, Configuration paramConfiguration)`: This function updates the resources and configuration for Night Mode. 
+- `updateStatusGuardColor(View paramView)`: This method updates the color of the status guard. It checks whether the view has `SYSTEM_UI_FLAG_LIGHT_STATUS_BAR` flag and then sets the color of the guard accordingly.
+- `addContentView(View paramView, ViewGroup.LayoutParams paramLayoutParams)`: This method adds a new view to the sub decor.
+- `applyDayNight()`: This method wrap the configuration update for day and night mode to the context.
+- `attachBaseContext2(Context paramContext)`: This method returns the Base context and if possible, applies the override configuration for day and night mode.- `callOnPanelClosed(int paramInt, PanelFeatureState paramPanelFeatureState, Menu paramMenu)`: Calls the onPanelClosed method on an application window callback if the panel state is open and the application window is not destroyed. If the menu is null, it first validates and gets the PanelFeatureState.
+- `checkCloseActionMenu(MenuBuilder paramMenuBuilder)`: Checks if the menu is closing, if not it sets the flag to indicate it's closing, dismisses the popups related to the content parent and then closes the panel.
+- `closePanel(int paramInt)`: Calls the closePanel method after fetching a particular PanelState object.
+- `closePanel(PanelFeatureState paramPanelFeatureState, boolean paramBoolean)`: Removes the decor view attached to the panel state if it's open and calls onPanelClosed.
+- `createView(View paramView, String paramString, Context paramContext, AttributeSet paramAttributeSet)`: Creates a view with the provided parameters.
+- `dismissPopups()`: Dismisses any popups related to the content parent and any action mode popups that may be currently visible.
+- `dispatchKeyEvent(KeyEvent paramKeyEvent)`: Dispatches a key event for this delegate. It returns true if the event has been handled.
+- `doInvalidatePanelMenu(int paramInt)`: Invalidates the panel menu for a given feature ID and refreshes the menu content and the decor view.
+- `endOnGoingFadeAnimation()`: Cancels any fade animations that may currently be running.
+- `findMenuPanel(Menu paramMenu)`: Finds the panel state associated with a given menu.
+- `findViewById(int paramInt)`: Returns the view associated with this window.
+- `getActionBarThemedContext()`: Returns the context associated with the ActionBar.
+- `getAutoTimeNightModeManager()`: Returns the AutoNightModeManager instances that this delegate uses.
+- `getDrawerToggleDelegate()`: Returns a delegate used to toggle drawer.
+- `getLocalNightMode()`: Returns the local night mode policy.
+- `getMenuInflater()`: Returns the menu inflater used by this delegate.
+- `getPanelState(int paramInt, boolean paramBoolean)`: Returns the PanelFeatureState associated with this delegate.- `getSubDecor()`: Returns the mSubDecor, which is a ViewGroup.
+- `getSupportActionBar()`: Initializes window decor ActionBar and returns the mActionBar.
+- `getTitle()`: Returns the title of the window attached to the delegate.
+- `getWindowCallback()`: Returns the callback associated with the window.
+- `hasWindowFeature(int paramInt)`: Determines whether the window has a certain feature, such as progress, ActionBar, overlay mode, etc.
+- `installViewFactory()`: Sets the AppCompatDelegateImpl object as the factory for the LayoutInflater of the Application context or logs a message if another Factory is already set.
+- `invalidateOptionsMenu()`: Invalidates options menu. It checks if any associated action bar is present and tries to invalidate it.
+- `isHandleNativeActionModesEnabled()`: Returns whether handling of native action modes is enabled.
+- `mapNightMode(Context paramContext, int paramInt)`: Maps the night mode provided to one of the AppCompatDelegate's night mode constants.
+- `onBackPressed()`: Handles the back press. If there is a visible Action Mode present, it finishes it. If there is a (collapsed) action view in the ActionBar, it attempts to collapse it.
+- `onConfigurationChanged(Configuration paramConfiguration)`: Handles changes in the configuration by the ActionBar and updates the night mode setting, if necessary.
+- `onCreate(Bundle paramBundle)`: Applies the day/night theme and initializes AppCompatDelegate settings during its creation.
+- `onCreateView(View paramView, String paramString, Context paramContext, AttributeSet paramAttributeSet)`: Creates a new view with the given parameters.
+- `onCreateView(String paramString, Context paramContext, AttributeSet paramAttributeSet)`: Wrapper around the onCreateView() method, which can be called with null in the first parameter.
+- `onDestroy()`: Handles destruction of this delegate. It removes any ongoing/invalidate menu runnables and cleans up Auto managers.
+- `onKeyDown(int paramInt, KeyEvent paramKeyEvent)`: Handles the key down event. It manages the long press back down and opens a panel when keyCode is KEYCODE_MENU.
+- `onKeyShortcut(int paramInt, KeyEvent paramKeyEvent)`: Handles key shortcuts. It first tries to deliver the key event to the ActionBar. If it is not handled by the ActionBar, it tries to deliver the event to the prepared panel, if any. If no panel is prepared, it attempts to prepare one and deliver the event.
+- `onKeyUp(int paramInt, KeyEvent paramKeyEvent)`: Handles the key up event. It manages the key release, checks if a panel is open and if so, it closes it on a back press.
+- `onMenuItemSelected(MenuBuilder paramMenuBuilder, MenuItem paramMenuItem)`: Handles menu item selection. It first checks if the window callback exists and then tries to find the menu panel for the root menu of the selected item.- `onMenuModeChange(MenuBuilder paramMenuBuilder)`: Reopens menu.
+- `onMenuOpened(int paramInt)`: Handles menu opening. If ActionBar has visibility, display menu visibility is set to true.
+- `onPanelClosed(int paramInt)`: Handles panel closure. If ActionBar has visibility, its display menu visibility is set to false, if there's a panel that is open, close the panel.
+- `onPostCreate(Bundle paramBundle)`: Ensures this view has a sub-decor.
+- `onPostResume()`: Resumes the visibility of ActionBar's show-hide animation when system is back from paused state.
+- `onSaveInstanceState(Bundle paramBundle)`: Empty method for saving the instance state.
+- `onStart()`: Handles the start lifecycle of the delegate, applying day-night theme.
+- `onStop()`: Handles the stop of the delegate, stops the ActionBar show-hide animation.
+- `onSubDecorInstalled(ViewGroup paramViewGroup)`: Empty method for sub decor installation.
+- `peekSupportActionBar()`: Returns the actionbar.
+- `requestWindowFeature(int paramInt)`: Request a window feature like an ActionBar, progress feature, etc and returns whether the request was actioned.
+- `setContentView(int paramInt)`: Removes all views from the ViewGroup rooted at this decor, inflates a new view hierarchy and notifies callback of content change.
+- `setContentView(View paramView)`: Replaces all views in the ViewGroup rooted at this decor with a new view and notifies the callback of content change.
+- `setContentView(View paramView, ViewGroup.LayoutParams paramLayoutParams)`: Replaces all views in the ViewGroup rooted at this decor with a new view using a layout params object.
+- `setHandleNativeActionModesEnabled(boolean paramBoolean)`: Enables or disables native action modes.
+- `setLocalNightMode(int paramInt)`: Sets the local night mode setting and if applicable, applies day-night theme.
+- `setSupportActionBar(Toolbar paramToolbar)`: Sets a toolbar to act as the ActionBar for this delegate.
+- `setTheme(int paramInt)`: Sets the theme to use in this delegate.
+- `setTitle(CharSequence paramCharSequence)`: Sets the title for this delegate.
+- `shouldAnimateActionModeView()`: Determines whether the action mode view should be animated.
+- `startSupportActionMode(ActionMode.Callback paramCallback)`: Starts action mode with given callback.
+- `startSupportActionModeFromWindow(ActionMode.Callback paramCallback)`: Starts action mode with the given callback, instructing the window to stop using the feature.This large function is used to update the status guard, which is the space covering the status bar when the action mode is visible. This happens in two situations: When the action mode view is shown and when it's not. 
+
+For the first situation, it checks if the action mode view layout parameters are instances of `ViewGroup.MarginLayoutParams`. If so, and the action mode view is shown, it adjusts the layout parameters of the action mode view and the "status guard" view based on whether they are different from the current system window insets. If the system window insets are different from the layout parameters of these views, it updates the layout parameters and requests a layout.
+
+In the situation where the action mode view is not shown, it simply sets the top margin of the layout parameters to zero.
+
+Finally, it checks whether to show the action mode view or status guard based on the app's overlay mode settings, and returns the appropriate height.The remaining code spans across multiple classes and methods but focuses primarily on interface implementation and callback functionality for handling menu changes, action mode states, and window changes in the application. Some key classes include `ActionBarDrawableToggleImpl`, `ActionMenuPresenterCallback`, `ActionModeCallbackWrapperV9`, and `AppCompatWindowCallback`. 
+
+`ActionBarDrawableToggleImpl` implements methods for handling the ActionBar's drawable toggle.
+
+`ActionMenuPresenterCallback` serves as a callback that listens for when a menu is opened or closed and checks whether to close the menu.
+
+`ActionModeCallbackWrapperV9` is a class that creates an action mode callback wrapping another callback. It provides methods to handle action mode and performs certain actions like menu item click, action mode creation and destruction. 
+
+`AppCompatWindowCallback` is a window callback wrapper, which adds extra behavior like key dispatching, serving panel menus, dispatching shortcut keys, and initiating action modes.
+
+`AutoBatteryNightModeManager` is a subclass of `AutoNightModeManager`. This class listens to the device's battery state and adjusts the night mode accordingly. If power save mode is activated, the app's theme is switched to night mode.
+
+`AutoNightModeManager` is an abstract class that provides methods for handling automatic night mode switching based on certain conditions. It contains an inner BroadcastReceiver class for listening to system broadcasts that indicate a need for mode changes.The additional code block includes more classes that are part of the `AppCompatDelegateImpl` implementation. An anonymous `BroadcastReceiver` subclass is defined to listen for system intents and trigger night mode changes.
+
+`AutoTimeNightModeManager` builds upon the abstract `AutoNightModeManager`, this time implementing functionality to switch modes based on the device's timezone changes.
+
+`ConfigurationImplApi17`, `ConfigurationImplApi24`, and `ConfigurationImplApi26` are static classes that handle specific functionality for different API levels, such as managing display density, locale, and color mode configurations.
+
+A `ContextThemeWrapperCompatApi17Impl` class is defined to apply configuration changes to a context theme wrapper for API 17 and above.
+
+`ListMenuDecorView` is a customized `ContentFrameLayout` that overrides key events and touch events to interact with the app's panel.
+
+`PanelFeatureState` is a support class that manages the state of the panel's items, menu, view, and other related properties. A nested `SavedState` class provides parcelable capabilities for preserving and restoring the panel's state across configuration changes.The remaining part of the code defines the implementation of various classes and methods related to the `PanelFeatureState` class. 
+
+The `SavedState` nested class encapsulates the state of a panel, including the feature ID, a flag indicating whether the panel is open, and a `Bundle` object storing the state of a menu in the panel. Its `CREATOR` field is a `Parcelable.Creator` that knows how to create `SavedState` instances from a `Parcel`.
+
+`readFromParcel()` method is used to convert the `Parcel` back into an instance of `SavedState`.
+
+`describeContents()` returns 0, indicating that the parcelable contains no file descriptors. 
+
+`writeToParcel()` writes the feature ID, whether the panel is open, and the state of the menu (if the panel is open) to a `Parcel`.
+
+The `PanelMenuPresenterCallback` class is an internal helper class that serves as the callback for menu presentation events. Its `onCloseMenu()` method is called when a menu is closed, while its `onOpenSubMenu()` method is called when a submenu is opened. The latter method interacts with the window's callback to invoke `onMenuOpened()` if conditions are met.

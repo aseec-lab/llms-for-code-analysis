@@ -1,0 +1,23 @@
+The `Headers` class in OkHttp is used to manage HTTP headers. Here is an explanation of the main methods:
+
+- Two constructors are used to create instances of the `Headers` class. One constructor consumes a `Builder` while the other constructor takes an array of strings as input.
+
+- A method named `Headers.of(Map<String, String> paramMap)` is provided, which can create a new `Headers` object from a given `Map`.
+
+- The `Headers.of(String... paramVarArgs)` method creates a `Headers` object from an array of strings. The strings should be in alternating key-value format.
+
+- Method `byteCount()` calculates the total length of headers in bytes.
+
+- Methods `name(int paramInt)` and `value(int paramInt)` can be used to access the keys and values of headers at a specific index.
+
+- The class also provides methods like `names()`, `values(String paramString)`, and `toMultimap()` to return headers in various data structures.
+
+- The `Builder` class is an inner class, which is used to construct a `Headers` object, it has methods to add, check, remove headers and build a `Headers` object from the added headers.
+
+In conclusion, the `Headers` class provides all necessary tools to manage HTTP headers effectively.This portion of the code adds additional methods to the `Builder` class:
+
+- `removeAll(param1String)` method: it is used to remove all headers with the given name.
+
+- `set(String param1String1, String param1String2)` method: this replaces the header with the given name with the new value. It first removes all occurrences of the header with the given name using `removeAll(param1String1)` method, and then adds a new header using `addLenient(param1String1, param1String2)`. It checks for valid names and values using `checkNameAndValue(param1String1, param1String2)`. 
+
+Lastly, the comments at the end show the location of the source `.jar` file where this `Headers.class` exists. The Java compiler version used for this class is 6 and JD-Core Version is 1.1.3.

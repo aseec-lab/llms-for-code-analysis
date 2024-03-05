@@ -1,0 +1,29 @@
+The `DropDownListView` class extends the Android `ListView` widget and customizes the behavior, specifically to support drop down lists in the user interface.
+
+The member variables include flags to handle different focus and item selection states, padding for the selection, a selector drawable, a rectangle for keeping track of the selector boundaries, and several others.
+
+The class provides a constructor that takes a `Context` and a boolean flag where it makes a ListView with drop-down styles and cache color to 0.
+
+It exposes the method `clearPressedItem` to stop the drawing in pressed state on a particular list item, `clickPressedItem` to perform an item click action, `drawSelectorCompat` to draw the item selector into the designated area, `positionSelectorCompat` to position the selector, and others.
+
+There are override methods for handling touch events and focus states (`hasFocus`, `hasWindowFocus`, `isFocused`, `isInTouchMode`) based on the variables `mHijackFocus` and `mListSelectionHidden`, `drawableStateChanged` for updating drawable state, `dispatchDraw` to draw the selector and list items, and `measureHeightOfChildrenCompat` to measure the total height occupied by children of the list view.
+
+The method `lookForSelectablePosition` is to look for the next selectable position in the list. 
+
+The nested classes/interfaces include `GateKeeperDrawable` which provides a way to control when the ListView's selector is drawn, `ResolveHoverRunnable` which provides a way to handle hover events, `ViewPropertyAnimatorCompat` that provides a platform agnostic way to use Android's view animation capabilities, and `ListViewAutoScrollHelper` which provides functionality to scroll a ListView.This section of the DropDownListView class includes additional methods and two nested classes, `GateKeeperDrawable` and `ResolveHoverRunnable`.
+
+The `onDetachedFromWindow` method runs when the view is no longer attached to the window, it removes any instance of the `mResolveHoverRunnable` and calls its parent's `onDetachedFromWindow`.
+
+`onForwardedEvent` is used to forward a motion event and perform appropriate operations accordingly based on touch and hover events. 
+
+`onHoverEvent` method deals with hover events - hovering cursor in or out of an item, or moving the cursor around. 
+
+`onTouchEvent` is overridden to handle the touch events. When action down is performed, it calculates the item position and if `mResolveHoverRunnable` is not null, it cancels it.
+
+`setListSelectionHidden` sets the `mListSelectionHidden` flag.
+
+`setSelector` sets the selector with a `GateKeeperDrawable` instance wrapping the Drawable passed into it if it’s not null, updates padding and sets the selector.
+
+The `GateKeeperDrawable` nested class extends `DrawableWrapper`, primarily controlling the availability of hotspot and drawing operations. It has `setEnabled` method to control whether the Drawable will respond to state change and draw itself.
+
+The `ResolveHoverRunnable nested class implements Runnable and it's responsible for invoking `drawableStateChanged` method in the DropDownListView when it’s executed. It has `cancel` and `post` methods for cancelling and posting the runnable.

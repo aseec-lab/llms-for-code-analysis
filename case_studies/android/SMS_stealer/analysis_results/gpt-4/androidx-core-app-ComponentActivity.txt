@@ -1,0 +1,17 @@
+The `ComponentActivity` class is a type of `Activity` that provides support for Lifecycle and other Android X features. It implements `LifecycleOwner` and `KeyEventDispatcher.Component`.
+
+Data Members:
+- `mExtraDataMap`: A map to hold extra data in key-value pairs.
+- `mLifecycleRegistry`: Maintains and handles the lifecycle-related work.
+
+Methods:
+- `dispatchKeyEvent(KeyEvent paramKeyEvent)`: Dispatches a given `KeyEvent`.
+- `dispatchKeyShortcutEvent(KeyEvent paramKeyEvent)`: Dispatches a given `KeyEvent` shortcut.
+- `getExtraData(Class<T> paramClass)`: Fetches the extra data associated with the provided class.
+- `getLifecycle()`: Returns the Lifecycle of the current Activity.
+- `onCreate(Bundle paramBundle)`: Hook method called when the activity is created. It also injects the `ReportFragment`.
+- `onSaveInstanceState(Bundle paramBundle)`: Hook method called to save the instance state.
+- `putExtraData(ExtraData paramExtraData)`: Stores extra data into `mExtraDataMap` with its Class type as its associated key.
+- `superDispatchKeyEvent(KeyEvent paramKeyEvent)`: Dispatches KeyEvent into the super implementation, bypassing the current activity's implementation.
+
+The `ExtraData` class is a placeholder class used for storing extra data. It's marked as deprecated, indicating that developers should find a newer way to store extra data for an activity.

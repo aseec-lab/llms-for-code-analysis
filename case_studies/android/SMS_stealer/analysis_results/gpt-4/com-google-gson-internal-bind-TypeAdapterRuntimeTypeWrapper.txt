@@ -1,0 +1,7 @@
+This class, `TypeAdapterRuntimeTypeWrapper`, extends `TypeAdapter` and serves as a wrapper for runtime types in JSON serialization and deserialization operations using the Gson library.
+
+The `getRuntimeTypeIfMoreSpecific` method is used to get the runtime type of the object if it is more specific than the one initially passed in. It essentially handles polymorphic serialization and deserialization.
+
+The `read` method handles JSON deserialization. It uses a delegate `TypeAdapter` to read the JSON input and return an object of type `T`.
+
+The `write` method handles JSON serialization. It gets or constructs a `TypeAdapter` for the specific runtime type of `paramT`, which will take into account runtime type parameters. If the runtime type is more specific than the compile-time type, it will try to find or create a `TypeAdapter` for it. If an appropriate `TypeAdapter` cannot be found or created, it falls back to the original, compile-time `TypeAdapter`. Once it has an appropriate `TypeAdapter`, it delegates the serialization operation to this `TypeAdapter`.

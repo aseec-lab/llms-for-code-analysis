@@ -1,0 +1,11 @@
+`LinearCurveFit` is a subclass of `CurveFit` representing linear curve fitting. The class uses an array `mT` to store the input time points, a 2D array `mY` to store the corresponding output values, and a double `mTotalLength` to store the total length computed from these values.
+
+The constructor `LinearCurveFit` initializes these variables and calculates the total length of the data if the number of output values is more than 2.
+
+The `getLength2D` private method calculates the length of 2D curve up to a certain time `paramDouble`.
+
+`getPos` methods return the output value(s) corresponding to the given time using linear interpolation between the two adjacent time points. There are different variants of `getPos` based on whether we want the output value(s) for a given array index (in case of multiple output values per time point) or for all array indices, and whether we want the output as doubles or floats.
+
+`getSlope` methods return the slope at the given time, also computed using linear interpolation. Variants exist based on whether we want the slope for a given array index or for all array indices.
+
+`getTimePoints` returns the array `mT` which stores the input time points.

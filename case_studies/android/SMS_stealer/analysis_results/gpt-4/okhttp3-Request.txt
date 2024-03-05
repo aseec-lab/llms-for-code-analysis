@@ -1,0 +1,11 @@
+The `Request` class in OkHttp represents an HTTP request. It has instances of `HttpUrl`, `Headers`, `RequestBody`, and `CacheControl`(optional) along with properties like `method` (HTTP verb) and `tag` (an arbitrary object which can be associated with the request for user's convenience). 
+
+The `Builder` nested class is used to construct requests. It supports all standard HTTP methods (GET, POST, PUT, DELETE, PATCH, HEAD) as well as custom methods. Headers can be added, removed or set, and bodies can be added for methods that permit request bodies. 
+
+If the request method is not safe according to `HttpMethod`, a request body must not be provided, and if the method requires a body, the body must not be null. 
+
+Url in the builder can be set with the help of a String, a URL object or a `HttpUrl` object. 
+
+The constructed `Request` object is immutable and can be passed around threads safely.
+
+The file is located at `okhttp3/Request.java`.

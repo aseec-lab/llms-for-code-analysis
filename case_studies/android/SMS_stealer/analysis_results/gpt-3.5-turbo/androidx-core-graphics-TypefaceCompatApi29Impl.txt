@@ -1,0 +1,13 @@
+The `TypefaceCompatApi29Impl` class in the `androidx.core.graphics` package provides an implementation of the `TypefaceCompat` interface for devices running API level 29 or higher.
+
+Here's a brief summary of what the code does:
+
+- The `createFromFontFamilyFilesResourceEntry()` method creates a custom typeface from font files stored as resource entries. It uses the `FontResourcesParserCompat` class to parse the resource entries and extracts the information about each font file. It then constructs a `Typeface.CustomFallbackBuilder` and sets the appropriate font style based on the requested parameters.
+
+- The `createFromFontInfo()` method creates a custom typeface from `FontsContractCompat.FontInfo` objects. It retrieves the font files using the `ContentResolver` and `openFileDescriptor()` and constructs the `Font` objects using the `Font.Builder`. It then constructs a `Typeface.CustomFallbackBuilder` and sets the appropriate font style based on the requested parameters.
+
+- The `createFromInputStream()` method throws a `RuntimeException` indicating that it should not be used for devices running API 29 or later.
+
+- The `createFromResourcesFontFile()` method creates a custom typeface from a font file stored as a resource. It constructs the `Font` object using the `Font.Builder` and creates a `Typeface.CustomFallbackBuilder` with the font style based on the requested parameters.
+
+- The `findBestInfo()` method throws a `RuntimeException` indicating that it should not be used for devices running API 29 or later.

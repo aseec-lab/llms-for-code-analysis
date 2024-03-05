@@ -1,0 +1,11 @@
+The `RemoteActionCompat` class provides a compatibility layer for creating and manipulating `RemoteAction` instances, which encapsulates the information of a remote action, including an icon, a title, a content description, and a `PendingIntent`, and is used for RemoteViews and Notification.
+
+The class contains fields for icon (`mIcon`), title (`mTitle`), content description (`mContentDescription`), action intent (`mActionIntent`), enable status (`mEnabled`) and show icon status (`mShouldShowIcon`). 
+
+The constructors `RemoteActionCompat()` and `RemoteActionCompat(RemoteActionCompat paramRemoteActionCompat)` allow initializing an instance with blank or copying from another instance of `RemoteActionCompat`, while `RemoteActionCompat(IconCompat paramIconCompat, CharSequence paramCharSequence1, CharSequence paramCharSequence2, PendingIntent paramPendingIntent)` allows fully customizing a new instance. 
+
+The `createFromRemoteAction(RemoteAction paramRemoteAction)` method converts a `RemoteAction` instance to a `RemoteActionCompat` instance, taking care of the Android SDK version compatibility.
+
+The class also provides getter and setter methods for each field. 
+
+The `toRemoteAction()` method converts a `RemoteActionCompat` instance back to a `RemoteAction` instance, catering to the different SDK versions.

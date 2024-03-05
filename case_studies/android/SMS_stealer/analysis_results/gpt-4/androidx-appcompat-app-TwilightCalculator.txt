@@ -1,0 +1,13 @@
+The `TwilightCalculator` class in the androidx.appcompat.app package is used to calculate sunrise & sunset times based on timezone and location (latitude & longitude). 
+
+Magic numbers in the file are likely constants related to astronomical and mathematical computations. 
+
+It includes:
+
+- state variable: Represents whether it's day (0) or night (1).
+- sunrise variable: Represents the time of sunrise.
+- sunset variable: Represents the time of sunset.
+
+The `getInstance()` static method returns a singleton object of the class, ensuring that only one instance of the TwilightCalculator is active at any given time.
+
+The `calculateTwilight(long time, double latitude, double longitude)` method calculates the sunrise and sunset times for the provided time and location. In case of polar day or night, when the sun does not rise or set, it adjusts the state and sunrise/sunset times accordingly.

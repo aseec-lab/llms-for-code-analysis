@@ -1,0 +1,9 @@
+This class `PermissionInfoCompat` in the package `androidx.core.content.pm` provides compatibility methods for handling `PermissionInfo` objects in different Android versions.
+
+It has two static methods:
+
+1. `getProtection(PermissionInfo paramPermissionInfo)`: This method returns either the protection level of the given `PermissionInfo` object for Android API level 28 and above or a bitwise AND operation on `protectionLevel` of `PermissionInfo` and `0xF` for API level below 28.
+
+2. `getProtectionFlags(PermissionInfo paramPermissionInfo)`: This method returns either the protection flags of the given `PermissionInfo` object for Android API level 28 and above or a bitwise AND operation on `protectionLevel` of `PermissionInfo` and `0xFFFFFFF0` for API level below 28.
+
+The class also contains two inner annotations `Protection` and `ProtectionFlags` for source code-level annotation. These annotations do not have any runtime significance. They are likely used for commenting/documenting code. The `RetentionPolicy.SOURCE` means that these annotations are not included in the .class files and are ignored by the runtime environment.

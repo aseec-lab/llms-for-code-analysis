@@ -1,0 +1,7 @@
+The `CursorFilter` class is an internal class that extends the `Filter` class. It is used by the `CursorAdapter` class to provide filtering functionality for a `Cursor`. The `CursorFilter` class has a constructor that receives a `CursorFilterClient` object and stores it in a member variable. It also implements the `convertResultToString` method that converts the filtered results to a `CharSequence`.
+
+The `performFiltering` method is overridden to perform the filtering operation on a background thread. It uses the `runQueryOnBackgroundThread` method of the `CursorFilterClient` to query the database and obtain a new `Cursor` based on the specified filter. The results are stored in a `FilterResults` object and returned.
+
+The `publishResults` method is overridden to handle the results of the filtering operation. It compares the filtered results with the current `Cursor` obtained from the `CursorFilterClient`. If the filtered results are different from the current `Cursor`, the `changeCursor` method of the `CursorFilterClient` is called to update the adapter's data.
+
+The `CursorFilterClient` interface is defined within the `CursorFilter` class and provides methods for managing the `Cursor` data. It includes methods to change the `Cursor`, convert the `Cursor` to a `CharSequence`, get the current `Cursor`, and run a query on a background thread.

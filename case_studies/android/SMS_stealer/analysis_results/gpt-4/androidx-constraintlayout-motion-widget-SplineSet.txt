@@ -1,0 +1,24 @@
+This is an abstract class `SplineSet` for managing animations in ConstraintLayout. It includes methods for setting up and managing animations such as rotation, translation, scale, transparency (alpha), as well as custom animations. 
+
+The `makeSpline` and `makeCustomSpline` methods are used to create different instances of `SplineSet` based on a provided string key. 
+
+`setPoint` method is used to assign time points to corresponding values. 
+
+`setup` method performs the actual setup of the animations, where time points are matched with corresponding values using curve fitting.
+
+The class includes several subclasses, each representing a different animation setting, e.g., `AlphaSet` for transparency, `ElevationSet` for elevation, `CustomSet` for custom animations.
+
+In each of these subclasses, the `setProperty` method is implemented to alter a specific property of a `View` based on the interpolated value for the current time.
+
+The `CustomSet` class uses `ConstraintAttribute` to represent the property being animated. For example, it could be used to animate a custom attribute.This code includes additional static subclasses of the `SplineSet` class, each representing a different type of animation setting. The animation settings are as follows:
+
+1. `PathRotate`: This class adjusts the rotation of a view based on the spline's current value and tangent angle at the current time.
+2. `PivotXset`/`PivotYset`: These classes adjust the X and Y pivot points, respectively, of a view based on the spline's current value.
+3. `ProgressSet`: This class adjusts the progress of a `MotionLayout` based on the spline's current value. If the view is not a `MotionLayout`, it attempts to use the `setProgress` method through reflection. If the method is not found, it does nothing.
+4. `RotationSet`/`RotationXset`/`RotationYset`: These classes adjust the full, X, or Y rotation of a view based on the spline's current value, respectively.
+5. `ScaleXset`/`ScaleYset`: These classes adjust the X and Y scale of a view based on the spline's current value, respectively.
+6. `TranslationXset`/`TranslationYset`/`TranslationZset`: These classes move (translate) a view on the X, Y, or Z axis, respectively, based on the spline's current value.
+   
+The `Sort` class is used internally for sorting integer arrays with corresponding float values. It employs the quicksort algorithm. It includes methods such as `doubleQuickSort`, `partition`, and `swap`. 
+
+All static subclasses define the `setProperty(View param1View, float param1Float)` method which alters a specific property of a `View` based on the interpolated value for the current time.

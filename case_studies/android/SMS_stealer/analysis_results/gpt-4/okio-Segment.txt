@@ -1,0 +1,19 @@
+The `Segment` class in the Okio library is designed to handle segments of memory. It is primarily used in buffer operations with each segment being a part of the entire buffer. 
+
+This class contains variables such as `data` which holds the bytes, `pos` and `limit` representing the beginning and end of the effective data in this segment, `owner` indicating if this segment can be written, `shared` to denote if this segment is shared, and `next` and `prev` which link to other segments to form a circular linked list.
+
+Some of the major methods are:
+
+`compact()`: Compacts data by moving it to the end of the previous segment if space is available.
+
+`pop()`: Removes the segment from its circular linked list.
+
+`push(Segment paramSegment)`: Adds another segment just before this one in the circular linked list.
+
+`sharedCopy()`: Creates a new Segment that shares a reference to the same byte array.
+
+`split(int paramInt)`: Splits the segment, either creating a new segment that shares a reference to the same byte array or pulls a segment from the segment pool.
+
+`unsharedCopy()`: Creates a new Segment with a copy of the byte array.
+
+`writeTo(Segment paramSegment, int paramInt)`: Moves bytes from this segment to the specified segment.

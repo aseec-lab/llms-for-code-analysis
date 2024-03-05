@@ -1,0 +1,69 @@
+The `ActionMenuPresenter` class in the `androidx.appcompat.widget` package is responsible for presenting an action menu in a view. It extends the `BaseMenuPresenter` class and implements the `ActionProvider.SubUiVisibilityListener` interface.
+
+Key features and functionalities of this class include:
+
+- Managing a collection of action buttons and handling their visibility and behavior.
+- Handling the overflow menu button and overflow popup menu.
+- Setting the width and item limits for the action menu.
+- Creating and binding views for each menu item in the action menu.
+- Dismissing popup menus when necessary.
+
+The `flagActionItems()` method is used to iterate through the menu items and determine their visibility and layout within the action menu. It considers factors such as the available space, the number of action items, and the presence of overflow items. It also measures and calculates the size of each action item to ensure it fits within the available space.
+
+The method then updates the visibility and layouts of the action items and returns a boolean indicating whether any popup menus were dismissed.The remaining part of the code you provided includes the implementation of various methods in the `ActionMenuPresenter` class.
+
+The `getItemView()` method is responsible for creating and returning the view for a menu item. If the menu item has a custom action view or a collapsible action view, it uses the parent implementation. It then sets the visibility of the view based on whether the action view is expanded.
+
+The `getMenuView()` method returns the menu view. If the menu view has changed, it sets the presenter of the new menu view to be `this`.
+
+The `getOverflowIcon()` method returns the icon drawable for the overflow menu button. If an overflow button exists and has a drawable set, it returns that drawable. Otherwise, it returns the pending overflow icon if it has been set.
+
+The `hideOverflowMenu()` method is responsible for hiding the overflow menu. If there is a pending open runnable, it removes it from the menu view and sets it to null. Otherwise, if the overflow popup exists, it dismisses it.
+
+The `hideSubMenus()` method is responsible for hiding any submenus. If the action button popup exists, it dismisses it.
+
+The `initForMenu()` method is used to initialize the presenter for a menu. It sets various properties like the reserve overflow value, the width limit, and the max items limit based on the `ActionBarPolicy` for the given context. It also creates the overflow menu button and measures its width if necessary.
+
+The `isOverflowMenuShowPending()` method checks if there is a pending open runnable or if the overflow menu is currently being shown, and returns `true` if either condition is true.
+
+The `isOverflowMenuShowing()` method checks if the overflow menu popup is currently showing, and returns `true` if it is.
+
+The `isOverflowReserved()` method returns the value of the `mReserveOverflow` property, indicating whether the overflow menu is reserved for this presenter.
+
+The `onCloseMenu()` method dismisses any visible popup menus and calls the parent implementation to handle the menu closure.
+
+The `onConfigurationChanged()` method handles the configuration change event. It updates the max items limit if it is not already set, and notifies the menu of any item changes.The `onRestoreInstanceState()` method restores the state of the presenter from a `Parcelable`. If the saved state is an instance of `SavedState`, it retrieves the `openSubMenuId` from the saved state. If there is a menu item with the specified submenu ID, it calls `onSubMenuSelected()` with the corresponding submenu.
+
+The `onSaveInstanceState()` method saves the state of the presenter in a `Parcelable`. It sets the `openSubMenuId` property of the `SavedState` object to the current open submenu ID.
+
+The `onSubMenuSelected()` method handles the selection of a submenu. It checks if the submenu has visible items and retrieves the top-level parent submenu. It then finds the view associated with the submenu item and sets the `mOpenSubMenuId` property to the submenu ID. If any visible menu item in the submenu has an icon, it sets the `forceShowIcon` flag to `true` in the popup window. Finally, it creates a new `ActionButtonSubmenu` popup and shows it.
+
+The `onSubUiVisibilityChanged()` method is called when the visibility of the submenu UI changes. If the submenu UI becomes visible, it calls `onSubMenuSelected()` with `null` as the submenu to dismiss any open submenu. If the submenu UI becomes invisible, it closes the menu.
+
+The `setExpandedActionViewsExclusive()` method sets whether expanded action views should be exclusive.
+
+The `setItemLimit()` method sets the maximum number of items to show in the menu.
+
+The `setMenuView()` method sets the menu view and initializes it with the menu.
+
+The `setOverflowIcon()` method sets the icon drawable for the overflow menu button.
+
+The `setReserveOverflow()` method sets whether the overflow menu should be reserved for this presenter.
+
+The `setWidthLimit()` method sets the width limit and strict width limit for the menu.
+
+The `shouldIncludeItem()` method checks whether an item should be included in the menu based on its implementation.
+
+The `showOverflowMenu()` method shows the overflow menu. It checks if the overflow menu should be shown and if it is not already showing. If so, it creates a new `OpenOverflowRunnable` and posts it to the menu view.
+
+The `updateMenuView()` method updates the menu view. It calls the parent implementation and requests a layout for the menu view. It also adds or removes the overflow menu button based on the `mReserveOverflow` property and sets the overflow reservation state for the menu view.The remaining code includes the `OverflowPopup` class, `PopupPresenterCallback` class, and the `SavedState` class.
+
+The `OverflowPopup` class extends `MenuPopupHelper` and represents the overflow menu popup. It sets the gravity to be aligned with the end of the screen and sets the presenter callback.
+
+The `PopupPresenterCallback` class implements `MenuPresenter.Callback` and handles the closing and opening of submenus. It closes the root menu if the submenu is an instance of `SubMenuBuilder`, and calls the callback's `onCloseMenu()` or `onOpenSubMenu()` accordingly.
+
+The `SavedState` class implements `Parcelable` and represents the saved state of the presenter. It contains the `openSubMenuId` property, which is saved and restored from a parcel.
+
+The `Parcelable.Creator` implementation for `SavedState` is also included in the code. It provides the necessary methods to create a `SavedState` object from a parcel and create an array of `SavedState` objects.
+
+The code source is located in the file `ActionMenuPresenter.java`, and the Java compiler version used is 6.

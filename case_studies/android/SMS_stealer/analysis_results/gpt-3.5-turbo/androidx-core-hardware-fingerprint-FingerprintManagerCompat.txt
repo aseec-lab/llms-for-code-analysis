@@ -1,0 +1,16 @@
+The `FingerprintManagerCompat` class in the `androidx.core.hardware.fingerprint` package provides compatibility methods for working with fingerprint authentication on different Android versions.
+
+Key methods and functionality:
+- `from(Context paramContext)`: Creates a new instance of `FingerprintManagerCompat`.
+- `getFingerprintManagerOrNull(Context paramContext)`: Gets the `FingerprintManager` instance or returns null if it is not available.
+- `unwrapCryptoObject(FingerprintManager.CryptoObject paramCryptoObject)`: Converts a `FingerprintManager.CryptoObject` into a compatible `FingerprintManagerCompat.CryptoObject`.
+- `wrapCallback(AuthenticationCallback callback)`: Wraps a `FingerprintManager.AuthenticationCallback` into a compatible `FingerprintManagerCompat.AuthenticationCallback`.
+- `wrapCryptoObject(CryptoObject paramCryptoObject)`: Converts a `FingerprintManagerCompat.CryptoObject` into a compatible `FingerprintManager.CryptoObject`.
+- `authenticate(CryptoObject paramCryptoObject, int paramInt, CancellationSignal paramCancellationSignal, AuthenticationCallback paramAuthenticationCallback, Handler paramHandler)`: Initiates fingerprint authentication.
+- `hasEnrolledFingerprints()`: Checks if the device has enrolled fingerprints.
+- `isHardwareDetected()`: Checks if the fingerprint hardware is detected.
+
+Nested classes:
+- `AuthenticationCallback`: Abstract class for handling fingerprint authentication callbacks.
+- `AuthenticationResult`: Class representing the result of fingerprint authentication.
+- `CryptoObject`: Class representing a cryptographic object used for fingerprint authentication.

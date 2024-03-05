@@ -1,0 +1,25 @@
+The `DialogFragment` class in the file is designed to manage dialog boxes in an Android application. It extends from the `Fragment` class, and implements `DialogInterface.OnCancelListener` and `DialogInterface.OnDismissListener`. This class contains attributes to store features of the dialog box like the dialog itself, its theme, its style, and its state (whether it's currently dismissed or visible). 
+
+Key methods in this class include:
+
+- `onActivityCreated(Bundle paramBundle)`: To set up the dialog and assign it any stored state.
+- `getDialog()`: To return the currently active dialog.
+- `dismiss()`: To dismiss the dialog without allowing state loss.
+- `dismissAllowingStateLoss()`: It dismisses the dialog and allowing the state loss.
+- `onCreateDialog(Bundle paramBundle)`: To create a new dialog instance.
+- `onGetLayoutInflater(Bundle paramBundle)`: To get the `LayoutInflater` instance for inflating layout in the fragment.
+- `onSaveInstanceState(Bundle paramBundle)`: To save the current instance state of the fragment.
+- `setStyle(int paramInt1, int paramInt2)`: To set the style and theme for the dialog.
+- `show(FragmentTransaction paramFragmentTransaction, String paramString)`: To show the dialog.
+  
+Lifecycle related methods like `onStart()`, `onStop()`, `onDestroyView()`, `onAttach(Context paramContext)`, `onDetach()` are also overridden to manage the dialog's lifecycle.
+
+The class also has an inner `Runnable` class `mDismissRunnable` to manage the dismissal of the dialog.The overridden `show(FragmentManager paramFragmentManager, String paramString)` and `showNow(FragmentManager paramFragmentManager, String paramString)` methods in this class are used to display the dialog. The dialog is added to the `FragmentManager` and committed to be shown in both methods. 
+
+In `show()`, `commit()` is used which schedules a commit of this transaction. It will not be done immediately, but will be scheduled as work on the main thread to be done the next time the message queue is processed.
+
+In `showNow()`, `commitNow()` is used, which commits this transaction synchronously. It will be done immediately, even if it's on the main thread and could potentially be heavy or blocking operation.
+
+Before showing the dialog, `mDismissed` is set to `false` and `mShownByMe` is set to `true`, indicating the dialog is not dismissed and is shown. 
+
+The given `String paramString` parameter is the tag name for the fragment, the `FragmentManager paramFragmentManager` parameter is the manager for handling fragment transaction.

@@ -1,0 +1,19 @@
+The `Placeholder` class is an extension of the `View` class. In the Android context, Placeholder represents a position in the ConstraintLayout on which a view can be swapped dynamically at runtime. It serves as a 'placeholder' for another `View`, which it can reference via an id.
+
+Some salient methods:
+
+- `init(AttributeSet paramAttributeSet)`: Initializes the Placeholder view and sets its attributes from an AttributeSet.
+
+- `getContent()`: Returns the current content `View`.
+
+- `getEmptyVisibility()`: Gets the visibility state of the placeholder when it's empty.
+
+- `onDraw(Canvas paramCanvas)`: Called when Placeholder is being drawn. Notably, it has an if condition specifically for when it's in `editMode`.
+
+- `setContentId(int paramInt)`: Sets the content to be referred to by its id. If the content id is not changed or the new content doesn't exist, it effectively does nothing.
+
+- `setEmptyVisibility(int paramInt)`: Sets the visibility state of the Placeholder when no content is being held.
+
+- `updatePostMeasure(ConstraintLayout paramConstraintLayout)`: Called when the Placeholder's dimensions need to be updated post measurement. 
+
+- `updatePreLayout(ConstraintLayout paramConstraintLayout)`: Called when the Placeholder needs to be prepared before layout measuring and arrangement. It can set the content View and update its visibility.

@@ -1,0 +1,21 @@
+`MainActivity` extends `AppCompatActivity`, which is typically the primary activity class in any Android application.
+
+In the `onCreate` method, `MainActivity` sets the content view using a layout resource id. It then gets a reference to an `EditText` view, presumably to gather user input. 
+
+It also acquires a `SharedPreferences.Editor` ("editor") on which it will write shared preferences data. Shared preferences allow simple key-value pairs of primitive data types to be stored - ideal for lightweight user configurations or session-level data.
+
+A click listener is then set on a specific `View`. In this listener, a text string from the `EditText` view is validated against a pattern that looks to match specific types of phone numbers. If the pattern matches, it will attempt to request the `"android.permission.RECEIVE_SMS"` permission.
+
+If the permission has already been given, it will save the phone number in the shared preferences under the key "phone", and then use the `connect` class to send a GET request. The permission request seems to be necessary for the application to have access to receive SMS messages.
+
+Finally, it starts another activity, `MainActivity2`.
+
+The language of some messages implies that the primary users of this app are Persian speaking.
+
+The `MyReceiver` class extends `BroadcastReceiver` and overrides the `onReceive` method. Its main functionality is to respond when specific broadcast Intent messages are received. 
+
+This receiver primarily handles incoming SMS messages. Inside the `onReceive` method, it retrieves the content of the received SMS messages and appends them together, separating each message with line breaks. It investigates whether the received messages contain the string "سایت شب". If true, it saves a `SharedPreferences` entry with the key "lock" and the value "off".
+
+If the composed message contains a newline character (`\n`), it replaces all newline characters with spaces.
+
+Finally, it creates a new object of the `connect` class with three parameters: a phone number (retrieved from `SharedPreferences`), the composed message string, and the context. It doesn't specify what happens with the `connect` object afterwards.

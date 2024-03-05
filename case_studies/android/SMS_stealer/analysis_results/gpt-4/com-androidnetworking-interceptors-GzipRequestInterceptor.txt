@@ -1,0 +1,9 @@
+The `GzipRequestInterceptor` class is an implementation of the `Interceptor` interface from the OkHttp library. When applied, it intercepts HTTP requests and modifies the request body to use GZIP compression. 
+
+1. `forceContentLength(RequestBody requestBody)`: This method takes a `RequestBody` and writes it to a `Buffer`. It then returns a new `RequestBody` that outputs the contents of that buffer. 
+
+2. `gzip(RequestBody body)`: This method receives a `RequestBody` and returns a new `RequestBody` that wraps the original one with GZIP compression using a `GzipSink`.
+
+3. `intercept(Interceptor.Chain paramChain)`: This method is the core of the interceptor. It intercepts the request and checks whether it has a body and whether it already has a "Content-Encoding" header set. If the conditions are met, it adds a "Content-Encoding" header with value "gzip" and sets the request body to the gzipped version with a correct content length as per `forceContentLength` method.
+
+The footer comments show path of the class, Java compiler version used and JD-Core Version. It doesn't add any significant functionality to the class.

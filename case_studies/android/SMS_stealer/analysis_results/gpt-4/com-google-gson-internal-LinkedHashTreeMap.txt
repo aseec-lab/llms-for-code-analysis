@@ -1,0 +1,34 @@
+The `LinkedHashTreeMap` implementation uses a map data structure with objects that have linked bidirectional list and an AVL (Adelson, Velski & Landis) tree structure for fast lookups and maintaining order. 
+
+- The `doubleCapacity` method is used to increase the current capacity of the map by creating a new array of nodes with double the size and then rehash the old values into the new array.
+- The `equal` method checks if two objects are equal.
+- The `rebalance` method helps in maintaining AVL tree properties whenever an insertion or deletion is performed. It correctively rotates the nodes to balance the tree.
+- The `replaceInParent` method replaces the old node in the parent node with the new node.  
+- The `rotateLeft` and `rotateRight` methods are used for performing rotations in the AVL tree during insertion and deletion to maintain tree balance.
+- The `secondaryHash` method reduces hash collisions.
+- The `writeReplace` method is used during serialization to replace the current map with a LinkedHashMap containing the same entries.
+- The `clear` method clears the map which effectively discards any existing entries in the map.
+- The `containsKey` method checks whether a specified key is present within the map or not.- The `entrySet` method returns a set view of the map entries. If the entrySet is not initialized yet, it creates a new instance of EntrySet.
+- `find` method is used to locate a particular node based on a given key. If the node does not exist and `paramBoolean` is true, it adds a new node; otherwise, it returns null.
+- The `findByEntry` method is used to locate a node, given an entry in the map.
+- The `findByObject` method checks if a node with a given object as key exists in the map.
+- The `get` method retrieves a value associated with a specific key. If the key is not present in the map, it returns null.
+- The `keySet` method returns a set containing all the keys in the map. If the keySet is not initialized yet, it creates a new instance of KeySet.
+- The `put` method adds a new node in the map, with a specified key and value. If the key already exists in the map, it updates the corresponding value and returns the old value.
+- The `remove` method removes a node with the specified key from the map and returns the value that was associated with that key.
+- The `removeInternal` method removes an existing node from the map. It also takes care of maintaining the balance of the AVL tree after removal.
+- The `removeInternalByKey` method removes a node with a specified key from the map.
+- The `size` method returns the total number of entries in the map.
+- The `AvlBuilder` inner class helps to build and balance the AVL tree.
+- The `AvlIterator` inner class provides methods to support iterating over the elements in the AVL tree.- The `reset` method in AvlIterator resets the (parent) node to null, while traversing through the AVL tree.
+- The `EntrySet` class represents a collection view of all map entries, with various methods to interact with the entries, such as clearing the set (`clear`), checking for the existence of an object in a set (`contains`), creating an iterator over the entries (`iterator`), removing a map entry from the set (`remove`) and obtaining the size of the set (`size`).
+- The `KeySet` class provides a collection view of all the keys contained in the map. It provides mechanisms to clear the key set, check if a key exists in the set, create an iterator over the keys, remove a key from the set, and to get the size of the key set.
+- The `LinkedTreeMapIterator` abstract class defines an iterator to iterate over the AVL tree.
+- The `Node` class within the `LinkedHashTreeMap` represents a node in the tree, where each node has a key-value pair, hash of the key, pointers to parent, left, right nodes, and height to facilitate AVL balancing.
+- The `first` method in the `Node` class returns the first node (node with the smallest key) in the tree.
+- The `getKey` method of the `Node` class retrieves the key associated with this node.
+- The `getValue` method of the `Node` class retrieves the value associated with this node.
+- The `hashCode` method within the `Node` class computes the hash code for the node based on its key and value.
+- The `last` method within the `Node` class returns the last node (node with the largest key) in the tree.- The `setValue` method in the `Node` class sets the value of the node to the given parameter and returns the previous value.
+- The `toString` method in the `Node` class returns a string representation of the node, which includes the node's key and value. This is done by appending the key and value to a string and returning the resulting string.
+- The `LinkedHashTreeMap` class is part of the `com.google.gson.internal` package, according to the provided file location in the comments. The compiled Java version for this class is 6, as noted in the comments.

@@ -1,0 +1,13 @@
+The `FaultHidingSink` class is a subclass of `ForwardingSink` and is used to write the request body to the cache. It acts as a wrapper around another `Sink` and handles exceptions that occur while writing to the cache.
+
+The `FaultHidingSink` constructor takes a `Sink` object as a parameter and calls the superclass constructor to set the wrapped sink.
+
+The `close()` method is overridden to catch `IOException` that may occur when closing the sink. If an exception occurs, the `hasErrors` flag is set to true and the `onException()` method is called.
+
+The `flush()` method is overridden in a similar way, catching and handling `IOException` that may occur while flushing the sink.
+
+The `write()` method is also overridden to catch any `IOException` that may occur while writing to the sink. If an exception occurs, the `hasErrors` flag is set to true and the `onException()` method is called.
+
+The `onException()` method is an empty method that can be overridden by subclasses to handle exceptions that occur during writing to the cache.
+
+Overall, the `FaultHidingSink` class provides a way to handle and manage exceptions that occur while writing the request body to the cache.

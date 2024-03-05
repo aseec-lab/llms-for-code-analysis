@@ -1,0 +1,19 @@
+The code defines a generic class named `LruCache` in the package `com.androidnetworking.cache`. 
+
+The class implements a Least Recently Used (LRU) cache using a LinkedHashMap. 
+
+It keeps track of the number of cache hits, misses, evictions, creates, and puts. 
+
+It provides methods to get, put, and evict items from the cache.The code implements the `trimToSize` method, which trims the cache to a specified size by removing the least recently used entries.
+
+The method first checks if the cache is not empty and its size is larger than the specified size. If this condition is met, it removes the least recently used entry from the cache by iterating through the entry set of the `LinkedHashMap` and removing the first entry.
+
+Note: There is some missing code between line 68 and line 77.The remaining part of the code is the implementation of the `trimToSize` method. 
+
+Line 68 to line 77 handles the removal of the least recently used entry from the cache. The entry key and value are stored in variables `key` and `value` respectively. The entry is removed from the `LinkedHashMap` and the cache size is updated accordingly.
+
+If an entry is successfully removed, the `entryRemoved` method is called to notify that the entry has been removed.
+
+Finally, the code handles the case when the cache size is inconsistent and throws an `IllegalStateException`.
+
+The remaining lines of code handle the synchronization of the cache and the exception handling of the code.

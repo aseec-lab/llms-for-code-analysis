@@ -1,0 +1,109 @@
+The `Http2Connection` class represents a connection over HTTP/2 protocol. This class is not thread safe. 
+
+- Some properties of `Http2Connection` are
+
+    - Stream-related properties: A set to track current push requests, a map to store streams, the next stream ID to create, etc.
+    - Connection-related properties: Connection settings, hostname/client of the connection, socket for the connection, etc.
+
+- Some methods are
+
+    - `Http2Connection(Builder paramBuilder)` constructor: Initializes the connection. If it's on the client side, it sets the next stream id to 1 and doubles the settings' "initial window size". For both client and server, it initializes various settings, creates new thread pools for writer and push observer, and creates new reader and writer.
+    
+    - `failConnection()`: Closes the connection with protocol error.
+    
+    - `newStream(int paramInt, List<Header> paramList, boolean paramBoolean)`: Creates a new stream with the given id, headers, and whether it can omit the final frame. If the connection is shut down, it throws an exception.
+    
+    - `addBytesToWriteWindow(long paramLong)`: Adds bytes to the window size and if there are bytes, notifies all to proceed since it was blocked due to back pressure.
+    
+    - `awaitPong()`: Pauses current thread till the ping is not acknowledged
+    
+    - `close()`: Closes the connection with a cancel error.
+    
+    - `close(ErrorCode paramErrorCode1, ErrorCode paramErrorCode2)`: Closes the connection with the given error codes.- The code snippet includes more methods of the `Http2Connection` class. 
+
+    `flush()`: A simple method that invokes the flush method on the connection's writer.
+
+    `getProtocol()`: Returns HTTP/2 as the Protocol.
+
+    `getStream(int paramInt)`: Returns a stream from the connection's streams map, using the passed integer as the key.
+   
+    `isShutdown()`: Returns whether the HTTP/2 connection is shutdown or not.
+    
+    `maxConcurrentStreams()`: Returns maximum streams that can be created concurrently in the HTTP/2 connection.
+   
+    `newStream(List<Header> paramList, boolean paramBoolean)`: Creates new stream with provided Header List and boolean value.
+   
+    `openStreamCount()`: Returns the total number of open streams in the HTTP/2 connection.
+    
+    `pushDataLater()`: Pushes data to the stream later. It reads from provided BufferedSource to the Buffer and schedules a run on the executor service.
+    
+    `pushHeadersLater()`: Pushes headers to the target stream later.
+    
+Please note that all the methods use object-level synchronization (on `this`), which may result in performance issues if executed concurrently from multiple threads. Therefore, as mentioned in the class-level documentation, the `Http2Connection` class is not thread safe.This part of the code includes multiple methods related to HTTP/2 connection management:
+
+- `pushRequestLater()`: Schedules the push request to be executed later on the executor service.
+
+- `pushResetLater()`: Schedules a reset push request later. 
+
+- `pushStream()`: Initiates a new stream if calling instance is a server, otherwise, throws an exception.
+
+- `pushedStream()`: Checks whether the given stream is pushed or not.
+
+- `removeStream()`: Removes and returns a stream from the stream map based on the provided integer key.
+
+- `setSettings()`: Sets settings of the HTTP/2 Connection and applies changes in Writer.
+
+- `shutdown()`: Shuts down the connection and sends GOAWAY frame to the other peer.
+
+- `start()`: Starts the HTTP/2 connection. It sends a connection preface to the peer, sends initial settings, and creates a dedicated thread for reading frames.
+
+- `writeData()`: Writes data to a stream in the HTTP/2 connection. It splits up data to comply with max frame size and flow control window. If there's no window left, it blocks until the peer has created space in their flow control window.This part of the code contains multiple methods related to HTTP/2 connection.
+
+- `writePing()`: Writes a ping frame with outbound flow control mechanism.
+
+- `writePingAndAwaitPong()`: Writes a ping frame and waits for a pong response.
+  
+- `writeSynReply()`: Writes a reply to a SYN request.
+
+- `writeSynReset()`: Writes a reset command.
+
+- `writeSynResetLater()`: Schedules a reset command to be executed later on the executor service.
+
+- `writeWindowUpdateLater()`: Schedules a window update operation to be executed later.
+
+- `Builder` class: A builder pattern class for constructing instances of `Http2Connection`.
+
+- `Listener` class: An abstract class that declares methods to be overriden for handling settings and individual streams.
+
+- `PingRunnable` class: A nested class that encapsulates details of a Ping operation to be run on a thread.
+
+- `ReaderRunnable` class: A nested class that implements a runnable thread capable of reading frames and responding to them.
+
+- `execute()`: Starts the HTTP/2 connection reader thread. This uses the `Http2Reader.readConnectionPreface()` to read the connection preface from the connection's input stream and processes frames received from the peer until the peer shuts down. It catches failures and applies appropriate connection teardown operations based on the situation.The code defines different methods related to HTTP/2 connection:
+
+1. `goAway()`: Terminates the connection by removing the streams initiated by the client that are higher than the last known stream.
+
+2. `headers()`: Handles HTTP/2 headers received from the client, either creating a new stream or passing the headers to existing streams.
+
+3. `ping()`: Handles ping responses and requests. If response flag is true, it notifies all waiting threads. Otherwise, it fires off a new ping request.
+ 
+4. `priority()`: An empty method that does nothing, might be used for setting priorities for streams.
+
+5. `pushPromise()`: Processes the promise of later push streams with specified headers.
+    
+6. `rstStream()`: Handles the stream reset instruction (`RST_STREAM` frame) by removing stream from the current connection if it exists.
+    
+7. `settings()`: Handles the settings frame received from the client. It applies and acknowledges settings, notify listener of settings and updates the initial window size for all streams.
+    
+8. `windowUpdate()`: Handles the window update (`WINDOW_UPDATE` frame) from the client. It increases the window size of the entire connection if stream id is 0, otherwise, it affects only a single stream.
+
+It also has three inner classes, each extends the `NamedRunnable` and override the `execute()` method for specific tasks:
+- A class that notifies the listener about a new stream.
+- A class that informs the listener about the settings.
+- A class that executes a ping command.
+
+This part of the code finishes the `ReaderRunnable` class and the `Http2Connection` class.This code defines two more inner classes within the `Http2Connection` class, also extending the `NamedRunnable` class to override the `execute()` method for specific tasks:
+
+- A class that applies and acknowledges the settings using the Http2 writer. If an `IOException` occurs, it fails the connection.
+
+Finally, it provides metadata related to the Java compiler version used for this code and its location in jar file.

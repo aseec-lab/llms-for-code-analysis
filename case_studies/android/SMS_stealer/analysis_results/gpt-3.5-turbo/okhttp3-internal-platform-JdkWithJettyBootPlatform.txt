@@ -1,0 +1,9 @@
+The code in the `JdkWithJettyBootPlatform` class is a platform implementation for the OkHttp library. It provides support for the Jetty ALPN (Application-Layer Protocol Negotiation) extension, which allows clients and servers to negotiate the protocol to use over a secure connection.
+
+The class relies on reflection to interact with the Jetty ALPN classes and methods. It has methods to configure TLS extensions, handle handshakes, and retrieve the selected protocol.
+
+The `JettyNegoProvider` class is a private inner class used as an invocation handler for the ALPN methods. It handles method invocations and maintains the selected protocol.
+
+The `buildIfSupported` method in the class is a factory method that checks if the Jetty ALPN classes are available and creates an instance of `JdkWithJettyBootPlatform` if they are.
+
+Overall, the code provides support for the Jetty ALPN extension in the OkHttp library on platforms that include the necessary classes and methods.

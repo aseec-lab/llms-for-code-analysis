@@ -1,0 +1,21 @@
+The `AlertDialog` class extends the `AppCompatDialog` and implements `DialogInterface`. It provides a dialog box functionality with a customizable layout, including title, custom list items, buttons, and icons.
+
+The `Builder` inner class is a builder-pattern style class that simplifies the construction of an `AlertDialog` object. Using `Builder`, you can set properties for the dialog such as its cancellation behavior, its title, its icon, whether it has a multi-choice list, etc.
+
+It also provides a mechanism to handle various dialog events including click actions on the dialog's buttons, dismissing the dialog, cancelling the dialog, and selecting items from its list. 
+
+Dialog themes can be resolved by API level with `resolveDialogTheme()`, attributes can be extracted from the current application theme using `TypedValue`, and buttons in the dialog can be managed using index keys.
+
+The `AlertDialog` class relies heavily on the `AlertController` class to manage most of its view-related operations like setting a custom title view, setting a icon, etc. 
+
+Key methods for user interactions include `onCreate()`, `onKeyDown()`, and `onKeyUp()`, which respectively help to create the initial dialog, process the key down and key up events.The block of code above defines more of the `Builder` methods in the `AlertDialog` class. 
+
+- `setPositiveButton()` sets the text and listener for the positive button. This can take either a resource ID or `CharSequence` for the button text.
+- `setPositiveButtonIcon()` sets an icon for the positive button.
+- `setRecycleOnMeasureEnabled()` sets whether the Builder should recycle its context on measurement.
+- `setSingleChoiceItems()` prepares the Builder to show single choice items. It's overloaded to take different types of parameters for the choice items including a resource ID for an array, a `Cursor`, a `ListAdapter`, or an array of `CharSequences`.
+- `setTitle()` sets the title of the AlertDialog. This can take either a resource ID or `CharSequence` for the title.
+- `setView()` sets a custom view to be used in the dialog box. There are three overloaded methods, where one takes a resource ID for a layout file, the second takes a `View` object, and the third deprecated method takes a `View` object and four margin ints for left, top, right, and bottom.
+- `show()` creates the AlertDialog and then shows it immediately. 
+
+The `Builder` then closes and values are returned via `AlertDialog`. The location of the java compiler and its version along with JD-Core version is mentioned at the end of the code.

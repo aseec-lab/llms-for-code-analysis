@@ -1,0 +1,11 @@
+The code defines a class called HandlerCompat in the package androidx.core.os.
+
+The class provides methods for creating asynchronous handlers and posting delayed messages.
+
+The createAsync method creates a handler with an asynchronous looper. It checks the Android SDK version and uses the appropriate constructor to create the handler. If the SDK version is 28 or higher, it calls Handler.createAsync method. If it is between 16 and 27, it uses reflection to invoke the constructor with the necessary parameters. If any exceptions occur during instantiation, it logs a warning message.
+
+The postDelayed method posts a message with a delayed execution time on a given handler. It checks the Android SDK version and uses the appropriate method. If the SDK version is 28 or higher, it calls the Handler.postDelayed method. If it is lower than 28, it creates a Message object and sets the required parameters before calling Handler.sendMessageDelayed method.
+
+The class also declares a constant String "TAG" for logging purposes.
+
+A comment at the end of the code includes the file path, Java compiler version, and JD-Core version.

@@ -1,0 +1,95 @@
+The `WindowDecorActionBar` class is a custom implementation of ActionBar which adds additional features like managing action modes, handling tab navigation, managing visibility of action bar, handling embedded tabs and managing the associated animations. The class uses the Decor pattern, with a `DecorToolbar` object to manage toolbar display operations. Some specific functionalities include:
+
+1. `public WindowDecorActionBar(Activity paramActivity, boolean paramBoolean)` - A constructor that initializes the action bar for an activity. If `paramBoolean` is false, it also sets the content view for the action bar.
+
+2. `public WindowDecorActionBar(Dialog paramDialog)` - A constructor that initializes the action bar for a dialog.
+
+3. `public WindowDecorActionBar(View paramView)` - A constructor that initializes the action bar for a specific view.
+
+4. `private void hideForActionMode()` - This method hides the action bar if it is currently showing for an action mode.
+
+5. `private void init(View paramView)` - This method initializes the action bar by finding and setting all necessary views and toolbar settings.
+
+6. `private void setHasEmbeddedTabs(boolean paramBoolean)` - This method sets whether tabs are embedded or not based on `paramBoolean`, and modifies the toolbar and container view accordingly.
+
+7. `static boolean checkShowingFlags(boolean paramBoolean1, boolean paramBoolean2, boolean paramBoolean3)` - This static method checks and returns whether the action bar should be shown or not based on the three boolean parameters.
+
+8. `private void ensureTabsExist()` - This method ensures that the tab layout exists in the current action bar. If it does not exist, it creates a new `ScrollingTabContainerView`.1. `shouldAnimateContextView()` - Determines if the context view should be animated based on whether it has been laid out.
+2. `showForActionMode()` - Shows the action bar for action mode if it's not currently showing, by setting the relevant flags and calling `updateVisibility()`.
+3. `updateVisibility()` - Updates the visibility of the action bar based on its current state, primarily by checking flags with `checkShowingFlags()`.
+4. `addOnMenuVisibilityListener()` - Adds a listener for changes in menu visibility.
+5. `addTab()` - Overloaded methods to add a tab to the action bar.
+6. `animateToMode()` - Animates the action bar to a specified mode (action or navigation).
+7. `collapseActionView()` - Collapses the action view on the action bar, if it is currently expanded. 
+8. `completeDeferredDestroyActionMode()` - Finalizes the destruction of the action mode if it has been deferred.
+9. `dispatchMenuVisibilityChanged()` - Dispatches a change in menu visibility to all registered listeners.
+10. `doHide()` - Hides the action bar with an optional animation.
+11. `doShow()` - Shows the action bar with an optional animation.
+12. `enableContentAnimations()` - Enables or disables content animations in the action bar.
+13. `getCustomView()` - Retrieves the custom view set for the action bar.
+14. `getDisplayOptions()` - Gets the current display options for the action bar.
+15. `getElevation()` - Returns the elevation level of the action bar container view.
+16. `getHeight()` - Returns the height of the action bar container view.
+17. `getHideOffset()` - Returns the current offset for the action bar's hide animation.18. `hasIcon()` - Checks if the action bar has an icon.
+19. `hasLogo()` - Checks if the action bar has a logo.
+20. `hide()` - Hides the action bar if it's not already hidden by the app and updates visibility.
+21. `hideForSystem()` - Hides the action bar if it's not already hidden by the system and updates visibility.
+22. `isHideOnContentScrollEnabled()` - Checks if hide on content scroll is enabled for the action bar.
+23. `isShowing()` - Checks if the action bar is showing.
+24. `isTitleTruncated()` - Checks if the action bar title is truncated.
+25. `newTab()` - Creates a new Tab.
+26. `onConfigurationChanged()` - Handles configuration changes by setting embedded tabs based on the policy.
+27. `onContentScrollStarted()` - Handles the start of content scrolling by canceling the current animation if present. 
+28. `onContentScrollStopped()` - This method does nothing but could be overriden for handling the stopping of content scrolling.
+29. `onKeyShortcut()` - Handles a key shortcut event returning the result.
+30. `onWindowVisibilityChanged()` - Updates the window visibility status.
+31. `removeAllTabs()` - Removes all tabs from the action bar.
+32. `removeOnMenuVisibilityListener()` - Removes a menu visibility change listener.
+33. `removeTab()` - Removes a specific tab from the action bar.
+34. `removeTabAt()` - Removes the tab at a specific position. It also modifies the positions of subsequent tabs and selects a new tab if necessary.
+35. `requestFocus()` - Requests focus for the action bar's ViewGroup if it does not currently have it.
+36. `selectTab()` - Selects a specific tab and handles tab selection and deselection events.
+37. `setBackgroundDrawable()` - Sets the background drawable for the action bar.
+38. `setCustomView()` - Overloaded methods to set a custom view for the action bar.
+39. `setDefaultDisplayHomeAsUpEnabled()` - Sets the default value for whether the action bar should display the home-as-up indicator based on a boolean.
+40. `setDisplayHomeAsUpEnabled()` - Sets whether the home-as-up indicator should be displayed.
+41. `setDisplayOptions()` - Overloaded methods to set the display options for the action bar.
+42. `setDisplayShowCustomEnabled()` - Sets whether the action bar should display a custom view.
+43. `setDisplayShowHomeEnabled()` - Sets whether the action bar should show a home icon.
+44. `setDisplayShowTitleEnabled()` - Sets whether the action bar should display the title.
+45. `setDisplayUseLogoEnabled()` - Sets whether the action bar should use a logo instead of an icon.
+46. `setElevation()` - Sets the action bar's elevation level.
+47. `setHideOffset()` - Sets the offset for the action bar's hide animation if it's in overlay mode.
+48. `setHideOnContentScrollEnabled()` - Enables or disables hide on content scroll if the action bar is in overlay mode.
+49. `setHomeActionContentDescription()` - Overloaded methods to set the content description for the home action.
+50. `setHomeAsUpIndicator()` - Overloaded methods to set the home-as-up indicator using a drawable or resource ID.
+51. `setHomeButtonEnabled()` - Enables or disables the home button.
+52. `setIcon()` - Sets the action bar's icon using a resource ID.53. `setListNavigationCallbacks()` - Sets the navigation callbacks for the action bar when in list navigation mode.
+54. `setLogo()` - Sets the logo of the action bar.
+55. `setNavigationMode()` - Sets the navigation mode of the action bar.
+56. `setSelectedNavigationItem()` - Sets the selected navigation item in the action bar.
+57. `setShowHideAnimationEnabled()` - Enables or disables show/hide animations for the action bar.
+58. `setSplitBackgroundDrawable()` - Sets the background drawable for the split action bar.
+59. `setStackedBackgroundDrawable()` - Sets the background drawable for the stacked action bar.
+60. `setSubtitle()` - Sets the subtitle of the action bar.
+61. `setTitle()` - Sets the title of the action bar.
+62. `setWindowTitle()` - Sets the window title for the action bar.
+63. `show()` - Shows the action bar if it was previously hidden by the app.
+64. `showForSystem()` - Shows the action bar if it was previously hidden by the system.
+65. `startActionMode()` - Starts an action mode in the action bar.
+66. `ActionModeImpl` - An implementation of the ActionMode class, which represents a contextual mode of the user interface.
+67. `TabImpl` - An implementation of the Tab class, representing a means of user navigation.
+68. `getCallback()` - Retrieves the TabListener callback.
+69. `getContentDescription()` - Retrieves the content description of the tab.70. `getCustomView()` - Retrieves the custom view for the tab.
+71. `getIcon()` - Retrieves the icon for the tab.
+72. `getPosition()` - Retrieves the position of the tab.
+73. `getTag()` - Retrieves the tag associated with the tab.
+74. `getText()` - Retrieves the text displayed on the tab.
+75. `select()` - Selects the tab.
+76. `setContentDescription(int)` and `setContentDescription(CharSequence)` - Sets the content description for the tab.
+77. `setCustomView(int)` and `setCustomView(View)` - Sets the custom view for the tab.
+78. `setIcon(int)` and `setIcon(Drawable)` - Sets the icon for the tab.
+79. `setPosition(int)` - Sets the position of the tab.
+80. `setTabListener(ActionBar.TabListener)` - Sets the listener for tab selection events.
+81. `setTag(Object)` - Sets a tag associated with the tab.
+82. `setText(int)` and `setText(CharSequence)` - Sets the text displayed on the tab.

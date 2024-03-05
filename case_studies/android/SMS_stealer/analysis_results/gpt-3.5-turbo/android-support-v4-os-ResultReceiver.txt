@@ -1,0 +1,7 @@
+The `ResultReceiver` class in the "android.support.v4.os" package is a Parcelable implementation that allows for sending results between components using Bundles. It provides a way to asynchronously receive results from another component.
+
+The `ResultReceiver` class provides a `send` method to send results, either locally or remotely. If results are sent locally, the `ResultReceiver` uses a `Handler` to post a `MyRunnable` instance that invokes the `onReceiveResult` method. If results are sent remotely, the `ResultReceiver` uses an `IResultReceiver` instance to send the results.
+
+The class also provides a `writeToParcel` method to write the `IResultReceiver` instance to a `Parcel`. It uses a `MyResultReceiver` inner class to handle the `send` method invocation when sending results remotely.
+
+Overall, the `ResultReceiver` class provides a convenient way to receive results from another component in an asynchronous manner.

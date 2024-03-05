@@ -1,0 +1,15 @@
+The `ViewGroupCompat` class in the `androidx.core.view` package provides various utility methods for working with `ViewGroup` objects. Here is a summary of what each method does:
+
+1. `getLayoutMode`: Returns the layout mode of a `ViewGroup`. If the device's SDK version is 18 or higher, it calls the `getLayoutMode` method of the `ViewGroup`. Otherwise, it returns `0` (LAYOUT_MODE_CLIP_BOUNDS).
+
+2. `getNestedScrollAxes`: Returns the nested scroll axes of a `ViewGroup`. If the device's SDK version is 21 or higher, it calls the `getNestedScrollAxes` method of the `ViewGroup`. Otherwise, it checks if the `ViewGroup` implements the `NestedScrollingParent` interface and calls its `getNestedScrollAxes` method. If neither condition is met, it returns `0`.
+
+3. `isTransitionGroup`: Checks if a `ViewGroup` is a transition group. If the device's SDK version is 21 or higher, it calls the `isTransitionGroup` method of the `ViewGroup`. Otherwise, it checks if the `ViewGroup` has a `Boolean` tag with the key `R.id.tag_transition_group` set to `true`, or if it has a background drawable, or if it has a transition name set using `ViewCompat.getTransitionName()`. It returns `true` if any of these conditions are met.
+
+4. `onRequestSendAccessibilityEvent` (deprecated): Calls the `onRequestSendAccessibilityEvent` method of a `ViewGroup` and returns its result.
+
+5. `setLayoutMode`: Sets the layout mode of a `ViewGroup`. If the device's SDK version is 18 or higher, it calls the `setLayoutMode` method of the `ViewGroup` with the specified layout mode.
+
+6. `setMotionEventSplittingEnabled` (deprecated): Sets whether the `ViewGroup` should split touch events across multiple children. It calls the `setMotionEventSplittingEnabled` method of the `ViewGroup` with the specified value.
+
+7. `setTransitionGroup`: Sets whether a `ViewGroup` is a transition group. If the device's SDK version is 21 or higher, it calls the `setTransitionGroup` method of the `ViewGroup` with the specified value. Otherwise, it sets a `Boolean` tag on the `ViewGroup` with the key `R.id.tag_transition_group` and the specified value.

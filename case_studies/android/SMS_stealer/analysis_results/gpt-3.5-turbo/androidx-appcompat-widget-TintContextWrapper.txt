@@ -1,0 +1,11 @@
+The `TintContextWrapper` class is a subclass of `ContextWrapper` in the AndroidX AppCompat library. It provides a wrapper around a `Context` object and overrides methods related to resources and theming.
+
+The class has fields for `mResources` and `mTheme`, which hold references to the wrapped `Resources` object and the current theme. The class also uses a static `sCache` ArrayList to cache instances of `TintContextWrapper`.
+
+The constructor of `TintContextWrapper` initializes the `mResources` and `mTheme` fields based on whether vector tinting should be used or not. If vector tinting is enabled, it creates a `VectorEnabledTintResources` object as the new resources with a new theme. Otherwise, it creates a `TintResources` object as the new resources. The theme is set to the one from the wrapped context.
+
+The `shouldWrap` method checks if the given `Context` should be wrapped by `TintContextWrapper`. It returns true if the context is not already an instance of `TintContextWrapper` and if the resources are not `TintResources` or `VectorEnabledTintResources` (unless the device API level is below 21).
+
+The `wrap` method is a static method that wraps the given `Context` in a `TintContextWrapper` if necessary. It checks if the context should be wrapped using the `shouldWrap` method, then checks the cache of `TintContextWrapper` instances to return a cached instance if available. If not, it creates a new `TintContextWrapper` instance, adds it to the cache, and returns it.
+
+The class also overrides the methods `getAssets`, `getResources`, `getTheme`, and `setTheme` to delegate the calls to the wrapped resources and theme objects or to the superclass if no theme is set.

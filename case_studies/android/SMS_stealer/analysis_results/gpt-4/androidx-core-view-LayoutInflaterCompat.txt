@@ -1,0 +1,15 @@
+This is a class named `LayoutInflaterCompat` that is designed to maintain compatibility with different versions of Android when using `LayoutInflater`.
+
+Key features:
+
+1. `forceSetFactory2(LayoutInflater paramLayoutInflater, LayoutInflater.Factory2 paramFactory2)`: An internal function that attempts to set a `Factory2` instance on a `LayoutInflater` using reflection. It captures exceptions and flags when the field-check has been made.
+
+2. `getFactory(LayoutInflater paramLayoutInflater)`: This is a deprecated method which returns a `LayoutInflaterFactory` associated with a `LayoutInflater`.
+
+3. `setFactory(LayoutInflater paramLayoutInflater, LayoutInflaterFactory paramLayoutInflaterFactory)`: It sets a `LayoutInflaterFactory` on a `LayoutInflater`. Depending on the Android API level, it either wraps the factory in a `Factory2Wrapper` before setting it, or sets it directly.
+
+4. `setFactory2(LayoutInflater paramLayoutInflater, LayoutInflater.Factory2 paramFactory2)`: It sets a `LayoutInflater.Factory2` instance on a `LayoutInflater`. For devices with Android version less than 21, it ensures that a `Factory2` instance is set.
+
+5. `Factory2Wrapper`: A static nested class that implements `LayoutInflater.Factory2`, constructing views from layout XML files. It delegates its methods to an instance of `LayoutInflaterFactory`.
+
+Note: The `LayoutInflaterFactory` here refers to a custom interface defined elsewhere in the code and not to be confused with `LayoutInflater.Factory`.

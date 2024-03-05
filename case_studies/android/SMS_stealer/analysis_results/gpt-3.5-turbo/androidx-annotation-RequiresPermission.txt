@@ -1,0 +1,13 @@
+The `RequiresPermission` annotation is defined in the `androidx.annotation` package. It is used to indicate that a certain permission is required to access a method, constructor, field, or parameter. The annotation has a retention policy of `RetentionPolicy.CLASS`, meaning it is retained in the class file but not available at runtime. It can be applied to `ElementType.ANNOTATION_TYPE`, `ElementType.METHOD`, `ElementType.CONSTRUCTOR`, `ElementType.FIELD`, or `ElementType.PARAMETER`.
+
+The `RequiresPermission` annotation has the following attributes:
+
+- `allOf()`: String array attribute that specifies a list of permissions that must all be granted
+- `anyOf()`: String array attribute that specifies a list of permissions from which at least one must be granted
+- `conditional()`: Boolean attribute that indicates whether the permission is conditionally required
+- `value()`: String attribute that specifies the permission required
+
+The `RequiresPermission` annotation declares two nested annotations:
+
+- `Read`: This nested annotation is used to indicate that a read permission is required for the annotated field, method, or parameter. It has a value attribute that accepts a `RequiresPermission` annotation.
+- `Write`: This nested annotation is used to indicate that a write permission is required for the annotated field, method, or parameter. It also has a value attribute that accepts a `RequiresPermission` annotation.

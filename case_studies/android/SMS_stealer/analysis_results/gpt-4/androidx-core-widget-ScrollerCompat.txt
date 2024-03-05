@@ -1,0 +1,17 @@
+The `ScrollerCompat` class in the AndroidX library is a wrapper around the `OverScroller` class. It provides compatibility for the smooth scrolling functionality in widgets like `ScrollView` and `ListView`. 
+
+Even though the class has been declared as `Deprecated`, it provides fallback methods for handling scrolling operations which include initiating a scroll, aborting a scroll, calculating scrolling offsets, and responding to reaching an edge during a scroll operation. 
+
+Here are some key methods in `ScrollerCompat`:
+
+1. `create(Context paramContext, Interpolator paramInterpolator)`: It statically creates a new instance of `ScrollerCompat` with a specified interpolation.
+
+2. `abortAnimation()`: It aborts the ongoing scroll animation.
+
+3. `computeScrollOffset()`: It computes the current offset in the scroll animation.
+
+4. `fling(int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6, int paramInt7, int paramInt8)`: It initiates a fling scroll operation.
+
+5. `getCurrVelocity()`, `getCurrX()`, `getCurrY()`, `getFinalX()`, `getFinalY()`: Get the current scrolling velocity or scrolling position.
+
+This class uses `OverScroller` class for actual scroll operations and provides a uniform interface across different Android versions.

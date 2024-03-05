@@ -1,0 +1,15 @@
+The `AlignHorizontallyReference` class in Android is a helper class used for alignment of UI elements horizontally in a `ConstraintLayout`. It extends the `HelperReference` class and overrides the `apply` method.
+
+The key points of this class are:
+
+- It maintains four objects representing four different horizontal alignment types: `mStartToStart`, `mStartToEnd`, `mEndToEnd`, `mEndToStart`.
+
+- It contains a bias (`mBias`) which is initialized to 0.5F. The bias determines the horizontal position within the given space if the constraint involves more than one object.
+
+- The constructor `AlignHorizontallyReference(State paramState)` initializes the `HelperReference` with the state and helper type (`ALIGN_VERTICALLY`).
+
+- The `apply()` method clears existing horizontal constraints and updates them according to the stored alignment types (`mStartToStart`, `mStartToEnd`, `mEndToEnd`, `mEndToStart`) and bias.
+
+- The methods `startToStart`, `startToEnd`, `endToEnd`, and `endToStart` are used to set the alignment reference for each alignment type.
+
+- The `bias(float paramFloat)` method is used to set the horizontal bias.

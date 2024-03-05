@@ -1,0 +1,39 @@
+The `LruCache` class in AndroidX is a more advanced and versatile version of a standard `LinkedHashMap`. LRU stands for Least Recently Used and the class is a memory caching structure where the least recently used entries are deleted(a.k.a. evicted) when the cache's size exceeds its maximum capacity.
+
+Key variables:
+- `int createCount`: Stores the count of times an entry was created.
+- `int evictionCount`: Stores the number of times an entry was evicted.
+- `int hitCount`: Stores the count of times a cache hit happened.
+- `LinkedHashMap<K, V> map`: The actual cache, stored in a `LinkedHashMap`.
+- `int maxSize`: The maximum size that the cache can hold.
+- `int missCount`: Stores the count of times a cache miss happened.
+- `int putCount`: Stores the count of times an entry was inserted or updated in the cache.
+- `int size`: The current size of the cache.
+
+Key Methods:
+- `LruCache(int paramInt)`: Constructor that initializes the cache with a maximum size. If the input size is less than or equal to 0, an IllegalArgumentException is thrown.
+- `safeSizeOf(K paramK, V paramV)`: Checks the size of an entry and throws an IllegalStateException if the size is negative.
+- `create(K paramK)`: This method is called to create a new entry.
+- `createCount()`, `evictionCount()`, `hitCount()`, `maxSize()`, `missCount()`: These methods return the value of their corresponding variables.
+- `entryRemoved(boolean paramBoolean, K paramK, V paramV1, V paramV2)`: An empty method that gets called when an entry is removed.
+- `evictAll()`: A method used to clear the cache.
+- `get(K paramK)`: Returns the value if its corresponding key exists in the cache or null otherwise.
+- `put(K paramK, V paramV)`: Adds a new entry or replaces an existing one and returns the old value if it exists or null otherwise. Specified key or value can't be null.- `putCount()`: Returns the count of times an entry was inserted or updated in the cache.
+- `remove(K paramK)`: Removes an entry from the cache for the specified key and returns the old value.
+- `resize(int paramInt)`: This method resizes the cache with a new maximum size. It throws an IllegalArgumentException if the input size is less than or equal to 0.
+- `size()`: Returns the current size of the cache.
+- `sizeOf(K paramK, V paramV)`: It's a method meant to be overridden to provide the size of an entry. In this implementation, it returns 1, implying each entry size is considered 1 unit.
+- `snapshot()`: Returns a copy of the current map's content.
+- `toString()`: Returns a String representation of the `LruCache` object including its maxSize, hitCount, missCount and hitRate.
+- `trimToSize(int paramInt)`: Decreases the size of the cache by removing least recently used entries until it reaches the size defined by the parameter, or the map is empty. 
+- In the provided code, several methods (`putCount()`, `snapshot()`, `toString()`, etc.) require synchronization systems as they have shared resources that need thread-safety.This segment of the code contains the ending part of the `trimToSize()` method. It continues the while loop, removing entries from the cache map and updating the current size of the cache. The cache size is decremented by the size of the removed entry. The `entryRemoved()` method is then invoked to notify that an entry has been removed. This process continues until the cache size is less than or equal to the specified size. 
+
+If the `sizeOf()` method reports inconsistent results, an `IllegalStateException` is thrown with a corresponding error message. 
+
+There is a mechanism in place to handle concurrency issues, using monitor synchronization (with `monitorenter` and `monitorexit` commands) ensuring that only one thread can access the code block at a time, which makes the solution thread-safe.
+
+The method ends with an exception handling block which rethrows any exception that might have occurred within the synchronized block. 
+
+The `Exception table` at the end of the code provides information about the exception handling in a structured way, including the range of code where an exception might occur and the type of exception that is handled.
+
+Finally, some meta-information about the code file (location, Java compiler version, JD-Core Version) is provided.

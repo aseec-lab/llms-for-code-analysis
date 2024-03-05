@@ -1,0 +1,13 @@
+This code is for the `InputContentInfoCompat` class, a compatibility wrapper for interacting with input content information on differently compatible devices.
+
+Key features:
+
+1. The class chooses to create instances of either `InputContentInfoCompatApi25Impl` or `InputContentInfoCompatBaseImpl` internally depending upon the Android build version. This is done to maintain backward compatibility.
+
+2. `wrap(Object paramObject)`: Wraps an `InputContentInfo` into `InputContentInfoCompat`. If the input is `null` or the build version is less than 25, it returns null.
+
+3. `getContentUri()`, `getDescription()`, `getLinkUri()`: These methods provide access to the content URI, description, and link URI respectively of the `InputContentInfo`.
+
+4. `requestPermission()` and `releasePermission()`: Methods to manage permissions.
+
+5. `InputContentInfoCompatApi25Impl` and `InputContentInfoCompatBaseImpl` are two inner classes which implement `InputContentInfoCompatImpl` interface, to provide different behaviors according to the Android build version.

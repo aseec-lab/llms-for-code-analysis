@@ -1,0 +1,12 @@
+The `AppCompatDialog` class extends Android's Dialog class and implements the `AppCompatCallback` interface. It provides compatibility with older versions of Android for dialog features.
+
+Main functionalities can be summarized as follows:
+
+- `mDelegate`: An object of `AppCompatDelegate` which handles dialog operations like adding content view, handling lifecycle methods, etc.
+- `mKeyDispatcher`: An object to handle key dispatch events.
+- `AppCompatDialog() constructors`: These initialize the object with a provided context and theme. It also sets up the delegate and installs a view factory.
+- `getThemeResId()`: This method retrieves the correct theme resource ID.
+- `addContentView()`, `dismiss()`, `dispatchKeyEvent()`, `findViewById()`, `getSupportActionBar()`, `invalidateOptionsMenu()`, `setContentView()`, `setTitle()`, `superDispatchKeyEvent()`, `supportRequestWindowFeature()`: These method overrides provide the actual functionality of the dialog, dispatching most actions through the delegate. 
+- `onCreate()`, `onStop()`, `onSupportActionModeFinished()`, `onSupportActionModeStarted()`, `onWindowStartingSupportActionMode()`: These lifecycle and callback methods also usually defer to the delegate.
+
+This class ensures consistency and compatibility in the way that dialogs are displayed and managed across different versions of Android.

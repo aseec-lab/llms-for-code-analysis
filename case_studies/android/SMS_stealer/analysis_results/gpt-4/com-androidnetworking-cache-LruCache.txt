@@ -1,0 +1,30 @@
+The `LruCache` class is a generic implementation of the cache using Least Recently Used policy. It accepts two types: `K` for keys and `V` for values. 
+
+- It has a constructor that accepts a maximum size for the cache and creates a LinkedHashMap to store the keys and values.
+- It also holds various statistical data (like `createCount`, `evictionCount`, `hitCount`, `missCount`, `putCount`), allowing you to monitor the usage of the cache.
+- The `safeSizeOf` method checks the size of an entry and throws an exception if it's negative.
+- The `create` method can be overridden to create a new instance of a cache entry if it is not in the cache. By default, it returns null.
+- `createCount()`, `evictionCount()`, `hitCount()`, `maxSize()`, `missCount()` methods return statistics about the cache operation.
+- `evictAll()` method clears the cache.
+- The `get(K key)` method retrieves a value from the cache using its key.
+- The `put(K key, V value)` method adds a new entry to the cache.
+
+This class leverages LinkedHashMap to handle cache evictions automatically when the cache size reaches a defined limit.- `putCount()`: Returns how many times `put()` was called on the cache.
+- `remove(K paramK)`: Removes an entry from the cache based on the supplied key. If the entry is found, it adjusts the size of the cache and calls `entryRemoved()`.
+- `resize(int paramInt)`: Adjusts the max size of the cache. It throws an exception if the new max size is less than or equal to 0.
+- `size()`: Returns the current size of the cache.
+- `sizeOf(K paramK, V paramV)`: By default, returns 1 as the size of an entry. This method can be overridden to accommodate different size metrics.
+- `snapshot()`: Returns a snapshot of the cache's current contents.
+- `toString()`: Overrides the `toString()` method to provide cache statistics in a formatted string.
+- `trimToSize(int paramInt)`: Trims the cache size down to the specified size. It iterates over the cache entries and removes the oldest ones until the cache's current size is less than or equal to the param size.
+- The given Java code is byte code and goes beyond the scope of comments above. It continues to maintain internal data structures and logic for cache management and will maintain it for automatic eviction based on LRU policy.This section continues the `trimToSize()` method. It:
+- Retains the key-value pairs from the LinkedHashMap.
+- Calculates the net size of the cache after the entry is removed and updates the `size` field.
+- Increments the eviction count.
+- Calls the `entryRemoved()` method to indicate that an entry has been removed from the cache.
+- The process continues until the cache's size is equal to or less than the given acceptable size.
+- The section also contains code to throw an "IllegalStateException" if the `sizeOf()` method reports inconsistent results. 
+- It also features exception handling to ensure thread-safety by locking the critical section of the code.
+- The code provides method call locations, Java compiler version, and the JD-Core Version used for decompiling.
+
+The exact workings can depend on the context and the rest of the codebase.

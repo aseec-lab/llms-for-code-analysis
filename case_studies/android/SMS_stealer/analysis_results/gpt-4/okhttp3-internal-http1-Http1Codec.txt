@@ -1,0 +1,21 @@
+`Http1Codec` is a class implementing the `HttpCodec` interface. This class manages HTTP/1.x requests and responses, providing methods to create, send and receive requests/responses, manage the body (either fixed length, chunked, or unknown length source), write headers and manage incoming data.
+
+Many methods of the class verify that the request/response flow follows the correct state progression and throw an `IllegalStateException` if not. The state checks in multiple methods make sure that methods are called in the correct order for a valid HTTP/1.1 connection/change requests.
+
+Initial methods `createRequestBody()`, `newChunkedSink()`, `newFixedLengthSink()`, `newUnknownLengthSource()`, etc. support creation of the request body, specifying whether it's chunked or of fixed length, or an unknown length source to be uploaded to the server.
+
+`openResponseBody(Response paramResponse)` method is responsible to create the `ResponseBody` for the given `Response`.
+
+`readHeaders()` and `readResponseHeaders(boolean paramBoolean)` methods handle incoming headers and responses. The methods `writeRequest(Headers paramHeaders, String paramString)` and `writeRequestHeaders(Request paramRequest)` are responsible for outputting the headers for requests.
+
+`AbstractSource` is an inner abstract class implementing the `Source` interface to read incoming data from the server. The specific `Source` implementation would handle chunked, fixed length, and unknown length responses.
+
+`ChunkedSink` is an inner class implementing the `Sink` interface to handle sending chunked data to the server.This section of code contains additional classes that implement Network IO operations for the `Http1Codec`. There is an `UnknownLengthSource` class, in which `close()` method only handles the logic related to ensuring that the stream isn't already closed.
+
+The `FixedLengthSource` class, as the name implies, is a `Source` that reads a fixed number of bytes from the input. It reads data into a specified `Buffer` and updates its byte count accordingly, making sure to signal the end of the input when all the bytes have been read, and check the status of the stream to ensure it hasn't been closed.
+
+The `FixedLengthSink` class works similarly, but with writing data. It keeps track of how many bytes remain to be written and throws a `ProtocolException` if an attempt is made to write more bytes than expected. It also ensures that the stream isn't already closed before writing.
+
+The `ChunkedSource` class manages the reading of data from a source in chunks. It keeps track of how many bytes remain in the current chunk, and can read more chunks as needed. It also handles the logic related to chunk sizes and potential extensions in the HTTP data.
+
+All these classes exhibit typical behavior for IO classes like checking if a stream is closed before performing a write/read operation on it and throwing an exception when unexpected behavior arises like trying to write/read more bytes than is available.The `read` method in `UnknownLengthSource` checks if the byte count is not negative and if the stream isn't closed. If the input was already exhausted, it returns `-1L`. Otherwise it attempts to read from the stream. If it fails to read, it sets `inputExhausted` to true, ends the input with success, and returns `-1L`. If the reading of the stream was successful, the method returns the number of bytes read. If the method is called with incorrect parameters (negative byte count, or when the instance is already closed), an exception is thrown. This class is a part of larger `Http1Codec` file. The `Http1Codec` is part of the dex2jar tool that was used to decompile a given JAR file.

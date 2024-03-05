@@ -1,0 +1,15 @@
+The `MonotonicCurveFit` class extends the `CurveFit` class and is used to interpolate the value between control points given a set of points. 
+
+- The `mT` 1D array stores the time points of all the control points.
+- The `mY` 2D array stores the y-coordinates of all the control points.
+- The `mTangent` 2D array stores the tangents of these control points.
+- The `MonotonicCurveFit` constructor calculates and stores the slopes and tangent values for each control point.
+- The `diff` and `interpolate` static methods help in the computation of derivative and interpolate value, respectively.
+- The `getPos` methods provide interpolated value based on time for a single dimension or for all dimensions at once.
+- The `getSlope` methods provide the derivative value at a sequential time point for a single dimension or for all dimensions at once.
+- The `getTimePoints` method returns all the time points.
+- The `mY`, `mT` and `mTangent` are all initialized in the constructor, and are used to calculate the interpolated and derivative values when either of the `getPos` or `getSlope` methods are called.
+
+It appears that the `MonotonicCurveFit` is used for monotonic cubic interpolation. This can be useful in cases where a smooth curve that passes through a series of fixed points in a monotonic way is needed.
+  
+Please note, the `location` comment provides the original Java bytecode location from where the `MonotonicCurveFit` class was generated.

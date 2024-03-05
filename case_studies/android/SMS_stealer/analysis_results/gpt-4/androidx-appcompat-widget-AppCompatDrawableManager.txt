@@ -1,0 +1,12 @@
+The `AppCompatDrawableManager` class is a singleton that provides methods for handling operations related to `Drawable` objects. It leverages the `ResourceManagerInternal` instance as a helper to carry out most operations.
+
+The class provides methods like `get()`, `preload()`, `getDrawable()`, `getTintList()`, `onConfigurationChanged()`, and `tintDrawableUsingColorFilter()` to manage drawables including:
+
+- Retrieving the singleton instance of the `AppCompatDrawableManager`.
+- Preloading resources if the singleton instance is not already initialized.
+- Getting drawables from the resource manager with or without applying a theme.
+- Getting the tint list for a specified drawable resource Id.
+- Applying a color filter to a drawable.
+- Updating resources when the device configuration changes. 
+
+This class ensures the correct and efficient use of `Drawable` objects and their properties in an application. It uses thread-synchronization to prevent race conditions during modifications of shared resources.

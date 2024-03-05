@@ -1,0 +1,13 @@
+The `RequestProgressBody` class is a subclass of `RequestBody` and is used to track the progress of upload operations. It implements the `writeTo()` method to write the request body and the `contentLength()` method to get the length of the request body.
+
+The class has a `bufferedSink` field that holds a `BufferedSink` instance, a `requestBody` field that holds the original request body, and an `uploadProgressHandler` field that holds an instance of `UploadProgressHandler`.
+
+The constructor takes a `RequestBody` instance and an `UploadProgressListener` instance. If the listener is not null, it creates a new `UploadProgressHandler` instance and assigns it to the `uploadProgressHandler` field.
+
+The `sink()` method returns a `Sink` that tracks the bytes written and sends progress updates to the `uploadProgressHandler` if it is not null.
+
+The `contentLength()` method delegates to the `contentLength()` method of the original request body to get the length of the request body.
+
+The `contentType()` method delegates to the `contentType()` method of the original request body to get the media type of the request body.
+
+The `writeTo()` method creates a `bufferedSink` using the `sink()` method and writes the request body to it. It then flushes the `bufferedSink`.

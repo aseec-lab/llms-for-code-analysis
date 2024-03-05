@@ -1,0 +1,18 @@
+The `FieldAttributes` class is a wrapper around the `java.lang.reflect.Field` class, which provides information about, and dynamic access to, a single field of a class or an interface. 
+
+The class is designed to provide a more convenient API to work with class fields when we use Gson. 
+
+Key methods in this class are:
+
+- `get(Project paramObject)`: Accesses the value of the underlying field in the specified object.
+- `getAnnotation(Class<T> paramClass)`: Provides the annotation of the field that is of the class type `paramClass`.
+- `getAnnotations()`: Returns all annotations that the field has.
+- `getDeclaredClass()`: Returns the class that declares the underlying field.
+- `getDeclaredType()`: Returns the generic type of the field.
+- `getName()`: Returns the name of the underlying field.
+- `hasModifier(int paramInt)`: Checks whether the field has the specified modifier (like public, static, final, etc.).
+- `isSynthetic()`: Checks whether the field is synthetic (compiler-generated rather than declared in the source code).
+
+This class also ensures that `null` cannot be passed to its constructor by using `com.google.gson.internal.$Gson.Preconditions.checkNotNull()`. 
+
+Finally, the methods of this class can throw exceptions if there are security or access issues (when getting/setting field values, reading annotations, etc.).

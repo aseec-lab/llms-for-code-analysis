@@ -1,0 +1,13 @@
+The `InternalRunnable` class is a part of the AndroidNetworking library. Here is a summary of what it does:
+
+- The class implements the `Runnable` interface, which means it can be run on a separate thread.
+- It has three important fields: `priority`, `request`, and `sequence`. 
+- The `InternalRunnable` constructor initializes these fields using the `ANRequest` object passed to the constructor.
+- The class has three private methods: `deliverError`, `executeDownloadRequest`, `executeSimpleRequest`, and `executeUploadRequest`.
+- The `deliverError` method delivers an error to the main thread by executing a `Runnable` on the main thread executor.
+- The `executeDownloadRequest`, `executeSimpleRequest`, and `executeUploadRequest` methods perform the corresponding types of network requests using the `InternalNetworking` class.
+- The `run` method is the entry point of the `Runnable` and determines the type of request (`executeDownloadRequest`, `executeSimpleRequest`, or `executeUploadRequest`) based on the request type field of the `ANRequest` object.
+- The code for executing the request, handling errors, and delivering responses is present in these methods.
+- Finally, the `run` method marks the request as not running once the execution is complete.
+
+The `InternalRunnable` class is responsible for executing network requests asynchronously and handling the response/error callbacks.

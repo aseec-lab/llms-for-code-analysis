@@ -1,0 +1,21 @@
+The class `AppCompatBackgroundHelper` is used to add material design style tinting and color filtering to background Drawables.
+
+1. During class instantiation, `AppCompatBackgroundHelper()` constructor initializes the `mView` and `mDrawableManager` variables and sets the `mBackgroundResId` variable to -1.
+   
+2. `applyFrameworkTintUsingColorFilter()` method applies tint and tint mode from the view's background tint list and tint mode to a drawable.
+
+3. `shouldApplyFrameworkTintUsingColorFilter()` method checks if we should apply tint to a drawable using color filter based on Android SDK version.
+   
+4. `applySupportBackgroundTint()` method applies tinting and/or color filtering to the background drawable of a view.
+   
+5. `getSupportBackgroundTintList()`, `getSupportBackgroundTintMode()` methods return the background tint list and tint mode respectively from `mBackgroundTint` object.
+
+6. `loadFromAttributes()` method reads the relevant attributes from a given AttributeSet and applies them to the view.
+
+7. `onSetBackgroundDrawable()` and `onSetBackgroundResource()` methods handle set background Drawable and set background resource respectively by resetting background related variables and applying the support background tint.
+
+8. `setInternalBackgroundTint()` method sets an internal background tint list to a specific ColorStateList and applies tint.
+
+9. `setSupportBackgroundTintList()` and `setSupportBackgroundTintMode()` set the background tint list and mode respectively and apply tint.
+   
+All of the setters, getters, and event overriders are used to add, remove, or change the tint of the view's background drawable.

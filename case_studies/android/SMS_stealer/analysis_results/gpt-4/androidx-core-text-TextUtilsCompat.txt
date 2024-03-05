@@ -1,0 +1,9 @@
+`TextUtilsCompat` is a utility class that provides compatibility methods for text related operations with older versions of Android.
+
+- `getLayoutDirectionFromFirstChar(Locale paramLocale)`: Private method. It returns the layout direction based on the first character of the display name of the locale. It uses the `Character.getDirectionality()` method. If the directionality is either `RIGHT_TO_LEFT` or `RIGHT_TO_LEFT_ARABIC` (`1` and `2`), it returns `1`, otherwise `0`.
+
+- `getLayoutDirectionFromLocale(Locale paramLocale)`: If the API level is 17 or higher, it uses the native `TextUtils.getLayoutDirectionFromLocale()` method. For lower API levels, it checks if the locale is not null and not equal to `ROOT`. Then it uses the `ICUCompat.maximizeAndGetScript()` method to get the script of the locale. If the script is `Arab` or `Hebr`, it returns `1`. If no script is found, it calls `getLayoutDirectionFromFirstChar()`. If the locale is `ROOT` or null, it returns `0` (indicating left-to-right layout).
+
+- `htmlEncode(String paramString)`: Encodes special HTML characters in a string with their corresponding HTML entities. If the API level is 17 or higher, it uses the native method `TextUtils.htmlEncode()`. Otherwise, it processes each character in the string and replaces it with the corresponding HTML entity.
+   
+These methods are used to support internationalization and localization in an application, and the encoding of texts to be correctly displayed in an HTML context.

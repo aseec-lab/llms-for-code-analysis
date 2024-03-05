@@ -1,0 +1,29 @@
+The `StopLogic` class is used to calculate the interpolation and velocity values for a motion interpolator with stages of acceleration, cruise, and deceleration. 
+
+The class contains properties for various stage durations, end positions, and velocities. It also determines the type of motion (e.g., accelerate, decelerate) based on the parameters given.
+
+The `setup()` method is used to set up the stage values based on the given parameters. It calculates the durations, velocities, and end positions for each stage.
+
+The `config()` method is used to configure the initial parameters of the motion interpolator. It sets the start position, determines the direction (forward or backward), and calls the `setup()` method to initialize the stage values.
+
+The `getInterpolation()` method calculates and returns the interpolation value for the given input position. It calls the `calcY()` method to calculate the Y value based on the stage values and direction.
+
+The `getVelocity()` methods return the velocity value based on the current position or the last position, depending on the direction.
+
+The `debug()` method is used to print debugging information about the motion interpolator. It shows the type of motion, direction, current time, and stage details.This remaining part of the code is the implementation of the `getInterpolation()` method in the `StopLogic` class. 
+
+In this method, a series of if statements are used to determine the current stage based on the input position. It then calculates and returns the interpolation value based on the stage values, position, and duration. 
+
+If the current stage is the acceleration stage (i.e., `i == 1`), it returns 0.0 as the interpolation value. Otherwise, it calculates the remaining position (`f2`) after the acceleration stage and checks if it falls within the duration of the cruise stage (`paramFloat`). 
+
+If it is within the cruise stage duration, it calculates and returns the velocity based on the interpolation formula. 
+
+If the current stage is the deceleration stage (i.e., `i == 2`), it returns the end position of the acceleration stage. 
+
+If the remaining position is beyond the cruise stage duration, it calculates the remaining position in the deceleration stage (`f1`) and checks if it falls within the duration of the deceleration stage (`paramFloat`). 
+
+If it is within the deceleration stage duration, it calculates and returns the velocity based on the interpolation formula. 
+
+If the remaining position is beyond the deceleration stage duration, it returns the end position of the deceleration stage. 
+
+This code completes the implementation of the `StopLogic` class.

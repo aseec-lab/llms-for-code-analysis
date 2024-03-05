@@ -1,0 +1,20 @@
+The `ActivityCompat` class in the `androidx.core.app` package provides utility methods for interacting with activities.
+
+Here's a brief summary of what the code does:
+
+- The `finishAffinity()` method finishes the activity and all its parent activities if the API level is 16 or higher.
+- The `finishAfterTransition()` method finishes the activity after transition animations if the API level is 21 or higher.
+- The `getReferrer()` method retrieves the referrer URI of the activity.
+- The `invalidateOptionsMenu()` method invalidates the options menu, triggering a call to `onPrepareOptionsMenu()` to recreate the menu contents. This method is deprecated.
+- The `postponeEnterTransition()` method postpones the entering transition animation if the API level is 21 or higher.
+- The `recreate()` method recreates the activity, preserving its instance state and calling `onCreate()` again. It uses a newer implementation in API level 28 or fallbacks to a compatibility implementation.
+- The `requestDragAndDropPermissions()` method requests drag and drop permissions for a specific drag event.
+- The `requestPermissions()` method requests runtime permissions for an activity, either using a permission delegate or the standard API based on the API level.
+- The `requireViewById()` method finds a view by its ID in the activity, throwing an exception if the view is not found.
+- The `setEnterSharedElementCallback()` and `setExitSharedElementCallback()` methods set shared element callbacks for enter and exit transitions if the API level is 21 or higher.
+- The `setPermissionCompatDelegate()` method allows setting a delegate for permission requests.
+- The `shouldShowRequestPermissionRationale()` method checks if the application should show a permission rationale for a given permission.
+- The `startActivityForResult()` and `startIntentSenderForResult()` methods start activities for result. They use the newer implementations in API level 16 or fallback to the compatibility implementations.
+- The `startPostponedEnterTransition()` method starts postponed enter transitions if the API level is 21 or higher.
+
+The class also includes several interfaces and an inner class `SharedElementCallback21Impl` that provides a compatibility implementation for shared element callbacks if the API level is 21 or higher.

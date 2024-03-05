@@ -1,0 +1,159 @@
+The Buffer class in Okio library provides efficient, mutable sequences of bytes. It acts as a sink and source for byte streams in I/O operations. 
+
+- It has static final variables and also a `head` segment variable to keep reference to the head of the segment chain and a `size` variable that indicates the number of bytes currently in the buffer.
+  
+- The `digest` method calculates the message digest of the buffer using the specified algorithm and returns it.
+  
+- The `hmac` method applies HMAC (keyed-hash message authentication code) hashing function to the buffer using the specified algorithm and secret key.
+  
+- The `rangeEquals` method verifies if a range in the buffer equals the content of a ByteString.
+  
+- The `readFrom` method reads bytes from an InputStream into the buffer.
+  
+- The `buffer` method returns the buffer instance.
+  
+- The `clear` method empties the buffer by skipping all bytes.
+  
+- The `clone` method deep copies the buffer object into a new instance.
+  
+- The `completeSegmentByteCount` method returns the number of bytes in complete segments for the buffer.
+  
+- The `copyTo` method writes the buffer content to an OutputStream or another buffer, beginning from a given offset and for a specified length.
+  
+- The `emit` and `emitCompleteSegments` methods essentially return the buffer instance; they're intended to emit data but are no-ops in Buffer (more meaningful in sub-classes for actual sink implementations).
+  
+- The `equals` method checks if a given object is equal to the current buffer object with the same byte sequences.- The `exhausted` method checks if the buffer is empty, meaning no bytes remaining to read.
+
+- The `flush` method is empty by default in Buffer; it may be overridden in subclasses to take action when flushed, like writing unwritten bytes to their destination.
+
+- The `getByte` method returns the byte at a specified index in the buffer, counting from the beginning.
+
+- The `indexOf` method returns the index of the first instance of a specified byte in the buffer, starting from a specific index. It will return -1 if the byte is not found.
+
+- The `indexOf` overloads allow to include additional parameters, such as the index to start searching from and up to which index to search.
+
+- The `hashCode` method retrieves the hash code for this buffer which is derived from the content of the buffer.
+
+- The `hmacSha` functions provide HMAC hashing for this buffer with the SHA1 (Secure Hash Algorithm 1), SHA256 and SHA512 algorithms.
+
+- These methods calculate the keyed-hash message authentication code (HMAC) of the buffer using SHA (Secure Hash Algorithm) hash function versions (SHA1, SHA256, SHA512) and a secret key. It returns the calculated HMAC value encapsulated in a ByteString. 
+
+- The "hmacSha" methods are simplifications of the `hmac` method, preset with the respective hashing algorithm names.
+
+- The `indexOf(ByteString)` method finds the starting index of a ByteString within the buffer. The overloaded version allows specifying a start index for the search.- The `indexOfElement` methods determine the index of elements in Buffer that match a given ByteString, starting from the beginning or a specified index. It returns -1 if no match is found.
+
+- The `inputStream` method presents the Buffer as an InputStream, reading available bytes and maintaining Buffer's features.
+
+- The `isOpen` method returns `true` to indicate that the Buffer is in an open state, which means it can read or write data.
+
+- The `md5` method returns a ByteString representing the MD5 hash of the contents of the Buffer.
+
+- The `outputStream` method presents the Buffer as an OutputStream. It does not support closure or flushing, reflecting the persistent nature of Buffer objects.
+
+- The `rangeEquals` methods check if the Buffer is equal to a given ByteString in a specified range. Depending on the overloaded method used, it can verify equality starting from the beginning of the ByteString or from a particular index.- The `read(ByteBuffer paramByteBuffer)` method reads bytes from the Buffer into the provided ByteBuffer, returning the number of bytes read.
+
+- The `read(byte[] paramArrayOfbyte)` and `read(byte[] paramArrayOfbyte, int paramInt1, int paramInt2)` methods read bytes from the Buffer into the provided byte array.
+
+- The `read(Buffer paramBuffer, long paramLong)` method reads up to `paramLong` number of bytes from the Buffer to another Buffer.
+
+- The `readAll(Sink paramSink)` method transfers all data from the current Buffer to the given Sink.
+
+- The `readAndWriteUnsafe()` and `readAndWriteUnsafe(UnsafeCursor paramUnsafeCursor)` methods return an UnsafeCursor to read and modify the underlying segments of Buffer.
+
+- The `readByte()` method reads and returns the next byte from the Buffer.
+
+- The `readByteArray()` and `readByteArray(long paramLong)` methods read bytes from the Buffer into a new byte array.
+
+- The `readByteString()` and `readByteString(long paramLong)` methods read bytes from the Buffer into a ByteString.
+
+- The `readDecimalLong()` method reads and returns a decimal long from the Buffer.
+
+- The `readFrom(InputStream paramInputStream)` and `readFrom(InputStream paramInputStream, long paramLong)` methods read data from an InputStream into the Buffer.
+
+- The `readFully(Buffer paramBuffer, long paramLong)` and `readFully(byte[] paramArrayOfbyte)` methods read a number of bytes specified by the length parameter from the Buffer, either into another Buffer or into a byte array.
+
+- The `readHexadecimalUnsignedLong()` method reads and returns a hexadecimal unsigned long from the Buffer.- The `readInt()` method reads and returns a 32-bit integer from the Buffer or throws an IllegalStateException if the Buffer size is less than 4.
+
+- The `readIntLe()` method reads, reverses byte order, and returns a 32-bit integer from the Buffer.
+
+- The `readLong()` method reads and returns a 64-bit integer from the Buffer or throws an IllegalStateException if the Buffer size is less than 8.
+
+- The `readLongLe()` method reads, reverses byte order, and returns a 64-bit integer from the Buffer.
+
+- The `readShort()` method reads and returns a 16-bit integer(short) from the Buffer or throws an IllegalStateException if the Buffer size is less than 2.
+
+- The `readShortLe()` method reads, reverses byte order, and returns a 16-bit integer (short) from the Buffer.
+
+- The `readString(long paramLong, Charset paramCharset)` method reads bytes equivalent to `paramLong` from the Buffer and converts them to a String using the provided Charset.
+
+- The `readString(Charset paramCharset)` method reads bytes from the Buffer and converts them to a String using the provided Charset.
+
+- The `readUnsafe()` and `readUnsafe(UnsafeCursor paramUnsafeCursor)` methods return an UnsafeCursor to read and modify the underlying segments of Buffer.
+
+- The `readUtf8()` method reads bytes from the Buffer and converts them to a String using UTF-8 Charset.
+
+- The `readUtf8(long paramLong)` method reads bytes equivalent to `paramLong` from the Buffer and converts them to a String using UTF-8 Charset.
+
+- The `readUtf8CodePoint()` method reads and returns the next UTF-8 encoded code point from the Buffer.
+
+- The `readUtf8Line()` method reads and returns the next line from the Buffer encoded in UTF-8.
+
+- The `readUtf8Line(long paramLong)` method reads bytes equivalent to `paramLong` from the Buffer and converts them to a line of String using the UTF-8 Charset.
+
+- The `readUtf8LineStrict()` and `readUtf8LineStrict(long paramLong)` methods read and return the next line from the Buffer encoded in UTF-8 or throws an EOFException if the end of the input stream is reached before the line delimiter is found.
+
+- The `request(long paramLong)` method checks if the Buffer has at least `paramLong` bytes available.- The `require(long paramLong)` method throws an EOFException if the Buffer size is less than `paramLong`.
+  
+- `segmentSizes()` returns the sizes of all segments in an ArrayList 
+
+- `select(Options paramOptions)` finds the shortest byte string option that matches a prefix from the buffer.
+
+- `selectPrefix(Options paramOptions)` determines the byte string at which the prefix ends which matches a prefix from the buffer.
+
+- `sha1()`, `sha256()`, and `sha512()` methods compute the SHA-1, SHA-256, and SHA-512 hash of the complete Buffer respectively and return the hash as a ByteString.
+
+- `size()` returns the current size of the Buffer.
+
+- `skip(long paramLong)` reads and discards `paramLong` bytes from the Buffer.
+
+- `snapshot()` and `snapshot(int paramInt)` return a ByteString that is a snapshot of the contents of the buffer.
+
+- `write(ByteBuffer paramByteBuffer)` writes all remaining bytes in `paramByteBuffer` to the Buffer.
+  
+- `write(ByteString paramByteString)` writes the entire ByteString to the Buffer.
+
+- `write(byte[] paramArrayOfbyte)` and `write(byte[] paramArrayOfbyte, int paramInt1, int paramInt2)` writes a subset of `paramArrayOfbyte` to the Buffer.
+  
+- `write(Source paramSource, long paramLong)` reads `paramLong` bytes from `paramSource` and writes those to the Buffer.
+
+- `write(Buffer paramBuffer, long paramLong)` writes `paramLong` bytes from `paramBuffer` to this Buffer.
+
+- `writeAll(Source paramSource)` writes all the bytes from `paramSource` to this Buffer.
+
+- `writeByte(int paramInt)` writes a single byte to the Buffer.
+
+- `writeDecimalLong(long paramLong)` writes `paramLong` to the Buffer in decimal form.- The `writeHexadecimalUnsignedLong(long paramLong)` method writes the hexadecimal representation of a unsigned long to the Buffer.
+
+- The `writeInt(int paramInt)` and `writeIntLe(int paramInt)` methods write an integer to the Buffer in big endian and little endian form.
+
+- The `writeLong(long paramLong)` and `writeLongLe(long paramLong)` methods write a long to the Buffer in big endian and little endian form.
+
+- The `writeShort(int paramInt)` and `writeShortLe(int paramInt)` methods write a short to the Buffer in big endian and little endian form.
+
+- The `writeString(String paramString, int paramInt1, int paramInt2, Charset paramCharset)` and `writeString(String paramString, Charset paramCharset)` methods write a string to the Buffer.
+
+- The `writeTo(OutputStream paramOutputStream, long paramLong)` method transfers content from the Buffer to the OutputStream.
+
+- The `writeUtf8(String paramString, int paramInt1, int paramInt2)` and `writeUtf8(String paramString)` methods write a string to the Buffer as UTF-8 encoded bytes.
+
+- The `writeUtf8CodePoint(int paramInt)` method writes a Unicode code point to the Buffer in UTF-8.- The `UnsafeCursor` class represents a cursor for safe direct access to the Buffer's underlying segments.
+
+- The `close()` method marks the cursor as inactive, detaching it from its buffer or throwing an exception if it's not attached to a buffer. 
+
+- The `expandBuffer(int param1Int)` method attempts to expand the byte buffer by a specified minimum byte count, or throws an exception if the count is less than or equal to zero or greater than a single segment size.
+
+- The `next()` method moves the cursor to the next segment, or throws an exception if the cursor is at the end of the buffer. 
+
+- The `resizeBuffer(long param1Long)` method adjusts the buffer size for the cursor, or throws an exception if the operation is not permitted.
+
+- The `seek(long param1Long)` method moves the cursor to the specified byte offset in the buffer, or throws an ArrayIndexOutOfBoundsException if the given offset is invalid.

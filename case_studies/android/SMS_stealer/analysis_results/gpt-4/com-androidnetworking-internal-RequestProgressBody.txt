@@ -1,0 +1,15 @@
+The `RequestProgressBody` class extends `RequestBody` from the OkHttp library and is used to handle the body of HTTP requests that include file uploads and report progress.
+
+- The class contains a `RequestBody` instance (`requestBody`), an `UploadProgressHandler` instance (`uploadProgressHandler`), and a `BufferedSink` instance (`bufferedSink`). 
+
+- The constructor `RequestProgressBody` initializes `requestBody` with the entered `paramRequestBody` and `uploadProgressHandler` using the provided `UploadProgressListener`.
+
+- The `sink` method returns a `ForwardingSink` that calculates the progress of the upload operation with each write operation. If `uploadProgressHandler` is available, it sends a message containing the written bytes and the total bytes to be written.
+  
+- The `contentLength` method returns the length of the content to be sent in the request body. 
+
+- The `contentType` method returns the type of the content being sent in the request body. 
+
+- The `writeTo` method writes the content of `requestBody` to the `bufferedSink`.
+
+This class is part of `com.androidnetworking.internal` package and helps facilitate reporting the progress of file uploads.

@@ -1,0 +1,23 @@
+The `Http2Reader` class helps in reading HTTP/2 frames from a `BufferedSource`. Here is what it does:
+
+- The class has a constructor that initializes the buffered source, whether the reader is for a client, and a `ContinuationSource` and `Hpack.Reader` instances for reading header data.
+
+- The `lengthWithoutPadding` method calculates the length of the data without padding.
+
+- Several `read` prefixed methods are defined to read different types of frames like `readData`, `readGoAway`, `readHeaderBlock`, `readHeaders`, `readPing`, `readPriority`, `readPushPromise`, `readRstStream`, `readSettings`, `readWindowUpdate`. These are all specific to the various frame types in the HTTP/2 specification.
+
+- The `readMedium` method reads three bytes from the source and returns them as a single integer.
+
+- The `nextFrame` method reads the next frame from the source and depending on the type of frame, calls the appropriate `read` method to handle that frame.
+
+- It includes an implementation of the `Closeable` interface, allowing objects of `Http2Reader` class to be used in try-with-resources statements.
+
+So, this class is for the reading part of the HTTP/2 communication within the OkHttp library.- The `readConnectionPreface` method checks if the reader is client or server. If it's a client, it reads the next frame. If not, it reads and logs the connection preface.
+
+- The `ContinuationSource` inner class implements `Source` and is responsible for reading the continuation header. It overrides `read`, `timeout`, and `close` methods.
+
+- The `Handler` interface describes all the different types of events that can be handled by the `Http2Reader`, including `ackSettings`, `alternateService`, `data`, `goAway`, `headers`, `ping`, `priority`, `pushPromise`, `rstStream`, `settings`, and `windowUpdate`.
+
+- In the `read` method of the `ContinuationSource` class, it skips the padding and reads the continuation header if there is no data left to read, otherwise, it keeps reading data from the source.
+
+- The `readContinuationHeader` method in `ContinuationSource` class is responsible for reading the continuation header from the source and handle if the frame type is not CONTINUATION or the streamId has changed.

@@ -1,0 +1,13 @@
+The `DefaultTaskExecutor` class extends `TaskExecutor` and provides some mechanism for executing tasks. Here is what its main components do:
+
+1. Initializes a `ExecutorService` named `mDiskIO` that uses a fixed thread pool of size 2. Threads are named with a pattern "arch_disk_io_%d" and ids for them are generated with atomic increment.
+   
+2. Defines an `Object` named `mLock`, which is utilized for synchronization.
+   
+3. Declares a volatile `Handler` named `mMainHandler`, used for executing tasks in the main thread.
+   
+4. `executeOnDiskIO(Runnable paramRunnable)`: This method is used to execute a task in the `mDiskIO` executor service.
+   
+5. `isMainThread()`: This method checks whether the current thread is the main thread.
+   
+6. `postToMainThread(Runnable paramRunnable)`: This method posts a task to the main thread by using the main handler. If the main handler is null, it initializes the handler with the main thread's Looper.

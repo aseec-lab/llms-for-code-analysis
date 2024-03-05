@@ -1,0 +1,7 @@
+The `AppOpsManagerCompat` class in the `androidx.core.app` package provides compatibility wrappers for interacting with the AppOpsManager system service.
+
+The class defines several constants for different operation modes (`MODE_ALLOWED`, `MODE_DEFAULT`, `MODE_ERRORED`, `MODE_IGNORED`).
+
+The class includes static methods such as `noteOp()`, `noteOpNoThrow()`, `noteProxyOp()`, `noteProxyOpNoThrow()`, and `permissionToOp()`. These methods check the current Android SDK version and call the corresponding methods on the underlying `AppOpsManager` object, if the SDK version is compatible. Otherwise, a fallback value of 1 is returned.
+
+The `permissionToOp()` method converts a permission string to the corresponding operation string, using the `AppOpsManager.permissionToOp()` method if the SDK version is compatible. Otherwise, null is returned.

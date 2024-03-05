@@ -1,0 +1,14 @@
+The `ArchTaskExecutor` class extends the `TaskExecutor` class. It is designed to be a singleton and utilizes the `TaskExecutor` interface to manage tasks on either the main thread or a background thread. 
+
+Key points of the class:
+1. Instance Variables: It has two `TaskExecutor` instance variables called `mDefaultTaskExecutor` and `mDelegate`. The `mDelegate` variable is used to delegate tasks to either the main or background thread.
+
+2. Singleton Pattern: `ArchTaskExecutor` adheres to the Singleton design pattern, with the static `getInstance()` method ensuring only one instance of `ArchTaskExecutor` is created. 
+
+3. Executor Instances: There are statically initialized `Executor` instances (sIOThreadExecutor and sMainThreadExecutor) using Java's anonymous inner class syntax to execute tasks on the background thread or main thread respectively. 
+
+4. Main Methods: `executeOnDiskIO(Runnable paramRunnable)` and `postToMainThread(Runnable paramRunnable)` execute the right method on `mDelegate` with the passed `Runnable` and `isMainThread` returns the result of the `isMainThread` call on `mDelegate`.
+
+5. Delegate Setter: It also provides a `setDelegate(TaskExecutor paramTaskExecutor)` method to change the `mDelegate` instance to another `TaskExecutor` or default back to `mDefaultTaskExecutor` if null is passed.
+
+6. Executor Methods: `getIOThreadExecutor()` and `getMainThreadExecutor()` allow external access to the IO thread executor and main thread executor respectively. These return the statically initialized executors that post jobs to the appropriate threads.

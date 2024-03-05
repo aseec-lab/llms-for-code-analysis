@@ -1,0 +1,13 @@
+The `BridgeInterceptor` class in OkHttp is a part of the library's request handling mechanism. It is an implementation of an Interceptor, which is a class that intercepts requests and responses in OkHttp and allows them to be transformed or observed.
+
+More specifically, the `BridgeInterceptor` class handles adding and sending headers that every request should send. 
+
+The constructor of the class accepts an instance of `CookieJar` which it uses to handle cookies across requests.
+
+In the `intercept` method, it starts by building a new request based on the original one, adding headers like "Content-Type", "Content-Length", "Transfer-Encoding", "Host", "Connection", "Accept-Encoding", "Cookie", and "User-Agent". If these headers are not present, they will be added and, if necessary, current values will be replaced or removed. 
+
+The `intercept` method also handles two cases:
+1) If "Accept-Encoding" is set to "gzip" and the response body is present, it handles unzipping the body using `GzipSource`.
+2) When receiving response headers, it uses the `HttpHeaders.receiveHeaders` method to process cookies from the response and add them to the `CookieJar`.
+
+At the end of the `intercept` function, it provides a new response based on changes made during header and cookie processing.

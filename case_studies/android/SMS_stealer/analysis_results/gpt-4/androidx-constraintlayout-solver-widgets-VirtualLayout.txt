@@ -1,0 +1,25 @@
+The `VirtualLayout` class extends the `HelperWidget` and is used to manage layouts in ConstraintLayout. It has fields for padding (left, right, top, bottom, start, and end), the measured width and height, as well as the measure and measurer objects for layout calculations.
+
+Key methods in this class include:
+
+1. `applyRtl(boolean paramBoolean)`: Sets padding based on right-to-left text direction if `paramBoolean` is true.
+
+2. `captureWidgets()`: Sets flag indicating all constraint widgets are part of a virtual layout.
+
+3. `getMeasuredHeight()/getMeasuredWidth()`: Gets measured height/width.
+
+4. `getPaddingXXX()`: Gets padding for different edges of the layout.
+
+5. `measure()`: There are a couple overloaded versions of this method to measure the layout with different parameters.
+
+6. `measureChildren()`: Measures all children widgets that are not guidelines.
+
+7. `needSolverPass()`: Returns whether this layout needs a solver pass.
+
+8. `needsCallbackFromSolver(boolean paramBoolean)`: Defines whether this layout needs a callback from solver.
+
+9. `setMeasure(int paramInt1, int paramInt2)`: Sets measured width and height.
+
+10. `setPaddingXXX()`: Sets padding for different edges of the layout.
+
+11. `updateConstraints(ConstraintWidgetContainer paramConstraintWidgetContainer)`: Captures all widgets in this layout. This method required to be implemented as `VirtualLayout` is abstract class extending `HelperWidget`.

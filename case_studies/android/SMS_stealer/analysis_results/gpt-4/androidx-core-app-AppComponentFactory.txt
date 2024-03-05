@@ -1,0 +1,14 @@
+The `AppComponentFactory` class is a subclass of Android's own `AppComponentFactory`. This class has methods to instantiate various types of Android components such as `Activity`, `Application`, `Service`, `BroadcastReceiver`, and `ContentProvider`. 
+
+For each type of component, there are two methods:
+
+- A `public final` method that calls the `CoreComponentFactory.checkCompatWrapper` method on the result of the second method.
+- A `public` method that includes the logic to instantiate the component using `ClassLoader` and `String` parameters. The classname of the component is passed as a `String` and the method then tries to find the class, make sure it is a subclass of the expected type (e.g., `Activity`), and create an instance using the no-argument constructor. If there's an error (the constructor cannot be invoked or does not exist), a `RuntimeException` is thrown.
+
+Here's a breakdown of the methods:
+
+1. `instantiateActivity` and `instantiateActivityCompat`: Used to instantiate an `Activity`.
+2. `instantiateApplication` and `instantiateApplicationCompat`: Used to instantiate an `Application`.
+3. `instantiateProvider` and `instantiateProviderCompat`: Used to instantiate a `ContentProvider`.
+4. `instantiateReceiver` and `instantiateReceiverCompat`: Used to instantiate a `BroadcastReceiver`.
+5. `instantiateService` and `instantiateServiceCompat`: Used to instantiate a `Service`.

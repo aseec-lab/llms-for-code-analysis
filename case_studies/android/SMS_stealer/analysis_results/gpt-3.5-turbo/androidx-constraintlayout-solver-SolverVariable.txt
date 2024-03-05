@@ -1,0 +1,22 @@
+The `SolverVariable` class represents a variable in a linear system solver. It contains properties such as the variable's id, name, type, strength, and computed value. It also has methods to add and remove equations that use the variable, as well as methods to reset and set the variable's properties.
+
+Key methods and properties:
+- `addToRow()`: Adds an equation that uses the variable to the list of client equations.
+- `removeFromRow()`: Removes an equation that uses the variable from the list of client equations.
+- `reset()`: Resets the variable by clearing its properties and client equation list.
+- `setFinalValue()`: Sets the computed value of the variable and marks it as a final value.
+- `setSynonym()`: Marks the variable as a synonym of another variable with a certain delta value.
+- `setType()`: Sets the type of the variable.
+- `strengthVector[]`: An array that stores the strengths of different types of equations that use the variable.
+- `mClientEquations[]`: An array that stores the equations that use the variable.
+- `mClientEquationsCount`: The number of equations that use the variable.
+- `mName`: The name of the variable.
+- `mType`: The type of the variable.
+- `id`: The unique id of the variable.
+- `strength`: The strength of the variable.
+
+This class is used in the solver to represent variables and their relationships with equations in a linear system.The `updateReferencesWithNewDefinition()` method updates the references to this variable in all of its client equations with a new definition from a given `LinearSystem` and `ArrayRow`. It iterates through the array of client equations and calls the `updateFromRow()` method on each equation to update the references.
+
+The `Type` enum represents the type of a `SolverVariable`. It defines five types: `CONSTANT`, `ERROR`, `SLACK`, `UNKNOWN`, and `UNRESTRICTED`. These types represent different kinds of variables in a linear system solver.
+
+The `SolverVariable` class represents a variable in a linear system solver. It contains properties and methods related to the variable's properties, equations that use the variable, and updating references to the variable.

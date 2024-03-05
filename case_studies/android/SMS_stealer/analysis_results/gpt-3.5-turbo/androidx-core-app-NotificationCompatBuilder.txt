@@ -1,0 +1,23 @@
+The `NotificationCompatBuilder.java` file in the `androidx.core.app` package provides a class called `NotificationCompatBuilder`. This class is responsible for building `Notification` objects in a backward-compatible way.
+
+The `NotificationCompatBuilder` class implements the `NotificationBuilderWithBuilderAccessor` interface. It contains several private fields, such as a list of action extras, remote views for different layouts, a `Notification.Builder` object, and a bundle of extras.
+
+The constructor of `NotificationCompatBuilder` initializes the fields and sets the necessary properties of the `Notification.Builder` object based on the properties of the `NotificationCompat.Builder` passed in.
+
+The `addAction()` method adds an action to the notification. It creates a `Notification.Action.Builder` object and sets the properties of the action based on the properties of the `NotificationCompat.Action` passed in. The action is then added to the `Notification.Builder` object.
+
+The `removeSoundAndVibration()` method removes sound and vibration settings from the notification.
+
+The `build()` method builds and returns the final `Notification` object. It applies the style, sets the content views, and adds any additional extras to the notification.
+
+The `buildInternal()` method is called by `build()` and is responsible for building the notification object based on the API level. It sets the necessary properties and handles compatibility for different Android versions.
+
+Overall, the `NotificationCompatBuilder` class provides a way to build notifications with backward compatibility by using the `Notification.Builder` class and handling differences between Android versions.The remaining code in the `NotificationCompatBuilder` class contains the implementation of the `build()` method, which builds and returns the final `Notification` object based on the API level.
+
+For API levels 19 and higher, it creates a `SparseArray` of action extras and adds it to the notification's extras. Then, it sets the content views of the notification and returns the built notification.
+
+For API level 16, it builds the notification and retrieves its extras. It creates a new bundle based on the extras and removes any duplicate keys. It then adds this new bundle to the notification's extras. It also creates a `SparseArray` of action extras and adds it to the notification's extras. Finally, it sets the content views of the notification and returns the built notification.
+
+For API levels below 16, it simply returns the notification directly from the underlying `Notification.Builder` object.
+
+The `getBuilder()` method returns the underlying `Notification.Builder` object used by the `NotificationCompatBuilder`.

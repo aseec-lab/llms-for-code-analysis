@@ -1,0 +1,13 @@
+The `HashingSource` class is a utility class providing functionality for hashing and HMAC operations. It extends Okio's `ForwardingSource` class and uses cryptographic classes from Java's Security and Crypto packages:
+
+- An instance of this class can be constructed with either a `MessageDigest` instance for standard hash operations or a `Mac` for HMAC (keyed-hash) operations. 
+
+- It offers static `shaX` methods to create `HashingSource` instances for SHA-1 and SHA-256 hashes and `md5` for MD5 hash. 
+
+- It also has static `hmacShaX` methods for creating `HashingSource` instances for HMAC-SHA1 and HMAC-SHA256.
+
+- The `hash` method will compute and return the hash (using `MessageDigest`) or HMAC (using `Mac`) of all data that has been read from the `Source`.
+
+- The overridden `read` method first reads data from the `Source`, then updates the `MessageDigest` or `Mac` with this data before returning the number of bytes which were read.
+
+The class handles initialization of the `MessageDigest` and `Mac` instances, including catching and handling exceptions like `NoSuchAlgorithmException` and `InvalidKeyException`. It also manages the underlying byte buffers and interfaces between Okio's byte buffers and Java's crypto classes.

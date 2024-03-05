@@ -1,0 +1,5 @@
+The `WindowCompat` class is a utility class in AndroidX that provides compatibility support for window features on different versions of Android. It provides methods to work with bars and overlays in the window. This class also provides a static method `requireViewById(Window paramWindow, int paramInt)` to fetch a view from a window using its view id.
+
+The `requireViewById` method checks for the Android version. If the version is 28 or above, it uses `requireViewById` method of the `Window` class. If a view with the given id is not found, an `IllegalArgumentException` is thrown. For Android versions lower than 28, it uses the `findViewById` method. If the view isn't found, it throws an `IllegalArgumentException`. 
+
+This class enables the application to utilize window features in a backward-compatible manner, adaptable to both newer and older versions of Android.

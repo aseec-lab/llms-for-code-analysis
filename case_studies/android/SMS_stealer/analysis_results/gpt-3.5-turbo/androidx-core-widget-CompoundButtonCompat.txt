@@ -1,0 +1,10 @@
+The `CompoundButtonCompat` class is a utility class that provides compatibility methods for working with `CompoundButton`, which is a widget that presents a combination of a checkbox or a radio button with a text label.
+
+The class provides the following methods:
+- `getButtonDrawable(CompoundButton)`: Returns the drawable used as the button of the `CompoundButton`.
+- `getButtonTintList(CompoundButton)`: Returns the color state list used to tint the button of the `CompoundButton`.
+- `getButtonTintMode(CompoundButton)`: Returns the PorterDuff mode used to tint the button of the `CompoundButton`.
+- `setButtonTintList(CompoundButton, ColorStateList)`: Sets the color state list used to tint the button of the `CompoundButton`.
+- `setButtonTintMode(CompoundButton, PorterDuff.Mode)`: Sets the PorterDuff mode used to tint the button of the `CompoundButton`.
+
+These methods handle compatibility issues for different versions of Android SDK. They use reflection to access the private field `mButtonDrawable` of the `CompoundButton` class on older versions of Android. On newer versions, they directly call the corresponding methods introduced in the SDK. If the `CompoundButton` implements the `TintableCompoundButton` interface, the methods will use the corresponding support methods provided by that interface.

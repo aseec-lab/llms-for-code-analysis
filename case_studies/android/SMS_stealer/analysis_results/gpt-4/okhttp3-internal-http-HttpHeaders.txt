@@ -1,0 +1,25 @@
+The `HttpHeaders` class in OkHttp is a utility class that provides methods for dealing with HTTP headers. 
+
+1) It declares several Patterns used for matching header parameters and token.
+
+2) The `contentLength()` methods return the length of HTTP content by checking the "Content-Length" field in the HTTP headers.
+
+3) `hasBody()` checks if an HTTP response has a body. It does this by checking the request method, HTTP status code, content length, and "Transfer-Encoding" field of the response.
+
+4) `hasVaryAll()` methods return true if the "Vary" field exists in the HTTP headers and contains "*", false otherwise.
+
+5) The `parseChallenges()` method extracts and returns a list of challenges from the HTTP headers of a request.
+
+6) `parseSeconds()` parses a string as a number of seconds, using a provided default value if parsing fails.
+
+7) `receiveHeaders()` saves cookies from HTTP headers using a provided `CookieJar`.
+
+8) `skipUntil()` and `skipWhitespace()` are helper methods for skipping characters in a string.
+
+9) `varyFields()` returns a set of field names from the "Vary" field in HTTP headers.
+
+10) `varyHeaders()` retrieves the headers that may alter the content of a response.
+
+11) `varyMatches()` checks if the values of the fields specified by the Vary header in the response match those in the request.
+
+Overall, this class is essential for handling and manipulating HTTP headers, which are crucial for HTTP requests and responses.

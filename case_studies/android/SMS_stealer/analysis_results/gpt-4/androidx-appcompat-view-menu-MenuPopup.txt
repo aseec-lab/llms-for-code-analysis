@@ -1,0 +1,26 @@
+The `MenuPopup` class is an abstract class that implements the interfaces `ShowableListMenu`, `MenuPresenter`, and `AdapterView.OnItemClickListener`. It is a part of the menu system in `androidx.appcompat.view`.
+
+Class variables: 
+- `mEpicenterBounds` which is a `Rect` instance providing the bounds for the epicenter of the popup menu.
+
+Key methods:
+
+- `measureIndividualMenuWidth(ListAdapter paramListAdapter, ViewGroup paramViewGroup, Context paramContext, int paramInt)`: Measures the width of the individual menu items, returning the maximum found or the maximum allowable width.
+  
+- `shouldPreserveIconSpacing(MenuBuilder paramMenuBuilder)`: Checks if any menu items contain an icon and are visible. Returns true if such an item exists.
+
+- `toMenuAdapter(ListAdapter paramListAdapter)`: Converts a given `ListAdapter` to a `MenuAdapter`.
+
+- `addMenu(MenuBuilder paramMenuBuilder)`: Method signature for adding a menu to the popup. Implementation will be provided by the concrete subclass.
+  
+- `closeMenuOnSubMenuOpened()`: Returns a boolean indicating whether the menu should close when a submenu is opened.
+
+- `collapseItemActionView(MenuBuilder paramMenuBuilder, MenuItemImpl paramMenuItemImpl)` and `expandItemActionView(MenuBuilder paramMenuBuilder, MenuItemImpl paramMenuItemImpl)`: These methods suggest that the menu system supports collapsible and expandable items, but these methods don't actually do anything here.
+  
+- `getEpicenterBounds()`: Returns the bounds for the popup menu's epicenter.
+  
+- `getMenuView(ViewGroup paramViewGroup)`: Throws an `UnsupportedOperationException` as `MenuPopup` manages its own views.
+  
+- `onItemClick(AdapterView<?> paramAdapterView, View paramView, int paramInt, long paramLong)`: Performs an action when a menu item is clicked.
+
+The abstract methods indicate that the `MenuPopup` class needs to be extended to provide specific implementations for these methods as per the requirement. These include `setAnchorView(View paramView)`, `setForceShowIcon(boolean paramBoolean)`, `setGravity(int paramInt)`, `setHorizontalOffset(int paramInt)`, `setVerticalOffset(int paramInt)`,  `setOnDismissListener(PopupWindow.OnDismissListener paramOnDismissListener)`, `setShowTitle(boolean paramBoolean)`.

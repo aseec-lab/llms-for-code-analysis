@@ -1,0 +1,13 @@
+The `ThemeUtils` Java class provides a set of helper methods and variables that are useful for manipulating themes in the context of an AppCompat styled Android app.
+
+This class contains various static integer arrays representing different state sets like `ACTIVATED_STATE_SET`, `CHECKED_STATE_SET`, `DISABLED_STATE_SET`, `FOCUSED_STATE_SET` etc. The integers in each array are Android system identifiers for different states a view can be in.
+
+The `checkAppCompatTheme()` method checks if the passed view can be used with an AppCompat theme and logs an error if it can't.
+
+`createDisabledStateList()` method creates a color state list that can be used to define the colors for a disabled state of a widget.
+
+There are several methods for getting theme attribute colors like `getDisabledThemeAttrColor()`, `getThemeAttrColor()`, `getThemeAttrColorStateList()`, etc. These methods fetch specific colors or color state lists associated with certain attributes within the current theme. They make use of a utility method `getTypedValue()` to fetch a reusable TypedValue instance.
+
+These theme attribute colors are fetched using the `obtainStyledAttributes()` method that retrieves values from a theme. The fetched colors are then adjusted or used to create color state lists as per the needs of the querying methods.
+
+The class also uses a `ThreadLocal<TypedValue>`, which is a special kind of variable that creates individual copies of a variable for each thread that accesses it. This is useful in scenarios where the value needs to be modified without conflicts between threads, or where the creation of the value is expensive and reusing it between method calls is desirable.

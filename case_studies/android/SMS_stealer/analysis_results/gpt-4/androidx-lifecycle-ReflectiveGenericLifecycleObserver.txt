@@ -1,0 +1,12 @@
+This is a custom lifecycle observer called `ReflectiveGenericLifecycleObserver` which is a part of Android's Architecture Component library, specifically in the Lifecycle handling section. The class implements `LifecycleEventObserver` interface.
+
+It has two member fields:
+
+1) `Object mWrapped`: This is the object which this class is observing for lifecycle changes.
+2) `ClassesInfoCache.CallbackInfo mInfo`: This provides information of lifecycle methods in `mWrapped` object.
+
+The class has a constructor that initializes these two member fields. 
+
+The `onStateChanged()` method is an overridden lifecycle method where changes in lifecycle states are caught and corresponding callbacks are invoked in `mWrapped` object.
+
+It appears to be a helper class used for invoking lifestyle callbacks (like `onCreate()`, `onPause()`) with reflection, and it is able to be used with any object that has lifecycle methods.

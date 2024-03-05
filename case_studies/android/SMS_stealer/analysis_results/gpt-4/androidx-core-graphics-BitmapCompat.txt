@@ -1,0 +1,9 @@
+The `BitmapCompat` class from the AndroidX library provides utility methods for dealing with bitmap images in a way that is backward-compatible across different versions of Android:
+
+- The method `getAllocationByteCount(Bitmap paramBitmap)` returns the number of bytes allocated in memory to store the pixel data of a `Bitmap` object. For Android API levels 19 and above, it directly uses the `getAllocationByteCount()` method of the `Bitmap` class. For older versions, it falls back to use `getByteCount()`, which might give slightly different results because it doesn't consider additional bytes that can be allocated for an instance to function properly.
+
+- The method `hasMipMap(Bitmap paramBitmap)` checks whether a bitmap has a MIP map, which is a collection of images that accompany the main image to improve its rendering when it is scaled. This method is only available for API level 18 and above. For older versions, `false` is returned by default.
+
+- The method `setHasMipMap(Bitmap paramBitmap, boolean paramBoolean)` allows setting the MIP map status of a bitmap. Similar to the `hasMipMap()` method, it's only available for API level 18 and above. For older versions, this method does nothing.
+
+The file path mentioned in the comment at the end is likely auto-generated and doesn't contribute to the functionality of the `BitmapCompat` class.

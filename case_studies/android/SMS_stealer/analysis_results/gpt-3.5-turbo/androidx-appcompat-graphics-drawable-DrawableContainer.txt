@@ -1,0 +1,126 @@
+The `DrawableContainer` class is a subclass of `Drawable` and implements the `Drawable.Callback` interface. It is used to wrap multiple drawables and manage their state and behavior.
+
+The class has various instance variables to track the state of the currently displayed drawable, animation timings, alpha values, and more.
+
+The `initializeDrawableForDisplay()` method is used to set up the properties of a drawable before it is displayed, such as alpha values, color filters, tint lists, dithering, and more.
+
+The `needsMirroring()` method checks if the container should mirror its drawables based on the auto-mirrored state and layout direction.
+
+The `resolveDensity()` method is used to determine the density of a drawable based on the resources it is associated with.
+
+The `animate()` method is responsible for animating the transition between drawables. It adjusts the alpha values of the drawables based on the animation state.
+
+The `draw()` method is overridden to call the `draw()` method of the currently displayed drawable and the last drawable.
+
+The `getAlpha()` method returns the alpha value of the container.
+
+The `getChangingConfigurations()` method returns the combined changing configurations of the container and its drawable state.
+
+The `getConstantState()` method returns the constant state of the container, if available.
+
+The `getCurrent()` method returns the currently displayed drawable.
+
+The `getCurrentIndex()` method returns the index of the currently displayed drawable.
+
+The `getHotspotBounds()` method returns the hotspot bounds of the container. If the hotspot bounds are not set, it calls the superclass method.
+
+The `getIntrinsicHeight()` method returns the intrinsic height of the container. If the container has a constant size, it returns the constant height. Otherwise, it returns the intrinsic height of the currently displayed drawable.
+
+The `getIntrinsicWidth()` method returns the intrinsic width of the container. If the container has a constant size, it returns the constant width. Otherwise, it returns the intrinsic width of the currently displayed drawable.
+
+The `getMinimumHeight()` method returns the minimum height of the container. If the container has a constant size, it returns the constant minimum height. Otherwise, it returns the minimum height of the currently displayed drawable.
+
+The `getMinimumWidth()` method returns the minimum width of the container. If the container has a constant size, it returns the constant minimum width. Otherwise, it returns the minimum width of the currently displayed drawable.
+
+The `getOpacity()` method returns the opacity of the container. If the currently displayed drawable is not visible, it returns TRANSPARENT. Otherwise, it returns the opacity of the container's drawable state.
+
+The `getOutline()` method returns the outline of the currently displayed drawable.
+
+The `getPadding()` method retrieves the padding of the container. If the container has constant padding, it returns the constant padding. Otherwise, it retrieves the padding from the currently displayed drawable.
+
+The `invalidateDrawable()` method is called when a drawable needs to be invalidated. It invalidates the drawable container state and calls the `invalidateDrawable()` method of the container's callback if the drawable is the currently displayed drawable.
+
+The `isAutoMirrored()` method returns whether the container automatically mirrors its drawables.
+
+The `isStateful()` method returns whether the container's state affects its drawable state.
+
+The `jumpToCurrentState()` method is called to force the currently displayed drawable to jump to its current state, canceling any ongoing animations.
+
+The class also includes methods for applying a theme, clearing the mutated state, and cloning the constant state of the container.The `mutate()` method is used to create a copy of the `DrawableContainer` with its own constant state. It checks if the `DrawableContainer` has already been mutated and calls the `mutate()` method of its super class, `Drawable`, to create a copy of the constant state. If successful, it sets the mutated flag, creates a new constant state by cloning the current constant state, and sets the new constant state as the constant state of the `DrawableContainer`.
+
+The `onBoundsChange()` method is overridden to set the bounds of the currently displayed drawable according to the provided rectangle.
+
+The `onLayoutDirectionChanged()` method is called when the layout direction of the `DrawableContainer` is changed. It forwards the layout direction change to the `DrawableContainerState` by calling its `setLayoutDirection()` method and passes the current index of the drawable.
+
+The `onLevelChange()` method is called when the level of the `DrawableContainer` is changed. It forwards the level change to the currently displayed drawable by calling its `setLevel()` method.
+
+The `onStateChange()` method is called when the state of the `DrawableContainer` is changed. It forwards the state change to the currently displayed drawable by calling its `setState()` method.
+
+The `scheduleDrawable()` method is called when a drawable needs to be scheduled for animation. It checks if the provided drawable is the currently displayed drawable and if the `DrawableContainer` has a callback. If both conditions are met, it calls the `scheduleDrawable()` method of the `DrawableContainer`'s callback.
+
+The `selectDrawable()` method is used to select a drawable from the `DrawableContainer` based on its index. If the index is the same as the current index, it returns `false` to indicate that no action is needed. Otherwise, it sets the exit fade animation duration, makes the last drawable invisible, sets the current drawable as the last drawable, sets the enter fade animation duration, initializes the current drawable for display, updates the current index, and invalidates the `DrawableContainer`. If there are exit or enter animations, it schedules the animation runnable and animates the transition.
+
+The `setAlpha()` method is used to set the alpha value of the `DrawableContainer`. If the alpha value has changed or the `DrawableContainer` does not have an alpha value, it sets the new alpha value, and if the enter animation end time is 0, sets the alpha value of the current drawable. Otherwise, it triggers the animation.
+
+The `setAutoMirrored()` method is used to set whether the drawables contained within the `DrawableContainer` are automatically mirrored when the layout direction changes. If the auto-mirrored state has changed, it sets the new state and updates the auto-mirrored state of the current drawable.
+
+The `setColorFilter()` method is used to set a color filter to the `DrawableContainer`. It sets the color filter in the `DrawableContainerState` and applies the color filter to the current drawable.
+
+The `setConstantState()` method is used to set the constant state of the `DrawableContainer`. It sets the provided `DrawableContainerState` as the constant state and initializes the current and last drawables.
+
+The `setCurrentIndex()` method is a helper method that calls `selectDrawable()` to select a drawable based on its index.
+
+The `setDither()` method is used to set whether the drawables contained within the `DrawableContainer` should be dithered when drawn. If the dither state has changed, it sets the new state and applies the dithering to the current drawable.
+
+The `setEnterFadeDuration()` method is used to set the duration of the fade-in animation when transitioning to a new drawable in the `DrawableContainerState`.
+
+The `setExitFadeDuration()` method is used to set the duration of the fade-out animation when transitioning to a new drawable in the `DrawableContainerState`.
+
+The `setHotspot()` method is used to set the hotspot coordinates for the `DrawableContainer`. It applies the hotspot coordinates to the current drawable.
+
+The `setHotspotBounds()` method is used to set the hotspot bounds for the `DrawableContainer`. It sets the hotspot bounds in the `DrawableContainer` and applies the hotspot bounds to the current drawable.
+
+The `setTintList()` method is used to set a tint list to the `DrawableContainer`. It sets the tint list in the `DrawableContainerState` and applies the tint list to the current drawable.
+
+The `setTintMode()` method is used to set a tint mode to the `DrawableContainer`. It sets the tint mode in the `DrawableContainerState` and applies the tint mode to the current drawable.
+
+The `setVisible()` method is overridden to set the visibility of the `DrawableContainer`. It sets the visibility of the last and current drawables according to the provided visibility flag and calls the super method.
+
+The `unscheduleDrawable()` method is called when a drawable needs to be unscheduled for animation. It checks if the provided drawable is the currently displayed drawable and if the `DrawableContainer` has a callback. If both conditions are met, it calls the `unscheduleDrawable()` method of the `DrawableContainer`'s callback.
+
+The `updateDensity()` method is called to update the density of the `DrawableContainer` and its drawables. ItThe `mDrawableFutures` field is a sparse array that stores the future drawables of the `DrawableContainerState`.
+
+The `mDrawables` field is an array that stores the drawables of the `DrawableContainerState`.
+
+The `mEnterFadeDuration` and `mExitFadeDuration` fields store the fade-in and fade-out animation durations of the `DrawableContainerState`.
+
+The `mHasColorFilter`, `mHasTintList`, and `mHasTintMode` fields indicate whether the `DrawableContainerState` has a color filter, tint list, and tint mode applied.
+
+The `mLayoutDirection` field stores the layout direction of the `DrawableContainerState`.
+
+The `mMutated` field indicates whether the `DrawableContainerState` has been mutated.
+
+The `mNumChildren` field stores the number of drawables in the `DrawableContainerState`.
+
+The `mOpacity` field stores the opacity of the `DrawableContainerState`.
+
+The `mOwner` field stores a reference to the `DrawableContainer` that owns the `DrawableContainerState`.
+
+The `mSourceRes` field stores the resource of the `DrawableContainerState`.
+
+The `mStateful` field indicates whether- The `getDrawable` method retrieves a drawable at a specific index from the `DrawableContainerState`. It first checks if the drawable is already stored in the `mDrawables` array, and if not, looks for it in the `mDrawableFutures` collection. If found in the `mDrawableFutures`, it prepares the drawable, stores it in the `mDrawables` array, and removes it from `mDrawableFutures`. Finally, it returns the retrieved drawable or null if not found.
+- The `getChildCount` method returns the number of child drawables in the `DrawableContainerState`.
+- The `getConstantHeight`, `getConstantMinimumHeight`, `getConstantMinimumWidth`, and `getConstantWidth` methods compute and return the corresponding constant size values of the `DrawableContainerState`.
+- The `getConstantPadding` method computes and returns the constant padding of the `DrawableContainerState`. It checks if the variable padding flag is set, and if not, computes the padding by iterating over the child drawables and updating the common padding rectangle.
+- The `getEnterFadeDuration` and `getExitFadeDuration` methods return the fade-in and fade-out animation durations of the `DrawableContainerState`.
+- The `getOpacity` method computes and returns the overall opacity of the `DrawableContainerState`. It iterates over the child drawables and resolves their opacities to determine the overall opacity.
+- The `growArray` method increases the size of the `mDrawables` array to accommodate more child drawables.
+- The `invalidateCache` method marks the cached values of opacity and statefulness as invalid.
+- The `isConstantSize` method returns a boolean indicating whether the child drawables of the `DrawableContainerState` have a constant size.
+- The `isStateful` method returns a boolean indicating whether any of the child drawables of the `DrawableContainerState` are stateful.
+- The `mutate` method mutates all the child drawables of the `DrawableContainerState`.
+- The `setConstantSize` method sets whether the child drawables of the `DrawableContainerState` have a constant size.
+- The `setEnterFadeDuration` and `setExitFadeDuration` methods set the fade-in and fade-out animation durations of the `DrawableContainerState`.
+- The `setLayoutDirection` method sets the layout direction of the `DrawableContainerState` and updates the layout direction of the child drawables.
+- The `setVariablePadding` method sets whether the child drawables of the `DrawableContainerState` have variable padding.
+- The `updateDensity` method updates the density of the `DrawableContainerState` based on the density of the given resources. It also resets the cached constant size and padding values if the density has changed.

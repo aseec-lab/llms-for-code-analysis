@@ -1,0 +1,17 @@
+The `ViewPropertyAnimatorCompat` class is a utility class that provides an interface for animating properties of a `View` object. It is a compatibility class that allows for animation on pre-16 API versions.
+
+The class provides methods for animating various properties of a `View`, such as `alpha()`, `rotation()`, `scaleX()`, `translationX()`, etc. Each method returns a `ViewPropertyAnimatorCompat` object, allowing for method chaining.
+
+The class uses the builder pattern to set various properties of the animation, such as duration, start delay, interpolator, and listeners. The animation can be started using the `start()` method.
+
+The class internally uses the `View.animate()` method to access the `ViewPropertyAnimator` object for animating the properties of the `View`.
+
+The class also provides methods for setting listeners to listen for animation events, such as `setListener()`, `withEndAction()`, and `withStartAction()`. These listeners can be set using the `ViewPropertyAnimatorListener` interface.
+
+The class also provides methods for setting an update listener using the `setUpdateListener()` method. This listener can be set using the `ViewPropertyAnimatorUpdateListener` interface.
+
+The class maintains a weak reference to the `View` object being animated to avoid memory leaks.
+
+Note: This is a part of the AndroidX library and is used for backward compatibility purposes. Developers are encouraged to use the newer animation framework introduced in Android API level 16 and above.The remaining code includes methods such as `xBy()`, `y()`, `yBy()`, `z()`, and `zBy()` which animate the respective properties of the `View`. These methods check if the `View` object is not null and if the device API level is greater than or equal to 21 before animating the properties.
+
+The code also includes a nested static class `ViewPropertyAnimatorListenerApi14` which implements the `ViewPropertyAnimatorListener` interface. This class handles the animation events such as onAnimationStart(), onAnimationEnd(), and onAnimationCancel(). It also sets and removes the layer type of the `View` before and after the animation.

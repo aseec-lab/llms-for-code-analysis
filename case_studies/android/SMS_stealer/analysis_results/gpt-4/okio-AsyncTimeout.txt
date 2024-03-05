@@ -1,0 +1,23 @@
+The AsyncTimeout class extends the Timeout class and implements a model for asynchronous timeout handling. It provides methods to enter and exit timeout state, handle timeout exceptions and cancel scheduled timeouts. Key methods in the code are:
+
+- `awaitTimeout()`: Waits until the next timeout occurs or the timeout thread is interrupted. It then removes and returns the next expired timeout, if any.
+
+- `cancelScheduledTimeout(AsyncTimeout)`: Cancels the next scheduled timeout by comparing it with other AsyncTimeOut instances and removing it from the queue.
+
+- `remainingNanos(long paramLong)`: Tells the remaining time in nanoseconds till the deadline from the provided argument.
+
+- `scheduleTimeout(AsyncTimeout, long, boolean)`: Schedules an AsyncTimeout for operation. This is where it calculates the timeoutAt value, which is used in the AsyncTimeout's timeout check.
+
+- `enter()` and `exit()`: These methods are used to manage state transitions related to timeout events.
+
+- `newTimeoutException(IOException)`: Returns a new IOException stating "timeout" or uses a provided IOException as cause, if not null.
+
+- `sink(final Sink)`: Returns a new Sink that writes its operations to the original Sink, but with timeout mechanisms managed by the AsyncTimeout instance.The remaining part of the code shows:
+
+- `source(final Source source)`: Returns a new Source object that reads its operations from the provided source, but with timeout mechanisms managed by the AsyncTimeout instance.
+
+- `timedOut()`: This is a placeholder method designed for extension. Subclasses can override this method to define their own timeout behavior
+
+- `Watchdog`: A private nested class that extends Thread, implemented as a daemon. It's run method waits for timeouts to occur and calls the `timedOut()` method on the timed out instances.
+
+In general, the code defines patterns for input/output operations (reading and writing) with an associated timeout feature. Here, if an operation takes too long (exceeds a timeout), it throws an IOException to prevent operations from hanging. Apart from defining the operations, it also has methods to handle failures and states.

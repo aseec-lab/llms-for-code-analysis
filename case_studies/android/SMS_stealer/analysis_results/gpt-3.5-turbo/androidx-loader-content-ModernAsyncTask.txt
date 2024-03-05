@@ -1,0 +1,17 @@
+The `ModernAsyncTask` is an abstract class that provides a framework for performing background tasks and publishing results on the UI thread. It uses the `Executor` framework and a thread pool to execute tasks asynchronously.
+
+The class defines various constants such as pool sizes, message types, and a log tag.
+
+It also includes a static `THREAD_POOL_EXECUTOR` which is a default `ThreadPoolExecutor` used to execute tasks, and a static `sDefaultExecutor` which is the default executor used by `execute()` method.
+
+The class contains an inner static `AsyncTaskResult` class which holds the result of an async task.
+
+There is an inner static `InternalHandler` class which extends `Handler` and handles messages sent by the async task.
+
+The class has a `WorkerRunnable` inner class which represents the worker thread that executes the background task.
+
+The `ModernAsyncTask` class provides methods to execute the task, cancel the task, get the result, check the status, and publish progress.
+
+It also includes callback methods like `onPreExecute()`, `doInBackground()`, `onPostExecute()`, `onCancelled()`, and `onProgressUpdate()` which can be overridden by subclasses to perform specific task operations.
+
+Overall, this class provides a convenient way to perform background tasks and update the UI with the results.

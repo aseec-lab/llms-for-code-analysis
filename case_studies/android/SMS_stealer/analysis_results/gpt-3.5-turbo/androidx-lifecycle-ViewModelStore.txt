@@ -1,0 +1,13 @@
+The code defines a class called `ViewModelStore` in the `androidx.lifecycle` package.
+
+This class is responsible for storing and managing instances of `ViewModel` objects. The `ViewModelStore` uses a `HashMap` called `mMap` to store the `ViewModel` objects.
+
+The `ViewModelStore` has methods to perform various operations. 
+
+The `clear()` method clears the `ViewModelStore` by iterating over all the `ViewModel` objects in the `mMap` and calling their `clear()` method. It then clears the `mMap`.
+
+The `get(String paramString)` method retrieves a `ViewModel` object from the `mMap` using the given key.
+
+The `keys()` method returns a `Set` of all the keys in the `mMap`.
+
+The `put(String paramString, ViewModel paramViewModel)` method puts a `ViewModel` object into the `mMap` with the given key. If a previous `ViewModel` object was associated with the key, its `onCleared()` method is called before replacing it with the new `ViewModel` object.

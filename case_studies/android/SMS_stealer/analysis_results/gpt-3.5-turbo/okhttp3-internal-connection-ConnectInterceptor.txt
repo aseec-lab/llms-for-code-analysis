@@ -1,0 +1,15 @@
+The `ConnectInterceptor` class is an implementation of the `Interceptor` interface in OkHttp library. It is responsible for handling the connection between the client and the server.
+
+The `ConnectInterceptor` constructor takes an instance of the `OkHttpClient` as a parameter and assigns it to the `client` field.
+
+The `intercept` method is the main method of the `ConnectInterceptor` class. It takes an `Interceptor.Chain` as a parameter, which represents the chain of interceptors for a request. 
+
+Inside the `intercept` method, the `paramChain` is cast to a `RealInterceptorChain` object. It extracts the `Request` object from the `realInterceptorChain`.
+
+The `streamAllocation` is retrieved from the `realInterceptorChain`.
+
+The method then checks if the request method is "GET" and assigns the result to the `bool` variable.
+
+Finally, it calls the `proceed` method on the `realInterceptorChain` passing the `request`, `streamAllocation`, a new stream from the `streamAllocation`, and the connection from the `streamAllocation`. The result of this method call is returned as the response.
+
+Note: This code snippet is a part of a larger project and may not provide the complete functionality of the `ConnectInterceptor` class.

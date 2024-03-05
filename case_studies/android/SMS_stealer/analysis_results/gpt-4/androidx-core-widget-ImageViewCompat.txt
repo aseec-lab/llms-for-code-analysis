@@ -1,0 +1,11 @@
+`ImageViewCompat` class provides compatibility methods for different versions of the Android platform when working with `ImageView` objects. 
+
+- `getImageTintList(ImageView paramImageView)`: This method provides a way to get the tint list applied on an `ImageView`. It first checks whether the API level is 21 or higher, if it is, get the tint list directly from the `ImageView`, otherwise, it checks if the `ImageView` is an instance of `TintableImageSourceView`, then get the tint list from the interface method, else returns null.
+
+- `getImageTintMode(ImageView paramImageView)`: This method provides a way to get the tint mode applied on an `ImageView`. The process is the same as `getImageTintList`.
+
+- `setImageTintList(ImageView paramImageView, ColorStateList paramColorStateList)`: This method provides a way to set the tint list on an `ImageView`. It first checks whether the API level is 21 or higher, if it is, set the tint list directly on the `ImageView`, at the same time, if the API level is exactly 21, and the drawable of `ImageView` isn't null and a tint list is applied to `ImageView`, it updates the drawable's state with the `ImageView`'s drawable state. Otherwise, if the `ImageView` is an instance of `TintableImageSourceView`, it calls the interface method to set the tint list.
+
+- `setImageTintMode(ImageView paramImageView, PorterDuff.Mode paramMode)`: This method provides a way to set the tint mode on an `ImageView`. The process is the same as `setImageTintList`.
+
+- The `TintableImageSourceView` interface should be implemented by your `ImageView` subclass if you want to support these operations on API level below 21.

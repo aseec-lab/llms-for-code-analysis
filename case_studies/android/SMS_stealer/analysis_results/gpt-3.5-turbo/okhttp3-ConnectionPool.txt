@@ -1,0 +1,17 @@
+The `ConnectionPool` class in the `okhttp3` package represents a pool of connections that can be reused for making HTTP requests. It manages the lifecycle of connections and performs cleanup operations to remove idle or leaked connections.
+
+Here are the key points of the code:
+
+- The `ConnectionPool` class uses a `Deque` to store the `RealConnection` instances.
+- It has a `cleanupRunnable` that is executed periodically to clean up idle connections.
+- The `cleanup` method prunes the connections based on their idle time and returns the time until the next cleanup.
+- The `connectionBecameIdle` method removes a connection from the pool if it is idle and has no active streams.
+- The `connectionCount` method returns the number of connections currently in the pool.
+- The `deduplicate` method checks if a multiplexed connection is available for a given address and stream allocation and returns it if found.
+- The `evictAll` method shuts down all the connections in the pool.The remaining code includes the following:
+
+- The `get` method tries to find a suitable connection in the pool for a given address, stream allocation, and route. If a connection is found, it is acquired by the stream allocation and returned.
+- The `idleConnectionCount` method returns the count of idle connections in the pool.
+- The `put` method adds a connection to the pool and starts the cleanup process if it is not already running.
+
+The code also includes exception handling and synchronization blocks to ensure thread safety.

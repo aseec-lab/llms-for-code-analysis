@@ -1,0 +1,37 @@
+The `SafeIterableMap` is a custom implementation of a doubly linked list with the addition of a WeakHashMap (mIterators) to keep track of all active iterators. This class is used to store key-value pairs (entries) in a map-like data structure and is iterable.
+
+The class includes several methods to manipulate and access the data:
+
+1. `descendingIterator()`: Returns a DescendingIterator, which allows to iterate the map in descending order.
+
+2. `eldest()`: Returns the "oldest" (first) entry in the map.
+
+3. `equals()`: Compares current map with another object that is passed as argument.
+
+4. `get()`: Returns the Entry object for a given key.
+
+5. `hashCode()`: Calculates the hash code for current map.
+
+6. `iterator()`: Returns an AscendingIterator, which allows to iterate through the map in ascending order.
+
+7. `iteratorWithAdditions()`: Returns an Iterator which easily allows additions while iterating through the map.
+
+8. `newest()`: Returns the "newest" (last) entry in the map.
+
+9. `put()`: Adds new key-value pair to the map.
+
+10. `putIfAbsent()`: Adds new key-value pair to the map, if the key is not already present in the map.
+
+11. `remove()`: Removes an entry from the map by its key.
+
+12. `size()`: Returns the number of elements in the map.
+
+13. `toString()`: Returns string representation of the map.
+
+The `SafeIterableMap` also includes three internal classes: `AscendingIterator`, `DescendingIterator`, `Entry`, `IteratorWithAdditions`, and `ListIterator`. These are utility classes used mainly for iteration processes and manipulation on the map entries.The `next()` method retrieves the next entry in the list and updates the `mNext` variable to the entry that follows it.
+
+The `supportRemove()` method checks if a given entry is the same as the `mExpectedEnd` or the `mNext` entry. If this entry is set to be removed, the method updates `mExpectedEnd` and `mNext` accordingly. If the entry is neither `mExpectedEnd` nor `mNext`, the method does nothing.
+
+The `SupportRemove` interface is a functional interface which requires the implementation of the `supportRemove()` method. It is designed to be used with lambda expressions or method references in the context of removing elements from the `SafeIterableMap`.
+
+The commented `Location` at the end is related to JD-GUI, a standalone graphical utility that displays Java source codes of '.class' files. It provides the path of the SafeIterableMap class file from which the source code was decompiled.

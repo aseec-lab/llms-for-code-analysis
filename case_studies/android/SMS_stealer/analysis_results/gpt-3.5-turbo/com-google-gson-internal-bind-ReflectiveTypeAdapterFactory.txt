@@ -1,0 +1,15 @@
+The `ReflectiveTypeAdapterFactory` class is responsible for creating TypeAdapters for reflective types (classes that are not primitive or collection types) in Gson. It implements the `TypeAdapterFactory` interface.
+
+The class has a constructor that takes in several dependencies, including a `ConstructorConstructor` object, a `FieldNamingStrategy` object, an `Excluder` object, and a `JsonAdapterAnnotationTypeAdapterFactory` object.
+
+The `getBoundFields()` method is used to create a map of bound fields for a given Gson instance and type. It iterates over the fields of the given type (including superclasses) and checks if each field should be excluded based on the `Excluder` instance. If the field should not be excluded, a `BoundField` is created and added to the map.
+
+The `createBoundField()` method is used to create a `BoundField` object for a given field. It checks if a `JsonAdapter` annotation is present on the field, and if so, tries to create a `TypeAdapter` for the annotated type using the `JsonAdapterAnnotationTypeAdapterFactory`. If a `TypeAdapter` is successfully created, it is used for the `BoundField`; otherwise, the `TypeAdapter` from the Gson instance is used.
+
+The `excludeField()` method is a static helper method that checks whether a field should be excluded based on the `Excluder` instance.
+
+The `getFieldNames()` method is used to get a list of field names for a given field. If the field has a `SerializedName` annotation, the value of the annotation is used as the primary field name, and any alternate names specified in the annotation are also included.
+
+The `create()` method creates a `TypeAdapter` for a given Gson instance and type token. It first checks if the raw type of the type token is assignable from `Object.class`. If not, it returns `null`. Otherwise, it uses the `ConstructorConstructor` to get an `ObjectConstructor` for the type, and calls `getBoundFields()` to get the map of bound fields. Finally, it returns a new instance of the `Adapter` class, passing the `ObjectConstructor` and the map of bound fields to the constructor.
+
+The `Adapter` class is a nested class that extends `TypeAdapter`. It takes an `ObjectConstructor` and a map of bound fields in its constructor. The `read()` method reads a JSON object from a `JsonReader` and constructs an instance of the type using the `ObjectConstructor`. It then reads each field from the JSON object and sets the corresponding value in the constructed instance using the `BoundField` objects. The `write()` method writes the field values from the instance to a `JsonWriter` by iterating over the map of bound fields and calling the `write()` method of each `BoundField`.

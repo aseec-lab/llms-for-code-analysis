@@ -1,0 +1,9 @@
+The `NestedScrollingParentHelper` class is a helper class for managing nested scrolling in parent views, such as `ViewGroup`.
+
+This class mainly serves to track the axes along which a nested scroll is occurring. It keeps track of two types of axes: `mNestedScrollAxesNonTouch` and `mNestedScrollAxesTouch`.
+
+The `getNestedScrollAxes()` method returns the currently active nested scrolling axes.
+
+The `onNestedScrollAccepted()` methods are used to report that nested scrolling has started, and they take into account whether the scrolling operation was initiated by a touch gesture (`mNestedScrollAxesTouch`) or not (`mNestedScrollAxesNonTouch`).
+
+Conversely, the `onStopNestedScroll()` methods are used to report that nested scrolling has ended, and they also distinguish between touch-initiated scrolling and non-touch-initiated scrolling. These methods reset the corresponding axes fields to 0 when the nested scrolling stops.

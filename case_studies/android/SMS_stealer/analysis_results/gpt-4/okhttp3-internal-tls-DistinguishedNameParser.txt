@@ -1,0 +1,23 @@
+`DistinguishedNameParser` is a helper class used for parsing distinguished names from an X509 certificate. These names are used to uniquely identify entities, such as a web server or a client, in a certificate chain.
+
+Several variables are declared, including position counters (beg, cur, end, pos), a character array (chars) for name parsing, and the target distinguished name string (dn), among others.
+
+The constructor initializes this class with the distinguished name from an `X500Principal`.
+
+The `escapedAV()` method parses and returns escaped attribute value from distinguished name.
+
+The `getByte(int paramInt)` method returns a byte value to decode hex-encoded AVA (Attribute Value Assertion) characters as per RFC2253.
+
+The `getEscaped()` method retrieves one escaped character as per RFC2253.
+
+The `getUTF8()` method decodes and returns a UTF-8 encoded character as per RFC2253.
+
+The `hexAV()` method parses hexadecimal encoded attribute values.
+
+The `nextAT()` method gets the next attribute type in the distinguished name.
+
+Note: All the methods throw an `IllegalStateException` if an incorrectly formatted Distinguished Name is encountered.This part of the code continues the implementation of the `DistinguishedNameParser` class. 
+
+A `quotedAV` method is implemented which returns a quoted attribute value from the distinguished name. If the end of the distinguished name is encountered unexpectedly, the method throws an `IllegalStateException`.
+
+The `findMostSpecific` method is used to get the most specific match for a provided string from the parsed distinguished name. It does so by iterating through the distinguished name and comparing each attribute to the provided string. If a match is not found and the end of the distinguished name is reached, the method returns null. If a malformed distinguished name is encountered, the method throws an `IllegalStateException`.

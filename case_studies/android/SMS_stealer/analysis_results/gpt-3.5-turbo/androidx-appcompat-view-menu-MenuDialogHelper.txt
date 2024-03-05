@@ -1,0 +1,13 @@
+The `MenuDialogHelper` class is responsible for creating and managing a dialog to display a menu. It implements various interfaces like `DialogInterface.OnKeyListener` and `DialogInterface.OnDismissListener` to handle events triggered by the dialog.
+
+Key Methods:
+- `dismiss()`: Dismisses the dialog if it is currently showing.
+- `onClick(DialogInterface, int)`: Handles item clicks in the dialog and performs the corresponding action.
+- `onCloseMenu(MenuBuilder, boolean)`: Handles the closing of the menu and dismisses the dialog if necessary.
+- `onDismiss(DialogInterface)`: Called when the dialog is dismissed, and notifies the presenter about the closure.
+- `onKey(DialogInterface, int, KeyEvent)`: Handles key events in the dialog, such as the menu key or back button press.
+- `onOpenSubMenu(MenuBuilder)`: Notifies the presenter callback when a submenu is opened.
+- `setPresenterCallback(MenuPresenter.Callback)`: Sets the callback for the presenter of the menu.
+- `show(IBinder)`: Shows the dialog with the menu items using an `AlertDialog`.
+
+The class has private fields for the dialog, menu, menu presenter, and presenter callback. It also has methods for setting the presenter callback and registering the menu presenter.

@@ -1,0 +1,11 @@
+`ForwardingSink` is an abstract class that implements the `Sink` interface. Essentially, it allows to "wrap" another `Sink` and forward operations to it. This can be useful, for example, when you need to override specific behaviors of a `Sink`.
+
+The `delegate` is the Sink that operations are being forwarded to, and a reference to it is stored in an instance variable. The constructor throws an `IllegalArgumentException` if the `delegate` passed to it is `null`.
+
+The `close`, `flush` and `write` methods are simply forwarded to the `delegate`, with the same arguments they receive. 
+
+The `timeout` method returns the timeout of the `delegate`.
+
+The `toString` method returns a string representation of the `ForwardingSink object, which includes the class's simple name and the `delegate`'s `toString` representation.
+
+The `delegate()` method returns the reference to the `Sink` that this `ForwardingSink` forwards to. This could be used in the subclasses of `ForwardingSink` to use or manipulate the delegate `Sink` instance.

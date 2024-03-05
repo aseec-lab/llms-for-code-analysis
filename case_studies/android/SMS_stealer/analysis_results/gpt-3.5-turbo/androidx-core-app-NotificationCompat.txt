@@ -1,0 +1,132 @@
+The code in the file `NotificationCompat.java` is part of the `androidx.core.app` package and contains a class called `NotificationCompat`. This class provides various static constants and methods for working with notifications.
+
+Here is a summary of what the code does:
+
+- The `NotificationCompat` class provides static constants for different notification categories, priorities, visibility, and flags.
+- The class also defines static constants for different types of badge icons and default behavior for notifications.
+- It provides methods for retrieving actions, action count, allowSystemGeneratedContextualActions, badgeIconType, bubbleMetadata, category, and channelId from a `Notification` object, depending on the device's SDK version.
+- The class has internal methods for converting `Notification.Action` objects to `ActionCompat` objects for compatibility across different SDK versions.
+- It uses `Build.VERSION.SDK_INT` to check the device's SDK version and perform version-specific operations.
+
+This code helps developers create and manage notifications with consistent behavior across different Android SDK versions.The remaining code defines additional methods and inner classes within the `NotificationCompat` class.
+
+Here is a summary of what the code does:
+
+- The `getContentTitle(Notification paramNotification)` method retrieves the content title from a `Notification` object's extras.
+- The `getExtras(Notification paramNotification)` method returns the extras bundle from a `Notification` object, depending on the device's SDK version.
+- The `getGroup(Notification paramNotification)` method retrieves the group key from a `Notification` object's extras, depending on the device's SDK version.
+- The `getGroupAlertBehavior(Notification paramNotification)` method returns the group alert behavior from a `Notification` object, depending on the device's SDK version.
+- The `getInvisibleActions(Notification paramNotification)` method retrieves a list of invisible actions from a `Notification` object's extras.
+- The `getLocalOnly(Notification paramNotification)` method returns the localOnly flag from a `Notification` object's extras, depending on the device's SDK version.
+- The `getNotificationArrayFromBundle(Bundle paramBundle, String paramString)` method converts a Parcelable array from a bundle to a `Notification` array, if necessary.
+- The `getShortcutId(Notification paramNotification)` method returns the shortcut ID from a `Notification` object, depending on the device's SDK version.
+- The `getSortKey(Notification paramNotification)` method retrieves the sort key from a `Notification` object's extras, depending on the device's SDK version.
+- The `getTimeoutAfter(Notification paramNotification)` method returns the timeout after value from a `Notification` object, depending on the device's SDK version.
+- The `isGroupSummary(Notification paramNotification)` method checks if a `Notification` object is a group summary, depending on the device's SDK version.
+- The `Action` class defines a notification action with its icon, title, action intent, and other properties.
+- The `Action` class has methods to get various properties of the action, such as action intent, icon, extras, remote inputs, and semantic action.
+- The `Action` class also has a `Builder` class that is used to create instances of `Action` with different properties.The remaining code defines the `Builder` class within the `NotificationCompat` class.
+
+Here is a summary of what the code does:
+
+- The `Builder` class is used to create instances of `NotificationCompat.Action` with different properties.
+- The `Builder` class has various methods to set properties such as the icon, title, action intent, extras, remote inputs, semantic action, and more.
+- The `Builder` class has a `build()` method to create the final `NotificationCompat.Action` object.
+- The `Builder` class also has a `extend(NotificationCompat.Action.Extender param1Extender)` method to apply extensions to the action using an `Extender` object.
+- The `Builder` class has a `getExtras()` method to retrieve the extras bundle of the action.The remaining code defines the `WearableExtender` class, `BadgeIconType` enum, `BigPictureStyle` class, `BigTextStyle` class, and `BubbleMetadata` class within the `NotificationCompat` class.
+
+- The `WearableExtender` class is an `Action.Extender` that adds wearable-specific features to a notification action. It allows setting flags, labels, and other properties specific to wearable devices.
+- The `BadgeIconType` enum defines constants for different badge icon types that can be used in a notification.
+- The `BigPictureStyle` class is a style for displaying a large image in a notification. It has methods to set the big picture, big large icon, big content title, and summary text.
+- The `BigTextStyle` class is a style for displaying a large amount of text in a notification. It has methods to set the big text, big content title, and summary text.
+- The `BubbleMetadata` class represents metadata for a conversation-based notification bubble. It has properties for the pending intent, icon, desired height, delete intent, and flags. It also has methods to convert the metadata to and from the platform-specific `Notification.BubbleMetadata` class.The `Builder` class in the `NotificationCompat` class is responsible for constructing a notification with various properties and actions. It allows setting properties such as the notification content, icon, actions, channel ID, priority, visibility, and more. The `Builder` class also provides methods to set a notification style, add actions, set a large icon, set a color, and customize the notification content views.- The `addAction` method adds an action to the notification.
+- The `addExtras` method adds extra data to the notification.
+- The `addInvisibleAction` method adds an invisible action to the notification.
+- The `addPerson` method adds a person to the notification.
+- The `build` method builds the notification and returns it.
+- The `extend` method extends the notification with additional functionality.
+- The `getBigContentView` method returns the big content view of the notification.
+- The `getBubbleMetadata` method returns the bubble metadata of the notification.
+- The `getColor` method returns the color of the notification.
+- The `getContentView` method returns the content view of the notification.
+- The `getExtras` method returns the extras of the notification.
+- The `getHeadsUpContentView` method returns the heads-up content view of the notification.
+- The `getNotification` method gets the notification (deprecated).
+- The `getPriority` method returns the priority of the notification.
+- The `getWhenIfShowing` method returns the timestamp of the notification if shown.
+- The `setAllowSystemGeneratedContextualActions` method sets whether to allow system-generated contextual actions.
+- The `setAutoCancel` method sets whether the notification should be automatically canceled when clicked.
+- The `setBadgeIconType` method sets the badge icon type of the notification.
+- The `setBubbleMetadata` method sets the bubble metadata of the notification.
+- The `setCategory` method sets the category of the notification.
+- The `setChannelId` method sets the channel ID of the notification.
+- The `setChronometerCountDown` method sets whether the chronometer should count down.
+- The `setColor` method sets the color of the notification.
+- The `setColorized` method sets whether the notification should be colorized.
+- The `setContent` method sets the content view of the notification.
+- The `setContentInfo` method sets the content info text of the notification.
+- The `setContentIntent` method sets the content intent of the notification.
+- The `setContentText` method sets the content text of the notification.
+- The `setContentTitle` method sets the content title of the notification.
+- The `setCustomBigContentView` method sets the custom big content view of the notification.
+- The `setCustomContentView` method sets the custom content view of the notification.
+- The `setCustomHeadsUpContentView` method sets the custom heads-up content view of the notification.
+- The `setDefaults` method sets the default notification options.
+- The `setDeleteIntent` method sets the delete intent of the notification.
+- The `setExtras` method sets the extras of the notification.
+- The `setFullScreenIntent` method sets the full-screen intent of the notification.
+- The `setGroup` method sets the group key of the notification.
+- The `setGroupAlertBehavior` method sets the group alert behavior of the notification.
+- The `setGroupSummary` method sets whether the notification is a group summary.
+- The `setLargeIcon` method sets the large icon of the notification.
+- The `setLights` method sets the LED lights of the notification.
+- The `setLocalOnly` method sets whether the notification should be local only.
+- The `setNotificationSilent` method sets the notification to be silent.
+- The `setNumber` method sets the number of the notification.- The `setOngoing` method sets whether the notification should be ongoing.
+- The `setOnlyAlertOnce` method sets whether the notification should only alert once.
+- The `setPriority` method sets the priority of the notification.
+- The `setProgress` method sets the progress of the notification.
+- The `setPublicVersion` method sets the public version of the notification.
+- The `setRemoteInputHistory` method sets the remote input history of the notification.
+- The `setShortcutId` method sets the shortcut ID of the notification.
+- The `setShowWhen` method sets whether to show the notification's timestamp.
+- The `setSmallIcon` method sets the small icon of the notification.
+- The `setSortKey` method sets the sort key of the notification.
+- The `setSound` method sets the sound of the notification.
+- The `setStyle` method sets the style of the notification.
+- The `setSubText` method sets the subtext of the notification.
+- The `setTicker` method sets the ticker text of the notification.
+- The `setTimeoutAfter` method sets the timeout duration of the notification.
+- The `setUsesChronometer` method sets whether to use chronometer for the notification.
+- The `setVibrate` method sets the vibration pattern of the notification.
+- The `setVisibility` method sets the visibility of the notification.
+- The `setWhen` method sets the timestamp of the notification.
+- The `CarExtender` class extends the functionality of the notification for use in a car.
+- The `extend` method extends the builder with car-specific functionalities.
+- The `getColor` method returns the color of the car notification.
+- The `getLargeIcon` method returns the large icon of the car notification.
+- The `getUnreadConversation` method returns the unread conversation of the car notification (deprecated).The remaining part of the code includes the definition of the `CarExtender` class, the `UnreadConversation` class, and the `Builder` class. 
+
+The `CarExtender` class provides methods to set color and large icon for the car notification. There is also a deprecated method to set unread conversation for the car notification.
+
+The `UnreadConversation` class represents an unread conversation in the car notification. It contains the messages, participants, and timestamps of the conversation. It also provides methods to get the latest timestamp, messages, participant, participants, read pending intent, remote input, and reply pending intent.
+
+The `Builder` class is a builder class for creating instances of the `UnreadConversation` class. It provides methods to add messages, set the latest timestamp, set the read pending intent, and set the reply action.
+
+Note: The code seems to be incomplete, as it is missing some closing curly braces.The `InboxStyle` class extends `NotificationCompat.Style` and represents a notification style that shows a list of text lines. It has methods to add lines of text and set the big content title and summary text.
+
+The `MessagingStyle` class extends `NotificationCompat.Style` and represents a notification style that displays a conversation between one or more people. It has methods to set the conversation title, user, and messages. It also provides methods to extract the messaging style from a notification and find the latest incoming message.This code is a part of the MessagingStyle class in the Android notification API. It includes methods to add and retrieve messages, set the conversation title and group conversation flag, and apply the messaging style to a notification.
+The `addMessage` methods allow adding messages to the messaging style. The `addMessage(Message param1Message)` method adds a Message object to the list of messages. The `addMessage(CharSequence param1CharSequence, long param1Long, Person param1Person)` method creates a new Message object with the given text, timestamp, and Person and adds it to the list of messages.
+The `apply` method is responsible for applying the messaging style to a notification. It determines the appropriate notification style based on the Android version and sets the conversation title, content text, and big text for the notification.
+The `getConversationTitle` method returns the conversation title.
+The `getMessages` method returns the list of messages.
+The `getUser` method returns the Person object representing the user of the messaging style.
+The `isGroupConversation` method returns whether the messaging style represents a group conversation.
+The `setConversationTitle` method sets the conversation title.
+The `setGroupConversation` method sets the group conversation flag.This code includes the implementation of the Message and MessagingStyle classes in the Android notification API. 
+
+The Message class represents a single message in a conversation and provides methods to set and retrieve the message text, timestamp, sender, data MIME type, data URI, and extras.
+
+The MessagingStyle class is responsible for managing a conversation between multiple participants and provides methods to add and retrieve messages, set a conversation title, set the group conversation flag, and apply the messaging style to a notification. It also includes helper methods to convert messages to bundles and retrieve messages from bundles.
+
+The Style class is an abstract class that serves as the base class for different styles of notifications. It provides methods to set the big content title, summary text, and calculate the top padding for the notification. It also includes a helper method to create colored bitmaps for icons with or without a background.##########

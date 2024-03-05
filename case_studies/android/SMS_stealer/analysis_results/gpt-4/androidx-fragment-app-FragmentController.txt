@@ -1,0 +1,21 @@
+`FragmentController` is a class that provides a set of operations and actions over the fragments lifecycle. It works as an intermediary between the host and the FragmentManager. This class is responsible for controlling what happens to the fragments when certain events occur in the host.
+
+Here are some of its key methods:
+
+- `createController(FragmentHostCallback<?> paramFragmentHostCallback)` : Returns an instance of `FragmentController`.
+
+- `attachHost(Fragment paramFragment)` : Attaches a fragment to the host.
+
+- The multiple `dispatch` methods: These methods are used to dispatch various lifecycle and other events to the fragments, such as creating, resuming, pausing, and stopping.
+
+- `execPendingActions()`: This method is used to execute any pending actions.
+
+- `findFragmentByWho(String paramString)`: Finds and returns a fragment by its identifier.
+
+- `getSupportFragmentManager()`: Returns the FragmentManager to interact with the fragments.
+
+- `saveAllState()`: It saves the state of all the fragments. 
+
+- `restoreSaveState(Parcelable paramParcelable)` : restore the previously saved state when the FragmentController starts again. It accepts a Parcelable object that contains the saved state.
+
+Please note that the Loader-related methods are deprecated as Loaders are managed separately from FragmentController. They should be handled through `LoaderManager.getInstance().`

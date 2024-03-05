@@ -1,0 +1,8 @@
+The `SegmentedByteString` class in the `okio` package is a subclass of `ByteString` that represents a segmented byte string. It is used for efficient storage and manipulation of byte strings in IO operations.
+
+- It has `directory` and `segments` transient fields that store information about the segments of the byte string.
+- The constructor initializes the `segments` and `directory` arrays based on the given parameters and the contents of the `Buffer` object.
+- It implements various methods from the `ByteString` superclass, such as `hashCode()`, `equals()`, `getByte()`, `size()`, `substring()`, `toByteArray()`, `utf8()`, `write()`, and others. These methods delegate the functionality to an internal `ByteString` object created from the segmented byte string.
+- It provides helper methods for converting the segmented byte string to a `ByteBuffer`, Base64 encoding, generating a hash (i.e., MD5, SHA1, SHA256), searching for a byte sequence, and range equality checks.
+- The class is marked as `final`, meaning it cannot be subclassed, indicating it is meant to be used as is.
+- The class is package-private, which means it can only be accessed within the same package.

@@ -1,0 +1,19 @@
+The `TintContextWrapper` class extends `ContextWrapper` and is used to override certain `Context`-related calls with its own implementations which provide additional functionality, specially related to theming and tinting of views. 
+
+An instance of `TintContextWrapper` holds two key fields -
+
+- `mResources`: This is a replacement for the base context's resources. It is either an instance of `TintResources` or `VectorEnabledTintResources`, both of which provide resource tinting capabilities to support older Android versions.
+  
+- `mTheme`: A Resources.Theme object which is used when a theme overlay is set on the context.
+  
+It has a few key methods -
+
+- `getAssets()`, `getResources()`, `getTheme()`: These methods override those of `ContextWrapper` and return the replacements maintained by this class.
+
+- `setTheme(int paramInt)`: Applies the specified theme to the saved `mTheme` object.
+   
+The `wrap(Context paramContext)` is a static utility function used to obtain a wrapped `Context` using an existing `Context` `paramContext`. It maintains a static cache of previously created wrappers, and it tries to reuse one from the cache if possible. 
+
+`shouldWrap(Context paramContext)` is a helper method used to determine whether a given `Context` needs to be wrapped by `TintContextWrapper`.
+
+This class is designed to allow older versions of Android to adopt newer design styles and resources that default `Context` classes would not normally support.

@@ -1,0 +1,15 @@
+The `Timeout` class in the Okio library is used for configuring deadlines and timeouts. 
+
+Key Components:
+- A constant value `NONE` refers to a timeout setting that has neither a deadline nor a duration. 
+- A flag, `hasDeadline`, that indicates whether this Timeout has a deadline.
+- Two variables, `deadlineNanoTime` and `timeoutNanos`, that store the nanosecond-resolution deadline and timeout durations respectively.
+
+Key Methods:
+- `deadlineNanoTime` and `timeout` methods: These methods set the deadline or timeout to a given duration in the future and also check whether the provided duration is a positive number.
+- `clearDeadline` and `clearTimeout` methods: These methods clear the deadline or timeout, respectively.
+- `hasDeadline`, `deadlineNanoTime`, and `timeoutNanos` methods: These methods get the deadline or timeout status, the current deadline time, or the current timeout duration respectively.
+- `throwIfReached()` method: This method throws an `InterruptedIOException` if the calling thread has been interrupted or if the deadline has been reached.
+- `waitUntilNotified()`: This method causes the calling thread to wait until it receives a notification from another thread, throws an `InterruptedIOException` if the thread is interrupted, or if the deadline or timeout is reached.
+  
+So essentially, this class provides a mechanism for setting and checking deadlines and timeouts that can interrupt blocking operations.

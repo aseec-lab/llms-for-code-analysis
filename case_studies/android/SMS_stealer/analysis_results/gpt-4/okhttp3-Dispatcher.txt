@@ -1,0 +1,37 @@
+The `Dispatcher` class in OkHttp3 is responsible for managing, scheduling, and running HTTP requests. 
+
+- There are three kinds of request queues managed by this class: `readyAsyncCalls` (requests ready to be run), `runningAsyncCalls` (currently running requests), and `runningSyncCalls` (synchronous requests in progress).
+
+- The class provides a thread pool `executorService` to carry out the requests.
+
+- The nested `finished()` method removes a call from a specified queue and triggers the execution of pending calls if conditions like maximum allowed requests are not violated.
+
+- The `promoteCalls()` function checks if there are any ready asynchronous calls that can be executed without violating the rules, and it does so by invoking them via the executor service.
+
+- The `runningCallsForHost()` returns the count of running asynchronous calls for a similar host, because OkHttp provides a limit on the number of requests you can make per-host.
+
+- The `cancelAll()` method cancels all the calls queued or running.
+
+- `enqueue()` method checks if the running asynchronous calls are under the limit. If yes, it will execute the call immediately. Otherwise, it adds the call to the ready queue.
+
+- `executorService()` method returns the threadpool that can be used for execution.
+  
+- A number of getter and setter methods are provided to set and fetch the maximum requests that can be made and the maximum requests per host.
+   
+- The `executed()` method adds a synchronously executed call to the running synchronous calls queue.
+   
+- Two overloaded `finished()` methods are available. One removes an asynchronously executed call from the running calls queue whereas the second does the same for synchronous calls.- The `getMaxRequestsPerHost()` method retrieves the maximum number of requests a host is allowed to make.
+
+- The `queuedCalls()` method returns a list of queued `Call` instances, ready to be executed.
+
+- The `queuedCallsCount()` method gives the count of calls that are currently in the queue, and are ready to be executed.
+
+- The `runningCalls()` method returns a list of currently running `Call` instances, both synchronous and asynchronous.
+
+- The `runningCallsCount()` method gives the total count of calls that are currently running, both synchronous and asynchronous.
+
+- The `setIdleCallback()` method is used to set a callback to be run when the dispatcher becomes idle (i.e., when the number of running calls drops to 0).
+
+- The `setMaxRequests(int paramInt)` method sets the maximum number of requests that can be executed at a time. It throws an IllegalArgumentException if the limit is less than 1.
+
+- The `setMaxRequestsPerHost(int paramInt)` method sets the maximum number of requests per host. It throws an IllegalArgumentException if the limit is less than 1.

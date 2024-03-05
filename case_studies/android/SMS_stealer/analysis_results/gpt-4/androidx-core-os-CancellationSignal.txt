@@ -1,0 +1,13 @@
+`CancellationSignal` is a utility class in Android that allows you to signal the cancellation of an operation. 
+
+- It has a method `cancel()` which sets the `mIsCanceled` and `mCancelInProgress` properties to true. If a `OnCancelListener` is set, it calls the `onCancel()` method on this listener. 
+
+- The `getCancellationSignalObject()` method returns an instance of `android.os.CancellationSignal` if the Android version is at least 16 (Jelly Bean), and the cancellation has been requested, this method will also trigger the cancellation on the returned object.
+
+- The `isCanceled()` method returns whether the operation has been cancelled.
+
+- The `setOnCancelListener()` method sets a listener that gets called when the cancellation is signalled through the `cancel()` method.
+
+- The `throwIfCanceled()` method throws an `OperationCanceledException` if the operation got cancelled.
+
+- `OnCancelListener` is an interface that needs to be implemented by classes that react to the signal that an operation was cancelled.

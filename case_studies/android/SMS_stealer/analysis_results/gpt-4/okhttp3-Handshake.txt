@@ -1,0 +1,15 @@
+The `Handshake` class in OkHttp represents a crucial part of the TLS (Transport Layer Security) protocol - the handshake. 
+
+The class contains several fields: `cipherSuite`, `localCertificates`, `peerCertificates` and `tlsVersion`, which are assigned in the private constructor.
+
+It provides two `get` static methods to create a `Handshake` instance: one using an `SSLSession` and another using explicit parameters of `TlsVersion`, `CipherSuite`, and two lists of certificates (for peer and local).
+
+The `get(SSLSession)` function retrieves the cipher suite and the protocol from the `SSLSession`, if these values are not null, and handles potential `SSLPeerUnverifiedException`. Afterwards, it creates and returns a new `Handshake` instance. 
+
+The other `get` method simply creates a new `Handshake` after checking if `TlsVersion` and `CipherSuite` are not null.
+
+There are getter methods for various fields (`cipherSuite()`, `localCertificates()`, `tlsVersion()`), and two additional methods `peerPrincipal()` and `localPrincipal()`. These two methods return the `Principal` (the owner) of the first certificate in the corresponding (peer or local) certificate list, or `null` if the list is empty.
+
+The `equals()` method checks if the object is also a `Handshake` and then checks if all fields in both `Handshake` objects are equal.
+
+The `hashCode()` method calculates a hash code based on all fields in the `Handshake` object.

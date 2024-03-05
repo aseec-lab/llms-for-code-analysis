@@ -1,0 +1,11 @@
+The `HashingSink` class is a subclass of `ForwardingSink` in the `okio` package. It is used to calculate hash values or HMAC (Hash-based Message Authentication Code) values for data being written to a `Sink`.
+
+The class has two constructors, one for creating a `HashingSink` with a specified hash algorithm, and another for creating a `HashingSink` with a specified HMAC algorithm and secret key.
+
+There are several static factory methods provided to create instances of `HashingSink` with commonly used hash and HMAC algorithms such as MD5, SHA-1, SHA-256, and SHA-512.
+
+The `hash` method returns a `ByteString` object that represents the calculated hash value.
+
+The `write` method overrides the method in `ForwardingSink` to update the hash or HMAC calculation while writing data to the underlying sink.
+
+Overall, the `HashingSink` class provides a convenient way to calculate hash or HMAC values for data being written to a `Sink`.

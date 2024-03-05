@@ -1,0 +1,17 @@
+The `NotificationCompatJellybean` class provides support for working with the notification functionalities of the Jelly Bean (and onwards) Android API. It has several string keys to tag different parts of a notification like allowing generated replies, remote inputs, action intent, allowed data types, label, icon, etc.
+
+The class has methods that help in:
+
+1. Reading and building action extras from `SparseArray` and `Bundle` objects.
+2. Retrieving action count within a notification.
+3. Providing access to notification action objects via reflection.
+4. Extracting, getting and putting bundle objects related to notification actions.
+5. Providing compatibility for getting remote inputs and extras from the notification. 
+
+Note that several of these functionalities make use of Java reflection, which is a method of inspecting or modifying the runtime behaviour of a class at runtime. This is especially useful when dealing with compatibility layers such as this, where the APIs may differ across different versions of Android.1. The method `getExtrasField()` retrieves the Bundle stored in the field "extras" of a Notification object. In case the field is not of type Bundle or doesn't exist, it sets a flag `sExtrasFieldAccessFailed` and logs an error message. All exceptions related to accessing notification extras are caught, logged, and then set `sExtrasFieldAccessFailed` to true.
+
+2. The `readAction()` method creates a `NotificationCompat.Action` object. Depending on whether a given Bundle object is null or not, it retrieves arrays of RemoteInput objects and a boolean from the Bundle, and uses these to instantiate the Action object.
+
+3. The methods `toBundle()` and `toBundleArray()` are helper methods. `toBundle()` converts a RemoteInput object into a Bundle, inserting all the RemoteInput's properties into the Bundle. `toBundleArray()` loop over an array of RemoteInput objects and creates an array of Bundles, one for each RemoteInput object in the array.
+
+4. The `writeActionAndGetExtras()` method configures a Notification.Builder object with data from a given Action object and returns a Bundle containing the extras of the Action. It sets the action's icon resource ID, title, and action intent on the Builder, then builds a Bundle out of the action's extras and adds the remote inputs and data-only remote inputs to it (if they exist). It also puts the value of `paramAction.getAllowGeneratedReplies()` into the Bundle.

@@ -1,0 +1,13 @@
+The `JsonScope` class in Gson library is essentially a helper class used to keep track of the current scope of the JSON input that is being parsed. 
+
+It uses `int` constants to represent different scopes:
+- `CLOSED` (8): JSON parsing has ended.
+- `DANGLING_NAME` (4): A name has been written, waiting for a value.
+- `EMPTY_ARRAY` (1): Started an array that has no elements.
+- `EMPTY_DOCUMENT` (6): Just started a new document.
+- `EMPTY_OBJECT` (3): Started an object that has no elements.
+- `NONEMPTY_ARRAY` (2): Started an array containing elements.
+- `NONEMPTY_DOCUMENT` (7): In the middle of a document.
+- `NONEMPTY_OBJECT` (5): Started an object containing elements.
+
+These constant values are used in the Gson's streaming parser to track the current state of parsing.

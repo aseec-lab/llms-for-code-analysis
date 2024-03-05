@@ -1,0 +1,121 @@
+The VersionedParcel.java file in the androidx.versionedparcelable package provides an abstract class that implements methods for reading and writing versioned parcelable objects.
+
+Key components and functionalities of the VersionedParcel class include:
+
+1. Caching: The class uses ArrayMap data structures to cache read and write methods as well as parcelizer classes.
+
+2. Exception Handling: The class provides methods for creating and reading exception codes and messages.
+
+3. Type Handling: The class includes methods to determine the type of an object and write it accordingly.
+
+4. Collection Handling: The class provides methods to read and write collections of objects, handling different collection types.
+
+5. Serializable Handling: The class includes methods to handle serializable objects, including writing the object and its class name.
+
+6. VersionedParcelable Handling: The class includes methods for finding and invoking parcelizer classes required for reading and writing VersionedParcelable objects.The `closeField()` method is an abstract method that should be implemented by subclasses. It closes the current field being read or written.
+
+The `createSubParcel()` method is an abstract method that should be implemented by subclasses. It creates a new instance of the subclass and returns it as a `VersionedParcel`.
+
+The `isStream()` method returns a boolean value indicating whether the parcel is a stream or not.
+
+The `readArray()` method reads an array of objects from the parcel. It can handle arrays of different types, such as `IBinder`, `String`, `Serializable`, and `VersionedParcelable`.
+
+The `readArray()` method also takes an array parameter as input and returns the read objects within that array.
+
+The `readBoolean()` method reads a boolean value from the parcel.
+
+The `readBooleanArray()` method reads an array of boolean values from the parcel.
+
+The `readBundle()` method reads a `Bundle` object from the parcel.
+
+The `readByte()` method reads a byte value from the parcel.
+
+The `readByteArray()` method reads an array of bytes from the parcel.
+
+The `readCharArray()` method reads an array of characters from the parcel.
+
+The `readCharSequence()` method reads a `CharSequence` object from the parcel.
+
+The `readDouble()` method reads a double value from the parcel.
+
+The `readDoubleArray()` method reads an array of double values from the parcel.
+
+The `readException()` method reads an exception from the parcel. If no exception is present, it returns the provided exception parameter.
+
+The `readField()` method reads a field from the parcel. It takes an integer parameter representing the field ID and returns a boolean value indicating whether the field was read or not.
+
+The `readFloat()` method reads a float value from the parcel.
+
+The `readFloatArray()` method reads an array of float values from the parcel.
+
+The `readFromParcel()` method reads a `VersionedParcelable` object from the parcel using reflection. It takes a string parameter representing the class name and a `VersionedParcel` parameter and returns the read object.
+
+The `readInt()` method reads an integer value from the parcel.
+
+The `readIntArray()` method reads an array of integers from the parcel.
+
+The `readList()` method reads a list of objects from the parcel.
+
+The `readLong()` method reads a long value from the parcel.
+
+The `readLongArray()` method reads an array of long values from the parcel.
+
+The `readMap()` method reads a map of objects from the parcel.
+
+The `readParcelable()` method reads a `Parcelable` object from the parcel.
+
+The `readSerializable()` method reads a `Serializable` object from the parcel.
+
+The `readSet()` method reads a set of objects from the parcel.The `readSet()` method reads a set of objects from the parcel.
+
+The `readSize()` method reads a `Size` object from the parcel. If a field with the given ID is not present, it returns the provided `Size` object; otherwise, it reads two integers from the parcel and creates a new `Size` object with those values.
+
+The `readSizeF()` method reads a `SizeF` object from the parcel. If a field with the given ID is not present, it returns the provided `SizeF` object; otherwise, it reads two floats from the parcel and creates a new `SizeF` object with those values.
+
+The `readSparseBooleanArray()` method reads a `SparseBooleanArray` object from the parcel. If a field with the given ID is not present, it returns the provided `SparseBooleanArray` object; otherwise, it reads an integer representing the size of the array, followed by pairs of integers representing the key-value pairs of the array.
+
+The `readString()` method is an abstract method that should be implemented by subclasses. It reads a string from the parcel.
+
+The `readStrongBinder()` method is an abstract method that should be implemented by subclasses. It reads a `IBinder` object from the parcel.
+
+The `readVersionedParcelable()` method reads a `VersionedParcelable` object from the parcel. It reads a string representing the class name from the parcel, and then reads the object using reflection and the `createSubParcel()` method.
+
+The `setOutputField()` method is an abstract method that should be implemented by subclasses. It sets the output field for writing data to the parcel.
+
+The `writeArray()` method writes an array of objects to the parcel. It can handle arrays of different types, such as `IBinder`, `String`, `Serializable`, and `VersionedParcelable`. If the array is null, it writes a negative integer (-1) to represent the null value. Otherwise, it writes the array length, followed by the elements of the array.
+
+The `writeBoolean()` method writes a boolean value to the parcel.
+
+The `writeBooleanArray()` method writes an array of boolean values to the parcel.
+
+The `writeBundle()` method writes a `Bundle` object to the parcel.
+
+The `writeByte()` method writes a byte value to the parcel. It internally calls the `writeInt()` method with the byte value.
+
+The `writeByteArray()` method writes an array of bytes to the parcel.
+
+The `writeByteArray()` method writes a subarray of bytes to the parcel.
+
+The `writeCharArray()` method writes an array of characters to the parcel.
+
+The `writeCharSequence()` method writes a `CharSequence` object to the parcel.
+
+The `writeDouble()` method writes a double value to the parcel.
+
+The `writeDoubleArray()` method writes an array of double values to the parcel.
+
+The `writeException()` method writes an exception to the parcel. If the exception is null, it writes a special code (0) to represent no exception. Otherwise, it writes an integer code representing the type of exception, followed by the exception message. If the exception implements `Parcelable`, it is also written to the parcel.
+
+The `writeFloat()` method writes a float value to the parcel.
+
+The `writeFloatArray()` method writes an array of float values to the parcel.
+
+The `writeInt()` method writes an integer value to the parcel.
+
+The `writeIntArray()` method writes an array of integers to the parcel.
+
+The `writeList()` method writes a list of objects to the parcel. It internally calls the `writeCollection()` method.
+
+The `writeLong()` method writes a long value to the parcel.
+
+The `writeLongArray()` method writes an array of long values to the parcel.The remaining part of the code includes methods for writing various data types to the parcel. This includes methods for writing arrays, booleans, bundles, bytes, characters, CharSequence, double, exceptions, floats, integers, lists, long values, maps, Parcelables, serializables, sets, Size, SizeF, SparseBooleanArray, strings, IBinder, and VersionedParcelable objects. There are also methods for writing the no-exception flag and for writing strong binders and strong interfaces. Additionally, there is a method for writing versioned parcelable objects. The code also includes a ParcelException class that extends RuntimeException.

@@ -1,0 +1,17 @@
+The `JsonPrimitive` class is a special type of `JsonElement` which can hold basic data types (Number, Boolean, String) in JSON. The class supports numbers, booleans, and strings, but also provides convenient methods to get the value in many other common types.
+
+The class has several constructors that accept different parameter types (Boolean, Character, Number, Object, String). The type of the passed parameter determines the type of the `JsonPrimitive`.
+
+The `isIntegral(JsonPrimitive paramJsonPrimitive)` method checks to see if the value of a `JsonPrimitive` is an integral type (a whole number). 
+
+The `isPrimitiveOrString(Object<?> paramObject)` method checks if a value is a primitive, String, or a primitive wrapper type.
+
+The `getAs...` methods (like `getAsBigDecimal()`, `getAsLong()`, `getAsBoolean()`, etc.) are used to retrieve the value in the desired data type. If it can't directly return the value, it transforms the value into the appropriate type.
+
+The `isBoolean()`, `isNumber()`, and `isString()` methods return `true` if the value is of the respective type.
+
+The `setValue(Object paramObject)` method is used to change the value of the `JsonPrimitive`. It performs a check before setting the value to ensure the parameter is either a number, a primitive, a primitive wrapper, or a String. If the parameter is a Character, it converts it to a String before assignment.
+
+The `equals(Object paramObject)` method overrides the `equals` method from `java.lang.Object` to correctly compare `JsonPrimitive` objects. 
+
+The `hashCode()` method also overrides the `hashCode` method from `java.lang.Object` and provides a `hashCode` consistent with the `equals` method.

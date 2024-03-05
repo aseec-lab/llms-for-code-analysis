@@ -1,0 +1,11 @@
+`KeyAttributes` is a subclass of `Key`, used specifically for representing different attributes (like alpha, elevation, rotation, and others) of a widget that can be animated over time.
+
+It defines several float attribute fields, a method `addValues` for mapping these attributes to certain keyframe positions on an animation path, `getAttributeNames` for returning available attribute names, `getCurveFit` for getting the curve type, `load` for loading KeyAttributes from XML.
+
+The method `setInterpolation` sets the interpolation values for each property and `setValue` for setting values of these attributes.
+
+Simply put, `KeyAttributes` provides a way to specify changes to various properties for a 'ConstraintLayout' over the duration of animation of a motion scene.The code contains a switch case structure to assign properties of a widget as values in a `KeyAttributes` object (scaling, rotation, elevation, translation, etc.). 
+
+It also has a nested `Loader` static class that has a bunch of constants and a `SparseIntArray` mapped to style attributes. `read` method of `Loader` class uses the mapping to load `KeyAttributes` from a `TypedArray`.
+
+The `Loader` class appears to handle the reading of these animation properties from XML resources. Different properties are categorized, and their behaviour is dictated based on Android attributes.

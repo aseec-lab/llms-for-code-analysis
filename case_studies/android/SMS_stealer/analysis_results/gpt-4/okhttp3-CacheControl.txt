@@ -1,0 +1,27 @@
+The `CacheControl` class manages the cache control directives in HTTP. These directives tell caches how they must, should, or must not handle request/response. 
+
+The class provides various flags corresponding to standard HTTP cache-control directives like `no-cache`, `no-store`, `max-age`, `must-revalidate`, `max-stale`, `min-fresh`, `only-if-cached`, `no-transform`, `immutable`, and similar.
+
+It also has two predefined `CacheControl` instances: `FORCE_NETWORK` and `FORCE_CACHE`, which control whether the call should only use the network or cache respectively.
+
+The `CacheControl` also provides a `parse` method to interpret headers into a `CacheControl` instance.
+
+The `headerValue` method generates the appropriate `Cache-Control` header value based on the instance state.
+
+There are two constructors, one receiving a `Builder` instance and another with all configuration parameters. 
+
+Note that `CacheControl` works in conjunction with the `Builder` class (not included in this chunk) to allow more friendly and incremental construction of `CacheControl` instances.This segment of Java code is a series of comparisons (using the `equalsIgnoreCase` method) to identify various HTTP cache control directives in a string. Depending on the matched directive ('no-cache', 'no-store', 'max-age', 's-maxage', 'private', etc.), different variables are set to either the result of a method call (`parseSeconds`) or a certain integer (usually 1). During this process, other variables in context are preserved. 
+
+These directives are used to control how, or even whether, caching works, and thus may drastically affect the performance of your client-server communication. The detected properties are stored as boolean or integer variables. 
+
+Please note that the complete code appears larger, you may need other chunks of code to get a full picture of its functioning.This code in Java is the next part of the one discussed previously. It continues assigning values to variables for further work with HTTP cache control directives and their parameters. After the main loop finishes, the code checks if a cache header with the name 'immutable' exists and sets a corresponding boolean variable to true if it does.
+
+The control flow then completes the transformation process by creating a `CacheControl` object with the processed parameters. It also contains getters for each field in the `CacheControl` class and a `Builder` class that simplifies the creation of `CacheControl` objects by providing a fluent interface.
+
+The `Builder` class exposes methods that represent directives of the Cache-Control HTTP header. Additionally, `Builder` methods take care of certain validations to ensure values are appropriately set.
+  
+The builder methods set certain directives of an HTTP cache control header and perform a range of checks to validate input parameters. If the method's input parameter is less than 0, it throws an IllegalArgumentException. 
+
+The `headerValue()` method, which seems to be called in `toString()`, is presumably defined elsewhere in the code.This Java code adds a `onlyIfCached()` method to the `Builder` class. This builder method, when called, sets the `onlyIfCached` boolean field to true and returns the builder instance (`this`), facilitating method chaining for setting further directives.
+
+The last part of the code is a comment showing details about the location of the compiled JAR file, the Java compiler version used to compile the source code (version 6, which corresponds to Java 1.6), and the version of the JD-Core library, which is a library to decompile .class files.

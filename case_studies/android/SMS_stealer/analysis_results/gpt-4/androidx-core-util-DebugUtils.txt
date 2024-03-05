@@ -1,0 +1,11 @@
+The DebugUtils class in AndroidX Core library provides a utility function that generates a short class tag for debugging purposes. 
+
+The `buildShortClassTag` method is used for creating a short class tag that includes the class name and its identity hash code. 
+
+If an object is null, 'null' will be appended to StringBuilder.
+
+If the provided object has a non-empty simple class name (i.e., the class name without the package name), it is used. If it is null or empty, it gets the full name of the object's class and takes the substring from the last '.' character to the end.
+
+Then it appends '{' character and the object's identity hash code converted into a hexadecimal string to the StringBuilder.
+
+The generated tag can be used in logging and will help in identifying instances of the classes during debugging.

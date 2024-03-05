@@ -1,0 +1,17 @@
+`ListFragment` is a subclass of Android's Fragment class, providing a pre-built list UI that displays items in a ListView. The list items are supplied using a ListAdapter.
+
+Key parts of the class include:
+
+- Variables like `mAdapter`, `mList`, `mStandardEmptyView`, `mOnClickListener`, `mEmptyText`, `mHandler`, etc. to maintain the state of the ListFragment.
+  
+- `onCreateView()` method where it programmatically creates a ListView and associated views for an empty list or loading progress.
+  
+- `ensureList()` method which checks if the list is created and properly set up, otherwise it initializes and sets up the list.
+  
+- `setListShown()` and `setListShownNoAnimation()` methods to control the visibility of the list or loading progress.
+  
+- `setListAdapter()` method which sets the adapter that provides the data and views for the list.
+  
+- `getSelectedItemId()`, `getSelectedItemPosition()`, `getListView()`, `getListAdapter()`, and `requireListAdapter()` for retrieving various list-related information.
+
+This class also allows the client to customise the response to list item selection events through an overridable `onListItemClick()` method. The client can also optionally display an empty text message when the list has no items via `setEmptyText()`. The fragment lifecycle is covered, with a clean-up done in `onDestroyView()`.

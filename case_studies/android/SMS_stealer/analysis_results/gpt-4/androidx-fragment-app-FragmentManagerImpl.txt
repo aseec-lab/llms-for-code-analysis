@@ -1,0 +1,270 @@
+The `FragmentManagerImpl` class extends the `FragmentManager` and implements the `LayoutInflater.Factory2` interface. It's the core class of the Fragment management system, providing methods and fields to handle application Fragments' lifecycles, transitions, and state persistence. 
+
+Key parts of `FragmentManagerImpl` class:
+
+- Constants: Define a set of parameters including DEBUG flags, tags, and animations settings.
+
+- Variables: A set of variables (`mActive, mAdded, mAvailBackStackIndices` etc.) is declared to keep track of fragments, their states, and interactions.
+
+- `EndViewTransitionAnimation` and `animateRemoveFragment()` : These inner classes handle the Removal of fragment with animation.
+
+- `addAddedFragments()`: This method adds fragments with their respective transitions.
+
+- `burpActive()`: This method cleans up the active Fragments list.
+
+- `checkStateLoss()`: This method checks whether the state has been saved to prevent illegal operations.
+
+- `cleanupExec()`: Clears temporary lists related to fragment transaction execution.
+
+- `dispatchParentPrimaryNavigationFragmentChanged()`, `dispatchStateChange()`: These methods notify about the change in the state of fragments.
+
+- `ensureExecReady()`: This method makes sure that fragment transactions can be executed. If yes, it sets `mExecutingActions` to true so that `execPendingActions()` can run. 
+
+This class ultimately helps in maintaining the complex interactions between fragments, their transitions, animations and state management.- `executeOps()`: This method iterates over an ArrayList of `BackStackRecord` and accompanying `Boolean` values. It checks whether each record was added or removed and executes operations accordingly.
+
+- `executeOpsTogether()`: This method takes a list of `BackStackRecord` instances and performs relevant operations together. It checks for fragments that are ready and processes them in the correct order, handling animations and state transitions.
+
+- `executePostponedTransaction()`: This method executes postponed transactions in the Fragment Manager. Here, `BackStackRecord` instances that have been postponed are executed when ready.
+
+- `findFragmentUnder()`: This function loops through the `mAdded` Fragment list to find a Fragment that is under a given Fragment in the view hierarchy.
+
+- `forcePostponedTransactions()`: This method forces pending postponed transactions to be completed. This ensures that all transitions have been executed.
+
+- `generateOpsForPendingActions()`: This method goes through `mPendingActions` and generates operations for each of them, removing any completed actions from the pending list. It also checks if there have been any changes in the fragment back stack, notifying listeners if necessary.- `isMenuAvailable()`: This method checks whether the menu is available in the specified fragment. It returns true if the fragment has a menu visibly set, or if it has child fragments with menus.
+
+- `makeFadeAnimation()`: This method creates a fade animation between two given alpha values using the `AlphaAnimation` class. 
+
+- `makeOpenCloseAnimation()`: This method creates a combined scale and alpha animation using specified start and end values. 
+
+- `makeRemovedFragmentsInvisible()`: This method sets the alpha of any removed fragments' views to 0, making them invisible.
+
+- `popBackStackImmediate()`: This method immediately pops the back stack to a given state, if possible, and returns a boolean indicating whether the action was carried out.
+
+- `postponePostponableTransactions()`: This method goes through an ArrayList of `BackStackRecord` and accompanying `Boolean` values, postponing any transactions that can be postponed.
+
+- `removeRedundantOperationsAndExecute()`: This method removes redundant operations from an ArrayList of `BackStackRecord` and accompanying `Boolean` values, then executes the remaining operations.
+
+- `reverseTransit()`: This method returns the reverse of a transit action.
+
+- `throwException()`: This method logs the given exception and rethrows it. 
+
+- `transitToStyleIndex()`: This method converts a transit action into a style index.
+
+- `updateOnBackPressedCallbackEnabled()`: This method updates the state of the `mOnBackPressedCallback` depending on the state of the fragment back stack.
+
+- `addBackStackState()`: This method adds a `BackStackRecord` to the fragment back stack.
+
+- `addFragment()`: This method adds the given fragment to the fragment manager.
+
+- `addOnBackStackChangedListener()`: This method adds an `OnBackStackChangedListener` to the fragment manager.
+
+- `addRetainedFragment()`: This method adds the given retained fragment to the fragment manager if the state is not saved.
+
+- `allocBackStackIndex()`: This method allocates an index for a `BackStackRecord` in the available back stack indices.- `attachController()`: Attaches a `FragmentHostCallback`, `FragmentContainer`, and `Fragment` to the `FragmentManagerImpl`. If the `FragmentHostCallback` implements `OnBackPressedDispatcherOwner`, an `OnBackPressedDispatcher` is assigned. The method also manages setting the `FragmentManagerViewModel`.
+
+- `attachFragment()`: Attaches a `Fragment` to the `FragmentManagerImpl`. If the fragment is detached and not already added, it is added to the `FragmentManagerImpl`.
+
+- `beginTransaction()`: Begins a new transaction by returning a new `BackStackRecord`.
+
+- `checkForMenus()`: Returns `true` if any fragments have menus available.
+
+- `completeExecute()`: Completes the execution of a `BackStackRecord`, applying the operations from it.
+
+- `completeShowHideFragment()`: Finishes the show or hide animation for a fragment.
+
+- `detachFragment()`: Detaches a `Fragment` from the `FragmentManagerImpl` by setting its detached property to `true` and removing it from the list of added fragments.
+
+- `dispatchActivityCreated()`: Updates the state of the fragments to `Activity.CREATED`.
+
+- `dispatchConfigurationChanged()`: This method is used to handle configuration changes for this given `Configuration`.- `dispatchContextItemSelected()`: Returns `true` if any fragment performs an action when a context item is selected. 
+
+- `dispatchCreate()`: Changes the state of all fragments to `Activity.CREATED`. 
+
+- `dispatchCreateOptionsMenu()`: Creates a menu in case the activity's current state allows for menu creation. 
+
+- `dispatchDestroy()`: Destroys the FragmentManager, removing any attached fragments and nullifying the FragmentHost, FragmentContainer, and the BackPressedDispatcher. 
+
+- `dispatchDestroyView()`: Destroys the view attached to a fragment. 
+
+- `dispatchLowMemory()`: Instructs every Fragment to perform low memory actions.
+
+- `dispatchMultiWindowModeChanged()`: Dispatches a mode change to all fragments to handle multiwindow mode. 
+
+- `dispatchOnFragmentActivityCreated()`: Dispatches a callback notifying that a new fragment has been created.
+
+- `dispatchOnFragmentDestroyed()`: Dispatches a callback notifying that a fragment has been destroyed. 
+
+- `dispatchOnFragmentResumed()`: Dispatches a callback notifying that a fragment has resumed. 
+
+- `dispatchOnFragmentSaveInstanceState()`: Dispatches a callback notifying that a fragment has saved its instance state.
+
+- `dispatchOptionsItemSelected()`: Dispatches a callback to each fragment, returning `true` if any fragment performs an action when an options item is selected.
+
+- `dispatchOptionsMenuClosed()`: Dispatches a callback notifying that an options menu closed, to all fragments.
+
+- `dispatchPause()`: Updates the state of the fragments to `Activity.PAUSED`.- `dispatchPictureInPictureModeChanged()`: Dispatches a callback to reflect changes when the app enters or exits `Picture in Picture` mode.
+
+- `dispatchPrepareOptionsMenu()`: Preprocesses the options menu for any attached fragments. 
+
+- `dispatchPrimaryNavigationFragmentChanged()`: Updates the primary navigation fragment status and dispatches this change to other fragments.
+
+- `dispatchResume()`: Resumes the state of the fragments by dispatching a state change.
+
+- `dispatchStart()`: Dispatches a state change to start all fragments.
+
+- `dispatchStop()`: Dispatches a state change to stop all fragments.
+
+- `doPendingDeferredStart()`: If any fragments have pending starts, execute them.
+
+- `dump()`: Prints details of the fragment stack, active fragments, added fragments, created menus, back stack, and back stack indices for debugging purposes.- `enqueueAction(OpGenerator paramOpGenerator, boolean paramBoolean)`: Enqueues a new action that will be executed during a subsequent call to `execPendingActions()`. This checks if the activity has been destroyed and throws `IllegalStateException` if that's the case.
+
+- `ensureInflatedFragmentView(Fragment paramFragment)`: Handles creation and setup of the fragment's view.
+
+- `execPendingActions()`: Executes pending actions asynchronously with respect to the activity lifecycle.
+
+- `execSingleAction(OpGenerator paramOpGenerator, boolean paramBoolean)`: Executes a single action. If `paramBoolean` is true and the host is null or destroyed, the method returns immediately.
+
+- `executePendingTransactions()`: Executes all pending fragment transactions.
+
+- `findFragmentById(int paramInt)`: Returns a fragment with the given ID if it exists, or null if it doesn't.
+
+- `findFragmentByTag(String paramString)`: Returns a fragment with the given tag if it exists, or null if it doesn't.- `findFragmentByWho(String paramString)`: Returns a fragment with the given id if it exists, null otherwise.
+
+- `freeBackStackIndex(int paramInt)`: Frees up position in the back stack and handles presence of null fragments. Throws exception if any issue arises.
+
+- `getActiveFragmentCount()`: Returns the count of active fragments.
+
+- `getActiveFragments()`: Returns a list of active fragments.
+
+- `getBackStackEntryAt(int paramInt)`: Returns the BackStackEntry at the specified position in the back stack.
+
+- `getBackStackEntryCount()`: Returns the count of BackStack entries.
+
+- `getChildNonConfig(Fragment paramFragment)`: Returns the child FragmentManagerNonConfig for the provided Fragment.
+
+- `getFragment(Bundle paramBundle, String paramString)`: Restores a fragment from a bundle.
+
+- `getFragmentFactory()`: Returns the factory to be used for instantiating new fragment instances.
+
+- `getFragments()`: Returns a list of all fragments currently added to the fragment manager.
+
+- `getLayoutInflaterFactory()`: Returns the layout inflater factory associated with this fragment manager.
+
+- `getPrimaryNavigationFragment()`: Returns the current primary navigation fragment.
+
+- `getViewModelStore(Fragment paramFragment)`: Returns the ViewModelStore associated with the specified Fragment.
+
+- `handleOnBackPressed()`: Handles the back pressed event, either from a direct call to `onBackPressed()` or a key event.
+
+- `hideFragment(Fragment paramFragment)`: Hides a fragment, which involves setting a hidden flag and updating its visibility.
+
+- `isDestroyed()`: Returns if the fragment manager is destroyed.
+
+- `isPrimaryNavigation(Fragment paramFragment)`: Checks if the specified fragment is the primary navigation.
+
+- `isStateAtLeast(int paramInt)`: Checks if the current state is at least the specified state.
+
+- `isStateSaved()`: Checks if the state has been saved by the host or if it's stopped. 
+
+- `loadAnimation(Fragment paramFragment, int paramInt1, boolean paramBoolean, int paramInt2)`: Performs various checks and loads the necessary animations.
+
+- `makeActive(Fragment paramFragment)`: Adds the fragment to the active fragments list and handles the retain instance state.- `makeInactive(Fragment paramFragment)`: Removes a fragment from the active set and handles its relations to other fragments. This involves state initialization and freeing up information in the fragment manager.
+
+- `moveFragmentToExpectedState(Fragment paramFragment)`: Moves a fragment to the expected state. This includes handling animations and state changes.
+
+- `moveToState(int paramInt, boolean paramBoolean)`: Moves all fragments to the desired state. Deals with things like back stack entries and active fragment list.
+
+- `moveToState(Fragment paramFragment)`: Moves a specific fragment to the desired state. This involves performing the necessary state transitions.
+
+- `moveToState(Fragment paramFragment, int paramInt1, int paramInt2, int paramInt3, boolean paramBoolean)`: Another overload of the moveToState method which takes more parameters related to state transitions.
+
+The last part of the code appears to be performing actions related to setting fragment states such as handling saved fragment states, transition to "created" state, and sending fragment lifecyle events based on certain conditions. The specific workings depend on conditions such as animation and layout states, the presence of a saved state, and the desired new state.This code continues the state changes and management of fragments:
+
+- It retrieves the unique identifier of the fragment called `mWho`. If no such identifier can be found, `null` is set.
+- Certain fragment information and settings related to the user visibility are stored or modified.
+- If the fragment is not visible to the user, its start is deferred and its state is changed accordingly.
+- The host and parent fragment of the fragment are set. If the parent fragment is not present, it uses the host’s fragment manager.
+- The code ensures that any target fragment stated in the fragment exists and is in a good state. If not, it throws an exception.
+- It verifies the attachment of the fragment to its host, triggering its `onAttach` lifecycle method.
+- The code confirms whether the fragment to be transitioned to was already created. If not, its `onCreate` method is called. It it was already created, the saved state is restored.
+- It ensures the fragment has an inflated view and moves it to the `ACTIVITY_CREATED` state, triggering necessary lifecycle methods.
+- It checks if a container ID was supplied for the fragment's view to be placed in. If such an ID is not supplied or the provided value is not valid, an exception is thrown.In this part of the code:
+
+- If there's no view found for the given ID, it constructs an error message including the ID and the fragment details, and throws an exception.
+- It tries to retrieve a view with the same ID as the container ID from the fragment. If not found, it attempts to find the resource name of the container ID.
+- The fragment's `mContainer` is set to the retrieved view. If the view is `null` and the fragment was not restored, it attempts to get the resource name.
+- The fragment's view is then created with the given layout inflater, container, and saved state. 
+- If the fragment's view is not `null`, it sets the `mInnerView` to the ModelAndView, enables its save from parent's state property, and adds it to the `mContainer`.
+- It then triggers the fragment's `onViewCreated` and `onActivityCreated methods`, dispatching the corresponding lifecycle events.
+- If the fragment is visible and has a container, `mIsNewlyAdded` is set to `true`, else it's set to `false`.
+- If the state must switch to `STARTED` or `RESUMED`, the `performStart` or `performResume` methods are called on the fragment. Corresponding lifecycle events are dispatched too. If the state needs to be reduced, it checks the current fragment state. If the state is above `RESUMED`, it calls the `performPause` method and dispatches the `onFragmentPaused` event.In this part of the code:
+
+- If the target state to transition the fragment to is less than `CREATED`, the code performs a series of checks and actions to perform the transitioning.
+- It checks if the host Fragment Manager has been destroyed, if yes, it clears animations or cancel animators set to the fragment if any.
+- Various debug logs are constructed and printed to log the transition events.
+- If the fragment is not in back-stack and it's being removed, it sets the local variable to 1.
+- Further checks to determine if the state is destroyed, which indicates whether or not to clear non-config state.
+- It then calls `performDestroyView` to destroy the fragment's view, calls `dispatchOnFragmentViewDestroyed` to dispatch the corresponding lifecycle event.
+- Removes fragment's view from its parent if existing, and nullifies properties related to the fragment's view.
+- Calls the `performDestroy` and `dispatchOnFragmentDestroyed` methods on the fragment if either it's being removed and not in back-stack or the fragment state should be destroyed.
+- If this transition is not due to the fragment being retained, `performDetach` is called on the fragment, `dispatchOnFragmentDetached` is dispatched, and by checking certain conditions, this fragment is removed from the hosting Fragment Manager's records.This part of the code handles fragment back-stack manipulation. Specifically, it pops items off the back-stack based on the provided conditions and modifies the fragment state accordingly. 
+
+If neither a fragment name nor id is provided and specific pop behavior isn't required (i.e., pop inclusive vs. pop up to), it pops the most recent fragment off the back-stack. 
+
+If a name or id is given, it searches the stack from top to bottom until it finds a matching fragment and pops all the fragments up to and including the matched fragment (if found), depending on the operation flags specified.
+
+The function also includes some checks to validate fragment id and raise an error for incorrect values. Furthermore, if the fragment isn't found in the back-stack, it logs a warning message.
+
+All fragments that are popped are added to the ArrayList representing the state of fragments (`paramArrayList`) and a corresponding Boolean reflecting whether the fragment was popped is added to another ArrayList (`paramArrayList1`).
+
+Post-execution of this function, the fragments' state and the status of their removal exists in two mirrored ArrayLists — these lists are used by other methods to commit fragment transactions or handle these popped fragments further.This part of the code continues to manipulate fragment back-stack and performs various tasks related to fragment state manipulation. It specifically handles the following tasks:
+
+1. Removing fragments: It implements methods to remove specific fragments from the back-stack or remove retained fragments when the state is already saved. If a fragment is removed, it also checks if the menu needs to be invalidated.
+
+2. Reporting back-stack changes: The code triggers notifications to all registered OnBackStackChangedListeners when a back-stack change event occurs. 
+
+3. Restoring state: The code implements functionality to restore all states from a saved state instance. It cross-references the list of active fragments with the list of retained fragments, discards fragments not found in the active set, reattaches retained fragments, and removes fragments that were previously retained but are no longer needed. 
+
+4. Registering lifecycle callbacks: The code also includes a method to register FragmentLifecycleCallbacks. These callbacks allow other classes subscribing to them to receive events about specific lifecycle status changes.
+
+5. Fragment registration: The `putFragment()` method is provided to register a fragment using its unique String identifier. An IllegalStateException is thrown if the fragment does not belong to the current FragmentManager.
+
+In all these actions, the code emphasizes the importance of safeguarding operations with checks for the current state and proceeding with operations only when it's safe to do so.This part of the code furthers the state restoration of the FragmentManager by:
+
+1. Deserializing and reattaching maintained active fragments: For each fragment state in the restored state's active list, the code re-instantiates the fragment and attaches it to the FragmentManager. It logs debug messages about this process when necessary.
+
+2. Rebuilding the list of added fragments: For each added fragment in the restored state's 'mAdded' list, it retrieves the corresponding instantiated fragment and marks it as added.
+
+3. Restoring the back-stack: It restores the state of the back-stack from the restored state if it exists. This is done by instantiating each BackStackRecord from its saved state and adding it to the FragmentManager's back-stack.
+
+Through all these steps, the code carefully manages synchronization to avoid race conditions and safeguards against inconsistencies by throwing exceptions when unexpected conditions are encountered.The remaining part of the code seems to be handling two main scenarios:
+
+1. Saving the state of a Fragment: First, it ensures that pending actions are complete and fragments have stopped animating, then saves the states of all active and added fragments and the fragment back stack to a FragmentManagerState object. During this process, if a fragment has state >0 but no currently saved state, the code saves the fragment's basic state.
+
+2. Schedule Commit: If there are postponed transactions or pending actions, the code schedules runnable object in the fragment host's handler to process those transactions or actions at the next available opportunity.
+
+These operations are done with an emphasis on handling exceptions, checking and managing fragment states, and maintaining program control flow in the presence of multi-threading.1. The `setBackStackIndex` method: This part of the code is responsible for setting the BackStack's Index. If the BackStack Index is not at its current size, the method replaces the BackStackRecord at the index. If the index is larger than the current size, it will add null indices to the ArrayList to increase the size.
+
+2. The `setMaxLifecycle` method: This method sets the maximum lifecycle state for a particular Fragment. An exception will be thrown if the fragment isn't current active in the FragmentManager.
+
+3. The `setPrimaryNavigationFragment` method sets the primary navigation fragment. The method throws an exception if the Fragment isn't currently active in the FragmentManager.
+
+4. The `showFragment` method changes the visibility of a fragment. If the fragment is currently hidden, it changes the state to visible and flags the change in visibility.
+
+5. The `startPendingDeferredFragments` method explores through the mActive map and performs a start on any fragments that have been deferred.
+
+6. The `toString` method returns a string representation of the Fragment Manager, including its classname, memory address, and the associated object.
+
+7. The `unregisterFragmentLifecycleCallbacks` removes a previously registered lifecycle call back from the manager. It steps through each callback checking if it equals the target then removes it from the list if matched. This method is thread-safe as it's synchronized to maintain consistency in a multi-threaded environment.1. The `AnimationOrAnimator` class: This internal static class represents an animation or animator. It holds either an Animator object or an Animation object and has constructors for both types. This class ensures that either the animator or the animation isn't null, throwing an exception otherwise.
+
+2. The `EndViewTransitionAnimation` class: This is a subclass of AnimationSet that implements the Runnable interface. It controls a transition animation and keeps tracks of its status using boolean flags like mAnimating, mEnded etc. It ensures, by overriding getTransformation methods, that the animation is ended properly.
+
+3. The `FragmentLifecycleCallbacksHolder` class: This internal static class stores a lifecycle callback and a flag indicating whether recursion is enabled.
+
+4. The `FragmentTag` class: It holds constant integer array and constants representing the IDs associated with a fragment, such as name, id, and tag.
+
+5. The `OpGenerator` interface: It has a single method, `generateOps`, which is expected to produce an operation to apply for the BackStack.
+
+6. The `PopBackStackState` class: This class implements `OpGenerator`, and is used to perform pop back stack operations, either on a primary navigation fragment, or on regular stack states.
+
+7. The `StartEnterTransitionListener` class: It implements the `Fragment.OnStartEnterTransitionListener` interface to listen to when fragment transitions start. This class maintains a counter of outstanding postponed transactions, with methods for cancelling transactions, and checking if it is ready (no outstanding postponed transactions).

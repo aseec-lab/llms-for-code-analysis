@@ -1,0 +1,13 @@
+The `InputContentInfoCompat` class in the `androidx.core.view.inputmethod` package provides compatibility methods for working with `InputContentInfo` objects in Android.
+
+The class has two static nested classes: `InputContentInfoCompatApi25Impl` and `InputContentInfoCompatBaseImpl`. These classes implement the `InputContentInfoCompatImpl` interface, which defines methods for retrieving information from `InputContentInfo` objects.
+
+The `InputContentInfoCompatApi25Impl` class is used when the device is running Android API level 25 or higher. It creates an instance of `InputContentInfo` using the provided parameters.
+
+The `InputContentInfoCompatBaseImpl` class is used when the device is running an Android version below API level 25. It holds the content URI, clip description, and link URI as member variables but does not create an `InputContentInfo` object.
+
+The `InputContentInfoCompat` class provides methods to retrieve the content URI, clip description, link URI, and permission status from the underlying `InputContentInfo` object. It also provides methods to release or request permission for accessing the content.
+
+The `wrap` method allows wrapping an existing `InputContentInfo` object inside an `InputContentInfoCompat` object for compatibility purposes.
+
+Overall, this class is a compatibility wrapper around the `InputContentInfo` class, providing a consistent API for working with input content information across different Android versions.

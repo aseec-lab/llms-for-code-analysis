@@ -1,0 +1,5 @@
+The `ActivityManagerCompat` class in AndroidX Core contains utility methods that operate on `ActivityManager`. 
+
+It has a method `isLowRamDevice(ActivityManager paramActivityManager)`. This method is a compatibility wrapper for `ActivityManager.isLowRamDevice()`, which was introduced in Android 4.4 (API level 19). The method returns true if the device is running in a low RAM environment, false otherwise.
+
+The method leverages the version check to protect the call to `isLowRamDevice()`, which isn't available on earlier API levels. If the Android version is less than 19, the method returns false by default.

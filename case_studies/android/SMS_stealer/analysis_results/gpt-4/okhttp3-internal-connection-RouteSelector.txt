@@ -1,0 +1,25 @@
+The `RouteSelector` class in the OkHttp library manages the selection of connection routes to a target server based on defined network settings for making safe and efficient requests. 
+
+Key features are:
+
+1. The class maintains an `Address`, `RouteDatabase`, `Call`, and `EventListener` which are initialized during the object creation phase.
+
+2. `getHostString(InetSocketAddress paramInetSocketAddress)` is a utility method to get the host string from an InetAddress.
+
+3. `hasNextProxy()` checks if there are more proxy addresses to try.
+
+4. `nextProxy()` provides the next available proxy for connection; throws an exception if all proxies are exhausted.
+
+5. `resetNextInetSocketAddress(Proxy paramProxy)` resets the next InetAddress for a specific proxy.
+
+6. `resetNextProxy(HttpUrl paramHttpUrl, Proxy paramProxy)` resets the next Proxy for a specific HttpUrl.
+
+7. `connectFailed(Route paramRoute, IOException paramIOException)` handles failed connections.
+
+8. `hasNext()` determines if there are more routes to try.
+
+9. `next()` selects the next possible route for making a connection.
+
+10. The `Selection` inner class maintains an ordered list of routes to a target server and provides methods to get the next route or check if there are more routes. 
+
+Overall, this class plays a crucial role in networking operations within OkHttp by orchestrating how connections should be routed and recalling backed-up routes when a preferred route fails.

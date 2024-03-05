@@ -1,0 +1,39 @@
+`RealBufferedSource` is a class implementing `BufferedSource` interface that reads bytes from a source into a buffer for further operations. Some of its methods are:
+
+- `close()`: Closes the source and clears the buffer.
+
+- `exhausted()`: Checks if the buffer is exhausted and the source is no longer readable.
+
+- `indexOf(byte, long, long)`: Returns the index in this buffer of the first byte that equals `b`, or -1 if the buffer does not contain `b` in the specified range.
+
+- `indexOf(ByteString, long)`: Returns the index of the nearest byte in `ByteString` starting at a defined index.
+
+- `read(byte[], int, int)`: Makes a blocking read call, returning the number of bytes read, up to the number specified.
+
+- `read(Buffer, long)`: Removes at most `byteCount` bytes from this and appends them to `sink`. Returns the number of bytes read, or -1 if this source is exhausted.
+
+- `readByte()`: Reads a byte from the buffer throwing error in case of less than expected bytes.
+
+- `readByteArray(long)`: Reads `byteCount` bytes and returns them, in case less than `byteCount` bytes are in the buffer, it throws `EOFException`.
+
+- `readFully(byte[])`: Fills `sink` with bytes read from the current source until `byteCount` bytes are read or the source is exhausted.This part of the code implements various methods related to reading data from the buffer:
+
+- `readHexadecimalUnsignedLong()`: It reads hexadecimal unsigned long from the buffer.
+
+- Methods like `readInt()`, `readIntLe()`, `readLong()`, `readLongLe()`, `readShort()`, `readShortLe()` read an integer, long, or short respectively from the buffer. 
+
+- `readString()`, `readUtf8()`, `readUtf8(long)`, `readUtf8CodePoint()` read and return a string in various formats.
+
+- `readUtf8Line()`, `readUtf8LineStrict(long)` these methods are designed to read a line in Utf8 format from a buffer.
+
+- `request(long)`: It checks if the requested number of bytes are available in the buffer or not.
+
+- `require(long)`: Similar to `request(long)` but it throws an exception if the requested number of bytes are not available in the buffer.
+
+- `select(Options)`: It searches for the presence of any byte strings of given options in the buffer.
+
+- `skip(long)`: It skips the specified number of bytes in the buffer.
+
+- `timeout()`: Returns the current timeout of the source. 
+
+- `toString()`: It gives the string representation of the whole source with a buffer.

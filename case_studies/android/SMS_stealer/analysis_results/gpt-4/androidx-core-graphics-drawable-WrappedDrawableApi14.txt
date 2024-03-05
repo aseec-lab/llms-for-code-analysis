@@ -1,0 +1,17 @@
+The `WrappedDrawableApi14` class serves as a wrapper for `Drawable` objects. It extends the `Drawable` class and implements the `Drawable.Callback`, `WrappedDrawable`, and `TintAwareDrawable` interfaces. The wrapper approach allows further manipulation and handling of drawable resources.
+
+Some of the core properties managed in this class include a `Drawable` instance, color filters, tint modes, and flags determining state like mutation. There's an associated `WrappedDrawableState` to manage constant state across changes.
+
+Key methods in the class include:
+  
+- `void draw(Canvas)`: Draws the Drawable on the given Canvas  
+
+- `Drawable mutate()`: Attempts to mutate the Drawable to a version that's more amenable to changes (by creating a new state)  
+
+- `void setWrappedDrawable(Drawable)`: Replaces the wrapped Drawable with a provided one  
+
+- `void setTint(int)`, `void setTintList(ColorStateList)`, `void setTintMode(PorterDuff.Mode)`: Various ways to set up tinting for the Drawable  
+
+There are also a number of methods that simply call through to the corresponding methods on the wrapped `Drawable` object such as `getOpacity`, `getIntrinsicHeight`, `getIntrinsicWidth`, `getMinimumHeight`, `getMinimumWidth`, etc.
+
+The purpose of this class is to provide an extendable implementation that can handle custom manipulation and rendering of drawable resources on Android API 14 and above. If the drawable needs to be colored (tinted), mirrored or filtered, this class provides the functionality to allow that. It also offers a way to mutate the drawable for more efficient and safe changes and supports automatic mirroring and stateful drawables.

@@ -1,0 +1,11 @@
+The `SerializedName` annotation is used in Gson library for defining the JSON field name that will be used during serialization and deserialization. 
+
+The annotation also provides an `alternate` option for specifying alternative names for a field during deserialization. This is suitable when the many names can exist for a single field in the JSON object.
+
+- `@Retention(RetentionPolicy.RUNTIME)` specifies that this annotation will be available at runtime for reflection.
+
+- `@Target({ElementType.FIELD, ElementType.METHOD})` specifies that this annotation can be applied to fields and methods in a class.
+
+- `String[] alternate() default {};` is an annotation property that by default returns an empty array of Strings. It can be overridden to provide alternative names for a field during deserialization.
+
+- `String value();` the `value` attribute is a mandatory field. This is the name that will be used during serialization and deserialization.

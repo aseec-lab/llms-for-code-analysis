@@ -1,0 +1,15 @@
+This code is part of the `CipherSuite` class in the `okhttp3` package. This class lists various cipher suites which are used in encryption. It is essentially a collection of constants each representing a different cipher suite.
+
+The class includes a comparator (`ORDER_BY_NAME`) for sorting cipher suites and a `Map` (`INSTANCES`) for storing instances of the `CipherSuite` class.
+
+The `CipherSuite` class defines constants for all supported cipher suites including those for `TLS_DHE_DSS`, `TLS_DHE_RSA`, `TLS_DH_anon`, `TLS_ECDHE_ECDSA`, `TLS_ECDHE_PSK`, `TLS_ECDHE_RSA`, `TLS_ECDH_ECDSA`, `TLS_ECDH_RSA`, `TLS_ECDH_anon`, `TLS_ECDH_anon`, `TLS_EMPTY_RENEGOTIATION_INFO_SCSV`, `TLS_FALLBACK_SCSV`, `TLS_KRB5_EXPORT`, `TLS_KRB5_WITH`, `TLS_PSK`, and `TLS_RSA`.
+
+Each constant is an instance of the `CipherSuite` class with a predefined `javaName`.
+
+The code includes setup for these cipher suite constants, contributing to the `CipherSuite` class's utility in handling secure connections using SSL/TLS in the okhttp3 library.The provided code snippet is the continuation of the previous `CipherSuite` class from the `okhttp3` library. Additional cipher suites are defined as constants. The constructor of `CipherSuite` class accepts a string name of the cipher suite, and throws a `NullPointerException` if the name is null.
+
+The class has a static method `forJavaName(String paramString)`, which synchronously gets an existing instance of `CipherSuite` by the given name, or creates a new instance and puts it to the map otherwise.
+
+The `forJavaNames(String... paramVarArgs)` method returns a list of `CipherSuite` instances created using an array of strings as cipher suite names. 
+
+Lastly, `javaName()` and `toString()` methods are overridden to return the java name of the cipher suite. The `of(String paramString, int paramInt)` method returns an instance of `CipherSuite` object created with the provided string name. The `int paramInt` parameter is not used inside the method.

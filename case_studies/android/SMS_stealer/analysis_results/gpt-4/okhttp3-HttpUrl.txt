@@ -1,0 +1,87 @@
+This `HttpUrl` class allows for parsing and encoding of URLs in a way that conforms to the rules of both HTTP and OkHttp. 
+
+The class includes various encoding set constants, breaking up URL components into sets of permitted characters. 
+
+It provides various methods for working with URLs, including parsing URLs, encoding and decoding URL components, constructing URL query strings, and obtaining default ports for different protocols.
+
+The class fields represent various parts of an URL, including scheme, username, password, host, port, path segments, query parameters, fragment and the URL as a string. These can be accessed by methods provided in the class. 
+
+The `HttpUrl` constructor sets these fields using the provided `Builder` object. The method `canonicalize()` encodes portions of URLs and the `percentDecode()` method decodes percent encoded components. The method `defaultPort()` provides the default port for given scheme.
+
+Moreover, it provides methods for parsing URLs from strings, URIs and URLs such as `HttpUrl.get()`,`HttpUrl.getChecked()`, `HttpUrl.parse()`. There are helper methods as well such as `namesAndValuesToQueryString()`, `pathSegmentsToString()` which are used in class `Builder` to build URLs.The remaining part of the class contains additional methods for obtaining encoded versions of URL components, querying and adding parameters, and helper methods to aid in the construction and parsing of URLs. 
+
+The `percentEncoded` method checks if a specific character in a string is percent-encoded. The `queryStringToNamesAndValues` parses a query string into a list of names and values. 
+
+`encodedFragment`, `encodedPassword`, `encodedPath`, `encodedPathSegments`, `encodedQuery`, `encodedUsername` return encoded versions of the corresponding URL components.
+
+The `equals` method checks the equality of two `HttpUrl` objects by comparing their URL strings, while the `hashCode` method simply returns the hash code of the URL string.
+
+The `fragment`, `host`, `isHttps`, `password`, `pathSegments`, `pathSize`, `port`, `query` methods return the corresponding URL component. The `newBuilder` method returns a `Builder` that can be used to create a new `HttpUrl` object with modifications to the current object.
+
+`queryParameter`, `queryParameterName`, `queryParameterNames`, `queryParameterValue`, `queryParameterValues`, `querySize` provides methods for handling query parameters.
+
+The `redact` method is used to create a safe version of the URL that can be logged, by redacting the password and path. 
+
+The `resolve` method returns a new `HttpUrl` object resolved against the current object.
+
+The `scheme` method returns the URL's scheme.
+
+Finally, the class overrides `toString` which returns the URL as a string and provides `topPrivateDomain` method which returns the highest private domain of the URL host.The `uri` method returns a URI object representing the URL. If errors appear, it tries to remove invalid characters and raise a `RuntimeException` if unsuccessful.
+
+The `url` method tries to return a URL object based on the URL string. It throws a `RuntimeException` if it fails to create the URL object.
+
+The `username` method simply returns the username from the URL.
+
+The `Builder` class is a helper class allowing to build and manipulate URLs. It contains various variables representing URL components and many helper methods. 
+
+The `addPathSegments` method adds a part to a URL path. 
+
+`canonicalizeHost` method tries to get a canonical host name for a URL.
+
+`isDot` and `isDotDot` methods check whether the provided string is a dot(".") or two dots("..") respectively.
+
+`parsePort` tries to parse a port number from a sequence of string.
+
+`pop` method pops the last segment from the URL path.
+
+`portColonOffset` gets the offset of colon in URL that denotes the port.
+
+`push` method adds a segment to URL path.
+
+`removeAllCanonicalQueryParameters` removes all the parameters of the same name from the query string of the URL.
+
+`resolvePath` resolves relative URL paths.
+
+`schemeDelimiterOffset` returns the offset of the scheme delimiter in a URL.
+
+`slashCount` counts the number of slashes in the URL.The `addEncodedPathSegment`, `addEncodedPathSegments`, `addEncodedQueryParameter`, `addPathSegment`, `addPathSegments`, `addQueryParameter` methods are all used to add or push necessary URIs, segments, paths, or query parameters to form an HTTP URL.
+
+The `build` method constructs an HTTP URL from the artifacts supplied through the helper methods.
+
+The `effectivePort` method returns the default port if the port is not specified for the URL, else it returns the port number specified.
+
+The `encodedFragment`, `encodedPassword`, `encodedPath`, `encodedQuery`, `encodedUsername`, `fragment`, `host` methods are used to encode and set specific URL components.
+
+The `parse` method appears to parse an HTTP URL string and extracts its components. The Builder then uses these components to build an `HttpUrl` object.The remaining part of the code still contains methods defined in the `Builder` class within OkHttp: 
+
+The `password` method sets the password for URLs that require authentication. The method accepts a `param1String` parameter and sets the `encodedPassword` attribute to the canonicalized `param1String`. If the parameter is `null`, then it throws a `NullPointerException`.
+
+The `port` method assigns a custom port for the network resource that the URL specifies. It accepts an integer parameter `param1Int` and assigns it to the `port` attribute of the class. However, if the integer is not within the range 1 to 65535, it throws an `IllegalArgumentException`.
+
+The `query` method is used to query or fetch specific data from a database or a network resource. It takes a string parameter `param1String` and sets the `encodedQueryNamesAndValues` attribute to the canonicalized `param1String`.
+
+The `reencodeForUri` method re-encodes the path segments, query names and values, and fragments of the URL so that they fit the Uniform Resource Identifier (URI) syntax rules.
+
+The `removeAllEncodedQueryParameters` method is used to remove all the query parameters that are encoded in the `encodedName` from the URL. It throws a `NullPointerException` if the `encodedName` is `null`.
+
+The `removeAllQueryParameters` seems to be another method used to remove query parameters from the URL, but the code for this method is not displayed in this part of the source code.The `setEncodedQueryParameter` method removes all encoded query parameters from the URL and then adds a new parameter. It takes two string parameters.
+
+The `setPathSegment` method sets a particular path segment of the URL to a specific value. It performs error checking to not allow the path segment to become a dot or a dot-dot segment, which are reserved in URLs.
+
+The `setQueryParameter` method sets a particular query parameter of a URL to a specific value. It first removes all occurrences of the parameter and then adds the new value.
+
+The `toString` method returns a string representation of the current state of the URL, including managing the different edge cases like default ports, encoded parts of the URL, username and password, etc.
+
+The `username` method sets the username for URLs that require user authentication.
+
+The enum `ParseResult` is used to give the status of parsing URLs. The options include successful parsing, missing scheme, unsupported scheme, invalid port, and invalid host.

@@ -1,0 +1,16 @@
+The `DrawerArrowDrawable` class extends the `Drawable` class and represents a material design style icon for navigation drawer indicator (a hamburger icon that animates into an arrow). It renders a drawable of the navigation icon, which can be in one of four possible directions (left, right, start, end), subsequently setting the drawable's progress, direction, and other properties.
+
+In detail:
+- Constants for the arrow direction are defined.
+- Fields are created for different dimensions and paint properties of the drawable.
+- The constructor initializes the paint and path properties, sets values from style attributes, and retrieves them from a typed array.
+- A `lerp` (linear interpolation) method is defined.
+- The `draw` function handles the complex logic for drawing the actual shape on the canvas based on the current progress, direction, thickness, length, etc of the arrow and hamburger lines. It also handles the transformations of the shape for the animated transition between the hamburger icon and back arrow icon. The drawn shape will be mirrored vertically for right/start direction and rotation will be applied if spin is enabled. The path for the shape is moved to appropriate positions and lines are drawn to form the shape. The shape is then drawn on the canvas after applying necessary translations for centering and offsetting from the top, and rotating based on spinning.The remaining part of the `DrawerArrowDrawable` class includes getter methods such as `getArrowHeadLength()`, `getArrowShaftLength()`, `getBarLength()`, `getBarThickness()`, `getColor()`, `getDirection()`, `getGapSize()`, `getIntrinsicHeight()`, `getIntrinsicWidth()`, `getOpacity()`, `getPaint()`, `getProgress()`, and `isSpinEnabled()`. 
+
+It also includes setter methods such as `setAlpha()`, `setArrowHeadLength()`, `setArrowShaftLength()`, `setBarLength()`, `setBarThickness()`, `setColor()`, `setColorFilter()`, `setDirection()`, `setGapSize()`, `setProgress()`, `setSpinEnabled()`, and `setVerticalMirror()`.
+
+Each getter method retrieves the associated class field value, and each setter method updates the value of the respective field if the new value is different from the current one, and invalidates the drawable to trigger a redraw. The class also has an `ArrowDirection` annotation which holds direction constants.
+
+The `getOpacity()` method returns -3, indicating that the opacity of the drawable is not known.  The `setColorFilter()` method applies a color filter to the paint used to draw the icon. The `setAlpha()` method sets the alpha value for the paint, and the `getPaint() method returns the paint object used to draw the icon. 
+
+The special comment at the end specifies the location of the compiled `.jar` file. It also points out that Java compiler version 6 was used and it refers to the JD-Core Version 1.1.3 (a Java Decompiler). This information generally comes from decompiling a `.jar` or `.class` file.

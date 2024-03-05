@@ -1,0 +1,9 @@
+The `Dns.java` file in the `okhttp3` package defines the `Dns` interface, which represents a Domain Name System (DNS) resolver. Here is a summary of the code:
+
+- The `Dns` interface declares a single method `lookup` that takes a hostname as input and returns a list of `InetAddress` objects.
+- The interface includes a static field `SYSTEM` that represents the default DNS resolver implementation.
+- The `SYSTEM` field is initialized with an anonymous class that implements the `lookup` method.
+- The implementation checks if the input `param1String` is not null and then attempts to perform a DNS lookup using `InetAddress.getAllByName`.
+- If the DNS lookup fails due to a `NullPointerException`, it throws a customized `UnknownHostException` with a specific error message.
+- If the input `param1String` is null, it throws a `UnknownHostException` with the error message "hostname == null".
+- The file also includes a comment with information about the location of the file and the compiler version.

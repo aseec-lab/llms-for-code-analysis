@@ -1,0 +1,15 @@
+The `GsonParserFactory` class is a utility for parsing and formatting JSON data using the Gson library. 
+
+Here are the main points of this class:
+
+- It utilizes a `Gson` object for the JSON conversion operations.
+
+- The `getObject(String paramString, Type paramType)` method attempts to parse a JSON String (`paramString`) into a Java object of type `paramType`. If unable to parse, it simply returns null and prints the stack trace of the exception.
+
+- The `getString(Object paramObject)` function attempts to convert a Java object (`paramObject`) into JSON format. If unable to convert, it returns an empty string and prints the exception stack trace.
+
+- The `getStringMap(Object paramObject)` function attempts to convert a Java object (`paramObject`) into a `HashMap<String, String>`. If the conversion fails, it returns an empty HashMap and prints out the exception stack trace.
+
+- The `requestBodyParser(Type paramType)` and `responseBodyParser(Type paramType)` methods produce Gson-based parsers for a specified Java type (`paramType`). These parsers can be used to convert between Java objects and OkHttp's `RequestBody` and `ResponseBody`, respectively.
+
+In summary, the `GsonParserFactory` provides an interface for two-way conversion between JSON and Java objects, with specific functionality to support OkHttp body types.

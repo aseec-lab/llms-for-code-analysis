@@ -1,0 +1,32 @@
+The `LinkedTreeMap` class from the Gson library implements a `Map` backed by a tree structure, specifically suited to efficiently storing data in an ordered or sorted manner. 
+
+- It extends `AbstractMap` and implements `Serializable` to support serialization/deserialization.  
+- Two fields, `header` and `root`, hold reference to the starting node and the root of the tree.
+- The `NATURAL_ORDER` comparator is used for ordering in cases where no custom comparator is provided. 
+- The `LinkedTreeMap` constructor initializes the tree, setting the comparator for ordering elements.
+- `equal` method checks equality of two objects.
+- `rebalance` and `rotateLeft/Right` methods are used to maintain the balance of the tree during insertions and deletions.
+- `replaceInParent` method is used to replace a node in its parent's child link. 
+- `writeReplace` method is used to transform the tree map into a linked hash map through serialization.
+- `clear` method is used to clear the tree map.
+- `containsKey` method checks if a certain key is present in the tree map.
+- `entrySet` method returns a set view of the map entries.
+- `find` method searches for a key in the tree map and optionally inserts it if not found.
+- `findByEntry` method is used to find a node based on given entry.- `findByObject` method finds a node based on an object (which might be the key), 
+- `get` method gets the value stored under a certain key. If a key doesn't exist, it returns null. 
+- `keySet` method obtains all the keys in the map as a set.
+- `put` method places a key-value pair into the map.
+- `remove` method removes a key from the map.
+- `removeInternal` method removes a node from the internal tree structure.
+- `removeInternalByKey` method removes a key from the map.
+- `size` method returns the number of elements in the map.
+- `EntrySet` class represents a set-view of the map entries. The `clear`, `contains`, `iterator`, `remove`, and `size` methods provide operations on this set.
+- `KeySet` class represents a set-view of the keys in the map. The `clear`, `contains`, `iterator`, `remove`, and `size` methods provide operations on this set.
+- `LinkedTreeMapIterator` is an abstract iterator implementation for scanning the map.
+- The `Node` class represents a node in the tree data structure. It has fields for key, value, left child, right child, parent and two links for maintaining a doubly-linked list for insertion order traversal. It implements `Map.Entry<K, V>` interface, providing access to the key-value pairs.- The `first` method traverses the tree to find the leftmost (smallest) node.
+- The `getKey` method returns the key of this node.
+- The `getValue` method returns the value of this node.
+- The `hashCode` method computes the hash code of this node as the XOR of the hash code of the key and value.
+- The `last` method traverses the tree to find the rightmost (largest) node.
+- The `setValue` method sets a new value for this node and returns the old value.
+- The `toString` method returns a string representation of this node in the `key=value` format. It uses a StringBuilder for efficient string concatenation.

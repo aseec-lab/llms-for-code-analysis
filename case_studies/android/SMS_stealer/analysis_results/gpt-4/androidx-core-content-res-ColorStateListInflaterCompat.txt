@@ -1,0 +1,13 @@
+The `ColorStateListInflaterCompat` class provides utilities for dealing with `ColorStateList` objects, which define the color data for different states of a View's drawable.
+
+- The `createFromXml()` method will read the color state list definition from an XML file specified by the `XmlPullParser`.
+
+- Similarly, the `createFromXmlInner()` does the same but expects the parser to be positioned inside the starting tag of the ColorStateList definition.
+
+- The `inflate()` method handles creation of the ColorStateList from a resource XML file specified by the given identifier.
+
+- The `inflate()` private method creates the `ColorStateList` from the XML data in the `XmlPullParser`. This method reads out an array of states and their corresponding colors, which it then uses to create a `ColorStateList`.
+
+- The `modulateColorAlpha()` method returns the color obtained by multiplying the input color's alpha by the specified alpha factor.
+
+- The `obtainAttributes()` method returns a typed array that contains the attribute values. The actual source of the attributes is determined by whether a theme was provided. If a theme was provided it is used as the source of the attributes, otherwise the attributes are directly obtained from the resources.

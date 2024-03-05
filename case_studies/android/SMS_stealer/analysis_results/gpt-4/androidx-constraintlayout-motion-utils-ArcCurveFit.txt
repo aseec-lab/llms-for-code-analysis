@@ -1,0 +1,18 @@
+The `ArcCurveFit` class is a subclass of the `CurveFit` class. It accommodates different types of Curve fitting techniques including linear and arc fitting. 
+
+- Different curve-fitting types are indicated as static constants (`ARC_START_FLIP`, `ARC_START_HORIZONTAL`, `ARC_START_LINEAR`, `ARC_START_VERTICAL`, etc.) at the beginning of the class. 
+- The constructor takes an array of arc types, an array of times, and a 2D array of x, y points. It then builds a collection of arc objects representing each segment of the curve between the provided time points.
+- The class maintains an array of arcs (`mArcs`) defined over specific time intervals (`mTime`).
+- `getPos` methods get the position at a given time for a single or all dimensions, acquiring the relevant arc and determining the position on it.
+- The `getSlope` methods retrieve the slope at a given time for one or all dimensions, once again identifying the relevant arc and obtaining the slope on it.
+- `getTimePoints` returns all the time points of the curve.
+- The `Arc` static inner class represents an individual arc, including methods for calculating linear and curve parameters, and possesses information like position, time, and velocity which can be computed for a point along the arc.
+
+The primary function of this class is to generate smooth interpolation between points using linear or curve characteristics corresponding to multiple dimensions in a motion path or animation. Linear interpolation might be applied for straight path segments, while arc fitting would be useful for angular or circular ones.- `buildTable` method is used to build the LUT (Lookup Table) for the Arc.
+- `getDX` and `getDY` methods compute delta X and delta Y, considering the arc's velocity and orientation (vertical/horizontal).
+- `getLinearDX` and `getLinearDY` simply return the X and Y center of the ellipse respectively.
+- `getLinearX` and `getLinearY` calculate the linear interpolation of the X and Y points.
+- `getX` and `getY` methods compute the actual X and Y values based on the sine and cosine of the angle and the ellipse's parameters.
+- `lookup` method retrieves a value from the lookup table (LUT) created in the `buildTable` method, using linear interpolation if necessary.
+- `setPoint` method is used to update temporary sine and cosine properties by an angle obtained from lookup of the provided time scaled by the rate of change of time.
+- `Arc` class ends here and so does the `ArcCurveFit` class.

@@ -1,0 +1,24 @@
+`PrecomputedTextCompat` is a utility class in AndroidX that performs text layout caching, which improves the rendering performance of apps by rendering the texts beforehand when it is appropriate. 
+
+It implements the `Spannable` interface, which is inherent to Android's rich-text display mechanism. 
+
+Key methods include:
+
+- `create(CharSequence paramCharSequence, Params paramParams)`: Precomputes the text layout and splits the text into paragraphs, then returns a `PrecomputedTextCompat` instance.
+- `getTextFuture(CharSequence paramCharSequence, Params paramParams, Executor paramExecutor)`: Precomputes the text layout asynchronously and returns a Future that wraps a `PrecomputedTextCompat`.
+- `charAt(int paramInt)`: Returns the `char` value at the specified index.
+- `getParagraphCount()`: Returns the number of paragraphs in the text.
+- `getParagraphEnd(int paramInt)` and `getParagraphStart(int paramInt)`: Returns the end and start index of a specified paragraph.
+- `setSpan(Object paramObject, int paramInt1, int paramInt2, int paramInt3)` and `removeSpan(Object paramObject)`: Adds or removes a `MetricAffectingSpan` object, which is used to alter the appearance of the text.
+
+The class also includes a nested class named `Params`, which stores the parameters used in text layout computations, like `TextPaint`, `TextDirectionHeuristic`, `BreakStrategy`, and `HyphenationFrequency`. 
+
+It provides methods to access these parameters, and also overrides `equals()` and `hashCode()` methods, making `Params` objects suitable for use in collections.This code provides additional components to the PrecomputedTextCompat class:
+
+- `toString()`: This method returns a string representation of parametric details (like textSize, textScaleX, typeface, etc.) involved in precomputation of the text. 
+
+- `Builder` class: This is a builder class for creating `Params` class instances. It provides several setter methods like `setBreakStrategy(int param2Int)`, `setHyphenationFrequency(int param2Int)`, and `setTextDirection(TextDirectionHeuristic param2TextDirectionHeuristic)`, allowing easy creation and configuration of Params instances.
+
+- `PrecomputedTextFutureTask` class extends `FutureTask` and precomputes text asynchronously using a callable object of the private static inner class `PrecomputedTextCallback`.
+
+- `PrecomputedTextCallback` implements `Callable` and returns the precomputed text when `call()` method is invoked. It takes in `Param` and `CharSequence` objects when it is constructed.

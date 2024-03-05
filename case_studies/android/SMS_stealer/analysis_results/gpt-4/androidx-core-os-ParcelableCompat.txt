@@ -1,0 +1,11 @@
+The `ParcelableCompat` class is a utility class that provides compatibility support for creating `Parcelable.Creator` instances and is marked as deprecated. 
+
+1. `newCreator(ParcelableCompatCreatorCallbacks<T> paramParcelableCompatCreatorCallbacks)` method: This method creates a new `Parcelable.Creator<T>` instance taking a `ParcelableCompatCreatorCallbacks<T>` as a parameter.
+
+2. `ParcelableCompatCreatorHoneycombMR2<T>` class: This is a nested static class which implements `Parcelable.ClassLoaderCreator<T>`. It holds a `ParcelableCompatCreatorCallbacks<T>` instance which is used to create new instances of T from a Parcel.
+
+    - `createFromParcel(Parcel param1Parcel)` method: It uses its `mCallbacks` field to create a new instance of T from the provided `Parcel`.
+    
+    - `createFromParcel(Parcel param1Parcel, ClassLoader param1ClassLoader)` method: It behaves similar to the `createFromParcel(Parcel param1Parcel)` but it also provides a `ClassLoader`.
+
+    - `newArray(int param1Int)` method: Creates a new array of T with the given size.

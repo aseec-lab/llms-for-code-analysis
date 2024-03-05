@@ -1,0 +1,77 @@
+The `DependencyGraph` class in the `androidx.constraintlayout.solver.widgets.analyzer` package is used in analyzing constraint dependencies between widgets in a layout. 
+
+One of the main purposes of this class is to help in managing and analyzing `ConstraintWidget` objects in a widget container. This class uses `WidgetRun` and `RunGroup` to manage widgets and widget groups respectively within the layout.
+
+The `applyGroup()` method appears to implement the logic for adding a `WidgetRun` to a `RunGroup` (creating a new one if necessary), updating the run group's dual status, and recursively applying the same process to dependency nodes and their targets. 
+
+The `basicMeasureWidgets()` method measures widgets, updating their `dimensionBehavior` and `matchConstraintsType` based on conditions such as whether they should adhere to certain constraints, employ certain dimensions, or use a match constraint as default for width or height.
+
+Please note: A detailed analysis can be provided once the entire code is shared.The remainder of the code continues to check and apply constraints based on the settings of the widgets. 
+
+For example:
+
+- If the `mMatchConstraintDefaultWidth` of the widget is set to `1`, it measures the widget with `WRAP_CONTENT` behaviour for width, calculates the required width (`getWidth`), and sets it as the `wrapValue`.
+  
+- On the other hand, if `mMatchConstraintDefaultWidth` is set to `2`, it measures the widget based on the ratio defined by `mMatchConstraintPercentWidth` with respect to the width of the parent `androidx.constraintlayout.solver.widgets` widget.
+  
+- It similarly handles cases for height with `mMatchConstraintDefaultHeight`. It measures the widget, calculates the new height, and assigns it to `wrapValue` if the height is set to `MATCH_CONSTRAINT (1)`. 
+
+In all cases, after the widget is measured and its dimension calculated, the `DimensionDependency` is updated for width and height. The `measured` flag of the widget is set to `true`, indicating that the widget has been measured.
+
+Then it goes back to the start of the loop and repeats the process for another widget. 
+
+It follows similar sets of rules for different constraints until all widgets are measured and the dimensions of dependent widgets are resolved based on the constraints applied. This run-time analysis assists in efficiently designing the UI.The code handles different settings for matching the constraints of a widget. 
+
+- If both the width and height constraints are MATCH_CONSTRAINT, it checks if the match defaults are set to `1` or `2` to adjust the dimension values.
+
+    - If the width and height match defaults are `1`, it measures the widget with WRAP_CONTENT behaviour and assigns the dimensions to wrapValue.
+    
+    - If both width and height match defaults are `2`, it calculates new dimensions based on the matchConstraintPercent value multiplied by the parent widget's dimensions.
+    
+- If the dimension behaviours of the widget are set to MATCH_PARENT, it extracts the dimensions of the parent widget and subtracts any specified margins to measure the widget and resolve its dimensions.
+
+The loops continue iterating until all widget constraints are processed and resolved. If there are no widgets left to analyze, it returns false.
+
+There are also some auxiliary methods in the code such as generateChainDisplayGraph and generateDisplayGraph that are used to create a graphical representation of the processed widgets, which likely aids in visualizing the layout calculations.This part of the code is focused on generating a graphical representation of constraints in the layout, particularly for vertical and horizontal widget runs.
+
+- The 'generateDisplayGraph' function creates a graphical representation of the constraints of a given widget run. 
+
+- It checks whether the 'paramWidgetRun' instance is a helper reference, and checks if there are any dependencies or targets for the start and end of the widget run. If none exist, it returns the existing string.
+
+- It proceeds to append information on the connections and dependencies of the widget run and checks whether the connections are centered. If the widget run is a VerticalWidgetRun, it handles the baseline as well. 
+
+- It further distinguishes between HorizontalWidgetRun and ChainRun, and generates a graphical representation accordingly.
+
+- Towards the end, it handles the scenario where the HorizontalDimensionBehaviour is set to FIXED, WRAP_CONTENT, or MATCH_CONSTRAINT.
+
+- It generates chains of certain graphical representation strings, forming paths of constraints and their targets.
+
+The 'generateDisplayGraph' function appears to be nested within several control flow constructs and performs its operations based on the properties and dependencies of the widget run.The rest of the code continues to expand further on the functionality of 'generateDisplayGraph':
+
+- A new 'StringBuilder' object is initialized to capture the connection between the 'paramDependencyNode' and other related nodes in the layout. It proceeds to iterate over all the targets of the 'paramDependencyNode', appending the starting node's name, "\" -> \"" (indicating direction of connection), and the target node's name.
+- If there is a margin assigned to the starting node or if its run is a helper reference, information about these properties is also appended.
+- If the second parameter to the function is true, an additional 'style=dashed' is appended to the string.
+- If the run related to the 'paramDependencyNode' is a HelperReference, it appends 'style=bold,color=gray' accordingly.
+- It ends every target node line with a newline character (\\n) before starting the next one.
+
+The 'generateDisplayNode' function generates a formatted string that represents the connections and properties of a certain dependency node in a widget layout. This data is then used by 'generateDisplayGraph' for generating an overall graphical layout of the various widget runs and relationships of a specific layout.The next set of methods in the class are:
+
+- `isCenteredConnection`: This method checks if a connection between two dependency nodes is centered or not. It iterates over the targets of the first and second given dependency nodes to check if they are referencing each other. If both nodes have targets other than each other, the connection is considered centered.
+
+- `measure`: This method sets horizontal and vertical behaviors and dimensions to a given Measure object, and then uses this Measure object to measure a given widget. It also sets the width, height, baseline, and baseline distance of the widget based on the Measure object.
+
+- `nodeDefinition`: This method generates a formatted string to define a given WidgetRun object, with properties such as the dimension behavior, run group, name, into an html-like table format.
+
+- `buildGraph`: This method builds a graph for a list of WidgetRuns. It clears the lists of runs and iterates over all widgets to add them to the graph. Meanwhile, it handles the chains and helper widgets separately.
+
+- `defineTerminalWidgets`:  This method begins by checking if the widget graph needs to be built and does so if necessary. It then iterates through all child widgets and executes custom logic based on the incoming parameters.- `directMeasure`: This method uses the container's dimensions along with any child constraints to perform a direct layout measurement. The method handles wrap content behavior and returns whether the constraints have been satisfactorily resolved.
+
+- `directMeasureSetup`: This method ensures that all of the specified dimensions are set up for a direct measurement. It performs a preliminary check if the graph needs to be built and the widgets need to be measured. It also prepares for measuring by setting up the initial values for the constraints.
+
+- `directMeasureWithOrientation`: This method is used to directly measure the width and height of a widget based on its orientation. It takes into account whether wrap computation is supported and modifies the specific dimensions based on this.- `invalidateGraph`: This method sets the boolean flag `mNeedBuildGraph` to true, indicating that the graph needs to be rebuilt.
+
+- `invalidateMeasures`: This method sets the boolean flag `mNeedRedoMeasures` to true, indicating that the measurements need to be recalculated.
+
+- `measureWidgets`: This method iterates over the children of the container, and if the widget has been measured and has a baseline dimension, it resolves the baseline dimension with the baseline distance of the widget.
+
+- `setMeasurer`: This is a setter method that sets the `mMeasurer` field with the given `BasicMeasure.Measurer` object.

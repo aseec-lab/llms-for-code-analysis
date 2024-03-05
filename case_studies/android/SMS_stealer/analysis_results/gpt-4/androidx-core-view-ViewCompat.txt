@@ -1,0 +1,56 @@
+`ViewCompat.java` is a compatibility class in the AndroidX Core library. It provides static methods to interact with the Android `View` class. Some of these methods are wrappers over the existing methods in the `View` class, while others provide additional functionalities.
+
+Several constants (mostly integers) are defined in the class for various purposes, such as setting the importance level of a view for accessibility or defining the layer type.
+
+Most notably, the class provides methods to check and handle key events (`addOnUnhandledKeyEventListener()`), animate a view (`animate()`), manipulate accessibility properties (like `addAccessibilityAction()`), scroll a view (`canScrollHorizontally()`, `canScrollVertically()`), cancel drag and drop (`cancelDragAndDrop()`), compute system window insets (`computeSystemWindowInsets()`) and many more.
+
+The class also has private methods to handle drag events, offset views, and internal utility methods like `bindTempDetach()` which retrieves certain private methods of the `View` class using reflection, providing backwards compatibility.
+
+Overall, this class is aimed to abstract away differences between various Android versions and provide a unified way to handle common tasks on views.The remaining portion of the `ViewCompat.java` contains more methods that provide backwards compatibility and unified interactions with the Android `View` class.
+
+Methods such as `dispatchApplyWindowInsets()`, `dispatchFinishTemporaryDetach()`, `dispatchNestedFling()`, `dispatchNestedPreScroll()`, etc., extend or provide backwards-compatible versions of their View-based counterparts.
+
+The methods `generateViewId()` and `getAccessibilityDelegate()` provide functionalities for generating a unique view ID and getting the accessibility delegate of a view respectively.
+
+The `getBackgroundTintList()`, `getBackgroundTintMode()`, and `getElevation()` methods help to retrieve the tint of a View's background, its tint mode, and the view's elevation, when available.
+
+There are also methods to provide compatibility with newer Android versions like `getAccessibilityLiveRegion()`, `getAccessibilityNodeProvider()`, and `getAccessibilityPaneTitle()`.
+
+Additionally, methods like `dispatchStartTemporaryDetach()`, `dispatchUnhandledKeyEventBeforeCallback()`, `dispatchUnhandledKeyEventBeforeHierarchy()` help to handle specific events and interactions on different Android versions. 
+
+Overall, these methods further expand the utility of the `ViewCompat` class, providing a consistent interface to interact with the View class across various Android versions.This code section is an extension of `ViewCompat.java` and includes methods that either provide backward compatibility for older Android versions or offer a unified way to use functionality in the `View` class. 
+
+It comes with methods such as `getPaddingEnd()`, `getPaddingStart()`, `hasNestedScrollingParent()`, `hasOnClickListeners()`, and `isLaidOut()`. These methods offer various functionalities revolving around views, including retrieving padding values, checking if a view is part of a nested scrolling parent, checking if a view has onclick listeners, and confirming if a particular view is laid out. 
+
+The methods like `isImportantForAutofill()`, `isTransparent`, `isNestedScrollingEnabled()`, etc., provide different checks about the view's properties and statuses. 
+
+Deprecated methods are also present, indicating they're no longer advised for use, such as `isOpaque()`, `getRotation()`, `getScaleX()`, etc.
+
+The `notifyViewAccessibilityStateChangedIfNeeded()` method at the end assists with accessibility accommodations, sending a signal about an accessibility event when specific conditions are met. This helps to enhance the accessibility of the Android application.This code block contains additional methods that enhance the functionality offered by `ViewCompat.java`. It includes methods that modify the view’s characteristics like padding (`offsetLeftAndRight()`, `offsetTopAndBottom()`), appearance (`setAutofillHints()`, `setBackground()`,`setBackgroundTintList()`), and accessibility features (`setAccessibilityDelegate()`, `setAccessibilityHeading()`, `setAccessibilityPaneTitle()`,`setAccessibilityLiveRegion()`).
+
+The methods take into consideration different Android versions (using `Build.VERSION.SDK_INT`) to provide backward compatibility.
+
+There are methods (`onPopulateAccessibilityEvent()`, `onInitializeAccessibilityEvent()`, `onInitializeAccessibilityNodeInfo()`,`restoreDefaultFocus()`) which are marked as deprecated indicating they are no longer recommended for use.
+
+The block also includes an array of accessibility-related methods (`removeOnUnhandledKeyEventListener()`, `replaceAccessibilityAction()`, `executeAccessibilityAction()`, and `addAccessibilityAction()`) that either provide or modify the accessibility actions related to the view providing a better experience for users with accessibility needs.This part of the code provides additional function enhancements for `ViewCompat.java` such as modifying the view’s appearance (`setBackgroundTintMode()`, `setClipBounds()`, `setElevation()`), accessibility features (`setImportantForAccessibility()`, `setImportantForAutofill()`, `setNestedScrollingEnabled()`) and other miscelleneous settings (`setLayoutDirection()`, setOnApplyWindowInsetsListener()`, `setSystemGestureExclusionRects()`,`startNestedScroll()`,`stopNestedScroll()`).
+These methods check the Android Build Version for compatibility before attempting to set the respective attributes.
+
+The deprecated methods set certain properties of the view such as rotation, saving from parent, scaling, translation and setting X and Y coordinates. It is not advised to use deprecated methods as they may be removed in future versions, so alternatives should be used instead. 
+
+It also continues to include the system for handling Android's accessibility features, that can improve the user experience for users with disabilities. 
+
+Finally, there are some methods that make use of NestedScrollingChild interface to enable or disable nested scrolling.The remaining part of the `ViewCompat.java` contains additional utility classes such as `Api21Impl`, `Api23Impl`, `Api29Impl`, each providing compatibility functions for their respective Android versions. 
+
+The `AccessibilityPaneVisibilityManager` class manages visibility states of accessibility panes. 
+
+Various annotations are also defined for categorizing focus directions, scroll types/types of gestures, and to track UI view interaction events.
+
+`shouldUpdate()` method within the `AccessibilityViewProperty` abstract class checks whether given two parameters are not equal. 
+
+An unhandled key event manager helper class is also defined, with methods for managing views where ctrl+key shortcut events should be dispatched to. It maintains a map of views, their corresponding listeners, and key event statuses. Methods defined allow to register a view to receive ctrl+key events, unregister it, and get or finalize reference.  
+
+More implementation details for computing window insets and saving attribute data for styleable views on various Android version are provided. This abstracts out direct interaction with the Android framework within this library also providing backwards compatibility.The remaining code adds more functionality to the `UnhandledKeyEventManager` class. 
+
+The `dispatch` method checks for unhandled key events. If the event action is `ACTION_DOWN`, it recalculates views with unhandled events. It dispatches this key event to the appropriate view and if the key event is not a modifier key, a reference of this view is stored in 'captured keys' against the keycode. The method returns `true` if a view was found that can handle this event, otherwise it returns `false`.
+
+In the `preDispatch` method, it checks if the last dispatched preview key event matches the incoming key event. If it's the same, it simply returns `false`. If the incoming key event action is `ACTION_UP`, it progress to try to remove a view reference from the 'captured keys' which were stored against this keycode. The reference is removed from the array and stored in `weakReference1`. If such a reference is found, then the key event is dispatched to this view by calling `onUnhandledKeyEvent()`. This method returns `true` if a view was found that can handle the event, otherwise `false`.

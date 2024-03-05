@@ -1,0 +1,23 @@
+This class, `TouchResponse`, handles the touch inputs for a `MotionLayout`. The touch behaviors are described by a variety of attributes selected from XML and handled from within the `fillFromAttributeList` and `fill` methods. It also remembers the last touch position (`mLastTouchX` and `mLastTouchY`), overcomes the drag threshold (`mDragThreshold`), and calculates motion progress (`getProgressDirection` method). 
+
+Moreover, it calculates speed of swipes (`processTouchEvent` method), boundary limits (`getLimitBoundsTo` method) and also manages the motion of widgets during a touch event. It contains various touch direction and side properties, which help in determining the behavior of motion in response to touch events.This section of the `TouchResponse` class contains methods that handle various touch behaviors. 
+
+`scrollMove` updates the progress of the motion layout while scrolling. 
+
+`scrollUp` handles the action performed when scrolling stops. 
+
+`setAnchorId` sets the Anchor ID. 
+
+`setDown` records the initial touch (down) position. 
+
+`setMaxAcceleration` and `setMaxVelocity` set the maximum acceleration and velocity respectively. 
+
+`setRTL` adjusts the direction of touch movement based on the layout direction (left-to-right or right-to-left). 
+
+`setTouchAnchorLocation` sets the location for the touch anchor. 
+
+`setUpTouchEvent` records the position where a touch event ends. 
+
+`setupTouch` sets touch listeners for `NestedScrollView`, if the anchor view is `NestedScrollView`. 
+
+`toString` provides a string representation for touch direction.

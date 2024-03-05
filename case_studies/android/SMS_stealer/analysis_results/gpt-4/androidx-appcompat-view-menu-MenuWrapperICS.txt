@@ -1,0 +1,14 @@
+The `MenuWrapperICS` class serves as a wrapper for the Android `SupportMenu` class, providing additional functionalities and behaviour adjustments. The class provides methods to add items to the menu, find items, remove items, examine properties of the menu (like size and visibility), and adjust key settings of the menu. Each time a `MenuItem` or `SubMenu` is manipulated, the corresponding wrapper method is called.
+
+Key methods include:
+- `add()`: Adds a menu item to the menu.
+- `addIntentOptions()`: Adds menu items corresponding to intents that can be handled by the activity's package.
+- `addSubMenu()`: Adds a submenu to the menu.
+- `clear()`: Removes all items from the menu.
+- `findItem()`: Finds the menu item with the given identifier.
+- `setItemEnabled()`: Enables or disables a menu item.
+- `setItemVisible()`: Makes a menu item visible or not.
+- `removeGroup()`: Removes all the items in the group from the menu.
+- `removeItem()`: Removes the item with the given identifier from the menu.
+    
+All these methods have been overridden to work with the `SupportMenu`. The class also takes care of tracking the lifecycle of each `MenuItem`, ensuring the `MenuItem` wrapper objects are cleaned when items are removed from the menu. This prevents memory leaks.

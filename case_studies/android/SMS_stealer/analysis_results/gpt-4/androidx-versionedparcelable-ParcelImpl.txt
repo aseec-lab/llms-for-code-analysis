@@ -1,0 +1,11 @@
+The `ParcelImpl` class is an implementation of `Parcelable` which is used for passing objects across process boundaries in Android. 
+
+It has a static field `CREATOR` that implements the `Parcelable.Creator` interface to create new `ParcelImpl` instances from a `Parcel`. 
+
+The class has two constructors, one which initializes a `ParcelImpl` object with a `Parcel` object by creating a `VersionedParcelParcel` and reading a `VersionedParcelable` from it, and another which directly initializes a `ParcelImpl` object with a `VersionedParcelable` object
+
+The `describeContents` method returns the content description of the parcel, which is always 0 as it has no special objects. 
+
+The `getVersionedParcel` method returns the `VersionedParcelable` object held by the parcel object.
+
+The `writeToParcel` method writes the `VersionedParcelable` object to a `Parcel` object by using the `writeVersionedParcelable` method.

@@ -1,0 +1,7 @@
+The `GuardedBy` annotation is a marker annotation used to document the synchronization policy of a specific field or method. The `value` method for this annotation returns a string, which typically represents the lock that needs to be held when accessing the annotated field or method.
+
+The annotation is tagged with `@Retention(RetentionPolicy.CLASS)`, which means that this annotation should be recorded in the class file by the compiler but need not be retained by the Virtual Machine at runtime.
+
+It also has the `@Target({ElementType.FIELD, ElementType.METHOD})` annotation, which signifies that this annotation can be applied to a field or a method only.
+
+The presence of this annotation does not enforce synchronization in the code; it's there to inform developers of the threading policy. A missing `GuardedBy` annotation, however, may signify that it's not safe to access the element from multiple threads even if it's `public`.

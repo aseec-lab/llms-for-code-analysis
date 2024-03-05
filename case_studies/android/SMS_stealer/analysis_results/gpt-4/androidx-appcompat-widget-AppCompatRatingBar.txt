@@ -1,0 +1,7 @@
+`AppCompatRatingBar` is a subclass of `RatingBar` that adds additional functionality for compatibility across different versions of Android and with different themes. 
+
+Instances of this class are helpers that allow for managing progress bar appearance and drawables.
+
+`AppCompatRatingBar` provides three constructors: the default constructor that only takes a `Context` parameter; a constructor that also accepts an `AttributeSet`, which defines attributes from an XML tag as arguments; and the third constructor that additionally takes an attribute style resource ID. In the case of the latter two constructors, a helper object `AppCompatProgressBarHelper` is instantiated, and its `loadFromAttributes` method is called to load specific attributes set in the XML tag of the `RatingBar`.
+
+`AppCompatRatingBar` overrides the `onMeasure()` method to measure the `RatingBar` view: first calling the superclass's `onMeasure()` method to perform the original measuring logic, and then updating measurement dimensions accordingly based on the current number of stars and bitmap sample. The method is synchronized which means it is thread-safe.

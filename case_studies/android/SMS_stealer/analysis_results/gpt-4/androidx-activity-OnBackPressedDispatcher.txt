@@ -1,0 +1,10 @@
+The `OnBackPressedDispatcher` class in AndroidX provides a means to handle the system back button press.
+
+When the system back button is pressed, this class dispatches the call to its registered callbacks. In the case when no callbacks have been registered or enabled, it will call an optional fallback `Runnable` if provided.
+
+The main methods of this class are:
+- `addCallback` method allows to add a callback to the dispatcher. The added callbacks could be executed when the back button is pressed.
+- `hasEnabledCallbacks` method checks if any of the registered callbacks are enabled.
+- `onBackPressed` method triggers the system back button's behavior. It goes through its registered enable callbacks from the top of the stack so if the topmost callback wants to handle the back press, it will does so. If not, it will call the fallback if it exists.
+
+The class also contains nested internal classes `LifecycleOnBackPressedCancellable` and `OnBackPressedCancellable`, implementing the `Cancellable` and `LifecycleEventObserver` interfaces respectively. Their tasks revolve around keeping track of the lifecycle of the callbacks and handling changes in their state.

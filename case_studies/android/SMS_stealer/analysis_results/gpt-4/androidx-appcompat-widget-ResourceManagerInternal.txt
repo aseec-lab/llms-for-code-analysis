@@ -1,0 +1,47 @@
+The `ResourceManagerInternal` class handles the retrieval and caching of resource drawables, including handling tinting of drawables, inflation of vector drawables, and storage/retrieval from cache. 
+
+The `addDelegate` method is used to handle custom inflation logic for specific types of drawables. 
+
+The `addDrawableToCache` and `getCachedDrawable` methods are used to store and retrieve drawables from a cache to improve performance and reduce memory usage.
+
+The `addTintListToCache` and `getPorterDuffColorFilter` methods provide functionality relating to tinting of drawables. 
+
+The `get` method is a singleton pattern, ensuring only one instance of `ResourceManagerInternal` is created. Once created, the instance gets set up with default inflate delegates.
+
+The `checkVectorDrawableSetup` method ensures that the vector drawable can be properly created, throwing an exception if not.
+
+The `createDrawableIfNeeded` method helps to create new drawables if they do not exist in cache already by making use of hooks. 
+
+The `createTintFilter`method is used to create a color filter that can be used for tinting a drawable.The `getTintListFromCache` method retrieves a `ColorStateList` from cache associated with a given `Context` and drawable resource identifier.
+
+The `installDefaultInflateDelegates` method adds default InflateDelegates for vector, animated-vector, and animated-selector drawables below Android 7.0.
+
+The `isVectorDrawable` method checks if a given drawable is a vector drawable.
+
+The `loadDrawableFromDelegates` method retrieves a drawable resource, making use of any custom InflateDelegates if necessary.
+
+The `tintDrawable` method applies a tint to a drawable using a ColorStateList and a tint mode.
+
+The `tintDrawable` static method applies a tint to a drawable using a `TintInfo` object and an int array of attributes.
+
+The `getDrawable` method overloads retrieve drawables and have the capability to apply a tint to the drawable, either by using the `getDrawable` singleton function or using `getDrawable(Context, int, boolean)`.
+
+The `getTintList` method first attempts to retrieve a `ColorStateList` from cache, and if not found, defers to a ResourceManagerHooks object (if available) to get the `ColorStateList`. The `ColorStateList` object is then added to the cache for future use.The `getTintMode` method retrieves the tint mode for a drawable resource based on its identifier.
+
+The `onConfigurationChanged` method clears the drawable cache when the configuration of a `Context` changes.
+
+The `onDrawableLoadedFromResources` method processes a drawable once it's loaded from resources, including checking whether to tint the drawable.
+
+The `setHooks` method sets the `ResourceManagerHooks` object to be used by this `ResourceManagerInternal` instance.
+
+The `tintDrawableUsingColorFilter` method applies a color filter to a drawable, using a `ResourceManagerHooks` instance if available.
+
+The `AsldcInflateDelegate`, `AvdcInflateDelegate`, and `VdcInflateDelegate` inner classes implement the `InflateDelegate` interface and are used to inflate various types of drawable resources.
+
+The `ColorFilterLruCache` is a cache for color filters.
+
+The `InflateDelegate` interface is used to create drawables from XML.
+
+The `ResourceManagerHooks` interface includes methods related to managing resources, including drawable creation and tinting.
+
+The `VdcInflateDelegate` class creates `VectorDrawableCompat` instances from XML.

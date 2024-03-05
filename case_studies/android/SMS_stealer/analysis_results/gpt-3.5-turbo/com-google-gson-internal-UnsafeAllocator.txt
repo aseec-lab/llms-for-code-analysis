@@ -1,0 +1,13 @@
+The `UnsafeAllocator` class is part of the Gson library and is responsible for creating instances of objects using unsafe allocation techniques. 
+
+It provides a static method `create()` that returns an instance of `UnsafeAllocator` for creating objects.
+
+The `create()` method first tries to access the `sun.misc.Unsafe` class using reflection. It then retrieves the `theUnsafe` field and makes it accessible. The `create()` method creates a new anonymous subclass of `UnsafeAllocator` that overrides the `newInstance()` method. The `newInstance()` method uses the `allocateInstance()` method of `Unsafe` to create a new instance of the specified class.
+
+If accessing `sun.misc.Unsafe` fails, the `create()` method tries to access methods and fields of `ObjectStreamClass` and `ObjectInputStream` classes using reflection. It creates another anonymous subclass of `UnsafeAllocator` that uses these methods to create instances of the specified class.
+
+If all reflection attempts fail, the `create()` method returns a fallback implementation of `UnsafeAllocator` that throws an `UnsupportedOperationException` when attempting to create an instance of a class.
+
+The `assertInstantiable()` method is a helper method used to ensure that the specified class is instantiable (i.e., not an interface or abstract class).
+
+The `UnsafeAllocator` class is abstract, and subclasses must implement the `newInstance()` method, which is responsible for creating instances of the specified class.

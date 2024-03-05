@@ -1,0 +1,15 @@
+The `AlignVerticallyReference` class in Android is a helper class used for aligning UI elements vertically in a ConstraintLayout. It extends the `HelperReference` class and overrides the `apply` method from it.
+
+The key points of this class are as follows:
+
+- It maintains four objects that represent the four different vertical alignment types: `mTopToTop`, `mTopToBottom`, `mBottomToBottom`, and `mBottomToTop`.
+
+- It also maintains a bias (`mBias`) that is initialized to 0.5F. The bias determines the vertical position within the given space if multiple objects are involved.
+
+- Constructor `AlignVerticallyReference(State paramState)` initializes the `HelperReference` with the state and helper type (`ALIGN_VERTICALLY`).
+
+- `apply()` method: When called, this method updates the vertical constraints of each referenced constraint in the layout state according to the stored alignment types (`mTopToTop`, `mTopToBottom`, `mBottomToBottom` and `mBottomToTop`) and bias.
+
+- The methods `topToTop`, `topToBottom`, `bottomToBottom`, and `bottomToTop` are used to set alignment reference for each alignment type.
+
+- The method `bias(float paramFloat)` is used to set the vertical bias.

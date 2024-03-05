@@ -1,0 +1,9 @@
+`ViewParentCompat` is a helper class for calling into methods of `ViewParent` in a way that is compatible across different versions of Android.
+
+It defines methods for checking and handling the nesting scroll operations, nesting fling actions, and accessibility events. It ensures that the correct method is called according to the Android version and the interfaces the parent view implements. 
+
+For instance, the methods `onStartNestedScroll`, `onNestedScrollAccepted`, `onNestedPreScroll`, `onNestedScroll`, `onStopNestedScroll`, `onNestedFling`, and `onNestedPreFling` handle the nested scrolling operations where a child view can ask its parent view to perform a scroll operation on its behalf. 
+
+This class also handles methods to notify accessibility state change with `notifySubtreeAccessibilityStateChanged` method and a deprecated method to request sending of accessibility event with `requestSendAccessibilityEvent`.
+
+The class uses a tag "ViewParentCompat" for logging errors when a required interface method is not implemented and manages an instance of `int[]` for scroll consumption in nested scrolling.

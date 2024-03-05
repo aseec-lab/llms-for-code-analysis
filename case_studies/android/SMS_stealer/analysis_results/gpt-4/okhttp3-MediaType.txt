@@ -1,0 +1,13 @@
+This `MediaType` class in the OkHttp3 library is used to represent an Internet Media Type (also known as MIME type). 
+
+The class stores four primary data: 
+1. `mediaType`: the complete media type (comprising type and subtype).
+2. `type`: the main type of the media, such as `text`, `image`, `application`, etc.
+3. `subtype`: the specific subtype of the media, for example `html`, `jpeg`, `json`.
+4. `charset`: the charset parameter of the media type if present.
+
+The class provides a method to parse a string into a `MediaType` object, as well as methods to get various attributes of the MediaType. It also includes methods to convert the MediaType to a string, equality check, hash code generation, and charset resolution from name. 
+
+Note that the parsing method (@Nullable public static MediaType parse(String paramString)) will return null if the MediaType couldn't be parsed, which is indicated by @Nullable as it indicates that the method may legitimately return null. The same applies to charset methods. 
+
+The equals() method only checks the `mediaType` field for equality, it doesn't consider `charset`.

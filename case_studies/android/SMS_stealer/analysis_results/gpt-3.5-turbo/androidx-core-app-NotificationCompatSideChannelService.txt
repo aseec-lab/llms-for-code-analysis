@@ -1,0 +1,8 @@
+The `NotificationCompatSideChannelService` class is an abstract class that extends the Android `Service` class. It provides methods for handling notification actions in a side channel service.
+
+- The `cancel(String paramString1, int paramInt, String paramString2)` method is used to cancel a notification with the specified tag, ID, and package name.
+- The `cancelAll(String paramString)` method is used to cancel all notifications associated with the specified package name.
+- The `checkPermission(int paramInt, String paramString)` method is used to check if the calling UID has permission for the specified package name.
+- The `notify(String paramString1, int paramInt, String paramString2, Notification paramNotification)` method is used to send a notification with the specified tag, ID, package name, and `Notification` object.
+- The `onBind(Intent paramIntent)` method is overridden to return a binder object based on the action of the `Intent`. If the action is "android.support.BIND_NOTIFICATION_SIDE_CHANNEL" and the device's SDK version is lower than 19, it returns a `NotificationSideChannelStub` object, otherwise it returns `null`.
+- The `NotificationSideChannelStub` class is an inner class that implements the `INotificationSideChannel.Stub` interface. It provides implementations for the `cancel`, `cancelAll`, and `notify` methods, which delegate the calls to the corresponding methods in the outer `NotificationCompatSideChannelService` class after checking for permissions using `checkPermission` method.

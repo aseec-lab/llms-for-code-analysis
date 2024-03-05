@@ -1,0 +1,79 @@
+The `Buffer` class in the `okio` package provides an implementation of a buffer that can be used for reading from and writing to byte streams. It implements the `BufferedSource`, `BufferedSink`, `Cloneable`, and `ByteChannel` interfaces.
+
+The class supports operations such as reading from an input stream, writing to an output stream, cloning the buffer, clearing its contents, and more.
+
+It internally stores data in segments, which are linked together to form a linked list. Each segment holds a portion of the buffer's data.
+
+The class provides methods to copy the buffer's contents to an output stream or another buffer, calculate the complete segment byte count, emit the buffer as a `BufferedSink`, and compare two buffers for equality.
+
+The buffer can be used to read and write data in a streaming manner, making it suitable for handling large amounts of data efficiently.The `indexOf` method in the `Buffer` class is used to find the index of a specific byte or a `ByteString` within the buffer. The method takes into account the starting index as well as the range within which to search for the byte or `ByteString`.
+
+If the byte or `ByteString` is found within the specified range, the method returns its index. If not found, the method returns -1.
+
+The method first checks if the specified range is valid, i.e., within the range of the buffer's size. If not, an `IllegalArgumentException` is thrown.
+
+The method then iterates over the segments of the buffer and compares the bytes within each segment with the byte or `ByteString` being searched. If a match is found, the index is calculated by adding the position of the byte within the segment to the total accumulated size of previous segments.
+
+If the byte or `ByteString` is not found within the specified range, the method returns -1.This code snippet implements various operations on a buffer, including finding the index of a specific byte or ByteString within the buffer, finding the index of the first occurrence of any byte from a ByteString within the buffer, converting the buffer to an input stream and an output stream, calculating the MD5 hash of the buffer, and comparing a range of bytes in the buffer with a ByteString.This code snippet continues with various read operations on a buffer. It includes methods to read a byte, read a byte array, read a byte string, read a decimal long, read from an input stream, read fully into another buffer, and read a hexadecimal unsigned long.The code snippet provides various methods for reading data from a buffer. It includes methods to read a byte, read an integer, read a long, read a short, read a string, and read UTF-8 encoded data. The code also includes error handling for cases where the buffer does not have sufficient data to perform the read operation.In the provided code:
+
+- The `require` method checks if the buffer has enough data based on the specified length and throws an `EOFException` if not.
+
+- The `segmentSizes` method returns a list of integers representing the sizes of the individual segments in the buffer.
+
+- The `select` method searches for a specific byte string within the buffer and returns its index. If found, the method skips the byte string in the buffer.
+
+- The `selectPrefix` method searches for a byte string prefix within the buffer and returns its index. If found, the method does not modify the buffer.
+
+- The `sha1`, `sha256`, and `sha512` methods compute the SHA-1, SHA-256, and SHA-512 hashes of the buffer, respectively.
+
+- The `size` method returns the size of the buffer.
+
+- The `skip` method skips the specified number of bytes in the buffer.
+
+- The `snapshot` method returns a copy of the buffer as a `ByteString`.
+
+- The `timeout` method returns a timeout instance associated with the buffer.
+
+- The `toString` method returns a string representation of the buffer.
+
+- The `writableSegment` method returns a writable segment of the buffer with the specified size.
+
+- The `write` methods write data from various sources (ByteBuffer, ByteString, byte array, and Source) to the buffer.
+
+- The `writeAll` method writes all data from a source to the buffer and returns the total number of bytes written.
+
+- The `writeByte` method writes a byte to the buffer.
+
+- The `writeDecimalLong` method writes a decimal long value to the buffer as a string.The remaining part of the provided code includes methods to write various data types to the buffer.
+
+- The `writeInt` method writes an integer value to the buffer.
+
+- The `writeIntLe` method writes an integer value to the buffer in little-endian byte order.
+
+- The `writeLong` method writes a long value to the buffer.
+
+- The `writeLongLe` method writes a long value to the buffer in little-endian byte order.
+
+- The `writeShort` method writes a short value to the buffer.
+
+- The `writeShortLe` method writes a short value to the buffer in little-endian byte order.
+
+- The `writeString` method writes a string to the buffer using the specified charset.
+
+- The `writeTo` method writes the buffer to an OutputStream.
+
+- The `writeUtf8` method writes a UTF-8 encoded string to the buffer.
+
+- The `writeUtf8CodePoint` method writes a UTF-8 encoded code point to the buffer.The remaining code contains a nested class called `UnsafeCursor` which implements the `Closeable` interface. This class is used to provide low-level operations on the buffer, such as seeking to a specific position, expanding the buffer, and resizing the buffer.
+
+The `close` method is used to release any resources held by the cursor.
+
+The `expandBuffer` method is used to increase the size of the buffer to accommodate a minimum byte count.
+
+The `next` method is used to move the cursor to the next position.
+
+The `resizeBuffer` method is used to change the size of the buffer.
+
+The `seek` method is used to move the cursor to a specific position.
+
+These methods are part of the `UnsafeCursor` class, which provides low-level operations on the buffer.

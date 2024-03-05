@@ -1,0 +1,9 @@
+`MenuPopupWindow` is a subclass of `ListPopupWindow` and implements the `MenuItemHoverListener` interface. It provides extra functionalities and adjustments to accommodate menus in pop-up windows, specifically designed to enhance hover and keyboard interactions.
+
+It includes a static initializer to load a specific method `setTouchModal` from `PopupWindow`. In versions 23 and above of Android SDK, the class provides functions to set enter and exit transitions. It can handle hover actions for menu items through interface `MenuItemHoverListener` which includes methods `onItemHoverEnter` and `onItemHoverExit`.
+
+The nested `MenuDropDownListView` class extends `DropDownListView` and manages hover events, key actions, and selection status for the menu items in the list. When either `mAdvanceKey` or `mRetreatKey` is pressed, it handles the keyboard event accordingly, either triggering item click if available or closing the menu.
+
+The inner class provides functionality to clear the current selection and to handle hover events. Hover events are initiated based on the `MotionEvent` passed and the applicable `MenuItemHoverListener`, if any. Behavior for handling key down events is also defined in this class.
+
+Finally, the `MenuPopupWindow` class provides support for handling touch modality in context of menus for different versions of Android.

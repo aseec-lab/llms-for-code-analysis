@@ -1,0 +1,13 @@
+The `Preconditions` class in Android is a utility class that provides convenience methods for validating certain states or conditions. Here's a description of what each method does:
+
+1. `checkArgument(boolean paramBoolean)`: Throws `IllegalArgumentException` if `paramBoolean` is false.
+
+2. `checkArgument(boolean paramBoolean, Object paramObject)`: Throws `IllegalArgumentException` with `paramObject.toString()` as the message if `paramBoolean` is false.
+
+3. `checkArgumentInRange(int paramInt1, int paramInt2, int paramInt3, String paramString)`: Checks if `paramInt1` is in the inclusive range between `paramInt2` and `paramInt3`. If not, it throws an `IllegalArgumentException`, with a message stating whether the value is too high or too low.
+
+4. `checkArgumentNonnegative(int paramInt)`, `checkArgumentNonnegative(int paramInt, String paramString)`: Checks if `paramInt` is a non-negative integer. Throws `IllegalArgumentException` if it is negative. The overload accepts a custom error message.
+
+5. `checkNotNull(T paramT)`, `checkNotNull(T paramT, Object paramObject)`: Checks if `paramT` is not null. Throws NullPointerException if `paramT` is null. The overloaded method allows for including a custom message.
+
+6. `checkState(boolean paramBoolean)`, `checkState(boolean paramBoolean, String paramString)`: Checks if `paramBoolean` is true, otherwise throws an `IllegalStateException`. The overloaded method lets you include a custom message.

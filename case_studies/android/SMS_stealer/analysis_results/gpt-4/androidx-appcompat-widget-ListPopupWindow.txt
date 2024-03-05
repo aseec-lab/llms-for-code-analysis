@@ -1,0 +1,39 @@
+The class `ListPopupWindow` extends the `ShowableListMenu` interface and provides an implementation for a customizable popup window that shows a list of options as a drop-down menu in Android applications. The list items are represented by an `ListAdapter`.
+
+Here is what some parts of this code do:
+
+1. `ListPopupWindow` initializes various properties used for customizing the list popup window, such as its width, height, and whether it is modal.
+
+2. The `buildDropDown()` method is responsible for creating the drop-down list view and configuring its properties. It measures and sets the necessary height of the popup window.
+
+3. The `getMaxAvailableHeight()` method retrieves the maximum available height for the popup window, taking into account the space taken by existing UI elements.
+
+4. The class also contains various listeners and runnables which handle events such as scrolling, clicking on an item, and resizing the popup.
+
+In general, developers can use this class to create a drop-down popup window, which they can customize by setting the width, height, position, and list items.The rest of the code mainly pertains to various getter and setter methods associated with the `ListPopupWindow` class.
+
+1. `removePromptView()`: This method removes the prompt view from the parent view.
+2. `setPopupClipToScreenEnabled()`: This method clips the popup to the screen based on a boolean parameter.
+3. `clearListSelection()`: Clears the current list selection.
+4. `createDropDownListView()`: This instantiates a new `DropDownListView`.
+5. `dismiss()`: This method is used to dismiss the popup window.
+6. `get*()`: Multiple getter methods are present, yielding properties like the background drawable, the popup's width and height, etc.
+7. `is*()`: Some boolean methods check if the popup window is modal, if it's being displayed, etc.
+8. `onKeyDown()`, `onKeyPreIme()`, `onKeyUp()`: These are key event handling methods.
+9. `performItemClick()`: Triggers item click events in the popup list.
+10. `postShow()`: Posts a runnable to show the drop-down.
+11. `setAdapter()`: This method is used to set the adapter for the drop-down list.
+12. `setAnchorView()`, `setAnimationStyle()`, `setBackgroundDrawable()`, `setContentWidth()`, `setDropDownAlwaysVisible()`, `setDropDownGravity()`, `setEpicenterBounds()`: These are various setter methods provided to customize the popup window.The rest of the code includes various setter methods and a `show()` method which builds and displays the list popup window. It also includes some nested classes:
+  
+1. `setForceIgnoreOutsideTouch()` method: This method sets a flag to ignore outside touch if set true.
+2. `setHeight()` method: This method sets the height of the popup. An exception is thrown if a negative value not equal to MATCH_PARENT or WRAP_CONTENT is passed as argument.
+3. `setOnDismissListener()` method: This method sets a listener that will be notified when the popup is dismissed.
+4. `setOnItemClickListener()` and `setOnItemSelectedListener()` methods: These methods set listeners for item click and selection events respectively.
+5. `setPromptView()` method: This method sets a prompt view.
+6. `setSelection()` method: This sets the currently selected item in the drop down list.
+7. `show()` method: This method shows the drop down list. It makes necessary settings, then checks if the popup is already showing. If it is, it updates the popup else it first sets popup settings and then shows it.
+8. `ListSelectorHider` class: This class has a `run()` method that clears list selection.
+9. `PopupDataSetObserver` class: This class extends `DataSetObserver` and overrides `onChanged()` and `onInvalidated()` methods to show and dismiss the popup respectively when data set changes.
+10. `PopupScrollListener` class: This class implements `AbsListView.OnScrollListener`, and in `onScrollStateChanged()`, it posts a `mResizePopupRunnable` if certain conditions are met.
+11. `PopupTouchInterceptor` class: This class implements `View.OnTouchListener`, and in `onTouch()`, it posts or removes `mResizePopupRunnable` based on the type of motion event.
+12. `ResizePopupRunnable` class: This class has a `run()` method that sets input mode and shows the popup if certain conditions related to list item count are met.

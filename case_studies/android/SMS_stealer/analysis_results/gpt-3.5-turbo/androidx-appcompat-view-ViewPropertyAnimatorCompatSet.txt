@@ -1,0 +1,23 @@
+The `ViewPropertyAnimatorCompatSet` class is a part of the `androidx.appcompat.view` package. It manages a set of `ViewPropertyAnimatorCompat` objects and provides methods to control their execution.
+
+The class maintains an `ArrayList` of `ViewPropertyAnimatorCompat` objects called `mAnimators`. It also has variables to store the duration (`mDuration`), interpolator (`mInterpolator`), and listener (`mListener`) for the animation set.
+
+The class defines methods such as `cancel()`, `play()`, `playSequentially()`, `setDuration()`, `setInterpolator()`, `setListener()`, and `start()` to control the execution of the animator set.
+
+The `cancel()` method cancels all animations in the set if they are currently running.
+
+The `play()` method adds a `ViewPropertyAnimatorCompat` object to the animator set, if it is not already started.
+
+The `playSequentially()` method adds two `ViewPropertyAnimatorCompat` objects to the animator set, with the second animation starting after the first animation ends.
+
+The `setDuration()` method sets the duration of all animations in the set, if it is not already started.
+
+The `setInterpolator()` method sets the interpolator for all animations in the set, if it is not already started.
+
+The `setListener()` method sets the listener for all animations in the set, if it is not already started.
+
+The `start()` method starts all animations in the set, applying the specified duration, interpolator, and listener if provided. Once started, the `mIsStarted` flag is set to true.
+
+The `onAnimationsEnded()` method is called when all animations in the set have ended. It resets the `mIsStarted` flag to false.
+
+Overall, the `ViewPropertyAnimatorCompatSet` class provides a convenient way to manage and execute multiple property animations on a view.

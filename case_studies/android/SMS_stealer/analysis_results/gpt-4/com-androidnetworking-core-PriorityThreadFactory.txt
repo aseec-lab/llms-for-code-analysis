@@ -1,0 +1,7 @@
+The `PriorityThreadFactory` class implements the `ThreadFactory` interface, providing a way to create threads with a specified priority.
+
+In its constructor, it accepts an integer parameter `paramInt` representing the priority of the threads this factory will create.
+
+The `newThread(final Runnable runnable)` method is overridden to return a new `Thread` instance. In the `run()` method of this new thread, it attempts to set the thread priority to the priority saved as `mThreadPriority`, then proceeds to run the `Runnable` that was passed in.
+
+This class is helpful in scenarios where you want to create threads that do work at a specific priority. The priority can be set at the time of constructing the `PriorityThreadFactory` object and all threads created from that factory will be at the specified priority.

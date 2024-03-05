@@ -1,0 +1,17 @@
+The `WebSocketReader` class is responsible for reading incoming WebSocket frames. The class implements the base methods for reading and processing WebSocket frames including control frames (like PING, PONG, CLOSE) and message frames (which contain actual data).
+
+Here's what the key methods do:
+
+1. `readHeader()`: This method performs the initial read of each WebSocket frame. It reads the first two bytes that contain the operation code, payload length, and masking key.
+
+2. `readControlFrame()`: This method reads control frames which are used to manage the communication. It recognizes and processes PING, PONG, and CLOSE frames. 
+
+3. `readMessage()`: This method reads normal message frames received from the WebSocket. It loops through the frame until it hits the final frame.
+
+4. `readMessageFrame()`: This method reads the payload of the frame based on the operation code (opcode). It is capable of reading TEXT and BINARY frames.
+
+5. `FrameCallback`: This interface declares methods that need to be implemented to handle specific frame types and events.
+
+6. `processNextFrame()`: This method is responsible for processing frames as they are read. It calls appropriate methods based on frame type (control or message frame). 
+
+In summary, `WebSocketReader` interprets the bytes received over a WebSocket connection and converts them into meaningful frames. This allows the communication to proceed in an orderly, structured manner.

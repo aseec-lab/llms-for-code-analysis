@@ -1,0 +1,11 @@
+The `Expose` annotation is a feature in the Gson library that allows users to explicitly mark certain fields to be considered for serialization and deserialization.
+
+- This annotation is only allowed on fields (`ElementType.FIELD`).
+
+- The `deserialize` and `serialize` members are optional and default to `true`. These members can be specified on individual fields to include or exclude them from serialization and deserialization, respectively. If `serialize` is set to `false`, the field will not be included in the JSON output while serializing. If `deserialize` is set to `false`, the field will not be set during deserialization.
+
+- `@Retention(RetentionPolicy.RUNTIME)`: This Java annotation indicates that the `Expose` annotation should be kept at runtime by the JVM, so that Gson can access it.
+
+- `@Documented` is a marker annotation which indicates that elements using the `Expose` annotation will be documented in the JavaDoc. 
+
+Note that the Gson instance must be created using `GsonBuilder.excludeFieldsWithoutExposeAnnotation()` for these annotations to have any effect.

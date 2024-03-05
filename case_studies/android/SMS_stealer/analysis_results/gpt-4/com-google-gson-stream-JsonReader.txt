@@ -1,0 +1,71 @@
+The `JsonReader.java` file in Gson library defines the `JsonReader` class that is used to parse a JSON (JavaScript Object Notation) encoded string and convert it into a Java object using Gson's deserialization mechanism. 
+
+The class maintains a buffer for the input Reader and reads it lazily in chunks. At the lower level, it supports parsing primitive values (numbers, strings, booleans, nulls), arrays and objects from JSON.
+
+The constructor of the `JsonReader` class expects an object of type `Reader` which is the JSON data. The class also contains a static block of code that initializes an instance of the `JsonReaderInternalAccess` interface.
+
+The class contains methods for skipping certain portions of the JSON document, getting the next token, and reading the next name or value in the document. The `fillBuffer` method is responsible for filling the buffer by reading from the input stream.
+
+The class also has several constants and flags to keep track of the parsing process and the structure and syntax of the JSON document. The class uses an internal stack to handle nested arrays and objects. The methods in this class generally throw `IOException` when JSON document is malformed.
+
+`JsonReader` is one of the classes that forms Gson's internal JSON-parsing mechanism. Gson uses this class to read JSON and parse it into Java objects.The remaining code follows methods: `nextQuotedValue`, `nextUnquotedValue`, `peekKeyword` and `peekNumber`.
+
+`nextQuotedValue` take a char as parameter and throws IOException. The array of char `arrayOfChar` is filled with the contents of buffer. This method scans the buffer to find the provided char from the parameter. If it finds an escape character, it treats it with a special method `readEscapeCharacter`.
+
+`nextUnquotedValue` doesn't take parameters and returns a `String`. It also throws IOException. It creates the value of an unquoted string in JSON.
+
+`peekKeyword` method does not take any arguments and returns int while it throws IOException. This method checks for 'true', 'false' or 'null' literal in JSON.
+
+`peekNumber` doesn't take any parameters but it returns an int and throws an IOException. This method checks for number values in JSON.The given code segment contains different parts of a larger function.
+
+The first section is an iterative procedure, likely part of a loop, with various conditional statements. The procedure includes operations for data comparison, assignment, array manipulation, and return statements.
+
+The `push` function is used for adding a new element (int) to the stack. If the stack is full, it doubles the size of the stack and all its related arrays (`this.stack`, `this.pathIndices`, `this.pathNames`), then adds the new element at the top of the stack.
+
+The function `readEscapeCharacter` reads the next escape character from a string. It validates and processes several types of special characters, including newline characters, which adjust the line count of the parser.
+
+`skipQuotedValue` is a function that skips over characters in the input until it encounters a specified terminating character (or an end of the file). If it encounters an escaped character, it processes it with `readEscapeCharacter`.
+
+`skipTo` is a function that continues reading buffer string until it comes across a specified string, and it manages the `lineNumber` and `lineStart` when passing through a new line character.
+
+`skipToEndOfLine` reads characters from the buffer until end of line/new line character encountered or filled buffer is reached. It then updates line number and read position.The `skipUnquotedValue` function reads until a special character or end point is reached and then stops. It performs several conditional checks before adding to the position and returning.
+
+The `syntaxError` function creates a new `MalformedJsonException` with a provided error message string and location details.
+
+`beginArray` function checks that the next token is the beginning of an array and updates relevant tracking properties if it is, else it throws an error.
+
+The `beginObject` function checks that the next token is the beginning of an object and updates relevant tracking properties if it is, otherwise it throws an error.
+
+`close` function sets `peeked` to 0, resets the stack, and closes the InputStream `in`.
+
+`doPeek` function examines the next JSON token and returns its type to caller. If the type is unrecognized, it throws a syntax error.
+
+`endArray` function checks the current token is the end of an array and updates relevant tracking properties if it is, else it throws an error.
+
+`endObject` function checks that the current token is the end of an object and updates relevant tracking properties if it is, else it throws an error.
+
+`getPath` function generates a string describing the current position in the JSON input stream which can be used for error reporting or logging.
+
+`hasNext` function checks if there is another value or object in the JSON string to read.`isLenient` function returns the `lenient` variable value.
+
+`locationString` function generates a string that shows the current position in the JSON input stream.
+
+`nextBoolean` function reads the next token from the JSON string and returns it as a boolean.
+
+`nextDouble` function reads the next token from the JSON string and returns it as a double.
+
+`nextInt` function reads the next token from the JSON string and returns it as an integer.
+
+`nextLong` function reads the next token from the JSON string and returns it as a long.
+
+`nextName` function reads the next token from the JSON string and returns it as a name.
+
+`nextNull` function reads the next token from the JSON string and checks if it is a `null`.
+
+`nextString` function reads the next token from the JSON string and returns it as a string.In the `peek` method, it checks the next token without consuming it using the `doPeek` helper method. It recognizes the type of data (as defined by JsonToken enum) in the current token.
+
+The `setLenient` method sets the parser to relax its syntax rules.
+
+The `skipValue` method skips to the next token, ignoring its value.
+
+The `toString` method builds a String representation of the JsonReader by appending the location of the stream in the JSON document to the reader's class name.

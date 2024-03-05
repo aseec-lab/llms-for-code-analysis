@@ -1,0 +1,39 @@
+The `BufferedSource` interface in Okio provides methods for reading binary data. This interface extends the `Source` and `ReadableByteChannel` interfaces. Here is a short description of methods found in this interface:
+
+- `buffer()`: This method returns the internal buffer of the `BufferedSource`.
+
+- `exhausted()`: This method returns true if there are no more bytes in the source.
+
+- `indexOf(byte)`, `indexOf(byte, long)`, `indexOf(byte, long, long)`, `indexOf(ByteString)`, `indexOf(ByteString, long)`: These methods return the position of the specified byte or `ByteString` in the source.
+
+- `indexOfElement(ByteString)`, `indexOfElement(ByteString, long)`: These methods return the position of any byte from a `ByteString` in the source.
+
+- `inputStream()`: This method returns an `InputStream` equivalent of the source.
+
+- `rangeEquals(long, ByteString)`, `rangeEquals(long, ByteString, int, int)`: These methods return true if the `ByteString` at the specified position in the source matches the passed `ByteString`.
+
+- `read(byte[])`, `read(byte[], int, int)`, `readAll(Sink)`, `readByte()`, `readByteArray()`, `readByteArray(long)`: These methods read data from the source.
+
+- `readByteString()`, `readByteString(long)`: These methods read bytes and return a `ByteString`.
+
+- `readDecimalLong()`: This method reads a decimal long from the source.
+
+- `readFully(Buffer, long)`, `readFully(byte[])`: These methods read the specified number of bytes or byte array completely from the source.
+
+- `readHexadecimalUnsignedLong()`: This method reads a hexadecimal unsigned long from the source.
+
+- `readInt()`, `readIntLe()`, `readLong()`, `readLongLe()`, `readShort()`, `readShortLe()`: These methods read integer, long, or short values.
+
+- `readString(long, Charset)`, `readString(Charset)`: These methods read a string from the source with the specified length and charset.
+
+- Various `readUtf8…` methods: These methods read a UTF-8 string from the source.
+
+- `request(long)`: This method returns true if `paramLong` bytes are available in the source.
+
+- `require(long)`: This method throws an `EOFException` if `paramLong` bytes are not available in the source.
+
+- `select(Options)`: This method returns the index of the byte string that appears at the current position in the source.
+
+- `skip(long)`: This method skips `paramLong` bytes in the source. 
+
+All methods can throw an `IOException` if an I/O error occurs while reading.

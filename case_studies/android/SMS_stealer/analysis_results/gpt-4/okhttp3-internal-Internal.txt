@@ -1,0 +1,20 @@
+The `Internal` abstract class in the OkHttp library serves as an interface for various internal operations of the OkHttpClient.
+
+Below are the specific methods exposed by `Internal`:
+
+1. `initializeInstanceForTests()`: Initializes an instance of `OkHttpClient` for tests.
+2. `addLenient(Builder, String) and addLenient(Builder, String, String)`: Add headers to a request; the lenient versions don't throw exceptions for invalid headers.
+3. `apply(ConnectionSpec, SSLSocket, boolean)`: Applies connection specifications to a socket.
+4. `code(Response.Builder)`: Returns the HTTP status code of the response.
+5. `connectionBecameIdle(ConnectionPool, RealConnection)`: Checks if a connection became idle in the connection pool.
+6. `deduplicate(ConnectionPool, Address, StreamAllocation)`: Deduplicates the connection in the connection pool based on the provided address and stream allocation guidelines.
+7. `equalsNonHost(Address, Address)`: Compares two addresses excluding the host details.
+8. `get(ConnectionPool, Address, StreamAllocation, Route)`: Retrieves a real connection from the connection pool based on the provided address, stream allocation, and route.
+9. `getHttpUrlChecked(String)`: Returns a `HttpUrl` object or throws exceptions if URL is malformed or the host is unknown.
+10. `newWebSocketCall(OkHttpClient, Request)`: Creates a new Call to handle WebSocket communication.
+11. `put(ConnectionPool, RealConnection)`: Puts a connection back into the connection pool.
+12. `routeDatabase(ConnectionPool)`: Retrieves the routing database associated with the given connection pool.
+13. `setCache(Builder, InternalCache)`: Sets a cache to the OkHttpClient Builder.
+14. `streamAllocation(Call)`: Allocates a stream for a Call to send and receive data.
+
+The `Internal` instance is set statically and can be accessed anywhere in the project. This makes `Internal` a key part of facilitating the lower-level, internal workings of OkHttp, influencing how requests, responses, connections etc. are managed behind the scenes.

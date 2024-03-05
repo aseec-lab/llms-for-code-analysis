@@ -1,0 +1,7 @@
+This class `DragAndDropPermissionsCompat` is part of the AndroidX Core library and provides compatibility support for the Drag and Drop permissions introduced in Android API level 24 (Android 7.0 Nougat).
+
+The class has a private constructor which takes an `Object` as a parameter, this object is presumably of the type `DragAndDropPermissions` which is a system class used to manage drag and drop permissions.
+
+The class has a static method `request()` that takes an `Activity` and a `DragEvent` as parameters. It checks if the API level is 24 or higher, if so it requests drag and drop permissions by invoking `requestDragAndDropPermissions` on the `Activity` object. If the returned `DragAndDropPermissions` object is not null, it creates and returns a new `DragAndDropPermissionsCompat` object initialized with this object.
+
+The `release()` method checks if the API level is 24 or higher and if so, releases the drag and drop permissions by calling `release()` on the `DragAndDropPermissions` object encapsulated in `mDragAndDropPermissions`.

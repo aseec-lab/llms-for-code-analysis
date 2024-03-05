@@ -1,0 +1,20 @@
+The class `MapCollections` is a utility class to perform collection manipulations on map objects with respect to entries, keys, and values. Here's what its methods do:
+
+- `containsAllHelper()`: checks if a map contains all objects in a collection
+- `equalsSetHelper()`: checks if a set is equals to an object
+- `removeAllHelper()`: removes all entries, whose keys are contained in a collection, from a map
+- `retainAllHelper()`: removes all entries, whose keys are not contained in a collection, from a map
+
+This class also provides several abstract methods to manipulate collections, such as `colClear()`, `colGetEntry()`, `colGetMap()`, `colGetSize()`, `colIndexOfKey()`, `colIndexOfValue()`, `colPut()`, `colRemoveAt()`, and `colSetValue()`. 
+
+It defines three nested classes: `ArrayIterator` to iterate over the collections, `EntrySet` to work with map entries, and `KeySet` to operate on map keys. 
+
+Note that the `EntrySet` and `KeySet` classes throw `UnsupportedOperationException` when trying to modify the collection, such as adding or removing elements, indicating that they are designed to be read-only.The remaining part of the `MapCollections` class contains several nested classes, including:
+
+- `KeySet`: This class implements features related to keys of the MapCollection, such as checking if the map contains a specific key (`contains`), removing a key from the map (`remove`), and test if the set of keys equals to an object (`equals`).
+
+- `MapIterator`: This class is an implementation of an iterator for entries in the map collection. It provides `next`, `remove`, and `hasNext` methods etc to navigate through the map entries.
+
+- `ValuesCollection`: It is used for working with the collection of values in the map. It provides operations for checking if the map contains a specific value, removing a value, retaining all values present in a provided collection, and converting the collection of values to an array. 
+
+Exceptions occur in `add` & `addAll` methods in both `KeySet` and `ValuesCollection` to ensure read-only collections, and navigation methods of `MapIterator` throw an `IllegalStateException` when navigating without valid entry validations.

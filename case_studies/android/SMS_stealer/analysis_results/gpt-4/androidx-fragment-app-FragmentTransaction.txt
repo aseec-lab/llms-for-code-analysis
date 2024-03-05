@@ -1,0 +1,24 @@
+The `FragmentTransaction` class is a part of AndroidX Fragment library which allows the addition, removal and replacing of fragments in the view hierarchy performed by `FragmentManager`.
+
+Key components of the class:
+- `mOps`: An `ArrayList` which holds the operations to perform this transaction.
+- `mAllowAddToBackStack`: A flag indicating whether the transaction can be added to the back stack.
+- `add()`, `replace()`, `remove()`, `hide()`, `attach()`, and `detach()`: These methods add respective operations to `mOps` to manipulate fragments in the container.
+- `doAddOp()`: A helper method to perform an add or replace operation.
+- `commit()`, `commitAllowingStateLoss()`, `commitNow()`, `commitNowAllowingStateLoss()`: These methods commit the transaction synchronously/asynchronously, with or without allowing state loss.
+- `addSharedElement()`: For shared element transitions between fragments.
+- `addToBackStack()`: If called, this transaction will be added to a back stack of transactions. The `popBackStack()` function will later reverse its operation.
+- `isAddToBackStackAllowed()`: Returns if it's allowed to store the transaction into back stack.
+- `isEmtpy()`: Returns whether there are any operations to commit in this transaction.
+- `runOnCommit()`: Adds a runnable to this transaction that will be run after this transaction has been committed. If run while not in a transaction, this runnable will be run immediately.
+
+This class enables to perform operations on fragments within an activity and handle navigation (back and forward) through back stack managed by `FragmentManager`.The remaining part of the code has few additional methods to manipulate different properties of a FragmentTransaction, and an inner class Op which represents a single operation for the fragment transaction.
+
+1. `setMaxLifecycle(Fragment paramFragment, Lifecycle.State paramState)`: This method adds an operation to the transaction that will change the `Fragment`'s maximum Lifecycle state.
+2. `setPrimaryNavigationFragment(Fragment paramFragment)`: This method sets the provided `Fragment` as the primary navigation fragment.
+3. `setReorderingAllowed(boolean paramBoolean)`: Controls whether or not fragment transactions can be re-ordered due to optimizations.
+4. `setTransition(int paramInt)`: Sets the transition style for this transaction.
+5. `setTransitionStyle(int paramInt)`: Specifies custom animations to run when the fragment enters or exits.
+6. `show(Fragment paramFragment)`: Adds an operation to show a fragment to the transaction.
+
+The `Op` class encapsulates a single operation for the fragment transaction, holding the command, fragments involved, and the lifecycle states for these fragments involved in the operation.

@@ -1,0 +1,13 @@
+The `Header` class in `okhttp3.internal.http2` package represents an HTTP/2 header. 
+
+Each HTTP/2 header comprises a name and a value, both are of `ByteString` type. The class provides `ByteString` constants for commonly used headers such as `:status`, `:method`, `:path`, `:scheme`, and `:authority`. 
+
+It also maintains an `hpackSize` integer to store the size of the header name and value including overhead. 
+
+There are constructor methods that allow header creation from `ByteString` inputs or `String` inputs, which are then converted to `ByteString`. 
+
+The `equals()` method checks for equality of two `Header` objects. The equality condition is met if both the name and the value of two headers match.
+
+The `hashCode()` method provides a hashcode computed from the name and value's hashcodes.
+
+The `toString()` method provides a string representation of the header in the format "name: value".

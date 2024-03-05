@@ -1,0 +1,11 @@
+The `Pipe` class in Okio library provides a way to channel data from a sink to a source. It can control the flow of data between threads, achieving safe communication.
+
+This class supports setting a maximum buffer size to prevent one party from overwhelming the other. If the source or sink is closed, it will throw an exception. 
+
+The `sink` in this class is a type of `PipeSink`. Its `write` method follows a loop to write the data to the buffer until all the data has been written and will wait for a signaling event to continue writing if the buffer size reaches the maximum. `flush` and `close` methods handle state checks against the sink and source, raising exceptions if either is already closed.
+
+The `source` is a type of `PipeSource`. Its `read` method follows a loop to read data from the buffer until no more data is needed and will wait for a signaling event if the buffer size is zero. The `close` method makes the source indicate closure and notifies any thread waiting on the buffer.
+
+Both `PipeSink` and `PipeSource` have `timeout()` methods which simply return their `Timeout` object.
+
+This class leverages Java's synchronized keyword to handle multi-threaded access to the buffer which guards against unexpected state in concurrent usage. This ensures thread-safe data exchange between sources and sinks.

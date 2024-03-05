@@ -1,0 +1,92 @@
+The `Toolbar` class in Android extends `ViewGroup` and is used to represent a toolbar in the top part of the android application. 
+
+It contains fields for elements that can be part of a toolbar such as menu items, logo, title and subtitle text, navigation and collapse button, and many more. These elements can be added or manipulated using numerous methods in the class such as `setTitle()`, `setLogo()`, `inflateMenu()`, etc. The `ensureNavButtonView()` method, for instance, is used to make sure that the navigation button is present in the toolbar.
+
+The class also contains different methods to work with the toolbar margins and content insets.
+
+It also involves handling of touch and hover events for the toolbar.
+
+Methods like `addCustomViewsWithGravity()` are used to add custom views to the toolbar based on the gravity provided as input to the method.
+
+In the provided constructors of the Toolbar class, initial configurations are set through reading the provided attributes.The `getChildHorizontalGravity(int paramInt)` method calculates child's horizontal gravity.
+The `getChildTop(View paramView, int paramInt)` method determines the top position for a child view within parent Toolbar.
+The `getChildVerticalGravity(int paramInt)` method defines the child view's vertical gravity within the Toolbar.
+The `getHorizontalMargins(View paramView)` and `getVerticalMargins(View paramView)` methods are used to get horizontal and vertical margins of a view respectively.
+`getMenuInflater()` returns a new instance of SupportMenuInflater.
+`getViewListMeasuredWidth(List<View> paramList, int[] paramArrayOfint)` measures the width of a view list.
+`isChildOrHidden(View paramView)` checks if a view is child of toolbar or is in hidden views list.
+The `layoutChildLeft(View paramView, int paramInt1, int[] paramArrayOfint, int paramInt2)` and `layoutChildRight(View paramView, int paramInt1, int[] paramArrayOfint, int paramInt2)` methods provide functionality related to layout placement of children views in toolbar.
+The `measureChildCollapseMargins(View paramView, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int[] paramArrayOfint)` and `measureChildConstrained(View paramView, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5)` methods define measurement rules for children of the toolbar. 
+`postShowOverflowMenu()` is a method that posts a command to show overflow menu at the end of layout rendering.
+`shouldCollapse()` method checks if toolbar should collapse or not based on its children.
+`shouldLayout(View paramView)` checks if a certain view should be laid out.The `getContentInsetRight()`, `getContentInsetStart()`, `getContentInsetStartWithNavigation()`, and `getCurrentContentInsetEnd()` methods return the insets for the corresponding parts of the screen, or false if the Helper object responsible for spacing does not exist.
+
+The `getCurrentContentInsetLeft()` and `getCurrentContentInsetRight()` functions return the content inset for either the left or right side depending on the layout direction of the view.
+
+The `getCurrentContentInsetStart()` function behaves similar to the `getCurrentContentInsetLeft()` and `getCurrentContentInsetRight()` methods, with the added feature of returning the maximum content inset based on the presence of a navigation icon.
+
+The `getLogo()`, `getLogoDescription()`, `getNavigationContentDescription()`, and `getNavigationIcon()` methods return the graphics or text associated with the logo or navigation icon, or null if the appropriate View objects do not exist.
+
+The `getMenu()` method ensures the menu exists, and then returns it. 
+
+The `getOuterActionMenuPresenter()`, `getOverflowIcon()`, `getPopupContext()`, `getPopupTheme()`, `getSubtitle()`, `getSubtitleTextView()`, `getTitle()`, `getTitleMarginBottom()`, `getTitleMarginEnd()`, `getTitleMarginStart()`, `getTitleMarginTop()`, and `getTitleTextView()` methods retrieve a variety of toolbar properties
+
+The `getWrapper()` generates a `ToolbarWidgetWrapper` which wraps around and functions as a DecorToolbar if it doesn't already exist and returns it. 
+
+`hasExpandedActionView()` checks if the current item of `mExpandedMenuPresenter` is not null and returns a boolean accordingly.
+
+`hideOverflowMenu()` checks if the overflow menu is not visibly present and returns a boolean accordingly.
+
+`inflateMenu(int paramInt)` inflates the specified menu.
+
+`isOverflowMenuShowPending()` and `isOverflowMenuShowing()` return if the overflow menu is either pending to be shown or is currently displayed.
+
+`isTitleTruncated()` checks if the title text of the toolbar is truncated and returns a boolean accordingly.
+
+`onDetachedFromWindow()` is an overridden method which removes the callback for showing the overflow menu when the window is detached.
+
+`onHoverEvent(MotionEvent paramMotionEvent)` deals with hover events.
+
+`onLayout(boolean paramBoolean, int paramInt1, int paramInt2, int paramInt3, int paramInt4)` is called for placing views on different parts of the screen.The code provided is a continuation of methods. 
+
+`onMeasure()` method measures the width and height of the toolbar and its child views.
+
+The code segment also includes logic to check if certain views should be laid out (like the Navigation button view, the collapse button view, the menu view, etc.). It calculates the measured width and height of these items, and combines their measured states.
+
+It also handles the adjustment of the title margin at the start and at the top for the toolbar. If the toolbar's title text view needs to be laid out, we provide it a certain width and height and calculate its new measure state. 
+
+In the end, we've added all the measured heights and widths to get the final height and width that the toolbar should take up.The continuation of the provided code includes methods for handling the toolbar's subtitle view. 
+
+The `setSubtitle()` method sets the subtitle properties for the toolbar. If the `mSubtitleTextView` object is `null`, it is instantiated. The properties of `mSubtitleTextView` TextField such as single line and ellipsis location are set. The method also includes conditional checks to set the text's appearance and color using provided attribute data. 
+
+The code also incorporates logic to manipulate the toolbar's navigational components. After obtaining the reference to the navigation components (like a button or icon), the code performs checks to see if a view needs to be added or removed. It also allows setting images and descriptions for the navigation elements.
+
+Furthermore, `setMenu()` and `setMenuCallbacks()` are utilized for handling the toolbar's menu objects.
+
+The toolbar's touch events like checking for long press or checking touch move events are also managed.
+
+There are methods `setCollapsible()`, `setContentInsetEndWithActions()`, `setContentInsetStartWithNavigation()`, `setContentInsetsAbsolute()`, and `setContentInsetsRelative()` that aid in setting toolbar attributes as per the requirements.
+
+State saving and restoring is done in `onSaveInstanceState()` and `onRestoreInstanceState()` respectively.
+
+Additionally, customization for Logo and Overflow Icon attributes are also managed.
+
+Finally, style attributes are set in the `setPopupTheme()` method.The remaining code contains multiple classes and methods that provide further functionality for the Android `Toolbar` class.
+
+Firstly, the `setSubtitleTextAppearance()`, `setSubtitleTextColor()`, `setTitle()`, `setTitleTextAppearance()`, `setTitleTextColor()`, and `showOverflowMenu()` methods are used to manage various aspects of the toolbar like setting the text, color, and appearance of the toolbar's title and subtitle, and managing the overflow menu on the toolbar.
+
+`setTitleMargin()`, `setTitleMarginBottom()`, `setTitleMarginEnd()`, `setTitleMarginStart()`, `setTitleMarginTop()`, are used to manage the title margins.
+
+The `ExpandedActionViewMenuPresenter` class implements `MenuPresenter` and is used to manage the display of menu items on the toolbar. The methods inside it such as `collapseItemActionView()`, `expandItemActionView()`, `initForMenu()`, `updateMenuView()`, are used to manipulate these menu items, including, expanding and collapsing item action views, updating menu views, and initializing the menu.
+
+The `LayoutParams` class extends `ActionBar.LayoutParams` and manages layout parameters specified by the toolbar such as margins and gravity.
+
+The `OnMenuItemClickListener` interface declares a method for handling click events on the toolbar's menu items.The final bit of code contains a nested `SavedState` class, which extends `AbsSavedState`. This class handles the saving and restoring of state information for the `Toolbar` object. It stores two pieces of state information, `expandedMenuItemId` and `isOverflowOpen`, representing the currently expanded menu item and whether the overflow menu is open.
+
+The `Parcelable.Creator` interface is used to create new instances of the `SavedState` class from a Parcel, and also has a `newArray()` method for creating an array of `SavedState` objects.
+
+`SavedState` has a constructor that takes a `Parcel` object (used by Android for marshalling and unmarshalling of data, important for things like saving state), and a `ClassLoader`. There is also an overloaded constructor that only takes a `Parcel`, calling the other constructor with a `null` `ClassLoader`. Further, another constructor that takes a `Parcelable` object that can be used as the parent state.
+
+The `writeToParcel()` method is an implementation of `Parcelable` interface's method and is used to write the inner fields (`expandedMenuItemId`, `isOverflowOpen`) to the `Parcel`.
+
+The code at the end seems to be auto-generated and mentions the location of the `Toolbar` class file and its version.

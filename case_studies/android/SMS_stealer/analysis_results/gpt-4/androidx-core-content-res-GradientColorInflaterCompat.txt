@@ -1,0 +1,15 @@
+The `GradientColorInflaterCompat` class is used for inflating gradient colors defined in XML resources. It primarily operates by using XML pull parser to parse and create `Shader` objects that represent gradient colors.
+
+Here are the primary methods and their role within this class:
+
+- `createFromXml(Resources paramResources, XmlPullParser paramXmlPullParser, Resources.Theme paramTheme)` method: This method reads the XML data through the `XmlPullParser` and creates a `Shader` object type that represents a color gradient based on the provided XML data.
+
+- `createFromXmlInner(Resources paramResources, XmlPullParser paramXmlPullParser, AttributeSet paramAttributeSet, Resources.Theme paramTheme)` method: This method is similar to `createFromXml` but is intended for parsing nested XML elements.
+
+- `inflateChildElements(Resources paramResources, XmlPullParser paramXmlPullParser, AttributeSet paramAttributeSet, Resources.Theme paramTheme)` method: This method inflates child elements of a gradient tag in XML. It reads item tags within gradient tag and stores the color and offset value from each item.
+
+- `parseTileMode(int paramInt)` method: This converts an integer value into the corresponding `Shader.TileMode`.
+
+- `checkColors(ColorStops paramColorStops, int paramInt1, int paramInt2, boolean paramBoolean, int paramInt3)` method: It checks and returns color stops for gradient.
+
+- `ColorStops` inner class: This class represents color stops for the gradient, where each color stop has a color and an offset.

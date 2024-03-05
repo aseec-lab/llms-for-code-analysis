@@ -1,0 +1,28 @@
+The `FragmentActivity.java` file defines a class that acts as a base class for activities that want to use the support-based `Fragment` and `Loader` APIs.
+
+Here are some methods involved and their functions: 
+
+- `onCreate()`: It initializes the fragments and restores their saved state from a previous session.
+
+- `onCreatePanelMenu()`, `onMenuItemSelected()`, `onCreateView()`: These methods are used to manage options menu and context menu inflation and interactions.
+
+- `onActivityResult()`: It's called after another activity responds to a request made using `startActivityForResult()`. It is overridden to relay the result to the appropriate fragment.
+
+- `onRequestPermissionsResult()`: It's used to handle the results of permission requests.
+
+- `onPause()`, `onPostResume()`, `onDestroy()`: These are lifecycle methods which are called at different stages of the activity lifecycle.
+
+- `dump()`, `getSupportFragmentManager()`, `getSupportLoaderManager()`: These methods allow for debugging and interaction with the fragment and loader systems.The remaining part of the code contains additional lifecycle and support method overrides, as well some nested class definitions:
+
+- `onResume()`, `onResumeFragments()`, `onSaveInstanceState()`, `onStart()`...
+   - These again are lifecycle methods being overridden to handle fragments actions.
+
+- `requestPermissionsFromFragment()`: Handles permission requesting from a specific fragment.
+
+- `setEnterSharedElementCallback()`, `setExitSharedElementCallback()`: Set callbacks for shared element transitions.
+
+- `startActivityForResult()`, `startActivityFromFragment()`, `startIntentSenderForResult()`, `startIntentSenderFromFragment()`: These methods handle starting activities/intent senders from the FragmentActivity and its fragments, including handling result codes.
+
+- `supportInvalidateOptionsMenu()`, `supportPostponeEnterTransition()`, `supportStartPostponedEnterTransition()`: Methods to interact with the Android support menu transition mechanisms.
+
+Also, a nested class called `HostCallbacks` extends `FragmentHostCallback` and implements the `ViewModelStoreOwner`, and `OnBackPressedDispatcherOwner` interfaces. This class provides fragment-hosting activity-level APIs to the hosted fragments. It handles tasks such as making a request for permissions from a fragment, handling starting activities from fragments, invalidating options menus, etc.

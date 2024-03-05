@@ -1,0 +1,17 @@
+The `WebSocketWriter` class in OkHttp is responsible for writing outgoing WebSocket frames. Its key methods include:
+
+1. `writeControlFrame()`: Writes control frames like PING, PONG, and CLOSE to the WebSocket.
+
+2. `writeMessageFrame()`: Writes message frames to the WebSocket. This is used for sending the actual data.
+
+3. `newMessageSink()`: Returns a new message sink that formats and writes data to the WebSocket.
+
+4. `writeClose()`: Writes a CLOSE frame to the WebSocket and sets `writerClosed` to true.
+
+5. `writePing()`: Writes a PING frame to the WebSocket.
+
+6. `writePong()`: Writes a PONG frame to the WebSocket.
+
+The class also contains an inner class `FrameSink` that implements the `Sink` interface, providing methods to write, flush, and close the WebSocket connection.
+
+Overall, `WebSocketWriter` constructs WebSocket frames from byte data and writes them to the connection for transmission.

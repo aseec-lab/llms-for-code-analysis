@@ -1,0 +1,11 @@
+The `ViewModel` class is an abstract class in the androidx.lifecycle package. It is responsible for managing and storing data that is needed for UI-related operations and survives configuration changes in an Android app. 
+
+Key features of this class include:
+- A `Map` called `mBagOfTags` that is used to store key-value pairs.
+- A boolean flag `mCleared` that determines if the ViewModel has been cleared.
+- A method `clear()` that clears the ViewModel, including closing any resources in the `mBagOfTags`.
+- A method `getTag(String)` that retrieves a value from the `mBagOfTags` based on a specified key.
+- A method `onCleared()` that can be overridden by subclasses to perform additional cleanup when the ViewModel is no longer needed.
+- A method `setTagIfAbsent(String, T)` that sets the value in the `mBagOfTags` with the specified key, if it does not already exist. It returns the current value if the key already exists.
+
+Overall, the `ViewModel` class provides a structure for managing and handling data in an Android app in a way that is lifecycle-aware and survives configuration changes.

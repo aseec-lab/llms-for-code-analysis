@@ -1,0 +1,9 @@
+The code defines a class called `DefaultExecutorSupplier` which implements the `ExecutorSupplier` interface. 
+
+The class is used to supply different types of `Executor`s which are used to perform tasks in different threads. The class specifies three types of Executors: `mImmediateNetworkExecutor`, `mMainThreadExecutor` and `mNetworkExecutor`.
+
+In the constructor of this class, it assigns values to these three types of Executors. A `PriorityThreadFactory` is used to create the `mNetworkExecutor` and `mImmediateNetworkExecutor`, while the `mMainThreadExecutor` is assigned a new instance of `MainThreadExecutor`. 
+
+The class provides getter methods to access these Executors: `forImmediateNetworkTasks()`, `forMainThreadTasks()`, and `forNetworkTasks()`. These methods return the respective Executor objects. 
+
+The parameter `DEFAULT_MAX_NUM_THREADS` is calculated based on the available processors on the machine where the program runs. This variable is used when creating the `mNetworkExecutor`.

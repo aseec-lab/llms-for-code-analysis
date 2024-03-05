@@ -1,0 +1,13 @@
+The `DateTypeAdapter` is a type adapter in the Gson library that handles serialization and deserialization of `java.util.Date` objects.
+
+It provides a `FACTORY` that checks if the desired type is `Date`. If it is, a new `DateTypeAdapter` is created, otherwise, `null` is returned.
+
+It establishes two formats for date parsing:
+1. An `enUsFormat`, which uses the US locale to format dates.
+2. A `localFormat`, which uses the system's default locale to format dates.
+
+The `deserializeToDate` method attempts to parse the input string into a `Date` object. It first attempts to parse the date using the `localFormat`, then the `enUsFormat`, and finally falls back to the ISO8601 standard format if the first two fail.
+
+The `read` method handles deserialization from JSON. It checks if the next token is a JSON null, and if so, returns a Java `null`. Otherwise, it attempts to parse it as a date string.
+
+The `write` method handles serialization to JSON. It outputs a JSON null if the `Date` object is `null`. Otherwise, it formats the date object in the `enUsFormat` and writes it as a string. It is `synchronized` to protect against concurrent modifications.

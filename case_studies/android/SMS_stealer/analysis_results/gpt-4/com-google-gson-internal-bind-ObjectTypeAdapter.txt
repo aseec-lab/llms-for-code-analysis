@@ -1,0 +1,11 @@
+- This file defines an ObjectTypeAdapter class which extends the TypeAdapter class provided by the Gson library. The ObjectTypeAdapter class is used to convert JSON into Java objects and vice versa.
+
+- In the law: The 'create' method checks if the token's raw type is an Object, and if it is, creates a new ObjectTypeAdapter instance.
+
+- The ObjectTypeAdapter() constructor just sets the provided Gson instance to the gson field of the class.
+
+- The 'read' method attempts to parse the JSON input according to its value type (null, boolean, double, string, object or array). In case of an object or an array, it uses recursion to parse the nested elements. For other non-matching types, it throws an IllegalStateException.
+
+- In the 'write' method: If the passed object is null, it writes a null value to JSON. Otherwise, it gets an adapter specific to the class of the object. If the obtained adapter is an instance of ObjectTypeAdapter, it writes an empty JSON object. For all other cases, it writes the object using the obtained adapter. 
+
+- The code finally adds the location and version information about the java compiler used to compile the ObjectTypeAdapter.class.

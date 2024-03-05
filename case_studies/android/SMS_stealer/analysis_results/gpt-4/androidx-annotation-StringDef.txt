@@ -1,0 +1,13 @@
+The `@StringDef` annotation is used to restrict the values that a string can take, to prevent programming errors. It is an Android-specific alternative to Java's Enum used to create a collection of string constants that can be checked at compile time.
+
+- `@Retention(RetentionPolicy.SOURCE)`: This indicates that this annotation will be stripped at compile time and won't be present in the compiled .class files.
+
+- `@Target({ElementType.ANNOTATION_TYPE})`: This shows that this annotation can only be applied from another annotation.
+
+- `boolean open() default false;`: This suggests an optional boolean attribute to the annotation which defaults to false.
+
+- `String[] value() default {};`: It provides a way to set the possible string values for elements annotated with `@StringDef`.
+
+The annotation would be used to prevent bugs from passing arbitrary strings to a method or field expecting specific string values.
+
+The comment at the end is metadata used by Java Decompiler (JD-Core) and does not affect the operation of the `@StringDef` annotation.

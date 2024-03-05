@@ -1,0 +1,15 @@
+The `DisplayManagerCompat` class provides a way to manage the display devices.
+
+The class has the following key methods: 
+
+- `getInstance(Context paramContext)`: Returns the single instance of `DisplayManagerCompat` for the given context. The method uses a `WeakHashMap` to save instances.
+
+- `getDisplay(int paramInt)`: Returns a `Display` object that encapsulates the metrics describing its size, density, and font scaling based on its ID. If the version of Android's Build SDK is above or equals to 17, this method uses `DisplayManager` to get the `Display` object, otherwise, only the default `Display` object can be retrieved from `WindowManager` service.
+
+- `getDisplays()`: Returns an array of `Display` objects. Differently from the previous method, it does not apply filters. Similarly, if the Android's Build SDK version is 17 or above, all `Display` objects are gotten, otherwise, it returns just the default `Display`.
+
+- `getDisplays(String paramString)`: Returns an array of `Display` objects, that are associated with the given display category. Like in previous methods, it differentiates the approach based on Android's Build SDK version.
+
+Additionally, the class provides a string constant `DISPLAY_CATEGORY_PRESENTATION`, which represents a category for secondary displays which may be used for presentations.
+
+This class offers a compatibility layer for managing display devices for different versions of the Android SDK.

@@ -1,0 +1,12 @@
+The `RoundedBitmapDrawable21` class in the `androidx.core.graphics.drawable` package is a subclass of `RoundedBitmapDrawable` that provides additional functionality specific to API level 21 and above.
+
+Here's a summary of the code:
+
+- The class extends the `RoundedBitmapDrawable` class, which itself extends `Drawable` and provides support for rounded corner bitmap drawables.
+- The constructor takes a `Resources` object and a `Bitmap` object as parameters and calls the superclass constructor with these parameters.
+- The `getOutline` method overrides the superclass method and updates the destination rectangle (`mDstRect`) and sets the rounded corner rectangle (`mDstRect`) on the provided `Outline` object.
+- The `gravityCompatApply` method is a helper method that applies gravity to two rectangles in a backward-compatible manner by invoking the `Gravity.apply` method.
+- The `hasMipMap` method returns `true` if the bitmap has mipmaps enabled, and `false` otherwise.
+- The `setMipMap` method enables or disables mipmaps on the bitmap and invalidates the drawable to trigger a redraw.
+
+This class primarily adds support for outlining the rounded bitmap drawable and controlling mipmaps on the bitmap.

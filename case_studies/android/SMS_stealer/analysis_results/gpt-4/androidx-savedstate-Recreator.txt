@@ -1,0 +1,7 @@
+The `Recreator` class is an internal helper class in `androidx.savedstate` package.
+
+It implements `GenericLifecycleObserver` so it can observe lifecycle events of a `SavedStateRegistryOwner`. It uses this to restore states of objects that implement `SavedStateRegistry.AutoRecreated`.
+
+Upon receiving `Lifecycle.Event.ON_CREATE`, it consumes restored state for key `androidx.savedstate.Restarter`. If it gets an ArrayList of strings `classes_to_restore`, it attempts to find, instantiate, and call `onRecreated` for each of these classes found. The classes are expected to have default constructors and implement `SavedStateRegistry.AutoRecreated`.
+
+The nested `SavedStateProvider` class implements `SavedStateRegistry.SavedStateProvider` and provides a way to save a list of class names to be restored later. It registers itself as a state provider under the key `androidx.savedstate.Restarter` and uses `classes_to_restore` as the key to save the list of class names.

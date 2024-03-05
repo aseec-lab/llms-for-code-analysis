@@ -1,0 +1,11 @@
+The `StatusLine` class in OkHttp is responsible for representing, parsing, and managing HTTP response status lines.
+
+The fields of the class represent the values contained in a status line: the HTTP protocol version, the status code, and the status message.
+
+The `get()` static method constructs a `StatusLine` instance from a `Response` object.
+
+The `parse()` method allows a `StatusLine` to be created from a raw status line string. This method handles the expected formatting of HTTP/1.x responses and "ICY" responses (an old protocol used primarily for Shoutcast streaming media).
+
+The `toString()` method provides a string representation of the current `StatusLine` instance, according to the canonical HTTP status line format. 
+
+It's worth noting that the `StatusLine` class has carefully defined and implemented parsing logic to ensure adherence to the HTTP protocol's status line syntax, handling invalid or unexpected conditions by throwing a `ProtocolException`.

@@ -1,0 +1,9 @@
+The `MotionTelltales` class is an extension of `MockView` used for debugging purposes in a `MotionLayout` context. It generates telltale lines on a `MotionLayout` that represent the velocity of a motion sequence. 
+
+The `init` function initializes the main attributes of the telltale lines, including tail color, velocity mode, and tail scale if these are provided in the attribute set.
+
+The `onDraw` function is overridden to generate telltale lines according to the current `MotionLayout` and view's properties. Each line's start point is positioned at a percentage of the view's width and height by 5 predefined fraction points (10%, 25%, 50%, 75%, 90%), and the end point is calculated based on the view's velocity scaled by a factor (`mTailScale`).
+
+The `onLayout` function post an invalidate to request a redraw when there is a layout change.
+
+The `setText` function sets the text of the MockView and requests a layout change.

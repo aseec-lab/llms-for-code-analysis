@@ -1,0 +1,13 @@
+The `AccessibilityWindowInfoCompat` class provides a compatibility layer for interacting with window data in the context of accessibility services, regardless of the Android version on the device.
+
+- It defines different window type constants: `TYPE_ACCESSIBILITY_OVERLAY`, `TYPE_APPLICATION`, `TYPE_INPUT_METHOD`, `TYPE_SPLIT_SCREEN_DIVIDER`, and `TYPE_SYSTEM`.
+- The `mInfo` variable holds the actual window information object.
+- The class is created through private constructor accepting `paramObject` as a parameter to initialize `mInfo`.
+- It provides `obtain` methods that serve as factory methods for creating instances of the class.
+- The `typeToString` static method returns a string name for a given window type code.
+- The class also includes a number of getter methods that return specific information about a represented window.
+- It provides `equals` and `hashCode` methods for comparing `AccessibilityWindowInfoCompat` objects.
+- Included are several methods compatible with Android levels 21 and higher to interact with the window, such as `getAnchor`, `getBoundsInScreen`, `getChild`, `getId`, `getLayer`, `getParent`, `getRoot`, and `getTitle`.
+- It also has methods to check if a window is in a specific state (`isAccessibilityFocused`, `isActive`, `isFocused`).
+- The `recycle` method recycles the window object to be reused later.
+- The `toString` method gives a string representation of the window information in a useful format for logging and debugging.

@@ -1,0 +1,13 @@
+This class `ViewPropertyAnimatorCompat` is used to animate properties of a view in a compatible way across different versions of Android. It is built upon the Android native view property animator system. 
+
+The class contains a variety of methods for animating properties like alpha (transparency), rotation, scale, and translation (movement). For each property, there are two kinds of methods: one to set the property to a specific value, and one to change the property by a certain amount.
+
+The class includes compatibility checks for older versions of Android where certain animation functionalities are not available natively, like setting an animation update listener, starting an animation with an action, etc.
+
+Moreover, the class also handles the setting of an animation listener, which will be notified when an animation starts, ends or is canceled. This is also done in a way that is compatible with different Android versions.
+
+Last but not least, it contains methods for starting and canceling animations, and for retrieving properties of the current animation such as duration and start delay.The provided code includes methods `xBy(float)`, `y(float)`, `yBy(float)`, `z(float)`, `zBy(float)`, which are used to animate a view's x, y, and z position coordinates. Each of these methods first retrieves the current view, and if it is not null, they animate its respective property by a given float value. The `z(float)` and `zBy(float)` methods also check for compatibility with Android version.
+
+Also, the `ViewPropertyAnimatorListenerApi14` class is defined. This class implements the `ViewPropertyAnimatorListener` interface, which is used to listen to animation events such as start, end and cancellation of the animation. The class has some attributes to keep the state of the animation and the associated view property animator instance. On animation start, end, and cancellation, any existing animation listeners assigned to the view's tag are also invoked. For 'onAnimationEnd', it also ensures the animation ends only once for compatibility with pre-Jelly Bean versions of Android.
+
+The last part seems to be a reference to the location of the class file, compiler version, and core version.

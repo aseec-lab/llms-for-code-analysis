@@ -1,0 +1,9 @@
+The `AccessibilityClickableSpanCompat` class extends `ClickableSpan`, providing compatibility for accessibility in user interfaces with text that have interactive spans.
+
+- It defines a constant `SPAN_ID` which is the key for the clickable span's ID in a bundle.
+- `mClickableSpanActionId` is the ID of the clickable span action.
+- `mNodeInfoCompat` is an object of the `AccessibilityNodeInfoCompat` class, that contains information about a view node in the window.
+- `mOriginalClickableSpanId` is the original ID of the clickable span.
+- It has a constructor that takes IDs of original clickable span, clickable span action, and an `AccessibilityNodeInfoCompat` object as parameters.
+- The `onClick` method, overriden from `ClickableSpan` class, performs the action corresponding to the clickable span action ID on the node info when the span is clicked.
+- It sends the original clickable span ID as part of a bundle to `performAction` method of `mNodeInfoCompat` object so the action can be performed on the correct span. It's designed to improve the interaction of accessibility services with text views.

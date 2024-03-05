@@ -1,0 +1,17 @@
+The `ClassesInfoCache` class is a cache that holds information about classes that are lifecycle-aware, specifically classes that implement the `LifecycleObserver` interface in Android's lifecycle library. 
+
+1. `createInfo()` method: This creates an instance of `CallbackInfo` for the given class. It's also responsible for verifying and setting up handlers for annotated lifecycle methods within the class.
+
+2. `getDeclaredMethods()` method: This method extracts declared methods from the class passed in the parameter.
+
+3. `verifyAndPutHandler()` method: This method verifies that a lifecycle method hasn't been assigned conflicting lifecycle events. If verification passes, it adds the structure (method & lifecycle event) to the map, if not already added.
+
+4. `getInfo()` method: This method provides `CallbackInfo` for the given class by referring it from cache or creating a new CallbackInfo if it's not available in the cache.
+
+5. `hasLifecycleMethods()` method: This method checks if the given class has any methods that are annotated to listen for lifecycle events.
+
+6. `CallbackInfo` inner class: This structure holds the list of methods to be invoked for each lifecycle event type.
+
+7. `MethodReference` inner class: This structure is a reference to a lifecycle-aware method along with the type of parameter the method is expected to receive.
+
+Overall, the functionality included in this class is vital for the efficient working of lifecycle-aware components within an Android application.

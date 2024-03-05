@@ -1,0 +1,43 @@
+The `Http1Codec` class is responsible for handling HTTP/1.x communication. It implements the `HttpCodec` interface and provides methods for sending HTTP requests and receiving responses.
+
+The class has a number of constants representing different states of the codec during the communication process.
+
+It has fields for the `OkHttpClient` instance, `StreamAllocation` instance, and the `BufferedSource` and `BufferedSink` for reading from and writing to the network.
+
+The constructor takes the necessary dependencies and initializes the fields.
+
+The class provides methods for canceling the request, creating request and response bodies, flushing and finishing the request, and checking if the codec is closed.
+
+It also provides methods for creating chunked and fixed-length sources and sinks, as well as an unknown length source.
+
+The `openResponseBody()` method is responsible for creating a `ResponseBody` from the received response.
+
+The `readHeaders()` method reads the response headers from the network.
+
+The `readResponseHeaders()` method reads the response status line and headers.
+
+The `writeRequest()` and `writeRequestHeaders()` methods are used for writing the request headers to the network.
+
+There are also inner classes for handling sources and sinks for different transfer encodings.This class is an inner class of `Http1Codec` and it represents the source of a chunked transfer encoding. It extends the `AbstractSource` class.
+
+The class has fields for the `Http1Codec` instance and the URL of the request.
+
+The constructor takes the URL as a parameter and initializes the fields.
+
+The class has methods for reading the chunk size and reading data from the network.
+
+The `readChunkSize()` method reads the chunk size and any optional extensions from the network.
+
+The `close()` method closes the source and checks if the input has been exhausted.
+
+The `read()` method reads data from the network and returns the number of bytes read.In the remaining code, the `read()` method reads data from the network using the superclass's `read()` method. It returns the number of bytes read.
+
+The `read()` method checks if the specified byte count is less than 0. If it is, an `IllegalArgumentException` is thrown.
+
+If the `closed` flag is set, an `IllegalStateException` is thrown to indicate that the source has been closed.
+
+If the input is exhausted, the method returns -1 to indicate the end of the input.
+
+If the `read()` method returns -1 (indicating the end of the input), the `inputExhausted` flag is set to true and the `endOfInput()` callback method is called with the `hasNextRequestBody` flag set to true.
+
+Finally, the `read()` method returns the number of bytes read.

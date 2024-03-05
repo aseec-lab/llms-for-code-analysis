@@ -1,0 +1,39 @@
+The `ActivityChooserModel` class in Android is used to manage the activities that can be chosen for a given intent. This class is a part of the Android's widget package and typically used with sharing Intents where user has an option to choose between multiple activities to complete an action.
+
+The class extends `DataSetObservable`. It contains methods for loading activities, handling activity history and sorting activities. It also maintains a `HashMap` named `sDataModelRegistry` for keeping track of different instances of the `ActivityChooserModel`, associated with different history file names.
+
+In the class, the `Intent`, list of activities that can respond to it (`mActivities`), and a list of historical records (`mHistoricalRecords`) are managed.  
+
+The historical records are persisted in an XML file. They are loaded asynchronously and kept in memory sorted according to a "recentness" policy, which is defined in the `ActivitySorter` interface. Activities are sorted based on these policies when a new `Intent` is set or a historical record is added.
+
+The method `get(Context paramContext, String paramString)` returns an instance of `ActivityChooserModel` associated with a specified file. If such instance does not exist, it is created. 
+
+Methods `chooseActivity(int paramInt)` and `getActivity(int paramInt)` return Intent and ResolveInfo respectively for an activity at given position after ensuring a consistent state. 
+
+`getActivityCount()` and `getHistorySize()` return the count of the activities that can respond to the current `Intent` and the number of historical records respectively. 
+
+Data about activities and historical records are kept private, all internal changes cause notifications to registered observers.The remaining part of the `ActivityChooserModel` class contains additional methods and inner classes.
+
+`setActivitySorter(ActivitySorter paramActivitySorter)` sets a new ActivitySorter, and if otherwise, it sorts the activities and notifies about the changes.
+
+`setDefaultActivity(int paramInt)` sets the activity at the given position as the default one. It calculates the weight for historical record based on the difference in weights of current default and new default activity.
+
+`setHistoryMaxSize(int paramInt)` sets the maximum number of historical records to keep. If necessary, it prunes the existing records.
+
+`setIntent(Intent paramIntent)` method is for setting a new Intent. If it's the same Intent, it does nothing; else it sets the flag for reloading activities, ensures a consistent state, and notifies registered observers.
+
+The `ActivityChooserModelClient` interface determines how an `ActivityChooserModel` is applied, and is typically implemented by views. 
+
+The `ActivityResolveInfo`, `HistoricalRecord` and `ActivitySorter` classes are used in these methods for representing available activities, their historical usage and for sorting available activities respectively.
+
+The `setOnChooseActivityListener(OnChooseActivityListener paramOnChooseActivityListener)` method simply sets an `OnChooseActivityListener`.
+
+The `PersistHistoryAsyncTask` AsyncTask subclass is responsible for saving historical data into a XML file asynchronously. It performs an operation on the background thread using `doInBackground(Object... param1VarArgs)` method which opens file-output stream, writes historical data to the stream with the help of XmlSerializer and finally closes the file-output stream. 
+
+The `doInBackground()` method catches `IllegalArgumentException` and `IllegalStateException` exceptions that may be thrown during file-output operations.The remaining code is primarily exception handling for the 'PersistHistoryAsyncTask' AsyncTask subclass. There are multiple `catch` blocks designed to handle `FileNotFoundException`, `IOException`, `IllegalArgumentException` and `IllegalStateException` that might be thrown when writing historical data to file. 
+
+In each `catch` block, an error message is logged and the boolean `mCanReadHistoricalData` is set to true. If the file output stream has been opened, it is then closed. 
+
+Finally, regardless of whether an exception was thrown or not, the AsyncTask always returns null. 
+
+The last lines primarily contain metadata about the class, such as its location and the version of the Java compiler used.

@@ -1,0 +1,5 @@
+The `CoreComponentFactory` class extends `AppComponentFactory` and overrides its methods to create instances of various Android components like `Activity`, `Application`, `ContentProvider`, `Service`, and `BroadcastReceiver`. 
+
+Prior to creating these instances by calling the respective superclass methods, it wraps the instance in an object that ensures compatibility across different Android versions. This wrapping procedure is performed by the method `checkCompatWrapper(T paramT)`, which checks if an object implements `CompatWrapped` interface and then gets the object using the `getWrapper()` method defined in the interface. 
+
+The `CompatWrapped` interface inside the class is a simple interface that requires the implementing class to define the `getWrapper()` method.

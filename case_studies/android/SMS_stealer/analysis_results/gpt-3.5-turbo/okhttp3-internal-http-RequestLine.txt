@@ -1,0 +1,7 @@
+The `RequestLine` class is a utility class in the OkHttp library that provides methods related to constructing the request line of an HTTP request.
+
+The `get` method takes a `Request` object and a `Proxy.Type` parameter and returns a string representing the request line of an HTTP request. It first appends the method of the request (e.g., GET, POST) to a `StringBuilder`. Then, depending on whether the request should include the authority (host and port) in the request line, it appends either the full URL or just the request path to the `StringBuilder`. Finally, it appends the HTTP version (HTTP/1.1) to complete the request line.
+
+The `includeAuthorityInRequestLine` method is a private helper method that determines whether the authority should be included in the request line. It returns `true` if the request is not HTTPS and the proxy type is HTTP, and `false` otherwise.
+
+The `requestPath` method takes an `HttpUrl` object and returns a string representing the request path of the URL. It first retrieves the encoded path and encoded query parameters from the `HttpUrl`. If there is a query string, it appends it to the path with a question mark. Finally, it returns the resulting path string.

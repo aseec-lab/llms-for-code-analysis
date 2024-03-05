@@ -1,0 +1,10 @@
+The `TooltipCompatHandler.java` is a helper class designed to manage the showing and hiding of tooltip text associated with a view. It provides tooltips to be displayed on long click or mouse hover, with consistent styling across all Android versions.
+
+Key data members include identifiers for the view (`mAnchor`), the tooltip text (`mTooltipText`), positions (`mAnchorX and mAnchorY`), and flags (`mFromTouch`), plus instances of popup and runnable tasks (`mPopup, mHideRunnable, mShowRunnable`).
+
+Important methods include:
+- The `setTooltipText(View, CharSequence)` method which is used to assign the tooltip text to a view.
+- Event handler methods such as `onHover(View, MotionEvent)`, `onLongClick(View)`, `onViewAttachedToWindow(View)`, and `onViewDetachedFromWindow(View)` manage the tooltip display in response to user actions or view lifecycle events.
+- The `show(boolean)` method displays the tooltip and `hide()` method dismisses it.
+
+It translates hover events and long clicks on a view into appropriate tooltip show/hide actions. It ensures only one tooltip is active at a time. The handler also sets timeouts for automatic tooltip dismissal.

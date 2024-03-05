@@ -1,0 +1,15 @@
+The `ComplexColorCompat` class handles more complex types of colors, with support for ColorStateList and Shader alongside simple colors.
+
+- A `ComplexColorCompat` object can be created using a `Shader`, a `ColorStateList` or a simple color. This is done in the `from()` methods.
+
+- It provides a static `inflate()` method to create `ComplexColorCompat` objects by reading from an XML resource file.
+
+- The `isGradient()` method checks whether the complex color is a gradient (i.e. whether it was created with a `Shader`).
+
+- The `isStateful()` method checks whether the color changes depending on state changes (i.e. if it was created from a `ColorStateList`).
+
+- The `onStateChanged()` method potentially updates the current color when the state changes (if the color is stateful).
+
+- The `setColor()` method updates the current color. This method would typically be used only on objects created with a simple color.
+
+- The `willDraw()` method checks whether the color will appear – a simple color will not appear if its value is 0 and a gradient will not appear if it's `null`.

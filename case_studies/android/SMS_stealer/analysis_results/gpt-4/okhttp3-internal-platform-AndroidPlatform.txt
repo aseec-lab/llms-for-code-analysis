@@ -1,0 +1,25 @@
+The `AndroidPlatform` class extends the abstract `Platform` class and provides a custom implementation of various methods tailored for the Android platform.
+
+The `buildIfSupported` method is called to create an `AndroidPlatform` instance if the platform supports it. It first tries to get the SSLParametersImpl class from `com.android.org.conscrypt` package, if not found, it tries from `org.apache.harmony.xnet.provider.jsse`. It also configures other SSL parameters and returns the `AndroidPlatform` instance.
+
+The `supportsAlpn` method checks if the current platform supports ALPN (Application-Layer Protocol Negotiation) by inspecting the security provider and the presence of `android.net.Network` class.
+
+The `buildCertificateChainCleaner` and `buildTrustRootIndex` methods are responsible for constructing an instance of `CertificateChainCleaner` and `TrustRootIndex` respectively.
+
+The `configureTlsExtensions` method is used to configure TLS extensions for the given SSL socket, including setting the hostname, enabling the use of session tickets, and setting the application-layer protocols that the socket can use.
+
+The `connectSocket` method is used to connect the socket to the provided address and handles various exceptions.
+
+The `getSelectedProtocol` method retrieves the protocol selected for the provided SSL socket.
+
+The `isCleartextTrafficPermitted` method checks if clear text network traffic is permitted for a particular hostname.
+
+The `log` and `logCloseableLeak` methods are used for logging.
+
+The `trustManager` method retrieves and returns the trust manager from the `SSLSocketFactory`.This last part of the code defines auxiliary classes:
+
+- The `AndroidCertificateChainCleaner` class: it cleans a certificate chain, raises exceptions over the process and provides standard `equals` and `hashCode` methods.
+- The `AndroidTrustRootIndex` class: it facilitates searching for an overseeing entity of an SSL certificate. It includes an `equals` and `hashCode` method for comparing instances and to be used in data structures requiring these abilities.
+- The `CloseGuard` class: it helps to ensure that resources are properly released when they are no longer needed by opening a warning if they're not. Also, it involves `createAndOpen` and `warnIfOpen` methods which return an object and a boolean respectively to handle system resources.
+  
+The file location and Java compiler version on which this class is compiled are also included at the end of the code.

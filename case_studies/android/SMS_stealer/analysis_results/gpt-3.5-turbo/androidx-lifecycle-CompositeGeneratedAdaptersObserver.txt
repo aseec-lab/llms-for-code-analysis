@@ -1,0 +1,9 @@
+The `CompositeGeneratedAdaptersObserver` class in the `androidx.lifecycle` package implements the `LifecycleEventObserver` interface. It is used to observe lifecycle state changes and call methods on generated adapters.
+
+The class has a constructor that takes an array of `GeneratedAdapter` objects as a parameter and assigns it to the `mGeneratedAdapters` field.
+
+The `onStateChanged()` method is implemented from the `LifecycleEventObserver` interface. It creates a `MethodCallsLogger` object and iterates over the `mGeneratedAdapters` array. For each `GeneratedAdapter`, it calls the `callMethods()` method, passing in the `paramLifecycleOwner`, `paramEvent`, `false`, and the `MethodCallsLogger`.
+
+After the first iteration, it iterates over the `mGeneratedAdapters` array again, calling the `callMethods()` method with `true` as the third parameter.
+
+Overall, the `CompositeGeneratedAdaptersObserver` class is responsible for calling methods on generated adapters when the observed lifecycle state changes.

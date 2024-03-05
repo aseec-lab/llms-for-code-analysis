@@ -1,0 +1,24 @@
+The `KeyCycle` class is a subclass of the `Key` class in the `androidx.constraintlayout.motion.widget` package. It represents a keyframe in a motion sequence that defines a cycle of motion for a set of properties. 
+
+The class has properties for various animation attributes such as alpha, elevation, rotation, translation, scale, and more. Each attribute can be specified with a value and is associated with a frame position in the motion sequence. 
+
+The class also has methods to add cycle values and set values for different animation attributes. It uses hashmap and spline set to store and manipulate the animation values. 
+
+Additionally, the class provides a method to get attribute names that are used in the key cycle animation.The `load` method in the `KeyCycle` class is used to load attributes from an XML layout file and set them on the `KeyCycle` object. It takes a `Context` and an `AttributeSet` as parameters. 
+
+Inside the method, it uses a `Loader` class to read the attributes from the `AttributeSet` and set them on the `KeyCycle` object. The `Loader` class contains a mapping of attribute indices to their corresponding values, and it iterates over the indices in the `AttributeSet` to read the attribute values and set them on the `KeyCycle` object using setter methods provided in the `KeyCycle` class.
+
+The mapping in the `Loader` class associates attribute indices with their corresponding attribute names in the `R.styleable.KeyCycle` styleable defined in the resources file. The attribute values are read using methods from the `TypedArray` obtained from the `AttributeSet`. The method `getIndexCount` is used to get the number of attributes in the `AttributeSet`, and then a loop iterates over each attribute index.
+
+Inside the loop, the attribute index is used to retrieve the attribute value from the `TypedArray`, and a switch statement is used to determine which setter method should be called based on the attribute name. The attribute values are passed to the setter methods to set the corresponding properties in the `KeyCycle` object.
+
+The `Loader` class also includes a default case in the switch statement to handle any unused attributes and logs an error message.The remaining part of the code handles specific attribute values in the `KeyCycle` class's `load` method.
+
+1. Case 1: The attribute index is 1.
+    - If the motion layout is in edit mode, it retrieves the resource ID or string value associated with the attribute and assigns it to the `mTargetId` or `mTargetString` property of the `KeyCycle` object respectively.
+    - If the motion layout is not in edit mode, it checks the type of the attribute value. If it is a string, it assigns it to the `mTargetString` property of the `KeyCycle` object.
+    - If the type is not a string, it assigns the resource ID to the `mTargetId` property of the `KeyCycle` object.
+
+The code performs these checks to handle different scenarios for setting the target ID or target string value of the `KeyCycle` object.
+
+Note: The code includes comments specifying the location of the code file, Java compiler version, and JD-Core version.

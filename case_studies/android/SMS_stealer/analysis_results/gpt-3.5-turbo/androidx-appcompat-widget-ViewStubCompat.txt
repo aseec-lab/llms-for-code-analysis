@@ -1,0 +1,13 @@
+The `ViewStubCompat` class is a part of the AndroidX AppCompat library. It extends the `View` class and provides a way to lazily inflate layout resources. 
+
+The class has several fields including an `OnInflateListener`, an inflated view ID, a weak reference to an inflated view, a `LayoutInflater`, and a layout resource ID.
+
+The class has two constructors. The first constructor initializes the `ViewStubCompat` with attributes from a context and attribute set. The second constructor adds an additional parameter for the default style attribute.
+
+The class overrides the `onMeasure()` method to set the dimensions of the `ViewStubCompat` to 0, effectively making it invisible.
+
+The `inflate()` method is the main functionality of the class. It inflates the specified layout resource and appends it to the parent `ViewGroup` of the `ViewStubCompat`.
+
+The class also includes several setter methods (`setInflatedId()`, `setLayoutInflater()`, `setLayoutResource()`, `setOnInflateListener()`) to modify the behavior of the `ViewStubCompat` instance.
+
+Lastly, the `setVisibility()` method handles the visibility of the `ViewStubCompat`. If the `ViewStubCompat` has been inflated before, it sets the visibility of the inflated view. If not, it calls the `inflate()` method and then sets the visibility accordingly.

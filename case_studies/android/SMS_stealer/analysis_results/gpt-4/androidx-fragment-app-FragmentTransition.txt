@@ -1,0 +1,62 @@
+The `FragmentTransition` class is part of AndroidX library's Fragment logic that handles the animation and transition of Fragments. Its main job is handling the movement of views and managing how shared elements are transitioned from one Fragment to another.
+
+There are a number of methods in the `FragmentTransition` class related to handling different types of transitions and fragment operations, including adding shared elements, handling fragment back stack, and calculating name overrides.
+
+Here are some key methods in the code:
+
+- `addSharedElementsWithMatchingNames(...)`: This method adds shared elements with matching names to an `ArrayList` type view object.
+
+- `addToFirstInLastOut(...)`: A complex method that analyzes a `FragmentTransaction.Op` object and modifies the `SparseArray` of `FragmentContainerTransition` objects according to its properties.
+
+- `calculateFragments(...)`: Using this method, the BackStackRecord, it iterates over all `FragmentTransaction.Op` objects in the record and applies `addToFirstInLastOut()` to them, specifying whether the record should interact with addToFirstInLastOut's logic for pop operations.
+
+- `calculateNameOverrides(...)`: This deals with the complex task of resolving shared element transition name collisions.
+
+The rest of the code appears to handle `BackStackRecord` and Fragment transitions. It interacts with shared elements and their names, matching elements with their corresponding targets, it also checks for interacting fragments and updates the first Out and last In fragments.The remaining part of the code includes key methods related to shared element transitions, shared elements capturing, setting epicenter for transitions, and starting and ending shared elements transitions for two fragments:
+
+- `calculatePopFragments(...)`: Calls `addToFirstInLastOut` for each operation in `BackStackRecord`, but with `isPop` flag set to true.
+
+- `callSharedElementStartEnd(...)`: Calls corresponding methods on the shared element callback of either the source or target fragment.
+
+- `canHandleAll(...)`: Checks if all elements in a list can be handled by the passed `FragmentTransitionImpl`.
+
+- `captureInSharedElements(...)`, `captureOutSharedElements(...)`: Create mappings of shared elements in the incoming and outgoing Fragments, respectively.
+
+- `chooseImpl(...)`: Determines which implementation (platform's or support library's) to use for the transitions.
+
+- `configureEnteringExitingViews(...)`, `configureSharedElementsOrdered(...)`, `configureSharedElementsReordered(...)`: Configure and apply animations and transitions to views when Fragments are entering, exiting, or involve shared elements.
+
+A number of utility methods can be found as well, such as `retainValues(...)`, `setOutEpicenter(...)`, and `getInEpicenterView(...)` that further manipulate and prepare shared elements and related transitions.This part of the code implements key methods related to validating Fragment transitions, transitioning shared elements, container transitions and shared elements order.
+
+- `configureTransitionsOrdered(...)`, `configureTransitionsReordered(...)`: These methods order and reorder transitions respectively for the FragmentManager based on whether the container view exists.
+
+- `ensureContainer(...)`: This method guarantees the creation of a new FragmentContainerTransition if it doesn't exist in the SparseArray, and adds it to the SparseArray.
+
+- `findKeyForValue(...)`: Finds the key in a map for a given value and returns it.
+
+- `getEnterTransition(...)`, `getExitTransition(...)`, `getSharedElementTransition(...)`: Returns enter, exit and shared element transitions for a Fragment.
+
+- `getInEpicenterView(...)`: This method gets the epicenter (center) view in shared elements.
+
+- `mergeTransitions(...)`: It combines multiple transitions (enter, exit, and shared element transitions) into one.
+
+- `replaceHide(...)`: This method hides Fragment views with the help of specified transitions.
+
+- `resolveSupportImpl(...)`: This method is used to get an instance of `FragmentTransitionSupport`.
+
+- `retainValues(...)`: Retains only those entries in an ArrayMap (a map-like collection) that are present in another ArrayMap.
+
+- `scheduleTargetChange(...)`: This method schedules a change in the target of transitions.
+
+- `setOutEpicenter(...)`: Sets the central point of the transitions.
+
+- `setViewVisibility(...)`: This method sets visibility of an ArrayList of views.
+
+- `startTransitions(...)`: This method starts transitions for the FragmentManager.This remaining code mainly performs the following tasks:
+
+- Checks the FragmentManager's current state before proceeding.
+- The `calculatePopFragments(...)` and `calculateFragments(...)` methods are called to prepare a SparseArray named `sparseArray` with Fragment transitions for every BackStackRecord in the ArrayLists.
+- If `sparseArray` is not empty, it proceeds to create a new `view` based on the FragmentManager's host context and perform transitions, depending on whether it is a "pop" transaction or not, by calling `configureTransitionsOrdered(...)` or `configureTransitionsReordered(...)`.
+- The `FragmentContainerTransition` class is defined that contains properties related to both the first 'out' and last 'in' fragment, and related variables (i.e., options, transactions, pop is set or not) to assist in managing their transitions.
+- Static block is used to instantiate `PLATFORM_IMPL` that represents interface implementation, based on the build version (above or below 21).
+- `supportsTransition()` is defined that checks if the platform or support implementation is non-null. It returns true if either of the implementations is available, enabling transitions support, else it returns false.

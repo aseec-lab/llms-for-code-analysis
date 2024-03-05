@@ -1,0 +1,7 @@
+The `Callback` interface in OkHttp library is designed to handle the HTTP call responses in an asynchronous manner. The interface declares two methods:
+
+1. `void onFailure(Call paramCall, IOException paramIOException);` - This method is invoked when a network request fails. It provides an instance of the current HTTP call (`Call paramCall`) and the `IOException` which caused the failure.
+
+2. `void onResponse(Call paramCall, Response paramResponse) throws IOException;` - This method is invoked on a successful HTTP call. It provides an instance of the HTTP call (`Call paramCall`) and the `Response` object which contains the server's response to the HTTP request. The method can throw an `IOException` because reading the server response can potentially cause an IO error.
+
+This interface is typically implemented by the client application to handle success and failure scenarios for network requests.

@@ -1,0 +1,11 @@
+The `AtomicFile` class in the `androidx.core.util` package provides methods to handle atomic file operations, meaning it ensures that operations are treated as a single, unbroken unit. If a failure occurs, the changes can be rolled back to maintain data integrity. Key methods provided by the class include:
+
+- `AtomicFile(File paramFile)`: A constructor that receives a `File` object and creates a backup of this file.
+- `sync(FileOutputStream paramFileOutputStream)`: This private method forces any buffered output bytes to be written out to the stream. In the case of an `IOException`, it returns false.
+- `delete()`: Deletes the base file and its backup.
+- `failWrite(FileOutputStream paramFileOutputStream)`: Handles a failed write operation by synchronizing, closing the `FileOutputStream`, deleting the base file and renaming the backup to the base file name.
+- `finishWrite(FileOutputStream paramFileOutputStream)`: When a write operation successfully completes, it synchronizes and closes the `FileOutputStream`, and deletes the backup file.
+- `getBaseFile()`: Returns the base file.
+- `openRead()`: Opens the base file for reading. If a backup exists, it replaces the base file with the backup before opening it.
+- `readFully()`: Reads the full content of the file into a byte array and returns it.
+- `startWrite()`: Begins writing to the file. If the base file already exists, it is renamed to the backup file. If the base file can't be opened for writing, it attempts to create new directories and file. If this doesn't work, an `IOException` is thrown.

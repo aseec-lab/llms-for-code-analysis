@@ -1,0 +1,11 @@
+The `FileOperator` class is responsible for reading and writing data to a file using Java's `FileChannel` class. 
+
+In the constructor, it takes a `FileChannel` object as a parameter and assigns it to the `fileChannel` member variable.
+
+The `read` method reads data from the file starting from a specific position (`paramLong1`) and populates it into a `Buffer` object (`paramBuffer`). The amount of data to read is specified by `paramLong2`. It achieves this by repeatedly calling `transferTo` on the `fileChannel`, moving the position and reducing the amount of data left to read until all data has been read.
+
+The `write` method writes data from a `Buffer` object (`paramBuffer`) to the file starting from a specific position (`paramLong1`). The amount of data to write is specified by `paramLong2`. It repeatedly calls `transferFrom` on the `fileChannel`, moving the position and reducing the amount of data left to write until all data has been written.
+
+Both methods validate the input parameters, ensuring that `paramLong2` is a non-negative value and does not exceed the size of the `paramBuffer`. If the parameters don't meet these conditions, an `IndexOutOfBoundsException` is thrown.
+
+This class provides low-level file operation functionalities for the cache system in the OkHttp library.

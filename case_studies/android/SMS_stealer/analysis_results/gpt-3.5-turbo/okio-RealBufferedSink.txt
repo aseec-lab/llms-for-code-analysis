@@ -1,0 +1,23 @@
+The `RealBufferedSink` class in the `okio` package implements the `BufferedSink` interface. It provides a buffering layer on top of a `Sink` and allows for more efficient writing of data.
+
+Here are some key features of the `RealBufferedSink` class:
+
+- It has a `Buffer` object that acts as the underlying buffer.
+- It keeps track of whether the sink is closed or not.
+- It provides methods to write data to the buffer and emit complete segments.
+- It has methods to write various types of data, such as bytes, integers, longs, and strings.
+- It throws an exception if an operation is called after the sink is closed.
+- It provides an `OutputStream` interface for convenience.
+- It provides a `timeout()` method to get the timeout of the underlying sink.
+- It overrides the `toString()` method to provide a string representation of the sink.
+- It implements the `writeAll()` method to efficiently write data from a `Source` to the sink.
+- It uses the `emitCompleteSegments()` method to write complete segments of data to the underlying sink.
+
+Overall, the `RealBufferedSink` class provides a convenient and efficient way to write data to a `Sink` with buffering capabilities.This code snippet is the remaining part of the `RealBufferedSink` class in the `okio` package. 
+
+- The `writeUtf8()` method writes a substring of the specified string to the buffer in UTF-8 format and returns the `BufferedSink` itself.
+- The `writeUtf8CodePoint()` method writes a single Unicode code point to the buffer in UTF-8 format and returns the `BufferedSink` itself.
+
+Both methods first check if the sink is closed before performing the write operation. If the sink is closed, an `IllegalStateException` is thrown.
+
+The code ends with a comment indicating the file location, the Java compiler version, and the JD-Core version.

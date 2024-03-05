@@ -1,0 +1,11 @@
+The `UriCompat` class is a utility class for working with Uri instances in Android. It contains a single public static method, `toSafeString(Uri paramUri)`, which returns a "safe" string representation of the provided Uri object.
+
+This method first retrieves the scheme of the Uri and its scheme-specific part. Then it checks the scheme against known categories (like "tel", "sip", "sms", "mailto", "http", etc.).
+
+If the scheme is one of the sensitive ones (e.g., "tel", "sip"), the method obscures sensitive parts of the scheme-specific portion, such as replacing identifiable characters with 'x'.
+
+If the scheme is a network protocol (like "http", "https"), it constructs a safe string representation with the host and port (if present), but omits the path, query, and fragment parts.
+
+If the scheme is neither sensitive nor a network protocol, it appends the scheme and the full scheme-specific part to the response.
+
+These transformations ensure that sensitive information is not leaked through the Uri string representation.

@@ -1,0 +1,13 @@
+The `Sink` interface in Okio signifies a destination that one can write binary data to. 
+
+Here are the key methods in this interface:
+
+- `write(Buffer, long)`: This method will write `paramLong` bytes from `paramBuffer` to the underlying sink, and remove the written bytes from `paramBuffer`.
+
+- `flush()`: This method will push, if possible, all buffered bytes to their final destination.
+
+- `timeout()`: This method returns the timeout for this sink.
+
+- `close()`: This method will push all buffered bytes to their final destination and then it releases the resources of this sink; if the method is invoked when a write is incomplete then the method may throw an IOException.
+
+All the methods in the `Sink` interface may throw `IOException` if a write operation encounters an error. The exception to this is the `timeout()` method, which doesn't throw an `IOException` but instead returns a `Timeout` that can be used to control read and write timeouts.

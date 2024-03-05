@@ -1,0 +1,12 @@
+The `DrawableUtils` class provides utility methods for handling `Drawable` objects in Android applications. 
+
+- `CHECKED_STATE_SET`: A state set for checked drawables.
+- `EMPTY_STATE_SET`: An empty state set.
+- `INSETS_NONE`: A constant `Rect` indicating no insets.
+- `canSafelyMutateDrawable(Drawable paramDrawable)`: Checks if a drawable can be safely mutated depending on the Android version and the type of drawable.
+- `fixDrawable(Drawable paramDrawable)`: Provides a workaround for a tinting issue with VectorDrawables on Android 5.0 (API level 21).
+- `fixVectorDrawableTinting(Drawable paramDrawable)`: Changes the state of a drawable and resets it to the original state.
+- `getOpticalBounds(Drawable paramDrawable)`: Retrieves the optical bounds of a drawable. If not available, it will attempt to call the `getOpticalInsets` method or otherwise return `INSETS_NONE`.
+- `parseTintMode(int paramInt, PorterDuff.Mode paramMode)`: Translates an integer value to a corresponding `PorterDuff.Mode` for tinting.
+
+This class ensures that the use of `Drawable` objects is compatible with different Android versions. The methods provided also deal with specific issues related to them, like safe mutation, optical bounds, and tinting problems.

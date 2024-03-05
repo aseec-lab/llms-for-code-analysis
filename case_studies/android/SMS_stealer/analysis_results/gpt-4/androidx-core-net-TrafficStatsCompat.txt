@@ -1,0 +1,9 @@
+The `TrafficStatsCompat` class is a compatibility helper class for Android `TrafficStats` API, which provides network traffic statistics. It includes number of bytes transmitted or received over the network, etc. It's a final class, so it can't be extended.
+
+This class has several methods, mostly including the `@Deprecated` annotation which means those methods are outdated and not recommended for use:
+
+1. `clearThreadStatsTag()`, `getThreadStatsTag()`, `incrementOperationCount(int paramInt)`, `incrementOperationCount(int paramInt1, int paramInt2)`, `setThreadStatsTag(int paramInt)`, `tagSocket(Socket paramSocket)`, and `untagSocket(Socket paramSocket)`. All of these methods directly use the corresponding `TrafficStats` methods, not providing any additional functionality.
+
+2. There are also two methods for handling `DatagramSocket` instances, named `tagDatagramSocket(DatagramSocket paramDatagramSocket)` and `untagDatagramSocket(DatagramSocket paramDatagramSocket)`. These methods check the Android OS version and if it's 24 (Android 7.0, Nougat) or above, they use the corresponding methods in `TrafficStats`. If it's lower, they wrap the `DatagramSocket` in a `DatagramSocketWrapper`, and use it for tagging/untagging.
+
+Note that any code naming convention like `paramInt` or `paramSocket` suggests these were machine-generated. This class is most likely part of a library optimized to be minimized and/or obfuscated.

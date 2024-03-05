@@ -1,0 +1,7 @@
+`CurveFit` is an abstract class with some static final int variables (`CONSTANT`, `LINEAR`, `SPLINE`) which potentially represent different types of curve fitting methods. 
+
+It has static `get` methods to return an instance of a specific type of `CurveFit` based on the input parameters. For example, if the length of `paramArrayOfdouble` is 1 then it will return an instance of `Constant` else it will return either `LinearCurveFit` or `MonotonicCurveFit` depending upon the value of `paramInt`. There's also a `getArc` method which returns an instance of `ArcCurveFit`. 
+
+The class has several abstract methods like `getPos`, `getSlope` and `getTimePoints` which are meant to be overridden by the subclasses for specific behavior.
+
+`Constant` is a subclass of `CurveFit` used to represent constant curve fitting. It mainly overrides the abstract methods in `CurveFit` to provide an implementation specific to constant curve fitting. The `getPos` methods return the position of a value at a specific time or an array of values respectively. The `getSlope` methods always return 0 as the slope is zero for a constant function. The method `getTimePoints` returns a new array with a specific constant time point.

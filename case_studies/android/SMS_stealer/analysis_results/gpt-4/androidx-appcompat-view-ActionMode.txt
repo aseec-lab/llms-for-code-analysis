@@ -1,0 +1,12 @@
+The `ActionMode` class in AndroidX library helps in managing the Contextual Action Bar (CAB), a system implementation of ActionMode that is used for presenting actions. It is utilized when the user interacts with selectable items like selection of texts or any content where contextual actions can help.
+
+The `ActionMode` class is abstract and has several abstract methods to manage the lifecycle of an action mode, such as `finish()`, `invalidate()`, `getMenu()`, `getMenuInflater()`, etc. It also provides methods to customize the title, subtitle, and custom view associated with the action bar.
+
+Some critical methods:
+- `finish()` ends the action mode.
+- `getMenu()` returns the menu in the action mode.
+- `getTitle()`, `getSubtitle()`, and `getCustomView()` return the title, subtitle, and custom view associated with the CAB.
+
+The `Callback` interface defined within `ActionMode` specifies the methods to handle lifecycle changes and user interaction. For example, `onCreateActionMode(ActionMode param1ActionMode, Menu param1Menu)` notifies when the action mode is created.
+
+Please note that `ActionMode` class handles user interaction events in a modal, and it overlays the action bar for a specified duration, during which user interaction events should be handled differently.

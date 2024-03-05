@@ -1,0 +1,15 @@
+The `WebSocketListener` is an abstract class provided by the OkHttp library and is used as a callback for WebSocket events. It defines several empty methods which can be overridden to react to different events:
+
+- `onOpen(WebSocket, Response)`: This method is called when a WebSocket connection has been accepted by the remote peer.
+
+- `onMessage(WebSocket, String)`: This method is called for each string message received by the WebSocket.
+
+- `onMessage(WebSocket, ByteString)`: This method is called for each binary message received by the WebSocket.
+
+- `onClosing(WebSocket, int, String)`: This method is called when the remote peer has initiated a graceful shutdown of the WebSocket connection.
+
+- `onClosed(WebSocket, int, String)`: This method is called when the WebSocket has been closed.
+
+- `onFailure(WebSocket, Throwable, Response)`: This method is called if an error has occurred with the WebSocket connection or protocol. 
+
+The specific implementation of these methods depends on the specifics of your application and how you intend to handle WebSocket events.

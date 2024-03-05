@@ -1,0 +1,29 @@
+The `StopLogic` class extends `MotionInterpolator` and is utilized to control the motion interpolation process while working with `MotionLayout`. 
+
+The class variables are the state-variables required for the calculation of dynamic motions.
+
+The `calcY(float paramFloat)` method is utilized to compute the displacement at a given time.
+
+The `setup(float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4, float paramFloat5)` method is responsible for establishing the motion's configuration based on passed arguments.
+
+The `config(float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4, float paramFloat5, float paramFloat6)` method is used for configuring the `StopLogic` object with parameters such as start position, end position, start velocity, and arrival time.
+
+`debug(String paramString1, String paramString2, float paramFloat)` aids in debugging the motion's processing.
+
+The `getInterpolation(float paramFloat)` method gives the interpolated position for a given time.
+
+`getVelocity()` and `getVelocity(float paramFloat)` both methods return the current velocity of the motion which is calculated based on the time passed to these methods.This block of code handles different stages in the motion's duration, calculated by the logic defined in the `StopLogic` class.
+
+The conditional code `if (i == 1)` checks if the current stage number is equal to 1, and it returns zero as the velocity of motion if the condition is true.
+
+The condition `if (f2 < paramFloat)` checks if the difference between the current time and the start time of `stage 2` is less than the duration of `stage 2`. If the condition is true, it computes and returns the velocity at that time.
+
+The conditional `if (i == 2)` checks if the stage is at 2, returning the end position of `stage 2` if the condition is true.
+
+The another condition `if (f1 < paramFloat)` calculates if the difference between the current time and the start time of `stage 3` is less than the duration of `stage 3`. If the condition is true, it then calculates and returns the velocity at that time.
+
+Finally, `return this.mStage3EndPosition;` statement returns the end position of `stage 3`. 
+
+This give us the interpolated value (in between initial and final value) at any given time. 
+
+Please note that the `location` comment is providing information about where the original Java bytecode for the `StopLogic` class was generated.

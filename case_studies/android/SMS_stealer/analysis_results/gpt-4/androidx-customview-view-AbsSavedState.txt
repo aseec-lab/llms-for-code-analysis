@@ -1,0 +1,9 @@
+The code defines an abstract class `AbsSavedState` that implements `Parcelable`. This abstract class is used to save and restore the state of custom views in Android. It has a CREATOR that generates instances of this Parcelable class from a Parcel.
+
+The class also declares an empty state `EMPTY_STATE`, a type of `AbsSavedState` which has no data. This can be used as a default or initial state for subclasses. The `mSuperState` property contains the super state of the parcelable.
+
+The `createFromParcel` methods defined in the CREATOR object use the `readParcelable()` method to create an instance of `AbsSavedState` from a Parcel that was previously written using `writeToParcel()`.
+
+Two constructors are defined, one which reads a parcel (optionally with a classloader), and another which accepts a Parcelable. In both constructors, if no `superState` is provided, the value defaults to `EMPTY_STATE`.
+
+There are also methods for describing contents (`describeContents`), getting super state (`getSuperState`) and writing the state to a parcel (`writeToParcel`). The state is written and read from a `Parcel`, which can be passed between processes.

@@ -1,0 +1,7 @@
+`AppCompatImageHelper` is a helper class for `ImageView` that manages image tinting, a way of modifying the color of an image. It aids in applying and maintaining color tints and modes on images across different Android versions. 
+
+It includes methods for applying tints to an image drawable, getting the color state list and mode of an image, setting them and loading the image from attributes. The `loadFromAttributes(AttributeSet paramAttributeSet, int paramInt)` method aids in initializing an `ImageView` with style attributes, and the `setImageResource(int paramInt)` adjusts an ImageView's drawable to a new resource with optional tinting.
+
+The class utilizes `TintInfo` instances (`mImageTint`, `mInternalImageTint`, `mTmpInfo`) to store and apply colors to the image view.
+
+Notably, the helper also includes methods to confirm if drawing the image will overlap with other items on the screen, and thus determining when and how the drawing optimizations should be applied. The image tints and modes are adjusted in accordance with the Android version, providing consistent behavior across different versions.

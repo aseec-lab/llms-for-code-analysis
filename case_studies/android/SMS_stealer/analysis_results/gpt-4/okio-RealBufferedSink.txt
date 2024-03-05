@@ -1,0 +1,18 @@
+The `RealBufferedSink` class implements the `BufferedSink` interface and is responsible for writing data to an underlying `Sink`. It uses a `Buffer` object to hold and manage the data. It provides methods to write data to the buffer, flush the buffer (write its contents to the underlying sink), control how segments are emitted during writes, and handle closing operations. Exception handling is also implemented to ensure the buffer is in a valid state before operations are performed.
+
+The methods include:
+- `buffer()`: To get a link to the buffer object.
+- `write()`: Allows writing from a ByteBuffer, ByteString, Source or byte array to the buffer.
+- `writeAll()`: Writes all available data from a source to the buffer.
+- `writeByte()`, `writeDecimalLong()`, `writeHexadecimalUnsignedLong()`, `writeInt()`, `writeIntLe()`, `writeLong()`, `writeLongLe()`, `writeShort()`, `writeShortLe()`, `writeString()`, and `writeUtf8()`: These write specific types of data with certain characteristics to the buffer.
+- `flush()`: Pushes all buffered data to the underlying sink and then flushes the sink.
+- `emit()`, `emitCompleteSegments()`: Emits data from the buffer to the underlying sink in different ways.
+- `outputStream()`: Returns an OutputStream that can write data to this buffered sink.
+- `close()`: Writes all buffered data to the sink, then closes the sink and marks this buffered sink as closed.
+- `isOpen()`, `toString()`, `timeout()`: Provides information on the buffered sink's state, like whether it's open, what it looks like as a string and what its timeout is.The remaining part of the code includes three additional methods that the `RealBufferedSink` class implements:
+
+- `writeUtf8(String paramString, int paramInt1, int paramInt2)`: This method is used to write a portion of a `String` in UTF-8 encoding to the buffer, taking the `String` and the start and end indices as parameters. After writing the `String` to the buffer, it calls `emitCompleteSegments()` to write segments to the sink. It throws `IllegalStateException` if you try to write to a closed sink.
+
+- `writeUtf8CodePoint(int paramInt)`: This method is used to write a Unicode code point to the buffer in UTF-8 encoding. It throws `IllegalStateException` if the sink is closed.
+
+Each of these methods throws an `IOException` if an error occurs during the write operation. The logic in these methods is wrapped in an `if` statement that checks if the sink is closed before performing the operation, otherwise, it throws `IllegalStateExcption` stating the sink is closed.

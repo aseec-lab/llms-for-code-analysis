@@ -1,0 +1,9 @@
+The `PathInterpolatorCompat` class provides methods to create `Interpolator` objects. These interpolators smoothly transition an animation between two values, and are used to create more life-like animations with acceleration and deceleration.
+
+It uses a compatibility pattern to create the correct `Interpolator` based on the Android version:
+
+1. For Android versions starting from 21 (Lollipop), it uses the native `PathInterpolator` class.
+
+2. For older versions, it uses a custom `PathInterpolatorApi14` class.
+
+This class provides methods to create an interpolator with two control points, with four control points or directly from a `Path` object. The control points define the shape of the animation's acceleration and deceleration.

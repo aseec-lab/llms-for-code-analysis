@@ -1,0 +1,7 @@
+The `HandlerCompat` class is an utility class for creating and managing Android's `Handler` instances in a backward-compatible manner.
+
+1. `createAsync(Looper paramLooper)` method: This method creates an asynchronous `Handler` instance associated with the provided `Looper`. This method uses different methods to create the `Handler` instance depending on the Android SDK version. If an error occurs during the creation process, it logs a warning and returns a basic `Handler` instance constructed with the provided `Looper`.
+
+2. `createAsync(Looper paramLooper, Handler.Callback paramCallback)` method: This method works similarly to the `createAsync(Looper paramLooper)` method, but it also takes a `Handler.Callback` as an argument. The created `Handler` instance is associated with the provided `Looper` and `Callback`.
+
+3. `postDelayed(Handler paramHandler, Runnable paramRunnable, Object paramObject, long paramLong)` method: This method posts a `Runnable` to the provided `Handler` with a delay specified by `paramLong`. The `Runnable` is associated with the provided `Object`. Depending on the Android SDK version, it uses different ways to post the `Runnable`.

@@ -1,0 +1,15 @@
+The `ArrayTypeAdapter` class is a type adapter used by Gson to serialize and deserialize arrays.
+
+It implements the `TypeAdapter` interface and provides methods to read and write arrays from and to JSON.
+
+The class is generic, with type parameter `E` representing the component type of the array.
+
+It has a constructor that takes a `Gson` object, a `TypeAdapter` for the component type, and the `Class` of the component type.
+
+The class also contains a static `FACTORY` field that is an implementation of the `TypeAdapterFactory` interface. This factory is used by Gson to create instances of `ArrayTypeAdapter` when needed.
+
+The `read()` method reads JSON from a `JsonReader`, converts it into an ArrayList, and then creates an array of the component type based on the ArrayList.
+
+The `write()` method writes the array to a `JsonWriter` by iterating over the elements of the array and writing each element using the `TypeAdapter` for the component type.
+
+Overall, the `ArrayTypeAdapter` class provides the functionality to serialize and deserialize arrays using Gson.

@@ -1,0 +1,11 @@
+The `TypefaceCompatApi24Impl` class is an implementation that is part of the AndroidX compatibility library. It provides methods to create a `Typeface` object from font family resource entries and font info, as well as managing fonts. It uses private native API methods of the `android.graphics.Typeface` class (such as "createFromFamiliesWithDefault") via reflection, which allows it to interact with these private methods from the API.
+
+Key methods of this class include:
+
+1. `public static boolean isUsable()`: This checks whether the required private methods are available in the current platform. If they are, this returns true; otherwise, it logs a warning and returns false. 
+
+2. `public Typeface createFromFontFamilyFilesResourceEntry(...)`: This creates a `Typeface` based on font family files resource entries. It reads each file entry, copies it to a direct `ByteBuffer`, and tries to add it to the `FontFamily`. If all font entries are added successfully, it calls `createFromFamiliesWithDefault` to create the `Typeface`.
+
+3. `public Typeface createFromFontInfo(...)`: This creates a `Typeface` based on provided font info which can include different fonts and styles. Similar to the `createFromFontFamilyFilesResourceEntry` method, it tries to add each font information to the `FontFamily` and then calls `createFromFamiliesWithDefault` method to create the `Typeface`.
+
+Note: This class is aimed at providing compatibility and usage of advanced typography features in older API versions, and therefore uses reflection to call methods that may not be officially open for third-party use. This could potentially break in future Android versions.

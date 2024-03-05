@@ -1,0 +1,7 @@
+The `IntDef` annotation is a way to limit the acceptable values of an `int` parameter. Here are the main components:
+
+- `boolean flag() default false`: Used to specify if the annotated element is allowed to be a bit field (`flag = true`).
+- `boolean open() default false`: Specifies whether extra integer values are allowed (`open = true`).
+- `int[] value() default {}`: Defines the allowed integer values.
+
+The `@Retention(RetentionPolicy.SOURCE)` annotation indicates that this annotation will only be preserved until the source level and will be ignored by the compiler. The `@Target({ElementType.ANNOTATION_TYPE})` annotation specifies that this annotation type can only be applied to other annotations.

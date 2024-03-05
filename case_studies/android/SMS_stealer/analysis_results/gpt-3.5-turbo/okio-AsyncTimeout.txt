@@ -1,0 +1,19 @@
+The `AsyncTimeout` class in the `okio` package extends the `Timeout` class and provides asynchronous timeout functionality. It allows you to schedule and manage timeouts for I/O operations.
+- The class defines constants for the idle timeout duration (`IDLE_TIMEOUT_MILLIS` and `IDLE_TIMEOUT_NANOS`) and the write size for timeouts (`TIMEOUT_WRITE_SIZE`).
+- It maintains a linked list of `AsyncTimeout` instances, where `head` is the head of the list, and each instance has a reference to the next instance.
+- The class provides methods to await a timeout, cancel a scheduled timeout, and schedule a timeout for an `AsyncTimeout` instance.
+- It also defines methods to enter and exit a timeout, and to check if a timeout has been exited or not.
+- The class provides a `sink()` method that returns a `Sink` object with timeout functionality. This allows you to perform write operations on a sink while being able to handle timeouts efficiently.This code snippet defines the remaining part of the `AsyncTimeout` class in the `okio` package. 
+
+- It includes a nested `Watchdog` class that extends `Thread` and is responsible for running the timeout functionality.
+- The `Watchdog` thread runs a loop where it waits for the next timeout to occur.
+- When a timeout occurs, the `timedOut()` method is called on the `AsyncTimeout` instance.
+- The code also includes the `source()` method, which returns a `Source` object with timeout functionality.
+- The `source()` method wraps a given `Source` object and delegates the read and close operations to it, while handling timeouts properly.
+- The `read()` method of the `Source` object is instrumented to enter and exit timeouts appropriately.
+- The `timeout()` method returns the `AsyncTimeout` instance associated with the `Source` object.
+- The code also includes the `close()` method of the `Source` object, which is wrapped to handle timeouts properly.
+- The `enter()` and `exit()` methods are called to mark the entry and exit points of a timeout operation.
+- The `enter()` method saves the previous timeout value and sets the timeout for this operation.
+- The `exit()` method is called to exit the current timeout operation, either successfully or due to an exception.
+- Finally, the `timedOut()` method is left empty and is expected to be overridden by subclasses to define the desired behavior when a timeout occurs.

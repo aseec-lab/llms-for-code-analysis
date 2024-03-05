@@ -1,0 +1,19 @@
+The `MarginLayoutParamsCompat` class in AndroidX provides compatibility methods for working with `ViewGroup.MarginLayoutParams` across different versions of Android.
+
+- `getLayoutDirection(ViewGroup.MarginLayoutParams)`: Returns the layout direction of the parameter MarginLayoutParams. If the SDK version is less than 17, it returns 0 by default.
+  
+- `getMarginEnd(ViewGroup.MarginLayoutParams)`: Returns the margin at the end of the MarginLayoutParams. If the SDK version is less than 17, it returns the right margin.
+  
+- `getMarginStart(ViewGroup.MarginLayoutParams)`: Returns the margin at the start of the MarginLayoutParams. If the SDK version is less than 17, it returns the left margin.
+  
+- `isMarginRelative(ViewGroup.MarginLayoutParams)`: Indicates whether the margins are relative or not. It returns `false` for SDK versions less than 17.
+  
+- `resolveLayoutDirection(ViewGroup.MarginLayoutParams, int)`: Resolves the layout direction for the MarginLayoutParams. This method has no effect for SDK versions less than 17.
+  
+- `setLayoutDirection(ViewGroup.MarginLayoutParams, int)`: Sets the layout direction for the MarginLayoutParams. This method has no effect for SDK versions less than 17.
+  
+- `setMarginEnd(ViewGroup.MarginLayoutParams, int)`: Sets the margin at the end of the MarginLayoutParams. For SDK versions less than 17, it sets the right margin.
+  
+- `setMarginStart(ViewGroup.MarginLayoutParams, int)`: Sets the margin at the start of the MarginLayoutParams. For SDK versions less than 17, it sets the left margin.
+
+These methods allow developers to work with layout params and margins on views in a backward-compatible way, without checking for the Android version in their code.

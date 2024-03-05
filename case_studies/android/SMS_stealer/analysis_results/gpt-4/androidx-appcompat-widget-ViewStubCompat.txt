@@ -1,0 +1,13 @@
+`ViewStubCompat` is a lightweight view subclass that you can include in your layout which, when activated, inflates a layout resource into its parent view. It's intended for placeholder view that will be replaced or made visible at runtime.
+
+The class provides several constructors (`ViewStubCompat(Context paramContext, AttributeSet paramAttributeSet)` and `ViewStubCompat(Context paramContext, AttributeSet paramAttributeSet, int paramInt)`), which read attributes such as `mInflatedId` and `mLayoutResource` from styleable resources.
+
+The `inflate()` method is particularly important in this class. When this method is called, the view stub inflates the layout resource, replaces itself with it in its parent view and sets the inflated view's ID to `mInflatedId` if it is not -1. It also removes the 'stub' view from parent layout and adds the inflated view. It also calls back to `onInflateListener` if it isn't `null`.
+
+In accordance with it being a placeholder view, `onMeasure(int paramInt1, int paramInt2)` always sets the measured dimension to 0, 0 and draw methods (`draw(Canvas paramCanvas)` and `dispatchDraw(Canvas paramCanvas)`) are dummy because the view is not intended to render anything itself.
+
+When setVisibility is called, it behaves differently depending on whether it still represents a placeholder or already got inflated, which in turn is depending on if it has a non-null `mInflatedViewRef`. If it still is a placeholder, setting visibility to `VISIBLE` or `INVISIBLE` will trigger inflation, otherwise it will just change visibility of the already inflated view.
+
+An associated `setInflatedId(int paramInt)`, `setLayoutResource(int paramInt)`, `setLayoutInflater(LayoutInflater paramLayoutInflater)`, and `setOnInflateListener(OnInflateListener paramOnInflateListener)` methods are provided for configuration.
+
+Lastly, an inner interface `OnInflateListener` is provided for listeners that want to receive a notification when the `ViewStubCompat` is inflated.

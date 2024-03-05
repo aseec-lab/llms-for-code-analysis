@@ -1,0 +1,39 @@
+The `Cookie` class in OkHttp represents an HTTP cookie, including its name, value, expiration date, domain, path, and other cookie parameters.
+
+The key methods in this class are:
+
+- `domainMatch`: Checks if the domain matches with the given string parameter.
+- `parse`: Analyzes the cookies from the HTTP headers and returns a `Cookie` object. 
+- `dateCharacterOffset` and `parseExpires`: These methods handle cookie expiration.
+
+There are also several regular expression `Pattern`s defined at the start of the class which are used for parsing cookie dates.
+
+The cookie attributes include `domain`, `expiresAt`, `hostOnly`, `httpOnly`, `name`, `path`, `persistent`, `secure`, and `value`.
+
+This class also includes a `Builder` inner class to construct `Cookie` instances.The remaining part of the class contains the following methods:
+
+- `parse (HttpUrl paramHttpUrl, String paramString)` : This method performs parsing of cookies using the current system time as the current time for parsing.
+
+- `parseAll(HttpUrl paramHttpUrl, Headers paramHeaders)`: This method fetches all the cookies from the provided headers, parses each of them, and returns a list of `Cookie` objects.
+
+- `parseDomain(String paramString)`: This method ensures that the domain is valid by checking and returning the canonicalized host. It throws `IllegalArgumentException` if domain ends with a dot.
+
+- `parseExpires(String paramString, int paramInt1, int paramInt2)`: This method parses the expiration time of the cookie. It uses regular expressions (through the `Matcher` class and several compiled `Pattern`s) to parse the string, which is expected to be in a specific date-time format. This method also handles leap years. 
+
+`dateCharacterOffset` method mentioned here is responsible for matching the characters in a string based upon some conditions. The parseExpires method makes use of this function to navigate through the date string to extract the day, month and the year.The rest of the class includes a variety of methods that manage cookie properties and behaviour:
+
+- The `parseMaxAge` method parses the "Max-Age" attribute value from a cookie.
+
+- The `pathMatch` method checks if the request path matches the path attribute of the cookie.
+
+- The `equals` method checks if this cookie equals another cookie object by comparing all its fields.
+
+- The `matches` method checks if this cookie matches a given HTTP URL.
+
+- The `toString` (with/without boolean parameter) method returns a string representation of the cookie object. If `persistent` is true, it also includes the expiry date.
+
+- `name()`, `domain()`, `expiresAt()`, `path()`, `value()`, `httpOnly()`, `secure()`, `persistent()`, and `hashCode()` methods are getters for respective properties of a cookie.
+
+- The class also includes a `Builder` inner class to implement the builder pattern for constructing a `Cookie` object. It provides methods to set different properties of a cookie such as `name`, `value`, `expiresAt`, `domain`, `path`, `secure`, and `httpOnly`.
+
+- Lastly, the `build` method in the `Builder` class, creates a `Cookie` object using the builder pattern.

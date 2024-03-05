@@ -1,0 +1,9 @@
+The `SqlDateTypeAdapter` is a type adapter in the Gson library that handles serialization and deserialization of `java.sql.Date` objects.
+
+The `FACTORY` checks if the desired type is `Date`. If it is, a new `SqlDateTypeAdapter` is created, otherwise, `null` is returned.
+
+A `SimpleDateFormat` is used for formatting date objects, specifically in the "MMM d, yyyy" format.
+
+The `read` method handles deserialization from JSON. It checks if the JSON token is a null and if so, returns `null`. Otherwise, a new `java.sql.Date` object is created based on the parsed string. In case of parse exceptions, a `JsonSyntaxException` is thrown.
+
+The `write` method handles serialization to JSON. It outputs a JSON null if the `Date` object is `null`. Otherwise, it formats the `Date` object as a string using the defined format. Both methods are `synchronized` to protect against concurrent modifications.

@@ -1,0 +1,11 @@
+The `PathUtils` class in the `androidx.core.graphics` package provides utility methods for manipulating and analyzing paths in Android graphics.
+
+The class contains two static methods:
+- `flatten(Path paramPath)`: Flattens a `Path` object into a collection of `PathSegment` objects with a default flattening tolerance of 0.5.
+- `flatten(Path paramPath, float paramFloat)`: Flattens a `Path` object into a collection of `PathSegment` objects with a specified flattening tolerance.
+
+Both methods utilize the `approximate()` method of the `Path` class to obtain an array of float values representing the path's approximation. The array is then iterated over to create `PathSegment` objects based on the start and end points of each curve segment.
+
+The created `PathSegment` objects are added to an `ArrayList` and returned as a collection.
+
+The `PathUtils` class is intended for internal use and is not meant to be instantiated, hence the class is marked as `final`.

@@ -1,0 +1,17 @@
+`ComputableLiveData` is an abstract class that encapsulates a value that can be computed in a background thread and observed for changes. It is especially useful in cases where computations might be expensive, allowing them to be done asynchronously.
+
+Internally, `ComputableLiveData` manages certain states using AtomicBoolean variables:
+- `mComputing` indicates if a computation is currently ongoing.
+- `mInvalid` indicates if the currently held value is outdated and needs to be recomputed.
+
+The class uses two Runnables:
+- `mInvalidationRunnable` is posted to the main thread and is responsible for triggering the computation logic (`mRefreshRunnable`) if there are any active observers and the data is marked as invalid.
+- `mRefreshRunnable` is executed on a background thread and is the one that actually performs your compute logic. It will keep calling the `compute()` method if the data is marked as invalid, and post results back to LiveData. Once this is done, it resets the `mComputing` flag to indicate that computation is done.
+
+`invalidate()` is a method to indicate that data needs to be recomputed. As soon as you call `invalidate()`, it runs `mInvalidationRunnable`.
+
+The `getLiveData()` method is used to return LiveData holding the computed value. 
+
+This class also provides a simple constructor that uses the IO thread executor from `ArchTaskExecutor` for the computing operation. If required, a custom executor can be passed using the additional constructor provided.
+
+The file appears to be a part of androidx.lifecycle package. The `JD-Core Version: 1.1.3` refers to the version of a decompiler used.

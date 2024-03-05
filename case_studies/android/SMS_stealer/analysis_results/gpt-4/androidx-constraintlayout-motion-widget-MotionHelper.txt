@@ -1,0 +1,13 @@
+The `MotionHelper` class is an extension of the `ConstraintHelper` class and implements the `Animatable` and `MotionLayout.TransitionListener` interfaces. It's used in conjunction with `MotionLayout` to help create animations in Android applications. 
+
+The class has several fields like `mProgress`, `mUseOnShow`, `mUseOnHide`, and `views` which track the progress of the animation and whether the animation should be used when the view is shown or hidden. 
+
+The constructors and `init` method are used to initialize the parameters for the `MotionHelper`, with the `init` method specifically used to extract the `onShow` and `onHide` attributes. 
+
+The `getProgress`, `isUseOnHide` and `isUsedOnShow` methods return the value of their respective fields. 
+
+The `onTransitionChange`, `onTransitionCompleted`, `onTransitionStarted`, and `onTransitionTrigger` methods are part of the `MotionLayout.TransitionListener` interface, but they are empty in this class. 
+
+The `setProgress` method adjusts the progress of the animation for each view that is not an instance of `MotionHelper`. 
+
+The `setProgress(View paramView, float paramFloat)` method is currently empty and should be overridden to define how the progress of the animation should affect a single view.

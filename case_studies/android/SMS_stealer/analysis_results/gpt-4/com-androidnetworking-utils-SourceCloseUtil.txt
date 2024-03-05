@@ -1,0 +1,11 @@
+The `SourceCloseUtil` class is a utility class in the package `com.androidnetworking.utils`. 
+
+It has a single public static method `close(Response paramResponse, ANRequest paramANRequest)`. 
+
+This method checks if the `ResponseType` of the given `ANRequest` object is not `OK_HTTP_RESPONSE`. It also verifies the `Response` object and its body & source are not null.
+
+If all these conditions pass, it then attempts to close the source of the response body. 
+
+Any exception that occurs while trying to close the source is ignored, i.e., it's safely closed without throwing an exception. 
+
+In summary, this utility class is used to safely close the source of the OKHttp Response body.

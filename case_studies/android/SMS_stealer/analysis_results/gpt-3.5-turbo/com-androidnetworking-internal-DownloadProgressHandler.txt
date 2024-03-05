@@ -1,0 +1,6 @@
+The code provided is for the `DownloadProgressHandler` class, which is a part of the AndroidNetworking library. Here is a summary of what it does:
+
+- The `DownloadProgressHandler` class extends the `Handler` class and is used to handle progress updates during a file download.
+- It takes a `DownloadProgressListener` object as a parameter in its constructor.
+- The `handleMessage()` method is overridden to handle incoming messages. If the message's `what` value is not equal to 1, the superclass implementation of `handleMessage()` is called. Otherwise, if the `mDownloadProgressListener` is not null, the `onProgress()` method of the listener is called with the current and total bytes values from the message's `obj`.
+- The `DownloadProgressHandler` is created on the main thread by calling the superclass constructor with `Looper.getMainLooper()`, ensuring that the message handling is performed on the main thread.

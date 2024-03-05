@@ -1,0 +1,38 @@
+The `Hpack` class in the `okhttp3.internal.http2` package implements the HPACK compression algorithm, which is used for compressing HTTP/2 headers. This class provides methods for encoding and decoding headers according to the HPACK specification.
+
+The class defines static variables for header prefix values and a static header table, which contains commonly used headers. It also includes a `NAME_TO_FIRST_INDEX` map that maps header names to their corresponding index in the static header table.
+
+The class also includes a nested `Reader` class that is used for reading and decoding headers from a byte source. The `Reader` class maintains a dynamic table that stores recently used headers, allowing for efficient encoding and decoding of headers.
+
+The `Hpack` class provides methods for checking the case of header names, inserting headers into the dynamic table, and evicting headers from the dynamic table. It also includes methods for reading and decoding headers using the HPACK format.
+
+Overall, the `Hpack` class in the `okhttp3.internal.http2` package provides the necessary functionality for encoding and decoding HTTP/2 headers using the HPACK compression algorithm.The `readInt()` method is a utility method used by the `Reader` class in the `Hpack` class. It reads an integer value from a byte source, using a variable-length encoding scheme. The method takes two parameters: `param1Int1` which represents the initial value of the integer, and `param1Int2` which represents the maximum allowed value for the integer.
+
+The method first applies a bitmask operation using `param1Int2` on `param1Int1` to ensure that the value is within the range of `0` to `param1Int2`. If the resulting value is less than `param1Int2`, it is returned immediately.
+
+If the resulting value is equal to `param1Int2`, the method enters a loop to read more bytes from the byte source until the most-significant bit of the byte is not set. Each byte read is bitwise ANDed with `0x7F` to remove the most-significant bit, and then shifted left by a multiple of `7` determined by the number of bytes read so far. The resulting value is added to `param1Int2` and `param1Int2` is updated accordingly.
+
+Finally, the resulting value is returned as the decoded integer.
+
+The `Writer` class in the `Hpack` class implements the encoding logic for HTTP/2 headers using the HPACK compression algorithm. It has methods for writing the compressed headers to a byte stream.
+
+The class initializes with a dynamic table, which is used to store recently used headers for efficient encoding. It also maintains variables for tracking the size of the dynamic table and the maximum size allowed.
+
+The `writeByteString()` method writes a `ByteString` object to the byte stream. If compression is enabled and the encoded length of the `ByteString` using Huffman coding is smaller than its original size, the method encodes the `ByteString` using Huffman coding. Otherwise, it writes the length of the `ByteString` to the byte stream, followed by the raw bytes of the `ByteString`.
+
+The `writeHeaders()` method writes a list of headers to the byte stream. It first checks if the dynamic table size update flag is set and writes the appropriate update to the byte stream. Then, it iterates over each header in the list and performs the following steps:
+
+- Converts the header name to lowercase using ASCII encoding.
+- Checks if the header name exists in the static header table and retrieves the corresponding index. If found, it increments the index by one.
+- If the header is not found in the static header table, it searches through the dynamic table for a match. If found, it sets the index to the position of the matching header in the dynamic table.
+- If the header is not found in the dynamic table, it writes the header as a new indexed header and updates the dynamic table accordingly.
+
+Overall, the `Writer` class in the `Hpack` class provides the necessary functionality for encoding HTTP/2 headers using the HPACK compression algorithm and writing them to a byte stream.This section of code is part of the `writeHeaders()` method in the `Writer` class of the `Hpack` class. 
+
+In this section, the code initializes variables `nextHeaderIndex` and `STATIC_HEADER_TABLE` and performs calculations to determine the index position of the header in the static header table. 
+
+If the index is not found in the static header table, the code checks if the index is -1. If it is, it calculates the index based on the difference between `nextHeaderIndex` and `STATIC_HEADER_TABLE` length. 
+
+The code then writes the appropriate update to the byte stream based on the index value. If the index is found in the static header table, it writes the index value incremented by one. If the index is -1, it writes a predefined byte value and the raw bytes of the header values. 
+
+Finally, the code increments a counter variable and continues the loop until all headers have been processed.

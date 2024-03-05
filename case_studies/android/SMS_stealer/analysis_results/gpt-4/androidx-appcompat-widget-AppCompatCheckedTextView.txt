@@ -1,0 +1,13 @@
+This Java class is named `AppCompatCheckedTextView` and it extends Android's built-in `CheckedTextView` class, a `TextView` which can be both checked and unchecked.
+
+The class has a private variable `mTextHelper` of type `AppCompatTextHelper` which is used to handle additional functionality not present in the base `CheckedTextView` class, such as loading attributes and applying drawable tints.
+
+The `AppCompatCheckedTextView` class provides several constructors to support various use cases, for example initializing with different context, attribute set, or additional parameters.
+
+The `drawableStateChanged()` method is overridden to ensure when the state changes (e.g., enabled, focused), compound drawables associated with the text (like checkboxes) also update their appearance accordingly.
+
+The `onCreateInputConnection()` method is overridden to customize the input type for software keyboards using the `AppCompatHintHelper`.
+
+Methods `setCheckMarkDrawable()`, `setCustomSelectionActionModeCallback()`, and `setTextAppearance()` are provided to allow more control over the appearance and behavior of the `CheckedTextView`. Aspects such as checkmark drawable, custom selection action mode callback, and text appearance can be customized.
+
+The final segment of the code appears to be metadata about the file's location within the project, as well as the versions of Java and JD-Core used in compiling the code.

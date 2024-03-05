@@ -1,0 +1,7 @@
+The `@CheckResult` annotation is used to indicate that the result of the annotated method must be used. It's typically applied to APIs that return values that are not side effect-driven, but rather results that carry significance leading to possible logical errors if ignored. 
+
+The annotation attributes include a `suggest()` method that returns an empty string by default. This method can be overridden to provide specific suggestions about what should be done with the result of the annotated method.
+
+Similar to before, the `@Retention(RetentionPolicy.CLASS)` annotation indicates that this annotation will be recorded in the class file by the compiler but not necessarily retained by the VM at runtime, and the `@Target({ElementType.METHOD})` annotation is used to specify that the `@CheckResult` annotation can only be used to annotate methods.
+
+The trailing metadata is for the Java Decompiler (JD-Core) and doesn't contribute to the functionality of the `@CheckResult` annotation.

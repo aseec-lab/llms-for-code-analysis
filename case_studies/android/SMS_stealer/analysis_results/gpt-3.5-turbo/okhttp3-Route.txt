@@ -1,0 +1,11 @@
+The `Route` class in the `okhttp3` package represents a route for sending requests to a specific address through a proxy. It contains the following main components:
+
+- `address`: An instance of the `Address` class representing the target address for the route.
+- `inetSocketAddress`: An instance of the `InetSocketAddress` class representing the specific socket address of the route.
+- `proxy`: An instance of the `Proxy` class representing the proxy through which the request should be sent.
+
+The `Route` class provides getters for accessing the address, proxy, and socket address. It also provides a method `requiresTunnel()` that determines if the route requires establishing a tunnel (such as when using SSL and HTTP proxy). 
+
+The class implements `equals()` and `hashCode()` methods to compare routes based on their address, proxy, and socket address. Additionally, it overrides the `toString()` method to provide a string representation of the route.
+
+Overall, this class encapsulates the necessary information to establish a network route for sending requests using the OkHttp library.

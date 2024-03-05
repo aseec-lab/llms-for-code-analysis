@@ -1,0 +1,10 @@
+The `MbmsHelper` class is designed to assist with handling the mobile broadcast multimedia services (MBMS) in Android. This class has one static method `getBestNameForService(Context paramContext, ServiceInfo paramServiceInfo)`, which is used to return the most suitable name for the service in a user’s locale.
+
+The logic of `getBestNameForService` is as follows: 
+
+- If the Android API level is less than 28, it returns null as MBMS is only available from API level 28 (Android 9/Pie).
+- It pulls the list of locales from the context resources configuration.
+- If no named content locales are attached to the `ServiceInfo`, it returns null.
+- It iterates through the named content locales in `ServiceInfo`, converting each to a language tag string that is placed into an array.
+- It then calls `getFirstMatch` on the locale list with the array of language tag strings, which returns the best matching locale or null if no match is found.
+- If a match was found, it gets the name of the service for that locale. If no match was found, it returns null.

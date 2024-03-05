@@ -1,0 +1,11 @@
+The `SavedStateRegistryController` class is responsible for controlling the saved state registry for a `SavedStateRegistryOwner`.
+
+It has a constructor that takes a `SavedStateRegistryOwner` as a parameter and initializes the `mOwner` and `mRegistry` fields.
+
+The `getSavedStateRegistry()` method returns the `mRegistry` field, which is the `SavedStateRegistry` owned by the controller.
+
+The `performRestore(Bundle paramBundle)` method checks the current state of the `mOwner`'s lifecycle and throws an exception if it is not in the initialized state. If it is in the initialized state, it adds a `Recreator` observer to the lifecycle, and then calls the `performRestore()` method of the `mRegistry` to restore the saved state.
+
+The `performSave(Bundle paramBundle)` method calls the `performSave()` method of the `mRegistry` to save the state into the given `Bundle`.
+
+This class is located in the `androidx.savedstate` package and the code is in the `SavedStateRegistryController.java` file.

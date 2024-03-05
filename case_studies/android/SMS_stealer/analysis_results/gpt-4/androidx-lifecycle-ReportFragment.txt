@@ -1,0 +1,9 @@
+The `ReportFragment` class in the `androidx.lifecycle` package is a subclass of `Fragment`.
+
+Its main purpose is to propagate lifecycle events to other components (either `LifecycleRegistryOwner` or `LifecycleOwner`) within an associated Activity.
+
+There are method pairs, one for dispatching the lifecycle event and the other for invoking a method on an `ActivityInitializationListener` object, for the lifecycle events `onCreate()`, `onStart()`, and `onResume()`. These are internally invoked when the corresponding lifecycle event for the `ReportFragment` is triggered.
+
+Additionally, the `ReportFragment` class provides static methods `get(Activity)` and `injectIfNeededIn(Activity)` that allow other classes to retrieve an instance of the `ReportFragment` associated with an activity, or create one if none exists.
+
+Finally, a `setProcessListener(ActivityInitializationListener)` method provides a mechanism for other classes to register an `ActivityInitializationListener` with this `ReportFragment` to receive callbacks corresponding to `onCreate()`, `onResume()`, and `onStart()` lifecycle events.

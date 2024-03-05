@@ -1,0 +1,131 @@
+The `ANRequest` class represents a single network request. It has numerous instance variables like `mPriority`, `mUrl`, `mTag`, `mBodyParameterMap`, `mHeadersMap`, and so on, which define properties of the request. 
+
+Here is a brief overview of some class elements:
+
+- `ANRequest` constructors: There are multiple overloaded constructors (`ANRequest(GetRequestBuilder paramGetRequestBuilder)`, `ANRequest(PostRequestBuilder paramPostRequestBuilder)`, `ANRequest(MultiPartBuilder paramMultiPartBuilder)`, `ANRequest(DownloadBuilder paramDownloadBuilder)`) each suitable for a different type of request. The constructors are used to initialize the `ANRequest` instance with the given parameters.
+  
+- `mXXXRequestListener` variables and few unknown methods in context: These are the variables and methods related to various types of requests listeners.
+  
+- `deliverErrorResponse` method: This method is used for dispatching error responses to various listeners defined within the request. If any error occurs during execution of the request, the related listener's `onError` method is called providing it with an instance of `ANError`.
+  
+Please send the other chunks of the code for a more detailed analysis.- `deliverSuccessResponse` method: This method is used to handle the dispatching of the successful network response to the relevant listeners based on the data type of the response.
+  
+- `cancel` method: This method handles the cancellation of the request. This ends the request execution and changes the state of the request to 'cancelled'. If the cancellation was successful, the error response is also delivered.
+  
+- `deliverError` and `deliverOkHttpResponse` methods: These are responsible for delivering the responses received from the network call. They include the logic for what should be done based on the status of the request - whether it was cancelled or not.
+  
+- `deliverResponse` method: This is a generic method to handle the delivery of all types of responses. This involves checking if the request is still valid, i.e., it is not cancelled yet, and then delivering the response.
+  
+- `destroy` method: This is used to clear the listeners, thus releasing the resources correctly and preventing any possible memory leaks.
+  
+- `executeForXXX` methods: These methods execute the appropriate synchronous calls based on the desired response type.
+  
+- `getAsXXX` methods: These methods are used for requesting network resources and expecting a response of a specific type.
+  
+- `finish` method: This method marks the end of the request's lifecycle. This is usually called after the request has obtained the network response. It would handle the resource clean-up effectively.- `getAsJSONObject`, `getAsObject`, `getAsObjectList`, etc. methods: These methods are setting the response type of the request and the corresponding listener, and adding the request to the request queue for execution.
+  
+- `getCacheControl`, `getCall`, `getDirPath`, `getDownloadProgressListener`, etc.: These are getter methods that return various attributes of the request, such as CacheControl, call object, directory path, download progress listener, etc.
+  
+- `getHeaders` method: This method is being used to generate and return a Headers object, which represents the headers of the HTTP request, generated from the headers map provided.
+  
+- `getMultiPartRequestBody` method: This method is used to build and return a MultipartBody object using the entries in the multipart parameter map. It is used when the request is a multipart request.
+  
+- `getRequestBody` method: This method is used to construct the body of the request based on the type of the body - JSON string, string, file, or byte array. If none of these is provided, it constructs a FormBody using the body parameters.
+  
+- `getUploadProgressListener` method: This method gets an instance of the upload progress listener that provides updates on the upload progress.
+  
+- `getUrl` method: This method is used to build the URL of the request which includes the base URL along with any path or query parameters.
+   
+- `isCanceled method`: This method checks and returns whether the request has been cancelled.
+  
+Note: The actual implementation of the methods may vary based on how it's been implemented in the actual class.- `isRunning` method: It returns a boolean value indicating whether the request is currently running.
+
+- `parseNetworkError` method: It processes an `ANError` instance and converts the body of the failed request to a string.
+
+- `parseResponse` method: This method parses the response based on the specified response type. The parsing can be for json objects, json arrays, strings, etc.
+
+- `prefetch` method: This is used to setup a prefetch request type and add it to the request queue.
+
+- `setAnalyticsListener`, `setDownloadProgressListener`, `setUploadProgressListener` methods: These methods are used to set various listeners. 
+
+- `setCall`, `setFuture`, `setProgress`, `setRunning`, `setSequenceNumber`, `setType`, `setUserAgent` methods: These are standard setters for various properties of the request.
+
+- `startDownload` method: Begins the download operation by adding the request to a queue.
+
+- `toString` method: Returns a string representation of the request object.
+
+- `updateDownloadCompletion` method: Handles completion of download process.
+
+- The `DownloadBuilder` class has many methods dealing with the building of the request. These include setting headers, path parameters, query parameters, network cache policy and execute request. The methods return an object of class DownloadBuilder for chaining.- `getResponseOnlyIfCached()`: Returns a response only if it has previously been cached.
+
+- `setExecutor(Executor param1Executor)`: Sets the executor instance for executing the requests.
+
+- `setMaxAgeCacheControl(int, TimeUnit)`: Sets the "max-age" cache control header with the given value and unit.
+
+- `setMaxStaleCacheControl(int, TimeUnit)`: Sets the "max-stale" cache control header with the given value and unit.
+
+- `setOkHttpClient(OkHttpClient)`: Sets the OkHttpClient instance.
+
+- `setPercentageThresholdForCancelling(int)`: Sets the percentage threshold for canceling requests.
+
+- `setPriority(Priority)`: Sets the request priority.
+
+- `setTag(Object)`: Sets a tag for the request.
+
+- `setUserAgent(String)`: Sets the User-Agent value.
+
+- `MultipartBuilder` class: Request builder that supports multipart/form-data requests. It offers different methods to set headers, configure the request, and add multipart parts (both files and parameters).
+
+- `addMultipartFileWithKey(String, MultipartFileBody)`: Adds a multipart file part to the request.
+
+- `addHeaders(Object)`: Adds headers to the request.
+
+- `addHeaders(String, String)`: Adds a single header to the request. The first parameter is a key and the second is a value.- `addApplicationJsonBody(Object param1Object)`: Adds an application JSON body to the request by converting the passed object to a JSON string.
+
+- `addBodyParameter(Object param1Object)`: Adds body parameters to the request from a passed object by converting it to a map of strings.
+
+- `addBodyParameter(String param1String1, String param1String2)`: Adds a single body parameter to the request with the given key and value.
+
+- `addBodyParameter(Map<String, String> param1Map)`: Adds body parameters to the request from a given map.
+
+- `addByteBody(byte[] param1ArrayOfbyte)`: Adds a byte array as the body of the request.
+
+- `addFileBody(File param1File)`: Adds a file as the body of the request.
+
+- `addHeaders(Object param1Object)`: Adds headers to the request by converting the passed object to a map of strings.- `addHeaders(String param1String1, String param1String2)`: Adds a single header to the request with the given key and value.
+
+- `addHeaders(Map<String, String> param1Map)`: Adds headers to the request from a given map.
+
+- `addJSONArrayBody(JSONArray param1JSONArray)`: Adds a JSON array as the body of the request by converting it to a string.
+
+- `addJSONObjectBody(JSONObject param1JSONObject)`: Adds a JSON object as the body of the request by converting it to a string.
+
+- `addPathParameter(Object param1Object)`, `addPathParameter(String param1String1, String param1String2)`, `addPathParameter(Map<String, String> param1Map)`: Adds path parameters to the request from a passed object/a given key-value pair/a given map, respectively.
+
+- `addQueryParameter(Object param1Object)`, `addQueryParameter(String param1String1, String param1String2)`, `addQueryParameter(Map<String, String> param1Map)`: Adds query parameters to the request from a passed object/a given key-value pair/a given map, respectively.
+
+- `addStringBody(String param1String)`: Adds a string as the body of the request.
+
+- `addUrlEncodeFormBodyParameter(Object param1Object)`, `addUrlEncodeFormBodyParameter(String param1String1, String param1String2)`, `addUrlEncodeFormBodyParameter(Map<String, String> param1Map)`: Adds url-encoded form body parameters from a passed object/a given key-value pair/a given map, respectively.
+
+- `build()`: Builds the request with all the set parameters.
+
+- `doNotCacheResponse()`: Sets the request to not cache the response.
+
+- `getResponseOnlyFromNetwork()`, `getResponseOnlyIfCached()`: Sets the request to get the response only from network/only if cached.
+
+- `setContentType(String param1String)`: Sets the content type of the request.
+
+- `setExecutor(Executor param1Executor)`: Sets the executor for this request.
+
+- `setMaxAgeCacheControl(int param1Int, TimeUnit param1TimeUnit)`, `setMaxStaleCacheControl(int param1Int, TimeUnit param1TimeUnit)`: Sets the maximum age/staleness of the cache control for this request.
+
+- `setOkHttpClient(OkHttpClient param1OkHttpClient)`: Sets the OkHttpClient for this request.
+
+- `setPriority(Priority param1Priority)`: Sets the priority of the request.
+
+- `setTag(Object param1Object)`: Sets a tag for the request.
+
+- `setUserAgent(String param1String)`: Sets the user agent for the request.
+
+- `PutRequestBuilder(String param1String)`: A builder for a PUT request with a given url.

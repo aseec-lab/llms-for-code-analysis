@@ -1,0 +1,5 @@
+The `IconCompatParcelizer` class provides support for marshalling and unmarshalling `IconCompat` instance data to and from a Parcel. It includes two static methods:
+
+1. `read(VersionedParcel paramVersionedParcel)`: This method creates a new `IconCompat` object and assigns its properties using the given `VersionedParcel` object. The properties include type, data, Parcelable object, two integers (mInt1 and mInt2), a tint list (ColorStateList object), and a tint mode string. After setting these properties, it calls the `onPostParceling` method on the `IconCompat` instance to perform any final actions needed and returns the filled `IconCompat` object.
+
+2. `write(IconCompat paramIconCompat, VersionedParcel paramVersionedParcel)`: This method takes an `IconCompat` instance and a `VersionedParcel` instance as parameters. It first sets the serialization flags on the Parcel. Then it starts to write the `IconCompat` object's properties into the `VersionedParcel`. It only writes a property if it has a non-default value.

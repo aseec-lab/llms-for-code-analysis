@@ -1,0 +1,7 @@
+The `IntentCompat` class in the `androidx.core.content` package provides compatibility methods for working with intents.
+
+The class defines three public static final string constants: `CATEGORY_LEANBACK_LAUNCHER`, `EXTRA_HTML_TEXT`, and `EXTRA_START_PLAYBACK`. These constants represent specific category and extra keys that can be used when creating or working with intents.
+
+The class also provides a `makeMainSelectorActivity()` method that creates an intent to launch an activity that matches a specific action and category. On devices with SDK version 15 (Android 4.0.3) and above, it delegates to `Intent.makeMainSelectorActivity()` method. On lower version devices, it manually creates an intent and adds the given action and category to it. The created intent is then returned.
+
+This class helps provide compatibility for creating main selector activities across different Android versions.

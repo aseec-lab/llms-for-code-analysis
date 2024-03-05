@@ -1,0 +1,13 @@
+The `Address` class in OkHttp represents an internet address that can be used to establish HTTP(S) connections. Here's a breakdown of its structure:
+
+- It holds various configuration information required to establish a connection, such as the URL, DNS resolution logic, socket factories (both standard and SSL), optional proxy information, authenticator details, supported connection specifications, and hostname verifier.
+
+- The constructor `Address` ensures that necessary parameters (like DNS, socketFactory, etc.) are not null. It forms the URL based on whether the SSL socket factory is provided.
+
+- The `certificatePinner()`, `connectionSpecs()`, `dns()`, `hostnameVerifier()`, `protocols()`, `proxy()`, `proxyAuthenticator()`, `proxySelector()`, `socketFactory()`, `sslSocketFactory()`, and `url()` methods provide access to the respective properties.
+
+- The `equals` and `hashCode` methods are overridden to provide equality comparisons based on contents of the object rather than their memory address.
+
+- The `equalsNonHost` method checks if two Address objects are equal, disregarding their hostnames. This might be useful in situations where two addresses can be considered equivalent whether or not they're hosted on the same server.
+
+- The `toString` method provides a string representation of the Address object, including the host, port, and proxy or proxy selector details, useful for debugging.

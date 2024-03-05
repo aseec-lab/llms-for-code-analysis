@@ -1,0 +1,11 @@
+The `Recreator` class in the `androidx.savedstate` package is responsible for recreating classes that implement the `SavedStateRegistry.AutoRecreated` interface.
+
+It has a constructor that takes a `SavedStateRegistryOwner` as a parameter and initializes the `mOwner` field.
+
+The `reflectiveNew(String paramString)` method uses reflection to create an instance of a class based on its fully qualified name. It then calls the `onRecreated()` method of the created instance, passing in the `mOwner`.
+
+The class implements the `GenericLifecycleObserver` interface, which is used to observe the lifecycle events of a `LifecycleOwner`. In the `onStateChanged()` method, it listens for the `ON_CREATE` event and consumes the restored state for the component "androidx.savedstate.Restarter". It then retrieves a list of classes to restore from the restored state and calls the `reflectiveNew()` method for each class.
+
+The `SavedStateProvider` class is a nested class within `Recreator` that implements the `SavedStateRegistry.SavedStateProvider` interface. It is responsible for providing the saved state for the "androidx.savedstate.Restarter" component. It keeps track of a set of classes to restore and saves it into a `Bundle` when the `saveState()` method is called.
+
+Overall, the `Recreator` class uses reflection to instantiate and recreate classes that implement the `SavedStateRegistry.AutoRecreated` interface, and the `SavedStateProvider` class provides the saved state for the "androidx.savedstate.Restarter" component.

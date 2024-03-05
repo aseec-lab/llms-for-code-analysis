@@ -1,0 +1,12 @@
+The `FileSystem` interface in OkHttp provides a set of methods for interacting with the file system. These methods allow for operations such as writing to a file, deleting a file, checking if a file exists, renaming a file, getting the size of a file, and reading from a file.
+
+1. `appendingSink(File paramFile)`: Create a `Sink` that can be used to append data to the provided file.
+2. `delete(File paramFile)`: Delete the provided file. An exception is thrown if the file exists but cannot be deleted.
+3. `deleteContents(File paramFile)`: Delete the contents of the provided directory. An exception is thrown if the operation fails or if the provided file is not a directory.
+4. `exists(File paramFile)`: Check if the provided file exists.
+5. `rename(File paramFile1, File paramFile2)`: Rename the first file to the second file. The destination file is deleted if it already exists.
+6. `sink(File paramFile)`: Create a `Sink` that can be used to write data to the provided file.
+7. `size(File paramFile)`: Return the size of the provided file.
+8. `source(File paramFile)`: Create a `Source` that can be used to read data from the provided file.
+
+The `SYSTEM` constant is a default implementation of the `FileSystem` interface, using the local file system. If a file operation error occurs, this implementation will attempt to recover if possible (e.g., by creating parent directories), or fail with an exception.

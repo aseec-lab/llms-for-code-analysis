@@ -1,0 +1,11 @@
+The `HttpMethod` class in the OkHttp library provides utility methods to perform operations on HTTP methods:
+
+1) `invalidatesCache(String paramString)` checks if the HTTP method (given as a string) invalidates the cache. It returns true when the method is either POST, PATCH, PUT, DELETE or MOVE.
+
+2) `permitsRequestBody(String paramString)` checks if the HTTP method (given as a string) permits a request body. It returns false only for GET and HEAD methods. 
+
+3) `redirectsToGet(String paramString)` checks if the HTTP method (given as a string) redirects to GET method. This method returns true for all methods except PROPFIND.
+
+4) `redirectsWithBody(String paramString)` checks if the HTTP method (given as a string) can redirect with a body. This is true only for PROPFIND.
+
+5) `requiresRequestBody(String paramString)` checks if the HTTP method (given as a string) requires a request body. This is true for POST, PUT, PATCH, PROPPATCH, or REPORT methods.

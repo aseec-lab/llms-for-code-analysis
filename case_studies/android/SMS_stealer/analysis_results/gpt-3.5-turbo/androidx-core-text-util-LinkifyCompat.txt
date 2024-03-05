@@ -1,0 +1,15 @@
+The LinkifyCompat class in the androidx.core.text.util package provides methods for adding clickable links to TextViews. It includes support for web URLs, email addresses, and map links.
+
+The class contains various overloaded addLinks() methods that take TextView, Pattern, and String parameters to add links to the text. These methods internally use the Linkify class from the Android framework to add the links.
+
+The addLinks() methods first check if the framework version should be used. If yes, they delegate to the corresponding Linkify.addLinks() method from the framework. Otherwise, they implement the link creation logic themselves.
+
+The class also provides methods for adding links to a Spannable, applying a link to a spannable, finding addresses in a string, gathering links from a spannable, and gathering map links from a spannable.The provided code is from the `LinkifyCompat` class in the `androidx.core.text.util` package. 
+
+The code includes methods for managing clickable links in TextViews. It handles adding links, pruning overlapping links, and checking if the framework version should be used for link creation.
+
+The `pruneOverlaps()` method removes overlapping links from a given Spannable text.
+
+The `shouldAddLinksFallbackToFramework()` method determines whether the framework should be used for link creation based on the Android version.
+
+Additionally, the code includes an inner class called `LinkSpec`, which represents the details of a link, such as its start and end positions and the associated URL.

@@ -1,0 +1,12 @@
+`ResourcesWrapper` class is a subclass of Android's `Resources` class that provides access to an application's resources. It contains a `Resources` object and all the methods in the `ResourcesWrapper` class delegates their tasks to the methods in the actual `Resources` object.
+
+Here is a list of some of the most relevant methods:
+
+- `getAnimation(int paramInt)`: Returns animation resource for provided id.
+- `getBoolean(int paramInt)`,`getColor(int paramInt)`,`getDimension(int paramInt)`, etc.: Various get methods which return resources of different types based on the provided id.
+- `getIdentifier(String paramString1, String paramString2, String paramString3)`: Returns the id of the specific resource name of a particular type and package.
+- `obtainAttributes(AttributeSet paramAttributeSet, int[] paramArrayOfint)`: Retrieves a set of attribute values.
+- `obtainTypedArray(int paramInt)`: Returns a typed array of resources for given id.
+- `updateConfiguration(Configuration paramConfiguration, DisplayMetrics paramDisplayMetrics)`: Updates the current configuration and display metrics of the resources object.
+
+In summary, this class is a wrapper around the `Resources` object and is a way to delegate the calls to the actual `Resources` class with the exact same parameters. All resource fetching for the application should go through this class.

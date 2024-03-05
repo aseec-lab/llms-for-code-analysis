@@ -1,0 +1,9 @@
+The `BasicCertificateChainCleaner` class extends `CertificateChainCleaner` and is used in OkHttp to clean up a certificate chain (i.e. to ensure that the certificate chain conforms to the requirements, such as being properly signed and in the correct order). This class relies on an instance of `TrustRootIndex` to identify the root certificates in the provided certificate chain.
+
+The class has a constructor which accepts a `TrustRootIndex` object, which is stored and used later in the `clean()` method.
+
+The `clean()` method accepts a list of `Certificate` objects and a string (presumably a host). The method verifies each certificate in the chain until it reaches the root certificate which is then added to the front of the chain. This process continues until the list of certificates has been fully traversed or the maximum number of iterations (9) has been reached. If any anomalies are detected during chain cleaning, the method throws an `SSLPeerUnverifiedException`.
+
+The `verifySignature()` method attempts to verify the authenticity of a given certificate using the public key of the issuer's certificate. It returns `true` if validation has been successful and `false` otherwise.
+
+The class also has `equals()` and `hashCode()` methods which are tailored specific for the `BasicCertificateChainCleaner`. They are used to compare instances of the class and to provide unique hash codes respectively. The `TrustRootIndex` instance is used as the basis for equality and hash calculations.

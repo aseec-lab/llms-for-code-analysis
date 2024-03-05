@@ -1,0 +1,9 @@
+The `Transformations` class in the `androidx.lifecycle` package provides static methods for transforming LiveData objects.
+
+- The `map()` method takes a source LiveData object and a `mapFunction` function that transforms the value of the source LiveData. It creates a new `MediatorLiveData` object, adds the source LiveData as a source, and updates the new LiveData with the transformed value whenever the source LiveData changes. The transformed LiveData is then returned.
+
+- The `switchMap()` method is similar to the `map()` method, but it takes a `switchMapFunction` function that returns a new LiveData object based on the value of the source LiveData. Whenever the source LiveData changes, the `switchMapFunction` is called to get the new LiveData, and the old LiveData source is removed and replaced with the new LiveData source. The transformed LiveData is then returned.
+
+Both methods use `MediatorLiveData` internally to observe changes in the source LiveData and propagate updates to the transformed LiveData.
+
+These methods facilitate the transformation of LiveData objects and make it easy to create new LiveData objects based on existing ones.

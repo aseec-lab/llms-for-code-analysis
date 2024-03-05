@@ -1,0 +1,9 @@
+The `AppLaunchChecker` class in the `androidx.core.app` package provides methods to check if an app was launched from the launcher.
+
+Here's a summary of what the code does:
+
+- The class defines constants for the shared preferences key and name.
+- The `hasStartedFromLauncher()` static method retrieves the shared preferences and returns the boolean value indicating if the app was started from the launcher.
+- The `onActivityCreate()` static method is called when an activity is created. It retrieves the shared preferences and checks if the app was already started from the launcher. If it was, the method returns. Otherwise, it checks the intent of the activity to see if it was started with the MAIN action and the LAUNCHER or LEANBACK_LAUNCHER category. If it matches, it sets the "startedFromLauncher" flag in the shared preferences to true.
+
+Note: The code uses the deprecated `android.support` package name. You may want to update it to the newer `androidx` package name.

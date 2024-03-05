@@ -1,0 +1,9 @@
+The `ResourcesFlusher` class in the AndroidX AppCompat library is an internal utility used to clear or "flush" preloaded resource caches in an application's `Resources` object. This is useful when you want to make sure that all resources are freshly loaded and any cached data is removed - for instance, when you've dynamically changed a resource value and want to make sure all components reload this resource.
+
+The class has separate flushing methods for different Android versions (`flushLollipops`, `flushMarshmallows`, `flushNougats`) due to changes in the fields and classes related to resource caching across different Android versions.
+
+The `flush()` method determines the Android version and calls the corresponding resource flush method. Each flush method attempts to access the resource cache through reflection to bypass private access, and clear it.
+
+The method `flushThemedResourcesCache()` is used for flushing themed resource cache. It's used by `flushMarshmallows` and `flushNougats` methods. 
+
+In the case where accessibility for certain fields could not be set or the value could not be received due to exceptions, error messages are logged.

@@ -1,0 +1,17 @@
+The code defines a class called EnvironmentCompat in the package androidx.core.os.
+
+The class provides a method called getStorageState that returns the storage state of a given file.
+
+The method first checks the Android SDK version and uses the appropriate method to obtain the storage state.
+
+If the SDK version is 21 or higher, it calls Environment.getExternalStorageState(paramFile).
+
+If the SDK version is between 19 and 21, it calls Environment.getStorageState(paramFile).
+
+If the SDK version is lower than 19, it tries to compare the canonical path of the file with the canonical path of the external storage directory using Environment.getExternalStorageDirectory().getCanonicalPath(). If they match, it calls Environment.getExternalStorageState().
+
+If any exceptions occur during the canonical path resolution, it logs a warning message with the exception details.
+
+The class also declares a constant String "MEDIA_UNKNOWN" and a private constant String "TAG".
+
+A comment at the end of the code includes the file path, Java compiler version, and JD-Core version.

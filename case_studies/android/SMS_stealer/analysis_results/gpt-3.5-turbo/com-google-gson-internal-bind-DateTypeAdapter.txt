@@ -1,0 +1,11 @@
+The `DateTypeAdapter` class is a Gson TypeAdapter implementation for serializing and deserializing `Date` objects. It provides methods to read a `Date` from JSON and write a `Date` to JSON.
+
+The class implements the `TypeAdapter` interface and has two DateFormat objects (`enUsFormat` and `localFormat`) for parsing and formatting `Date` objects in different locales.
+
+The `deserializeToDate()` method is used internally to parse a string representation of a date into a `Date` object. It tries to parse the string using the `localFormat` and `enUsFormat` DateFormats, and if that fails, it tries to parse using the `ISO8601Utils` utility class.
+
+The `read()` method reads a JSON value from a JsonReader and converts it to a `Date` object using the `deserializeToDate()` method.
+
+The `write()` method writes a `Date` object to a JsonWriter by formatting it using the `enUsFormat` DateFormat.
+
+Overall, the `DateTypeAdapter` class provides the necessary logic to serialize and deserialize `Date` objects in a JSON format using Gson.

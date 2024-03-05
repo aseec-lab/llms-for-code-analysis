@@ -1,0 +1,51 @@
+The `StreamAllocation` class in the `okhttp3.internal.connection` package is used to handle connections for HTTP/2 calls. The class contains methods to perform operations like finding a connection, releasing a connection, marking a stream as finished and handling retries and connection failures.
+
+- The `StreamAllocation` constructor takes a `ConnectionPool`, `Address`, `Call`, `EventListener`, and an `Object` parameter indicating the call stack trace.
+
+- The `deallocate` method is used to release resources allocated to connections. If the connection is no longer needed or usable, it will be cleaned up and any necessary events will be reported.
+
+- The `findConnection` method attempts to obtain a `RealConnection` suitable for the given request. It will either retrieve an existing connection from the pool, establish a new connection or throw an IOException.
+
+In this class, the synchronization is implemented to prevent conflicts and ensure thread safety during multi-threading operations. It also handles various cases such as connection cancellation, connection release, and connection failure scenarios. 
+
+It's important to note that the `StreamAllocation` class is coupled with the `RealConnection` class. They perform operations on instances of each other, which shows a close relationship between these two classes. 
+
+In addition, the class contains several settings for HttpCodec, connections, routes and events related to the HTTP/2 call. 
+
+(Please note - without seeing the remainder of the `StreamAllocation.java` file, the analysis is based only on the provided code excerpt.)- The `findHealthyConnection` method tries to find a working connection. If the connection is not healthy (determined by invoking `isHealthy` method on the `RealConnection` object), it calls `noNewStreams` and repeat the process until it finds a suitable connection.
+
+- The `release` method removes this `StreamAllocation` from the list of allocations in the provided `RealConnection`. If the `StreamAllocation` is not in the list, it throws an `IllegalStateException`.
+
+- The `releaseIfNoNewStreams` method checks if no new streams can be created in the current connection. If true, it deallocates the connection and returns the resulting socket.
+
+- The `routeDatabase` method returns the `RouteDatabase` instance associated with the connection pool.
+
+- The `acquire` method adds a `StreamAllocationReference` to the given `RealConnection` if there is no existing connection associated with this `StreamAllocation`.
+
+- The `cancel` method cancels the current HTTP/2 codec or connection if they exist.
+
+- The `codec` method simply returns the current `HttpCodec`. 
+
+- The `connection` method returns the current `RealConnection`.
+
+- The `hasMoreRoutes` method checks if there are more routes for the HTTP/2 call to follow. Returns true if either a route has not been selected, or if the route selection or the route selector has more routes.
+
+- The `newStream` method tries to establish a new stream (connection) with a codec. An `Intercept.Chain` argument is provided for working with OkHttp interceptors. The method wraps any `IOException` in a `RouteException`.
+
+- The `noNewStreams` method marks the current connection as unsuitable for new streams, and notifies any listener about the release of the connection.- The `releaseAndAcquire` method releases the current connection and acquires a new one. If the current connection has no associated HTTP/2 codec and only one allocation, it deallocates the connection, and then acquires a new one from the provided `RealConnection` object.
+
+- The `route` method returns the current `Route` object.
+
+- The `streamFailed` method handles stream errors. Depending on the type of the error, it either increments the `refusedStreamCount` if the error is due to refusal of the stream or discards the current route if the error results in a non-working connection.
+
+- The `streamFinished` method finalizes stream operations. It increases the `successCount` of the connection if the operation is marked successful or properly closes the connection and releases resources upon a failure.
+
+- The `toString` method returns a string representation of the `StreamAllocation` object. It includes the connection info if a connection is established, or otherwise the address info.
+
+- `StreamAllocationReference` is a nested class that extends `WeakReference<StreamAllocation>`. It holds a reference to a `StreamAllocation` object, which might be released when not needed anymore due to its nature of being a weak reference. It also contains the stack trace of the call.This part of the code does not contain method implementations or class details, but instead includes metadata about the compilation and location of the `StreamAllocation` class code file.
+
+- The location path `C:\Users\Jason\Downloads\355cd2b71db971dfb0fac1fc391eb4079e2b090025ca2cdc83d4a22a0ed8f082-dex2jar.jar!\okhttp3\internal\connection\StreamAllocation.class` indicates where the `.jar` file containing the `StreamAllocation.class` file is stored on a local system.
+
+- The `Java compiler version` line states the version of the Java compiler that was used to compile this code. In this case, the code file was compiled using Java compiler version 6.
+
+- `JD-Core Version` indicates the version of JD-Core library. Here, the version is 1.1.3. JD-Core is a library that reconstructs Java source code from one or more ".class" files.

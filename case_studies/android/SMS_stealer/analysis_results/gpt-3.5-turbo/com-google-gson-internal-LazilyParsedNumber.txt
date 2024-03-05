@@ -1,0 +1,13 @@
+The `LazilyParsedNumber` class in the `com.google.gson.internal` package is a final class that extends the `Number` class. It represents a lazily parsed number, which is a number that is stored as a string and only parsed when required.
+
+The class has a private final field `value` of type `String`, which stores the string representation of the number.
+
+The constructor `LazilyParsedNumber(String paramString)` initializes the `value` field with the provided string.
+
+The class overrides several methods from the `Number` class, including `doubleValue()`, `floatValue()`, `intValue()`, and `longValue()`, which parse the `value` string and return the corresponding primitive values.
+
+The class also overrides the `equals(Object obj)`, `hashCode()`, and `toString()` methods.
+
+Additionally, the class includes a private `writeReplace()` method that is called during serialization to replace the `LazilyParsedNumber` instance with a `BigDecimal` instance constructed from the `value` string.
+
+This class is used internally in the Gson library for parsing numbers.

@@ -1,0 +1,14 @@
+The `ConnectionSpec` class in the `okhttp3` package represents a configuration for an HTTPS connection. It specifies the supported cipher suites, TLS versions, and support for TLS extensions.
+
+Key features of the `ConnectionSpec` class include:
+- It maintains the `tls`, `cipherSuites`, `tlsVersions`, and `supportsTlsExtensions` properties.
+- It provides a constructor and a builder to create instances of `ConnectionSpec` with different configurations.
+- The `supportedSpec()` method determines the supported `ConnectionSpec` for a given `SSLSocket`.
+- The `apply()` method applies the `ConnectionSpec` configuration to an `SSLSocket`.
+- The `isCompatible()` method checks whether a given `SSLSocket` is compatible with the `ConnectionSpec`.
+- The `equals()` and `hashCode()` methods allow comparing `ConnectionSpec` instances for equality.
+- The `toString()` method provides a string representation of the `ConnectionSpec`.
+
+The `ConnectionSpec` class also defines a `Builder` class that provides methods for configuring the `ConnectionSpec` instance. The builder allows setting the cipher suites, TLS versions, and support for TLS extensions.
+
+This class is used by OkHttp to configure the supported options for HTTPS connections.

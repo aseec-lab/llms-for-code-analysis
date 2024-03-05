@@ -1,0 +1,11 @@
+This code defines the abstract class `RoundedBitmapDrawable`, which extends `Drawable` and is used to represent a drawable image with rounded corners. 
+
+It includes properties for handling images such as the `Bitmap` itself, a `BitmapShader` for drawing, the `Paint` for rendering, a target density for image quality, and dimensions for the bitmap. Flags specify whether the image is rendered as circular, if gravity is applied, and the degree of the corner radius. 
+
+The class has a constructor `RoundedBitmapDrawable(Resources paramResources, Bitmap paramBitmap)` that initializes these properties. Additional methods are provided for updating dimensions, checking for corner radius, getting opacity, applying gravity and more essential handlers for manipulating drawable images. 
+
+The class also offers various setters and getters for manipulating and accessing these properties, as well as methods like `draw()` that take a `Canvas` and render the `Drawable`. If the `Drawable` should be circular, the method `setCircular(boolean paramBoolean)` is used to update accordingly. 
+
+It's worth noting that some methods just throw `UnsupportedOperationException` such as `setMipMap(boolean paramBoolean)`, and `hasMipMap()`, which suggests that the class does not support handling of mipmaps. 
+
+The last method `updateDstRect()` helps in updating the destination rectangle based on the current properties of the object. This includes updating the `Matrix` for the `BitmapShader`, which is important when the object is being drawn on a `Canvas`.

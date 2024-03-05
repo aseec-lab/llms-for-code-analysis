@@ -1,0 +1,15 @@
+The `MediatorLiveData` class in the `androidx.lifecycle` package extends the `MutableLiveData` class. It is used to observe changes in a set of `LiveData` sources and propagate those changes to its own observers.
+
+The class has a `SafeIterableMap` field named `mSources` which is used to store the sources and their corresponding observers.
+
+The `addSource()` method is used to add a new `LiveData` source along with its observer to the `mSources` map. It creates a new `Source` object and adds it to the map with the `LiveData` as the key. If the source was already added with a different observer, an exception is thrown.
+
+The `onActive()` method is called when the `MediatorLiveData` becomes active. It iterates over the `mSources` map and calls the `plug()` method on each source to start observing changes.
+
+The `onInactive()` method is called when the `MediatorLiveData` becomes inactive. It iterates over the `mSources` map and calls the `unplug()` method on each source to stop observing changes.
+
+The `removeSource()` method is used to remove a `LiveData` source from the `mSources` map. It removes the source from the map and calls the `unplug()` method on the source to stop observing changes.
+
+The `Source` class is an inner class within `MediatorLiveData` and implements the `Observer` interface. It is used to keep track of a `LiveData` source and its observer. The `onChanged()` method is called when the source receives a change and it notifies the observer if the `LiveData` version has changed.
+
+Overall, the `MediatorLiveData` class allows for aggregating multiple `LiveData` sources and propagating their changes to its own observers.

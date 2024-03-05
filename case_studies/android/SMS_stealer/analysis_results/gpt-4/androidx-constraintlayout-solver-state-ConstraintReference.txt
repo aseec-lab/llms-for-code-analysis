@@ -1,0 +1,29 @@
+The `ConstraintReference` class is used to define and manipulate the constraints of a `ConstraintWidget` in a `ConstraintLayout`. This class holds reference to the constraints and provides methods to apply and manage them.
+
+Here is a high-level overview of the class:
+
+- `ConstraintReference` has several instance variables representing various constraints such as `mLeftToLeft`, `mLeftToRight`, `mRightToLeft`, `mRightToRight`, margin values, and others.
+
+- In its constructor (`public ConstraintReference(State paramState)`), it initializes the `mState` with the passed `State` instance.
+
+- The `apply()` method applies the constraints to the `ConstraintWidget`. It first applies the dimensions, then dereferences, applies each type of connection, sets chain styles, and sets the biases.
+
+- The `applyConnection()` method makes a specific connection between the `ConstraintWidget` and its target based on the passed `State.Constraint` object.
+
+- The `dereference()` method retrieves actual target references for various constraints from the `State`.
+
+- The `get(Object paramObject)` and `getTarget(Object paramObject)` methods retrieve the actual reference of an object from the `State` and the `ConstraintWidget` of a target object respectively.
+
+- Various methods like `baselineToBaseline()`, `bottomToTop()`, `centerHorizontally()`, and others are used to set specific types of constraints.
+
+- The `clear()` method resets all constraints related to the last set constraint type.
+
+This class is crucial in managing and applying constraints to a `ConstraintWidget` in a `ConstraintLayout`.The class `ConstraintReference` contains methods for manipulating the constraints of a widget, including horizontal and vertical constraints. It provides methods for setting the start and end points, height and width, left and right anchors, margins, bias and chain style. It also contains methods for getting the current constraints. The `createConstraintWidget()` method is used to create a new `ConstraintWidget` based on the current details. It also allows the connection of attribute pairs, such as left-to-right, top-to-bottom, start-to-end, and end-to-end.The `validate()` method checks if any of the pairs of constraints are concurrently defined. If so, an `IncorrectConstraintException` is thrown. This error message specifies that both attributes of a pair cannot be defined simultaneously. 
+
+The `verticalBias(float paramFloat)` method helps to set the vertical bias of a widget. 
+
+The `width(Dimension paramDimension)` function sets the width of a widget. The parameters passed is of Dimension type.
+
+The `ConstraintReferenceFactory` interface declares a method named `create(State param1State)`, which creates a new `ConstraintReference` object.
+
+The `IncorrectConstraintException` is a user-defined exception class, which extends `Exception` class. It has a field `mErrors` to hold a list of error messages, a constructor to initialise this field, a `getErrors()` method to return the list of error messages, and an overridden `toString()` method to return the string representation of the exception.

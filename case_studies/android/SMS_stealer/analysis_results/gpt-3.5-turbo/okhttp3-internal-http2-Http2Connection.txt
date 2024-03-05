@@ -1,0 +1,71 @@
+The `Http2Connection` class is responsible for managing the HTTP/2 connection between the client and server. It handles creating and maintaining streams, sending and receiving frames, and managing the flow control and settings of the connection. The class uses a `Http2Writer` to send frames and a `Http2Reader` to receive frames.
+
+The constructor initializes various fields and settings for the connection, including the `Settings` for the client and peer, the next stream ID, and the socket. It also creates the `Http2Writer` and `ReaderRunnable` objects.
+
+The `newStream` method is used to create a new HTTP/2 stream. It generates a new stream ID, creates a new `Http2Stream` object with the given parameters, and adds it to the `streams` map. It then sends a SYN_STREAM or PUSH_PROMISE frame to the server, depending on whether it is a client or server stream.
+
+The `addBytesToWriteWindow` method is used to update the write window size for the connection. It adds the given number of bytes to the `bytesLeftInWriteWindow` field and notifies any threads waiting on the connection.
+
+The `awaitPong` method is called to wait for a PING frame response. It waits until the `awaitingPong` flag is cleared by another thread.
+
+The `close` method is used to gracefully close the HTTP/2 connection. It sends a GOAWAY frame with the given error codes to the server, closes the socket, and interrupts any threads waiting on the connection.
+
+Overall, the `Http2Connection` class provides the functionality to establish and manage a HTTP/2 connection, handle stream creation and communication, and handle connection shutdown.This code snippet seems to be part of a larger class that manages an HTTP/2 connection. It includes methods for closing the connection, flushing the data, getting the HTTP/2 protocol, getting a specific stream from the connection, checking if the connection is shutdown, getting the maximum concurrent streams, creating a new stream, and getting the number of open streams. 
+
+The `close` method closes the HTTP/2 connection by closing the streams, the writer, and the socket. 
+
+The `flush` method flushes the data by calling the `flush` method of the `Http2Writer`.
+
+The `getProtocol` method returns the protocol of the connection, which is HTTP/2.
+
+The `getStream` method retrieves a specific stream from the connection based on the given stream ID.
+
+The `isShutdown` method checks if the connection is shutdown.
+
+The `maxConcurrentStreams` method returns the maximum number of concurrent streams allowed by the peer.
+
+The `newStream` method creates a new stream with the given headers and a flag indicating if it is a server-initiated push. It calls an overloaded `newStream` method with a default stream ID of 0.
+
+The `openStreamCount` method returns the number of open streams in the connection.
+
+The `pushDataLater` method is used to process pushed data received from the server. It buffers the data and then executes a task on the pushExecutor to handle the data.
+
+The `pushHeadersLater` method is used to process pushed headers received from the server. It executes a task on the pushExecutor to handle the headers.The remaining part of the code snippet includes methods for handling push requests, resetting pushed streams, removing streams from the connection, setting connection settings, shutting down the connection, starting the connection, and writing data to the connection. 
+
+The `pushRequestLater` method adds a push request to the set of current push requests and executes a task on the pushExecutor to handle the request.
+
+The `pushResetLater` method executes a task on the pushExecutor to handle the reset of a pushed stream.
+
+The `pushStream` method creates a new stream for push requests, but throws an exception if the connection is a client.
+
+The `pushedStream` method checks if a stream is a pushed stream based on its ID.
+
+The `removeStream` method removes a stream from the connection.
+
+The `setSettings` method sets the connection settings by merging the provided settings with the existing settings and sending them to the other endpoint using the Http2Writer.
+
+The `shutdown` method shuts down the connection by setting the shutdown flag, sending a GOAWAY frame to the other endpoint, and closing the writer.
+
+The `start` method starts the connection by sending the connection preface, sending the initial settings, and starting the reader thread.
+
+The `writeData` method writes data to a stream, taking care of flow control. It waits if the stream is closed or if the bytesLeftInWriteWindow is zero. It then writes data in chunks and updates the bytesLeftInWriteWindow until all data is written.The `execute` method reads the connection preface and processes incoming frames until there are no more frames to process. It handles different frame types and calls appropriate methods to handle the frames. The method also sets the appropriate error codes in case of exceptions or errors.The `goAway` method is called when a GOAWAY frame is received. It handles incoming GOAWAY frames by closing all streams with an ID greater than the last good stream ID specified in the frame.
+
+The `headers` method is called when a HEADERS frame is received. It handles incoming HEADERS frames by creating a new stream if necessary and forwarding the headers to the appropriate stream.
+
+The `ping` method is called when a PING frame is received. It handles incoming PING frames by sending a PING frame back to the sender with the same payload. If the PING frame has the ACK flag set, it notifies all waiting threads.
+
+The `priority` method is called when a PRIORITY frame is received. It handles incoming PRIORITY frames, but does not perform any action.
+
+The `pushPromise` method is called when a PUSH_PROMISE frame is received. It handles incoming PUSH_PROMISE frames by creating a new stream and forwarding the promised stream headers.
+
+The `rstStream` method is called when a RST_STREAM frame is received. It handles incoming RST_STREAM frames by closing the stream with the specified ID and removing it from the connection's stream map.
+
+The `settings` method is called when a SETTINGS frame is received. It handles incoming SETTINGS frames by applying the settings to the connection and sending an ACK SETTINGS frame back.
+
+The `windowUpdate` method is called when a WINDOW_UPDATE frame is received. It handles incoming WINDOW_UPDATE frames by updating the connection-level and stream-level flow control window sizes. If the stream ID is 0, it updates the connection-level window size. Otherwise, it updates the stream-level window size for the corresponding stream.The remaining code consists of two nested classes: `Settings` and `NamedRunnable`.
+
+The `Settings` class represents the settings of an HTTP/2 connection. It has methods to read and write settings values.
+
+The `NamedRunnable` class is a helper class that executes a task with a name. It is used to execute tasks related to applying and acknowledging settings.
+
+There are also some comments at the end of the code indicating the location of the .jar file containing this code and the compiler version used.

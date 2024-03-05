@@ -1,0 +1,34 @@
+The `AnimatedStateListDrawableCompat` class extends `StateListDrawable` and implements `TintAwareDrawable`. This class provides a drawable object that transitions between different stages with animations depending on its state.
+
+Key methods include:
+
+- `AnimatedStateListDrawableCompat()`: Constructor.
+- `create()`: A static method that creates an animation state list drawable from XML.
+- `createFromXmlInner()`: A static method that creates and loads an animated state list drawable from XML.
+- `inflateChildElements()`: Inflates child elements for the drawable from XML.
+- `init()`: Initializes the drawable state.
+- `parseItem()`: Parses drawable item attributes from XML.
+- `parseTransition()`: Parses drawable transition attributes from XML.
+
+This class also includes private methods and fields to handle inner functionality like mutation status (`mMutated`), drawable state (`mState`), drawable transition (`mTransition`) and transition indices (`mTransitionFromIndex`, `mTransitionToIndex`).This segment of the code adds more functionalities to the `AnimatedStateListDrawableCompat` class. Key methods include:
+
+- `updateStateFromTypedArray()`: Updates the state of the drawable based on configurations from a `TypedArray`.
+- `addState()`: Adds a state to the state list, with an associated drawable and ID.
+- `addTransition()`: Adds a transition between states with an associated drawable and flag for reversible transitions.
+- `clearMutated()`: Clears the mutation state of the drawable.
+- `mutate()`: Creates and returns a new instance of the drawable with the same constant state.
+- `inflate()`: Inflates the drawable from XML, parsing attributes and loading child elements.
+- `isStateful()`, `jumpToCurrentState()`, `setVisible()`: Handle the drawable's state and visibility.
+
+The code also includes two static nested classes — `AnimatableTransition` and `AnimatedStateListState`. `AnimatableTransition` manages `Animatable` transitions. `AnimatedStateListState` maintains the state list for the drawable and handles transitions between states.This segment of code extends the previous code by adding new drawable methods for the `AnimatedStateListDrawableCompat` and `AnimatedVectorDrawableCompat` classes:
+
+- `newDrawable()`: Creates & returns a new instance of the drawable.
+- `newDrawable(Resources)`: Creates & returns a new instance of the drawable, invoking resources.
+- `transitionHasReversibleFlag()`: Checks if a transition has a reversible flag. 
+
+It also introduces two new classes with methods:
+
+- `AnimatedVectorDrawableTransition`: A class handling transitions for vector drawables with start and stop methods.
+- `AnimationDrawableTransition`: Manages the animation drawable transition, through methods like canReverse(), reverse(), start() and stop().
+  
+Additionally, a `FrameInterpolator` class is defined, managing frames for animation drawables, and a `Transition` abstract class is declared, having basic transition control methods (start, stop, canReverse, reverse).

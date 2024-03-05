@@ -1,0 +1,37 @@
+The `ANImageLoader` class in the `com.androidnetworking.internal` package is a utility for loading and caching images from the network. It is designed to cope with handling a large number of concurrent image requests efficiently in terms of memory and performance:
+
+- The class uses the Singleton design pattern with the `getInstance()` method ensuring only one instance is created.
+
+- It uses an `ImageCache` implementation `LruBitmapCache` to keep a cache of images that have recently been loaded. The cache size is set to 1/8 of the available memory.
+
+- It creates requests for new images via the `makeImageRequest()` method and stores these requests in `mInFlightRequests`.
+
+- When an image is successfully loaded from the network via `onGetImageSuccess()`, it is added to the cache and returned.
+
+- If an error occurs during the pulling of image data via `onGetImageError()`, all associated listeners are notified of the error.
+
+- The `get()` methods asynchronously load an image specified by a URL and dimensions, then display it in an `ImageView`.
+
+- The `ImageListener` interface is a callback mechanism that receives updates about the image loading process.
+
+- The `BatchedImageRequest` class represents a collection of image requests that can be executed together.
+
+- The `throwIfNotOnMainThread()` check is performed to ensure that the methods are called from the UI thread. This is essential since the class directly manipulates UI elements hence thread safety must be maintained.
+
+- The `mBatchResponseDelayMs` field and the `setBatchedResponseDelay()` method allow the client to control the delay for batching image responses. This can be used to increase efficiency by reducing the number of UI updates. 
+
+- `getCacheKey()` method generates a key for image cache. It uses a combination of the image URL, width, height, and scale type to create a cache key.
+
+- `evictAllBitmap()` and `evictBitmap(String param1String)` are defined in the `ImageCache` internal interface for removing single or all bitmaps from the cache, respectively.The `ImageContainer` class is used to package together the components of an image request:
+
+- `mBitmap` is the bitmap fetched from the request initial.
+
+- `mRequestUrl` and `mCacheKey` are the URL from which the image is fetched and the corresponding cache key.
+
+- `mListener` is a listener object that will be alerted when an image is ready to be displayed.
+
+- The `cancelRequest()` function cancels the image request, removing it from both the list of inflight requests and batched responses if the conditions are met.
+
+- The `ImageListener` interface declares two callback methods: `onError()` to handle errors and `onResponse()` to handle successful image fetches.
+
+The code in this file is from a decompiled `.jar` file, as indicated by the comment at the bottom of the file.

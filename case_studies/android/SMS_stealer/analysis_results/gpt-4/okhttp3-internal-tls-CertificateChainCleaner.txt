@@ -1,0 +1,7 @@
+The `CertificateChainCleaner` is an abstract class in the `okhttp3.internal.tls` package. It acts as a base class for defining how certificate chains should be cleaned - that is, how certificate chains should be validated and arranged for secure SSL connections.
+
+Two static methods, `get(X509TrustManager paramX509TrustManager)` and `get(X509Certificate... paramVarArgs)`, are provided to create a cleaner given an `X509TrustManager` or a series of `X509Certificate` respectively.
+
+The key method in this class is the abstract method `clean()`, which takes a list of certificates and a string as arguments. This method is designed to be overridden by subclasses, which will implement the specific logic for how to clean (validate and arrange) a chain of certificates.
+
+This class doesn't have any non-static fields or non-abstract methods, meaning it doesn't provide any specific behavior on its own. It is essentially a design construct for defining what all `CertificateChainCleaner` implementations should look like.

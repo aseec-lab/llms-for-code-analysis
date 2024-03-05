@@ -1,0 +1,9 @@
+The `TintResources` class is a subclass of `ResourcesWrapper`. It's used to handle resource retrieval from `Resources`, specifically the tinting of `Drawable` resources. 
+
+Here's a breakdown of its components:
+
+1. `mContextRef`: A `WeakReference` to a `Context`. A weak reference is a reference that doesn't prevent the garbage collector from destroying its referent. This allows you to maintain a reference to the `Context` without preventing it from being garbage collected if necessary.
+
+2. `TintResources(Context paramContext, Resources paramResources)`: The constructor initializes the `ResourcesWrapper` with the provided `Resources`, and stores a `WeakReference` to the provided `Context`.
+
+3. `getDrawable(int paramInt)`: Overrides the `getDrawable` method from `ResourcesWrapper`. It retrieves a `Drawable` resource by its ID, then checks if the context still exists, and if it does, it applies the color tint to the `Drawable`. Finally, it returns this tinted `Drawable`.
