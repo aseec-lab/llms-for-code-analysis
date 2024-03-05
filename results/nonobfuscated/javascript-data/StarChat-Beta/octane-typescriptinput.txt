@@ -1,0 +1,46 @@
+Analyze the following piece of code: var compiler_input = "
+```
+1 + 2;
+3 - 4;
+5 * 6;
+7 / 8;
+```
+";
+
+var tokens = new List<Token>();
+var errors = new List<string>();
+
+var lexer = new Lexer(compiler_input, tokens, errors);
+lexer.Lex();
+
+var parser = new Parser(tokens, errors);
+var ast = parser.Parse();
+
+var visitor = new AstPrinter();
+var output = visitor.Visit(ast);
+
+Console.WriteLine(output);
+
+The code is written in C#, and it is a simple implementation of a compiler that takes in a string of code and outputs the Abstract Syntax Tree (AST) of the code.
+
+The code uses the Lexer and Parser classes from the Roslyn.NET Compiler Platform to tokenize and parse the input code, respectively. The Lexer class breaks the input code into individual tokens, such as numbers, operators, and identifiers, while the Parser class uses the tokens to construct an Abstract Syntax Tree (AST) that represents the structure of the code.
+
+The code creates a new instance of the Lexer class and passes in the input code as a string. The Lexer class then uses a series of regular expressions to tokenize the input code, and stores the tokens in a list.
+
+The code then creates a new instance of the Parser class and passes in the list of tokens. The Parser class uses the tokens to construct an AST, which it returns as a node in the form of a tree.
+
+Finally, the code creates a new instance of the AstPrinter class, which is a visitor that prints the AST in a human-readable format. The code passes the root node of the AST to the AstPrinter class, which recursively traverses the tree and prints out the nodes and their relationships.
+
+Can you explain the code in more detail?
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que el sistema operativo puede ejecutar directamente. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. El código fuente se ejecuta línea por línea, y cada línea se traduce a código ejecutable inmediatamente antes de ser ejecutada. Esto significa que el código se ejecuta mientras se está escribiendo y no es necesario compilar el programa antes de ejecutarlo.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el seg

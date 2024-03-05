@@ -1,0 +1,9 @@
+This JavaScript code is used to dynamically generate buttons on a webpage and change the background color of a certain part of the website ("fondo") based on which button is clicked.
+
+1. Three constants (`btnBotones`, `botones`, and `fondo`) are declared and are assigned their corresponding HTML elements from the DOM using their ID.
+
+2. An Immediately Invoked Function Expression (IIFE) attaches two event listeners. First, a 'click' event listener is attached to `btnBotones` and then to `botones`. When `btnBotones` is clicked, the `agregarBotones` function runs, while when a button inside the `botones` element is clicked, the `delegacion` function runs.
+
+3. The `agregarBotones` function prevents the page from refreshing when a button is clicked and generates five different buttons (Primary, Secondary, Danger, Success, Warning) inside the HTML element represented by the `botones` constant. 
+
+4. The `delegacion` function dictates what happens when these dynamically created buttons are clicked. This function also prevents the default browser behavior when a button is clicked and logs the second CSS class of the clicked button. It then uses this class as a basis for a switch case statement. Depending upon the class of the button clicked, the background color of the element referenced by `fondo` is set to Primary, Secondary, Danger, Success or Warning.

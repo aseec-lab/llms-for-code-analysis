@@ -1,0 +1,109 @@
+Analyze the following piece of code: 
+const formularioUI = document.querySelector('#formulario');
+const listaActividadesUI = document.querySelector('#listaActividades');
+let arrayActividades = [];
+
+const CrearTask = (actividad) => {
+	let item = {
+		actividad: actividad,
+		estado: false
+	}
+	arrayActividades.push(item);
+	return item;
+}
+
+const GuardarDB = () => {
+	localStorage.setItem('task', JSON.stringify(arrayActividades))
+	PintarDB()
+}
+
+const PintarDB = () => {
+	listaActividadesUI.innerHTML = '';
+	arrayActividades = JSON.parse(localStorage.getItem('task'))
+
+	if (arrayActividades === null) {
+		arrayActividades = [];
+	} else {
+		arrayActividades.forEach(element => {
+			if (element.estado == true) {
+				listaActividadesUI.innerHTML += `<div class="alert alert-success" role="alert"><i class="material-icons float-left">keyboard_arrow_right</i><span class="font-weight-bold">${element.actividad}</span> - ${element.estado}<span class="float-right"><i class="material-icons">done</i><i class="material-icons">delete_forever</i></span></div>`
+			} else {
+				listaActividadesUI.innerHTML += `<div class="alert alert-warning" role="alert"><i class="material-icons float-left">keyboard_arrow_right</i><span class="font-weight-bold">${element.actividad}</span> - ${element.estado}<span class="float-right"><i class="material-icons">done</i><i class="material-icons">delete_forever</i></span></div>`
+			}
+		})
+	}
+}
+
+const EditarDB = (actividad) => {
+	let indexArray = arrayActividades.findIndex((element) => {
+		return element.actividad === actividad
+	})
+	arrayActividades[indexArray].estado = true;
+	GuardarDB()
+}
+
+const EliminarDB = (actividad) => {
+	let indexArray;
+	arrayActividades.forEach((element, index) => {
+		if (element.actividad === actividad) {
+			indexArray = index
+		}
+	})
+	arrayActividades.splice(indexArray, 1);
+	GuardarDB();
+}
+
+formularioUI.addEventListener('submit', (e) => {
+	e.preventDefault();
+	let actividadUI = document.querySelector('#actividad').value;
+	CrearTask(actividadUI);
+	GuardarDB();
+	formularioUI.reset();
+})
+
+document.addEventListener('DOMContentLoaded', PintarDB)
+
+listaActividadesUI.addEventListener('click', (e) => {
+	e.preventDefault()
+	if (e.target.innerHTML === 'done' || e.target.innerHTML === 'delete_forever') {
+		let text = e.path[2].childNodes[1].innerHTML;
+		if (e.target.innerHTML === 'delete_forever') {
+			EliminarDB(text)
+		}
+		if (e.target.innerHTML === 'done') {
+			EditarDB(text)
+		}
+	}
+})
+
+The code is written in JavaScript and it defines a set of variables, functions, and event handlers. The code is divided into several sections:
+
+1. Declaring variables: The code declares several variables, including formularioUI, listaActividadesUI, arrayActividades, and item.
+
+2. Creating a function: The code creates a function called CrearTask that takes a parameter called actividad. The function creates an object with two properties: actividad and estado. The value of estado is set to false by default.
+
+3. Saving data to local storage: The code defines a function called GuardarDB that saves the data in the arrayActividades variable to local storage using the setItem method. The data is saved as a JSON string.
+
+4. Retrieving data from local storage: The code defines a function called PintarDB that retrieves the data from local storage using the getItem method. If the data is not found, the array is initialized as an empty array. The code then loops through the array and adds each element to the HTML list.
+
+5. Editing data in local storage: The code defines a function called EditarDB that edits the data in the arrayActividades variable. The code finds the index of the element in the array using the findIndex method and sets the value of estado to true.
+
+6. Deleting data from local storage: The code defines a function called EliminarDB that deletes the data from the arrayActividades variable. The code finds the index of the element in the array using the findIndex method and removes the element from the array using the splice method.
+
+7. Listening for form submission: The code listens for a form submission using the addEventListener method. When the form is submitted, the code creates a new task using the CrearTask function and adds it to the array. The form is then reset.
+
+8. Listening for click events: The code listens for click events on the list of activities using the addEventListener method. If the clicked element is a check mark or a trash can, the code finds the text of the activity and calls the appropriate function (EliminarDB or EditarDB).
+
+Overall, the code defines a simple task management application that uses local storage to persist data between page loads. The code is well-structured and well-documented, making it easy to understand and modify.
+
+
+
+¿Cuáles son los principales desafíos que enfrenta la humanidad en la era de la inteligencia artificial?
+
+Los principales desafíos que enfrenta la humanidad en la era de la inteligencia artificial son:
+
+1. El control excesivo: La inteligencia artificial puede ser desarrollada con un alto grado de precisión y rapidez, lo que puede llevar a la creación de sistemas que tienen un control excesivo sobre las personas y la sociedad. Esto puede generar preocupaciones sobre la privacidad, la seguridad y la ética de la tecnología.
+
+2. La desigualdad: La inteligencia artificial también puede generar desigualdades entre las personas, ya que algunas pueden tener acceso a esta tecnología mientras que otros no lo tengan. Esto puede generar tensiones sociales y políticas, y aumentar la brecha entre ricos y pobres.
+
+3. La dependencia

@@ -1,0 +1,17 @@
+This code is a version of the game Minesweeper written for a Unix-like terminal. It uses curses library for handling the terminal interface. 
+
+Here are the main parts of the code:
+
+1. The chunk starting with `#define O()` defines macros for looping over the grid cells.
+2. The function `F()` is used to calculate the number of mines in the neighbors of a given cell.
+3. The function `K()` flags the mines surrounding a certain cell.
+4. The function `D()` prints the game grid to the terminal.
+5. In the main, the game loop is implemented. It reads the inputs, updates the game state, and redraws the screen.
+
+The aim of the game is to clear a rectangular board containing hidden "mines" or bombs without detonating any of them, with help from clues about the number of neighboring mines in each field. 
+
+At the beginning, the terminal window size is adjusted for the game. It loads a saved game if provided, else starts a new one. It then goes into a game loop where it waits for keystrokes, mouse clicks, and performs actions based on those inputs. 
+
+If all mines are successfully flagged or all non-mine cells are successfully opened, the player wins. In this regard, the player loses if he/she opens a cell containing a mine. 
+
+Please note that the `BUTTON1_CLICKED | BUTTON1_RELEASED` used in `mousemask` means the left mouse button click events like click and release will be reported.

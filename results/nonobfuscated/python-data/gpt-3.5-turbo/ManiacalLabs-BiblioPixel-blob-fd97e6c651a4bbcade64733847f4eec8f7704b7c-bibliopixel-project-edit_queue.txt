@@ -1,0 +1,11 @@
+This code defines a class called `EditQueue` that inherits from the `queue.Queue` class. It also imports the `functools`, `queue`, and `traceback` modules, as well as a module called `log` from a parent directory's `util` package.
+
+The `EditQueue` class has two methods: `put_edit` and `get_and_run_edits`.
+
+The `put_edit` method takes a function `f` as its first argument, followed by `*args` which represent variable positional arguments and `**kwds` which represent variable keyword arguments. This method adds the function `f` with the given arguments to the queue by using the `put_nowait` method from the `queue.Queue` class with `functools.partial` to create a partial object that binds the arguments to the function.
+
+The `get_and_run_edits` method first checks if the queue is empty using the `empty` method from the `queue.Queue` class. If the queue is empty, it returns immediately.
+
+If the queue is not empty, this method retrieves all the items from the queue using a loop. It repeatedly calls the `get_nowait` method from the `queue.Queue` class and appends the returned item to a list called `edits`. The loop continues until an `queue.Empty` exception is raised, indicating that the queue is empty.
+
+After retrieving all the items from the queue, the method loops over each item in the `edits` list and calls it as a function. If an exception occurs during the execution of an item, it logs an error message using the `log.error` method and prints the traceback using the `traceback.print_exc` method.

@@ -1,0 +1,15 @@
+This code defines several functions related to building and manipulating search results.
+
+The `deleteSearchResults` function is used to remove all child elements of the parent element with the id "search-results". It does this by repeatedly selecting the last child element and removing it until there are no more child elements left.
+
+The `buildSearchResults` function takes an array of search results as input and builds the DOM elements necessary to display them. It iterates over each result in the array and calls three helper functions (`createResultItem`, `createResultImage`, and `createResultText`) to create the necessary DOM elements for each result. It then appends these elements to the appropriate parent elements and adds them to the DOM.
+
+The `createResultItem` function creates a div element with the class "result-item" and adds a link element as a child. The link element is created with an href attribute that redirects to the Wikipedia page corresponding to the result's id. The text content of the link is set to the result's title. The result item is then returned.
+
+The `createResultImage` function creates a div element with the class "result-image" and adds an img element as a child. The img element is created with a src attribute that points to the result's img property and an alt attribute set to the result's title. The result image is then returned.
+
+The `createResultText` function creates a div element with the class "result-text" and adds a paragraph element as a child. The text content of the paragraph element is set to the result's text property. The result text is then returned.
+
+The `clearStatsLine` function simply sets the text content of the element with the id "stats" to an empty string.
+
+The `setStatsLine` function takes the number of search results as input and sets the text content of the element with the id "stats" accordingly. If the number of results is provided, it displays the number of results. Otherwise, it simply displays "No Results".

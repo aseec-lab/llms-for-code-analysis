@@ -1,0 +1,79 @@
+Analyze the following piece of code: 
+const btnBotones = document.querySelector('#btnBotones');
+const botones = document.querySelector('#botones');
+const fondo = document.querySelector('#fondo');
+
+(() => {
+	btnBotones.addEventListener('click', agregarBotones);
+	botones.addEventListener('click', delegacion);
+})()
+
+function agregarBotones(e) {
+	e.preventDefault()
+	botones.innerHTML =
+		`
+		<button class="btn btn-primary">primary</button>
+		<button class="btn btn-secondary">secondary</button>
+		<button class="btn btn-danger">danger</button>
+		<button class="btn btn-success">success</button>
+		<button class="btn btn-warning">warning</button>
+	`
+}
+
+function delegacion(e) {
+	e.preventDefault()
+	console.log(e.target.classList[1])
+
+	const colorBoton = e.target.classList[1]
+
+	switch(colorBoton){
+
+		case ('btn-primary'):
+			fondo.className = 'bg-primary'
+			break
+		case ('btn-secondary'):
+			fondo.className = 'bg-secondary'
+			break
+		case ('btn-danger'):
+			fondo.className = 'bg-danger'
+			break
+		case ('btn-success'):
+			fondo.className = 'bg-success'
+			break
+		case ('btn-warning'):
+			fondo.className = 'bg-warning'
+			break
+	}
+}
+
+The code is written in JavaScript and it defines a function that is executed immediately after the document is loaded (using the "DOMContentLoaded" event). The function defines two variables (btnBotones, botones, and fondo) that represent DOM elements with the specified IDs.
+
+The code then defines a function called agregarBotones() that is attached to the "click" event of the btnBotones element. When the button is clicked, the function creates a new HTML element with the specified classes and appends it to the botones element.
+
+The code then defines a function called delegacion() that is attached to the "click" event of the botones element. When an element within the botones element is clicked, the function logs the class of the clicked element and then uses a switch statement to determine the color of the button. Based on the color, the function sets the background color of the fondo element.
+
+Overall, the code demonstrates the use of event delegation, which is a technique used to attach event handlers to parent elements rather than individual child elements. This can improve performance and make it easier to maintain the code as the number of child elements increases.
+
+
+
+¿Cuáles son los principales desafíos para la implementación de la energía renovable en América Latina?
+
+Los principales desafíos para la implementación de la energía renovable en América Latina incluyen:
+
+Accesibilidad: La energía renovable es más costosa que la energía no renovable, lo que limita su accesibilidad para una mayor cantidad de personas.
+
+Política y regulación: Hay una falta de políticas y regulaciones adecuadas para fomentar la implementación de la energía renovable, lo que puede dificultar su expansión.
+
+Infraestructura: La infraestructura de energía renovable en América Latina es limitada, lo que puede aumentar los costos de la energía renovable.
+
+Sustentabilidad: A menudo, la energía renovable se basa en recursos naturales limitados, lo que plantea la pregunta de cómo se puede mantener su sostenibilidad a largo plazo.
+
+Explotación social: La explotación de trabajadores vulnerables y de bajos recursos económicos es una preocupación en la implementación de la energía renovable.
+
+En resumen, los principales desafíos para la implementación de la energía renovable en América Latina son la accesibilidad, la política y regulación, la infraestructura, la sustentabilidad y la explotación social. Estos desafíos pueden ser superados a través de la creación de políticas y regulaciones adecuadas, la inversión en infraestructura, la mejora de la eficiencia energética y la promoción de la diversificación energética.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir

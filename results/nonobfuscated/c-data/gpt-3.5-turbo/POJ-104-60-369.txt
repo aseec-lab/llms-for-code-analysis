@@ -1,0 +1,17 @@
+This code checks for pairs of prime numbers within a given range. 
+
+Firstly, the code reads an integer input `n` from the user.
+
+If `n` is less than 5, it prints "empty" and terminates the program. This is because there cannot be any prime number pairs when `n` is less than 5.
+
+Otherwise, the code applies a nested loop to search for prime number pairs. The outer loop iterates from 3 to `n-2` (inclusive). This range is chosen because a prime number pair can only exist if both numbers are greater than or equal to 3 and their difference is at least 2.
+
+Within the outer loop, the variable `t` is initialized to 0, indicating that no factors have been found yet for the current number.
+
+The first inner loop iterates from 2 to the square root of the current number `i`. It checks if `i` is divisible by any number between 2 and its square root. If a factor is found, `t` is set to 1, indicating that the current number is not a prime number.
+
+Similarly, the second inner loop checks if `i+2` (the next number in the pair) is divisible by any number between 2 and its square root. If a factor is found, `t` is also set to 1.
+
+If `t` remains 0 after both inner loops complete, it means the current number and the next number in the pair are prime, so the code prints them using `printf`.
+
+After the outer loop finishes, the program terminates by returning 0.

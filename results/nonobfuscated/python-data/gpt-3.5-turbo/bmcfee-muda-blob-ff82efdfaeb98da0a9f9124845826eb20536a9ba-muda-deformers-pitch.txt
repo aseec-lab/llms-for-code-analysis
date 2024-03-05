@@ -1,0 +1,11 @@
+The code is a Python module that provides functionality for pitch shifting audio signals. 
+
+The module imports several libraries: `librosa`, `pyrubberband`, `re`, `numpy`, and `six`. It also imports a class called `BaseTransformer` from the module `base` within the parent directory. 
+
+The module defines three classes: `PitchShift`, `RandomPitchShift`, and `LinearPitchShift`. 
+
+The `PitchShift` class is a subclass of `AbstractPitchShift` and overrides the `states` method. It takes an optional argument `n_semitones`, which specifies the number of semitones by which the pitch should be shifted. The `states` method returns a generator that yields pitch shift states for the given number of semitones.
+
+The `RandomPitchShift` class is also a subclass of `AbstractPitchShift` and overrides the `states` method. It takes three optional arguments: `n_samples`, `mean`, and `sigma`. `n_samples` specifies the number of random pitch shifts to generate, `mean` specifies the mean value for the normal distribution used for sampling the pitch shifts, and `sigma` specifies the standard deviation of the normal distribution. The `states` method returns a generator that yields random pitch shift states based on the provided parameters.
+
+The `LinearPitchShift` class is similar to the `RandomPitchShift` class but generates linearly spaced pitch shifts instead of random ones. It takes three optional arguments: `n_samples`, `lower`, and `upper`. `n_samples` specifies the number of linearly spaced pitch shifts to generate, `lower` specifies the lower bound of the pitch shifts, and `upper` specifies the upper bound of the pitch shifts. The `states` method returns a generator that yields linear pitch shift states based on the provided parameters.

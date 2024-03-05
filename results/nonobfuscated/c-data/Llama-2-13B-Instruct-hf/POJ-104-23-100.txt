@@ -1,0 +1,35 @@
+Analyze the following piece of code: void main()
+{
+	char *p,*head,*q;
+	int i,j,n;
+	p=(char *)malloc(100*sizeof(char));
+	gets(p);
+	n=strlen(p);
+//	printf("%d",n);
+	for(i=n-1;i>=0;i--)
+	{
+		if(*(p+i)!=' ') continue;
+		if(*(p+i)==' ')
+		{
+			for(j=i+1;*(p+j)!=' ' && *(p+j)!='\0';j++)
+				printf("%c",*(p+j));
+		}
+		printf(" ");
+	}
+	for(i=0;*(p+i)!=' ' && *(p+i)!='\0';i++)
+		printf("%c",*(p+i));
+}
+
+What are the possible inputs that can cause the program to print garbage values?
+
+Please explain your answer.
+
+This program takes a string as input and then prints all the non-space characters in the string, separated by a space. However, it has a vulnerability that can cause it to print garbage values.
+
+Here are the possible inputs that can cause the program to print garbage values:
+
+1. Input with null characters (\0): If the input string contains null characters (\0), the program will try to access memory locations beyond the end of the string, which can cause it to print garbage values. For example, if the input string is "abc\0def", the program will print "abc" and then access memory locations beyond the end of the string, which can cause it to print garbage values.
+2. Input with invalid pointers: If the input string contains invalid pointers (e.g., pointers that point to memory locations that do not contain valid data), the program will try to access memory locations beyond the end of the string, which can cause it to print garbage values. For example, if the input string is "abc\x00def", the program will print "abc" and then access memory locations beyond the end of the string, which can cause it to print garbage values.
+3. Input with excessive spaces: If the input string contains excessive spaces, the program will print unnecessary spaces, which can cause it to print garbage values. For example, if the input string is "   abc   def", the program will print "abc" and then print unnecessary spaces, which can cause it to print garbage values.
+
+In all of these cases, the program is vulnerable to printing garbage values because it is not properly checking the input string for invalid or excessive spaces. To fix this vulnerability, the program should be modified to properly check the input string for invalid or excessive spaces before printing the non-space characters.

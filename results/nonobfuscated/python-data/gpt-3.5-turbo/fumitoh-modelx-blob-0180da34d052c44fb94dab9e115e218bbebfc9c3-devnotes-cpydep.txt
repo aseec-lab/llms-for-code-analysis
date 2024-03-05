@@ -1,0 +1,9 @@
+The code provided defines a series of functions for altering Python code objects.
+
+The function `_alter_code` takes a code object and a set of attributes as input. It uses the `ctypes` module to access low-level Python API functions. It defines the `PyCode_New` function from the Python C API and specifies its argument types and return type. It then creates a list of arguments to pass to `PyCode_New` based on the provided attributes. It iterates over the list of arguments and checks if the attribute exists in the provided attributes dictionary. If it does, it replaces the corresponding argument in the argument list. Finally, it calls `PyCode_New` with the modified arguments and returns the resulting code object.
+
+The function `_create_cell` takes a Python object as input and uses the `PyCell_New` function from the Python C API to create a new cell object containing the input value. It then returns the created cell object.
+
+The function `_create_closure` takes a variable number of arguments (values) and creates a tuple of cell objects using the `_create_cell` function for each value. It then returns the created tuple of cell objects.
+
+The function `alter_freevars` takes a function object (`func`) and a set of variables to be treated as free variables. If the `globals_` argument is not provided, it defaults to the `__globals__` attribute of the function object. It determines the names of the free variables, as well as the names of the non-free variables, by comparing them to the attributes of the `__code__` object of the function. It then calls `_alter_code` to create a new code object with the modified names and flags. It also calls `_create_closure` to create the closure tuple for the new function. Finally, it returns a new function object with the modified code, globals, and closure.

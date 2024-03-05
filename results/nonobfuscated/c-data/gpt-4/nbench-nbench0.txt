@@ -1,0 +1,46 @@
+This C code is the main function of a performance benchmarking software - the BYTEmark benchmark test. It tests the performance of a system's CPU, memory, and compiler by running a series of tests (which are defined elsewhere in the code) and creating a performance index. 
+
+Some specifics:
+
+- It supports both Mac and Linux systems.
+- For Mac systems, it leverages 'MacTimeManager' for timing functions, and 'MaxApplZone'.
+- For Windows systems, it uses the 'ToolHelp' library.
+- It manages a series of values for global variables & tests to be performed.
+- If arguments are passed when the benchmarking software is run from the command line, the code uses a function called `parse_arg` to analyze these arguments.
+- The benchmark results are printed to the console along with any errors or issues that occur during testing. 
+- At the end, it shows both the original BYTEmark results and Linux specific results, according to the setup.
+- The 'hardware' function is called to output detailed system information.
+
+Thus, it provides a way to evaluate the performance of a computer's hardware and also the efficiency of its software.The remaining part of the code looks like it is working on processing a command file that determines the benchmarking tests to be run. Here are the specifics:
+
+- The `parse_arg` function is for reading command-line arguments.
+- If the `-v` option is specified, the `global_allstats` variable is set to 1, indicating that verbose output is desired.
+- If the `-c` option is followed by a filename, a script is run from that file to execute specific benchmark tests.
+- The `read_comfile` function is used to parse this script file. It reads each line, breaks it down into parameter names and values, and updates the variables accordingly. 
+- The `display_help` function gives information about how to use the program.
+- The benchmark tests include the number sort, string sort, bitfield operations, emulation of floating-point math, Fourier transformation, assignment of values, IDEA (International Data Encryption Algorithm) encryption, and Huffman coding, among others.
+- Depending on the specifications in the script file, different tests will be run with different parameters.
+
+Therefore, not only can the software run a full suite of performance benchmarks, but it can also perform specific tests with defined parameters for more focused benchmarking.This is a continuation of the code and its purpose remains the same -- executing specific benchmark tests based on the commands in a script file described in the previous explanation. Here, configurations for several test parameters have been added. 
+
+- Huffman coding: This test measures the speed of a system's Huffman encoding and decoding.
+- Neural net: This test measures a system's performance in executing neural net algorithms.
+- LU decomposition: This test checks the performance of a system in doing LU (Lower-Upper) factorization of a matrix, common task in numerical analysis.
+
+A function named `bench_with_confidence` is defined to perform benchmarking with statistical sampling. It repeatedly performs a benchmark test, calculates the mean (average) and standard deviation of the scores, and stops once a satisfactory level of certainty (confidence interval) is achieved.
+
+The `getscore` function retrieves a benchmark score recorded during a test.
+
+Finally, there are more configurations and parameters created for each individual test done as per the command given in the script file. These inputs are controlled by the user as per their requirement.This part of the code is simply an extension of the rest of the benchmark test configurations. The function named `getscore` is completed with the remaining test case identifiers and returns the respective benchmark scores. A `0.0` score is returned when no benchmark identifier is matched.
+
+A function called `output_string` has been written which takes a string (buffer) and prints it to the standard output (console) and also to a file if `write_to_file` flag is not zero.
+
+The `show_stats` function receives a benchmark identifier and, depending on the identifier, it uses the `sprintf` function to format the respective test statistics into a buffer string. This buffer string is then passed to the `output_string` function for it to print the statistics. 
+
+The remaining part of the code enclosed within `#ifdef MAC` is specific to Macintosh systems. It reads a command line string from the user and parses it into separate parts, to be used as arguments for the main program. 
+
+- The `UCommandLine` function requests the user to enter a command and reads the string they enter.
+- The `UParse` function splits the input string at the spaces and adds each text segment into an array to be used as an argument in the main program.
+- The `UField` function is a helper function which is used by `UParse` to move past the spaces and return the position of the next character in the input string after a space. If the input string ends, it returns the position of the null character which signifies the end of the string.
+  
+The 'U' prefix in these function and variable names likely stands for 'User' or 'Utility'. The 'dummy' variable is used to initialize the first element of the 'argv' array with a default value. 'argc' and 'argv' are conventional names for the count and array of command-line arguments in a C program.

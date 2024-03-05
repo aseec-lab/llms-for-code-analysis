@@ -1,0 +1,47 @@
+This code appears to be dealing with WebAssembly modules and decoding base64 strings.
+
+The `__universalAtob` function is a wrapper around the `atob` function (which decodes a base64 encoded string) to handle different environments. It tries to decode the input string using `atob`, and if it throws an error, it uses `global.Buffer.from` to decode the string in a different way. It returns the decoded bytes as a `Uint8Array`.
+
+The code then defines two base64 encoded strings: `__ifWasmBuffer` and `__callWasmBuffer`. These are likely WebAssembly binary data that needs to be decoded.
+
+Next, two WebAssembly modules are created using the decoded binary data from the base64 strings. The decoding process is similar to `__universalAtob`, where the binary string is decoded and stored in a `Uint8Array`.
+
+After that, an array named `__wasmStringModules` is declared. This array stores multiple base64 encoded strings, each representing a different WebAssembly module. Each base64 string is decoded using `__universalAtob` and then used to create a new WebAssembly module instance.
+
+Finally, there is a function called `lS` that accepts three parameters: `wI`, `pos`, and `iWC`. This function is used to retrieve a string from a WebAssembly module instance. If `wI` is not an array (meaning it's a single wasm module index), it gets the target wasm module using `__wasmStringModules[wI]`. It then accesses the module's memory buffer (`__targetModule.exports.memory.buffer`) and extracts a string starting at a specified position (`__targetModule.exports[data${pos}]`). The extracted string is decoded and returned.
+
+If `wI` is an array, it loops over each element (`__wasmIndex`) and does the same extraction and decoding process for each module. The resulting strings are collected and returned as an array.The remaining part of the code initializes multiple instances of a WebAssembly module and executes a function on each instance.
+
+Each instance is created using the `__callWasmModule` WebAssembly module and an instance-specific environment object. The environment object has a property called `impFunc`, which is a function that calls the `load` function with a string obtained by concatenating `base_dir` with the result of calling `lS(0, i)`, where `i` is a specific index from 1 to 6.
+
+After creating each instance, the `data()` function of the module's exports is called and the result is returned.
+
+It appears that this code is dynamically creating and executing multiple instances of a WebAssembly module, potentially with different parameters or configurations. The specific functionality of the `load` and `data` functions and the purpose of the `base_dir` variable are not clear from the given code.Based on the remaining code, it appears that the process of creating instances of the WebAssembly module is repeated multiple times (11 more times in addition to the initial instance).
+
+Each instance is created with a different index value passed to the `lS` function. The value returned by `lS(0, i)` is concatenated with `base_dir` and passed as an argument to the `load` function within the `impFunc` property of the environment object.
+
+After each instance is created, the `data()` function of the module's exports is called and the result is returned.
+
+Overall, this code seems to be creating and executing multiple instances of the WebAssembly module, potentially with different configurations and parameters based on the different index values passed to `lS` function. The purpose or context of this code is not clear without more information on the `load` and `data` functions and the purpose of the `base_dir` variable.The remaining part of the function continues the pattern of creating instances of the WebAssembly module with different index values passed to the `lS` function. Each instance has its own `impFunc` property where the `load` function is called with a modified argument.
+
+After each instance is created and the `data()` function is called, there are two additional functions defined: `PrintResult` and `PrintError`.
+
+The `PrintResult` function takes two arguments: `name` and `result`. It creates a new instance of the WebAssembly module and calls the `print` function in its `impFunc` property, concatenating `name`, the result of `lS(0, 21)`, and `result`.
+
+The `PrintError` function is similar to `PrintResult` but it calls the `PrintResult` function with `name` and `error` as arguments.
+
+It is likely that these functions are used to print the results of the WebAssembly module's execution or handle any errors that may occur.The remaining part of the code first extracts the `__exports` object from the previously created WebAssembly instance, `__callInstance3`, and calls the `data()` function on it. The result of this call is not assigned to any variable.
+
+After that, a new function called `PrintScore` is defined. Inside this function, two instances of the WebAssembly module are created using the `new WebAssembly.Instance` syntax.
+
+The first instance, `__ifInstance0`, has an `env` property with an `impFunc1` function that calls the `print` function with the result of `lS(0, 22)` as its argument. The `__exports` object of this instance is again extracted and its `data()` function is called.
+
+The second instance, `__callInstance1`, has an `env` property with an `impFunc` function that calls the `print` function with the result of concatenating `lS(0, 23)`, `BenchmarkSuite.version`, `lS(0, 24)`, and `score` as its argument. The `__exports` object of this instance is extracted and its `data()` function is called.
+
+After these two instances are created and the `data()` functions are called, the `__exports` object of `__ifInstance0` is extracted and its `data()` function is called with an argument of `1` or `0` based on the `success` variable.
+
+The next part of the code sets the `doWarmup` and `doDeterministic` properties of the `BenchmarkSuite.config` object to `undefined`.
+
+Finally, a new instance of the WebAssembly module is created, `__callInstance0`, with an `env` property that contains an `impFunc` function. This function calls the `BenchmarkSuite.RunSuites` function with an object containing `PrintResult`, `PrintError`, and `PrintScore` as its arguments. The `__exports` object of this instance is extracted and its `data()` function is called.
+
+Overall, this remaining part of the code creates additional instances of the WebAssembly module and calls their `data()` functions, and also defines the `PrintScore` function which uses the WebAssembly module's `print` function to print a score.

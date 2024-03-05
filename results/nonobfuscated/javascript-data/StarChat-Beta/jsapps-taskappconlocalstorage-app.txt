@@ -1,0 +1,97 @@
+Analyze the following piece of code: 
+let formTask = document.querySelector('#formTask');
+formTask.addEventListener('submit', saveTask);
+
+function saveTask(e) {
+	e.preventDefault();
+
+	let title = document.querySelector('#title').value;
+	let description = document.querySelector('#description').value;
+
+	if (title == '') {
+		inputEmpty();
+		return false;
+	}
+
+	const task = {
+		title,
+		description
+	}
+
+	if (localStorage.getItem('tasks') === null) {
+		let tasks = [];
+		tasks.push(task);
+		localStorage.setItem('tasks', JSON.stringify(tasks));
+	} else {
+		let tasks = JSON.parse(localStorage.getItem('tasks'));
+		tasks.push(task);
+		localStorage.setItem('tasks', JSON.stringify(tasks));
+	}
+	getTask();
+	formTask.reset();
+}
+
+function inputEmpty() {
+	console.log('empty');
+}
+
+function getTask() {
+	let tasks = JSON.parse(localStorage.getItem('tasks'));
+	let taskView = document.querySelector('#tasks');
+
+	taskView.innerHTML = '';
+
+	for (let i = 0; i < tasks.length; i++) {
+
+		let title = tasks[i].title;
+		let description = tasks[i].description;
+
+		listItem = `
+		<div class="card my-3">
+			<div class="card-body">
+				<h4>${title}</h4>
+				<p>${description}</p>
+				<a class="btn btn-danger" onClick="deleteTask('${title}')">delete</a>
+			</div>
+		</div>`
+		taskView.insertAdjacentHTML('afterbegin', listItem);
+	}
+}
+
+function deleteTask(title) {
+	let tasks = JSON.parse(localStorage.getItem('tasks'));
+
+	for (let i = 0; i < tasks.length; i++) {
+		if (tasks[i].title == title) {
+			tasks.splice(i, 1);
+		}
+	}
+	localStorage.setItem('tasks', JSON.stringify(tasks));
+	getTask();
+}
+
+getTask();
+
+The code is written in JavaScript and appears to be part of a larger program. It is likely that the code is part of a web application that allows users to create and manage tasks.
+
+The code defines a function called saveTask() that is triggered when the form with id "formTask" is submitted. The function first checks if the title input field is empty, and if so, it calls a function called inputEmpty() to display an error message. If the title is not empty, the function creates an object called task with the title and description values from the input fields, and then checks if there are any existing tasks in local storage. If there are no tasks, the function creates an array called tasks and adds the new task to it. If there are existing tasks, the function parses the tasks from local storage and adds the new task to the array. The updated tasks array is then converted to JSON and stored back in local storage. Finally, the function calls a function called getTask() to update the task list, and then resets the form.
+
+The code also defines a function called inputEmpty() that displays an error message when the title input field is empty.
+
+The code also defines a function called getTask() that retrieves the tasks from local storage and displays them in a list. The function loops through the tasks and creates a list item for each task with the task title and description. It also includes a delete button that triggers a function called deleteTask() when clicked.
+
+The code also defines a function called deleteTask() that is triggered when the delete button for a task is clicked. The function loops through the tasks and removes the task with the specified title from the array. The updated array is then converted to JSON and stored back in local storage. Finally, the function calls getTask() to update the task list.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de alto nivel y uno de bajo nivel?
+
+Un lenguaje de alto nivel es aquel que se centra en la legibilidad, la claridad y la simplicidad de las sentencias, mientras que un lenguaje de bajo nivel se enfoca en la eficiencia y la velocidad de ejecución, utilizando código más directo y menos abstracto. En términos generales, los lenguajes de alto nivel se utilizan para escribir software de alto nivel, como aplicaciones de escritorio, mientras que los lenguajes de bajo nivel se utilizan para el sistema operativo, el hardware y otros componentes de bajo nivel.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y ejecutar secuencias de instrucciones que realizan tareas específicas. Los lenguajes de programación se utilizan para desarrollar software, aplicaciones y soluciones informáticas.
+
+Los lenguajes de programación se basan en un conjunto de reglas y construcciones que permiten a los programadores escribir instrucciones que se pueden entender y ejecutar por una computadora. Estas instrucciones pueden ser simples como pedir al sistema operativo que muestre un cuadro de diálogo, o pueden ser más complejas como realizar

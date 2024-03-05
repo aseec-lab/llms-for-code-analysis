@@ -1,0 +1,102 @@
+Analyze the following piece of code: 
+const nombre = 'jaime'
+localStorage.setItem('nombreUsuario', nombre);
+
+const nombreLocalStorage = localStorage.getItem('nombreUsuario');
+console.log(nombreLocalStorage);
+
+
+const btnBotones = document.querySelector('#btnBotones');
+const botones = document.querySelector('#botones');
+const fondo = document.querySelector('#fondo');
+
+(() => {
+	const colorBG = localStorage.getItem('colorFondo')
+	console.log(colorBG)
+	if (colorBG === null) {
+		fondo.className = 'bg-dark'
+	} else {
+		fondo.className = colorBG
+	}
+})();
+
+(() => {
+	btnBotones.addEventListener('click', agregarBotones);
+	botones.addEventListener('click', delegacion);
+})();
+
+function agregarBotones(e) {
+
+	e.preventDefault()
+	botones.innerHTML =
+		`
+		<button class="btn btn-primary">primary</button>
+		<button class="btn btn-secondary">secondary</button>
+		<button class="btn btn-danger">danger</button>
+		<button class="btn btn-success">success</button>
+		<button class="btn btn-warning">warning</button>
+	`
+}
+
+function delegacion(e) {
+
+	e.preventDefault()
+	console.log(e.target.classList[1])
+
+	const colorBoton = e.target.classList[1]
+
+	switch (colorBoton) {
+
+		case ('btn-primary'):
+			fondo.className = 'bg-primary'
+			localStorage.setItem('colorFondo', 'bg-primary')
+			break
+		case ('btn-secondary'):
+			fondo.className = 'bg-secondary'
+			localStorage.setItem('colorFondo', 'bg-secondary')
+			break
+		case ('btn-danger'):
+			fondo.className = 'bg-danger'
+			localStorage.setItem('colorFondo', 'bg-danger')
+			break
+		case ('btn-success'):
+			fondo.className = 'bg-success'
+			localStorage.setItem('colorFondo', 'bg-success')
+			break
+		case ('btn-warning'):
+			fondo.className = 'bg-warning'
+			localStorage.setItem('colorFondo', 'bg-warning')
+			break
+
+	}
+}
+
+¿Qué hace cada parte del código? ¿Podrías explicarme cómo funciona la función delegacion?
+
+El código se divide en varias partes:
+
+1. Primero, se define una constante llamada "nombre" y se le asigna el valor "jaime". Luego, se utiliza la función "setItem" de la API "localStorage" para almacenar el valor de "nombre" en el almacenamiento local del usuario.
+
+2. Después, se define una constante llamada "nombreLocalStorage" y se utiliza la función "getItem" de la API "localStorage" para recuperar el valor almacenado en el almacenamiento local.
+
+3. En el siguiente bloque de código, se selecciona el elemento HTML que tiene el id "btnBotones", se agrega un evento "click" y se llama a la función "agregarBotones".
+
+4. En otro bloque de código, se selecciona el elemento HTML que tiene el id "botones", se agrega un evento "click" y se llama a la función "delegacion".
+
+5. Finalmente, dentro de la función "agregarBotones", se agregan varios botones con diferentes clases "btn btn-primary", "btn btn-secondary", "btn btn-danger", "btn btn-success" y "btn btn-warning".
+
+6. Dentro de la función "delegacion", se utiliza el evento "click" para detectar cuál botón fue clickeado. Luego, se utiliza el método "classList" del elemento clickeado para obtener la clase del botón clickeado.
+
+7. En función de la clase del botón clickeado, se establece el color del fondo utilizando la propiedad "className" del elemento HTML que tiene el id "fondo". Además, se utiliza la API "localStorage" para almacenar el color del fondo seleccionado en el almacenamiento local del usuario.
+
+8. Finalmente, dentro de la función "delegacion", se utiliza un "switch" para determinar el color del fondo seleccionado y establecerlo en el elemento HTML "fondo".
+
+La función "delegacion" se utiliza para delegar la lógica de eventos a los botones. Esto significa que cuando se hace clic en un botón, la función "delegacion" se llama y se puede utilizar la información del botón clickeado para realizar una acción. En este caso, se utiliza la información de la clase del botón para establecer el color del fondo.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente se traduce a un archivo ejecutable antes de ser ejecutado. El proceso de compilación implica la utilización de un compilador, que es una herramienta que traduce el código fuente en código objeto o código máquina que puede ser ejecutado directamente en la computadora. El archivo ejecutable resultante se puede ejecutar sin neces

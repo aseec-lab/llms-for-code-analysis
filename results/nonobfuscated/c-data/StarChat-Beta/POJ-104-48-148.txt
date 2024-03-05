@@ -1,0 +1,55 @@
+Analyze the following piece of code: main()
+{
+      int i,j,m,n,d;
+      scanf("%d %d",&m,&n);
+      int a[11][11][6];
+      for(d=0;d<=n;d++)
+      {
+      for(i=0;i<11;i++)
+      {
+      for(j=0;j<11;j++)
+      {
+                       a[i][j][d]=0;
+      }
+      }
+      }
+      a[5][5][0]=m;
+      for(d=1;d<=n;d++)
+      {
+                       for(i=1;i<=9;i++)
+                       {
+                       for(j=1;j<=9;j++)
+                       {
+                       a[i][j][d]=2*a[i][j][d-1]+
+                       a[i-1][j-1][d-1]+a[i-1][j][d-1]+
+                       a[i-1][j+1][d-1]+a[i][j-1][d-1]+
+                       a[i][j+1][d-1]+a[i+1][j-1][d-1]+
+                       a[i+1][j][d-1]+a[i+1][j+1][d-1];
+                       }
+                       }
+      }
+      for(i=1;i<=9;i++)
+      {
+      for(j=1;j<9;j++)
+      printf("%d ",a[i][j][n]);
+      printf("%d\n",a[i][9][n]);
+      }
+      getchar();
+      getchar();
+      }
+
+The code appears to be a program in C that takes two integers m and n as input, initializes a 3-dimensional array a of integers, and then sets the value of a[5][5][0] to m. The code then loops over d from 1 to n, and for each iteration of the loop, it loops over i from 1 to 10 and j from 1 to 9, and updates the value of a[i][j][d] by computing a sum of 8 terms, where each term is the sum of two adjacent elements in a[i][j] plus the value of a[i-1][j-1][d-1], a[i-1][j][d-1], a[i-1][j+1][d-1], a[i][j-1][d-1], a[i][j+1][d-1], a[i+1][j-1][d-1], a[i+1][j][d-1], and a[i+1][j+1][d-1]. The code then prints out the values of a[i][j][n] for i from 1 to 9 and j from 1 to 8, followed by the value of a[i][9][n]. The code ends with two calls to getchar() to remove any extra input from the user.
+
+Overall, the code appears to be a program for solving the Knapsack problem, where the objective is to maximize the value of items that can be packed into a knapsack of capacity n, subject to a constraint that each item must be used or not used. The 3-dimensional array a represents the possible states of the knapsack problem, where a[i][j][d] represents the maximum value of items that can be packed into a knapsack of capacity d if the first i items are chosen, and the jth item is not chosen.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente sin necesidad de volver a compilar el código fuente cada vez que se desea ejecutar el programa. El proceso de compilación convierte el código fuente en un archivo ejecutable que puede ser ejecutado en cualquier sistema operativo compatible.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente se traduce en tiempo real mientras se está ejecutando el programa. En este caso, el código fuente se ejecuta línea por línea, interpretando cada instrucción y realizando la acción correspondiente. El código fuente se traduce en código ejecutable a medida que se está ejecutando el programa.
+
+En resumen, la principal diferencia

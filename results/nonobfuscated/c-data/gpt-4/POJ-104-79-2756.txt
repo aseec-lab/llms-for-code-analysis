@@ -1,0 +1,11 @@
+This program receives pairs of integers from the user continuously until the pair (0, 0) is entered, which stops the input. For each received pair of integers (a,b), it executes the function f(a, b) and prints its result on the screen. 
+
+Function f(int x, int y) is a calculation function where it uses a loop from 2 to x (inclusive), with a variable k being updated at each loop with the following formula : `k=((y%i)+k)%i;`. The final result is `k+1`.
+
+For the input, this program uses the arrays `ad` and `sd` to store the pairs, but actually the arrays are not being used anywhere else in the program. Only the i-th input pair is used each time, so the use of arrays could be omitted.
+
+The exact meaning of the calculation done in function f(int x, int y) depends on the context or the specific problem the code is trying to solve.
+
+If it's a known mathematical problem or algorithm, identification would require specialized knowledge. The function seems to be doing some kind of a variation of modulo operation in a loop. 
+
+But as it stands, it's important to note that the for loop in `main()` is not very safe: it should not be `for(i=1;i>0;i++)` because theoretically, this will cause an out-of-bounds error if the program receives more than 998 inputs (the `ad` and `sd` arrays only have 999 slots, and array indexing starts from 0). A safer option would be specifically limiting the number of iterations.

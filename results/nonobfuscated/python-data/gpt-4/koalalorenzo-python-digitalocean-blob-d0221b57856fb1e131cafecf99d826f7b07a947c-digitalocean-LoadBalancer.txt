@@ -1,0 +1,16 @@
+This is a Python code for managing load balancers through an API. It includes the classes for the Load Balancer itself and for some of its attributes like Forwarding Rules, Sticky Sessions and Health Checks.
+
+Here's more detailed description:
+
+- `StickySessions` class is used to handle sticky sessions, a method to route requests of a particular client always to the same server.
+- `ForwardingRule` class handles the rules to forward network traffic. It contains parameters like protocol, port, etc.
+- `HealthCheck` class is used for checking the status of the servers. It includes parameters like protocol, port, path, check interval, response timeout, healthy threshold, etc.
+- `LoadBalancer` class is the main class in which all of the load balancer attributes and operations are handled. It has methods to:
+   - Load a LoadBalancer object from the server (`load` method)
+   - Create a new Load Balancer on the server (`create` method)
+   - Update the LoadBalancer on the server (`save` method)
+   - Destroy or delete the LoadBalancer from the server (`destroy` method)
+   - Add/remove droplets (servers) from the load balancer (`add_droplets`, `remove_droplets` methods)
+   - Add/remove forwarding rules (`add_forwarding_rules`, `remove_forwarding_rules` methods)
+
+The BaseAPI class that LoadBalancer inherits from should contain the methods for making HTTP requests to the server, but it is not included in the provided code.

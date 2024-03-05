@@ -1,0 +1,15 @@
+The code provided is written in C and it's a clever piece that generates the value of pi.
+
+Here's a simplified version of what's happening:
+
+- It first defines the macro "_". The expression `F<00||--F-OO--` is evaluated as a boolean. If F is less than 0 OR if F (decremented by 1) is not equal to OO (decremented by 1) , then the expression will return true (1 in C), otherwise false.
+
+- `F` and `OO` are initialized with the value 0.
+
+- In main() function, it calls `F_OO()` function, which repeatedly calls the macro in a certain pattern. The repetitive calls increment `F` and `OO` based on the condition in macro. The pattern of calls forms a circle which is essentially approximating the area of a circle (pi*r^2, here radius r being 1).
+
+- Then, the printf statement prints the calculation (4.*-F/OO/OO). This is an approximation of the mathematical formula for pi using Monte Carlo method. `4*(-F)/OO/OO` approximates to 3.1415 (the value of pi to 4 decimal places) based on the values of `F` and `OO` after completion of `F_OO()` function.
+
+- The `F_OO()` function doesn't have a return value defined, which is unconventional and would not be recommended in modern C++ programming.
+
+Note: The interesting part is visual structure of the `F_OO()` function gives the illusion of a circle (or pi), which is the result we get from this code.

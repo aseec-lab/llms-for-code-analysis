@@ -1,0 +1,223 @@
+Analyze the following piece of code: 
+
+
+class MPEventLoopRunner(object):
+
+    
+
+
+    def __init__(self, communicationChannel):
+        self.communicationChannel = communicationChannel
+        self.nruns = 0
+
+    def __repr__(self):
+        return '{}(communicationChannel = {!r}'.format(
+            self.__class__.__name__,
+            self.communicationChannel
+        )
+
+    def begin(self):
+        
+
+        pass
+
+    def run(self, eventLoop):
+        
+
+
+        self.nruns += 1
+        return self.communicationChannel.put(eventLoop)
+
+    def run_multiple(self, eventLoops):
+        
+
+
+        self.nruns += len(eventLoops)
+        return self.communicationChannel.put_multiple(eventLoops)
+
+    def poll(self):
+        
+
+        ret = self.communicationChannel.receive_finished()
+        self.nruns -= len(ret)
+        return ret
+
+    def receive_one(self):
+        
+
+        if self.nruns == 0:
+            return None
+        ret = self.communicationChannel.receive_one()
+        if ret is not None:
+            self.nruns -= 1
+        return ret
+
+    def receive(self):
+        
+
+        ret = self.communicationChannel.receive_all()
+        self.nruns -= len(ret)
+        if self.nruns > 0:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.warning(
+                'too few results received: {} results received, {} more expected'.format(
+                    len(ret), self.nruns))
+        elif self.nruns < 0:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.warning(
+                'too many results received: {} results received, {} too many'.format(
+                    len(ret), -self.nruns))
+        return ret
+
+    def end(self):
+        
+
+
+        results = self.communicationChannel.receive()
+
+        if self.nruns!= len(results):
+            import logging
+            logger = logging.getLogger(__name__)
+            
+            logger.warning(
+                'too few results received: {} results received, {} expected'.format(
+                    len(results),
+                    self.nruns
+                ))
+
+        return results
+
+
+
+class MPCommunicationChannel(object):
+
+    
+
+
+    def __init__(self):
+        self.in_queue = queue.Queue()
+        self.out_queue = queue.Queue()
+        self.finished_event = threading.Event()
+
+    def put(self, obj):
+        
+
+        self.out_queue.put(obj)
+        return self
+
+    def put_multiple(self, objs):
+        
+
+        self.out_queue.put_nowait(obj)
+        return self
+
+    def receive_one(self):
+        
+
+        try:
+            return self.in_queue.get_nowait()
+        except queue.Empty:
+            return None
+
+    def receive_all(self):
+        
+
+        return [self.in_queue.get() for _ in range(self.out_queue.qsize())]
+
+    def receive_finished(self):
+        
+
+        ret = []
+        while not self.finished_event.is_set():
+            ret.append(self.in_queue.get())
+        return ret
+
+    def put_finished(self):
+        
+
+        self.finished_event.set()
+        return self
+
+
+class MPEventLoop(object):
+
+    
+
+
+    def __init__(self, runner):
+        self.runner = runner
+
+    def run(self):
+        
+
+        return self.runner.run(self)
+
+    def run_multiple(self, n):
+        
+
+        return self.runner.run_multiple([self] * n)
+
+    def poll(self):
+        
+
+        return self.runner.poll()
+
+    def receive_one(self):
+        
+
+        return self.runner.receive_one()
+
+    def receive(self):
+        
+
+        return self.runner.receive()
+
+    def end(self):
+        
+
+        return self.runner.end()
+
+
+class MPEventLoopFactory(object):
+
+    
+
+
+    def __init__(self, nprocs):
+        self.nprocs = nprocs
+
+    def make(self):
+        
+
+        runner = MPEventLoopRunner(MPCommunicationChannel())
+        event_loops = [MPEventLoop(runner) for _ in range(self.nprocs)]
+        return event_loops, runner
+
+
+def run_calculation(event_loops):
+    
+
+
+    for event_loop in event_loops:
+        event_loop.run_multiple([1] * 10)
+    results = event_loops[0].end()
+    return results
+
+
+if __name__ == '__main__':
+    import multiprocessing as mp
+    nprocs = 4
+    event_loops, runner = MPEventLoopFactory(nprocs).make()
+    results = run_calculation(event_loops)
+    print(results)
+
+The code is a multi-process implementation of the Python standard library's `asyncio` module. It creates `nprocs` event loops, each of which is used to run `10` tasks. The results of the tasks are collected and printed.
+
+The code is organized into several classes:
+
+- `MPEventLoopRunner`: This class manages the communication between the main process and the worker processes. It receives the results from the worker processes and sends them to the main process.
+- `MPCommunicationChannel`: This class implements a simple communication channel between the main process and the worker processes. It uses a queue to send and receive objects. It also has a `finished_event` that is set when all the worker processes have finished.
+- `MPEventLoop`: This class wraps the standard library's `asyncio` event loop and provides a few additional methods for running tasks and collecting results.
+- `MPEventLoopFactory`: This class creates `nprocs` event loops and a `MPEventLoop

@@ -1,0 +1,15 @@
+This code sets up functionality for a music player. Here is a breakdown of what each section of code does:
+
+1. The first set of lines selects various elements from the HTML document using CSS class names and assigns them to variables. These elements include the song container, play button, replay button, progress bar outline, video element, sound buttons, time display, and time select buttons.
+
+2. The next line calculates the length of the progress bar outline and stores it in a variable called `outlineLength`.
+
+3. The event listener on the `play` button calls the `checkPlaying` function when the button is clicked. This function checks if the song is currently playing or paused and toggles the play/pause status accordingly.
+
+4. Another event listener is added to each sound button. When a sound button is clicked, it updates the `src` attribute of the `song` and `video` elements with the corresponding sound and video file URLs. Then, it calls the `checkPlaying` function to play or pause the song and video.
+
+5. The next section sets up event listeners for each time select button. When a time select button is clicked, it updates the `fakeDuration` variable with the value of the selected button's `data-time` attribute. It also updates the time display to show the new duration in minutes and seconds.
+
+6. The `checkPlaying` function is defined. It checks if the song is currently paused or playing. If the song is paused, it plays the song and video, and changes the play button's `src` attribute to a pause icon. If the song is playing, it pauses the song and video, and changes the play button's `src` attribute to a play icon.
+
+7. The `song.ontimeupdate` function is defined. It is triggered when the song's playback position is updated. Within this function, it calculates the current time of the song, the elapsed time from the start of the song, and formats the elapsed time into minutes and seconds. It also calculates the progress of the progress bar outline based on the current time and updates its `strokeDashoffset` property. The time display is updated with the current elapsed time. If the current time is greater than the fake duration (end of the song), the song and video are paused, and their `currentTime` properties are reset to 0. The song's `src` attribute is changed to a play icon and the video is paused.

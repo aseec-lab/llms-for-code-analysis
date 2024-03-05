@@ -1,0 +1,43 @@
+This code is an implementation of a splay tree data structure in JavaScript. 
+
+The code begins by initializing a BenchmarkSuite object with the name 'Splay' and a list of parameters and benchmarks. The parameters include the size of the splay tree, number of modifications, and payload depth. The benchmark is a function called 'SplayRun' that will be executed to measure the performance of the splay tree.
+
+The code then defines several variables and functions. 
+
+The 'GeneratePayloadTree' function takes a depth and a tag as parameters and recursively generates a payload tree with the specified depth. The payload tree contains an array of numbers and a string.
+
+The 'GenerateKey' function generates a random number to be used as a key for the splay tree.
+
+The 'SplayRMS' function calculates the root mean square of the pauses between splay tree operations.
+
+The 'SplayUpdateStats' function updates the statistics for the splay tree operations.
+
+The 'InsertNewNode' function generates a new key and payload for a new node, inserts it into the splay tree, and returns the key.
+
+The 'SplaySetup' function initializes the splay tree, generates and inserts nodes into the tree, and updates the statistics at regular intervals.
+
+The 'SplayTearDown' function exports the keys from the splay tree, checks the size and sorting of the tree, and resets the statistics.
+
+The 'SplayRun' function performs a series of modifications on the splay tree, removing nodes based on their keys and updating the statistics.
+
+The 'SplayTree' constructor initializes a new splay tree object.
+
+The 'isEmpty' method checks if the root of the splay tree is null, indicating an empty tree.
+
+The 'insert' method inserts a new node with the given key and value into the splay tree. If the tree is empty, the new node becomes the root. Otherwise, the 'splay_' method is called to splay the tree and bring the new node to the root. If the root already has the same key as the new node, the insert operation is ignored. Otherwise, the new node is attached as a child of the root based on the comparison of their keys.
+
+The 'remove' method removes a node with the given key from the splay tree. If the tree is empty, an error is thrown. Otherwise, the 'splay_' method is called to splay the tree and bring the node with the given key to the root. If the root has the same key as the one to be removed, the root is replaced with its left or right child, depending on which child is not null.
+
+Overall, this code implements a splay tree data structure and provides benchmarking functions to measure its performance.The remaining part of the code includes the definitions for the 'find', 'findMax', 'findGreatestLessThan', 'exportKeys', 'splay_', and 'SplayTree.Node' methods.
+
+The 'find' method takes a key as a parameter and searches for a node with that key in the splay tree. If the tree is empty, it returns null. Otherwise, it calls the 'splay_' method to bring the node with the given key to the root and checks if the root has the same key. If it does, it returns the root, otherwise it returns null.
+
+The 'findMax' method finds the node with the maximum key in the splay tree. If the tree is empty, it returns null. Otherwise, it starts from the given node (or the root if no node is specified), and traverses to the right child until there are no more right children. It returns the current node.
+
+The 'findGreatestLessThan' method finds the node with the maximum key that is less than the given key in the splay tree. If the tree is empty, it returns null. Otherwise, it calls the 'splay_' method to bring the node with the given key to the root. If the root's key is less than the given key, it returns the root. Otherwise, if the root has a left child, it calls the 'findMax' method starting from the root's left child and returns the result. Otherwise, it returns null.
+
+The 'exportKeys' method exports the keys of all nodes in the splay tree as an array. If the tree is not empty, it calls the 'traverse_' method on the root node, passing a function that pushes the key of each node into the result array. It returns the result array.
+
+The 'splay_' method is a private method used to splay the splay tree and bring the node with the given key to the root. If the tree is empty, the method returns without doing anything. The method uses a bottom-up approach to move the nodes around. It starts with a dummy node and two pointers (left and right) pointing to the dummy node. It iteratively compares the key of the current node with the given key, and moves the current node to its correct position in the tree based on the comparison. Finally, it assigns the left and right pointers to the appropriate child nodes of the current node, and assigns the current node as the new root of the splay tree.
+
+The 'SplayTree.Node' constructor is a helper class used to represent nodes in the splay tree. It takes a key and a value as parameters, and assigns them to the corresponding properties of the node object.

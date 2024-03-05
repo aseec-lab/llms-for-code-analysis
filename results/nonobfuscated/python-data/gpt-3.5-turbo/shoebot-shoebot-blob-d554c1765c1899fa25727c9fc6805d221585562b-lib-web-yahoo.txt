@@ -1,0 +1,15 @@
+This code appears to be a Python module that interacts with the Yahoo Search API. It contains several classes and functions that can be used to perform various searches and retrieve search results from Yahoo.
+
+The code starts by importing necessary modules and defining some constants. It also defines a cache and a few exceptions.
+
+The main classes in the code include:
+- `YahooResult`: Represents a single search result with properties like title, URL, description, type, date, etc.
+- `YahooResults`: Represents a list of search results. It is a subclass of the `list` class and provides additional methods to parse and store search results.
+- `YahooSearch`: Represents a search operation. It inherits from both `YahooResults` and `URLAccumulator` classes. It allows performing a search query using Yahoo's API and stores the results.
+- `YahooSpelling`: Represents a spelling suggestion. It is a subclass of `YahooSearch` and is specifically used for spell checking purposes.
+
+In addition to these classes, there are several helper functions that wrap around the above classes and provide simpler interfaces for performing different types of searches. For example, the `search` function performs a generic web search, while `search_images` and `search_news` functions perform image and news searches respectively. The `suggest_spelling` function retrieves spelling suggestions for a given query.
+
+Lastly, there is a `sort` function that takes a list of words and performs searches for each word. It then sorts the results based on the total number of search results and optionally normalizes the result percentages if the `relative` parameter is set to `True`. The function returns a sorted list of tuples containing the query and its corresponding percentage of total results.
+
+Overall, this code provides a convenient way to interact with the Yahoo Search API and retrieve search results for different types of queries.

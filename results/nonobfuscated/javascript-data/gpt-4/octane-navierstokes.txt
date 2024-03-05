@@ -1,0 +1,37 @@
+The provided code defines the basic operations for a numerical solver for the Navier-Stokes equations, which describe the motion of fluid substances. It appears to be designed for running a benchmark test, given the `BenchmarkSuite` and `Benchmark` objects. 
+
+Considering different functions, you will see that `runNavierStokes` method updates a `solver` and checks the result periodically. The `checkResult` function verifies the density consistency, throwing an error if the conditions are not met.
+
+The `setupNavierStokes` function, initializes the solver with certain parameters such as resolution and iterations, and sets the UI Callback to build frames using the `prepareFrame` function. This function is set to add points every so often (controlled by the `framesTillAddingPoints` and `framesBetweenAddingPoints` variables), and subtracts one from `framesTillAddingPoints` every other frame.
+
+`FluidField` function seems to define a fluid dynamic simulation 2D grid and includes a set of methods for solving the Navier-Stokes equations on this grid according to certain boundary conditions ( `set_bnd` ) and solving linear equations systems (`lin_solve` and `lin_solve2`).
+
+Finally, the 'addPoints' function appears to add points to the fluid field, presumably in order to simulate some kind of disturbance.
+
+Thus, the prepared code is most likely part of a larger computational fluid dynamics (CFD) simulation, possibly for testing performance (as in benchmarking the speed of the simulation).The code continues to define several more functions that are essential for Navier-Stokes fluid dynamics simulations. 
+
+`diffuse2(x, x0, y, y0, dt)` method runs the linear solver with a particular zero-value constant, ensuring all modified values are relative to their original state.
+
+`advect(b, d, d0, u, v, dt)` method, is responsible for the convection portion of the advection-diffusion equation. It approximates the partial derivatives required to calculate the fluid's evolution over time.
+
+`project(u, v, p, div)` method, is responsible for mass conservation projection, ensuring that the fluid's velocity field remains divergence-free (incompressibility condition).
+
+`dens_step(x, x0, u, v, dt)` method integrates the density and velocity of the fluid body over the given time step, advecting and diffusing the density.
+
+`vel_step(u, v, u0, v0, dt)` method updates the velocity field of the fluid. It calculates the advection, diffusion and projection of the fluid's velocity. 
+
+In both `dens_step` and `vel_step`, a swapping operation is conducted to interchange the new and the old values, as Navier-Stokes equations form a system of coupled equations which have to be solved iteratively.
+
+These methods involve lots of complex mathematical operations related to the physical behaviour of the fluid, including advection and diffusion calculations which represent the bulk transport and spreading out of the fluid respectively. 
+
+Overall, the code presents an implementation in JavaScript for a numerical method to solve the Navier-Stokes equations, the fundamental physical laws governing fluid flow.The remaining part of the code provides the setup, display, query, and interaction of the fluid. The necessary functions are defined for you to be able to create your fluid field (via `Field`), to set and obtain information about this field and to update its step using `update`.
+
+The `queryUI` function sets up the field initially with zero values and starts the fluid dynamics computations as defined by `uiCallback` function, created at the start to be an empty function. 
+
+The `update` function updates the state and display of the fluid by performing velocity and density steps, and displays it using the `displayFunc` function, which is expected to be set using the `setDisplayFunction()`. 
+
+`setIterations()`, `setUICallback()`, and `setResolution()` are further control settings for this simulation. 
+
+Finally, 'reset()' function that resets the grid, when the resolution of the simulation changes. A new array is created for density, velocity, and their previous states, and initialized with zeros. It uses `getDens()` function to get current density array. 
+
+You can use `Field` to set or get density or velocity and use the `update()` method to perform an update in density and velocity due to fluid flow. The fluid flow simulation starts with a default resolution of 64x64 grid and can be changed using `setResolution(width, height)`.

@@ -1,0 +1,11 @@
+This code logs the string ":D" to the console. 
+
+It then selects two HTML elements with the ids "dolar" and "bitcoin" and assigns them to the variables "botonDolar" and "botonBitcoin" respectively. 
+
+It adds event listeners to these elements so that when they are clicked, it calls the "obtenerDatos" function with the values 'dolar' or 'bitcoin'.
+
+The "obtenerDatos" function takes in a parameter "valor" and constructs a URL using that parameter. It then creates a new XMLHttpRequest object, opens a GET request to the constructed URL, and sends the request. It also sets the "onreadystatechange" event handler to the "respuesta" function.
+
+The "respuesta" function checks if the status of the request is 200 (successful) and the readyState is 4 (finished). If both conditions are met, it parses the response text into JSON format and logs it to the console.
+
+It then selects an HTML element with the id "resultado" and clears its contents. It loops through the "serie" property of the parsed JSON data, creating HTML list items with the date and value of each item. It only loops through the first 15 items. The created list items are appended to the "resultado" element's innerHTML.

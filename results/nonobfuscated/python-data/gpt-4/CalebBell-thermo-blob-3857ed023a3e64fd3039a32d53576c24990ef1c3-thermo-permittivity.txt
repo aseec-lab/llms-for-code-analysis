@@ -1,0 +1,9 @@
+This Python script is used to compute the relative permittivity (or dielectric constant) of a specified substance, given its temperature and density. 
+
+The script imports several libraries and modules, including numpy and pandas for data handling and the `thermo.utils` module for thermodynamic properties and constants. 
+
+Data on a variety of substances' relative permittivity is loaded from a .tsv file located in a directory named 'Electrolytes'. The method `permittivity_IAPWS` calculates the relative permittivity based on temperature and density using the IAPWS (International Association for the Properties of Water and Steam) formulation. 
+
+A class `Permittivity` is also defined, which represents the relative permittivity property of a substance. The class includes methods to load available data (`load_all_methods`), calculate permittivity based on temperature for a given method (`calculate`), and validate whether a method could be used for a given temperature (`test_method_validity`). It provides support for multiple calculation methods, including tabular data interpolation, and constants from the CRC Handbook of Chemistry and Physics. 
+
+The `Permittivity` class also manages temperature ranges for the validity of each method, handles cases where the method or data is not available, and organizes different calculation methods.

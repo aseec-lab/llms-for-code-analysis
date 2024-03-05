@@ -1,0 +1,13 @@
+The code is written in JavaScript and it sets up a benchmarking test for TypeScript, a popular open-source language developed by Microsoft that is a superset of JavaScript and provides static typing, classes and interfaces.
+
+The `BenchmarkSuite` and `Benchmark` objects are used to configure the benchmarking process. The `setupTypescript`, `tearDownTypescript`, `runTypescript` functions are methods that describe what to do before, during, and after each test in the suite.
+
+In the `setUpTypeScript` function, nothing happens as it is empty. This function is typically where setup code would go.
+
+In `tearDownTypeScript`, the `compiler_input` variable is nullified, freeing up its memory. 
+
+The `runTypescript` function is the core of the suite: it creates a TypeScript compiler, adds a unit to it, error checks, emits the file, and then cleans up the compiler. It also checks the number of parse errors and throws an error if an unexpected number of parse errors were found.
+
+The `outfile` and `outerr` objects define the behavior of the system when writing results. Both of them compute a checksum, and if the computed checksum does not match the expected value when `Close` is called, an error is thrown.
+
+The `createCompiler` function creates a new TypeScript compiler with certain settings such as a code generation target of ES5, a blank logger, and an error callback that pushes errors in parsing to the parseErrors array. This function is used in the `runTypescript`.

@@ -1,0 +1,55 @@
+Analyze the following piece of code: int main()
+{char *p1,*p2,*p3,*q1,*q2;
+ int i,j,k,flag;
+ p1=(char*)malloc(sizeof(char)*256);
+ p2=(char*)malloc(sizeof(char)*256);
+ p3=(char*)malloc(sizeof(char)*256);
+ q1=(char*)malloc(sizeof(char)*256);
+ q2=(char*)malloc(sizeof(char)*256);
+ gets(p1);gets(p2);gets(p3);
+ for(i=0;i<strlen(p1);i++)
+ {flag=1;
+  for(j=0;j<strlen(p2);j++)
+  if(*(p1+i+j)!=*(p2+j)) {flag=0;break;}
+  if(flag)
+  {for(k=0;k<i;k++)
+   *(q1+k)=*(p1+k);
+   *(q1+k)='\0';
+   for(k=i+strlen(p2);k<strlen(p1);k++)
+   *(q2+k-i-strlen(p2))=*(p1+k);
+   *(q2+k-i-strlen(p2))='\0';
+   break;}
+  }
+ if(flag){
+ strcat(q1,p3);
+ strcat(q1,q2);
+ puts(q1);}
+ else
+ puts(p1);
+}
+
+The code appears to be a program in C that takes four strings as input, and then outputs one of the input strings based on a series of comparisons.
+
+The main function begins by declaring six pointers to char arrays: p1, p2, p3, q1, q2, and a flag. The program then allocates memory for each of these arrays using the malloc function.
+
+The next few lines read in the first three strings from the user using the gets function.
+
+The main function then enters a loop that iterates over the length of the first input string (p1). For each iteration, it compares the characters at the current index of p1 and p2 using the comparison operator "==". If the characters do not match, the flag is set to 0 and the loop is exited. If the characters match, the loop continues.
+
+Once the flag is set to 1, the loop breaks and the program continues to the next step. The program then copies the characters from the beginning of p1 up to the current index (i) into the array q1, followed by a null character. It then copies the characters from the current index of p1 to the end of p1 into the array q2, followed by another null character.
+
+The program then concatenates the two arrays q1 and q2 to form a new string, and sets q1 to this new string. It then compares the new string with the third input string (p3) using the strcat function. If the new string is a substring of p3, the program outputs the new string using the puts function. If the new string is not a substring of p3, the program outputs p1.
+
+Overall, the code appears to be a program that takes in four strings as input, and then outputs one of the input strings based on a series of character comparisons.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce a código ejecutable inmediatamente antes de ser ejecutada. Esto significa que el código fuente se puede escribir y modificar en tiempo real, y se puede ver los cambios inmediatamente sin tener que volver a compilar y volver a ejecutar el programa.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero

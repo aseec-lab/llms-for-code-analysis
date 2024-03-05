@@ -1,0 +1,455 @@
+This code is defining a BenchmarkSuite class with a constructor that takes in a name, an array of integers, and an array of Benchmark objects. The Benchmark object has properties such as name, asynchronous flag, queued flag, and number of cycles. It also has a deltaBlue function that is being passed as an argument to the constructor.
+
+The code then defines a new property called "inheritsFrom" on the Object prototype. This property is a function that takes in a parameter called "shuper" and sets up inheritance for the calling object.
+
+Next, the code defines an OrderedCollection constructor function. This function initializes an empty array called "elms".
+
+The OrderedCollection prototype has methods such as add, at, size, removeFirst, and remove. These methods perform operations on the "elms" array.
+
+The code then defines a Strength constructor function. This function takes in a strengthValue and a name and assigns them to properties of the object.
+
+The Strength object has static methods such as stronger, weaker, weakestOf, and strongest. These methods compare two strength values and return the appropriate result.
+
+The Strength object also has a prototype method called nextWeaker, which returns the next weaker strength value based on the current strength value.
+
+The code defines static instances of the Strength object representing various levels of strength.
+
+Next, the code defines a Constraint constructor function. This function takes in a strength and assigns it to a property of the object.
+
+The Constraint object has prototype methods such as addConstraint, satisfy, destroyConstraint, and isInput. These methods perform operations related to constraints.
+
+The code then defines a UnaryConstraint constructor function. This function extends the Constraint object by calling its constructor function and passing in a strength argument.BinaryConstraint.prototype.recalculate = function () {
+  this.input().walkStrength = Strength.weakestOf(this.strength, this.output().walkStrength);
+  if (!this.input().stay) this.execute();
+  this.output().walkStrength = Strength.weakestOf(this.strength, this.input().walkStrength);
+}
+
+
+BinaryConstraint.prototype.markUnsatisfied = function () {
+  this.direction = Direction.NONE;
+}
+
+
+BinaryConstraint.prototype.inputsKnown = function () {
+  return this.input().stay && this.output().stay;
+}
+
+
+BinaryConstraint.prototype.removeFromGraph = function () {
+  if (this.v1 != null && this.v2 != null) {
+    this.v1.removeConstraint(this);
+    this.v2.removeConstraint(this);
+  }
+  this.direction = Direction.NONE;
+}
+
+
+function Planner() {
+  this.vConstraint = new OrderedCollection();
+  this.cConstraint = new Array();
+  this.addedConstraints = false;
+}
+
+
+Planner.prototype.incrementalAdd = function (c) {
+  this.vConstraint.add(c);
+  this.addedConstraints = true;
+}
+
+
+Planner.prototype.incrementalRemove = function (c) {
+  this.vConstraint.remove(c);
+}
+
+
+Planner.prototype.newMark = function () {
+  this.mark++;
+}
+
+
+Planner.prototype.propagateFrom = function (v) {
+  while (!this.vConstraint.isEmpty()) {
+    var c = this.vConstraint.removeFirst();
+    if (c.isSatisfied()) {
+      this.cConstraint.push(c);
+      c.markInputs(this.mark);
+      c.output().addToGraph();
+    }
+  }
+}
+
+
+Planner.prototype.addPropagate = function (c) {
+  this.incrementalAdd(c);
+  this.propagateFrom(c.output());
+}
+
+
+Planner.prototype.removePropagate = function (c) {
+  this.incrementalRemove(c);
+  this.propagateFrom(c.output());
+}
+
+
+Planner.prototype.makePlan = function () {
+  this.vConstraint = new OrderedCollection();
+  this.addedConstraints = false;
+  this.newMark();
+  for (var i = 0; i < this.cConstraint.length; i++) {
+    var c = this.cConstraint[i];
+    if (c.isSatisfied()) {
+      this.vConstraint.add(c);
+    }
+  }
+}// Loop until there are no more sources
+  while (todo.length > 0) {
+    // Get the next source variable
+    var source = todo.shift();
+
+    // Mark the source as visited
+    source.visit(mark);
+
+    // Get the constraints connected to the source variable
+    var constraints = source.getConstraints();
+
+    // Loop through the constraints
+    for (var i = 0; i < constraints.length; i++) {
+      var constraint = constraints[i];
+
+      // Get the input variable of the constraint
+      var input = constraint.getInput();
+
+      // If the input variable is not marked or is not determined, skip it
+      if (input.mark != mark && !input.isDetermined()) continue;
+
+      // Get the output variable of the constraint
+      var output = constraint.getOutput();
+
+      // Add the constraint to the plan
+      plan.add(constraint);
+
+      // If the output variable is not marked, mark it and add it to the sources
+      if (output.mark != mark) {
+        output.mark = mark;
+        todo.push(output);
+      }
+    }
+  }
+
+  // Return the plan
+  return plan;
+}
+
+
+Planner.prototype.propagateFrom = function (variable) {
+  // Mark the variable as visited
+  variable.visit(this.currentMark);
+
+  // Get the constraints connected to the variable
+  var constraints = variable.getConstraints();
+
+  // Loop through the constraints
+  for (var i = 0; i < constraints.length; i++) {
+    var constraint = constraints[i];
+
+    // Get the output variable of the constraint
+    var output = constraint.getOutput();
+
+    // If the output variable is marked, skip it
+    if (output.mark == this.currentMark) continue;
+
+    // Get the input variable of the constraint
+    var input = constraint.getInput();
+
+    // If the input variable is not marked or is not determined, skip it
+    if (input.mark != this.currentMark && !input.isDetermined()) continue;
+
+    // Call the execute method of the constraint
+    constraint.execute();
+
+    // Mark the output variable as visited
+    output.visit(this.currentMark);
+
+    // Add the output variable to the sources
+    this.sources.push(output);
+  }
+}
+
+
+Planner.prototype.removePropagateFrom = function (variable) {
+  // Mark the variable as visited
+  variable.visit(this.currentMark);
+
+  // Get the constraints connected to the variable
+  var constraints = variable.getConstraints();
+
+  // Create an array to store the unsatisfied constraints
+  var unsatisfied = [];
+
+  // Loop through the constraints
+  for (var i = 0; i < constraints.length; i++) {
+    var constraint = constraints[i];
+
+    // Get the output variable of the constraint
+    var output = constraint.getOutput();
+
+    // If the output variable is not marked, skip it
+    if (output.mark != this.currentMark) continue;
+
+    // Get the input variable of the constraint
+    var input = constraint.getInput();
+
+    // If the input variable is not marked or is not determined, skip it
+    if (input.mark != this.currentMark && !input.isDetermined()) continue;
+
+    // Call the markUnsatisfied method of the constraint
+    constraint.markUnsatisfied();
+
+    // Remove the constraint from the plan
+    this.plan.remove(constraint);
+
+    // Remove the constraint from the variable
+    output.removeConstraint(constraint);
+
+    // Add the unsatisfied constraint to the array
+    unsatisfied.push(constraint);
+
+    // Mark the input variable as visited
+    input.visit(this.currentMark);
+
+    // Add the input variable to the sources
+    this.sources.push(input);
+  }
+
+  // Return the array of unsatisfied constraints
+  return unsatisfied;
+}// The remaining part of the previous function.
+
+Planner.prototype.addConstraintsConsumingTo = function (variable, todo) {
+  // Get the constraints connected to the variable
+  var constraints = variable.getConstraints();
+
+  // Loop through the constraints
+  for (var i = 0; i < constraints.length; i++) {
+    var constraint = constraints[i];
+
+    // Skip the constraint if it is already in the plan
+    if (this.plan.containsConstraint(constraint)) continue;
+
+    // Add the constraint to the plan
+    this.plan.add(constraint);
+
+    // Get the output variable of the constraint
+    var output = constraint.getOutput();
+
+    // If the output variable is not marked, mark it and add it to the sources
+    if (output.mark != this.currentMark) {
+      output.mark = this.currentMark;
+      todo.push(output);
+    }
+  }
+}
+
+
+Planner.prototype.extractPlanFromConstraints = function (constraints) {
+  // Create an array to store the sources
+  var sources = [];
+
+  // Loop through the constraints
+  for (var i = 0; i < constraints.length; i++) {
+    var constraint = constraints[i];
+
+    // Check if the constraint is an input and is already satisfied
+    if (constraint.isInput() && constraint.isSatisfied()) {
+      // Add the constraint to the sources
+      sources.push(constraint);
+    }
+  }
+
+  // Return the plan generated from the sources
+  return this.makePlan(sources);
+}
+
+
+Planner.prototype.addPropagate = function (constraint, mark) {
+  // Create a queue to store the constraints to be processed
+  var todo = [];
+
+  // Add the constraint to the queue
+  todo.push(constraint);
+
+  // Process the constraints in the queue
+  while (todo.length > 0) {
+    // Get the next constraint
+    var c = todo.shift();
+
+    // If the output variable of the constraint is already marked, return false
+    if (c.getOutput().mark == mark) {
+      this.incrementalRemove(constraint);
+      return false;
+    }
+
+    // Recalculate the constraint
+    c.recalculate();
+
+    // Add the constraints consuming the output variable to the queue
+    this.addConstraintsConsumingTo(c.getOutput(), todo);
+  }
+
+  // Return true if the propagation was successful
+  return true;
+}
+
+
+Planner.prototype.removePropagateFrom = function (variable) {
+  // Clear the determinedBy, walkStrength, and stay properties of the variable
+  variable.determinedBy = null;
+  variable.walkStrength = Strength.WEAKEST;
+  variable.stay = true;
+
+  // Create an array to store the unsatisfied constraints
+  var unsatisfied = [];
+
+  // Create a queue to store the variables to be processed
+  var todo = [];
+
+  // Add the variable to the queue
+  todo.push(variable);
+
+  // Process the variables in the queue
+  while (todo.length > 0) {
+    // Get the next variable
+    var v = todo.shift();
+
+    // Get the constraints connected to the variable
+    var constraints = v.getConstraints();
+
+    // Loop through the constraints
+    for (var i = 0; i < constraints.length; i++) {
+      var constraint = constraints[i];
+
+      // If the constraint is unsatisfied, add it to the unsatisfied array
+      if (!constraint.isSatisfied()) {
+        unsatisfied.push(constraint);
+      }
+    }
+
+    // Get the determining constraint of the variable
+    var determining = v.determinedBy;
+
+    // Loop through the constraints
+    for (var i = 0; i < constraints.length; i++) {
+      var next = constraints[i];
+
+      // If the constraint is not the determining constraint and is satisfied, recalculate it
+      if (next != determining && next.isSatisfied()) {
+        next.recalculate();
+
+        // Add the output variable of the constraint to the queue
+        todo.push(next.getOutput());
+      }
+    }
+  }
+
+  // Return the unsatisfied constraints
+  return unsatisfied;
+}// The remaining part of the previous code.
+
+function chainTest(n) {
+  var sources = [];
+  var last;
+  for (var i = 0; i < n; i++) {
+    var v = new Variable();
+    sources.push(v);
+    if (last !== undefined) {
+      new EqualityConstraint(last, v, Strength.REQUIRED);
+    }
+    last = v;
+  }
+
+  var dest = new Variable();
+  new EqualityConstraint(last, dest, Strength.REQUIRED);
+
+  for (var i = 0; i < n; i++) {
+    sources[i].value = i;
+  }
+
+  planner = new Planner();
+  var plan = planner.extractPlanFromConstraints([dest.determinedBy]);
+  for (var i = 0; i < n; i++) {
+    var v = sources[i];
+    if (v.value !== i) {
+      console.error("Chain test failed");
+    }
+  }
+  if (dest.value !== n - 1)
+    console.error("Chain test failed");
+  change(sources[0], n);
+  if (sources[0].value !== n)
+    console.error("Chain test failed");
+  plan.execute();
+  if (dest.value !== 2 * n - 1)
+    console.error("Chain test failed");
+}
+
+function projectionTest(n) {
+  var sources = [];
+  for (var i = 0; i < n; i++) {
+    var v = new Variable();
+    sources.push(v);
+  }
+
+  var scale = new Variable();
+  var offset = new Variable();
+
+  for (var i = 0; i < n - 1; i++) {
+    new ScaleConstraint(sources[i], scale, sources[i + 1], offset);
+  }
+
+  var dests = [];
+  for (var i = 0; i < n - 1; i++) {
+    var v = new Variable();
+    dests.push(v);
+    new EqualityConstraint(sources[i], dests[i], Strength.REQUIRED);
+  }
+
+  planner = new Planner();
+  var plan = planner.extractPlanFromConstraints(
+    [dests[n - 2].determinedBy]
+  );
+
+  for (var i = 0; i < n - 1; i++) {
+    dests[i].value = i;
+  }
+  change(scale, 5);
+  if (sources[n - 1].value !== 5) console.error("Projection 1 failed");
+  change(sources[0], 1050);
+  if (sources[1].value !== 1000) console.error("Projection 2 failed");
+  change(scale, 5);
+  for (var i = 0; i < n - 1; i++) {
+    if (dests[i].value !== i * 5 + 1000) console.error("Projection 3 failed");
+  }
+  change(offset, 2000);
+  for (var i = 0; i < n - 1; i++) {
+    if (dests[i].value !== i * 5 + 2000) console.error("Projection 4 failed");
+  }
+}
+
+function change(v, newValue) {
+  var edit = new EditConstraint(v, Strength.PREFERRED);
+  var edits = new OrderedCollection();
+  edits.add(edit);
+  var plan = planner.extractPlanFromConstraints(edits);
+  for (var i = 0; i < 10; i++) {
+    v.value = newValue;
+    plan.execute();
+  }
+  edit.destroyConstraint();
+}
+
+var planner = null;
+
+function deltaBlue() {
+  chainTest(100);
+  projectionTest(100);
+}

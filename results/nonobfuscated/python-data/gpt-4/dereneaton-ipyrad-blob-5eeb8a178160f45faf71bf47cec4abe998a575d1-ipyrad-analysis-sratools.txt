@@ -1,0 +1,25 @@
+This Python script appears to deal with fetching and processing sequence read archive (SRA) data. The code imports a variety of libraries for various tasks including file system operations, data manipulation, and parallel processing. Specific tools required are checked for first such as 'fastq-dump' and 'esearch'.
+
+The SRA class is defined with an initialization method that sets up various variables like the working directory and whether the accession refers to a sample or project. 
+
+The 'run' method for the SRA class performs the bulk of the operations, where it sets up the work directory, configures the vdbconfig path, and submits jobs for processing. During this process, it handles various exceptions and ensures cleanup of resources. 
+
+The '_submit_jobs' method fetches the relevant run information, processes the data, and depending on 'dry_run' flag, it will either display the files that will be written or it will start the job to write the files. 
+
+This script probably forms part of a larger system, indicated by the presence of placeholder declaration for strings like MISSING_IMPORTS and ACCESSION_ID, and the use of an IPython parallel computing library. It also seems designed to be run from scratch should previous runs be incomplete or need to be redone, inferred from checks for existing work directories and files.The rest of the script provides some additional functions and definitions.
+
+The '_report' method prints a message showing how many fastq files were downloaded and where they were stored.
+
+'fetch_fields' returns a DataFrame with fields to be fetched from the SRA.
+
+'fetch_runinfo' fetches the run information of the SRA and creates a DataFrame with the collected information.
+
+'_set_vdbconfig_path' and '_restore_vdbconfig_path' methods handle the configuration of the vdb-config tool, used for SRA file operations.
+
+'call_fastq_dump_on_SRRs' is a function that calls fastq-dump on the SRA run identifiers (SRRs) and downloads the corresponding fastq files. It also handles removing intermediate .sra files those are created during the process to save memory.
+
+'fields_checker' is a utility function to check and format the input 'fields' in the desired format.
+
+'FAILED_DOWNLOAD' - seems like a global variable placeholder for storing failed download information, but appears to be incomplete.
+
+'COLNAMES' is another global array containing the column names used in the function 'fetch_runinfo' to build the pandas DataFrame. These column names represent metadata associated with SRA runs, such as 'Run', 'ReleaseDate', 'LoadDate', etc.

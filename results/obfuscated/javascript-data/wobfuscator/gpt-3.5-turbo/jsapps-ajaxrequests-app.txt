@@ -1,0 +1,15 @@
+The code appears to be using WebAssembly to decode and manipulate some encoded data. 
+
+The first part of the code defines a function called `__universalAtob` which takes a base64 encoded string as input and tries to decode it using the `atob` function. If successful, it converts the decoded string into a Uint8Array and returns it. If an error occurs, it uses the `global.Buffer.from` function to create a Uint8Array from the base64 encoded string.
+
+The code then defines two variables, `__ifWasmBuffer` and `__callWasmBuffer`, which are both base64 encoded strings.
+
+Next, the code creates WebAssembly modules from the decoded buffers. It defines two variables, `__ifWasmModule` and `__callWasmModule`, which are initialized with new WebAssembly.Module objects. The initialization function for the modules takes the decoded buffers and converts them into Uint8Arrays.
+
+The code then defines an array of base64 encoded strings called `__wasmStringModules`. It uses the `__universalAtob` function to decode each string and then creates WebAssembly instances using the decoded buffers.
+
+Finally, the code defines a function called `lS` which takes three parameters: `wI`, `pos`, and `iWC`. This function is used to retrieve a string from a WebAssembly module. It checks if the `wI` parameter is an array or not. If it's not an array, it uses the `__wasmStringModules` array to retrieve the target module and then extracts the string from the module's memory buffer. If `wI` is an array, it iterates over the array and retrieves the strings from the corresponding modules.The remaining part of the code defines a function called `traerDatos` which is assigned as an event listener to the `boton` element. 
+
+In the `traerDatos` function, an XMLHttpRequest object named `xhttp` is created. Two immediately invoked function expressions are used to create WebAssembly instances and define the behavior for the `impFunc` function in the WebAssembly environment. The first function expression creates an instance of `__callWasmModule` and sets the `impFunc` function to open a request using the `open` method of `xhttp`. The second function expression creates another instance of `__callWasmModule` and sets the `impFunc` function to send the request using the `send` method of `xhttp`. 
+
+The `onreadystatechange` event handler is defined for `xhttp`. This event handler creates an instance of `__ifWasmModule` and sets the `impFunc1` function to log the `responseText` of `xhttp` to the console and sets the `impFunc2` function as an empty function. Finally, the `data` function of the instance is called with the result of the ready state and status check on `xhttp`, and the result is returned as the `data` method.

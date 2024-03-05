@@ -1,0 +1,7 @@
+This program reads a series of nxn (n<=100) matrices from standard input, where the value of n is the first thing read for each matrix. For each matrix, it subtracts the minimum value of each row (it does this in-place), then subtracts the minimum value for each column, effectively creating a reduced row and column two-dimensional array. It then adds the second element (index 1) from the top left row of the resulting 2D array to a cumulative sum variable 's' then shifts the array elements to the left and top, effectively removing the first row and column.
+
+This process of reducing each row and column, summing the top left element, then shifting values left and top continues until the 2D array became 1x1 size (i.e., only one element left). After that, the program prints the variable 's' to the standard output, which consists of the summed elements obtained after each reducing step. All these operations are repeated 'n' times on different matrices given through standard input.
+
+This code could be used in operations research for reducing cost matrices, or in many image processing algorithms where the minimum of each row and column are processed in some way.
+
+Please note that standard 'scanf' and 'printf' functions are used for i/o operations, which can potentially lead to buffer overflow vulnerabilities. So, consider using safer alternatives depending on the use case.

@@ -1,0 +1,17 @@
+This C code reads a string and then it segregates the words in the string by separating them whenever it encounters a space or a comma. It stores the words in a 2D array and the length of each word is stored in array 'x'. 
+
+After the input string is processed, it finds the word with the maximum length and prints it. In a similar process, it also finds the word with the minimum length and prints it.
+
+Please note that this code uses `gets` function which is not recommended because it's dangerous. This function does not check the array bounds, so it can cause buffer overflow and result in a security risk. It is recommended to use alternatives such as `fgets` function.
+
+Here is a breakdown of the code:
+
+1. `main()` function declaration.
+2. Declaration and Initialization of several integer variables and arrays. The array `b` is a 2-D character array and `a` and `c` are 1-D character arrays.
+3. Two nested for-loops to initialize all elements of array `b` to the null character.
+4. A for-loop to initialize all elements of array `c` to the null character.
+5. Function `gets` is used to acquire a string from the user input and store it in array `a`.
+6. The length of the input string is calculated using `strlen` function and the result is stored in integer `n`.
+7. Two nested for-loops iterate over the string and break it down into substring chunks at every space or comma, storing each segment into the 2-D array `b`. The lengths of the segments are saved in the array `x`.
+8. Another for-loop scans through array `x` to find the index of the longest word (stored in array `b`) and prints it.
+9. Lastly, another for-loop scans through array `x` to find the index of the shortest word (stored in array `b`) and prints it.

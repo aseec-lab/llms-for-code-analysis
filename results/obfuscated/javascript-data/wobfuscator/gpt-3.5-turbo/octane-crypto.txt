@@ -1,0 +1,98 @@
+The code provided appears to be written in JavaScript and consists of several chunks. Here's an analysis of each part:
+
+Chunk 1:
+```javascript
+const __universalAtob = function (b64Encoded) {
+    try {
+        let binary_string = atob(b64Encoded), len = binary_string.length, bytes = new Uint8Array(len)
+
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i)
+        }
+        return bytes
+    } catch (err) {
+        return new Uint8Array(global.Buffer.from(b64Encoded, 'base64'))
+    }
+}
+```
+This block of code defines a function named "__universalAtob" that decodes a base64 encoded string. It first attempts to use the built-in `atob()` function to decode the string. If successful, it converts the decoded string to a `Uint8Array` and returns it. If an error is thrown (indicating that `atob()` is not available), it falls back to using `global.Buffer.from()` to achieve the same result.
+
+Chunk 2:
+```javascript
+const __aB = 'AGFzbQEAAAABiYCAgAACYAAAYAJ/fwADhoCAgAAFAQAAAAAFg4CAgAABAAEGhoCAgAABfwFBAAsHpoCAgAAFBm1lbW9yeQIABGFycjAAAQRhcnIxAAIEYXJyMgADBGFycjMABAqUhoCAAAWPgICAAAAjACAAQQRsaiABNgIAC5CAgIAAAQF/QRAkAEEAQcWfEBAAC46AgIAAAQF/QRQkAEEAQQAQAAu+hYCAAAEBf0EYJABBAEECEABBAUEDEABBAkEFEABBA0EHEABBBEELEABBBUENEABBBkEREABBB0ETEABBCEEXEABBCUEdEABBCkEfEABBC0ElEABBDEEpEABBDUErEABBDkEvEABBD0E1EABBEEE7EABBEUE9EABBEkHDABAAQRNBxwAQAEEUQckAEABBFUHPABAAQRZB0wAQAEEXQdkAEABBGEHhABAAQRlB5QAQAEEaQecAEABBG0HrABAAQRxB7QAQAEEdQfEAEABBHkH/ABAAQR9BgwEQAEEgQYkBEABBIUGLARAAQSJBlQEQAEEjQZcBEABBJEGdARAAQSVBowEQAEEmQacBEABBJ0GtARAAQShBswEQAEEpQbUBEABBKkG/ARAAQStBwQEQAEEsQcUBEABBLUHHARAAQS5B0wEQAEEvQd8BEABBMEHjARAAQTFB5QEQAEEyQekBEABBM0HvARAAQTRB8QEQAEE1QfsBEABBNkGBAhAAQTdBhwIQAEE4QY0CEABBOUGPAhAAQTpBlQIQAEE7QZkCEABBPEGbAhAAQT1BpQIQAEE+QbMCEABBP0G3AhAAQcAAQbkCEABBwQBBvQIQAEHCAEHLAhAAQcMAQdECEABBxABB2wIQAEHFAEHdAhAAQcYAQeECEABBxwBB5wIQAEHIAEHvAhAAQckAQfUCEABBygBB+wIQAEHLAEH/AhAAQcwAQYUDEABBzQBBjQMQAEHOAEGRAxAAQc8AQZkDEABB0ABBowMQAEHRAEGlAxAAQdIAQa8DEABB0wBBsQMQAEHUAEG3AxAAQdUAQbsDEABB1gBBwQMQAEHXAEHJAxAAQdgAQc0DEABB2QBBzwMQAEHaAEHTAxAAQdsAQd8DEABB3ABB5wMQAEHdAEHrAxAAQd4AQfMDEABB3wBB9wMQAEHgAEH9AxAAC4+AgIAAAQF/QZwDJABBAEEAEAAL'
+__wAM = new WebAssembly.Instance(new WebAssembly.Module((() => {
+    try {
+        let binary_string = atob(__aB), len = binary_string.length, bytes = new Uint8Array(len)
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i)
+        }
+        return bytes
+    } catch (err) {
+        return new Uint8Array(global.Buffer.from(__aB, 'base64'))
+    }
+})()))
+```
+This chunk defines a constant variable named "__aB" that holds a base64 encoded string. It then attempts to create a WebAssembly module instance by decoding the base64 string and converting it into a byte array. If `atob()` is available, it uses that to decode the string, otherwise, it falls back to using `global.Buffer.from()`. The resulting byte array is then used to construct a WebAssembly module, which is then instantiated using `new WebAssembly.Instance()` and stored in the "__wAM" variable.
+
+Chunk 3:
+```javascript
+const ac = new Map()
+
+const __lA = (pos, stIdx, eIdx) => {
+    if (ac.has(pos)) {
+        return ac.get(pos)
+    } else {
+        const sK = `arr${pos}`
+        __wAM.exports[sK]()
+
+        let mem = new Uint32Array(__wAM.exports.memory.buffer, stIdx, (eIdx - stIdx) / 4 + 1)
+        const rA = Array.from(mem)
+
+        ac.set(pos, rA)
+        return rA
+    }
+}
+```
+This part of the code defines a new Map object named "ac" and a function named "__lA". The "__lA" function takes three parameters: "pos", "stIdx", and "eIdx". It first checks if the "ac" map already has a value associated with the "pos" key. If it does, it returns the value from the map. Otherwise, it constructs a string key using the "pos" value and calls a function from the "__wAM" WebAssembly module exports using the constructed key. It then creates a new `Uint32Array` view on the WebAssembly memory buffer, specifies the start and end indices for the view, and converts it to an array using `Array.from()`. Finally, it sets the "pos" key in the "ac" map to the resulting array and returns it.
+
+Chunk 4:
+```javascript
+const __forWasmBuffer = 'AGFzbQEAAAABiICAgAACYAAAYAABfwKkgICAAAMDZW52BHRlc3QAAQNlbnYGdXBkYXRlAAADZW52BGJvZHkAAAOCgICAAAEABISAgIAAAXAAAAWDgICAAAEAAQeRgICAAAIGbWVtb3J5AgAEZGF0YQADCpmAgIAAAZOAgIAAAAJAA0AQAEUNARACEAEMAAsLCw=='
+const __forWasmModule = new WebAssembly.Module((() => {
+    try {
+        let binary_string = atob(__forWasmBuffer), len = binary_string.length, bytes = new Uint8Array(len)
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i)
+        }
+        return bytes
+    } catch (err) {
+        return new Uint8Array(global.Buffer.from(__forWasmBuffer, 'base64'))
+    }
+})())
+```
+This chunk defines two constants, "__forWasmBuffer" and "__forWasmModule". "__forWasmBuffer" holds another base64 encoded string, and "__forWasmModule" creates a WebAssembly module using the decoded byte array from the base64 string.
+
+Chunk 5:
+```javascript
+const __ifWasmBuffer = 'AGFzbQEAAAABiICAgAACYAAAYAF/AAKfgICAAAIDZW52CGltcEZ1bmMxAAADZW52CGltcEZ1bmMyAAADgoCAgAABAQSEgICAAAFwAAAFg4CAgAABAAEHkYCAgAACBm1lbW9yeQIABGRhdGEAAgqSgICAAAGMgICAAAAgAARAEAAFEAELCw=='
+const __ifWasmModule = new WebAssembly.Module((() => {
+    try {
+        let binary_string = atob(__ifWasmBuffer), len = binary_string.length, bytes = new Uint8Array(len)
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i)
+        }
+        return bytes
+    } catch (err) {
+        return new Uint8Array(global.Buffer.from(__ifWasmBuffer, 'base64'))
+    }
+})())
+```
+Similar to the previous chunk, this block defines two constants "__ifWasmBuffer" and "__ifWasmModule". "__ifWasmBuffer" holds another base64 encoded string, and "__ifWasmModule" creates a WebAssembly module using the decoded byte array from the base64 string.
+
+Chunk 6:
+```javascript
+const __callWasmBuffer = 'AGFzbQEAAAABhICAgAABYAAAAo+AgIAAAQNlbnYHaW1wRnVuYwAAA4KAgIAAAQAEhICAgAABcAAABYOAgIAAAQABB5GAgIAAAgZtZW1vcnkCAARkYXRhAAEKioCAgAABhICAgAAAEAAL'
+```
+This is the final chunk, which defines a constant variable "__callWasmBuffer" that holds a base64 encoded string.
+
+Without further context or the rest of the code, it is difficult to determine exactly what this code does and how these chunks are related. However, based on the analysis, it appears that the code is utilizing WebAssembly to define and call functions, as well as manipulating memory buffers. The `__universalAtob` function is used to decode base64 strings, and the `__lA` function seems to be a helper function for accessing and caching arrays associated with specific positions.##########

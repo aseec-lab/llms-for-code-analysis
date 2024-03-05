@@ -1,0 +1,22 @@
+This code is a C program that checks the amount of memory that can be allocated with `calloc` or `malloc` functions, depending on the argument the program received at runtime ('c' character for `calloc`, and anything else for `malloc`).
+
+Here is how it works:
+
+- In `main()`, it forks a child process to perform the allocations.
+- The program tries to allocate gradually increasing sizes of memory (2^n for n from 0 to maximum possible size_t value), printing out success or failure for each allocation size.
+- If any allocation takes longer than 5 seconds, the program frees the last allocated memory and ends.
+- Once maximum memory allocation size is found, it prints it out, deallocate it, and returns control to the parent process.
+- In the parent process, it waits for the child to finish, then checks child's ending status:
+  - If the child process was killed by a signal, it prints out the killed message with the signal name.
+  - If the child process returned with code 1, indicating that memory overcommitment happened, it prints out that the malloc/calloc lied.
+  - Otherwise, it prints out a message indicating there is no memory overcommitment.
+
+It uses some obscurities of the C language and some uncommon preprocessor directives to make the code look cryptic and hard to read and understand.
+
+For example, `new()` function formats and prints a message about current allocation size. It uses `Asm` character (initialized as 'm') to decide whether to print 'm' (for `malloc`) or 'c' (for `calloc`), but assuring this through a signal mechanism where 'm' turns into 'c' if the first character of argument array is a 'c'.
+
+Also, the macro `B(C)` generates a `case` statement with a given value of C to help handling signals. 
+
+Another stylistic peculiarity of the code it's using text labels for variables instead of traditional names (e.g., the variable which holds current memory allocation size is named `far`, the boolean variable that indicates if allocation succeeded is named `Basic`, etc).
+
+The includes are scattered throughout the code making the code harder to follow than usual.

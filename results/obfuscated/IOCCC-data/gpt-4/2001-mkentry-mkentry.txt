@@ -1,0 +1,45 @@
+The script presented is for generating an entry for the International Obfuscated C Code Contest (IOCCC), specifically for a version of the contest held in 2001.
+
+This C program is designed to check the format of files from an entrant and generate a final entry file for submission. It also handles the parsing of arguments given on the command line and specifies input options -r (remarks), -b (build), -p (program source file), and -o (output file name).
+
+Here is what each option does:
+-r: File with remarks about the entry
+-b: File containing instructions on how to build the source code
+-p: The source code file of the obfuscated program
+-o: The output file for the contest entry
+
+The script also checks for common formatting errors, such as lines that exceed a specified maximum length and lines that do not begin with a specific indentation.
+
+In addition to putting together and checking the submission, this script offers advice on common mistakes and rules when entering the contest, and details about the submission process, and limitations like the maximum size of source code, maximum column of a line, etc. 
+
+This program would have been distributed to entrants/developers for running their entries through before submitting to ensure they were following the contest rules and guidelines.The file goes on with additional code for compiling and validating the obfuscated program code of the competition participants, asking for user inputs for the entry title and other details. 
+
+The functions in this part continue to check for errors, following a similar pattern to those already mentioned. For example, open_build checks that the build file is not excessively long, open_program checks the size of the source code file and whether its non-whitespace characters exceed a set limit, and open_output opens the output file for the compiled program.
+
+The output_entry function, on the other hand, writes the different sections of the final submission entry, including the year of the competition, whether the submission is a fix or update of a previous one, and prompts for the title of the competition entry. This part of the program also warns users about trailing control-Ms ('^M's) in their code, which could cause a compilation failure.
+
+At the end, it's clear that the purpose of this code is to help automate the submission process for the contest, and ensure the participants' entries follow the contest's rules for obfuscated code submissions.
+
+In the end, this is a script that a participant of the IOCCC would use to ensure they are following the competition's guidelines and creating a valid submission.The continuation of the code further handles the process of creating a valid submission entry for the competition. The code verifies that the user-submitted title is of the valid form, with appropriate restrictions on special characters and length. 
+
+The user is then prompted to enter an entry number, for which the function checks if the number provided is valid. Functions related to date are also applied, which then gets written into the final submission. 
+
+OS/Machine host information is also requested and written. A "remark" section is also added which is read from a file and copied into the section.
+
+The 'output_author' function prompts for information about the author/authors of the entry, including name, organization, postal address, email address, homepage URL, and whether the author chooses to remain anonymous. This information, too, is written into the output file. If more than one author exists, the process is repeated.
+
+The code then checks if there are any info files (supplemental files) to include with the submission. If the user chooses to include info files, the code prompts for the name of the file and then opens it. If the file can't be opened, the code prints an error message.
+
+Clearly, the remaining code continues assisting the process of a contest entry, focusing on the title, entry number, date, author information, and any supplemental info files.This remaining portion of the code defines additional functions needed for finalizing the contestant's entry.
+
+`output_build(output, oname, build, bname)`, `output_program(output, oname, prog, pname)`, `output_end(output, oname)`, and `output_till_dot(output, oname, leader)` are functions to write specific sections of the competition entry into the output file. These sections include the build details, the code of the program, and the end section to signify termination of the entry description. 
+
+`get_line(buf, siz, maxcol)` is a helper function that reads a user's input. It takes in arguments for a buffer to store the input, the size limit for the input, and a limit for the columns (for multi-line input). It also handles cases of a line being too long or an end-of-file (EOF) encounter.
+
+`col_len(string)` calculates the number columns needed for displaying a string considering tab stops starting at 9, 17, 25, and 33 etc. 
+
+`check_io(stream, name, eof_ok)` checks for errors (EOF or I/O) on a stream and handles them appropriately, providing useful error messages for such fail states. 
+
+Lastly, `uuencode(output, oname, infile, iname, umode, uname)` is a utility function that encodes a given file into a format that can be transmitted easily. The encoded file is then written to the output, ready to be sent as the entry. Different sectors of a file are binary translated to characters that lie in a set of commonly and universally readable ASCII characters. A header containing file mode for permissions and file name is also written. 
+
+This completes the code for entry submission for the competition, with all necessary data captured, formatted, and ready for submission. Code efficiency and accuracy are ensured with appropriate error handling and validation checks.

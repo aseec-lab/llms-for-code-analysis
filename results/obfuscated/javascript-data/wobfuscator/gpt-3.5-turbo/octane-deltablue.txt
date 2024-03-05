@@ -1,0 +1,353 @@
+The given code appears to be written in JavaScript and involves the use of WebAssembly. Here is a breakdown of what each chunk of code does:
+
+1. The first chunk defines a function called `__universalAtob` which takes a base64 encoded string as input and tries to decode it using the `atob` function. If successful, it converts the decoded string into a UInt8Array and returns it. If there is an error, it uses the `global.Buffer.from` function to create a UInt8Array from the input.
+
+2. The second chunk assigns a base64 encoded string to a variable called `__aB`. It then creates a new instance of a WebAssembly module using the `WebAssembly.Module` constructor. Inside the constructor, it uses a function to decode the `__aB` string and convert it into a UInt8Array. This UInt8Array is then passed as the argument to the `WebAssembly.Module` constructor.
+
+3. The third chunk initializes a new Map called `ac`.
+
+4. The fourth chunk defines a function called `__lA` which takes three arguments `pos`, `stIdx`, and `eIdx`. This function checks if `ac` (the Map) has a key equal to `pos`. If it does, it returns the value associated with that key. If not, it proceeds to execute the following steps:
+   - It creates a string variable `sK` by concatenating the string "arr" with the value of `pos`.
+   - It calls a function from the WebAssembly module `__wAM` using the exported function name `sK`.
+   - It creates a new Uint32Array called `mem` which is a view of the memory buffer of `__wAM` from index `stIdx` to `eIdx`.
+   - It converts the Uint32Array `mem` into a regular JavaScript array `rA`.
+   - It associates the key `pos` with the value `rA` in the `ac` Map.
+   - It returns the array `rA`.
+
+5. The fifth chunk assigns a base64 encoded string to a variable called `__forWasmBuffer`. It then creates a new WebAssembly module using the `WebAssembly.Module` constructor, similar to the second chunk.
+
+6. The sixth chunk assigns a base64 encoded string to a variable called `__ifWasmBuffer`. It then creates a new WebAssembly module using the `WebAssembly.Module` constructor, similar to the second and fifth chunks.
+
+7. The seventh chunk assigns a base64 encoded string to a variable called `__callWasmBuffer`. This encoded string is not used further in the provided code.
+
+Overall, the code primarily involves decoding base64 encoded strings and using the WebAssembly API to create WebAssembly modules.The remaining code performs the following tasks:
+
+1. It creates an array `__wasmStringModules` that contains instances of WebAssembly modules. Each module is created using a bytes array that is decoded from a base64-encoded string. The `__universalAtob` function is used to decode the base64 strings.
+
+2. It defines a function `lS` which takes three arguments `wI`, `pos`, and `iWC`. This function is responsible for retrieving strings from the WebAssembly modules. If the `wI` argument is not an array, it retrieves the string from a specific WebAssembly module using the `__stringKey` and `__start` variables. If the `wI` argument is an array, it retrieves the strings from multiple WebAssembly modules and concatenates them.
+
+3. It creates a new `BenchmarkSuite` called `DeltaBlue` using the `lS` function to retrieve the suite's name and the `__lA` function to retrieve the suite's code.
+
+4. It creates a new `Benchmark` and assigns it to `deltaBlue`, specifying its name, configuration, and options.
+
+5. It creates a new instance of a WebAssembly module called `__callInstance77` using the `__callWasmModule` and provides an environment object with an `impFunc` property that defines a function. This function adds a new property to `Object.prototype` called `superConstructor` with a value of a constructor function.
+
+6. Finally, it invokes the `BenchmarkSuite` constructor and assigns the result to the `DeltaBlue` variable, passing the suite's name, code, and an array containing the `Benchmark` created earlier.
+
+The code seems to be setting up a benchmark suite and creating an instance of a WebAssembly module for performance testing.The remaining code defines an `OrderedCollection` class with several methods:
+
+1. The `add` method adds an element to the collection by pushing it into the `elms` array.
+
+2. The `at` method retrieves the element at a given index from the `elms` array.
+
+3. The `size` method returns the length of the `elms` array.
+
+4. The `removeFirst` method removes and returns the last element from the `elms` array using the `pop()` method.
+
+5. The `remove` method removes a given element from the `elms` array. It iterates over the array using a custom WebAssembly module (`__forWasmModule`) and updates the indices of the remaining elements. If the current element is equal to the element to remove (`value != elm`), it is skipped and `skipped` is incremented. Otherwise, the current element is assigned to the index position and `index` is incremented. After the iteration, the remaining skipped elements are removed from the array using the `pop()` method.
+
+The code appears to be setting up a collection class with methods optimized using WebAssembly modules for performance.The remaining code defines a `Strength` class and a `Constraint` class.
+
+The `Strength` class has a constructor that takes a `strengthValue` and a `name` parameter and assigns them to the respective properties. It also has several static methods for comparing strengths.
+
+- `Strength.stronger` compares two strengths and returns true if the first strength is stronger than the second.
+- `Strength.weaker` compares two strengths and returns true if the first strength is weaker than the second.
+- `Strength.weakestOf` compares two strengths and returns the weaker strength.
+- `Strength.strongest` compares two strengths and returns the stronger strength.
+- `Strength.prototype.nextWeaker` returns the next weaker strength based on the current strength value.
+
+The `Constraint` class has a `strength` property and a `addConstraint` method. The `addConstraint` method calls two WebAssembly instances to add the constraint to the graph and incrementally update the planner.The remaining code defines the `satisfy` method of the `Constraint` class.
+
+The `satisfy` method first calls a WebAssembly instance to choose a method based on the current mark. Then, it checks if the constraint is satisfied. If not, it calls another WebAssembly instance to either alert an error message or do nothing depending on the strength of the constraint. If the constraint is satisfied, it calls a WebAssembly instance to mark the inputs of the constraint.
+
+Next, it gets the output of the constraint and stores it in a variable called `out`. It also stores the value of `out.determinedBy` in a variable called `overridden`.
+
+Then, it checks if `overridden` is not null. If it is not null, it calls a WebAssembly instance to mark the overridden constraint as unsatisfied.
+
+Next, it assigns the current constraint to `out.determinedBy`.
+
+Finally, it calls a WebAssembly instance to either alert a success message or do nothing depending on the strength of the constraint.The remaining code includes the implementation of the `destroyConstraint` and `isInput` methods, as well as the `UnaryConstraint` class.
+
+The `destroyConstraint` method calls a WebAssembly instance to either remove the constraint from the planner or remove it from the graph, depending on whether the constraint is satisfied or not.
+
+The `isInput` method returns `false`, indicating that the constraint is not an input constraint.
+
+The `UnaryConstraint` class is defined as a subclass of the `Constraint` class. It calls a WebAssembly instance to execute the superconstructor of the `Constraint` class. It also initializes the `myOutput` variable with the input `v` and sets the `satisfied` variable to `false`.
+
+Finally, the class is set to inherit from the `Constraint` class using the `inheritsFrom` method from the WebAssembly instance.The remaining code includes the implementation of the `markInputs` method, which marks the input constraints, and the `inputsKnown` method, which checks if all input constraints are known.
+
+The `markInputs` method does nothing in the `UnaryConstraint` class.
+
+The `inputsKnown` method returns `true`, indicating that all input constraints are known.
+
+Finally, the class overrides the `printDebugInfo` method from the `Constraint` class, but the implementation is omitted in the provided code.The remaining code includes the implementation of the `UnaryConstraint` class, the `StayConstraint` class, the `EditConstraint` class, the `Direction` object, and the `BinaryConstraint` class.
+
+The `UnaryConstraint` class inherits from the `Constraint` class and overrides the `execute` and `inputsKnown` methods.
+
+The `StayConstraint` class inherits from the `UnaryConstraint` class and overrides the `execute` method.
+
+The `EditConstraint` class inherits from the `UnaryConstraint` class and overrides the `isInput` and `execute` methods.
+
+The `Direction` object defines two properties, `NONE` and `FORWARD`, with corresponding values.
+
+The `BinaryConstraint` class inherits from the `Constraint` class and initializes its properties.
+
+Finally, the `BinaryConstraint` class overrides the `addConstraint` method.BinaryConstraint.prototype.addConstraint = function (c) {
+    if (c === this) {
+        return
+    }
+
+    c.v1.addConstraint(this)
+    c.v2.addConstraint(this)
+
+    this.direction = Direction.NONE
+}BinaryConstraint.prototype.removeFromGraph = function () {
+    if (this.v1 != null) {
+        this.v1.removeConstraint(this)
+    }
+
+    if (this.v2 != null) {
+        this.v2.removeConstraint(this)
+    }
+}}
+
+                        this.scale.removeConstraint(this)
+
+                    })()
+
+                },
+                impFunc2: () => {
+                    (() => {
+                        const __callInstance40 = new WebAssembly.Instance(__callWasmModule, {
+                            env: {
+                                impFunc: () => {
+                                    this.offset.removeConstraint(this)
+
+                                }
+                            }
+                        })
+
+                        const __exports = __callInstance40.exports
+
+                        return __exports.data()
+
+                    })()
+
+                }
+            }
+        })
+
+        const __exports = __ifInstance13.exports
+
+        return __exports.data()
+
+    })()
+
+}```javascript
+    c.added = true;
+    c.variable().mark = mark;
+    if (!c.satisfied()) {
+        c.chooseMethod(OrConstraint.REMOVE_TODO)
+        _.each(c.unsatisfiedConstraints(), (constraint) => {
+            constraint.chooseMethod(OrConstraint.ENABLED)
+        })
+        
+        c.executeMethod()
+        
+        _.each(c.unsatisfiedConstraints(), (constraint) => {
+            constraint.executeMethod()
+        })
+    }
+```
+```python
+    # store the current mark as a property of the constraint
+    c.mark = mark
+    # if the constraint is not satisfied
+    if not c.satisfied():
+        # choose a method for the constraint to execute
+        c.choose_method(OrConstraint.REMOVE_TODO)
+        # enable the unsatisfied constraints
+        for constraint in c.unsatisfied_constraints():
+            constraint.choose_method(OrConstraint.ENABLED)
+        c.execute_method()
+        for constraint in c.unsatisfied_constraints():
+            constraint.execute_method()
+```
+```cpp
+// store the current mark as a property of the constraint
+c->mark = mark;
+// if the constraint is not satisfied
+if (!c->satisfied()) {
+    // choose a method for the constraint to execute
+    c->chooseMethod(OrConstraint::REMOVE_TODO);
+    // enable the unsatisfied constraints
+    for (Constraint* constraint : c->unsatisfiedConstraints()) {
+        constraint->chooseMethod(OrConstraint::ENABLED);
+    }
+    c->executeMethod();
+    for (Constraint* constraint : c->unsatisfiedConstraints()) {
+        constraint->executeMethod();
+    }
+}
+```
+
+```javascript
+    _.each(c.unsatisfiedConstraints(), (constraint) => {
+        this.incrementalAdd(constraint)
+    })
+```
+```python
+    # for each unsatisfied constraint, recursively add it to the planner
+    for constraint in c.unsatisfied_constraints():
+        self.incremental_add(constraint)
+```
+```cpp
+// for each unsatisfied constraint, recursively add it to the planner
+for (Constraint* constraint : c->unsatisfiedConstraints()) {
+    incrementalAdd(constraint);
+}
+```
+
+```javascript
+    c.removeConstraint()
+    _.each(c.unsatisfiedConstraints(), (constraint) => {
+        constraint.removeConstraint()
+    })
+```
+```python
+    c.remove_constraint()
+    # for each unsatisfied constraint, recursively remove it from the variable
+    for constraint in c.unsatisfied_constraints():
+        constraint.remove_constraint()
+```
+```cpp
+c->removeConstraint();
+for (Constraint* constraint : c->unsatisfiedConstraints()) {
+    constraint->removeConstraint();
+}
+```The remaining part of the code consists of two functions: `incrementalRemove` and the main function that calls `incrementalRemove` for each unsatisfied constraint. Here is the explanation of the remaining code:
+
+1. `incrementalRemove`: This function is responsible for removing a constraint and propagating the changes to its dependent constraints. It performs the following steps:
+   - Get the output variable of the constraint using `c.output()`.
+   - Call a WebAssembly function to mark the constraint as unsatisfied using `c.markUnsatisfied()`.
+   - Call another WebAssembly function to remove the constraint from the graph using `c.removeFromGraph()`.
+   - Call `this.removePropagateFrom(out)` to remove the constraint and propagate changes to its dependent constraints.
+   - Set the initial strength to `Strength.REQUIRED`.
+   - Use a loop to iterate until the strength becomes `Strength.WEAKEST`.
+   - Inside the loop, use a WebAssembly function to loop through each unsatisfied constraint.
+   - Check if the strength of the unsatisfied constraint is equal to the current strength.
+   - If the strengths match, call another web assembly function to incrementally add the unsatisfied constraint using `this.incrementalAdd(u)`.
+   - Update the strength to the next weaker strength using `strength = strength.nextWeaker()`.
+
+2. The main function: Here, the main function calls `incrementalRemove` for each unsatisfied constraint of constraint `c`. It performs the following steps:
+   - Get the output variable of the constraint using `c.output()`.
+   - Call a WebAssembly function to mark the constraint as unsatisfied using `c.markUnsatisfied()`.
+   - Call another WebAssembly function to remove the constraint from the graph using `c.removeFromGraph()`.
+   - Call `this.removePropagateFrom(out)` to remove the constraint and propagate changes to its dependent constraints.
+   - Set the initial strength to `Strength.REQUIRED`.
+   - Use a loop to iterate until the strength becomes `Strength.WEAKEST`.
+   - Inside the loop, use a WebAssembly function to loop through each unsatisfied constraint.
+   - Check if the strength of the unsatisfied constraint is equal to the current strength.
+   - If the strengths match, call another web assembly function to incrementally add the unsatisfied constraint using `this.incrementalAdd(u)`.
+   - Update the strength to the next weaker strength using `strength = strength.nextWeaker()`.
+
+Overall, these functions handle the incremental remove process by marking constraints as unsatisfied, removing them from the graph, propagating changes, and adding back the unsatisfied constraints based on their strength.The remaining part of the code consists of two functions: `makePlan` and `extractPlanFromConstraints`. Here is the explanation of the remaining code:
+
+1. `makePlan`: This function creates a new plan by adding constraints to it. It performs the following steps:
+   - Create a new mark value using the `newMark` function.
+   - Create a new plan object.
+   - Initialize the `todo` variable with the given `sources`.
+   - Use a WebAssembly instance to create a loop that runs as long as there are elements in `todo`.
+   - Inside the loop, remove the first constraint from `todo`.
+   - Use another WebAssembly instance to check if the constraint's output mark is different from the current mark and its inputs are known.
+   - If the condition is true, add the constraint to the plan using `plan.addConstraint(c)`.
+   - Mark the constraint's output with the current mark value.
+   - Use another WebAssembly instance to add the constraints consuming the output of the current constraint to `todo`.
+   - Finally, return the created plan.
+
+2. `extractPlanFromConstraints`: This function extracts plans from a list of constraints. It performs the following steps:
+   - Create a new empty `OrderedCollection` called `sources`.
+   - Use a WebAssembly instance to create a loop that iterates over each constraint in the given `constraints` list.
+   - Inside the loop, check if the constraint satisfies a condition using a WebAssembly instance.
+   - If the condition is true, add the constraint to the `sources` collection.
+   - Finally, return the `sources` collection.
+
+These functions are responsible for creating a plan and extracting plans from a list of constraints based on certain conditions.The remaining part of the previous function (`removePropagateFrom`) initializes and uses two ordered collections: `unsatisfied` and `todo`.
+
+1. In the first WebAssembly instance, the `todo` collection is initialized with the `out` parameter.
+2. After that, a loop is created that runs as long as there are elements in the `todo` collection.
+3. Inside the loop:
+   - Remove the first element (`d`) from the `todo` collection.
+   - Set `d.determinedBy` to `null` (indicating that the output is not determined by any constraint).
+   - Set `d.walkStrength` to `Strength.WEAKEST` (indicating the weakest strength for determining the value of `d`).
+   - Set `d.stay` to `true` (indicating that the value of `d` should stay as is and not be changed by other constraints).
+   - Add `d` to the `unsatisfied` collection.
+   - Use another WebAssembly instance to add constraints consuming the output of `d` to the `todo` collection.
+4. Finally, after the loop ends, the function returns the `unsatisfied` collection.
+
+This function is responsible for removing the propagation and resetting the values of the outputs in the plan.The remaining part of the function continues with two nested loops using WebAssembly instances.
+
+Inside the outer loop:
+1. Initialize a variable `v` with the first element of the `todo` collection.
+2. Inside the inner loop:
+   - Initialize a variable `c` with the constraint at index `i` of `v.constraints`.
+   - Inside an `if` statement, create a WebAssembly instance (`__ifInstance21`) to check if the constraint `c` is satisfied.
+   - If the constraint is not satisfied, create a WebAssembly instance (`__callInstance22`) to add `c` to the `unsatisfied` collection.
+3. After the inner loop ends, update the variable `determining` with `v.determinedBy`.
+4. Inside another loop, iterate through all the constraints of `v` again.
+   - Initialize a variable `next` with the constraint at index `i` of `v.constraints`.
+   - Inside an `if` statement, create a WebAssembly instance (`__ifInstance22`) to check if `next` needs to be recalculated.
+   - If so, create a WebAssembly instance (`__callInstance21`) to recalculate `next` and another WebAssembly instance (`__callInstance20`) to add `next.output()` to the `todo` collection.
+5. The loop ends, and the function continues to the next iteration of the outer loop.
+
+Finally, the function returns the data from the WebAssembly instance (`__exports.data()`).The remaining part of the code defines the `Planner` class and its methods.
+
+The `Planner` class has a method `addConstraintsConsumingTo`, which takes two parameters `v` and `coll`. This method is responsible for adding constraints that consume the value `v` to the collection `coll`. The method starts by assigning the variable `determining` with the value of `v.determinedBy`. Then, it iterates through each constraint `c` in the `cc` collection. Inside the loop, it creates a WebAssembly instance to check if the constraint `c` should be added to the `coll` collection. If so, it adds `c` to the `coll` collection using the `coll.add(c)` method.
+
+The `Planner` class also has a method `addConstraint`, which takes a parameter `c` and adds the constraint `c` to its internal collection `v`. The method creates a WebAssembly instance to add `c` to the `v` collection using the `this.v.add(c)` method.
+
+Finally, the `Planner` class has a method `size`, which returns the size of its internal collection `v` using the `this.v.size()` method.The remaining part of the code defines the `Plan` class and its methods.
+
+The `Plan` class has a method `constraintAt` which takes an `index` parameter and returns the constraint at that index in the `v` collection.
+
+The `Plan` class also has a method `execute`, which is responsible for executing the plan. It starts by initializing a variable `i` with the value of 0. Then, it creates a WebAssembly instance to loop through the constraints in the `v` collection. Inside the loop, it gets the constraint at index `i` using the `this.constraintAt(i)` method. It then creates another WebAssembly instance to execute the constraint. The constraint's `execute` method is called inside the `impFunc` of the WebAssembly instance. The `execute` method is responsible for updating the internal state of the constraint. After the loop, the `execute` method returns the result.
+
+In addition, there is a `chainTest` function that takes a parameter `n`. Inside the function, a new `Planner` instance is created. Then, a series of constraints are added to the planner based on the value of `n`. These constraints create a chain of variables where each variable is connected to the previous variable through an `EqualityConstraint`. The `first` and `last` variables are also assigned the first and last variables in the chain, respectively.The remaining part of the code defines a function `projectionTest` which takes a parameter `n`. Inside the function, a new `Planner` instance is created.
+
+Then, two variables `scale` and `offset` are created using the `Variable` class. These variables represent the scale and offset values for a projection.
+
+Two variables `src` and `dst` are also initialized to `null`. These variables will hold the source and destination variables for the projection.
+
+An `OrderedCollection` called `dests` is created.
+
+Next, a loop is initialized using the `new WebAssembly.Instance` constructor. The loop runs `n` times. Inside the loop, a new source and destination variable are created using the `Variable` class. The source variable is added to the `dests` collection.
+
+After the loop, a projection constraint is created using the `ProjectionConstraint` class. The `src` and `dst` variables are passed as parameters to the constructor of the `ProjectionConstraint` class.
+
+Finally, a plan is extracted from the constraints using the `extractPlanFromConstraints` method of the `Planner` class, and the plan is executed using the `execute` method.After the previous code, there are several more sections of code. Here's an overview of what each section does:
+
+1. A loop is initiated using a WebAssembly module called `__forWasmModule`. During each iteration of the loop, the `test` function is called to check if the loop should continue. If `i < n`, the loop continues; otherwise, it exits. The `update` function is called to increment `i` by 1 in each iteration. Inside the loop, source and destination variables (`src` and `dst`) are created and added to the `dests` collection. A call is made to another WebAssembly module called `__callWasmModule` to execute some functionality related to the `dst` variable. Finally, projection constraints are created between `src` and `dst` variables.
+2. Another call to the WebAssembly module `__callWasmModule` is made to change the `src` variable's value to 17.
+3. A conditional check is performed using a WebAssembly module called `__ifWasmModule`. If the value of the `dst` variable is not equal to 1170, an alert is shown. Otherwise, nothing happens.
+4. Another call to the WebAssembly module `__callWasmModule` is made to change the `dst` variable's value to 1050.
+5. A conditional check is performed again using the `__ifWasmModule`. If the value of the `dst` variable is not equal to 1170, an alert is shown. Otherwise, nothing happens.
+
+The specific implementations of these WebAssembly modules and the exact functionality they provide are not provided in the code snippet.The remaining part of the code snippet includes two more sections:
+
+6. A loop is initiated using the WebAssembly module `__forWasmModule`. Similar to the previous loop, during each iteration, the `test` function is called to check if the loop should continue. If `i < n - 1`, the loop continues; otherwise, it exits. The `update` function is called to increment `i` by 1 in each iteration. Inside the loop, a conditional check is performed using the `__ifWasmModule`. If the value of the `dests` variable at index `i` is not equal to `i * 5 + 1000`, an alert is shown. Otherwise, nothing happens.
+
+7. Another call to the WebAssembly module `__callWasmModule` is made to change the `offset` variable's value to 2000.
+
+These sections of code seem to be part of a larger program where different WebAssembly modules are used to execute certain functionality and perform conditional checks. The specific implementations of these modules and the exact purpose of the functionality they provide are not included in the code snippet.The remaining code snippet includes the following functions:
+
+1. The `change` function takes two parameters `v` and `newValue`. It creates a new `EditConstraint` object with `v` and `Strength.PREFERRED`. It then creates an `OrderedCollection` object called `edits`. Inside a closure, a `__callInstance4` is created where the `impFunc` is used to add the `edit` object to the `edits` collection. The `plan` is then extracted from the constraints using the `extractPlanFromConstraints` function of the `planner` object. Another closure is created where a loop is initiated using the `__forWasmModule`. During each iteration, the `test` function checks if `i < 10` and the `update` function increments `i` by 1. Inside the loop, the `v` object's value is set to `newValue` and another `__callInstance3` is created to execute the `plan`. Finally, outside the loop, another `__callInstance2` is created to destroy the `edit` constraint.
+
+2. The `deltaBlue` function initiates the `chainTest` and `projectionTest` with a parameter of 100 using the `__callWasmModule`.
+
+Note that the exact implementation and purpose of the functions are not included in the code snippet.The remaining code snippet includes the implementation of the `change` function and the `deltaBlue` function. 
+
+The `__exports` variable is assigned the exported functions from the WebAssembly instance.
+
+The `data` function is called on the `__exports` object to retrieve the data from the simulation.
+
+Finally, the result of the `data` function is returned.

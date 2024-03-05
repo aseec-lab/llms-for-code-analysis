@@ -1,0 +1,84 @@
+Analyze the following piece of code: int main()
+{
+	int flag=0,n,i,num,j,a[100000];
+	cin>>n;//??????
+	for(i=0;i<=n-1;i++)
+		cin>>a[i];//?????
+	cin>>num;//???????
+	for(i=0;i<=n-1;i++)
+		if(a[i]==num)
+		{
+			for(j=i;j<=n-2;j++)
+				a[j]=a[j+1];//??????????????????????????
+			i=i-1;//?i-1,??????
+			n=n-1;//?n????????
+		}
+	for(i=0;i<=n-1;i++)
+	{
+		 if(flag==0)
+		{
+		  cout<<a[i];
+		  flag=1;
+		  continue;//????????flag??????????????
+		}
+
+		 cout<<" "<<a[i];//??????
+	}
+	return 0;
+}
+
+What does this code do?
+
+The code is a part of a program to perform the selection sort algorithm on an array of integers. The code is written in C++.
+
+The main function takes no arguments and contains the following code:
+```c++
+int flag = 0, n, i, num, j, a[100000];
+cin >> n;
+for (i = 0; i <= n - 1; i++)
+	cin >> a[i];
+cin >> num;
+for (i = 0; i <= n - 1; i++)
+	if (a[i] == num)
+	{
+		for (j = i; j <= n - 2; j++)
+			a[j] = a[j + 1];
+		i = i - 1;
+		n = n - 1;
+	}
+for (i = 0; i <= n - 1; i++)
+{
+	if (flag == 0)
+	{
+		cout << a[i];
+		flag = 1;
+		continue;
+	}
+
+	cout << " " << a[i];
+}
+return 0;
+```
+
+The code takes input from the user in the following steps:
+1. The user is prompted to enter the size of the array (n).
+2. The user is prompted to enter n integers, separated by spaces, into the array.
+3. The user is prompted to enter the integer to be searched for (num).
+4. The code loops through each element in the array and checks if it is equal to num. If it is, the code performs the following steps:
+5. The code loops through each element in the array from the current index to the end of the array, swapping the elements as it goes.
+6. The code decrements the index of the current element by 1.
+7. The code decrements the size of the array by 1.
+8. The code checks if the flag is 0. If it is, the code prints the current element.
+9. The code sets the flag to 1.
+10. The code loops through the remaining elements in the array and prints them, separated by spaces.
+11. The code returns 0.
+
+In summary, the code takes an array of integers as input from the user, searches for a specific integer in the array, and sorts the array if the specific integer is found.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente escrito en el lenguaje de programación a código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente escrito en el lenguaje de programación se traduce a código ejecutable en un proceso llamado compilación. En este proceso, el compilador lee el código fuente y genera un archivo ejecutable que puede ser ejecutado directamente en la computadora. El código compilado se puede ejecutar más rápido que el código interpretado porque el compilador

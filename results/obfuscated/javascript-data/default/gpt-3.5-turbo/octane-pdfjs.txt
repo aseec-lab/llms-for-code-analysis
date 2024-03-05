@@ -1,0 +1,150 @@
+This code appears to be related to a PDF processing library called PdfJS. 
+
+The code is split into multiple sections. 
+
+In the first section, a variable called `a0_0x420d89` is declared and assigned a value. The value is later used in the code.
+
+The second section appears to be a self-executing function that takes two arguments `_0x344070` and `_0x5c6717`. Within this function, there is a while loop that executes indefinitely. Inside the loop, there is a try-catch block. In the try block, several calculations and comparisons are performed using the value of `_0x3ddcc0` (which is `a0_0x4f86`) and `_0x5c6717`. If the result of these calculations is equal to `_0x5c6717`, the loop is broken. Otherwise, an element is shifted from the `_0x1704aa` array and pushed back to the end of the array. In the catch block, the same element shifting operation is performed. It's unclear what the purpose of this section is without more context.
+
+The next section declares a variable `pdf_file` and initializes it with the result of `a0_0x420d89(0x74a)`.
+
+The `canvas_logs` array and the `PdfJS` object are also declared in this code. The `PdfJS` object appears to be part of a benchmark suite for the PdfJS library.
+
+The `setupPdfJS` function checks if certain types and properties are defined and throws an error if they are not. It also sets a property of `PdfJS_window` object using the `pdf_file` value.
+
+The `runPdfJS` function uses the `PDFJS` object to get a PDF document and perform some operations on it using a canvas.
+
+The `tearDownPdfJS` function iterates over the `canvas_logs` array, performs some calculations and comparisons, and throws an error if the results do not match expected values.
+
+The `buffer` function converts a string to an ArrayBuffer.
+
+The `hash` function calculates a hash value for a string.
+
+The `PdfJS_windowInstall` function adds properties to the `PdfJS_window` object.
+
+The last part of the code adds two functions `PdfJS_window[a0_0x420d89(0x5c2)]` and `PdfJS_window[a0_0x420d89(0x38e)]` to the `PdfJS_window` object. These functions are used to manipulate the contents of the `PdfJS_window['__timeouts__']` array.
+
+Without more context and information about the values of variables and how this code is used, it is difficult to determine the exact purpose and functionality of this code.The remaining part of the code includes the installation of several functions and objects into the `PdfJS_window` object.
+
+- The `btoa` function is installed, which is used to encode a string in base64.
+- The `atob` function is installed, which is used to decode a base64-encoded string.
+- The `XMLHttpRequest` object is installed, which is used for making HTTP requests.
+- The `console` object is installed for logging.
+- The `location` object is installed with an empty `protocol` property.
+- The `Image` object is installed, which is used for manipulating images.
+- The `EventTarget` object is installed, which is used for handling events.
+- The `CanvasRenderingContext2D` object is installed, which is used for drawing on a canvas.
+- The `CanvasGradient` object is installed, which is used for creating gradient fills on a canvas.
+- The `CanvasPattern` object is installed, which is used for creating pattern fills on a canvas.
+- The `CanvasRenderingContext2D.prototype.save` and `.restore` functions are installed, which are used for saving and restoring the drawing state of a canvas.
+- Various other functions related to drawing operations on a canvas are installed, including `fill`, `stroke`, `beginPath`, `moveTo`, `lineTo`, etc.
+
+Overall, this code seems to be setting up a custom environment for running and benchmarking the PdfJS library, including emulating browser objects and functions.The remaining part of the code includes the initialization of the `PDFJS` object.
+
+- The `getPDF` function is defined, which returns a string.
+- The `PDFJS` object is created and assigned an empty object.
+
+The `pdfjsWrapper` function is also defined, which serves as the entry point for the PdfJS library.- The `_0x5108a8` function is defined, which serves as a constructor for the `Page` object.
+- The `getPageProp` and `inheritPageProp` methods are defined on the prototype of the `Page` object.
+- Getters for the `content`, `resources`, `mediaBox`, `view`, `annotations`, and `rotate` properties are defined on the prototype of the `Page` object.
+- The `getOperatorList` method is also defined on the prototype of the `Page` object.The remaining part of the function includes:
+
+- The `getLinks` method, which retrieves the links on the page by calling `pageGetAnnotations` and filtering the annotations based on their subtype. The filtered annotations are then returned.
+- The `getAnnotations` method, which retrieves the annotations on the page by iterating through the `this.res` array and filtering the annotations based on their type and subtype. The filtered annotations are then transformed into objects containing relevant information and returned.In the remaining part of the function, there are several methods and operations:
+
+- The `linearization` getter retrieves the linearization data from the `stream` property and returns it. If the length of the linearization data matches the expected length, it is considered valid, otherwise, it is set to `false`.
+- The `startXRef` getter retrieves the startxref value, which indicates the start of the cross-reference table. It does this by searching for the "startxref" keyword in the `stream` property. If the `linearization` property is available, it uses the linearization data to directly find the startxref value. Otherwise, it searches for the startxref value by iterating over chunks of the `stream` property.
+- In the process of searching for the startxref value, the function `_0x371623` is used. This function takes a hex string (`_0x4bd8df`), the target string (`_0x236c70`), the maximum length to search (`_0x26508e`), and a boolean flag (`_0x17c706`). It searches for the target string in the hex string and updates the position (`_0x4bd8df['pos']`) if the target string is found. It returns `true` if the target string was found, `false` otherwise.
+
+Overall, these getters and methods are responsible for retrieving linearization data and the startxref value in a PDF document.In the remaining part of the function, there are several methods and operations:
+
+- The `mainXRefEntriesOffset` getter retrieves the `mainXRefEntriesOffset` value from the `this` object. If the `mainXRefEntriesOffset` is available in the `xref` object, it uses that value. Otherwise, it fallbacks to 0.
+- The `checkHeader` function checks if the PDF file's header matches the expected header. It uses the `_0x371623` function to search for the header string in the `stream` property.
+- The `setup` function initializes the PDF object by calling the `prepare()` method, creating a new `xref` object, and creating a new `catalog` object.
+- The `numPages` getter retrieves the number of pages in the PDF file. It checks if the `xref` object is available and retrieves the number of pages from it. If not, it retrieves the number of pages from the `trailer` object in the `this` object.
+- The `getDocumentInfo` function retrieves the document information from the `trailer` object. If the `trailer` object has a `Info` property, it retrieves the information and formats it into a JavaScript object.
+- The `getFingerprint` function retrieves the fingerprint of the PDF document. It checks if the `trailer` object has an `ID` property. If it does, it calculates the fingerprint by converting each character in the `ID` property to its corresponding hexadecimal value. Otherwise, it calculates the fingerprint from the first 100 bytes of the `stream` property.
+- The `getPage` function retrieves a specific page from the PDF document by calling the `getPage` method on the `this['pages']` property.
+
+Outside of the PDF object, there are two utility functions:
+
+- The `_0x5e8e88` function is a utility function for logging messages. It checks if the `PdfJS_window.console` object and the `PdfJS_window.console.log` method are available. If they are, it logs the message using `console.log`. Otherwise, if the `print` function is available, it logs the message using `print`.
+- The `_0x2fbeca` function is a utility function for logging error messages. It checks if the global variable `_0x3334d4` is greater than or equal to `_0x1e74e0`. If it is, it calls the `_0x5e8e88` function with an error message.
+
+Overall, these methods and utility functions provide functionality for setting up and accessing various properties of a PDF document.In the remaining part of the function, there are several utility functions:
+
+- The `_0x366000` function is a utility function for throwing an error with a given message. It logs the error message with the `_0x5e8e88` function and then throws an Error object with the given message.
+- The `_0x3d1319` function is a utility function for logging a warning message. It checks if the global variable `_0x3334d4` is greater than or equal to `_0x2e3d77` and logs the warning message with the `_0x5e8e88` function.
+- The `_0x514bde` function is a utility function for throwing an error with the message "Malformed PDF" followed by the given error message.
+- The `_0x3bef35` function is a utility function for throwing an error if a condition is not met. If the condition is not met, it calls the `_0x366000` function with the given error message.
+- The `_0x2132c2` function is a utility function for throwing an error if a condition is not met. If the condition is not met, it calls the `_0x514bde` function with the given error message.
+- The `_0xe29d0d` function is a utility function for defining a read-only property on an object. It uses the `Object.defineProperty` method to define the property with the given value, enumerableThe remaining part of the previous function includes several utility functions:
+
+- The `_0x4989d6` function is a utility function for converting an array of bytes into a string. It checks if the first two bytes are equal to "þÿ" and if so, it converts the rest of the bytes into a string using the `String.fromCharCode` method. If the first two bytes are not "þÿ", it looks up the byte in the `_0x3d3b16` array and converts it into a string. If the byte does not have a corresponding value in the array, it uses the `String.fromCharCode` method to convert the byte into a string.
+- The `_0x9e68aa` function is a utility function for checking if a value is of type "number".
+- The `_0x231659` function is a utility function for checking if a value is an integer.
+- The `_0x10d922` function is a utility function for checking if a value is of type "boolean".
+- The `_0x26d0d3` function is a utility function for checking if a value is of type "string".
+- The `_0x48bfcd` function is a utility function for checking if a value is equal to null.
+- The `_0x46e867` function is a utility function for checking if a value is an instance of the `_0x1b1658` class.
+- The `_0xadc778` function is a utility function for checking if a value is an instance of the `_0x5dea80` class with an optional class name parameter.
+- The `_0x4925de` function is a utility function for checking if a value is an instance of the `_0x33e983` class with an optional class name parameter.
+- The `_0x3c23a9` function is a utility function for checking if a value is an array.
+- The `_0xa2a2ad` function is a utility function for checking if a value is an object with a "getChar" method.
+- The `_0x4d2d23` function is a utility function for checking if a value is an object with a "getHexString" method.
+- The `_0x20c8d4` function is a utility function for checking if a value is an instance of the `_0xece7a1` class.
+- The `_0x4d010e` function is a utility function for checking if a value is an instance of the `_0x4925de` function and if so, it assigns the value to the `_0x194ffe` variable.- The `_0x4369f0` function is a constructor function for creating instances of a custom Promise-like object. It takes a name and an optional initial data value as parameters. The instances have properties such as `name`, `isResolved`, `isRejected`, `data`, and `callbacks`. They also have methods such as `then`, `resolve`, `reject`, and `progress`.
+- The `_0x1023d7` function is a utility function for creating a new instance of the custom Promise-like object. It takes an array of promises as a parameter and returns a new instance of the custom Promise-like object. The new instance resolves when all the promises in the array have resolved, and the resolved values are stored in an array.
+- The `_0x690` object is an object that contains properties and methods for the custom Promise-like object. The properties include `hasData`, `data`, `onData`, `isResolved`, `isRejected`, `error`, `callbacks`, and `resolve`. The methods include `set data`, `get data`, `onData`, `resolve`, `progress`, and `reject`.
+- The `_0x46d2dc` function is a method of the custom Promise-like object. It takes a callback function as a parameter and sets it as the `onData` callback if the promise has data, otherwise it stores the callback in the `callbacks` array to be called later when the promise has data.
+- The `_0xa26471` function is a method of the custom Promise-like object. It takes a value as a parameter and sets it as the resolved value of the promise. It also calls any callbacks in the `callbacks` array with the resolved value as the parameter.
+- The `_0x361f4b` function is a method of the custom Promise-like object. It takes a value as a parameter and calls any callbacks in the `progress` array with the value as the parameter.
+- The `_0x3d8eae` function is a method of the custom Promise-like object. It takes an error value as a parameter and sets it as the rejected value of the promise. It also calls any callbacks in the `callbacks` array with the rejected value as the parameter.
+- The `_0x4109b7` function is a method of the custom Promise-like object. It takes three callback functions as parameters: `onResolve`, `onReject`, and `onProgress`. It adds these callback functions to the `callbacks` array to be called later when the promise is resolved, rejected, or progresses.The remaining part of the code creates two more objects: `_0x465748` and `_0x958624`.
+
+`_0x465748` is a constructor function for creating instances of a `Timer` object. The `Timer` object has properties such as `started`, `times`, and `isOn` (which is initially set to true). It also has methods such as `time`, `timeEnd`, and `toString`. The `time` method starts a timer with a given name, the `timeEnd` method stops the timer with a given name and calculates the elapsed time, and the `toString` method returns a string representation of the timers and their durations.
+
+`_0x958624` is a constructor function for creating instances of a `PDFDocument` object. The `PDFDocument` object has properties such as `pdfInfo` and `pages`. It also has methods such as `getPage` (which returns a specific page of the PDF document), `getDestinations` (which returns the destinations defined in the PDF document), and getters for `numPages` and `fingerprint`.
+
+Overall, these objects and their methods provide functionality for working with PDF documents, including loading, parsing, and retrieving information from PDF files.The remaining part of the code defines two more functions: `_0x28bf8c` and `_0x1c6b98`.
+
+`_0x28bf8c` is a function named `getOutline`. It creates a new instance of the `PDFOutlineViewer` object and assigns it to the variable `_0x2132b0`. It then retrieves the `pdfInfo` property of the object and assigns it to the variable `_0xe095b9`. The function then resolves a Promise with the value of `_0xe095b9` and returns the Promise.
+
+`_0x1c6b98` is a function named `getMetadata`. It creates a new instance of the `Promise` object and assigns it to the variable `_0x9cb026`. It then retrieves the `info` and `metadata` properties of the `pdfInfo` property of the object and assigns them to the variables `_0x5eb367` and `_0x2593a9` respectively. The function then resolves the Promise with an object containing the values of `info` and `metadata`, and returns the Promise.
+
+The rest of the code defines two more properties of the `_0x2c566c` object: `destroy` and `render`. The `destroy` property is a method that calls the `destroy` method on the `pdf` property of the object. The `render` property is a method that sets the `isRendering` property of the object to `true`, creates a new `Promise` object, and assigns it to the variable `_0x9b84fb`. It then creates a new `PageCanvas` object and assigns it to the variable `_0x490171`. It wraps the rendering code in a try-catch block and calls the `render` method on the `PageCanvas` object, passing the necessary arguments. If an error occurs, it rejects the Promise with the error. Finally, it returns the Promise.The remaining part of the code defines the `_0x2d759e` object.
+
+The `_0x2d759e` object has the following properties:
+
+- `destroyed`: A boolean value indicating if the object has been destroyed.
+- `objs`: An instance of the `PDFObjects` object.
+- `pageCache`: An empty array.
+- `renderTasks`: An empty array.
+- `texts`: An empty object.
+- `worker`: An instance of the `PDFWorker` object.
+
+The `destroy` method of the `_0x2d759e` object sets the `destroyed` property to `true`.
+
+The `getPageObj` method of the `_0x2d759e` object retrieves the page object with the given index from the `objs.pages` array.
+
+The `getOutline` method of the `_0x2d759e` object creates a new instance of the `PDFOutlineViewer` object and assigns it to the variable `_0x2132b0`. It then retrieves the `pdfInfo` property of the object and assigns it to the variable `_0xe095b9`. The method then resolves a Promise with the value of `_0xe095b9` and returns the Promise.
+
+The `getMetadata` method of the `_0x2d759e` object creates a new instance of the `Promise` object and assigns it to the variable `_0x9cb026`. It then retrieves the `info` and `metadata` properties of the `pdfInfo` property of the object and assigns them to the variables `_0x5eb367` and `_0x2593a9` respectively. The method then resolves the Promise with an object containing the values of `info` and `metadata`, and returns the Promise.
+
+The `ensureFonts` method of the `_0x2d759e` object takes an array of font IDs and a callback function as arguments. It sets the `renderingState` property of the object to 'fonts'. It then iterates over the font IDs and replaces each value with the corresponding font object from the `objs.fonts` array. It then resolves a Promise with the modified array and calls the callback function.
+
+The `display` method of the `_0x2d759e` object takes a `PDFPage` object, a canvas element, and an optional callback function as arguments. It calls the `beginDrawing` method on the `PDFPage` object with the canvas element. It then sets the `renderingState` property of the object to 'displaying'. It initializes two variables: `i` to 0 and `fnArrayLength` to the length of the `fnArray` property of the `page` object. It also initializes the `operatorList` variable to the `operatorList` property of the `page` object. It initializes the `stepper` variable to null. If the `pdfBug` property of `PDFJS` is true and the `StepperManager` object has a method named `_createStepper`, it assigns the return value of the method to the `stepper` variable. It then defines a nested function named `next`, which increments `i` and calls itself recursively until `i` is equal to `fnArrayLength`. Inside the `next` function, it also checks if the `pdfjsNext` property of `PDFJS` is true and if the `stepper` variable is not null. If both conditions are met, it calls the `nextStep` method on the `stepper` variable and assigns the result to the `nextOperatorList` variable. It then checks if the `nextOperatorList` variable is equal to null, and if so, it returns. Otherwise, it replaces the `operatorList` variable with the `nextOperatorList` variable. Finally, it calls the `endDrawing` method on the `PDFPage` object, sets the `renderingState` property back to 'finished', and calls the `callback` function if provided.
+
+The `getTextContent` method of the `_0x2d759e` object creates a new instance of the `Promise` object and assigns it to the variable `_0x14223c`. It then creates a string variable `_0x4743e5` with the value 'text'. Finally, it resolves the Promise with the value of `_0x4743e5` and returns the Promise.
+
+The `getOperationList` method of the `_0x2d759e` object creates a new instance of the `Promise` object and assigns it to the variable `_0x2e2ee4`. It then creates an object variable `_0x48d6ac` with two properties: `dependencyFontsID` set to null and `operatorList` set to null. Finally, it resolves the Promise with the value of `_0x48d6ac` and returns the Promise.
+
+The `destroy` method of the `_0x2d759e` object sets the `destroyed` property to true.
+
+The remaining code instantiates the `_0x2d759e` object and assigns it to the variable `_0x1356b8`.The remaining part of the code defines three additional methods of the `_0x2d759e` object:
+
+The `setupFakeWorker` method creates a fake worker object with a `postMessage` method that takes a message object as an argument and calls the `postMessage` method on the `_0x231b1b` object with the message object as the argument. The method also defines a `terminate` method that does nothing. It then creates a new instance of the `PDFWorker` object with the name 'main' and the fake worker object, and adds it to the `worker` property of the `_0x2d759e` object.
+
+The `setupMessageHandler` method takes a message handler object as an argument and sets it as the `messageHandler` property of the `_0x2d759e` object. It also registers event listeners on the message handler object for various events, such as 'GetDoc', 'GetPage', 'GetAnnotations', 'RenderPage', 'FontDeserialize', and 'JpegDecode'. Each event listener function performs specific actions based on the event type.
+
+The `destroy` method sets the `destroyed` property of the `_0x2d759e` object to `true`.##########

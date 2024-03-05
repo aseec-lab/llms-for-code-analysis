@@ -1,0 +1,12 @@
+The given C code is a procedure that uses bubble sorting to organize a series of ranges in ascending order on the basis of their start points. It seems to be checking for overlaps among these ranges, which are defined in a two-dimensional array a[n][2], where n is the number of ranges and every row represents a range with start and end points.
+
+Here is a detailed line by line analysis of the code:
+
+1. The 2D array a[5000][2] will store the limits.
+2. The variable n is read from the standard input, which represents the number of ranges.
+3. A nested for loop fills the two-dimensional array from input. Each row of the array stores a single range.
+4. The code then implements a bubble sort for sorting the ranges based on their starting values (a[i][0]). During the sort, both start and end of each range (a[i][0] and a[i][1]) are swapped to keep them together.
+5. After sorting, the code checks if there is no array which starts before the end of any other array and does not start after the start of the same array. If such array is found, "no" is printed and the program breaks.
+6. If all the intervals (ranges) fulfill the condition, the program finds the highest end point among the intervals and prints the lowest starting point (which would be the first start point after sorting) and the highest end point.
+
+In short, it appears that the code is trying to find a super-range from a bunch of ranges that encompass all the ranges. It will print "no" if it can't find such a super-range.

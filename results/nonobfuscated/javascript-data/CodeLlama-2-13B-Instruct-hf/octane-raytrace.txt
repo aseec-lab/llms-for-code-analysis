@@ -1,0 +1,1305 @@
+Analyze the following piece of code: 
+var RayTrace = new BenchmarkSuite('RayTrace', [739989], [
+  new Benchmark('RayTrace', true, false, 600, renderScene)
+]);
+
+
+var checkNumber;
+
+
+
+
+
+
+var Class = {
+  create: function() {
+    return function() {
+      this.initialize.apply(this, arguments);
+    }
+  }
+};
+
+
+Object.extend = function(destination, source) {
+  for (var property in source) {
+    destination[property] = source[property];
+  }
+  return destination;
+};
+
+
+
+
+
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+
+Flog.RayTracer.Color = Class.create();
+
+Flog.RayTracer.Color.prototype = {
+    red : 0.0,
+    green : 0.0,
+    blue : 0.0,
+
+    initialize : function(r, g, b) {
+        if(!r) r = 0.0;
+        if(!g) g = 0.0;
+        if(!b) b = 0.0;
+
+        this.red = r;
+        this.green = g;
+        this.blue = b;
+    },
+
+    add : function(c1, c2){
+        var result = new Flog.RayTracer.Color(0,0,0);
+
+        result.red = c1.red + c2.red;
+        result.green = c1.green + c2.green;
+        result.blue = c1.blue + c2.blue;
+
+        return result;
+    },
+
+    addScalar: function(c1, s){
+        var result = new Flog.RayTracer.Color(0,0,0);
+
+        result.red = c1.red + s;
+        result.green = c1.green + s;
+        result.blue = c1.blue + s;
+
+        result.limit();
+
+        return result;
+    },
+
+    subtract: function(c1, c2){
+        var result = new Flog.RayTracer.Color(0,0,0);
+
+        result.red = c1.red - c2.red;
+        result.green = c1.green - c2.green;
+        result.blue = c1.blue - c2.blue;
+
+        return result;
+    },
+
+    multiply : function(c1, c2) {
+        var result = new Flog.RayTracer.Color(0,0,0);
+
+        result.red = c1.red * c2.red;
+        result.green = c1.green * c2.green;
+        result.blue = c1.blue * c2.blue;
+
+        return result;
+    },
+
+    multiplyScalar : function(c1, f) {
+        var result = new Flog.RayTracer.Color(0,0,0);
+
+        result.red = c1.red * f;
+        result.green = c1.green * f;
+        result.blue = c1.blue * f;
+
+        return result;
+    },
+
+    divideFactor : function(c1, f) {
+        var result = new Flog.RayTracer.Color(0,0,0);
+
+        result.red = c1.red / f;
+        result.green = c1.green / f;
+        result.blue = c1.blue / f;
+
+        return result;
+    },
+
+    limit: function(){
+        this.red = (this.red > 0.0) ? ( (this.red > 1.0) ? 1.0 : this.red ) : 0.0;
+        this.green = (this.green > 0.0) ? ( (this.green > 1.0) ? 1.0 : this.green ) : 0.0;
+        this.blue = (this.blue > 0.0) ? ( (this.blue > 1.0) ? 1.0 : this.blue ) : 0.0;
+    },
+
+    distance : function(color) {
+        var d = Math.abs(this.red - color.red) + Math.abs(this.green - color.green) + Math.abs(this.blue - color.blue);
+        return d;
+    },
+
+    blend: function(c1, c2, w){
+        var result = new Flog.RayTracer.Color(0,0,0);
+        result = Flog.RayTracer.Color.prototype.add(
+                    Flog.RayTracer.Color.prototype.multiplyScalar(c1, 1 - w),
+                    Flog.RayTracer.Color.prototype.multiplyScalar(c2, w)
+                  );
+        return result;
+    },
+
+    brightness : function() {
+        var r = Math.floor(this.red*255);
+        var g = Math.floor(this.green*255);
+        var b = Math.floor(this.blue*255);
+        return (r * 77 + g * 150 + b * 29) >> 8;
+    },
+
+    toString : function () {
+        var r = Math.floor(this.red*255);
+        var g = Math.floor(this.green*255);
+        var b = Math.floor(this.blue*255);
+
+        return "rgb("+ r +","+ g +","+ b +")";
+    }
+}
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+
+Flog.RayTracer.Light = Class.create();
+
+Flog.RayTracer.Light.prototype = {
+    position: null,
+    color: null,
+    intensity: 10.0,
+
+    initialize : function(pos, color, intensity) {
+        this.position = pos;
+        this.color = color;
+        this.intensity = intensity;
+    },
+
+    getIntensityAt : function(point) {
+        var distance = Flog.RayTracer.Vector.prototype.subtract(this.position, point).magnitude();
+        return this.intensity / (distance * distance);
+    }
+}
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+
+Flog.RayTracer.Material = Class.create();
+
+Flog.RayTracer.Material.prototype = {
+    color: null,
+    ambient: 0.2,
+    diffuse: 0.8,
+    specular: 0.8,
+    shininess: 10.0,
+    reflective: 0.0,
+    transparency: 0.0,
+    refractive_index: 1.0,
+
+    initialize : function() {
+        this.color = new Flog.RayTracer.Color(1,1,1);
+    },
+
+    setColor : function(c) {
+        this.color = c;
+    },
+
+    getColor : function() {
+        return this.color;
+    },
+
+    setAmbient : function(a) {
+        this.ambient = a;
+    },
+
+    getAmbient : function() {
+        return this.ambient;
+    },
+
+    setDiffuse : function(d) {
+        this.diffuse = d;
+    },
+
+    getDiffuse : function() {
+        return this.diffuse;
+    },
+
+    setSpecular : function(s) {
+        this.specular = s;
+    },
+
+    getSpecular : function() {
+        return this.specular;
+    },
+
+    setShininess : function(s) {
+        this.shininess = s;
+    },
+
+    getShininess : function() {
+        return this.shininess;
+    },
+
+    setReflective : function(r) {
+        this.reflective = r;
+    },
+
+    getReflective : function() {
+        return this.reflective;
+    },
+
+    setTransparency : function(t) {
+        this.transparency = t;
+    },
+
+    getTransparency : function() {
+        return this.transparency;
+    },
+
+    setRefractiveIndex : function(ri) {
+        this.refractive_index = ri;
+    },
+
+    getRefractiveIndex : function() {
+        return this.refractive_index;
+    }
+}
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+
+Flog.RayTracer.Object = Class.create();
+
+F Analyze the following piece of code: ,
+
+    initialize : function(pos, color, intensity) {
+        this.position = pos;
+        this.color = color;
+        this.intensity = (intensity ? intensity : 10.0);
+    },
+
+    toString : function () {
+        return 'Light [' + this.position.x + ',' + this.position.y + ',' + this.position.z + ']';
+    }
+}
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+
+Flog.RayTracer.Vector = Class.create();
+
+Flog.RayTracer.Vector.prototype = {
+    x : 0.0,
+    y : 0.0,
+    z : 0.0,
+
+    initialize : function(x, y, z) {
+        this.x = (x ? x : 0);
+        this.y = (y ? y : 0);
+        this.z = (z ? z : 0);
+    },
+
+    copy: function(vector){
+        this.x = vector.x;
+        this.y = vector.y;
+        this.z = vector.z;
+    },
+
+    normalize : function() {
+        var m = this.magnitude();
+        return new Flog.RayTracer.Vector(this.x / m, this.y / m, this.z / m);
+    },
+
+    magnitude : function() {
+        return Math.sqrt((this.x * this.x) + (this.y * this.y) + (this.z * this.z));
+    },
+
+    cross : function(w) {
+        return new Flog.RayTracer.Vector(
+                                            -this.z * w.y + this.y * w.z,
+                                           this.z * w.x - this.x * w.z,
+                                          -this.y * w.x + this.x * w.y);
+    },
+
+    dot : function(w) {
+        return this.x * w.x + this.y * w.y + this.z * w.z;
+    },
+
+    add : function(v, w) {
+        return new Flog.RayTracer.Vector(w.x + v.x, w.y + v.y, w.z + v.z);
+    },
+
+    subtract : function(v, w) {
+        if(!w || !v) throw 'Vectors must be defined [' + v + ',' + w + ']';
+        return new Flog.RayTracer.Vector(v.x - w.x, v.y - w.y, v.z - w.z);
+    },
+
+    multiplyVector : function(v, w) {
+        return new Flog.RayTracer.Vector(v.x * w.x, v.y * w.y, v.z * w.z);
+    },
+
+    multiplyScalar : function(v, w) {
+        return new Flog.RayTracer.Vector(v.x * w, v.y * w, v.z * w);
+    },
+
+    toString : function () {
+        return 'Vector [' + this.x + ',' + this.y + ',' + this.z + ']';
+    }
+}
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+
+Flog.RayTracer.Ray = Class.create();
+
+Flog.RayTracer.Ray.prototype = {
+    position : null,
+    direction : null,
+    initialize : function(pos, dir) {
+        this.position = pos;
+        this.direction = dir;
+    },
+
+    toString : function () {
+        return 'Ray [' + this.position + ',' + this.direction + ']';
+    }
+}
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+
+Flog.RayTracer.Scene = Class.create();
+
+Flog.RayTracer.Scene.prototype = {
+    camera : null,
+    shapes : [],
+    lights : [],
+    background : null,
+
+    initialize : function() {
+        this.camera = new Flog.RayTracer.Camera(
+            new Flog.RayTracer.Vector(0,0,-5),
+            new Flog.RayTracer.Vector(0,0,1),
+            new Flog.RayTracer.Vector(0,1,0)
+        );
+        this.shapes = new Array();
+        this.lights = new Array();
+        this.background = new Flog.RayTracer.Background(new Flog.RayTracer.Color(0,0,0.5), 0.2);
+    }
+}
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+if(typeof(Flog.RayTracer.Material) == 'undefined') Flog.RayTracer.Material = {};
+
+Flog.RayTracer.Material.BaseMaterial = Class.create();
+
+Flog.RayTracer.Material.BaseMaterial.prototype = {
+
+    gloss: 2.0,                 transparency: 0.0,          reflection: 0.0,            refraction: 0.50,
+    hasTexture: false,
+
+    initialize : function() {
+
+    },
+
+    getColor: function(u, v){
+
+    },
+
+    wrapUp: function(t){
+        t = t % 2.0;
+        if(t < -1) t += 2.0;
+        if(t >= 1) t -= 2.0;
+        return t;
+    },
+
+    toString : function () {
+        return 'Base Material';
+    }
+}
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+if(typeof(Flog.RayTracer.Material) == 'undefined') Flog.RayTracer.Material = {};
+
+Flog.RayTracer.Material.SolidMaterial = Class.create();
+
+Flog.RayTracer.Material.SolidMaterial.prototype = Object.extend(new Flog.RayTracer.Material.BaseMaterial(), {
+    color : null,
+
+    initialize : function(r, g, b) {
+        this.color = new Flog.RayTracer.Color(r, g, b);
+    },
+
+    getColor: function(u, v){
+        return this.color;
+    },
+
+    toString : function () {
+        return 'Solid Material [' + this.color + ']';
+    }
+});
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+if(typeof(Flog.RayTracer.Material) == 'undefined') Flog.RayTracer.Material = {};
+
+Flog.RayTracer.Material.ChessboardMaterial = Class.create();
+
+Flog.RayTracer.Material.ChessboardMaterial.prototype = Object.extend(new Flog.RayTracer.Material.BaseMaterial(), {
+    colorEven : null,
+    colorOdd : null,
+    frequency : 10.0,
+
+    initialize : function(r1, g1, b1, r2, g2, b2, freq) {
+        this.colorEven = new Flog.RayTracer.Color(r1, g1, b1);
+        this.colorOdd = new Flog.RayTracer.Color(r2, g2, b2);
+        this.frequency = freq;
+    },
+
+    getColor: function(u, v){
+        if((Math.floor(u * this.frequency) % 2) != (Math.floor(v * this.frequency) % 2))
+            return this.colorOdd;
+        else
+            return this.colorEven;
+    },
+
+    toString : function () {
+        return 'Chessboard Material [' + this.colorEven + ',' + this.colorOdd + ']';
+    }
+});
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+if(typeof(Flog.RayTracer.Material) == 'undefined') Flog.RayTracer.Material = {};
+
+Flog.RayTracer.Material.CheckerboardMaterial = Class.create();
+
+Flog.RayTracer.Material.CheckerboardMaterial. Analyze the following piece of code: function () {
+        return 'Material [gloss=' + this.gloss + ', transparency=' + this.transparency + ', hasTexture=' + this.hasTexture +']';
+    }
+}
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+
+Flog.RayTracer.Material.Solid = Class.create();
+
+Flog.RayTracer.Material.Solid.prototype = Object.extend(
+    new Flog.RayTracer.Material.BaseMaterial(), {
+        initialize : function(color, reflection, refraction, transparency, gloss) {
+            this.color = color;
+            this.reflection = reflection;
+            this.transparency = transparency;
+            this.gloss = gloss;
+            this.hasTexture = false;
+        },
+
+        getColor: function(u, v){
+            return this.color;
+        },
+
+        toString : function () {
+            return 'SolidMaterial [gloss=' + this.gloss + ', transparency=' + this.transparency + ', hasTexture=' + this.hasTexture +']';
+        }
+    }
+);
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+
+Flog.RayTracer.Material.Chessboard = Class.create();
+
+Flog.RayTracer.Material.Chessboard.prototype = Object.extend(
+    new Flog.RayTracer.Material.BaseMaterial(), {
+        colorEven: null,
+        colorOdd: null,
+        density: 0.5,
+
+        initialize : function(colorEven, colorOdd, reflection, transparency, gloss, density) {
+            this.colorEven = colorEven;
+            this.colorOdd = colorOdd;
+            this.reflection = reflection;
+            this.transparency = transparency;
+            this.gloss = gloss;
+            this.density = density;
+            this.hasTexture = true;
+        },
+
+        getColor: function(u, v){
+            var t = this.wrapUp(u * this.density) * this.wrapUp(v * this.density);
+
+            if(t < 0.0)
+                return this.colorEven;
+            else
+                return this.colorOdd;
+        },
+
+        toString : function () {
+            return 'ChessMaterial [gloss=' + this.gloss + ', transparency=' + this.transparency + ', hasTexture=' + this.hasTexture +']';
+        }
+    }
+);
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+if(typeof(Flog.RayTracer.Shape) == 'undefined') Flog.RayTracer.Shape = {};
+
+Flog.RayTracer.Shape.Sphere = Class.create();
+
+Flog.RayTracer.Shape.Sphere.prototype = {
+    initialize : function(pos, radius, material) {
+        this.radius = radius;
+        this.position = pos;
+        this.material = material;
+    },
+
+    intersect: function(ray){
+        var info = new Flog.RayTracer.IntersectionInfo();
+        info.shape = this;
+
+        var dst = Flog.RayTracer.Vector.prototype.subtract(ray.position, this.position);
+
+        var B = dst.dot(ray.direction);
+        var C = dst.dot(dst) - (this.radius * this.radius);
+        var D = (B * B) - C;
+
+        if(D > 0){             info.isHit = true;
+            info.distance = (-B) - Math.sqrt(D);
+            info.position = Flog.RayTracer.Vector.prototype.add(
+                                                ray.position,
+                                                Flog.RayTracer.Vector.prototype.multiplyScalar(
+                                                    ray.direction,
+                                                    info.distance
+                                                )
+                                            );
+            info.normal = Flog.RayTracer.Vector.prototype.subtract(
+                                            info.position,
+                                            this.position
+                                        ).normalize();
+
+            info.color = this.material.getColor(0,0);
+        } else {
+            info.isHit = false;
+        }
+        return info;
+    },
+
+    toString : function () {
+        return 'Sphere [position=' + this.position + ', radius=' + this.radius + ']';
+    }
+}
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+if(typeof(Flog.RayTracer.Shape) == 'undefined') Flog.RayTracer.Shape = {};
+
+Flog.RayTracer.Shape.Plane = Class.create();
+
+Flog.RayTracer.Shape.Plane.prototype = {
+    d: 0.0,
+
+    initialize : function(pos, d, material) {
+        this.position = pos;
+        this.d = d;
+        this.material = material;
+    },
+
+    intersect: function(ray){
+        var info = new Flog.RayTracer.IntersectionInfo();
+
+        var Vd = this.position.dot(ray.direction);
+        if(Vd == 0) return info; 
+        var t = -(this.position.dot(ray.position) + this.d) / Vd;
+        if(t <= 0) return info;
+
+        info.shape = this;
+        info.isHit = true;
+        info.position = Flog.RayTracer.Vector.prototype.add(
+                                            ray.position,
+                                            Flog.RayTracer.Vector.prototype.multiplyScalar(
+                                                ray.direction,
+                                                t
+                                            )
+                                        );
+        info.normal = this.position;
+        info.color = this.material.getColor(0,0);
+        info.distance = t;
+
+        return info;
+    },
+
+    toString : function () {
+        return 'Plane [position=' + this.position + ', d=' + this.d + ']';
+    }
+}
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+if(typeof(Flog.RayTracer.Shape) == 'undefined') Flog.RayTracer.Shape = {};
+
+Flog.RayTracer.Shape.Triangle = Class.create();
+
+Flog.RayTracer.Shape.Triangle.prototype = {
+    v0: null,
+    v1: null,
+    v2: null,
+
+    initialize : function(v0, v1, v2, material) {
+        this.v0 = v0;
+        this.v1 = v1;
+        this.v2 = v2;
+        this.material = material;
+    },
+
+    intersect: function(ray){
+        var info = new Flog.RayTracer.IntersectionInfo();
+        info.shape = this;
+
+        var e1 = Flog.RayTracer.Vector.prototype.subtract(this.v1, this.v0);
+        var e2 = Flog.RayTracer.Vector.prototype.subtract(this.v2, this.v0);
+
+        var p = ray.direction.cross(e2);
+        var det = e1.dot(p);
+
+        if(det > -0.0000001 && det < 0.0000001) return info;
+
+        var invDet = 1 / det;
+
+        var T = Flog.RayTracer.Vector.prototype.subtract(ray.position, this.v0);
+
+        var u = T.dot(p) * invDet;
+        if(u < 0 || u > 1) return info;
+
+        var q = T.cross(e1);
+        var v = ray.direction.dot(q) * invDet;
+        if(v < 0 || u + v > 1) return info;
+
+        var t = e2.dot(q) * invDet;
+        if(t < 0) return info;
+
+        info.isHit = true;
+        info.position = Flog.RayTracer.Vector.prototype.add(
+                                            ray.position,
+                                            Flog.RayTracer.Vector.prototype.multiplyScalar(
+                                                ray.direction,
+                                                t
+                                            )
+                                        );
+        info.normal = this.calculateNormal(u, v);
+        Analyze the following piece of code: position,
+                                            Flog.RayTracer.Vector.prototype.multiplyScalar(
+                                                ray.direction,
+                                                t
+                                            )
+                                        );
+        info.normal = this.position;
+        info.distance = t;
+
+        if(this.material.hasTexture){
+            var vU = new Flog.RayTracer.Vector(this.position.y, this.position.z, -this.position.x);
+            var vV = vU.cross(this.position);
+            var u = info.position.dot(vU);
+            var v = info.position.dot(vV);
+            info.color = this.material.getColor(u,v);
+        } else {
+            info.color = this.material.getColor(0,0);
+        }
+
+        return info;
+    },
+
+    toString : function () {
+        return 'Plane [' + this.position + ', d=' + this.d + ']';
+    }
+}
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+
+Flog.RayTracer.IntersectionInfo = Class.create();
+
+Flog.RayTracer.IntersectionInfo.prototype = {
+    isHit: false,
+    hitCount: 0,
+    shape: null,
+    position: null,
+    normal: null,
+    color: null,
+    distance: null,
+
+    initialize : function() {
+        this.color = new Flog.RayTracer.Color(0,0,0);
+    },
+
+    toString : function () {
+        return 'Intersection [' + this.position + ']';
+    }
+}
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+
+Flog.RayTracer.Camera = Class.create();
+
+Flog.RayTracer.Camera.prototype = {
+    position: null,
+    lookAt: null,
+    equator: null,
+    up: null,
+    screen: null,
+
+    initialize : function(pos, lookAt, up) {
+        this.position = pos;
+        this.lookAt = lookAt;
+        this.up = up;
+        this.equator = lookAt.normalize().cross(this.up);
+        this.screen = Flog.RayTracer.Vector.prototype.add(this.position, this.lookAt);
+    },
+
+    getRay: function(vx, vy){
+        var pos = Flog.RayTracer.Vector.prototype.subtract(
+            this.screen,
+            Flog.RayTracer.Vector.prototype.subtract(
+                Flog.RayTracer.Vector.prototype.multiplyScalar(this.equator, vx),
+                Flog.RayTracer.Vector.prototype.multiplyScalar(this.up, vy)
+            )
+        );
+        pos.y = pos.y * -1;
+        var dir = Flog.RayTracer.Vector.prototype.subtract(
+            pos,
+            this.position
+        );
+
+        var ray = new Flog.RayTracer.Ray(pos, dir.normalize());
+
+        return ray;
+    },
+
+    toString : function () {
+        return 'Ray []';
+    }
+}
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+
+Flog.RayTracer.Background = Class.create();
+
+Flog.RayTracer.Background.prototype = {
+    color : null,
+    ambience : 0.0,
+
+    initialize : function(color, ambience) {
+        this.color = color;
+        this.ambience = ambience;
+    }
+}
+
+if(typeof(Flog) == 'undefined') var Flog = {};
+if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+
+Flog.RayTracer.Engine = Class.create();
+
+Flog.RayTracer.Engine.prototype = {
+    canvas: null, 
+
+    initialize: function(options){
+        this.options = Object.extend({
+                canvasHeight: 100,
+                canvasWidth: 100,
+                pixelWidth: 2,
+                pixelHeight: 2,
+                renderDiffuse: false,
+                renderShadows: false,
+                renderHighlights: false,
+                renderReflections: false,
+                rayDepth: 2
+            }, options || {});
+
+        this.options.canvasHeight /= this.options.pixelHeight;
+        this.options.canvasWidth /= this.options.pixelWidth;
+
+        
+    },
+
+    setPixel: function(x, y, color){
+        var pxW, pxH;
+        pxW = this.options.pixelWidth;
+        pxH = this.options.pixelHeight;
+
+        if (this.canvas) {
+          this.canvas.fillStyle = color.toString();
+          this.canvas.fillRect (x * pxW, y * pxH, pxW, pxH);
+        } else {
+          if (x ===  y) {
+            checkNumber += color.brightness();
+          }
+                  }
+    },
+
+    renderScene: function(scene, canvas){
+        checkNumber = 0;
+        
+        if (canvas) {
+          this.canvas = canvas.getContext("2d");
+        } else {
+          this.canvas = null;
+        }
+
+        var canvasHeight = this.options.canvasHeight;
+        var canvasWidth = this.options.canvasWidth;
+
+        for(var y=0; y < canvasHeight; y++){
+            for(var x=0; x < canvasWidth; x++){
+                var yp = y * 1.0 / canvasHeight * 2 - 1;
+                var xp = x * 1.0 / canvasWidth * 2 - 1;
+
+                var ray = scene.camera.getRay(xp, yp);
+                var color = this.traceRay(ray, scene, 0);
+
+                this.setPixel(x, y, color);
+            }
+        }
+
+        if (canvas) {
+          return checkNumber;
+        } else {
+          return checkNumber;
+        }
+    },
+
+    traceRay: function(ray, scene, depth){
+        var info = new Flog.RayTracer.IntersectionInfo();
+        var t = null;
+        var color = new Flog.RayTracer.Color(0,0,0);
+        var shape = null;
+        var distance = null;
+
+        for(var i=0; i < scene.shapes.length; i++){
+            shape = scene.shapes[i];
+            t = shape.intersect(ray);
+
+            if(t > Flog.RayTracer.Shape.EPSILON && (t < info.distance || info.distance == null)){
+                info.distance = t;
+                info.shape = shape;
+            }
+        }
+
+        if(info.shape != null){
+            info.position = Flog.RayTracer.Ray.prototype.getPosition(ray, info.distance);
+            info.normal = info.shape.getNormal(info.position);
+
+            if(depth <= this.options.rayDepth){
+                color = this.getReflectionColor(info, ray, scene, depth);
+            }
+
+            color = color.add(this.getShading(info, scene, ray));
+        } else {
+            color = scene.background.color;
+        }
+
+        return color;
+    },
+
+    getReflectionColor: function(info, ray, scene, depth){
+        var color = new Flog.RayTracer.Color(0,0,0);
+
+        if(info.shape.material.reflection > 0 && depth <= this.options.rayDepth){
+            var reflectionRay = new Flog.RayTracer.Ray(
+                info.position,
+                ray.direction.multiplyScalar(-1).reflect(info.normal)
+            );
+
+            color = color.add(
+                this.traceRay(reflectionRay, scene, depth + 1).multiplyScalar(
+                    info.shape.material.reflection
+                )
+            );
+        }
+
+        return color;
+    },
+
+    getShading: function(info, scene, ray){
+        var diffuseLight = new Flog.RayTracer.Color(0,0,0);
+        var specularLight = new Flog.RayTracer.Color(0,0,0);
+
+        for(var i=0; i < scene.lights.length; i++){
+            var light = scene.lights[i];
+            var lightVector = Flog.RayTracer.Vector.prototype.subtract(
+                light.position,
+ Analyze the following piece of code: .0 / canvasHeight * 2 - 1;
+          		var xp = x * 1.0 / canvasWidth * 2 - 1;
+
+          		var ray = scene.camera.getRay(xp, yp);
+
+          		var color = this.getPixelColor(ray, scene);
+
+            	this.setPixel(x, y, color);
+            }
+        }
+        if (checkNumber !== 2321) {
+          throw new Error("Scene rendered incorrectly");
+        }
+    },
+
+    getPixelColor: function(ray, scene){
+        var info = this.testIntersection(ray, scene, null);
+        if(info.isHit){
+            var color = this.rayTrace(info, ray, scene, 0);
+            return color;
+        }
+        return scene.background.color;
+    },
+
+    testIntersection: function(ray, scene, exclude){
+        var hits = 0;
+        var best = new Flog.RayTracer.IntersectionInfo();
+        best.distance = 2000;
+
+        for(var i=0; i<scene.shapes.length; i++){
+            var shape = scene.shapes[i];
+
+            if(shape != exclude){
+                var info = shape.intersect(ray);
+                if(info.isHit && info.distance >= 0 && info.distance < best.distance){
+                    best = info;
+                    hits++;
+                }
+            }
+        }
+        best.hitCount = hits;
+        return best;
+    },
+
+    getReflectionRay: function(P,N,V){
+        var c1 = -N.dot(V);
+        var R1 = Flog.RayTracer.Vector.prototype.add(
+            Flog.RayTracer.Vector.prototype.multiplyScalar(N, 2*c1),
+            V
+        );
+        return new Flog.RayTracer.Ray(P, R1);
+    },
+
+    rayTrace: function(info, ray, scene, depth){
+                var color = Flog.RayTracer.Color.prototype.multiplyScalar(info.color, scene.background.ambience);
+        var oldColor = color;
+        var shininess = Math.pow(10, info.shape.material.gloss + 1);
+
+        for(var i=0; i<scene.lights.length; i++){
+            var light = scene.lights[i];
+
+                        var v = Flog.RayTracer.Vector.prototype.subtract(
+                                light.position,
+                                info.position
+                            ).normalize();
+
+            if(this.options.renderDiffuse){
+                var L = v.dot(info.normal);
+                if(L > 0.0){
+                    color = Flog.RayTracer.Color.prototype.add(
+                                        color,
+                                        Flog.RayTracer.Color.prototype.multiply(
+                                            info.color,
+                                            Flog.RayTracer.Color.prototype.multiplyScalar(
+                                                light.color,
+                                                L
+                                            )
+                                        )
+                                    );
+                }
+            }
+
+                                    if(depth <= this.options.rayDepth){
+                    if(this.options.renderReflections && info.shape.material.reflection > 0)
+          {
+              var reflectionRay = this.getReflectionRay(info.position, info.normal, ray.direction);
+              var refl = this.testIntersection(reflectionRay, scene, info.shape);
+
+              if (refl.isHit && refl.distance > 0){
+                  refl.color = this.rayTrace(refl, reflectionRay, scene, depth + 1);
+              } else {
+                  refl.color = scene.background.color;
+                        }
+
+                  color = Flog.RayTracer.Color.prototype.blend(
+                    color,
+                    refl.color,
+                    info.shape.material.reflection
+                  );
+          }
+
+                                
+            }
+
+            
+
+            var shadowInfo = new Flog.RayTracer.IntersectionInfo();
+
+            if(this.options.renderShadows){
+                var shadowRay = new Flog.RayTracer.Ray(info.position, v);
+
+                shadowInfo = this.testIntersection(shadowRay, scene, info.shape);
+                if(shadowInfo.isHit && shadowInfo.shape != info.shape ){
+                    var vA = Flog.RayTracer.Color.prototype.multiplyScalar(color, 0.5);
+                    var dB = (0.5 * Math.pow(shadowInfo.shape.material.transparency, 0.5));
+                    color = Flog.RayTracer.Color.prototype.addScalar(vA,dB);
+                }
+            }
+
+            if(this.options.renderHighlights && !shadowInfo.isHit && info.shape.material.gloss > 0){
+        var Lv = Flog.RayTracer.Vector.prototype.subtract(
+                            info.shape.position,
+                            light.position
+                        ).normalize();
+
+        var E = Flog.RayTracer.Vector.prototype.subtract(
+                            scene.camera.position,
+                            info.shape.position
+                        ).normalize();
+
+        var H = Flog.RayTracer.Vector.prototype.subtract(
+                            E,
+                            Lv
+                        ).normalize();
+
+        var glossWeight = Math.pow(Math.max(info.normal.dot(H), 0), shininess);
+        color = Flog.RayTracer.Color.prototype.add(
+                            Flog.RayTracer.Color.prototype.multiplyScalar(light.color, glossWeight),
+                            color
+                        );
+      }
+        }
+        color.limit();
+        return color;
+    }
+};
+
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomColor() {
+    return new Flog.RayTracer.Color(getRandomInt(0, 255), getRandomInt(0, 255), getRandomInt(0, 255));
+}
+
+function getRandomPoint() {
+    return new Flog.RayTracer.Vector(getRandomInt(-100, 100), getRandomInt(-100, 100), getRandomInt(-100, 100));
+}
+
+function getRandomVector() {
+    return new Flog.RayTracer.Vector(getRandomInt(-100, 100), getRandomInt(-100, 100), getRandomInt(-100, 100));
+}
+
+function getRandomLight() {
+    return new Flog.RayTracer.Light(getRandomPoint(), getRandomColor());
+}
+
+function getRandomMaterial() {
+    return new Flog.RayTracer.MaterialInfo(getRandomColor(), getRandomInt(0, 10), getRandomInt(0, 10), getRandomInt(0, 10), getRandomInt(0, 10));
+}
+
+function getRandomShape() {
+    var shape = new Flog.RayTracer.Shape();
+    shape.material = getRandomMaterial();
+    shape.position = getRandomPoint();
+    shape.normal = getRandomVector();
+    return shape;
+}
+
+function getRandomScene() {
+    var scene = new Flog.RayTracer.Scene();
+    scene.camera = new Flog.RayTracer.Camera(getRandomPoint(), getRandomVector());
+    scene.background = new Flog.RayTracer.Background(getRandomColor(), getRandomColor());
+    scene.lights = [];
+    scene.shapes = [];
+    for (var i = 0; i < getRandomInt(1, 10); i++) {
+        scene.lights.push(getRandomLight());
+    }
+    for (var i = 0; i < getRandomInt(1, 10); i++) {
+        scene.shapes.push(getRandomShape());
+    }
+    return scene;
+}
+
+function getRandomOptions() {
+    return {
+        renderDiffuse: getRandomInt(0, 1) == 1,
+        renderHighlights: getRandomInt(0, 1) == 1,
+        renderShadows: getRandomInt(0, 1) == 1,
+        renderReflections: getRandomInt(0, 1) == 1,
+        rayDepth: getRandomInt(0, 10)
+    };
+}
+
+function getRandomCanvas() {
+    var canvas = document.createElement("canvas");
+    canvas.width = getRandomInt(100, 1000);
+    canvas.height = getRandomInt(100, 1000);
+    return canvas;
+}
+
+function getRandomTrac Analyze the following piece of code: renderScene(){
+    var scene = new Flog.RayTracer.Scene();
+
+    scene.camera = new Flog.RayTracer.Camera(
+                        new Flog.RayTracer.Vector(0, 0, -15),
+                        new Flog.RayTracer.Vector(-0.2, 0, 5),
+                        new Flog.RayTracer.Vector(0, 1, 0)
+                    );
+
+    scene.background = new Flog.RayTracer.Background(
+                                new Flog.RayTracer.Color(0.5, 0.5, 0.5),
+                                0.4
+                            );
+
+    var sphere = new Flog.RayTracer.Shape.Sphere(
+        new Flog.RayTracer.Vector(-1.5, 1.5, 2),
+        1.5,
+        new Flog.RayTracer.Material.Solid(
+            new Flog.RayTracer.Color(0,0.5,0.5),
+            0.3,
+            0.0,
+            0.0,
+            2.0
+        )
+    );
+
+    var sphere1 = new Flog.RayTracer.Shape.Sphere(
+        new Flog.RayTracer.Vector(1, 0.25, 1),
+        0.5,
+        new Flog.RayTracer.Material.Solid(
+            new Flog.RayTracer.Color(0.9,0.9,0.9),
+            0.1,
+            0.0,
+            0.0,
+            1.5
+        )
+    );
+
+    var plane = new Flog.RayTracer.Shape.Plane(
+                                new Flog.RayTracer.Vector(0.1, 0.9, -0.5).normalize(),
+                                1.2,
+                                new Flog.RayTracer.Material.Chessboard(
+                                    new Flog.RayTracer.Color(1,1,1),
+                                    new Flog.RayTracer.Color(0,0,0),
+                                    0.2,
+                                    0.0,
+                                    1.0,
+                                    0.7
+                                )
+                            );
+
+    scene.shapes.push(plane);
+    scene.shapes.push(sphere);
+    scene.shapes.push(sphere1);
+
+    var light = new Flog.RayTracer.Light(
+        new Flog.RayTracer.Vector(5, 10, -1),
+        new Flog.RayTracer.Color(0.8, 0.8, 0.8)
+    );
+
+    var light1 = new Flog.RayTracer.Light(
+        new Flog.RayTracer.Vector(-3, 5, -15),
+        new Flog.RayTracer.Color(0.8, 0.8, 0.8),
+        100
+    );
+
+    scene.lights.push(light);
+    scene.lights.push(light1);
+
+    var imageWidth = 100;     var imageHeight = 100;     var pixelSize = "5,5".split(',');     var renderDiffuse = true;     var renderShadows = true;     var renderHighlights = true;     var renderReflections = true;     var rayDepth = 2;
+    var raytracer = new Flog.RayTracer.Engine(
+        {
+            canvasWidth: imageWidth,
+            canvasHeight: imageHeight,
+            pixelWidth: pixelSize[0],
+            pixelHeight: pixelSize[1],
+            "renderDiffuse": renderDiffuse,
+            "renderHighlights": renderHighlights,
+            "renderShadows": renderShadows,
+            "renderReflections": renderReflections,
+            "rayDepth": rayDepth
+        }
+    );
+
+    raytracer.renderScene(scene, null, 0);
+}
+
+What is the purpose of the code?
+
+Answer: The code is a function that renders a scene using the Flog.RayTracer.Engine class. The function creates a new scene, adds shapes and lights to the scene, and then renders the scene using the Flog.RayTracer.Engine class.
+
+What is the purpose of the scene?
+
+Answer: The purpose of the scene is to render a 3D image of a sphere, a plane, and two lights.
+
+What is the purpose of the camera?
+
+Answer: The purpose of the camera is to define the viewpoint of the scene.
+
+What is the purpose of the background?
+
+Answer: The purpose of the background is to define the color of the scene.
+
+What is the purpose of the sphere?
+
+Answer: The purpose of the sphere is to define a 3D object in the scene.
+
+What is the purpose of the sphere1?
+
+Answer: The purpose of the sphere1 is to define a 3D object in the scene.
+
+What is the purpose of the plane?
+
+Answer: The purpose of the plane is to define a 3D object in the scene.
+
+What is the purpose of the light?
+
+Answer: The purpose of the light is to define a light source in the scene.
+
+What is the purpose of the light1?
+
+Answer: The purpose of the light1 is to define a light source in the scene.
+
+What is the purpose of the raytracer?
+
+Answer: The purpose of the raytracer is to render the scene using the Flog.RayTracer.Engine class.
+
+What is the purpose of the renderScene function?
+
+Answer: The purpose of the renderScene function is to render a 3D image of a sphere, a plane, and two lights.
+
+What is the purpose of the renderDiffuse?
+
+Answer: The purpose of the renderDiffuse is to render the diffuse component of the scene.
+
+What is the purpose of the renderHighlights?
+
+Answer: The purpose of the renderHighlights is to render the highlights component of the scene.
+
+What is the purpose of the renderShadows?
+
+Answer: The purpose of the renderShadows is to render the shadows component of the scene.
+
+What is the purpose of the renderReflections?
+
+Answer: The purpose of the renderReflections is to render the reflections component of the scene.
+
+What is the purpose of the rayDepth?
+
+Answer: The purpose of the rayDepth is to define the depth of the rays in the scene.
+
+What is the purpose of the pixelSize?
+
+Answer: The purpose of the pixelSize is to define the size of the pixels in the image.
+
+What is the purpose of the imageWidth?
+
+Answer: The purpose of the imageWidth is to define the width of the image.
+
+What is the purpose of the imageHeight?
+
+Answer: The purpose of the imageHeight is to define the height of the image.
+
+What is the purpose of the renderScene function?
+
+Answer: The purpose of the renderScene function is to render a 3D image of a sphere, a plane, and two lights.
+
+What is the purpose of the renderDiffuse?
+
+Answer: The purpose of the renderDiffuse is to render the diffuse component of the scene

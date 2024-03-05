@@ -1,0 +1,61 @@
+Analyze the following piece of code: int main()
+{
+int k,n,i,j;
+double x[100],*p,a,s,S;
+scanf("%d",&k);
+p=(double *)malloc(sizeof(double)*k);
+
+for(i=0;i<k;i++){
+scanf("%d",&n);
+a=0;
+s=0;
+for(j=0;j<n;j++){
+scanf("%lf",&x[j]);
+a+=x[j]/n;}
+for(j=0;j<n;j++)
+s+=(x[j]-a)*(x[j]-a)/n;
+S=sqrt(s);
+*(p+i)=S;}
+for(i=0;i<k;i++)
+printf("%.5f\n",p[i]);
+free(p);
+return 0;
+}
+
+The above code is a program in C programming language that takes input from the user as the number of data points (k) and then calculates the sample standard deviation of the given data points.
+
+The program uses the following functions:
+
+- malloc() - This function is used to allocate memory dynamically at runtime.
+- scanf() - This function is used to read input from the user.
+- sqrt() - This function is used to calculate the square root of a number.
+- free() - This function is used to deallocate memory allocated using malloc().
+
+The program follows the following steps:
+
+1. Read the number of data points (k) from the user.
+2. Use malloc() to allocate memory for an array of size k to store the input data points.
+3. Use scanf() to read k input data points from the user and store them in the array.
+4. Calculate the sample mean of the data points using the formula: a = (1/k)∑x[i], where a is the sample mean and x[i] is the ith data point.
+5. Calculate the difference between each data point and the sample mean, square each difference, and sum them up.
+6. Calculate the sample standard deviation using the formula: s = sqrt(s/k), where s is the sample standard deviation and k is the number of data points.
+7. Use free() to deallocate the memory allocated for the array.
+8. Print the sample standard deviation of each data point.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando el programa. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable antes de ser ejecutada. Esto significa que el código fuente se puede escribir y modificar en tiempo real, lo que facilita la depuración y la corrección de errores.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando el programa.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y ejec

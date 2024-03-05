@@ -1,0 +1,48 @@
+The code is a JavaScript program that appears to be working with WebAssembly. 
+
+The first function, `__universalAtob`, is a helper function that decodes a base64 encoded string. It first tries to use the `atob` function to decode the string. If that fails, it uses the `global.Buffer.from` function to decode the string.
+
+The next two sections of code declare two variables, `__ifWasmBuffer` and `__callWasmBuffer`, which are base64 encoded strings. These strings are then used to create WebAssembly modules using the `WebAssembly.Module` constructor. The decoding process is similar to what is done in the `__universalAtob` function.
+
+The next section of code declares an array, `__wasmStringModules`, that contains multiple base64 encoded strings. These strings are used to create a series of WebAssembly instances using the `WebAssembly.Instance` constructor. The decoding process is done using the `__universalAtob` function.
+
+The last part of the code defines a function, `lS`, that takes in three parameters: `wI`, `pos`, and `iWC`. This function is used to retrieve a string from a WebAssembly module. The function checks if the `wI` parameter is an array. If it is not, it uses the `__wasmStringModules` array to access the appropriate WebAssembly module based on the `wI` parameter. It then retrieves the string using the `memory` object of the module and returns it. If `wI` is an array, the function iterates over the elements and retrieves the strings from the corresponding WebAssembly modules.
+
+Overall, the code appears to be decoding base64 encoded strings and working with WebAssembly modules to retrieve strings.The remaining part of the code includes the following logic:
+
+1. A WebAssembly instance `__callInstance14` is created using the `__callWasmModule`. It has an environment variable `impFunc` that sets a value in the `localStorage` using `localStorage.setItem()`.
+
+2. The `data()` function of `__callInstance14` is called.
+
+3. The value of the stored item in `localStorage` is retrieved and assigned to `nombreLocalStorage`.
+
+4. Another WebAssembly instance `__callInstance13` is created using `__callWasmModule`. It has an environment variable `impFunc` that logs the value of `nombreLocalStorage`.
+
+5. The `data()` function of `__callInstance13` is called.
+
+6. The variables `btnBotones`, `botones`, and `fondo` are assigned DOM elements selected using the `lS()` function.
+
+7. Another nested function is immediately invoked. It creates a WebAssembly instance `__callInstance12` using `__callWasmModule`. It has an environment variable `impFunc` that performs the following actions:
+
+   - Retrieves the value of `colorBG` from `localStorage`.
+   - Logs the value of `colorBG`.
+   - Checks if `colorBG` is `null`. If it is, it sets the `className` property of `fondo` to the value returned by `lS(0, 7)`.
+   - If `colorBG` is not `null`, it sets the `className` property of `fondo` to the value of `colorBG`.
+
+   The `data()` function of `__callInstance12` is called after these actions.
+
+The purpose of this code is not clear without more context. It appears to be using WebAssembly modules and environment variables to perform operations related to local storage and manipulating DOM elements.The remaining code includes two event handler functions: `agregarBotones` and `delegacion`.
+
+The `agregarBotones(e)` function is called when the `btnBotones` element is clicked. It creates a new WebAssembly instance `__callInstance7` and sets an environment variable `impFunc` that prevents the default behavior of the event (`e.preventDefault()`). The `data()` function of `__callInstance7` is then called. The `innerHTML` property of the `botones` element is set to a HTML code that creates multiple buttons.
+
+The `delegacion(e)` function is called when one of the buttons inside the `botones` element is clicked. It creates two new WebAssembly instances: `__callInstance6` and `__callInstance5`. `__callInstance6` sets an environment variable `impFunc` that prevents the default behavior of the event (`e.preventDefault()`), while `__callInstance5` sets an environment variable `impFunc` that logs the second class of the clicked button (`e.target.classList[1]`). The `data()` functions of both instances are called.
+
+The `colorBoton` variable is assigned the second class of the clicked button. A switch statement is used to compare `colorBoton` with a value returned by `lS(0, 10)` (a function call with two parameters). If there is a match, the `className` property of the `fondo` element is set to a value returned by `lS(0, 11)`. Finally, a new WebAssembly instance `__callInstance4` is created. `__callInstance4` sets an environment variable `impFunc` that uses `localStorage.setItem()` to store a value returned by `lS(0, 12)` with a key returned by `lS(0, 13)`. The `data()` function of `__callInstance4` is called.The remaining code includes a switch statement that compares the value of `colorBoton` with different values. If there is a match, a series of actions are taken:
+
+- If `colorBoton` matches the value returned by `lS(0, 14)`, the `className` property of the `fondo` element is set to the value returned by `lS(0, 15)`. Then a new WebAssembly instance `__callInstance3` is created. `__callInstance3` sets an environment variable `impFunc` that uses `localStorage.setItem()` to store a value returned by `lS(0, 16)` with a key returned by `lS(0, 17)`. The `data()` function of `__callInstance3` is called.
+
+- If `colorBoton` matches the value returned by `lS(0, 18)`, similar actions are taken with a different set of values returned by `lS()` functions.
+
+- If `colorBoton` matches the value returned by `lS(0, 22)`, similar actions are taken with a different set of values returned by `lS()` functions.
+
+- If `colorBoton` matches the value returned by `lS(0, 26)`, similar actions are taken with a different set of values returned by `lS()` functions.

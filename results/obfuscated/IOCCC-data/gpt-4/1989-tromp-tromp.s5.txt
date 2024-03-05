@@ -1,0 +1,19 @@
+The provided code is written in C language and represents a console-based implementation of the classic game of Tetris. It uses the C standard libraries to implement the logic for Tetris game functionality. 
+
+Here's a breakdown of what the code does:
+
+1. The code declares a number of global arrays/variables, including those used to hold the game pieces (`f[]`), the game board state (`q[]`, `Q[]`), and coordinates of the current piece position
+
+2. Function `t()` is a signal handler for the SIGALRM signal, which fires every second due to the repeated `alarm(1)` calls in the `u()` function. The SIGALRM signal is typically raised on a timer. This logic enables the game to continue moving pieces at a steady pace.
+
+3. Function `u()` regularly updates the display of the game. Including reading input from the user, redrawing the game board, and moving the current game piece down if there's no user input.
+
+4. `G(b)` checks whether a move is valid or not depending on the state of the game. 
+
+5. `g(b)` moves the current game piece to a new position on the board.
+
+6. The `main()` function handles the game logic such as the game loop, user inputs, scoring, game over condition, etc. It also sets up the game state, initializes piece positions, and handles user interaction.
+
+7. The last part of the `main()` function handles highscore storage after the game ends, using Unix shell commands to sort and save the high scores. The scores are stored in the file "HI" in the current directory.
+   
+This code heavily uses low level C/Unix facilities for screen handling, signal handling and process control to implement a complex interactive game without any external libraries beyond the standard C library. It's a nice demonstration of C programming and Unix system programming, but due to the nature of these tasks, the code is rather difficult to read without comments.

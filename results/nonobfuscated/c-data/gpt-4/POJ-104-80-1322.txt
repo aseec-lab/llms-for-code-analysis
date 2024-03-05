@@ -1,0 +1,11 @@
+The provided code computes the number of days between two provided dates. 
+
+Here is how it works:
+- It reads two dates from the input. Each date consists of a year, a month and a day.
+- It then computes the number of whole years between the two dates (not inclusive) and adds that to a counter `D`, adding 366 or 365 days depending on whether each year is a leap year or not. 
+- For the start and end years, it doesn't directly add 365 or 366, but calculates the number of days from the start date to the end of the start year (stored in `D1`), and from the start of the end year to the end date (stored in `D2`). 
+- It does this calculation using a `switch` statement, which adds the days in each month depending on what the month is. For February, it considers whether the year is a leap year or not.
+- Finally, it computes the difference between `D2` and `D1` and adds it to `D`. The difference is also adjusted by 365 or 366 (depending whether the start year is a leap year) in the case where the two input dates don't lie within the same year.
+- The number of days `D` is then printed to the console. 
+
+Note that the code works on the assumption that the first date is always earlier than or equal to the second date. Consulting the notes, this code might not work correctly if the two dates are in the same year but in different months.

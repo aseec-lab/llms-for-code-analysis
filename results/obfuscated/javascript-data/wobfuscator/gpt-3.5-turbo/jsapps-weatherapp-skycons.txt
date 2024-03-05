@@ -1,0 +1,191 @@
+The code provided is written in JavaScript and it performs several tasks:
+
+1. The `__universalAtob` function takes a base64 encoded string and converts it into an array of bytes. It uses the `atob` function for decoding the string and converts each character into its corresponding byte value using the `charCodeAt` method. If the `atob` function is not available, it falls back to using the `Buffer.from` method from Node.js to achieve the same result.
+
+2. The code defines three base64 encoded strings: `__forWasmBuffer`, `__ifWasmBuffer`, and `__callWasmBuffer`. These strings are used to create WebAssembly modules in the following steps.
+
+3. The code creates WebAssembly modules using the `WebAssembly.Module` constructor. It first decodes the base64 strings using the `__universalAtob` function and then creates a new `Uint8Array` to store the byte values. It iterates over the decoded strings and assigns the byte values to the `Uint8Array`. Finally, it passes the byte array to the `WebAssembly.Module` constructor to create the module. If the `WebAssembly.Module` constructor throws an error, it falls back to using the `Buffer.from` method to create the module.
+
+4. The code defines an array called `__wasmStringModules` which contains the decoded WebAssembly modules created in the previous step. Each module is created by instantiating a `WebAssembly.Instance` using the corresponding module from the `__wasmStringModules` array. The instances are stored in the `__wasmStringModules` array.
+
+5. The code defines a function called `lS` which takes three parameters: `wI`, `pos`, and `iWC`. Inside the function, a local variable `__str` is initialized as an empty string.
+
+6. If the parameter `wI` is not an array, it assumes `wI` is an index and retrieves the corresponding WebAssembly module from the `__wasmStringModules` array.
+
+7. It creates a `Uint8Array` called `__mem` to access the memory of the target module's exports.
+
+8. Generates a string key based on the position (`pos`) parameter.
+
+9. Assigns the value of the target module's export `data[pos] - 1` to the local variable `__start`.
+
+10. Declares a new local variable called `__str` as an empty string.
+
+The remaining code is cut off and not provided, so the complete functionality of the code cannot be determined without additional information.The remaining code defines an immediately invoked function expression (IIFE) that instantiates two WebAssembly instances (__callInstance80 and __callInstance79) using the __callWasmModule.
+
+The env object is passed as the second argument to the WebAssembly.Instance constructor, which contains an impFunc property. The impFunc is a callback function that is executed by the WebAssembly module.
+
+In the first __callInstance80, the impFunc calls the lS function with the parameters 0 and 0. Then, it assigns a global variable requestInterval and cancelInterval with functions that serve as wrappers around the requestAnimationFrame and cancelAnimationFrame functions, respectively.
+
+These wrapper functions take an input function and call it repeatedly at an optimal framerate using the requestAnimationFrame function. The input function is wrapped inside an IIFE that creates another __callInstance78. Inside this inner __callInstance78, the impFunc calls the input function.
+
+The second __callInstance79 is similar to the first one, but it is used to define the cancelInterval function. The cancelInterval function cancels the requestAnimationFrame loop by calling the cancelAnimationFrame function with the handle value.
+
+The return statement in both __callInstance78 and __callInstance77 is __exports.data(), which is defined by the WebAssembly module and returns a value.
+
+Finally, the cancelInterval function is returned.The remaining code defines two functions: circle and line.
+
+The circle function draws a circle on a canvas using the provided context (ctx), center coordinates (x, y), and radius (r). Inside the function, three impFunc callbacks are called sequentially using WebAssembly instances. The first callback begins a new path using ctx.beginPath(), the second callback draws a circle using ctx.arc(x, y, r, 0, TAU, false), and the third callback fills the circle using ctx.fill().
+
+The line function draws a line on a canvas using the provided context (ctx) and starting/ending coordinates (ax, ay, bx, by). Similar to the circle function, impFunc callbacks are used to execute three actions sequentially. The first callback begins a new path using ctx.beginPath(), the second callback moves the current drawing position to the starting coordinates using ctx.moveTo(ax, ay), and the third callback draws a line to the ending coordinates using ctx.lineTo(bx, by).
+
+Both functions use WebAssembly instances with the __callWasmModule and an env property containing the impFunc callbacks. The returned values from the impFunc callbacks (which are __exports.data()) are discarded, as they are not used in the code.The remaining code defines two additional functions: puff, puffs, cloud, and sun.
+
+The puff function draws a single puff shape on a canvas using the provided context (ctx), time (t), center coordinates (cx, cy), x and y radius (rx, ry), and minimum and maximum radius (rmin, rmax). Inside the function, the cosine (c) and sine (s) of the time multiplied by 2π (TAU) are calculated. The maximum radius is adjusted by subtracting the minimum radius. Three impFunc callbacks are called sequentially using WebAssembly instances. The first callback calls the circle function with updated center coordinates and adjusted radius values, the second callback adjusts the time by dividing it by 5 and increments the iterator (i), and the third callback calls the puff function recursively with the updated time and iterator value.
+
+The puffs function draws multiple puff shapes on a canvas using the provided context (ctx), time (t), center coordinates (cx, cy), x and y radius (rx, ry), and minimum and maximum radius (rmin, rmax). Inside the function, an iterator variable (i) is initialized to 5. The puffs function uses a WebAssembly instance with the __forWasmModule and an env property containing three impFunc callbacks. The test callback checks if the iterator is greater than 0 and returns a boolean value. The update callback does nothing. The body callback calls the puff function with the updated time and iterator values, and then recursively calls itself until the iterator reaches 0.
+
+The cloud function draws a cloud shape on a canvas using the provided context (ctx), time (t), center coordinates (cx, cy), cloud width (cw), cloud scale (s), and color. Inside the function, the time is divided by 30000 to adjust its value. Four variables (a, b, c, d) are calculated from the cloud width. The fillStyle of the context is set to the provided color. Two impFunc callbacks are called sequentially using WebAssembly instances. The first callback calls the puffs function with the provided parameters, and the second callback calls the puffs function with the adjusted scale values. The globalCompositeOperation of the context is set to the result of the lS function with arguments 0 and 2.
+
+The sun function draws a sun shape on a canvas using the provided context (ctx), time (t), center coordinates (cx, cy), sun width (cw), sun scale (s), and color. Inside the function, the time is divided by 120000 to adjust its value. One impFunc callback is called using a WebAssembly instance, which calls the puffs function with the provided parameters.The moon function draws a moon shape on a canvas using the provided context (ctx), time (t), center coordinates (cx, cy), moon width (cw), moon scale (s), and color. Inside the function, the time is divided by 15000 to adjust its value. Four variables (a, b, c, p) are calculated from the moon width and the cosine of the adjusted time. The strokeStyle of the context is set to the provided color. The lineWidth, lineCap, and lineJoin properties of the context are set to specific values obtained from the lS function.
+
+Four impFunc callbacks are called sequentially using WebAssembly instances. The first callback calls the arc function with updated center coordinates and calculated radius values, and the second callback calls the stroke function. The third callback initializes an iterator variable (i) to 8. The __forWasmModule WebAssembly instance is used with an env property containing three impFunc callbacks. The test callback checks if the iterator is greater than 0 and returns a boolean value. The update callback does nothing. The body callback calculates variables (p, cos, sin) based on the time and iterator values, and calls the line function with updated coordinates.
+
+The remaining code defines the moon and sun functions. The moon function takes in the same parameters as the sun function and draws a moon shape. It divides the time by 15000 to adjust its value and calculates variables based on the moon width and the cosine of the adjusted time. The strokeStyle, lineWidth, lineCap, and lineJoin properties of the context are set, and several impFunc callbacks are called using WebAssembly instances to draw the moon shape.
+
+The sun function takes in the same parameters as the moon function and draws a sun shape. It divides the time by 120000 to adjust its value. The puffs function is called using a WebAssembly instance to draw the sun shape.The remaining part of the function is as follows:
+
+```
+                        ctx.fillStyle = color
+
+                        (() => {
+                            i = 12
+
+                            const __forInstance4 = new WebAssembly.Instance(__forWasmModule, {
+                                env: {
+                                    test: () => {
+                                        return i-- ? 1 : 0
+
+                                    },
+                                    update: () => {
+                                    },
+                                    body: () => {
+                                        {
+                                            p = (t + i / 12) % 1
+
+                                            x = Math.floor(cx + Math.cos((t + i / 12) * TAU) * a) + 0.5
+
+                                            y = cy + p * cw
+
+                                            (() => {
+                                                const __callInstance50 = new WebAssembly.Instance(__callWasmModule, {
+                                                    env: {
+                                                        impFunc: () => {
+                                                            snowflake(ctx, x, y, s * (1 - p), s * (5 + p * 5), p * TAU)
+
+                                                        }
+                                                    }
+                                                })
+
+                                                const __exports = __callInstance50.exports
+
+                                                return __exports.data()
+
+                                            })()
+
+                                        }
+                                    }
+                                }
+                            })
+
+                            const __exports = __forInstance4.exports
+
+                            return __exports.data()
+
+                        })()
+```
+
+This part of the function is responsible for rendering the snowflakes. It loops through 12 iterations and for each iteration, it calculates the position of the snowflake based on the current time `t` and the iteration number `i`. It then calls the `snowflake` function to draw the snowflake at the calculated position. The size of the snowflake is determined by the current value of `p` (which ranges from 0 to 1) and the size parameter `s`. The snowflake is drawn using the `snowflake` function, which is defined elsewhere.This part of the function is responsible for rendering the fogbank. It first sets the fill style of the canvas context to the specified color. It then calls the `puffs` function to draw the fogbank using the specified parameters for time `t`, center position `cx` and `cy`, and size parameters `a`, `b`, `c`, and `d`. 
+
+After that, it sets the global composite operation of the context to the result of `lS(0, 11)`. This is a helper function that returns a string value for the global composite operation based on the two input values. The `puffs` function is then called again, but with adjusted size parameters `c - s` and `d - s`. This creates a smaller version of the fogbank, which adds depth to the overall effect.This part of the function is responsible for rendering a leaf. It first sets the fill style and stroke style of the canvas context to the specified color. It then sets the line width, line cap, and line join properties of the context.
+
+Next, it calls a series of functions to draw the leaf shape using the specified parameters for time `t`, center position `x` and `y`, canvas width `cw`, leaf size `s`, and color. The leaf shape is created using a combination of arcs and lines.
+
+After that, it sets the global composite operation of the context to the result of `lS(0, 15)`, which is a helper function that returns a string value for the global composite operation based on the two input values. This operation determines how the leaf color is blended with the existing contents of the canvas.
+
+Finally, it calls another function to fill the leaf shape and another function to stroke the leaf shape. The global composite operation is then set to the result of `lS(0, 16)`, which determines how the leaf stroke is blended with the existing contents of the canvas.In this remaining part of the function, there are a few more WebAssembly function calls to handle drawing the swoosh shape.
+
+First, there is a call to `impFunc1` of the second WebAssembly instance, which sets up some variables and statements for the following logic. Inside this block, the value of `a` is adjusted based on the length of the `path` array and modified based on the `index` and `t` values. `b` is calculated as the floor of `a` and then `a` is subtracted by `b` and multiplied by 2 and added by 2.
+
+Next, there is a call to `impFunc` of the third WebAssembly instance, which moves the canvas drawing point to a specific position on the canvas based on the calculated `cx`, `cy`, and `cw` values, as well as the `path` array and `b` value.
+
+Following that, there is another call to `impFunc1` of the fourth WebAssembly instance, which sets up additional logic for the following steps. Inside this block, the value of `c` is adjusted in a similar way to `a`, and `d` is calculated based on the floor of `c`, `c` is subtracted by `d`, multiplied by 2, and added by 2.
+
+After that, there is a block of WebAssembly loop code using the fifth WebAssembly instance. The loop iterates as long as `i` is not equal to `d`. Inside the loop, there is a call to `impFunc` of the fifth WebAssembly instance, which draws a line to a specific position on the canvas based on the `cx`, `cy`, and `cw` values, as well as the `path` array and `i` value.
+
+Finally, the remaining code is outside the WebAssembly block, and it sets the global composite operation of the context, fills the drawn shape, and sets the global composite operation again to finish stroking the shape.The remaining part of the code consists of multiple instances of WebAssembly blocks where specific functions are defined and called. Inside these blocks, the canvas drawing context (`ctx`) is used to manipulate the canvas based on certain calculations and values.
+
+The first block sets up the instance `__callInstance36` and defines the `impFunc` function, which performs a `lineTo` operation on the canvas. The `lineTo` operation takes the current position on the canvas and adds coordinates based on the calculation of `cx`, `cy`, `cw`, and specific values from the `path` array. This block is called multiple times in a loop based on the condition `i !== path.length`.
+
+The second block sets up the instance `__callInstance35` and defines the `impFunc` function, which also performs a `lineTo` operation on the canvas. Similar to the first block, this block is called multiple times in a loop, but this time based on the condition `i = b`. The `i` value is incremented by 2 in each iteration.
+
+The next block sets up the instance `__ifInstance1` and defines the `impFunc1` and `impFunc2` functions. The `impFunc1` function calculates a value `c` based on certain calculations involving the `path` array and adjusts the value of `d` accordingly. The `impFunc2` function checks the value of `c` and determines whether to return 1 or 0. This block returns the calculated value from the `data` function.
+
+The next block sets up the instance `__callInstance34` and defines the `impFunc` function, which performs the final `stroke` operation on the canvas. This block is called once.
+
+The next block sets up the instance `__ifInstance2` and defines the `impFunc1` and `impFunc2` functions. The `impFunc1` function performs a `beginPath` operation on the canvas and sets up some variables and statements. The `impFunc2` function uses a loop to perform multiple `lineTo` operations on the canvas based on the `path` array and specific values. This block is called once.
+
+Finally, the remaining code outside the WebAssembly blocks sets up the loop counter `i` and increments it in each iteration.
+
+Overall, this remaining code handles the drawing of lines and shapes on the canvas based on various calculations and values.The remaining part of the previous function involves more instances of WebAssembly blocks.
+
+The first block sets up the instance `__callInstance31` and defines the `impFunc` function, which performs a `data` operation on the canvas context. This block is called once and the result is stored in `__exports`.
+
+The next block sets up the instance `__forInstance7` and defines the `impFunc` function, which performs a `data` operation on the canvas context. This block is called once and the result is stored in `__exports`.
+
+The next block sets up the instance `__callInstance30` and defines the `impFunc` function, which performs a `lineTo` operation on the canvas context. The coordinates for the `lineTo` operation are based on calculations involving the `path` array, `d`, `c`, `cx`, `cy`, and `cw`. This block is called once and the result is stored in `__exports`.
+
+The next block sets up the instance `__callInstance29` and defines the `impFunc` function, which performs a `stroke` operation on the canvas context. This block is called once and the result is stored in `__exports`.
+
+The next block sets up the instance `__ifInstance2` and defines the `impFunc1` and `impFunc2` functions. The `impFunc1` function sets up some variables and statements and performs a `lineTo` operation on the canvas context in a loop based on the `path` array and specific values. The `impFunc2` function returns 1 or 0 based on the condition `c < 1`. This block is called once and the result is stored in `__exports`.
+
+The next block sets up the instance `__ifInstance0` and defines the `impFunc1` and `impFunc2` functions. The `impFunc1` function sets up some variables and performs a `lineTo` operation on the canvas context in a loop based on the `path` array and specific values. The `impFunc2` function returns 1 or 0 based on the condition `a < 1`. This block is called once and the result is stored in `__exports`.
+
+The next block sets up the instance `__ifInstance3` and defines the `impFunc1` and `impFunc2` functions. The `impFunc1` function performs a `leaf` operation on the canvas context with specific parameters based on calculations involving `path`, `e`, `f`, `cx`, `cy`, `cw`, `t`, `s`, and `color`. The `impFunc2` function returns 1 or 0 based on the condition `e < 1`. This block is called once and the result is stored in `__exports`.
+
+Overall, these remaining blocks handle various drawing and operation functions on the canvas based on calculations and values involving the `path` array and other specific parameters.The remaining part of the function `Skycons` defines more static methods for different weather conditions.
+
+The `Skycons.CLEAR_DAY` method takes the canvas context `ctx`, time `t`, and color as parameters. It calculates the width `w` and height `h` of the canvas and sets the size `s` as the minimum of `w` and `h`. It then calls a WebAssembly instance `__callInstance27` and defines the `impFunc` function, which calls the `sun` function with specific parameters based on the canvas dimensions and color. The result of the WebAssembly instance is stored in `__exports`.
+
+The `Skycons.CLEAR_NIGHT` method is similar to `Skycons.CLEAR_DAY`, but it calls the `moon` function instead of `sun`.
+
+The `Skycons.PARTLY_CLOUDY_DAY` method is similar to `Skycons.CLEAR_DAY`, but it calls both the `sun` and `cloud` functions.
+
+The `Skycons.PARTLY_CLOUDY_NIGHT` method is similar to `Skycons.CLEAR_NIGHT`, but it calls both the `moon` and `cloud` functions.The remaining part of the function `Skycons` defines more static methods for different weather conditions.
+
+The `Skycons.CLOUDY` method takes the canvas context `ctx`, time `t`, and color as parameters. It calculates the width `w` and height `h` of the canvas and sets the size `s` as the minimum of `w` and `h`. It then calls a WebAssembly instance `__callInstance21` and defines the `impFunc` function, which calls the `cloud` function with specific parameters based on the canvas dimensions and color.
+
+The `Skycons.RAIN` method is similar to `Skycons.CLOUDY`, but it calls both the `rain` and `cloud` functions.
+
+The `Skycons.SLEET` method is similar to `Skycons.CLOUDY`, but it calls both the `sleet` and `cloud` functions.
+
+The `Skycons.SNOW` method is similar to `Skycons.CLOUDY`, but it calls both the `snow` and `cloud` functions.The remaining part of the function `Skycons` defines more static methods for different weather conditions.
+
+The `Skycons.WIND` method takes the canvas context `ctx`, time `t`, and color as parameters. It calculates the width `w` and height `h` of the canvas and sets the size `s` as the minimum of `w` and `h`. It then calls two WebAssembly instances `__callInstance14` and `__callInstance13` and defines the `impFunc` function, which calls the `swoosh` function with specific parameters based on the canvas dimensions and color.
+
+The `Skycons.FOG` method is similar to `Skycons.WIND`, but it calls the `fogbank` function instead of the `swoosh` function. It also calculates values for `a`, `b`, `c`, `d`, `n`, `e`, and `f` based on the canvas dimensions and time `t`. It then calls two WebAssembly instances `__callInstance11` and `__callInstance10` and defines the `impFunc` function, which calls the `line` function with specific parameters based on the calculated values and color.The remaining part of the `Skycons` function includes three more methods: `add`, `set`, and `_determineDrawingFunction`.
+
+The `Skycons.add` method takes an element `el` and a weather condition `draw` as parameters. It first checks if the element exists and then calls the `_determineDrawingFunction` method to determine the specific drawing function based on the provided weather condition. If the drawing function is valid, it creates an object with properties `element`, `context`, and `drawing` based on the element, its context, and the drawing function. It then pushes this object to the `list` array and calls the `draw` method to draw the weather condition on the canvas.
+
+The `Skycons.set` method is similar to `Skycons.add`, but it sets the weather condition for an existing element instead of adding a new element. It iterates over the `list` array and finds the object with the matching element. If found, it updates the `drawing` property of that object based on the provided weather condition and calls the `draw` method to redraw the weather condition on the canvas.
+
+The `_determineDrawingFunction` method takes a weather condition `draw` as a parameter. It uses WebAssembly instances to determine the specific drawing function based on the provided weather condition. If the `draw` parameter is a valid string representing a weather condition, it converts it to uppercase, replaces any hyphens with empty strings, and looks for a matching property in the `Skycons` object. If found, it assigns the corresponding drawing function to the `draw` variable.The remaining part of the function includes three more methods: `remove`, `draw`, and `play`.
+
+The `Skycons.remove` method takes an element `el` as a parameter. It first checks if the element exists and assigns it to the `el` variable. It then iterates over the `list` array and finds the object with the matching element. If found, it uses the `splice` method to remove that object from the array.
+
+The `Skycons.draw` method takes an object `obj` and a time `time` as parameters. It first assigns the canvas element from the context of the object to the `canvas` variable. It then uses WebAssembly instances to clear the canvas by setting its width to its current width. It then calls the `clearRect` method of the canvas context to clear the entire canvas. After that, it calls the `drawing` method of the object with the canvas context, time, and the specified color.
+
+The `Skycons.play` method does not take any parameters. It first assigns `this` to the `self` variable. It then uses a WebAssembly instance to call the `pause` method of the Skycons object.The remaining part of the function defines the `pause` method and the `Skycons` object.
+
+The `pause` method does not take any parameters. It creates a new WebAssembly instance using the `__ifWasmModule` module and the specified environment. Inside the environment, it defines two functions: `impFunc1` and `impFunc2`. `impFunc1` is called when the interval exists (`this.interval` is not null). It creates a new WebAssembly instance using the `__callWasmModule` module and the specified environment. Inside the environment of the `__callWasmModule` instance, it defines `impFunc`, which cancels the interval by setting `this.interval` to null. Finally, it sets `this.interval` to null. `impFunc2` does nothing.
+
+The `Skycons` object is defined as a global object. It has properties `color`, `resizeClear`, `list`, `playLoop`, `pauseLoop`, `canvas`, `ctx`, `interval`, `ratio`, `mobileReplace`, `colors`, and `fonts`. It also has methods `add`, `set`, `remove`, `draw`, and `play`.

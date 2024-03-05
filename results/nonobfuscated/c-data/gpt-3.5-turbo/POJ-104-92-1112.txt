@@ -1,0 +1,27 @@
+This code is performing a series of comparisons and calculations to determine the value of an array called "m", which stores the result of a game.
+
+The code begins by defining a function called "compare", which is used as a comparison function for the qsort() function. This function compares two elements and returns the difference between them.
+
+The main() function starts by declaring several variables, including an integer "n", an array of long integers "m" with a size of 100, and two arrays of integers "a" and "b" both with a size of 1000. It also declares other variables including "i", "win", "lose", "t", and "flag".
+
+The code then reads an integer from the user and stores it in "n". The code enters a loop that continues as long as "n" is non-zero. 
+
+Inside the loop, "flag" is incremented. Then, "win" and "lose" variables are reset to zero. The code then reads "n" integers from the user and stores them in the array "a". It then reads another "n" integers and stores them in the array "b". 
+
+Both arrays "a" and "b" are sorted using the qsort() function, with the "compare" function used for sorting. 
+
+Pointers are then initialized to the first and last elements of the arrays "a" and "b" respectively.
+
+The code enters another loop that continues as long as the difference between the addresses pointed to by "ai" and "aj" is greater than or equal to zero. 
+
+Inside this loop, the code checks if the value pointed to by "ai" is greater than the value pointed to by "bi". If so, it means that the "a" team wins a game, so the "ai" and "bi" pointers are decremented and "win" is incremented. 
+
+If the value pointed to by "aj" is greater than the value pointed to by "bj", it means that the "b" team wins a game, so the "aj" and "bj" pointers are incremented and "win" is incremented.
+
+If neither condition above is met, it means the game is a draw. In this case, the code checks if the value pointed to by "aj" is less than the value pointed to by "bi". If so, it means that the "b" team wins the game, so "lose" is incremented. Then, the "aj" and "bi" pointers are incremented and decremented respectively. 
+
+After this loop, the code calculates the difference between "win" and "lose" multiplied by 200, and stores the result in the "m" array at position "t". Then, the "t" variable is incremented. 
+
+Finally, the code reads the next value of "n" from the user and repeats the loop. Once the loop finishes, the code prints the elements of the "m" array on separate lines.
+
+In summary, the code reads a series of integers representing game scores for two teams, calculates the difference between the number of wins and losses for each game and multiplies it by 200, storing the results in an array. The code then prints the results.

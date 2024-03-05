@@ -1,0 +1,125 @@
+The given code defines several classes that can be used to build neural network layers. 
+
+- The `Layer` class is the parent class of all other layers and defines common methods and attributes such as the layer's scope, named tensors, and variables. It also defines abstract methods such as `tf_apply` and `tf_regularization_loss` that need to be implemented by the child classes.
+- The `Input` class represents an input layer. It takes a list of input names, and when the `tf_apply` method is called, it retrieves the corresponding tensors from the named_tensors dictionary and applies an aggregation method (concatenation, stacking, summing, or product) based on the `aggregation_type` parameter.
+- The `Output` class represents an output layer. It takes a name and saves the input tensor to the named_tensors dictionary.
+- The `TFLayer` class represents a layer that uses TensorFlow's built-in layers. It takes a layer specification and converts it to a TensorFlow layer object that can be applied to the input tensor using the `tf_apply` method. It also implements the `tf_regularization_loss` method to compute the regularization loss for the layer.
+- The `Nonlinearity` class represents a nonlinearity layer. It takes a name (such as 'relu', 'sigmoid', etc.) and applies the corresponding nonlinearity function to the input tensor. It also implements the `tf_apply` method to apply the nonlinearity function with optional parameters such as alpha, beta, max, and min.
+
+Overall, these classes provide a flexible framework for building neural network layers with different types of input, output, and nonlinearity functions.```python
+            self.lstm_cell = tf.contrib.rnn.DropoutWrapper(
+                cell=self.lstm_cell,
+                input_keep_prob=1.0 - self.dropout[0],
+                output_keep_prob=1.0 - self.dropout[1],
+                state_keep_prob=1.0 - self.dropout[2],
+                variational_recurrent=True,
+                dtype=tf.float32
+            )
+```
+
+The `DropoutWrapper` function is called with the LSTM cell as the `cell` argument. The `input_keep_prob`, `output_keep_prob`, and `state_keep_prob` arguments are set to `1.0 - self.dropout[0]`, `1.0 - self.dropout[1]`, and `1.0 - self.dropout[2]` respectively. The `variational_recurrent` argument is set to `True` and the `dtype` argument is set to `tf.float32`. The resulting LSTM cell is stored in the class attribute `self.lstm_cell`.
+
+Next, the LSTM cell is used to create an LSTM RNN by calling `tf.contrib.rnn.static_rnn` with the LSTM cell as the `cell` argument, the input tensor `x`, and the initial state `state`. This returns a tuple containing the output tensor and the final state.
+
+Finally, the final state is unpacked into separate tensors for the cell state and the hidden state. These tensors are stored in the class attributes `self.final_cell_state` and `self.final_hidden_state` respectively.
+
+Here is the updated code:
+
+```python
+        if self.dropout is not None:
+            self.lstm_cell = tf.contrib.rnn.DropoutWrapper(
+                cell=self.lstm_cell,
+                input_keep_prob=1.0 - self.dropout[0],
+                output_keep_prob=1.0 - self.dropout[1],
+                state_keep_prob=1.0 - self.dropout[2],
+                variational_recurrent=True,
+                dtype=tf.float32
+            )
+
+        outputs, final_state = tf.nn.static_rnn(cell=self.lstm_cell, inputs=tf.unstack(x, axis=1), initial_state=state)
+
+        output = tf.stack(values=outputs, axis=1)
+        self.final_cell_state, self.final_hidden_state = final_state
+
+        return output, self.final_hidden_state
+
+    def tf_regularization_loss(self):
+        regularization_loss = super(InternalLstm, self).tf_regularization_loss()
+        if regularization_loss is None:
+            losses = list()
+        else:
+            losses = [regularization_loss]
+
+        if hasattr(self, 'lstm_cell') and hasattr(self.lstm_cell, 'kernel'):
+            if isinstance(self.lstm_cell.kernel, tuple):
+                for kernel in self.lstm_cell.kernel:
+                    losses.append(tf.nn.l2_loss(t=kernel))
+
+            else:
+                losses.append(tf.nn.l2_loss(t=self.lstm_cell.kernel))
+
+        if len(losses) > 0:
+            return tf.add_n(inputs=losses)
+        else:
+            return None
+
+    def get_variables(self, include_nontrainable=False):
+        layer_variables = super(InternalLstm, self).get_variables(include_nontrainable=include_nontrainable)
+
+        if hasattr(self, 'lstm_cell') and hasattr(self.lstm_cell, 'kernel'):
+            if isinstance(self.lstm_cell.kernel, tuple):
+                lstm_cell_variables = list()
+                for i, kernel in enumerate(self.lstm_cell.kernel):
+                    lstm_cell_variables.append(util.scope_variable(scope=self.scope, name='lstm_kernel{}'.format(i)))
+                lstm_cell_variables.extend(list(
+                    util.scope_variable(scope=self.scope, name='lstm_bias{}'.format(i), trainable=True)
+                    for i in self.lstm_cell.bias
+                ))
+
+            else:
+                lstm_cell_variables = [
+                    util.scope_variable(scope=self.scope, name='lstm_kernel'),
+                    util.scope_variable(scope=self.scope, name='lstm_bias')
+                ]
+
+        else:
+            lstm_cell_variables = list()
+
+        if include_nontrainable:
+            if hasattr(self, 'final_cell_state') and self.final_cell_state is not None:
+                lstm_cell_variables.append(util.scope_variable(scope=self.scope, name='lstm_final_cell_state'))
+
+            if hasattr(self, 'final_hidden_state') and self.final_hidden_state is not None:
+                lstm_cell_variables.append(util.scope_variable(scope=self.scope, name='lstm_final_hidden_state'))
+
+        return layer_variables + lstm_cell_variables
+```
+
+This code defines a class named `InternalLstm` that extends from the `Layer` class. In the `__init__` method, the size and dropout values are stored in the class attributes `self.size` and `self.dropout` respectively. The `tf_apply` method is updated to use the `tf.contrib.rnn.LSTMCell` function to create an LSTM cell with the specified size. If dropout is specified, the LSTM cell is wrapped with the `DropoutWrapper` function. The LSTM cell is then used to create an LSTM RNN using `tf.nn.static_rnn`. The output tensor and final state are returned. The `tf_regularization_loss` method is updated to add the regularization loss for the LSTM cell kernel. The `get_variables` method is also updated to handle the LSTM cell kernel and bias variables, as well as the final cell state and hidden state if they are present.Here is the remaining part of the code:
+
+```python
+        keep_prob = tf.cond(pred=update, true_fn=(lambda: 1.0 - self.dropout), false_fn=(lambda: 1.0))
+        self.lstm_cell = tf.contrib.rnn.DropoutWrapper(cell=self.lstm_cell, output_keep_prob=keep_prob)
+
+    x, state = self.lstm_cell(inputs=x, state=state)
+
+    state = tf.stack(values=(state.c, state.h), axis=1)
+
+    if 'activations' in self.summary_labels:
+        tf.contrib.summary.histogram(name='activations', tensor=x)
+
+    return x, dict(state=state)
+
+def internals_spec(self):
+    return dict(state=dict(
+        type='float',
+        shape=(2, self.size),
+        initialization='zeros'
+    ))
+```
+
+In the `tf_apply` method of the `InternalLstm` class, a `keep_prob` variable is created using `tf.cond` to conditionally apply dropout based on the `update` tensor. If `update` is true, `1.0 - self.dropout` is used as the `output_keep_prob` argument for `DropoutWrapper`, otherwise `1.0` is used. Then, the input tensor `x` and the initial state `state` are passed to the `self.lstm_cell` function call to perform the LSTM operation. The resulting output and state are returned.
+
+The `internals_spec` method of the `InternalLstm` class returns a dictionary specifying the shape and type of the internal state. In this case, it is a float with shape (2, self.size). The initialization is set to 'zeros'.
+
+In the `Lstm` class, the `tf_apply` method is updated to use `tf.nn.dynamic_rnn` function instead of `tf.nn.static_rnn`. The resulting output and state are returned. If `return_final_state` is true, the final state is returned, otherwise the output is returned directly.

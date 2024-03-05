@@ -1,0 +1,43 @@
+This program is designed to manipulate and execute binary WebAssembly (Wasm) programs in JavaScript. WebAssembly (abbreviated Wasm) is a binary instruction format for a stack-based virtual machine. It is designed as a portable target for compiling high-level languages like C, C++, and Rust, enabling deployment on the web for client and server applications.
+
+1. The `__universalAtob` function: This function takes a base64 encoded string, `b64Encoded`, and returns an `Uint8Array` containing the byte values corresponding to each character in the decoded base64 string. It uses the JavaScript's `atob` function to decode base64. If an error is thrown (typically due to `atob` not being available in certain runtime environment such as Node.js), it uses `Buffer.from` to decode the base64 string.
+
+2. The `__wAM` variable: This is an instance of a WebAssembly module. The WebAssembly binary code (modulated as base64) assigned to `__aB` is converted into bytes and then used to create a WebAssembly `Module` and then an `Instance` of that module.
+
+3. The `ac` variable: This is a `Map` used to cache an array for each “position” invoked with.
+
+4. The `__lA` function: This function fetches an array from a specific memory range within the WebAssembly instance's memory. If the array for position 'pos' has already been fetched, it is returned from the cache; otherwise, it fetches the array, caches it, and then returns it.
+
+5. The `__forWasmBuffer`, `__callWasmBuffer` and `__wasmStringModules` variables: These are base64 encoded WebAssembly modules, which are designed to be decoded and executed.
+
+6. The anonymous function that decodes the `__forWasmBuffer` and `__callWasmBuffer` variables: This function is similar to the `__universalAtob` function, but specifically aimed at decoding the WebAssembly module strings. On success, it returns an `Uint8Array` ready for use as a WebAssembly module; on error (most likely because `atob` is unavailable), it creates a new `Uint8Array` from a Buffer object.
+
+7. The last line maps an array of base64 encoded Wasm modules to executed Wasm byte-codes using `__universalAtob` function.8. The `lS` function: This function decodes a data string from a specific position in the memory of a specific WebAssembly instance's memory. If a single `wI` index is given, it pulls the string from that instance's memory; alternatively, if an array of `wI` indices is given, it sequentially pulls and concatenates strings from each instance's memory.
+
+9. `typescript` variable: This variable is an instance of the `BenchmarkSuite`, which is used to benchmark the execution of the `lS(0, 0)` function.
+
+10. `setupTypescript` and `tearDownTypescript` functions: They are empty functions, likely to be used for future setup and cleanup operations before and after running benchmark or any specific functionalities.
+
+11. `parseErrors` variable: An array to store any potential parse errors that might occur during TypeScript execution.
+
+12. `runTypescript` function: The function executes TypeScript code. It first creates a compiler through `createCompiler()` function (not shown) and then creates new WebAssembly instances to perform certain tasks. It uses imported function (`impFunc`) to perform operations such as adding a unit to the compiler or performing reTypeCheck. It performs these steps under anonymous functions which are invoked instantly, and finally, the exported data from the created instances are returned. These WebAssembly instances are possibly the ones holding the actual functionality of TypeScript compiler encapsulated as WebAssembly modules.12. `outfile` object: This object contains a set of functions (`Write`, `WriteLine`, `Close`, `Verify`) implemented via WebAssembly. It also has two properties: `checksum` and `cumulative_checksum`. The `Write` and `WriteLine` functions take a string, verify it with the `Verify` function, which calculates a checksum for the string. The `Close` function checks if the file's checksum matches the cumulative checksum and throws an error otherwise.
+
+13. `s.charCodeAt(i)` inside the `Verify` function: This line converts the i-th character of string `s` into a Unicode value, `c`. It is done in a loop over the string length.
+
+14. `cumulative_checksum = cumulative_checksum << 1 ^ c` : This line updates `cumulative_checksum` with a new value calculated by shifting its current bit representation by one place to the left and performing a bitwise XOR operation with the `c` value.
+
+15. `__callInstance` and `__forInstance` : These are instances of WebAssembly modules. They are used to execute some functionality provided by WebAssembly modules. 
+
+16. `outerr` object: This is another object similar to `outfile`, and is likely used for error handling. It also has functions(`Write`, `Verify`) implemented using WebAssembly. The `Write` function takes a string and verifies it using the `Verify` function. The provided implementation doesn't include a `Close` or `WriteLine` function as in `outfile`.17. `WriteLine` function in both `outfile` and `outerr` objects: This function appends a new line after writing the string `s`. It uses a new WebAssembly instance created from `__callWasmModule` to calculate the checksum of the written line (including new line character).
+
+18. `TypeError` thrown in `Close` function: If the calculated `checksum` does not match the `cumulative_checksum`, this function will throw a `TypeError`. The `cumulative_checksum` is then reset to zero.
+
+19. `createCompiler` function: This function creates a new compiler for TypeScript. It first sets up the compilation settings for ES5 generation. It then creates a new TypeScript compiler with `outerr` for error handling. It also sets up an error callback function using WebAssembly to push errors into `parseErrors` array. Finally, it enables error recovery in the parser and triggers a type check.
+
+20. `setErrorCallback` function call: This method sets a callback function for the compiler to use when it encounters an error. The callback here pushes the error details into the `parseErrors` array.
+
+21. Instances of WebAssembly modules in `createCompiler`: These instances are created to call specific functions (`compiler.setErrorCallback`, `compiler.typeCheck`) inside the `impFunc` provided to the WebAssembly environment. The `__exports.data() method` call returns the result of these operations. 
+
+22. `compiler.parser.errorRecovery`: This line enables error recovery in the parser belonging to the compiler. This means that even if the parser encounters an error, it will try to recover from it instead of immediately halting the parsing process.
+    
+23. `compiler.typeCheck` : This line triggers a type check on the TypeScript code. It is run inside a new WebAssembly instance, meaning that it is likely implemented in a lower-level language for efficiency.

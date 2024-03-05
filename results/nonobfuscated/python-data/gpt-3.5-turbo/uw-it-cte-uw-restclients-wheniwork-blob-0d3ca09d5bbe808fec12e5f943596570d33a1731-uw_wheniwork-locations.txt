@@ -1,0 +1,13 @@
+This code is a part of a larger codebase that interacts with a service called WhenIWork. 
+
+The code is defining a class called "Locations" which is a subclass of "WhenIWork". The purpose of this class is to handle operations related to locations.
+
+The code contains three methods:
+
+1. `get_location(self, location_id)`: This method takes a location_id as an argument and returns the location information associated with that location_id. It constructs a URL using the location_id and makes a request to the WhenIWork API to fetch the location data. It then calls the `location_from_json()` method to convert the fetched JSON data into a Location object and returns it.
+
+2. `get_locations(self)`: This method fetches all locations by making a request to the WhenIWork API. It stores the fetched data in the 'data' variable and initializes an empty list called 'locations'. It then iterates over the 'locations' in the fetched data and calls the `location_from_json()` method to convert each location JSON object into a Location object. These Location objects are appended to the 'locations' list. Finally, the list of Location objects is returned.
+
+3. `location_from_json(data)`: This is a static method that takes a JSON object representing a location and converts it into a Location object. It initializes a Location object and sets its attributes (location_id, name, and address) using the corresponding fields in the JSON object. The constructed Location object is then returned.
+
+It seems that this code provides a way to fetch either a single location or all locations from the WhenIWork service and convert the fetched data into Location objects for further processing.

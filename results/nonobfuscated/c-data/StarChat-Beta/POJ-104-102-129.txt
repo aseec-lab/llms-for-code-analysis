@@ -1,0 +1,62 @@
+Analyze the following piece of code: int compInc(const void *a, const void *b)
+{
+    return *(int *)a - *(int *)b;
+}
+struct student
+{
+    float height;
+    char sex[7];
+};
+main()
+{
+    int n,q=0,j=0;
+    struct student stu[40];
+    float girl[40],boy[40];
+    scanf("%d",&n);
+    for(int i = 0;i < n;i ++)
+        scanf("%s%f",stu[i].sex,&stu[i].height);
+    for(int i = 0;i < n;i ++)
+    {
+        if(stu[i].sex[0]=='f')
+            girl[q++]=stu[i].height;
+        else
+            boy[j++]=stu[i].height;
+    }
+    qsort(boy,j,sizeof(boy[0]),compInc);
+    qsort(girl,q,sizeof(girl[0]),compInc);
+    printf("%.2f",boy[0]);
+    for (int i = 1;i < j;i++)
+        printf(" %.2f",boy[i]);
+    for (int i = q-1;i >=0 ;i--)
+        printf(" %.2f",girl[i]);
+    
+}
+
+The code is written in C programming language and performs the following operations:
+
+1. Reads n students from the standard input, where each student has a height and a sex (male or female).
+2. Sorts the students by height in ascending order, separating the boys from the girls.
+3. Prints the minimum height of the boys, followed by the heights of the boys in ascending order, separated by spaces.
+4. Prints the heights of the girls in descending order, separated by spaces.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente escrito en un lenguaje de programación a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente escrito en un lenguaje de alto nivel se traduce a código de máquina directamente, lo que permite que el programa se ejecute en la computadora sin necesidad de tener el compilador instalado. El código compilado se puede ejecutar más rápido que el código interpretado debido a que el código ya ha sido traducido a código de máquina.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente escrito en un lenguaje de alto nivel se traduce a código ejecutable en tiempo real mientras el programa se está ejecutando. Esto significa que el código debe ser interpretado por un intérprete antes de que se pueda ejecutar. El código interpretado puede ser más lento que el código compilado debido a la sobrecarga de la interpretación.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a código de máquina directamente mientras que el segundo se traduce a código ejecutable en tiempo real mientras el programa se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y ejecutar secuencias de instrucciones que realizan tareas específicas. Los lenguajes de programación se utilizan para desarrollar software, aplicaciones y programas informáticos.
+
+Los lenguajes de programación se basan en un conjunto de reglas y construcciones que permiten a los programadores escribir instrucciones que se pueden entender y ejecutar por una computadora. Estas instrucciones pueden ser simples como pedir al sistema operativo que muestre un mensaje en pantalla o complejas como realizar cálculos matemáticos o acceder a una base de datos.
+
+Los lenguajes de programación se utilizan en una amplia variedad de aplicaciones, desde el desarrollo de software de una sola persona hasta el desarrollo de aplicaciones de gran escala para empresas y organizaciones. Los leng

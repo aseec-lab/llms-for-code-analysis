@@ -1,0 +1,15 @@
+This JavaScript code carries out a search functionality for some kind of data, that is fetched from a given URL (endpoint). 
+
+Here is a step-by-step breakdown of the functionalities:
+
+1. An HTTP request is made to fetch the JSON data from the 'endpoint' URL. 
+
+2. The fetched data is converted to JavaScript objects and pushed to the 'getData' array. 
+
+3. There is a function 'findMatches' which takes a word to search for ('wordToMatch') and the data obtained from the server. It filters the data by looking for the word (ignoring case) in both the title and description of each data item.
+
+4. Whenever a user enters (keyup event) something into a text input box with an id of 'search-input', the 'displayMatches' function is called. In this function, 'findMatches' is used to filter out the data items that match the input. It then generates a HTML string for each matching item, with the matching parts of the title and description highlighted with a <span> tag, and these strings are used to update the inner HTML of an element with an id of 'show-suggestions'.
+
+5. There's also a button (with id 'open-search-form') that when clicked, toggles a class 'is-open' on or off for a form (with class 'search-form') effectively showing or hiding this form.
+
+In essence, it's a live search feature, where search results (with highlights) appear as you type, and the search form can be toggled open or close.

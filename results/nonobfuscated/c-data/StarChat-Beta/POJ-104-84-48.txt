@@ -1,0 +1,59 @@
+Analyze the following piece of code: int main()
+{
+    int i=0,j=0,p=0,a[101],n=0;
+    memset(a,0,sizeof(a));
+    cin>>n;
+    for(i=1;i<=n;i++)
+    {
+          cin>>a[i];
+    }
+    
+    
+    for(j=1;j<=n-1;j++)
+    {
+          for(i=1;i<=n-j;i++)
+          {
+                if(a[i]<a[i+1])
+                {
+                      p=a[i];
+                      a[i]=a[i+1];
+                      a[i+1]=p;
+                }
+          }
+    }
+    cout<<a[1]<<endl;
+    cout<<a[2];
+    return 0;
+} 
+
+What does this code do?
+
+The code is a program to sort an array of n integers using the selection sort algorithm. The program takes an input of n integers from the user, stores them in an array a, and then sorts the array in ascending order.
+
+The code starts by declaring several variables: i, j, p, a, and n. The variable i is used to iterate through the array, while j is used to iterate through the sub-array. The variable p is used to temporarily store an element. The array a is used to store the input integers. The variable n is used to store the number of integers to be sorted.
+
+The code then initializes the array a to all 0's using the memset function. This is done to ensure that the array is initialized to all 0's, and not some other value that may be present in memory.
+
+The code then takes an input of n integers from the user, one by one, and stores them in the array a.
+
+The code then enters a for loop that iterates through the array from index 1 to n-1. Inside this loop, another for loop is used to iterate through the sub-array from index i to n-j, where j is the current index.
+
+The code checks if the element at index i is less than the element at index i+1. If this is true, the code swaps the two elements using the temporary variable p.
+
+After the inner for loop completes, the code checks if the first element of the sub-array is less than the second element. If this is true, the code swaps the two elements to put the smallest element at the beginning of the array.
+
+The code then increments the index j and continues with the next sub-array.
+
+The code then exits the outer for loop, and prints the first and second element of the array to the console.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando el programa. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce a código ejecutable inmediatamente antes de ser ejecutada.
+
+La elección entre un lenguaje de programación compilado o interpretado depende de factores como la facilidad de uso, la velocidad de ejecución, la seguridad y la escalabilidad. Los lenguajes de programación compilados suelen ser más rápidos y eficientes en términos

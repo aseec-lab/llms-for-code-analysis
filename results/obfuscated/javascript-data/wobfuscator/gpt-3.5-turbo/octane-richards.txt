@@ -1,0 +1,133 @@
+The code provided is written in JavaScript and appears to be using WebAssembly to execute some functions. 
+
+Here is a breakdown of what each part of the code does:
+
+1. The first section defines a function called "__universalAtob". This function takes in a base64-encoded string as a parameter and attempts to decode it using the "atob" function. If successful, it converts the decoded string into an array of bytes. If an error occurs during decoding, it falls back to using the global Buffer object to decode the string.
+
+2. The second section assigns a base64-encoded string to the variable "__aB". It then creates a new WebAssembly instance using a module built from the decoded string. The decoding process is similar to what the "__universalAtob" function does.
+
+3. The third section creates an empty Map object called "ac".
+
+4. The fourth section defines a function called "__lA" that takes in three parameters: "pos", "stIdx", and "eIdx". This function checks if the "ac" Map object already has a value associated with the "pos" key. If it does, it returns that value. Otherwise, it creates a new key-value pair in the Map object, where the key is the "pos" parameter and the value is an array obtained from the WebAssembly module by calling an exported function named "arr{pos}". The memory buffer of the WebAssembly module is then converted into a Uint32Array and stored in the "mem" variable. Finally, the function converts the Uint32Array into a regular JavaScript array, sets the value in the "ac" Map object, and returns the array.
+
+5. The fifth section assigns a base64-encoded string to the variable "__forWasmBuffer". It then creates a new WebAssembly module using the decoded string.
+
+6. The sixth section assigns another base64-encoded string to the variable "__ifWasmBuffer". It also creates a new WebAssembly module using the decoded string.
+
+7. The seventh section assigns yet another base64-encoded string to the variable "__callWasmBuffer". The purpose of this string and the code that follows it is not provided in the given code.This is the remaining part of the code. 
+
+The code defines a function called `runRichards()` which creates a new instance of the `Scheduler` class and passes it as an argument to the `impFunc()` function inside the WebAssembly module. The `impFunc()` function adds an idle task to the scheduler with some parameters.
+
+Then, a `BenchmarkSuite` object named `Richards` is created with the following arguments: 
+- The first argument is the result of calling the function `lS(0, 0)`. This function returns a string value.
+- The second argument is the result of calling the function `__lA(0, 16, 20)`. This function returns an array of numbers.
+- The third argument is an array containing a single `Benchmark` object. The `Benchmark` object has several properties such as `name` (the result of calling the function `lS(0, 1)`), `doWarmup`, `doDeterministic`, `id`, and `run` (which points to the function `runRichards`).
+
+The purpose of the `BenchmarkSuite` and `Benchmark` objects is not clear from the given code snippet, as it depends on the implementation of the benchmarking library being used.This part of the code continues to add tasks to the scheduler and call the `schedule()` method.
+
+First, a `Packet` object named `queue` is created with `null`, `ID_WORKER`, and `KIND_WORK` as arguments. This packet is then added to the `queue` again with the same parameters.
+
+Next, a WebAssembly instance is created and the `impFunc()` function is defined with a call to the `scheduler.addWorkerTask()` method, passing in `ID_WORKER`, `1000`, and `queue` as parameters.
+
+Then, a `Packet` object named `queue` is created with `null`, `ID_DEVICE_A`, and `KIND_DEVICE` as arguments. This packet is added to the `queue` again with the same parameters. 
+
+Another WebAssembly instance is created and the `impFunc()` function is defined with a call to the `scheduler.addHandlerTask()` method, passing in `ID_HANDLER_A`, `2000`, and `queue` as parameters.
+
+Similarly, packets are created and added to the `queue` for `ID_DEVICE_B` and `ID_HANDLER_B`, with different delay times. WebAssembly instances are created for each and the respective `impFunc()` functions are defined with calls to the appropriate scheduler methods.
+
+Finally, a WebAssembly instance is created with an `impFunc()` function defined to call the `scheduler.schedule()` method.
+
+In each case, the `__exports` object is returned, but it is unclear what it is used for without further context.This part of the code defines several methods for the `Scheduler` class.
+
+The `addIdleTask()` method takes `id`, `priority`, `queue`, and `count` as parameters. It creates a new WebAssembly instance and defines the `impFunc()` function to call the `addRunningTask()` method, passing in the provided parameters along with a new `IdleTask` object. The returned `__exports` object is used to retrieve data.
+
+Similarly, the `addWorkerTask()`, `addHandlerTask()`, and `addDeviceTask()` methods are defined. They create WebAssembly instances and define their respective `impFunc()` functions to call the appropriate methods of the `Scheduler` class with the provided parameters and corresponding task objects.
+
+Finally, the remaining variables, `COUNT`, `EXPECTED_QUEUE_COUNT`, and `EXPECTED_HOLD_COUNT`, are defined.
+
+The code also defines several constants for the IDs (`ID_IDLE`, `ID_WORKER`, `ID_HANDLER_A`, `ID_HANDLER_B`, `ID_DEVICE_A`, and `ID_DEVICE_B`), the number of IDs (`NUMBER_OF_IDS`), and task kinds (`KIND_DEVICE` and `KIND_WORK`).
+
+The `Scheduler` class constructor initializes instance variables for `queueCount`, `holdCount`, `blocks`, `list`, `currentTcb`, and `currentId`.The remaining part of the code defines several methods for the `Scheduler` class.
+
+The `addRunningTask()` method takes `id`, `priority`, `queue`, and `task` as parameters. It creates a new WebAssembly instance and defines the `impFunc()` function to call the `addTask()` method of the `Scheduler` class, passing in the provided parameters and creating a new `TaskControlBlock` object. The returned `__exports` object is used to retrieve data.
+
+Similarly, the `addTask()` method is defined. It creates a new `TaskControlBlock` object with the provided parameters and assigns it to the `currentTcb` variable. It updates the `list` variable and stores the `currentTcb` object in the `blocks` array with the `id` as the index.
+
+The `schedule()` method sets the `currentTcb` to the `list` variable. It creates a new WebAssembly instance and defines the `test()`, `body()`, and `update()` functions. The `test()` function checks if `currentTcb` is not null and returns 1 if true, otherwise 0. The `body()` function contains an if statement that creates a new WebAssembly instance and defines the `impFunc1()` and `impFunc2()` functions. The `impFunc1()` function updates the `currentTcb` to its next link. The `impFunc2()` function updates the `currentId` to the `currentTcb.id` and runs the `currentTcb`. The `data()` function of the `__exports` object is used to retrieve data.
+
+The `release()` method takes an `id` as a parameter. It retrieves the `tcb` from the `blocks` array using the `id` as the index. If `tcb` is null, it returns `tcb`. Otherwise, it creates a new WebAssembly instance and defines the `impFunc()` function to mark the `tcb` as not held. The returned `__exports` object is used to retrieve data.The remaining part of the previous function includes the implementation of the `checkPriorityAdd` function.
+
+Here is the code for the `checkPriorityAdd` function:
+
+```javascript
+TaskControlBlock.prototype.checkPriorityAdd = function (task, packet) {
+    if (this.queue == null) {
+        this.queue = packet
+
+        (() => {
+            const __callInstance0 = new WebAssembly.Instance(__callWasmModule, {
+                env: {
+                    impFunc: () => {
+                        this.markAsRunnable()
+
+                    }
+                }
+            })
+
+            const __exports = __callInstance0.exports
+
+            return __exports.data()
+
+        })()
+
+        if (this.priority > task.priority)
+            return this
+
+    } else {
+        this.queue = packet.addTo(this.queue)
+
+    }
+    return task
+}
+```
+
+This function checks if the `queue` of the current `TaskControlBlock` is empty or not. If it is empty, the `packet` is added to the `queue` and the `markAsRunnable` function is called to set the state as runnable. If the priority of the current `TaskControlBlock` is higher than the priority of the `task` being added, the current `TaskControlBlock` is returned. 
+
+If the `queue` is not empty, the `packet` is added to the `queue` using the `addTo` method, which adds the `packet` to the end of the `queue`.
+
+Finally, the `task` being added is returned.The remaining part of the previous code includes the implementation of the `toString` function for each of the task classes: `IdleTask`, `DeviceTask`, and `WorkerTask`.
+
+The `toString` function for the `IdleTask` class simply returns the string value "     idle".
+
+The `toString` function for the `DeviceTask` class simply returns the string value "  Device".
+
+The `toString` function for the `WorkerTask` class simply returns the string value "  Worker".
+
+These `toString` functions are used to convert the instances of each task class into string representations for logging or debugging purposes.The remaining part of the code includes the implementation of the `HandlerTask` class.
+
+The `HandlerTask` class has a constructor that takes a `scheduler` parameter and assigns it to the `scheduler` property of the class.
+
+The class has two instance variables: `v1` and `v2`, which are initially set to `null`.
+
+The `run` function of the `HandlerTask` class takes a `packet` parameter. Inside this function, there is an immediately invoked function expression (IIFE) that creates an instance of the WebAssembly module and exports the `data` function. This function is called with a condition to check if the `packet` is not `null`, and its result is returned. This condition determines whether the `packet` is of `KIND_WORK` or not.
+
+After the IIFE, there is an `if` statement that checks if `this.v1` is not `null`. If it is not `null`, it assigns the value of `this.v1.a1` to the `count` variable. Then, there is another `if` statement with a condition to check if `count` is less than `DATA_SIZE`. If this condition is true, it checks if `this.v2` is not `null`. If it is not `null`, it assigns the value of `this.v2` to the `v` variable and updates the `this.v2` to `this.v2.link`. Then, it assigns `this.v1.a2[count]` to `v.a1`, increments `this.v1.a1` by 1, and returns the result of `this.scheduler.queue(v)`.
+If any of the conditions in the `if` statement are not met, it assigns `this.v1` to `v`, updates `this.v1` to `this.v1.link`, and returns the result of `this.scheduler.queue(v)`.
+
+If none of the conditions in the `if` statement are met, it returns the result of `this.scheduler.suspendCurrent()`.
+
+Finally, the `toString` function is added to the `HandlerTask` prototype, which returns the string representation of the task using the function `lS(0, 10)`.The remaining part of the code includes the implementation of the `Packet` class.
+
+The `Packet` class has a constructor that takes `link`, `id`, and `kind` as parameters and assigns them to the corresponding properties of the class. It also initializes the `a1` property to 0 and creates an empty array of size `DATA_SIZE` and assigns it to the `a2` property.
+
+The `addTo` function of the `Packet` class takes a `queue` parameter. Inside this function, it assigns `null` to the `link` property of the `Packet` instance. Then it checks if `queue` is `null`, and if it is, it returns the `Packet` instance itself.
+
+Next, there is an immediately invoked function expression (IIFE) that creates an instance of the WebAssembly module called `__forInstance2`. It also exports the `data`, `update`, and `body` functions. Inside the IIFE, there is a `test` function that checks if the `next.link` is not `null` and assigns the result to the `peek` variable. After that, there is an empty `update` function and a `body` function that updates the `next` variable with the value of `peek`.
+
+Finally, the result of calling the `data` function exported from the WebAssembly instance is returned. This function updates the `next` variable with the value of `peek`.
+
+After the IIFE, the `next.link` property is updated with the `Packet` instance.
+
+Finally, the `toString` function is added to the `Packet` prototype, which returns the string representation of the packet using the function `lS(0, 12)`.
+
+Outside of the `Packet` class, the `DATA_SIZE` constant is defined with a value of 4.

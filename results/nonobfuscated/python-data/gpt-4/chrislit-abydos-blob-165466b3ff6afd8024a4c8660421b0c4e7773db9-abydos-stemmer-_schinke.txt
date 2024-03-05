@@ -1,0 +1,17 @@
+The provided Python code defines a Latin stemming algorithm, particularly known as Schinke Latin stemming. 
+
+Stemming is a procedural ruleset applied to words for reducing them to their root form called stems. It's a common method in information retrieval and natural language processing to deal with word inflections or derivations. 
+
+This Schinke Latin Stemmer performs the following operations in sequence:
+
+(1) The "stem( )" function gets a word as an argument and first it converts the word to a normalized Unicode form, translates it into lowercase, and ensures that it comprises only Latin alphabet characters. It replaces 'j' with 'i' and 'v' with 'u' to account for transliteration differences between Latin and English.
+
+(2) The function handles the special case when the word ends with 'que'. If the part of the word before 'que' is in a predefined set `_keep_que`, or if the word is exclusively 'que', the function maintains the word as is. Otherwise, it removes 'que' from the end of the word.
+
+(3) The function applies stemming rules separately to treat the given word as both a noun and a verb. For each, the function iteratively checks the word for endings in predefined sets `_n_endings` and `_v_endings_strip`. If an ending is found, it is removed, so long as the resulting stem would have at least two characters. However, if an ending from another predefined set `_v_endings_alter` is found, the stem is made by replacing the ending with a different pattern, depending on the specific ending. 
+
+(4) Lastly, the function returns a dictionary with two keys 'n' and 'v': 'n' maps to the stemmed word assuming it was a noun, and 'v' maps to the stemmed word assuming it was a verb.
+
+The `schinke( )` function, which later returns an instance of the Schinke class, uses this `.stem( )` method to get stemmed word of input string.
+
+If the script is run as a standalone program, it will execute any doctests provided in the code. Doctests are a way to test functions in Python by providing examples in the function's docstring.

@@ -1,0 +1,49 @@
+Here's a brief breakdown what the provided code does:
+
+1. `__universalAtob` is a utility function for Base64 decoding. This attempts to decode data using the `atob` function; if this fails, then it attempts to create a new Uint8Array from a Base64 encoding of the provided string.
+
+2. `__forWasmBuffer`, `__ifWasmBuffer`, and `__callWasmBuffer` are Base64 encoded strings presumably containing WebAssembly module data.
+
+3. `__forWasmModule`, `__ifWasmModule` and `__callWasmModule` each attempt to create WebAssembly modules from the strings declared above using an IIFE (Immediately Invoked Function Expression). They decode the Base64 string into a binary string, map each character into their character codes and then store in a Uint8Array. This Uint8Array is then returned as the argument for constructing a new WebAssembly module. If there's an error during the process, a new Uint8Array from decoding the Base64 string directly is returned.
+
+4. `__wasmStringModules` is an attempt to instantiate WebAssembly instances from an array of Base64 encoded module data. These strings are first decoded into Uint8Arrays and then passed as arguments to construct WebAssembly modules. These modules in turn are used to construct their respective instances. These instances are then stored in an array and assigned to `__wasmStringModules`.
+
+5. `lS` is a function that takes instances of WebAssembly and a position (pos); it reads data from WebAssembly module's memory and creates a string representation of that data. It's not entirely clear what the parameters `wI`, `pos`, and `iWC` represent from the provided information.
+
+The code doesn't include any actions or tasks utilizing the defined functions and modules.Here's the explanation for the added code:
+
+The defined `lS` function is used to fetch WebAssembly data from the instantiated modules and transform the data into string form. 
+
+In the `else` branch, the function iteratively processes multiple WebAssembly instances provided as an array. 
+
+Following that, the function `formTask` is assigned a value using the query selector, fetching an HTML element from the DOM. The `lS` function is used to specify the selection criteria, which in this case, is expected to be some form of identifier brought in through WebAssembly.
+
+An immediately invoked function generates a new WebAssembly instance from the `__callWasmModule`. This Instance is passed an object that references environment variables. In this case, it includes `impFunc` which adds an event listener to `formTask` that calls `saveTask` when the event specified by `lS(0, 1)` is triggered.
+
+The `saveTask` function is defined immediately after: It's purpose is to process a form submission event. It prevents default form submission behavior and retrieves user input from two fields identified by the selectors specified from the `lS` function.
+
+If the user's input for `title` matches with a particular string, the rest of the function does not execute, and a WebAssembly instance is invoked for some error handling task before causing the function execution to return `false`. 
+
+If the title does not match with the specific string,the function creates an object called `task` with `title` and `description` filled from the form, and then invokes another WebAssembly instance.
+
+Finally, the code hints at implementing another WebAssembly instance and sets up a tasks array, but the code is not complete, so it's unclear what is intended to be done there.This code continues the SaveTask function. If the form is successfully filled out, the SaveTask function creates two new WebAssembly Instances with functions that add tasks to the local tasks array and save it to local storage.
+
+Then it declares the impFunc2 variable, which, if invoked, will retrieve an array of tasks from local storage, add a new task, and save it back to local storage.
+
+After saving the new task, two new WebAssembly.Intances initiate from the WebAssembly Modules. The `getTask()` function will presumably retrieve and display the updated task list, and `formTask.reset()` will clear the input fields in the form for a new entry.
+
+The `inputEmpty` function defines what happens when WebAssembly Instance is invoked under circumstances where there are no tasks. It does a console log of data from `lS(0, 9)` (assumed as some kind of error or notification message), and subsequently returns the exports data.
+ 
+This code assumes multiple WebAssembly modules that provide browser environment-dependent tasks (like manipulating the DOM or interacting with Local Storage). They are rather being used to isolate chunks of JS code inside of WASM for some unapparent reason, which seems unusual and against typical WASM use-case trends.
+  
+Please note that this is a broad explanation, drawing on assumptions due to the abstract nature of the code provided.This code continues with the `getTask` function and introduces a new `deleteTask` function.
+
+`getTask` retrieves tasks from local storage, then a loop is run for each task in tasks via a new WebAssembly Instance and using the WebAssembly module "__forWasmModule". The loop will append each task's html to the `taskView` element on the page.
+
+`deleteTask` is the function that deletes a specific task based on its title. It reads tasks from local storage, iterates over them to find the matching task's index, then another WebAssembly Instance is used to run a function that checks whether the titles match. If true, a task is removed from array. After the loop, another WebAssembly Instance is used to save the updated tasks list to local storage.
+
+Similar to previous code snippets, this code unusually uses WebAssembly modules to isolate small chunks of JavaScript code, which is not a standard practice with WebAssembly. This pattern leads to many separate modules and instances (thus increasing memory usage), without providing the benefit expected from WASM, such as performance improvement from compiled low-level code. WebAssembly is typically used for heavy computational tasks or porting software from other languages or platforms to the web. This code doesn't offer a practical example of WASM use.This part of the code seems to define two immediately-invoked function expressions (IIFEs) that create new WebAssembly instances. Both these instances make use of the `__callWasmModule` module and the `impFunc` environment variable. This environment variable is a function that executes the `getTask` function.
+
+Afterwards, the resulting instances' exports are stored in `__exports` and then the function `data` is executed from the exports. 
+
+This seems repetitious as both IIFEs do essentially the same task. As mentioned before, it also does not leverage any of the benefits of WebAssembly, and unnecessarily complicates what would ordinarily be simple JavaScript code. Furthermore, `getTask` function does not receive any arguments or returns any values, which means these two IIFEs would result in exact same behavior. Using WebAssembly in this way does not provide any real benefits or optimizations to the code.

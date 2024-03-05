@@ -1,0 +1,23 @@
+The given code is a class definition for a WebSocket connection to a Lavalink server. Lavalink is a music playing bot for Discord.
+
+The `WebSocket` class has the following properties:
+- `_lavalink`: An object representing the Lavalink bot.
+- `_ws`: The WebSocket connection object.
+- `_queue`: A list to store payloads that need to be sent when the WebSocket is ready.
+- `_ws_retry`: The number of times to attempt reconnecting to the WebSocket if it gets disconnected.
+- `_password`: The password used to authenticate with the Lavalink server.
+- `_host`: The host URL of the Lavalink server.
+- `_port`: The port number of the Lavalink server.
+- `_uri`: The URI used to connect to the Lavalink server.
+- `_shards`: The number of shards the bot is using.
+- `_shutdown`: A boolean flag to indicate if the WebSocket connection is being shutdown.
+- `_loop`: The event loop for the WebSocket connection.
+
+The `WebSocket` class has the following methods:
+- `__init__(self, lavalink, host, password, ws_port, ws_retry, shard_count)`: The constructor method that initializes the `WebSocket` object with the given parameters. It also creates a task to connect to the WebSocket server.
+- `connected`: A property method that checks if the WebSocket is connected.
+- `connect`: A coroutine method that connects to the Lavalink WebSocket server. It waits until the Lavalink bot is ready, closes the WebSocket if it is already open, prepares the headers for authentication, and attempts to connect to the WebSocket server. If the connection is successful, it creates a task to listen for incoming messages, retrieves the Lavalink server version, and replays any queued events.
+- `_attempt_reconnect`: A coroutine method that handles reconnecting to the Lavalink server when the WebSocket connection is closed. It waits for 30 seconds and attempts to reconnect multiple times based on the specified retry count. If the reconnection is successful, it returns True.
+- `listen`: A coroutine method that listens for incoming messages from the Lavalink server. It handles disconnections, updates player state, receives statistics updates, and dispatches events based on the received data. It also handles closing the WebSocket connection when the shutdown flag is True.
+- `send`: A coroutine method that sends a payload to the Lavalink server. If the WebSocket is open, it sends the payload immediately. Otherwise, it adds the payload to the queue to be sent later.
+- `destroy`: A method that sets the shutdown flag to True, indicating that the WebSocket connection is being destroyed.

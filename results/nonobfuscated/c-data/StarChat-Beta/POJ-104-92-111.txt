@@ -1,0 +1,90 @@
+Analyze the following piece of code: int compare(const void *elem1,const void *elem2)
+{
+    return *((int *)elem1)-(*(int *)elem2);
+}
+
+int main()
+{
+    int n;
+    long m[100];
+    int a[1000],b[1000];
+    int i;
+    int win;
+    int lose;
+    int t=0;
+    int flag=0;
+    scanf("%d",&n);
+    while(n)
+    {
+        flag++;
+        lose=win=0;
+        for (i=0;i<n;i++)
+        {
+            scanf("%d",&a[i]);
+        }
+        for (i=0;i<n;i++)
+        {
+            scanf("%d",&b[i]);
+        }
+        qsort(a,n,sizeof(int),compare);
+        qsort(b,n,sizeof(int),compare);
+
+        int *aj=&a[0];
+        int *ai=&a[n-1];
+        int *bj=&b[0];
+        int *bi=&b[n-1];
+        while(ai-aj>=0)
+        {
+            if (*ai>*bi)
+            {
+                ai--;
+                bi--;
+                win++;
+            }
+            else if (*aj>*bj)
+            {
+                aj++;
+                bj++;
+                win++;
+            }
+            else
+            {
+                if (*aj<*bi)
+                lose++;
+                aj++;
+                bi--;
+            }
+            
+        }
+        m[t]=200*(win-lose);
+        t++;
+        scanf("%d",&n);
+    }
+    for (t=0;t<flag;t++)
+    {
+        printf("%ld\n",m[t]);
+    }
+    return 0;
+}
+
+Can you explain what this code does?
+
+Sure! This code is a part of a program that calculates the score of a tennis match. The program takes input from the user in the form of two arrays, one containing the scores of the first player in each set, and the other containing the scores of the second player in each set. The program then sorts the arrays in ascending order and compares the scores of the two players in each set.
+
+The compare function used in the qsort call is a comparison function that compares two integers and returns an integer that represents their relative order. In this case, the function returns the difference between the two integers, which is used to determine the order in which the elements are sorted.
+
+The main function first takes input from the user in the form of the number of sets in the match. It then enters a loop that repeats for each set in the match. Inside the loop, the program takes input from the user in the form of the scores of the two players in each set, sorts the arrays in ascending order using the qsort function, and compares the scores of the two players in each set using a while loop.
+
+The while loop compares the scores of the two players in each set, starting from the last element of each array and moving towards the beginning. If the score of the first player is greater than the score of the second player, the win variable is incremented by 1. If the score of the first player is less than the score of the second player, the lose variable is incremented by 1. If the scores are equal, the program checks whether the score of the first player is less than the score of the second player. If it is, the lose variable is incremented by 1. If not, the win variable is incremented by 1.
+
+After the scores of the two players in each set have been compared, the score for the set is calculated as 200*(win-lose). The program then stores this score in an array, and after all the sets have been processed, it prints the scores for each set.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente se traduce a un archivo ejecutable antes de ser ejecutado. En este proceso, el compilador lee el código fuente y lo convierte en un archivo ejecutable que puede ser ejecutado directamente en la computadora. El proceso de compilación implica la utilización de un compilador, que es una herramienta que traduce el código fuente en código objeto o código máquina que la computadora puede entender.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente se traduce en tiempo real mientras se está ejecutando. En este proceso, el código fuente se lee y se ejecuta línea por línea, sin necesidad de compilar previamente el código. En este caso, el intérprete es la herramienta que se utiliza

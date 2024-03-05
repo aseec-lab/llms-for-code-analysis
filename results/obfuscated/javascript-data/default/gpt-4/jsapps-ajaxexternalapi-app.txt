@@ -1,0 +1,13 @@
+The provided code is designed to gather data from the mindicador.cl API for either Bitcoin or the Dollar, depending on which button is clicked on the interface. 
+
+Here are some key elements it includes:
+
+1. 'botonDolar' and 'botonBitcoin': These variables reference HTML elements with the ids 'dolar' and 'bitcoin'. They seem to be buttons that users can click.
+
+2. Event listeners: They are attached to the 'botonDolar' and 'botonBitcoin' buttons. When either button is clicked, the 'obtenerDatos()' function is called with the appropriate id as an argument.
+
+3. 'obtenerDatos()': This function creates a new XMLHttpRequest, which it then uses to send a GET request to 'https://mindicador.cl/api/' concatenated with the provided id (either 'dolar' or 'bitcoin'). When the state of this request changes, the 'respuesta()' function is called.
+
+4. 'respuesta()': This function first checks to see if the XMLHttpRequest has completed, and if so, parses the JSON response. It then logs that object to the console and displays the date and value for each 'serie' in the object, but only up to the first 15 'series'. The dates and values are displayed as list items in an HTML element with the id 'resultado'. 
+
+In general, this code makes a request to an API based on a user's button-click and then logs and displays the response. The variables and function names are obfuscated, likely to make it more difficult for a potential attacker to understand the code's logic.

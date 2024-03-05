@@ -1,0 +1,9 @@
+This C program receives a number of string inputs from the user and checks whether each of these strings would constitute a valid identifier name in many programming languages (these identifiers usually start with a letter or an underscore and are followed by any number of alphanumeric characters or underscores).
+
+Upon running the program, first, an integer `n` is read from the standard input. Here `n` represents the number of strings the program will subsequently read and check.
+
+The loop cycles `n` times. In every iteration, a string `buf` is read. The string is examined character by character. If the first character is a digit, the string is instantly viewed as invalid (since variable names cannot start with a digit). If the first character is not a digit, the program continues to examine the rest of the string. If any of the following characters is anything other than a digit, a letter, or an underscore, the string is also viewed as invalid.
+
+If an invalid character was found during the checking process within the string, the flag `ok` is set to 0 (means invalid), otherwise it stays 1 (means valid).
+
+Before moving to the next iteration, the program prints out "yes" if the string met the criteria for a valid identifier (ok == 1). If it did not, "no" is printed out. This process repeats `n` times. After all the strings are examined, the program terminates.

@@ -1,0 +1,12 @@
+This Python script is using Django framework and it's for processing search results. It contains a class called `SearchResultProcessor` designed to process search results based on search terms (match phrases) and apply certain properties to the search results. Here are the key parts of the script:
+
+- The goal of `SearchResultProcessor` class is to process search results, which takes a dictionary of search results and match phrases.
+- The `strings_in_dictionary` method is designed to extract all non-dictionary values from a dictionary and its nested dictionaries. The returned values are in a list. 
+- The `find_matches` method accepts a list of strings, words to match, and desired match string length. It takes all the strings, shortens them, and checks if any of them include any of the words to match. It returns the matches until the total length of matches hit the desired length.
+- The `decorate_matches` method is designed to decorate the matches. It finds the phrases that match and encloses them in HTML bold tags. 
+- The `should_remove` function is not actually implemented and always return `False` which may mean in its child classes this function is supposed to return `True` if a specific condition is met to remove a search result.
+- The `add_properties` function is used to add class property values to `_results_fields` dictionary. 
+- And lastly, the `process_result` class method is used to process a search result. It loads a processor, whether it is the default `SearchResultProcessor` class or a custom processor derived from it. If the method `should_remove` returns `True`, the result is skipped. Then it adds properties to the result. If any exception happens in this process, it logs the error message and returns `None`. If everything goes well, it returns the result.
+- The `excerpt` property method returns a list of matches in the `content` field of the `_results_fields` attribute (wrapped with HTML bold tags) separated by an ellipsis.
+
+So overall, this code is for finding matches in search results, decorating the matches, deciding if the result should be removed based on some criteria, adding more properties to the search result, and providing a method to process a search result using a custom processing strategy.

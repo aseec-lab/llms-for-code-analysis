@@ -1,0 +1,68 @@
+Analyze the following piece of code: const endpoint = 'https://raw.githubusercontent.com/jaiimeriios/js-apps/master/17_type-ahead/data.json'
+const getData = [];
+const searchInput = document.querySelector('#search-input');
+const searchList = document.querySelector('#show-suggestions');
+
+searchInput.addEventListener('keyup', displayMatches);
+
+fetch(endpoint).then((dataResponse) => {
+    dataResponse.json().then((data) => {
+        getData.push(...data);
+    });
+});
+
+function findMatches(wordToMatch, getData) {
+    return getData.filter((data) => {
+        const regex = new RegExp(wordToMatch, 'gi');
+        return data.title.match(regex) || data.description.match(regex);
+    });
+}
+
+function displayMatches() {
+
+    const matchArray = findMatches(this.value, getData);
+    const html = matchArray.map((place) => {
+
+        const regexWord = new RegExp(this.value, 'gi');
+        const title = place.title.replace(regexWord, `<span class="hl">${this.value}</span>`);
+        const description = place.description.replace(regexWord, `<span class="hl">${this.value}</span>`);
+
+        return `<li><h6>${title}</h6> <p>${description}</li>`;
+
+    }).join(''); 
+    searchList.innerHTML = html;
+
+    if (searchInput.value == '') {
+        searchList.innerHTML = ''
+    }
+}
+
+
+const button = document.querySelector('#open-search-form')
+const searchForm = document.querySelector('.search-form')
+
+button.addEventListener('click', () => {
+    searchForm.classList.toggle('is-open')
+})
+
+The code is written in JavaScript and is a snippet of code from a type-ahead search application. The code defines a constant endpoint that points to a JSON file containing data, a const getData array to store the data, a searchInput element to accept user input, a searchList element to display search results, and an event listener for the searchInput element's keyup event that calls the displayMatches function. The code then fetches the data from the endpoint using the fetch function and then converts the response into JSON using the json method. The code then pushes all the data into the getData array. The displayMatches function filters the data in the getData array using the findMatches function, which uses a regular expression to search for the input value in the title and description properties of each data object. The displayMatches function then updates the searchList element's innerHTML with a list of matching results, highlighting the input value in each result using HTML markup. The code also includes a findMatches function that filters the data based on the input value, and a displayMatches function that updates the search results based on the input value.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que el sistema operativo puede ejecutar directamente. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código binario.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable inmediatamente antes de ser ejecutada. El proceso de interpretación implica la utilización de un intérprete, que es un programa que traduce y ejecuta el código fuente en tiempo real.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lenguajes de programación se utilizan para escribir programas, que son secuencias de instrucciones que un computador puede ejecutar para realizar una tarea específica.
+
+Los lenguajes de programación se utilizan para resolver diferentes tipos de problemas, desde la creación de aplicaciones de software hasta la investigación científica. Hay muchos lenguajes de programación diferentes

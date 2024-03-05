@@ -1,0 +1,40 @@
+Analyze the following piece of code: int main(){
+    int a[20001];
+    int n,i,j,l,num;
+    scanf("%d",&n);
+    for(i=1;i<=n;i++){scanf("%d",&a[i]);}
+    num=0;
+    for(i=1;i<=n;i++){
+		for(j=1;j<i;j++){
+			if(a[j]==a[i]){
+            a[i]=0;
+            num++;
+            break;
+			}
+		}
+		}
+	j=0;
+	for(i=1;i<=n;i++){if(a[i]!=0){
+		j++;
+		if(j!=n-num){
+		printf("%d ",a[i]);}
+		else{printf("%d",a[i]);
+		break;}
+	}}
+	scanf("%d",&n);
+	return 0;
+}
+
+What does this code do?
+
+This code takes an integer 'n' as input and then creates an array 'a' of size 20001. Then it reads 'n' integers from the user and stores them in the array 'a'. After that, it checks for the presence of duplicate elements in the array 'a' and if it finds any, it sets those elements to 0 and increments a count variable 'num'. Finally, it prints out the non-zero elements in the array 'a' in a specific order.
+
+What are some potential issues with this code?
+
+There are several potential issues with this code:
+
+1. Buffer overflow: The array 'a' has a fixed size of 20001, but the user can input any number of integers. If the user inputs more than 20001 integers, the extra inputs will be stored in the memory locations beyond the end of the array, which can lead to a buffer overflow attack.
+2. Off-by-one error: The loop that checks for duplicate elements has an off-by-one error. The loop iterates from 1 to n, but the last iteration should be from 1 to n-1, since the last element of the array is not included in the loop.
+3. Incorrect output: The code prints out the non-zero elements in the array 'a' in a specific order, but the order is not specified in the code. If the user inputs a large number of integers, the output may be incorrect or incomplete.
+4. Lack of error handling: The code does not handle errors when reading integers from the user or when printing out the non-zero elements. If the user inputs an invalid input or if there is an error during printing, the program may crash or produce incorrect output.
+5. Use of global variables: The code uses global variables 'n', 'i', 'j', and 'num', which can make the code harder to understand and maintain. It is better to use local variables instead of global variables whenever possible.

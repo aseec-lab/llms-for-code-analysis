@@ -1,0 +1,39 @@
+This code appears to calculate and print the distance between each pair of points in a three-dimensional space. Here is a breakdown of the code:
+
+1. The code starts with the declaration and initialization of variables:
+
+- `i`, `j`, `n`, `k`, and `w` are integers.
+- `x`, `y`, and `z` are arrays of size 10.
+- `d` is an array of size 45.
+- `dis` is a two-dimensional array of size 10x10.
+- `p`, `q`, `m`, and `o` are float variables.
+
+2. The code receives input for the number of points `n`.
+
+3. A loop is used to read the x, y, and z coordinates of each point into the respective arrays.
+
+4. Two nested loops are used to calculate the distance between each pair of points:
+
+- The outer loop goes from `j = 0` to `j < n-1`.
+- The inner loop goes from `i = j + 1` to `i < n`.
+
+5. Inside the inner loops, the code calculates the squared differences between the coordinates of each pair of points in the x, y, and z directions (`o`, `p`, and `q` variables).
+
+6. The calculated distance is stored in the `d` array at index `k`.
+
+7. The variable `k` is incremented to move to the next index of the `d` array.
+
+8. After the nested loops, another loop is used to sort the distances in ascending order using a bubble sort algorithm.
+
+- The outer loop goes from `w = 1` to `w < n*(n-1)/2`.
+- The inner loop goes from `k = 0` to `(n*(n-1))/2 - w`.
+
+9. Inside the inner loop, if `d[k]` is greater than `d[k+1]`, the distances are swapped using a temporary variable `m`.
+
+10. Another loop is used to print the distances between unique pairs of points in descending order:
+
+- The loop goes from `k = n*(n-1)/2-1` to `k >= 0`.
+- Inside the loop, if `d[k]` is different from `d[k-1]`, it means a new unique distance is encountered.
+- For each unique distance, another pair of nested loops is used to find the corresponding points with the same distance.
+- Inside the inner loops, the squared differences and the distance calculation are performed again.
+- If the calculated distance matches the current unique distance, the coordinates of the points and the distance are printed.

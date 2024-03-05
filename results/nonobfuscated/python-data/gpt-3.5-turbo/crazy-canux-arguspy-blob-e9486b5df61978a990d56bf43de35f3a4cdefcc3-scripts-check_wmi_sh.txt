@@ -1,0 +1,17 @@
+The given code defines three different classes: FileNumber, FileAge, and SqlserverLocks. Each class inherits from the Wmi class.
+
+The FileNumber class is used to count the number of files in a specified directory and its subdirectories. It takes command line arguments such as the query, drive, path, filename, extension, recursion, warning, and critical numbers. The `__get_file` method uses a WQL query to retrieve the file names from the CIM_DataFile class based on the specified criteria. The `__get_folder` method uses a WQL query to retrieve the folder names from the CIM_Directory class and then calls the `__get_file` method to count the files in each subfolder recursively. The `filenumber_handle` method determines the status based on the specified warning and critical numbers, and generates output accordingly.
+
+The FileAge class is used to determine the age of files in a specified directory and its subdirectories. It takes command line arguments similar to the FileNumber class with additional options for warning and critical minutes. The `__get_file` method retrieves the file names and last modified timestamps using a WQL query. The `__get_folder` method retrieves the folder names and recursively calls itself to get the files in subfolders. The `__get_current_datetime` method retrieves the current datetime from the Win32_OperatingSystem class. The `fileage_handle` method compares the last modified timestamps with the current datetime, determines the status based on the specified warning and critical minutes, and generates output accordingly.
+
+The SqlserverLocks class is used to retrieve information about SQL Server locks. It takes command line arguments for the query and mode, which can be "LockTimeoutsPersec", "LockWaitsPersec", or "NumberofDeadlocksPersec". The `define_sub_options` method sets up the command line options. The class does not currently have any implemented methods to handle the locks, so it may be incomplete.
+
+Overall, these classes provide functionality for counting files, determining file age, and retrieving SQL Server lock information.The remaining part of the code defines the Register class, which inherits from the FileNumber, FileAge, and SqlserverLocks classes. The class is used to register and execute the appropriate handle method based on the command line arguments.
+
+The `Register` class's `__init__` method calls the `__init__` method of the superclass (Wmi) to initialize the inherited attributes.
+
+The `main` function creates an instance of the Register class and checks the command line argument (args.option) to determine which handle method to execute: filenumber_handle, fileage_handle, or sqlserverlocks_handle. If the option is not recognized, the unknown method is called.
+
+Finally, the `__name__` attribute is checked to ensure that the main function is only executed if the code is run as the main script.
+
+Overall, the Register class acts as a controller to handle different actions based on the command line arguments, and the main function serves as the entry point for executing the chosen action.

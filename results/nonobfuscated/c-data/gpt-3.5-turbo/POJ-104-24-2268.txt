@@ -1,0 +1,51 @@
+This code appears to be written in C and is designed to analyze a given string and print out the longest and shortest word from it.
+
+Let's go through the code step by step:
+
+1. Variable Declaration and Initialization:
+   - `i`, `j`, `n`, `m`, `k`: integer variables used for loop counters or indexing.
+   - `s`: integer variable initialized to 0.
+   - `z[100]`, `x[100]`, `t[100]`: integer arrays of size 100 initialized to 0.
+   - `a[1000]`, `c[1000]`: character arrays of size 1000 initialized to '\0'.
+   The arrays `b` and `c` are used to store words.
+
+2. Loop to initialize `b` array:
+   - Nested loop using variables `i` and `j` to traverse the `b` array.
+   - Each element of `b` is assigned '\0'.
+
+3. Loop to initialize `c` array:
+   - Loop using variable `i` to traverse the `c` array.
+   - Each element of `c` is assigned '\0'.
+
+4. Reading user input:
+   - Uses the `gets()` function to read a string from the user and store it in the `a` array.
+   - The length of the input string is stored in `n` using the `strlen()` function.
+
+5. Analyzing the input string:
+   - Looping through each character of the input string using variable `i`.
+   - If the current character is not a space or a comma:
+     - Increment `s` by 1.
+     - Looping through the remaining characters of the input string starting from `j=i`.
+     - If the character is not a space or a comma:
+       - Assign the character to `b[s][j-i]`.
+       - Replace the character in `a` with a comma.
+       - Increment the word length in `x[s]`.
+     - If the character is a space or a comma, break the inner loop.
+
+6. Finding the longest word:
+   - Initialize `y` to 1.
+   - Looping through each word using variable `i` from 1 to `s`.
+   - If the length of the next word (`x[i+1]`) is greater than the current longest word (`x[y]`), update `y` to `i+1`.
+
+7. Printing the longest word:
+   - Use the `printf()` function to print the word stored in `b[y]` using the format specifier `%s`.
+
+8. Finding the shortest word:
+   - Reinitialize `y` to 1.
+   - Looping through each word using variable `i` from 1 to `s`.
+   - If the length of the next word (`x[i+1]`) is less than the current shortest word (`x[y]`), update `y` to `i+1`.
+
+9. Printing the shortest word:
+   - Use the `printf()` function to print the word stored in `b[y]` using the format specifier `%s`.
+
+In summary, this code reads a string from the user, splits it into words, and then finds and prints the longest and shortest words from the input string.

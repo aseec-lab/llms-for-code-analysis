@@ -1,0 +1,22 @@
+The code is written in Python and it is handling Jabber ID (JID) objects for the PyXMPP2 library, which is a Python implementation of the XMPP (eXtensible Messaging and Presence Protocol) protocol. THe XMPP protocol is primarily used for instant messaging and presence.
+
+The code module consists of "JID" class and several functions related to domain equality check and IP address validation. 
+
+The 'JID' is an object class that represents Jabber IDs, which uniquely identify users in the context of XMPP chat systems. A 'JID' object is immutable and consists of a local part, a domain part, and an optional resource part.  The JID components are parsed, processed, and validated upon object creation, with checks performed for character validity based on the XMPP specifications ('__prepare_local', '__prepare_domain', and '__prepare_resource' methods). Parsed and validated JID components are stored in instance variables.
+
+The 'are_domains_equal' function checks if two domains (input as strings) are equal, case insensitively.
+
+The '_validate_ip_address' function checks if a given IP address string is valid for a specified socket address family (IPv4 or IPv6), and if so, it returns the string in canonical form. If the address is invalid, it raises a ValueError.
+
+Most of the methods and functions are intended for internal use only, but a few provide public interfaces: 
+- the 'as_unicode', 'as_utf8', and 'as_string' methods convert a JID object to string representation in different formats;
+- the class method '__from_unicode' parses a string input and returns a tuple of strings representing the local part, domain, and resource part of a Jabber ID.
+
+The module also has several regular expressions defined for performing necessary string manipulations and checks.This part of the code defines additional methods of the JID class.
+
+The 'bare' method returns a new JID object that is a "bare" version of the current JID object: it has the same local part and domain part, but no resource part ("check = False" tells the JID constructor not to perform any checks on the input values).
+
+Six special methods '__eq__', '__ne__', '__lt__', '__gt__', '__le__', and '__ge__' implement comparison operations (equal to, not equal to, less than, greater than, less than or equal to, and greater than or equal to) for JID objects. For each comparison, the method first checks the type of other object being compared with the JID instance. If it's a string, it tries to convert it to JID object and continues with the comparison; if it's not a JID or convertible to a JID, it returns False or behaves as if the other object is smaller ('__gt__', '__ge__') or bigger ('__lt__', '__le__') than a JID.
+In comparisons, the unicode representation of JIDs is used. The methods '__gt__', '__lt__', '__le__', '__ge__' return otherwise if the object being compared to is None (except in '__eq__' and '__ne__', where None is explicitly considered 'not equal' to a JID).
+
+The '__hash__' method implements the hash value computation for a JID object. This is used when JID objects are used as keys in a Python dictionary or added to a Python set. The hash value of a JID is computed as the bitwise XOR of the hash values of its local part, domain part, and resource part.

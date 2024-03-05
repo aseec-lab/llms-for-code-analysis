@@ -1,0 +1,1627 @@
+Analyze the following piece of code: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import numpy
+import os
+
+try:
+  import capnp
+except ImportError:
+  capnp = None
+
+from nupic.bindings.regions.PyRegion import PyRegion
+
+from nupic.algorithms import (anomaly, backtracking_tm, backtracking_tm_cpp,
+                              backtracking_tm_shim)
+if capnp:
+  from nupic.regions.tm_region_capnp import TMRegionProto
+
+from nupic.support import getArgumentDescriptions
+
+
+
+gDefaultTemporalImp = 'py'
+
+
+
+def _getTPClass(temporalImp):
+  
+
+
+  if temporalImp == 'py':
+    return backtracking_tm.BacktrackingTM
+  elif temporalImp == 'cpp':
+    return backtracking_tm_cpp.BacktrackingTMCPP
+  elif temporalImp == 'tm_py':
+    return backtracking_tm_shim.TMShim
+  elif temporalImp == 'tm_cpp':
+    return backtracking_tm_shim.TMCPPShim
+  elif temporalImp =='monitored_tm_py':
+    return backtracking_tm_shim.MonitoredTMShim
+  else:
+    raise RuntimeError("Invalid temporalImp '%s'. Legal values are: 'py', "
+              "'cpp', 'tm_py','monitored_tm_py'" % (temporalImp))
+
+
+
+def _buildArgs(f, self=None, kwargs={}):
+  
+
+  
+  argTuples = getArgumentDescriptions(f)
+  argTuples = argTuples[1:]  
+
+  
+  
+  
+  
+  
+  init = TMRegion.__init__
+  ourArgNames = [t[0] for t in getArgumentDescriptions(init)]
+  
+  
+  ourArgNames += [
+    'numberOfCols',    
+  ]
+  for argTuple in argTuples[:]:
+    if argTuple[0] in ourArgNames:
+      argTuples.remove(argTuple)
+
+  
+  if self:
+    for argTuple in argTuples:
+      argName = argTuple[0]
+      if argName in kwargs:
+        
+        argValue = kwargs.pop(argName)
+      else:
+        
+        
+        if len(argTuple) == 2:
+          
+          raise TypeError("Must provide '%s'" % argName)
+        argValue = argTuple[2]
+      
+      setattr(self, argName, argValue)
+
+  return argTuples
+
+
+def _getAdditionalSpecs(temporalImp, kwargs={}):
+  
+
+  typeNames = {int: 'UInt32', float: 'Real32', str: 'Byte', bool: 'bool', tuple: 'tuple'}
+
+  def getArgType(arg):
+    t = typeNames.get(type(arg), 'Byte')
+    count = 0 if t == 'Byte' else 1
+    if t == 'tuple':
+      t = typeNames.get(type(arg[0]), 'Byte')
+      count = len(arg)
+    if t == 'bool':
+      t = 'UInt32'
+    return (t, count)
+
+  def getConstraints(arg):
+    t = typeNames.get(type(arg), 'Byte')
+    if t == 'Byte':
+      return'multiple'
+    elif t == 'bool':
+      return 'bool'
+    else:
+      return ''
+
+  
+  TemporalClass = _getTPClass(temporalImp)
+  tArgTuples = _buildArgs(TemporalClass.__init__)
+  temporalSpec = {}
+  for argTuple in tArgTuples:
+    d = dict(
+      description=argTuple[1],
+      accessMode='ReadWrite',
+      dataType=getArgType(argTuple[2])[0],
+      count=getArgType(argTuple[2])[1],
+      constraints=getConstraints(argTuple[2]))
+    temporalSpec[argTuple[0]] = d
+
+  
+  temporalSpec.update(dict(
+    columnCount=dict(
+      description='Total number of columns.',
+      accessMode='Read',
+      dataType='UInt32',
+      count=1,
+      constraints=''),
+
+    cellsPerColumn=dict(
+      description='Number of cells per column.',
+      accessMode='Read',
+      dataType='UInt32',
+      count=1,
+      constraints=''),
+
+    inputWidth=dict(
+      description='Number of inputs to the TM.',
+      accessMode='Read',
+      dataType='UInt32',
+      count=1,
+      constraints=''),
+
+    predictedSegmentDecrement=dict(
+      description='Predicted segment decrement',
+      accessMode='Read',
+      dataType='Real',
+      count=1,
+      constraints=''),
+
+    orColumnOutputs=dict(
+      description=
+,
+      accessMode='Read',
+      dataType='Bool',
+      count=1,
+      constraints='bool'),
+
+    cellsSavePath=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='String',
+      count=1,
+      constraints=''),
+
+    cellFilePrefix=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='String',
+      count=1,
+      constraints=''),
+
+    cellFileExtension=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='String',
+      count=1,
+      constraints=''),
+
+    cellFileDelimiter=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='String',
+      count=1,
+      constraints=''),
+
+    cellFileHasHeader=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='Bool',
+      count=1,
+      constraints='bool'),
+
+    cellFileWriteMode=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='String',
+      count=1,
+      constraints=''),
+
+    cellFileLoadMode=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='String',
+      count=1,
+      constraints=''),
+
+    cellFileLoadStep=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='UInt32',
+      count=1,
+      constraints=''),
+
+    cellFileLoadSkip=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='UInt32',
+      count=1,
+      constraints=''),
+
+    cellFileLoadStride=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='UInt32',
+      count=1,
+      constraints=''),
+
+    cellFileLoadRepeat=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='UInt32',
+      count=1,
+      constraints=''),
+
+    cellFileLoadShuffle=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='Bool',
+      count=1,
+      constraints='bool'),
+
+    cellFileLoadSwap=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='Bool',
+      count=1,
+      constraints='bool'),
+
+    cellFileLoadHeader=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='UInt32',
+      count=1,
+      constraints=''),
+
+    cellFileLoadData=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='String',
+      count=1,
+      constraints=''),
+
+    cellFileLoadDataDelimiter=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='String',
+      count=1,
+      constraints=''),
+
+    cellFileLoadDataFormat=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='String',
+      count=1,
+      constraints=''),
+
+    cellFileLoadDataColumns=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='String',
+      count=1,
+      constraints=''),
+
+    cellFileLoadDataTypes=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='String',
+      count=1,
+      constraints=''),
+
+    cellFileLoadDataCast=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='String',
+      count=1,
+      constraints=''),
+
+    cellFileLoadDataPost=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='String',
+      count=1,
+      constraints=''),
+
+    cellFileLoadDataPre=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='String',
+      count=1,
+      constraints=''),
+
+    cellFileLoadDataComment=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='String', Analyze the following piece of code: ',
+      dataType='Byte',
+      count=0,
+      constraints=''),
+
+    temporalImp=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='Byte',
+      count=0,
+      constraints='enum: py, cpp'),
+
+  ))
+
+  
+  otherSpec = dict(
+    learningMode=dict(
+      description='True if the node is learning (default True).',
+      accessMode='ReadWrite',
+      dataType='Bool',
+      count=1,
+      defaultValue=True,
+      constraints='bool'),
+
+    inferenceMode=dict(
+      description='True if the node is inferring (default False).',
+      accessMode='ReadWrite',
+      dataType='Bool',
+      count=1,
+      defaultValue=False,
+      constraints='bool'),
+
+    computePredictedActiveCellIndices=dict(
+      description='True if active and predicted active indices should be computed',
+      accessMode='Create',
+      dataType='Bool',
+      count=1,
+      defaultValue=False,
+      constraints='bool'),
+
+    anomalyMode=dict(
+      description='True if an anomaly score is being computed',
+      accessMode='Create',
+      dataType='Bool',
+      count=1,
+      defaultValue=False,
+      constraints='bool'),
+
+    topDownMode=dict(
+      description='True if the node should do top down compute on the next call '
+                  'to compute into topDownOut (default False).',
+      accessMode='ReadWrite',
+      dataType='Bool',
+      count=1,
+      defaultValue=False,
+      constraints='bool'),
+
+    activeOutputCount=dict(
+      description='Number of active elements in bottomUpOut output.',
+      accessMode='Read',
+      dataType='UInt32',
+      count=1,
+      constraints=''),
+
+    storeDenseOutput=dict(
+      description=
+,
+      accessMode='ReadWrite',
+      dataType='UInt32',
+      count=1,
+      constraints='bool'),
+
+    logPathOutput=dict(
+      description='Optional name of output log file. If set, every output vector'
+                 'will be logged to this file as a sparse vector.',
+      accessMode='ReadWrite',
+      dataType='Byte',
+      count=0,
+      constraints=''),
+
+  )
+
+  return temporalSpec, otherSpec
+
+
+
+class TMRegion(PyRegion):
+
+  
+
+
+  def __init__(self,
+
+               columnCount,   
+               inputWidth,    
+               cellsPerColumn, 
+
+               
+               
+               
+
+               orColumnOutputs=False,
+               cellsSavePath='',
+               temporalImp=gDefaultTemporalImp,
+               anomalyMode=False,
+               computePredictedActiveCellIndices=False,
+
+               **kwargs):
+    
+    TemporalClass = _getTPClass(temporalImp)
+
+    
+    
+    
+    tArgTuples = _buildArgs(TemporalClass.__init__, self, kwargs)
+
+    self._temporalArgNames = [t[0] for t in tArgTuples]
+
+    self.learningMode   = True      
+    self.inferenceMode  = False
+    self.anomalyMode    = anomalyMode
+    self.computePredictedActiveCellIndices = computePredictedActiveCellIndices
+    self.topDownMode    = False
+    self.columnCount    = columnCount
+    self.inputWidth     = inputWidth
+    self.outputWidth    = columnCount * cellsPerColumn
+    self.cellsPerColumn = cellsPerColumn
+
+    PyRegion.__init__(self, **kwargs)
+
+    
+    
+    self._loaded = False
+    self._initialize()
+
+    
+    self.breakPdb = False
+    self.breakKomodo = False
+
+    
+    self.orColumnOutputs = orColumnOutputs
+    self.temporalImp = temporalImp
+
+    
+    self.storeDenseOutput = False
+    self.logPathOutput = ''
+    self.cellsSavePath = cellsSavePath
+    self._fpLogTPOutput = None
+
+    
+    self._tfdr = None  
+
+
+  
+  
+  
+  
+  
+
+
+  def _initialize(self):
+    
+
+
+    for attrName in self._getEphemeralMembersBase():
+      if attrName!= "_loaded":
+        if hasattr(self, attrName):
+          if self._loaded:
+            
+            
+            
+            pass
+          else:
+            print self.__class__.__name__, "contains base class member '%s'" % \
+                attrName
+    if not self._loaded:
+      for attrName in self._getEphemeralMembersBase():
+        if attrName!= "_loaded":
+          
+          
+          assert not hasattr(self, attrName)
+        else:
+          assert hasattr(self, attrName)
+
+    
+    self._profileObj = None
+    self._iterations = 0
+
+    
+    self._initEphemerals()
+    self._checkEphemeralMembers()
+
+
+  def initialize(self):
+    
+
+    
+    
+    autoArgs = dict((name, getattr(self, name))
+                    for name in self._temporalArgNames)
+
+    if self._tfdr is None:
+      tpClass = _getTPClass(self.temporalImp)
+
+      if self.temporalImp in ['py', 'cpp', 'r']:
+        self._tfdr = TemporalFDR(tpClass, **autoArgs)
+      else:
+        raise ValueError('Invalid temporal implementation: %s' % self.temporalImp)
+
+    self._profileObj = cProfile.Profile()
+    self._profileObj.enable()
+
+    self._tfdr.initialize()
+
+    self._iterations = 0
+
+    self._loaded = True
+
+    self._checkEphemeralMembers()
+
+  def finalize(self):
+    
+
+    
+    
+    if self._profileObj is not None:
+      self._profileObj.disable()
+      stats = pstats.Stats(self._profileObj)
+      stats.strip_dirs().sort_stats('time').print_stats(10)
+
+    if self._tfdr is not None:
+      self._tfdr.finalize()
+
+    self._tfdr = None
+
+    self._loaded = False
+
+    self._checkEphemeralMembers()
+
+  def _checkEphemeralMembers(self):
+    
+
+    
+    
+    for attrName in self._getEphemeralMembers():
+      if not hasattr(self, attrName):
+        print self.__class__.__name__, "does not contain ephemeral member '%s'" % \
+            attrName
+
+  def _getEphemeralMembersBase(self):
+    
+
+    
+    
+    return []
+
+  def _getEphemeralMembers(self):
+    
+
+    
+    
+    return self._getEphemeralMembersBase() + self._temporalArgNames
+
+  def _initEphemerals(self):
+    
+
+    
+    
+    for attrName in self._getEphemeralMembers():
+      if not hasattr(self, attrName):
+        setattr(self, attrName, None)
+
+  def _getArgNames(self):
+    
+
+    
+    
+    return self._temporalArgNames + PyRegion._getArgNames(self)
+
+  def _getArgValues(self):
+    
+
+    
+    
+    return self._temporalArgValues + PyRegion._getArgValues(self)
+
+  def _getArgDict(self):
+    
+
+    
+    
+    return dict(self._getArgItems())
+
+  def _getArgItems(self):
+    
+
+    
+    
+    return PyRegion._getArgItems(self) + \
+        [(name, getattr(self, name)) for name in self._temporalArgNames]
+
+  def _setArgDict(self, argDict):
+    
+
+    
+    
+    PyRegion._setArgDict(self, argDict)
+    for name in self._temporalArgNames:
+      setattr(self, name, argDict[name])
+
+  def _setArgValues(self, argValues):
+    
+
+    
+    
+    PyRegion._setArgValues(self, argValues)
+    argDict = dict(zip(self._getArgNames(), argValues))
+    for name in self._temporalArgNames:
+      setattr(self, name, argDict[name])
+
+  def _setArgItem(self, name, value):
+    
+
+    
+    
+    PyRegion._setArgItem(self, name, value)
+    if name in self._temporalArgNames:
+      setattr(self, name, value)
+
+  def _getSpec(self):
+    
+
+    
+    
+    spec = PyRegion._getSpec(self)
+    spec.update(_getTemporalSpec(self.temporalImp))
+    spec.update(_getOtherSpec(self))
+    return spec
+
+  def _getRegionSpec(self):
+    
+
+    
+    
+    return _getRegionSpec(self.temporalImp)
+
+  def _getRegionSpecBase(self):
+    
+
+    
+    
+    return PyRegion._getRegionSpecBase(self)
+
+  def _getRegionSpecWithBase(self):
+    
+
+    
+    
+    return dict(self._getRegionSpecBase(), **self._getRegionSpec())
+
+  def _getRegion Analyze the following piece of code: ',
+                              'tm_py', 'tm_cpp',
+                            'monitored_tm_py',]:
+        self._tfdr = tpClass(
+             numberOfCols=self.columnCount,
+             cellsPerColumn=self.cellsPerColumn,
+             **autoArgs)
+      else:
+        raise RuntimeError("Invalid temporalImp")
+
+
+  
+  
+  
+  
+  
+
+
+  
+  def compute(self, inputs, outputs):
+    
+
+
+    
+    
+
+    
+    
+    
+    
+    if False and self.learningMode \
+        and self._iterations > 0 and self._iterations <= 10:
+
+      import hotshot
+      if self._iterations == 10:
+        print "\n  Collecting and sorting internal node profiling stats generated by hotshot..."
+        stats = hotshot.stats.load("hotshot.stats")
+        stats.strip_dirs()
+        stats.sort_stats('time', 'calls')
+        stats.print_stats()
+
+      
+      
+      if self._profileObj is None:
+        print "\n  Preparing to capture profile using hotshot..."
+        if os.path.exists('hotshot.stats'):
+          
+          os.remove('hotshot.stats')
+        self._profileObj = hotshot.Profile("hotshot.stats", 1, 1)
+                                          
+      self._profileObj.runcall(self._compute, *[inputs, outputs])
+    else:
+      self._compute(inputs, outputs)
+
+  def _compute(self, inputs, outputs):
+    
+
+
+    
+    
+    
+
+    if self._tfdr is None:
+      raise RuntimeError("TM has not been initialized")
+
+    
+    self._conditionalBreak()
+
+    self._iterations += 1
+
+    
+    buInputVector = inputs['bottomUpIn']
+
+    
+    resetSignal = False
+    if'resetIn' in inputs:
+      assert len(inputs['resetIn']) == 1
+      if inputs['resetIn'][0]!= 0:
+        self._tfdr.reset()
+        self._sequencePos = 0  
+
+    if self.computePredictedActiveCellIndices:
+      prevPredictedState = self._tfdr.getPredictedState().reshape(-1).astype('float32')
+
+    if self.anomalyMode:
+      prevPredictedColumns = self._tfdr.topDownCompute().copy().nonzero()[0]
+
+    
+    tpOutput = self._tfdr.compute(buInputVector, self.learningMode, self.inferenceMode)
+    self._sequencePos += 1
+
+    
+    if self.orColumnOutputs:
+      tpOutput= tpOutput.reshape(self.columnCount,
+                                     self.cellsPerColumn).max(axis=1)
+
+    
+    if self._fpLogTPOutput:
+      output = tpOutput.reshape(-1)
+      outputNZ = tpOutput.nonzero()[0]
+      outStr = " ".join(["%d" % int(token) for token in outputNZ])
+      print >>self._fpLogTPOutput, output.size, outStr
+
+    
+    outputs['bottomUpOut'][:] = tpOutput.flat
+
+    if self.topDownMode:
+      
+      outputs['topDownOut'][:] = self._tfdr.topDownCompute().copy()
+
+    
+    if self.anomalyMode:
+      activeLearnCells = self._tfdr.getLearnActiveStateT()
+      size = activeLearnCells.shape[0] * activeLearnCells.shape[1]
+      outputs['lrnActiveStateT'][:] = activeLearnCells.reshape(size)
+
+      activeColumns = buInputVector.nonzero()[0]
+      outputs['anomalyScore'][:] = anomaly.computeRawAnomalyScore(
+        activeColumns, prevPredictedColumns)
+
+    if self.computePredictedActiveCellIndices:
+      
+      activeState = self._tfdr._getActiveState().reshape(-1).astype('float32')
+      activeIndices = numpy.where(activeState!= 0)[0]
+      predictedIndices= numpy.where(prevPredictedState!= 0)[0]
+      predictedActiveIndices = numpy.intersect1d(activeIndices, predictedIndices)
+      outputs["activeCells"].fill(0)
+      outputs["activeCells"][activeIndices] = 1
+      outputs["predictedActiveCells"].fill(0)
+      outputs["predictedActiveCells"][predictedActiveIndices] = 1
+
+
+  
+  
+  
+  
+  
+
+  
+  @classmethod
+  def getBaseSpec(cls):
+    
+
+    spec = dict(
+      description=TMRegion.__doc__,
+      singleNodeOnly=True,
+      inputs=dict(
+        bottomUpIn=dict(
+          description=
+,
+          dataType='Real32',
+          count=0,
+          required=True,
+          regionLevel=False,
+          isDefaultInput=True,
+          requireSplitterMap=False),
+
+        resetIn=dict(
+          description=
+,
+          dataType='Real32',
+          count=1,
+          required=False,
+          regionLevel=False,
+          isDefaultInput=False,
+          requireSplitterMap=False),
+      ),
+      outputs=dict(
+        bottomUpOut=dict(
+          description=
+,
+          dataType='Real32',
+          count=0,
+          required=True,
+          regionLevel=False,
+          isDefaultOutput=True,
+          requireSplitterMap=False),
+
+        topDownOut=dict(
+          description=
+,
+          dataType='Real32',
+          count=0,
+          required=False,
+          regionLevel=False,
+          isDefaultOutput=False,
+          requireSplitterMap=False),
+
+        lrnActiveStateT=dict(
+          description=
+,
+          dataType='Real32',
+          count=0,
+          required=False,
+          regionLevel=False,
+          isDefaultOutput=False,
+          requireSplitterMap=False),
+
+        anomalyScore=dict(
+          description=
+,
+          dataType='Real32',
+          count=0,
+          required=False,
+          regionLevel=False,
+          isDefaultOutput=False,
+          requireSplitterMap=False),
+
+        activeCells=dict(
+          description=
+,
+          dataType='UInt8',
+          count=0,
+          required=False,
+          regionLevel=False,
+          isDefaultOutput=False,
+          requireSplitterMap=False),
+
+        predictedActiveCells=dict(
+          description=
+,
+          dataType='UInt8',
+          count=0,
+          required=False,
+          regionLevel=False,
+          isDefaultOutput=False,
+          requireSplitterMap=False),
+      ),
+      parameterGroups=[
+        dict(
+          name='TM Parameters',
+          parameters=[
+            dict(name='temporalImp', type='enum', enumValues=[
+              dict(name='None', value=0),
+              dict(name='Python', value=1),
+              dict(name='C++', value=2),
+              dict(name='Python+C++', value=3),
+            ]),
+            dict(name='anomalyMode', type='bool', defaultValue=False),
+            dict(name='learningMode', type='bool', defaultValue=True),
+            dict(name='inferenceMode', type='bool', defaultValue=False),
+            dict(name='topDownMode', type='bool', defaultValue=True),
+            dict(name='orColumnOutputs', type='bool', defaultValue=True),
+            dict(name='computePredictedActiveCellIndices', type='bool', defaultValue=True),
+            dict(name='profile', type='bool', defaultValue=False),
+            dict(name='logProfile', type='bool', defaultValue=False),
+          ]),
+      ],
+    )
+
+    return spec
+
+  
+  
+  
+  
+  
+  
+
+
+def register():
+  from. import registry
+  registry.register(
+    'TemporalMemory',
+    'Temporal Memory',
+    'tm',
+    'TemporalMemory',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente escrito en el lenguaje de programación a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente escrito en el lenguaje de programación se traduce a código objeto o código máquina antes de ser ejecutado. El código objeto o código máquina es enton Analyze the following piece of code: =True,
+          isDefaultInput=False,
+          requireSplitterMap=False),
+
+        sequenceIdIn=dict(
+          description="Sequence ID",
+          dataType='UInt64',
+          count=1,
+          required=False,
+          regionLevel=True,
+          isDefaultInput=False,
+          requireSplitterMap=False),
+
+      ),
+
+      outputs=dict(
+        bottomUpOut=dict(
+          description=
+,
+          dataType='Real32',
+          count=0,
+          regionLevel=True,
+          isDefaultOutput=True),
+
+        topDownOut=dict(
+          description=
+,
+          dataType='Real32',
+          count=0,
+          regionLevel=True,
+          isDefaultOutput=False),
+
+        activeCells=dict(
+          description="The cells that are active",
+          dataType='Real32',
+          count=0,
+          regionLevel=True,
+          isDefaultOutput=False),
+
+        predictedActiveCells=dict(
+          description="The cells that are active and predicted",
+          dataType='Real32',
+          count=0,
+          regionLevel=True,
+          isDefaultOutput=False),
+
+        anomalyScore = dict(
+          description=
+,
+          dataType='Real32',
+          count=1,
+          regionLevel=True,
+          isDefaultOutput=False),
+
+        lrnActiveStateT = dict(
+          description=
+,
+          dataType='Real32',
+          count=0,
+          regionLevel=True,
+          isDefaultOutput=False),
+
+      ),
+
+      parameters=dict(
+        breakPdb=dict(
+          description='Set to 1 to stop in the pdb debugger on the next compute',
+          dataType='UInt32',
+          count=1,
+          constraints='bool',
+          defaultValue=0,
+          accessMode='ReadWrite'),
+
+        breakKomodo=dict(
+          description='Set to 1 to stop in the Komodo debugger on the next compute',
+          dataType='UInt32',
+          count=1,
+          constraints='bool',
+          defaultValue=0,
+          accessMode='ReadWrite'),
+
+      ),
+      commands = {}
+    )
+
+    return spec
+
+  @classmethod
+  def getSpec(cls):
+    
+
+    spec = cls.getBaseSpec()
+    t, o = _getAdditionalSpecs(temporalImp=gDefaultTemporalImp)
+    spec['parameters'].update(t)
+    spec['parameters'].update(o)
+
+    return spec
+
+
+  def getAlgorithmInstance(self):
+    
+
+    return self._tfdr
+
+
+  def getParameter(self, parameterName, index=-1):
+    
+
+    if parameterName in self._temporalArgNames:
+      return getattr(self._tfdr, parameterName)
+    else:
+      return PyRegion.getParameter(self, parameterName, index)
+
+
+  def setParameter(self, parameterName, index, parameterValue):
+    
+
+    if parameterName in self._temporalArgNames:
+      setattr(self._tfdr, parameterName, parameterValue)
+
+    elif parameterName == "logPathOutput":
+      self.logPathOutput = parameterValue
+      
+      if self._fpLogTPOutput is not None:
+        self._fpLogTPOutput.close()
+        self._fpLogTPOutput = None
+
+      
+      if parameterValue:
+        self._fpLogTPOutput = open(self.logPathOutput, 'w')
+
+    elif hasattr(self, parameterName):
+      setattr(self, parameterName, parameterValue)
+
+    else:
+      raise Exception('Unknown parameter:'+ parameterName)
+
+
+  
+  
+  
+  
+  
+
+  def resetSequenceStates(self):
+    
+
+    self._tfdr.reset()
+    self._sequencePos = 0  
+    return
+
+  def finishLearning(self):
+    
+
+    if self._tfdr is None:
+      raise RuntimeError("Temporal memory has not been initialized")
+
+    if hasattr(self._tfdr, 'finishLearning'):
+      self.resetSequenceStates()
+      self._tfdr.finishLearning()
+
+  
+  
+  
+  
+  
+
+
+  @staticmethod
+  def getSchema():
+    
+
+    return TMRegionProto
+
+
+  def writeToProto(self, proto):
+    
+
+    proto.temporalImp = self.temporalImp
+    proto.columnCount = self.columnCount
+    proto.inputWidth = self.inputWidth
+    proto.cellsPerColumn = self.cellsPerColumn
+    proto.learningMode = self.learningMode
+    proto.inferenceMode = self.inferenceMode
+    proto.anomalyMode = self.anomalyMode
+    proto.topDownMode = self.topDownMode
+    proto.computePredictedActiveCellIndices = (
+      self.computePredictedActiveCellIndices)
+    proto.orColumnOutputs = self.orColumnOutputs
+
+    if self.temporalImp == "py":
+      tmProto = proto.init("backtrackingTM")
+    elif self.temporalImp == "cpp":
+      tmProto = proto.init("backtrackingTMCpp")
+    elif self.temporalImp == "tm_py":
+      tmProto = proto.init("tmPy")
+    else:
+      raise ValueError("Invalid temporal implementation: " + self.temporalImp)
+
+    PyRegion.writeToProto(self, tmProto)
+
+    return proto
+
+  def readFromProto(self, proto):
+    
+
+    self.temporalImp = proto.temporalImp
+    self.columnCount = proto.columnCount
+    self.inputWidth = proto.inputWidth
+    self.cellsPerColumn = proto.cellsPerColumn
+    self.learningMode = proto.learningMode
+    self.inferenceMode = proto.inferenceMode
+    self.anomalyMode = proto.anomalyMode
+    self.topDownMode = proto.topDownMode
+    self.computePredictedActiveCellIndices = (
+      proto.computePredictedActiveCellIndices)
+    self.orColumnOutputs = proto.orColumnOutputs
+
+    if self.temporalImp == "py":
+      tmProto = proto.tm
+    elif self.temporalImp == "cpp":
+      tmProto = proto.tm
+    elif self.temporalImp == "tm_py":
+      tmProto = proto.tm
+    else:
+      raise ValueError("Invalid temporal implementation: " + self.temporalImp)
+
+    PyRegion.readFromProto(self, tmProto)
+
+    return proto
+
+  def getProtoSize(self):
+    
+
+    return PyRegion.getProtoSize(self) + tm_pb2.TMRegion.GetTotalSize(self)
+
+  def getProto(self):
+    
+
+    proto = PyRegion.getProto(self)
+    proto.MergeFrom(self.getProto_TM())
+    return proto
+
+  def getProto_TM(self):
+    
+
+    proto = tm_pb2.TMRegion()
+    self.writeToProto(proto)
+    return proto
+
+  def setProto_TM(self, proto):
+    
+
+    self.readFromProto(proto)
+    return
+
+  def getParameterSchema(self):
+    
+
+    return PyRegion.getParameterSchema(self) + [
+      dict(
+        name="logPathOutput",
+        description="Path to the file where the temporal patterns will be logged",
+        dataType="String",
+        defaultValue=None,
+        accessMode="ReadWrite"),
+    ]
+
+  def getParameter(self, parameterName, index=-1):
+    
+
+    if parameterName == "logPathOutput":
+      return self.logPathOutput
+    else:
+      return PyRegion.getParameter(self, parameterName, index)
+
+  def setParameter(self, parameterName, index, parameterValue):
+    
+
+    if parameterName == "logPathOutput":
+      self.logPathOutput = parameterValue
+    else:
+      return PyRegion.setParameter(self, parameterName, index, parameterValue)
+
+  def getParameterValue(self, parameterName):
+    
+
+    if parameterName == "logPathOutput":
+      return self.logPathOutput
+    else:
+      return PyRegion.getParameterValue(self, parameterName)
+
+  def getParameterValues(self, parameterName):
+    
+
+    if parameterName == "logPathOutput":
+      return [self.logPathOutput]
+    else:
+      return PyRegion.getParameterValues(self, parameterName)
+
+  def getParameterInfo(self, parameterName):
+    
+
+    if parameterName == "logPathOutput":
+      return dict(
+        name="logPathOutput",
+        description="Path to the file where the temporal patterns will be logged",
+        dataType="String",
+        defaultValue=None,
+        accessMode="ReadWrite")
+    else:
+      return PyRegion.getParameterInfo(self, parameterName)
+
+  def getParameterInfoAll(self):
+    
+
+    return PyRegion.getParameterInfoAll(self) + [
+      dict(
+        name="logPathOutput",
+        description="Path to the Analyze the following piece of code:  tmProto = proto.init("temporalMemory")
+    elif self.temporalImp == "tm_cpp":
+      tmProto = proto.init("temporalMemory")
+    else:
+      raise TypeError(
+          "Unsupported temporalImp for capnp serialization: {}".format(
+              self.temporalImp))
+
+    self._tfdr.write(tmProto)
+
+
+  @classmethod
+  def readFromProto(cls, proto):
+    
+
+    instance = cls(proto.columnCount, proto.inputWidth, proto.cellsPerColumn)
+
+    instance.temporalImp = proto.temporalImp
+    instance.learningMode = proto.learningMode
+    instance.inferenceMode = proto.inferenceMode
+    instance.anomalyMode = proto.anomalyMode
+    instance.topDownMode = proto.topDownMode
+    instance.computePredictedActiveCellIndices = (
+      proto.computePredictedActiveCellIndices)
+    instance.orColumnOutputs = proto.orColumnOutputs
+
+    if instance.temporalImp == "py":
+      tmProto = proto.backtrackingTM
+    elif instance.temporalImp == "cpp":
+      tmProto = proto.backtrackingTMCpp
+    elif instance.temporalImp == "tm_py":
+      tmProto = proto.temporalMemory
+    elif instance.temporalImp == "tm_cpp":
+      tmProto = proto.temporalMemory
+    else:
+      raise TypeError(
+          "Unsupported temporalImp for capnp serialization: {}".format(
+              instance.temporalImp))
+
+    instance._tfdr = _getTPClass(proto.temporalImp).read(tmProto)
+
+    return instance
+
+
+  def __getstate__(self):
+    
+
+    state = self.__dict__.copy()
+    
+    for ephemeralMemberName in self._getEphemeralMembersAll():
+      state.pop(ephemeralMemberName, None)
+    return state
+
+  def serializeExtraData(self, filePath):
+    
+
+    if self._tfdr is not None:
+      self._tfdr.saveToFile(filePath)
+
+  def deSerializeExtraData(self, filePath):
+    
+
+    if self._tfdr is not None:
+      self._tfdr.loadFromFile(filePath)
+
+
+  def __setstate__(self, state):
+    
+
+
+    if not hasattr(self,'storeDenseOutput'):
+      self.storeDenseOutput = False
+
+    if not hasattr(self, 'computePredictedActiveCellIndices'):
+      self.computePredictedActiveCellIndices = False
+
+    self.__dict__.update(state)
+    self._loaded = True
+    
+    
+    self._initialize()
+
+
+  def _initEphemerals(self):
+    
+
+
+    self._sequencePos = 0
+    self._fpLogTPOutput = None
+    self.logPathOutput = None
+
+
+  def _getEphemeralMembers(self):
+    
+
+
+    return ['_sequencePos', '_fpLogTPOutput', 'logPathOutput',]
+
+
+  def _getEphemeralMembersBase(self):
+    
+
+    return [
+        '_loaded',
+        '_profileObj',
+        '_iterations',
+      ]
+
+
+  def _getEphemeralMembersAll(self):
+    
+
+    return self._getEphemeralMembersBase() + self._getEphemeralMembers()
+
+
+  def _checkEphemeralMembers(self):
+    for attrName in self._getEphemeralMembersBase():
+      if not hasattr(self, attrName):
+        print "Missing base class member:", attrName
+    for attrName in self._getEphemeralMembers():
+      if not hasattr(self, attrName):
+        print "Missing derived class member:", attrName
+
+    for attrName in self._getEphemeralMembersBase():
+      assert hasattr(self, attrName)
+    for attrName in self._getEphemeralMembers():
+      assert hasattr(self, attrName), "Node missing attr '%s'." % attrName
+
+  
+  
+  
+  
+  
+
+
+  def _conditionalBreak(self):
+    if self.breakKomodo:
+      import dbgp.client; dbgp.client.brk()
+    if self.breakPdb:
+      import pdb; pdb.set_trace()
+
+
+  
+  
+  
+  
+  
+
+
+  def getOutputElementCount(self, name):
+    
+
+    if name == 'bottomUpOut':
+      return self.outputWidth
+    elif name == 'topDownOut':
+      return self.columnCount
+    elif name == 'lrnActiveStateT':
+      return self.outputWidth
+    elif name == "activeCells":
+      return self.outputWidth
+    elif name == "predictedActiveCells":
+      return self.outputWidth
+    else:
+      raise Exception("Invalid output name specified")
+
+
+  
+  
+  def getParameterArrayCount(self, name, index):
+    
+
+    p = self.getParameter(name)
+    if (not hasattr(p, '__len__')):
+      raise Exception("Attempt to access parameter '%s' as an array but it is not an array" % name)
+    return len(p)
+
+
+  
+  
+  def getParameterArray(self, name, index, a):
+    
+
+    p = self.getParameter(name)
+    if (not hasattr(p, '__len__')):
+      raise Exception("Attempt to access parameter '%s' as an array but it is not an array" % name)
+    if (index >= len(p)):
+      raise Exception("Index %d out of range for parameter '%s' (array length is %d)" % (index, name, len(p)))
+    a[:] = p[index]
+    return a
+
+
+  
+  
+  def getParameter(self, name):
+    
+
+    if name == 'inputWidth':
+      return self.inputWidth
+    elif name == 'outputWidth':
+      return self.outputWidth
+    elif name == 'cellsPerColumn':
+      return self.cellsPerColumn
+    elif name == 'columnCount':
+      return self.columnCount
+    elif name == 'initialSynapseCount':
+      return self.initialSynapseCount
+    elif name =='minSynapseCount':
+      return self.minSynapseCount
+    elif name =='maxSynapseCount':
+      return self.maxSynapseCount
+    elif name == 'initialPermanence':
+      return self.initialPermanence
+    elif name =='minPermanence':
+      return self.minPermanence
+    elif name =='maxPermanence':
+      return self.maxPermanence
+    elif name == 'initialLTP':
+      return self.initialLTP
+    elif name =='minLTP':
+      return self.minLTP
+    elif name =='maxLTP':
+      return self.maxLTP
+    elif name == 'initialLTD':
+      return self.initialLTD
+    elif name =='minLTD':
+      return self.minLTD
+    elif name =='maxLTD':
+      return self.maxLTD
+    elif name == 'initialThreshold':
+      return self.initialThreshold
+    elif name =='minThreshold':
+      return self.minThreshold
+    elif name =='maxThreshold':
+      return self.maxThreshold
+    elif name == 'initialCellValue':
+      return self.initialCellValue
+    elif name =='minCellValue':
+      return self.minCellValue
+    elif name =='maxCellValue':
+      return self.maxCellValue
+    elif name == 'learningRate':
+      return self.learningRate
+    elif name =='momentum':
+      return self.momentum
+    elif name == 'l2RegStrength':
+      return self.l2RegStrength
+    elif name == 'l1RegStrength':
+      return self.l1RegStrength
+    elif name == 'clipGradient':
+      return self.clipGradient
+    elif name == 'clipValue':
+      return self.clipValue
+    elif name == 'batchSize':
+      return self.batchSize
+    elif name == 'testBatchSize':
+      return self.testBatchSize
+    elif name == 'epochs':
+      return self.epochs
+    elif name == 'testInterval':
+      return self.testInterval
+    elif name == 'earlyStopPatience':
+      return self.earlyStopPatience
+    elif name == 'earlyStopMinDelta':
+      return self.earlyStopMinDelta
+    elif name == 'earlyStopMetric':
+      return self.earlyStopMetric
+    elif name == 'logPath':
+      return self.logPath
+    elif name == 'logInterval':
+      return self.logInterval
+    elif name == 'breakKomodo':
+      return self.breakKomodo
+    elif name == 'breakPdb':
+      return self.breakPdb
+    elif name =='storeDenseOutput':
+      return self.storeDenseOutput
+    elif name == 'computePredictedActiveCellIndices':
+      return self.computePredictedActiveCell Analyze the following piece of code: 
+    
+
+    p = self.getParameter(name)
+    if (not hasattr(p, '__len__')):
+      raise Exception("Attempt to access parameter '%s' as an array but it is not an array" % name)
+
+    if len(p) >  0:
+      a[:] = p[:]
+
+What is the purpose of the code?
+
+The code is part of a method in a Python class that accesses a parameter of the class and checks whether it is an array. If the parameter is not an array, an exception is raised. The code snippet is part of a loop that copies the parameter value into an array. The code checks whether the parameter is an array by using the hasattr function, which returns True if the object has the specified attribute, and False if it does not. If the parameter is not an array, the code raises an exception. The code then checks whether the length of the parameter is greater than zero, which indicates that the parameter is an array. If the length is greater than zero, the code slices the parameter and assigns it to the array.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente sin necesidad de interpretar el código fuente en tiempo de ejecución. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código binario.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo de ejecución. En este caso, el código fuente se ejecuta línea por línea, interpretando cada instrucción y realizando la acción correspondiente. El código fuente se traduce en código intermedio llamado código de interpretación, que luego se ejecuta por el intérprete.
+
+La elección entre un lenguaje de programación compilado o interpretado depende de factores como la facilidad de uso, la velocidad de ejecución, la seguridad y la escalabilidad. Los lenguajes de programación compilados suelen ser más rápidos y eficientes que los lenguajes interpretados, mientras que los lenguajes interpretados suelen ser más fáciles de usar y desarrollar. Además, los lenguajes compilados suelen ser más seguros ya que el código objeto o código binario no puede ser modificado o alterado sin que se produzca un error en tiempo de ejecución. Por otro lado, los lenguajes interpretados suelen ser más escalables ya que pueden utilizarse en diferentes plataformas sin necesidad de recompilar el código fuente.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Está compuesto por un conjunto de reglas y construcciones que permiten a los programadores escribir instrucciones que se pueden entender y ejecutar por una

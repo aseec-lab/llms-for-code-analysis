@@ -1,0 +1,31 @@
+The code appears to be using WebAssembly to decode and manipulate data. Here is an analysis of each chunk of code:
+
+1. The first chunk defines a function called "__universalAtob" which decodes a base64 encoded string. It first tries to decode the string using the built-in "atob" function. If that fails, it falls back to using the "Buffer.from" function.
+
+2. The second chunk assigns a base64 encoded string to the "__callWasmBuffer" variable.
+
+3. The third chunk creates a WebAssembly module using the "__callWasmBuffer" variable. It first tries to decode the string using the "__universalAtob" function. If that fails, it falls back to using the "Buffer.from" function.
+
+4. The fourth chunk defines an array called "__wasmStringModules" which contains base64 encoded strings. Each string is decoded using the "__universalAtob" function and then a new WebAssembly instance is created using the decoded bytes.
+
+5. The fifth chunk defines a function called "lS" which takes three parameters: "wI", "pos", and "iWC". This function is used to extract a string from a WebAssembly module's memory. If "wI" is not an array, it retrieves the string from the specified WebAssembly module using the "__targetModule" and "__mem" variables. If "wI" is an array, it retrieves multiple strings from different WebAssembly modules.
+
+Overall, the code appears to be using WebAssembly to store and manipulate strings, most likely for some kind of data processing or computation.This remaining part of the code defines several functions and makes use of the WebAssembly module and its exports.
+
+1. The code defines a function called "obtenerDatos" which takes a parameter "valor". It creates a URL using the value of "valor" and makes an XMLHttpRequest to that URL.
+
+2. In the next block, there is an immediately invoked function expression (IIFE) which creates a new WebAssembly instance and sets up an environment with an "impFunc" function. This function opens the XMLHttpRequest with the method and URL obtained from the WebAssembly memory using the "lS" function.
+
+3. Another IIFE creates a new WebAssembly instance and sets up an environment with an "impFunc" function. This function sends the XMLHttpRequest.
+
+4. The remaining code consists of three similar blocks where WebAssembly instances are created and event listeners are added to the "botonDolar" and "botonBitcoin" elements. These event listeners, when triggered, create new WebAssembly instances and call the "obtenerDatos" function with different parameters obtained from the WebAssembly memory using the "lS" function.
+
+Overall, the code seems to be using WebAssembly to interact with the `mindicador.cl` API, retrieve data, and update elements on the webpage based on user interactions with the "botonDolar" and "botonBitcoin" elements.The remaining part of the code defines the "respuesta" function which is called when the XMLHttpRequest's state changes. Inside this function, the code checks if the status is 200 (indicating a successful request) and the readyState is 4 (indicating that the request has been completed and the response is available).
+
+If the conditions are met, the code parses the responseText into a JavaScript object called "datos". Then, it creates a new WebAssembly instance using an immediately invoked function expression (IIFE) and sets up an environment with an "impFunc" function. This "impFunc" function logs the "datos" object to the console.
+
+After that, the code gets a reference to an HTML element using the lS function. It sets the innerHTML of the "resultado" element to a value obtained from the WebAssembly memory using the lS function.
+
+Next, the code initializes a variable "i" to 0 and iterates over the "datos.serie" array. For each item in the array, the code increments "i" and appends a list item to the innerHTML of the "resultado" element. The list item contains the item's formatted date and value.
+
+Finally, if "i" exceeds 15, the code breaks out of the loop to limit the number of items displayed on the webpage.

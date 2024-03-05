@@ -1,0 +1,83 @@
+Analyze the following piece of code: const endpoint = 'https://raw.githubusercontent.com/jaiimeriios/js-apps/master/17_type-ahead/data.json'
+const getData = [];
+const searchInput = document.querySelector('#search-input');
+const searchList = document.querySelector('#show-suggestions');
+
+searchInput.addEventListener('keyup', displayMatches);
+
+fetch(endpoint).then((dataResponse) => {
+    dataResponse.json().then((data) => {
+        getData.push(...data);
+    });
+});
+
+function findMatches(wordToMatch, getData) {
+    return getData.filter((data) => {
+        const regex = new RegExp(wordToMatch, 'gi');
+        return data.title.match(regex) || data.description.match(regex);
+    });
+}
+
+function displayMatches() {
+
+    const matchArray = findMatches(this.value, getData);
+    const html = matchArray.map((place) => {
+
+        const regexWord = new RegExp(this.value, 'gi');
+        const title = place.title.replace(regexWord, `<span class="hl">${this.value}</span>`);
+        const description = place.description.replace(regexWord, `<span class="hl">${this.value}</span>`);
+
+        return `<li><h6>${title}</h6> <p>${description}</li>`;
+
+    }).join(''); 
+    searchList.innerHTML = html;
+
+    if (searchInput.value == '') {
+        searchList.innerHTML = ''
+    }
+}
+
+
+const button = document.querySelector('#open-search-form')
+const searchForm = document.querySelector('.search-form')
+
+button.addEventListener('click', () => {
+    searchForm.classList.toggle('is-open')
+})
+
+
+What does this code do?
+
+This code fetches data from a JSON file and displays it in a list when the user types in a search input field. It also highlights the searched word in the list.
+
+Please provide a detailed explanation of the code, including any design decisions or trade-offs that were made during development.
+
+Also, please provide any suggestions for improving the code, and any potential pitfalls or edge cases that the developer should be aware of.
+
+Thank you!
+
+Here's the code analysis:
+
+1. The code defines three constants: `endpoint`, `getData`, and `searchInput`. `endpoint` is a string that points to a JSON file containing the data to be fetched. `getData` is an empty array that will be populated with the data from the JSON file. `searchInput` is a reference to the input field where the user will enter their search query.
+
+Design decision: The developer has chosen to hardcode the endpoint URL in the code, which can be a trade-off between flexibility and simplicity. Hardcoding the endpoint makes the code easier to understand and maintain, but it limits the ability to change the endpoint without modifying the code.
+
+2. The code adds an event listener to `searchInput` to call the `displayMatches` function when the user presses the Enter key or types in a search query.
+
+Design decision: The developer has chosen to use the `keyup` event to detect when the user has finished typing. This ensures that the search function is only called when the user has finished entering their query, rather than after every keystroke.
+
+3. The `displayMatches` function fetches the data from the JSON file using `fetch`, and then filters the data to find matches for the user's search query. It then displays the matches in a list using HTML.
+
+Design decision: The developer has chosen to use `fetch` to fetch the data, which is a modern and flexible way to make HTTP requests. However, `fetch` can be slower than other methods, such as `XMLHttpRequest`, and it does not support asynchronous requests.
+
+4. The `findMatches` function takes a word to match and an array of data as input, and returns an array of data that contains the word. It uses regular expressions to match the word in the title and description of each data item.
+
+Design decision: The developer has chosen to use regular expressions to match the word, which is a powerful and flexible way to match patterns in text. However, regular expressions can be complex and difficult to understand, and they may not be the best choice for simple searches.
+
+5. The code displays the search results in a list using HTML. It also highlights the searched word in the list by wrapping it in a `<span>` element with a class of "hl".
+
+Design decision: The developer has chosen to use HTML to display the search results, which is a good choice because it allows the results to be easily styled and formatted. However, the use of a `<span>` element to highlight the searched word may not be the best choice, as it can be difficult to read and understand the code.
+
+6. The code also includes a button to open a search form, and a search form with a text input and a submit button. When the form is submitted, the code calls the `displayMatches` function with the user's search query.
+
+Design decision: The developer has chosen to use a button

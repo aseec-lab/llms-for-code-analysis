@@ -1,0 +1,69 @@
+Analyze the following piece of code: int main(){
+       int k,a,i=1,j,x=0;
+       char sc[100][2],zfc[300];
+       scanf("%s",zfc);
+
+       int e;
+
+       for(k=1;k<strlen(zfc);k++){
+               for(int a=0;a<strlen(zfc)-k;a++){
+                       if(zfc[a]>zfc[a+1]){
+                               e=zfc[a+1];
+                               zfc[a+1]=zfc[a];
+                               zfc[a]=e;
+
+                       }
+               }
+       }
+
+   for(j=0;j<strlen(zfc);j++){
+               i=1;
+               while(zfc[j]==zfc[j+1]){
+                               j++;
+                               i++;
+               }
+       if(((zfc[j]>=65)&&(zfc[j]<=90))||((zfc[j]>=97)&&(zfc[j]<=122))){
+                       printf("%c=%d\n",zfc[j],i);
+                       x++;
+               }
+
+       }
+       if(x==0){
+               printf("No\n");
+       }
+
+       return 0;
+}
+
+What does this code do?
+
+The code is written in C programming language and it is a part of a program that implements the Rabin-Karp algorithm for string matching. The code is part of the main function, which performs the following tasks:
+
+1. Reads a string from the user using scanf() function.
+2. Sorts the characters in the string in alphabetical order using a for loop.
+3. Compares the sorted string with all possible substrings of the original string to check for a match.
+4. If a match is found, it prints the index of the first character of the matching substring.
+
+The Rabin-Karp algorithm is a string matching algorithm that uses a hashing function to compare large strings for equality. The code uses a for loop to iterate over all characters in the input string and sorts them in alphabetical order. It then uses a second for loop to compare the sorted string with all possible substrings of the original string. If a match is found, the index of the first character of the matching substring is printed.
+
+The code also includes a check to ensure that the input string contains only uppercase letters or lowercase letters. If the input string contains any other characters, the program will print "No" and exit.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación compilado y uno interpretado?
+
+La principal diferencia entre un lenguaje de programación compilado y uno interpretado es el proceso de traducción del código fuente en código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente es traducido a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código binario.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente es traducido en tiempo real mientras se está ejecutando el programa. En este caso, el código fuente no se traduce a código ejecutable antes de su ejecución, sino que se traduce en línea mientras el programa se está ejecutando. El intérprete es el programa que realiza la traducción en tiempo real.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y uno interpretado es que el primero se traduce a código ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Está compuesto por un conjunto de reglas y construcciones que permiten a los programadores escribir instrucciones que se pueden entender y ejecutar por una computadora.
+
+Los lenguajes de programación se utilizan para crear aplicaciones de software, como programas, sistemas operativos, juegos, aplicaciones web, entre otros.

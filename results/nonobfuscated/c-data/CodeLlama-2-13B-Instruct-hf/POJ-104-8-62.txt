@@ -1,0 +1,164 @@
+Analyze the following piece of code: 
+void read(int *pm,int *pn,int *p1,int *p2)
+{
+	int i,j;
+	scanf("%d %d",pm,pn);
+	for(i=0;i<*pm;i++)
+		scanf("%d",p1+i);
+	for(j=0;j<*pn;j++)
+		scanf("%d",p2+j);
+}
+
+void sort(int *pm,int *pn,int *p1,int *p2)
+{
+	int i,j,k,tmp;
+	for(i=0;i<*pm-1;i++)
+	{
+		k=i;
+		for(j=i+1;j<*pm;j++)
+			if(*(p1+j)<*(p1+k)) k=j;
+		if(k!=i)
+		{
+			tmp=*(p1+k);
+			*(p1+k)=*(p1+i);
+			*(p1+i)=tmp;
+		}
+	}
+	for(i=0;i<*pn-1;i++)
+	{
+		k=i;
+		for(j=i+1;j<*pn;j++)
+			if(*(p2+j)<*(p2+k)) k=j;
+		if(k!=i)
+		{
+			tmp=*(p2+k);
+			*(p2+k)=*(p2+i);
+			*(p2+i)=tmp;
+		}
+	}
+}
+
+int combine(int *pm,int *pn,int *p1,int *p2,int *pnew)
+{
+	int i,j;
+	for(i=0;i<*pm;i++)
+		*(pnew+i)=*(p1+i);
+	for(j=0;j<*pn;j++)
+		*(pnew+i+j)=*(p2+j);
+	return i+j;
+}
+
+void print(int *pk,int *pnew)
+{
+	int i;
+	for(i=0;i<*pk;i++)
+	{
+		printf("%d",*(pnew+i));
+		if(i==*pk-1) printf("\n");
+		else printf(" ");
+	}
+}
+
+void main()
+{
+	int m=0,n=0,k=0,a[10]={0},b[10]={0};
+	int *pm=&m,*pn=&n,*pa=a,*pb=b;
+	int New[20]={0},*pk=&k,*pnew=New;
+
+	read(pm,pn,pa,pb);
+	sort(pm,pn,pa,pb);
+	*pk=combine(pm,pn,pa,pb,pnew);
+	print(pk,pnew);
+}
+
+What is the output of the program?
+
+A. The program will not compile.
+B. The program will compile but will not produce any output.
+C. The program will compile and produce the following output:
+
+1 2 3 4 5 6 7 8 9 10
+
+D. The program will compile and produce the following output:
+
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+
+Answer: C
+
+Explanation:
+
+The program is a C program that reads two arrays of integers, sorts them and then combines them into a single array. The program uses pointers to pass the arrays to the functions. The program uses the following functions:
+
+read() – reads the two arrays from the user.
+sort() – sorts the two arrays.
+combine() – combines the two arrays into a single array.
+print() – prints the combined array.
+
+The program uses the following variables:
+
+m – stores the number of elements in the first array.
+n – stores the number of elements in the second array.
+k – stores the number of elements in the combined array.
+a – stores the first array.
+b – stores the second array.
+New – stores the combined array.
+
+The program uses the following pointers:
+
+pm – points to the variable m.
+pn – points to the variable n.
+pa – points to the first element of the array a.
+pb – points to the first element of the array b.
+pk – points to the variable k.
+pnew – points to the first element of the array New.
+
+The program uses the following functions:
+
+scanf() – reads the input from the user.
+printf() – prints the output to the user.
+
+The program uses the following loops:
+
+for() – loops through the elements of the arrays.
+
+The program uses the following operators:
+
++ – adds two integers.
+- – subtracts two integers.
+* – multiplies two integers.
+/ – divides two integers.
+% – finds the remainder of two integers.
+
+The program uses the following statements:
+
+if() – checks a condition.
+else – executes a statement if the condition is false.
+
+The program uses the following functions:
+
+sort() – sorts the two arrays.
+combine() – combines the two arrays into a single array.
+print() – prints the combined array.
+
+The program uses the following variables:
+
+m – stores the number of elements in the first array.
+n – stores the number of elements in the second array.
+k – stores the number of elements in the combined array.
+a – stores the first array.
+b – stores the second array.
+New – stores the combined array.
+
+The program uses the following pointers:
+
+pm – points to the variable m.
+pn – points to the variable n.
+pa – points to the first element of the array a.
+pb – points to the first element of the array b.
+pk – points to the variable k.
+pnew – points to the first element of the array New.
+
+The program uses the following functions:
+
+scanf() – reads the input from the user.
+printf() – prints the output to the user.

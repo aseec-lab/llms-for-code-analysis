@@ -1,0 +1,251 @@
+The code defines functions for drawing different shapes on a canvas. 
+
+The `circle` function takes a canvas context (`ctx`), x and y coordinates, and a radius (`r`) as parameters. It then uses the `beginPath` method to start a new path, `arc` method to create a circle, and `fill` method to fill the circle.
+
+The `line` function takes a canvas context (`ctx`), starting x and y coordinates (`ax` and `ay`), and ending x and y coordinates (`bx` and `by`) as parameters. It then uses the `beginPath` method to start a new path, `moveTo` method to set the starting point, `lineTo` method to draw a line to the ending point, and `stroke` method to stroke the line.
+
+The `puff` function takes a canvas context (`ctx`), time (`t`), center x and y coordinates (`cx` and `cy`), radii (`rx` and `ry`), and minimum and maximum radii (`rmin` and `rmax`) as parameters. It uses the trigonometric functions `cos` and `sin` to calculate the position of a point on an ellipse. It then draws a circle using the `circle` function, with the position and size calculated based on the time and radii parameters.
+
+The `puffs` function takes a canvas context (`ctx`), time (`t`), center x and y coordinates (`cx` and `cy`), radii (`rx` and `ry`), and minimum and maximum radii (`rmin` and `rmax`) as parameters. It calls the `puff` function multiple times with different time offsets to draw a series of overlapping circles.
+
+The `cloud` function takes a canvas context (`ctx`), time (`t`), center x and y coordinates (`cx` and `cy`), canvas width (`cw`), scale (`s`), and color as parameters. It divides the time by 30000, calculates the dimensions of the cloud based on the canvas width and scale, sets the fill style to the color, and then calls the `puffs` function twice to draw the cloud shape using overlapping circles. It also uses the `globalCompositeOperation` property to clear part of the cloud shape to create a cloud-like effect.
+
+The `sun` function takes a canvas context (`ctx`), time (`t`), center x and y coordinates (`cx` and `cy`), canvas width (`cw`), scale (`s`), and color as parameters. It divides the time by 120000, calculates the dimensions of the sun based on the canvas width and scale, sets the stroke style to the color, and sets the line width, line cap, and line join properties for drawing. It uses the `arc` and `line` functions to draw a sun shape consisting of a circle and multiple lines radiating from the center.
+
+The `moon` function takes a canvas context (`ctx`), time (`t`), center x and y coordinates (`cx` and `cy`), canvas width (`cw`), scale (`s`), and color as parameters. It divides the time by 15000, calculates the dimensions of the moon based on the canvas width and scale, sets the stroke style to the color, and sets the line width, line cap, and line join properties for drawing. It uses the `arc` and `line` functions to draw a moon shape consisting of two arcs and lines.
+
+The `rain` function is incomplete in the provided code.This code defines a `leaf` function that takes a canvas context (`ctx`), time (`t`), x and y coordinates (`x` and `y`), canvas width (`cw`), scale (`s`), and color as parameters. It calculates the dimensions of the leaf based on the canvas width and scale. It then sets the fill and stroke styles to the color, line width, line cap, and line join properties for drawing.
+
+The function uses the canvas `arc` method to draw a leaf shape consisting of two arcs. The first arc is drawn from the starting position (`x`, `y`) to a point `a` radius away, with an angle of `d` to `d + Math.PI` (180 degrees). The second arc is drawn from a point shifted by `b` in the opposite direction of the first arc, with a smaller radius of `c`, and in the opposite direction (`d + Math.PI` to `d`). The `false` argument specifies that the arcs should be drawn counterclockwise.
+
+This function can be used to draw a leaf shape on a canvas, with the position, size, and angle of the leaf determined by the parameters passed to the function.h = ctx.canvas.height,
+		  s = Math.min(w, h);
+  
+	  cloud(ctx, t, w * 0.5, h * 0.5, s, s * STROKE, color);
+	  rain(ctx, t, w * 0.5, h * 0.5, s, s * STROKE, color);
+	};
+  
+	Skycons.SLEET = function(ctx, t, color) {
+	  var w = ctx.canvas.width,
+		  h = ctx.canvas.height,
+		  s = Math.min(w, h);
+  
+	  cloud(ctx, t, w * 0.5, h * 0.5, s, s * STROKE, color);
+	  sleet(ctx, t, w * 0.5, h * 0.5, s, s * STROKE, color);
+	};
+  
+	Skycons.SNOW = function(ctx, t, color) {
+	  var w = ctx.canvas.width,
+		  h = ctx.canvas.height,
+		  s = Math.min(w, h);
+  
+	  cloud(ctx, t, w * 0.5, h * 0.5, s, s * STROKE, color);
+	  snow(ctx, t, w * 0.5, h * 0.5, s, s * STROKE, color);
+	};
+  
+	Skycons.WIND = function(ctx, t, color) {
+	  var w = ctx.canvas.width,
+		  h = ctx.canvas.height,
+		  s = Math.min(w, h);
+  
+	  leaf(ctx, t, w * 0.5, h * 0.5, s, s * STROKE, color);
+	  swoosh(ctx, t, w * 0.5, h * 0.5, s, s * STROKE, 0, WIND_PATHS.length, color);
+	};
+  
+	Skycons.FOG = function(ctx, t, color) {
+	  var w = ctx.canvas.width,
+		  h = ctx.canvas.height,
+		  s = Math.min(w, h),
+		  k = s * STROKE;
+  
+	  fogbank(ctx, t, w * 0.5, h * 0.32, s * 0.75, k * 0.9, color);
+	  foglines(ctx, t, w, h, s, k, color);
+	};
+  
+	Skycons.prototype = {
+	  _determineDrawingFunction: function(draw) {
+		if(typeof draw === "string")
+		  draw = Skycons[draw.toUpperCase().replace(/-/g, "_")] || null;
+  
+		return draw;
+	  },
+	  add: function(thing, draw) {
+		var obj;
+  
+		if(typeof thing.getContext === "function") {
+		  obj = thing;
+		  draw = this._determineDrawingFunction(draw);
+		} else {
+		  obj = document.createElement("canvas");
+		  obj.setAttribute("width", thing);
+		  obj.setAttribute("height", draw);
+		}
+  
+		var skycons = this,
+			list    = skycons.list,
+			length  = list.length;
+  
+		obj.addEventListener("mousemove", function(e) {
+		  var x, y;
+  
+		  if(obj === skycons.canvas) {
+			x = e.clientX;
+			y = e.clientY;
+		  } else {
+			x = obj.getBoundingClientRect().left;
+			y = obj.getBoundingClientRect().top;
+		  }
+  
+		  var color,
+			  cx     = (x - obj.width * 0.5) / obj.width,
+			  cy     = (y - obj.height * 0.5) / obj.height,
+			  pos    = cx * cx + cy * cy,
+			  t      = Date.now();
+  
+		  if(draw) {
+			draw.call(skycons, obj, pos, cx, cy);
+  
+			if(list[length - 1] !== obj) {
+			  for(var i = 0; i < length; i++)
+				if(list[i] === obj) {
+				  list.splice(i, 1);
+				  break;
+				}
+  
+			  list.push(obj);
+			}
+		  } else
+			for(var i = list.length; i--;)
+			  if(list[i] === obj) {
+				list.splice(i, 1);
+				break;
+			  }
+  
+		  if(window.requestAnimationFrame)
+			window.requestAnimationFrame(function() {
+			  skycons.draw(t);
+			});
+		  else
+			skycons.interval = setInterval(function() {
+			  skycons.draw(t);
+			}, 1000 / 60);
+		}, false);
+  
+		list.push(obj);
+		return skycons;
+	  },
+	  set: function(thing, draw) {
+		this.list = [];
+		return this.add(thing, draw);
+	  },
+	  remove: function(thing) {
+		var obj;
+  
+		if(typeof thing.getContext === "function")
+		  obj = thing;
+  
+		else {
+		  obj = document.createElement("canvas");
+		  obj.setAttribute("width", thing);
+		  obj.setAttribute("height", draw);
+		}
+  
+		var list = this.list;
+  
+		for(var i = list.length; i--;)
+		  if(list[i] === obj) {
+			list.splice(i, 1);
+			break;
+		  }
+  
+		return this;
+	  },
+	  draw: function(t) {
+		var list = this.list,
+			len  = list.length,
+			ctx,
+			i;
+  
+		if(this.resizeClear)
+		  for(i = 0; i < len; i++) {
+			list[i].width = list[i].width;
+		  }
+		else
+		  this._clear();
+  
+		for(i = 0; i < len; i++) {
+		  ctx = list[i].getContext("2d");
+		  ctx.lineCap = "round";
+		  ctx.lineJoin = "round";
+		  this.pause();
+		  this.list[i]['data-transitioning'] = false;
+		}
+  
+		for(i = 0; i < len; i++) {
+		  ctx = list[i].getContext("2d");
+		  if(!list[i].dataSkycons)
+			list[i].dataSkycons = Math.random();
+  
+		  this.drawIcon(ctx, list[i].dataSkycons, t);
+		}
+  
+		return this;
+	  },
+	  drawIcon: function(ctx, key, t) {
+		var color = this.color;
+  
+		if(this.monochrome !== null)
+		  color = monochrome;
+  
+		t /= 1000;
+  
+		Skycons[key](ctx, t, color);
+	  },
+  
+	  pause: function() {
+		this.interval && clearInterval(this.interval);
+		this.interval = null;
+		return this;
+	  },
+	  play: function() {
+		var self = this;
+  
+		if(!self.interval)
+		  self.interval = setInterval(function() {
+			self.draw(Date.now());
+  
+			// call using Skycons instead of this
+		  }, 1000 / 60);
+  
+		return this;
+	  },
+	  list: [],
+	  interval: null,
+	  color: "black",
+  
+	  resizeClear: false,
+	  monochrome: null
+	};The remaining part of the function is the definition of the `Skycons` object and its prototype methods. The `Skycons` object is created with the following properties:
+
+- `list` (array): stores the objects added to the Skycons instance
+- `interval` (number): stores the interval ID for the animation loop
+- `color` (string): stores the color of the icons
+- `resizeClear` (boolean): specifies if the canvas should be cleared on resize
+- `monochrome` (string): specifies the color of the icons if monochrome is enabled
+
+The `Skycons` prototype defines the following methods:
+
+- `_determineDrawingFunction` checks if the `draw` parameter passed to `add` or `set` is a string and converts it to the corresponding drawing function, if available
+- `add` adds an object to the Skycons instance
+- `set` replaces the existing object with a new one, or adds a new one if the object doesn't exist
+- `remove` removes an object from the Skycons instance
+- `draw` draws the icons on the canvas for each object in the `list` array
+- `drawIcon` draws a specific icon on the canvas
+- `pause` stops the animation loop
+- `play` starts the animation loop
+
+Overall, the `Skycons` object and its prototype methods provide a way to add, remove, and animate weather icons on a canvas element.The remaining part of the function is an immediate function call that passes the `window` object as the context (`this`). This is done to make the Skycons library available in the global scope. The purpose of this is to allow developers to use the Skycons library without needing to explicitly require or import it in their code. By attaching the Skycons library to the `window` object, it can be accessed by simply referencing `window.Skycons` in any part of the code.
+
+The function call is wrapped in parentheses `(function() { ... })()` which is a common pattern in JavaScript for creating a function and immediately calling it. This pattern is used here to create a closure, isolating the Skycons library code and preventing any potential conflicts with other code or variables in the global scope.
+
+Overall, this final part of the function ensures that the Skycons library is available globally and ready to be used by developers in their applications.

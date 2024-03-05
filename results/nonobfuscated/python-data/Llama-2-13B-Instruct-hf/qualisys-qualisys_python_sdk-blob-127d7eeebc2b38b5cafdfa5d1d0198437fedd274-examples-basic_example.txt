@@ -1,0 +1,46 @@
+Analyze the following piece of code: 
+
+
+import asyncio
+import qtm
+
+
+def on_packet(packet):
+    
+
+    print("Framenumber: {}".format(packet.framenumber))
+    header, markers = packet.get_3d_markers()
+    print("Component info: {}".format(header))
+    for marker in markers:
+        print("\t", marker)
+
+
+async def setup():
+    
+
+    connection = await qtm.connect("127.0.0.1")
+    if connection is None:
+        return
+
+    await connection.stream_frames(components=["3d"], on_packet=on_packet)
+
+
+if __name__ == "__main__":
+    asyncio.ensure_future(setup())
+    asyncio.get_event_loop().run_forever()
+
+
+What does this code do?
+
+This code is a simple QTM (QuickTime Movie) reader using the Python qtm library. It reads a QTM file and prints out some information about the frames and markers in the file.
+
+Here's a breakdown of the code:
+
+1. The first line imports the asyncio and qtm libraries.
+2. The on_packet function is defined. It takes a packet as an argument and prints out some information about the packet.
+3. The setup function is defined. It creates a connection to the QTM file using the qtm.connect() method, and then streams the frames from the file using the connection.on_frame() method. The on_packet function is called for each frame.
+4. The if __name__ == "__main__": block ensures that the setup function is run when the script is run directly (i.e., not when it is imported as a module by another script).
+5. The asyncio.ensure_future() function is used to run the setup function asynchronously.
+6. The asyncio.get_event_loop().run_forever() function runs the event loop indefinitely, which allows the script to continue running and processing frames from the QTM file.
+
+In summary, this code reads a QTM file and prints out information about the frames and markers in the file. It uses the asyncio library to run the setup function asynchronously and the event loop to continue running indefinitely.

@@ -1,0 +1,64 @@
+Analyze the following piece of code: 
+const productos = [
+	{ nombre: 'manzana', valor: 500 },
+	{ nombre: 'pera', valor: 300 },
+	{ nombre: 'mango', valor: 250 },
+	{ nombre: 'naranja', valor: 300 },
+	{ nombre: 'uvas', valor: 400 },
+	{ nombre: 'ciruela', valor: 550 },
+]
+const formulario = document.querySelector('#formulario');
+const boton = document.querySelector('#boton');
+const resultado = document.querySelector('#resultado');
+
+const filtrar = () => {
+
+	resultado.innerHTML = '';
+
+	const text = formulario.value.toLowerCase();
+
+	for (let producto of productos) {
+		let nombre = producto.nombre.toLocaleLowerCase();
+		if (nombre.indexOf(text) !== -1) {
+			resultado.innerHTML += 
+				`<li>${producto.nombre} - Valor ${producto.valor}</li>`
+		}
+	}
+	if (resultado.innerHTML === '') {
+		resultado.innerHTML +=
+			`<li>Producto no encontrado</li>`
+	}
+}
+
+boton.addEventListener('click', filtrar);
+formulario.addEventListener('keyup', filtrar);
+
+filtrar();
+
+What does this code do?
+
+This code creates a list of products, and then creates a form with a text input and a button. When the user types in the form and clicks the button, the code filters the list of products based on the text they typed, and displays the results in a list. If no products are found, it displays a message saying "Product not found".
+
+What are some potential issues with this code?
+
+There are a few potential issues with this code:
+
+1. The code uses the `toLowerCase()` method on the `text` variable, but it does not check if the input is empty before calling this method. This means that if the user types an empty string, the code will still try to filter the list of products, which could cause errors.
+2. The code uses the `indexOf()` method to check if the product name contains the text the user typed. However, this method only checks if the text is present in the string, and does not check if it is at the beginning of the string. This means that if the user types a word that is not at the beginning of the product name, the code may not find the product.
+3. The code does not handle the case where the user types multiple words. If the user types "apple banana", for example, the code will only find the product with the name "apple", and not the product with the name "banana".
+4. The code does not handle the case where the user types a word that is not in the list of products. If the user types a word that is not in the list, the code will not find any products and will display the message "Product not found".
+5. The code does not handle the case where the user types a word that is not a valid product name. If the user types a word that is not a valid product name, the code will not find any products and will display the message "Product not found".
+6. The code does not handle the case where the user types a word that is too long. If the user types a word that is too long, the code may not be able to find the product.
+7. The code does not handle the case where the user types a word that is too short. If the user types a word that is too short, the code may not be able to find the product.
+8. The code does not handle the case where the user types a word that is not a string. If the user types a word that is not a string, the code will not be able to find the product.
+
+What could be done to improve this code?
+
+To improve this code, we could do the following:
+
+1. Check if the input is empty before calling the `toLowerCase()` method.
+2. Use a more robust method for checking if the product name contains the text the user typed, such as using the `includes()` method.
+3. Handle the case where the user types multiple words by splitting the input into an array of words and then checking if any of the words are in the product name.
+4. Handle the case where the user types a word that is not in the list of products by adding a check to see if the word is in the list before displaying the message "Product not found".
+5. Handle the case where the user types a word that is not a valid product name by adding a check to see if the word is a valid product name before displaying the message "Product not found".
+6. Handle the case where the user types a word that is

@@ -1,0 +1,23 @@
+This script, written in C, is simulating fluid dynamics, specifically a two-dimensional cellular automaton fluid dynamics simulation. Here's an in-depth explanation:
+
+- It begins by calling the necessary libraries and declaring various variables, complex array `a`, several pointers `p`, `q`, `r` to the complex array, and complex variables `w`, `d`. Additionally, it declares integers `x`, and `y`, character array `b` that contains ANSI escape sequences to clear console output, pointers `o` and `t` that point to the `b` array. 
+
+- The `main()` function begins with two loops that take their input from stdin. The initial `for` loop reads character-by-character, checking ASCII value of received characters, and put the result into array `a`. 
+
+- After the input collecting loop, the endless `for` loop starts for the simulation process:
+
+    1. The first nested loop simply calculates the distances between each pair of particles, and incrementally builds the density and pressure maps.
+
+    2. The second loop calculates the acceleration due to pressure and viscosity.
+
+    3. Then, an array `b` is cleared.
+
+    4. The fourth loop updates the position and velocity of each particle based on the calculated acceleration.
+
+    5. Next, the array `b` is populated based on the updated positions of each particle.
+
+    6. Finally, the screen is simply updated with the new positions and the script sleeps for a tiny amount of time.
+
+By iterating over the simulation processes, it demonstrates the fundamental aspects of fluid dynamics, including pressure, motion, and viscosity.
+
+The code is written in an obfuscated style (often seen in the International Obfuscated C Code Contest or IOCCC), so it's purposefully challenging to read.

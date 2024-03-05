@@ -1,0 +1,15 @@
+This code accepts two numbers as input and performs addition on them. 
+
+First, it declares variables `i`, `j`, `k`, `lena`, `lenb`, `carry`, and `temp`. `lena` and `lenb` represent the lengths of the input numbers, `carry` stores the carry from addition, and `temp` is a temporary variable.
+
+Then, arrays `a`, `b`, and `c` of size `MAX_DIGITS+1` and `MAX_DIGITS+2` are declared to store the input numbers and their sum, respectively.
+
+The code uses `scanf` to read the two numbers as strings, stores their lengths in `lena` and `lenb`, and initializes `carry` and `k` to 0.
+
+The code then starts a while loop to iterate through the digits of both numbers from right to left (using indices `i` and `j`). Inside the loop, it converts the characters to integers and adds them along with the carry. The sum is stored in `temp`, and the remainder after dividing by 10 is stored in `c[k]` (the k-th digit of the sum `c`). The updated carry is calculated as the integer division of `temp` by 10. The loop also decrements `i`, `j`, and increments `k`.
+
+After the while loop, there are two if-else statements to handle cases where one number is longer than the other. If `i` is still greater than or equal to 0, it means there are digits remaining in `a`, so it enters a while loop similar to the previous one to add the remaining digits of `a` along with the carry. If `j` is still greater than or equal to 0, it means there are digits remaining in `b`, so it enters another while loop to add the remaining digits of `b` along with the carry.
+
+Next, there is an if-else statement to handle the carry after the addition is complete. If there is a leftover carry, it is stored as a digit '1' in `c[k]`. Otherwise, `k` is decremented.
+
+Lastly, there is a while loop to print the digits of `c` starting from the highest significant digit (at index `k`) down to the lowest significant digit (at index 0), excluding any leading zeros. If `k` is less than 0, it means the sum is 0 and the program just prints "0".

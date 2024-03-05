@@ -1,0 +1,9 @@
+This C++ code is a function that reads a line of text and a character, then prints out the starting and ending indices of all segments in the input string where instances of the chosen character comprise half or less of the total characters in the segment. The character is assigned as the first character of the string.
+  
+In the main function, it reads a line of up to 99 characters using 'cin.getline' into variable 'a', then it sets variable 'b' as the first character of 'a'. Then it invokes function 'f' with 'a' and 'b' as arguments. 
+
+In function 'f', it iterates through each character in the array 'a'. If the character matches 'b', it skips to the next character. If not, it starts iterating back from the current index to the beginning of the array. For each of these sub-arrays, it counts the occurrences of 'b'. If the number of occurrences equals half the size of the subarray (or slightly less if the subarray has an odd number of elements), it prints out the starting and ending indices of the subarray, and then breaks out of the current loop.
+
+The output of this function will thus be pairs of numbers, each pair representing the start and end indices of the segments where the occurrences of 'b' are half or less. 
+
+This program appears to have incomplete logic though. As it would ignore segments where the chosen character is at the start position because the first 'if' statement skips the iterations when the current character is the one being searched for.

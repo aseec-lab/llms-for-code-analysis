@@ -1,0 +1,385 @@
+Analyze the following piece of code: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import numpy as np
+from nupic.bindings.math import Random
+
+
+
+class SequenceMachine(object):
+  
+
+
+  def __init__(self,
+               patternMachine,
+               seed=42):
+    
+
+    
+    self.patternMachine = patternMachine
+
+    
+    self._random = Random(seed)
+
+
+  def generateFromNumbers(self, numbers):
+    
+
+    sequence = []
+
+    for number in numbers:
+      if number == None:
+        sequence.append(number)
+      else:
+        pattern = self.patternMachine.get(number)
+        sequence.append(pattern)
+
+    return sequence
+
+
+  def addSpatialNoise(self, sequence, amount):
+    
+
+    newSequence = []
+
+    for pattern in sequence:
+      if pattern is not None:
+        pattern = self.patternMachine.addNoise(pattern, amount)
+      newSequence.append(pattern)
+
+    return newSequence
+
+
+  def prettyPrintSequence(self, sequence, verbosity=1):
+    
+
+    text = ""
+
+    for i in xrange(len(sequence)):
+      pattern = sequence[i]
+
+      if pattern == None:
+        text += "<reset>"
+        if i < len(sequence) - 1:
+          text += "\n"
+      else:
+        text += self.patternMachine.prettyPrintPattern(pattern,
+                                                       verbosity=verbosity)
+
+    return text
+
+
+  def generateNumbers(self, numSequences, sequenceLength, sharedRange=None):
+    
+
+    numbers = []
+
+    if sharedRange:
+      sharedStart, sharedEnd = sharedRange
+      sharedLength = sharedEnd - sharedStart
+      sharedNumbers = range(numSequences * sequenceLength,
+                            numSequences * sequenceLength + sharedLength)
+
+    for i in xrange(numSequences):
+      start = i * sequenceLength
+      newNumbers = np.array(range(start, start + sequenceLength), np.uint32)
+      self._random.shuffle(newNumbers)
+      newNumbers = list(newNumbers)
+
+      if sharedRange is not None:
+        newNumbers[sharedStart:sharedEnd] = sharedNumbers
+
+      numbers += newNumbers
+      numbers.append(None)
+
+    return numbers
+
+
+  def generateSequences(self, numSequences, sequenceLength, sharedRange=None):
+    
+
+    numbers = self.generateNumbers(numSequences, sequenceLength, sharedRange)
+    sequences = []
+
+    for i in xrange(numSequences):
+      start = i * sequenceLength
+      end = start + sequenceLength
+      sequences.append(self.generateFromNumbers(numbers[start:end]))
+
+    return sequences
+
+
+  def generateSequencesWithSpatialNoise(self,
+                                        numSequences,
+                                        sequenceLength,
+                                        amount,
+                                        sharedRange=None):
+    
+
+    sequences = self.generateSequences(numSequences, sequenceLength, sharedRange)
+
+    for i in xrange(numSequences):
+      sequence = sequences[i]
+      sequences[i] = self.addSpatialNoise(sequence, amount)
+
+    return sequences
+
+
+  def generateSequencesWithSpatialNoiseAndPrettyPrint(self,
+                                                      numSequences,
+                                                      sequenceLength,
+                                                      amount,
+                                                      sharedRange=None,
+                                                      verbosity=1):
+    
+
+    sequences = self.generateSequencesWithSpatialNoise(numSequences,
+                                                        sequenceLength,
+                                                        amount,
+                                                        sharedRange)
+
+    for i in xrange(numSequences):
+      sequence = sequences[i]
+      sequences[i] = self.prettyPrintSequence(sequence, verbosity)
+
+    return sequences
+
+
+  def generateSequencesWithSpatialNoiseAndPrettyPrintAndSave(self,
+                                                             numSequences,
+                                                             sequenceLength,
+                                                             amount,
+                                                             sharedRange=None,
+                                                             verbosity=1,
+                                                             filename=None):
+    
+
+    sequences = self.generateSequencesWithSpatialNoiseAndPrettyPrint(numSequences,
+                                                                      sequenceLength,
+                                                                      amount,
+                                                                      sharedRange,
+                                                                      verbosity)
+
+    if filename:
+      with open(filename, "w") as f:
+        f.write("\n".join(sequences))
+
+    return sequences
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

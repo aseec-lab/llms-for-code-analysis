@@ -1,0 +1,49 @@
+This is a complex C program that implements a version of the SKI combinator calculus, a computational system that can simulate a Turing machine. The SKI calculus is a kind of combinatory logic, which is a notation designed to eliminate the need for variables in mathematical logic.
+
+It accomplishes this using a union and a variety of functions. It defines a union called `Argument`, which represents the possible types of arguments that can be used in the calculus.
+
+This program works by opening an input file and reading through it, applying its logic to the contents. It checks substrings of the file content against various conditions to parse and interpret it according to the combinator calculus. It also handles syntax errors and fails gracefully when it encounters unforeseen circumstances such as an out-of-memory error.
+
+This seems to be part of a command line tool. The number of command line arguments is checked at the start of the main function. The tool expects one or two arguments, which are paths to the input and output files respectively.
+
+The function `Next` is used to get the next meaningful character from input, skipping comments and white spaces. `Dereference` function is used to deallocate an `Argument` when it's no longer needed.
+
+The rest of program logic is buried in the huge number of defined functions operating on the `Argument`s, interpreting their call properties and changing their state.
+
+Please note, that there are some function prototypes declared but without their implementation provided. It's possible that the complete implementation could make the program's purpose clearer.This code continues with the definition of more functions operating on `Arguments`. Just to name a few:
+
+1. `rA2` is a helper function that manages memory of references efficiently and passes on the necessary variables to `fA2`.
+
+2. `fA1` checks the state of `x` and performs different actions based on it. If `x[3].a` exists and if its call property matches `rCont` or `rE`, it simply returns `x`. Otherwise, it creates a new `Argument r`, sets fields of `r`, and returns it. When there is no `x[3].a`, it checks the call property of `x` for `fD0` and also potentially deallocates `f`.
+
+3. `rA1` and `fA` manage memory and call other helper functions such as fA1.
+
+4. `fD1`, `rD`, and `fD` seem to deal with logic involving dereferencing and managing memory of some arguments. They all might return a new `Argument r` that's been created with a different call function and properties according to what it's processing.
+
+5. `ApplyInit` releases an I() function and creates a new `Argument r` that has `fA` as its initial value.
+
+6. `Apply2` checks the state of `y` and performs different actions based on it. It dereferences `x` if necessary, and might return a new `Argument r` with a call of `rApply2`.
+
+The rest of the functions are similar and altogether they form a full-blown interpreter for the combinator calculus. The SKI combinator calculus is used as a theoretical model of computation, and it’s also used as the core of some programming languages.In this part of the code, many new functions are defined. They mostly play with memory references and function pointers in the context of the given SKI combinator calculus. The operations will tend to depend on both the value of `x` and potentially its "call" property or function pointer. 
+
+For example, `fS21` will execute different codes depending on whether `x[3].a` exists and if it matches certain conditions. It will create new `Argument` instances with different calls and properties right before returning them.
+
+`fS2`, `fS1`, `fS0` seem to be steps in the SKI combinator where they use referenced arguments, create new `Argument` instances, and dereference old ones. Each of these functions returns a new `Argument` that's been created with a different call function and properties according to the step it's processing.
+
+Functions `fI` and `fV` are interesting as they return `x` and `f` respectively after dereferencing `f`. They seem like identity and void functions in the combinator calculus context.
+
+`fW`, `fR`, `fCh` and `fP` all handle the console's input and output streams. `fW` writes a character to the stdout, `fR` reads a character from stdin, `fCh` checks if an input character is equal to a specific character and `fP` outputs a character.
+
+`fC`, `rC`, `fCont`, `rE` and `fE` all return a new `Argument` in their computations, which they make ready with a call function and by managing memory properly.
+
+The `T` table contains pairs of references where each reference is either a pointer to a character or a function pointer. It seems to be an interpreter context with different operations for each ASCII value.
+
+`Output` seems to act as a printer function that outputs the combinator functions as characters to the output stream.This continuation of the previous `Output` function handles a few more cases. Each of these `else if` conditions check for a different function pointer or value in the argument `f`.
+
+If the call to function `f` is `fD`, it writes the string "`d" to the output stream defined by `Output(f[1].a)`. 
+
+If `f[0].init` is `fA`, it will put a "`" character to the output stream, process `f[1].a` and `f[2].a` by recursively calling `Output` on them.
+
+If the call to function `f` is `fCont`, it will use `fprintf` to output a continuation with a long int value (`<cont:%li>`), taking `f[2].p` as the value to be printed.
+
+Finally, if the function does not match any of the above conditions, it prints "<unknown>" to indicate that an unexpected function was called in the current context.

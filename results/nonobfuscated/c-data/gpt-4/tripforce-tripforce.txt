@@ -1,0 +1,38 @@
+The provided code appears to be part of a tripcode brute force tool, called "tripforce", for imageboards like 4chan and 2chan. 
+
+Specifically, it:
+
+- Provides descriptive information about the application, including name, version, author, and license.
+- Defines an enumeration for different program modes, which include no query mode, case-sensitive mode, and case-agnostic mode.
+- Defines several constant error messages for different types of input validation errors.
+- Declares a number of functions for interfacing with the user from command line, validating input, generating random numbers, and other utilities.
+- Implements some of these functions, like those for printing startup information into the console, displaying the help message, and validating search query input.
+- Implements functions to create pseudo random numbers.
+- Implements a function to measure the tripcode generation rate, `trip_frequency`, which finds the average number of tripcodes generated per second.
+- Implements a function to format the above rate for display, `trip_rate_condense`, which divides the rate to smaller units (kilo, mega, giga, etc.), according to the size of the rate.
+
+Notably, this piece of the code does not actually perform any tripcode cracking. Presumably, the main functionality of generating and testing tripcodes against the provided search query would be in another piece of the code.
+
+The code also supports multithreading via the OpenMP library if it is available, as seen from the import directives at the beginning and the conditionally defined omp_* functions. This would allow the program to generate and check tripcodes more quickly by running on multiple cores simultaneously.
+
+It is noted that a tripcode is a kind of password used on anonymous image boards for proving one's identity. They provide a way to prove one's identity without the need for registration. Tripcodes can't be reverse-engineered to get the original password. If a user provides a password, the server will create the tripcode by applying a one-way cryptographic function to the password.The provided code implements multiple functions that generate and test tripcodes against a search query. Specific features of the code include:
+
+1. Implementation of a `generate_password()` function that creates a random password of 8 characters, selected from a list of 92 possible characters. 
+
+2. Implementation of a `generate_salt()` function that extracts the second and third characters from a given password to form the salt (used for cryptographic purposes).
+
+3. Implementation of `strip_outliers()` and `replace_punctuation()` functions that sanitize the salt characters according to the specific criteria used by 2ch/4chan through a series of character replacements.
+
+4. Implementation of a `truncate_tripcode()` function that truncates the tripcode (which is initially 13 characters) to 10 characters by removing the first three. 
+
+5. Implementation of a `strcasestr()` function that performs a case-insensitive search of one string within another.
+
+6. Implementation of a `determine_match()` function that checks if the generated tripcode matches the query, either case-sensitively or case-insensitively, based on the mode setting. If a match is found, it outputs the match and the current tripcodes per second rate to the console. 
+
+7. The `sigint_stop()` function is an interrupt handler that changes the program's state to "stop" when it receives an interrupt signal.
+
+8. The `main()` function performs input validation, mode setting, setup of multithreading (if OpenMP is available), generation and testing of tripcodes in a loop, and cleanup tasks when the loop is exited (either when a match is found or an interrupt is received). Signal handling for SIGINT is also setup here to enable graceful termination of the program.
+
+9. The `main()` function also uses OpenMP to parallelize the process of generating and testing tripcodes, for improved performance on multi-core processors. Each OpenMP thread generates and tests its own tripcodes independently, using thread-independent random seeds.
+
+This completes the function of the tripcode brute force cracker. It generates and tests tripcodes in parallel, and it stops either when it finds a match for the given search query, or when it receives an interrupt signal (SIGINT).

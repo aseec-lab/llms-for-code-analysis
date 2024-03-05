@@ -1,0 +1,21 @@
+1. This code is written in C language and is being used to read an array of integers from the user, to calculate the average of those numbers, and to identify and print the minimum and/or maximum value/s depending on their absolute differences from the average.
+
+2. int a[300]={0},n,i,min,max; - Declaring an integer array 'a' of size 300 with all elements initialized to 0, and integer variables 'n', 'i', 'min', 'max'.
+
+3. float sum=0,ave,mid,mad; - Declaring float variables 'sum' initialized to 0, and 'ave', 'mid', 'mad'.
+
+4. scanf("%d",&n); - Accepts an integer input from the user and stores it in 'n'.
+
+5. for(i=0;i<n;i++){scanf("%d",&a[i]);sum=sum+(float)a[i];} - This loop accepts 'n' integer inputs from the user, stores them in array 'a', and keeps adding them to the 'sum' (also converts them to float).
+
+6. ave=sum/n; - Calculates the average of all numbers inputted by the user.
+
+7. min=a[0];max=a[0]; - Initializes the minimum and maximum to the first number of the array.
+
+8. for(i=0;i<n;i++){if(a[i]<min)min=a[i];if(a[i]>max)max=a[i];} - This loop moves through each element in the array to find the actual minimum ('min') and maximum ('max') values.
+
+9. mid=ave-min;mad=max-ave; - Calculates the absolute distance of the minimum ('min') and maximum ('max') from the average ('ave'), refers to these as mid and mad.
+
+10. if(mid>mad)printf("%d\n",min);...  - Prints the minimum or maximum value or both depending on their absolute distances from the average.
+
+In conclusion, the code prints out the minimum number if it is farther from the average than the maximum number, the maximum if it is farther, or both if they are equidistant.

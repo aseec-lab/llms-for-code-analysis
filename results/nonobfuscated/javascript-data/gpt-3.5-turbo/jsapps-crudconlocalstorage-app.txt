@@ -1,0 +1,21 @@
+This code is for a simple todo list application. 
+
+The code begins by selecting the necessary HTML elements using `document.querySelector()` and assigning them to variables (`formularioUI` and `listaActividadesUI`).
+
+Next, an empty array `arrayActividades` is declared.
+
+The code defines a function `CrearTask` that takes an `actividad` parameter and creates a new task object with the `actividad` and `estado` properties. The task object is then added to the `arrayActividades` array and returned.
+
+The `GuardarDB` function is used to save the `arrayActividades` array to the browser's localStorage as a JSON string. It then calls the `PintarDB` function.
+
+The `PintarDB` function is responsible for rendering the tasks stored in `arrayActividades` in the `listaActividadesUI` element. It first clears the existing content of `listaActividadesUI`. It then retrieves the `arrayActividades` array from localStorage and assigns it back to `arrayActividades`. If `arrayActividades` is null (i.e., there are no tasks stored in localStorage), it sets `arrayActividades` to an empty array. Otherwise, it iterates through each task object in `arrayActividades` and appends an HTML string representing each task to `listaActividadesUI`.
+
+The `EditarDB` function takes an `actividad` parameter, finds the corresponding task object in `arrayActividades`, and sets its `estado` property to `true`. It then calls `GuardarDB` to save the updated `arrayActividades` in localStorage.
+
+The `EliminarDB` function takes an `actividad` parameter, finds the index of the corresponding task object in `arrayActividades`, removes it from the array using `array.splice()`, and then calls `GuardarDB` to save the updated `arrayActividades` in localStorage.
+
+The code adds an event listener to the `formularioUI` element for the 'submit' event. When the form is submitted, it prevents the default form submission behavior, retrieves the value of the input with id 'actividad', creates a new task using `CrearTask`, saves the updated `arrayActividades` using `GuardarDB`, and resets the form.
+
+The code adds an event listener to the `document` object for the 'DOMContentLoaded' event. When the DOM content has loaded, it calls the `PintarDB` function to render the tasks stored in localStorage.
+
+The code adds an event listener to the `listaActividadesUI` element for the 'click' event. When a click event occurs on `listaActividadesUI`, it checks if the clicked element's innerHTML is either 'done' or 'delete_forever'. If it is, it finds the corresponding task text by traversing the DOM, and if the clicked element is 'delete_forever', it calls `EliminarDB`, and if it is 'done', it calls `EditarDB`.

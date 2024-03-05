@@ -1,0 +1,21 @@
+The code is a command line utility in C that reads lines from the standard input, replaces values inside dollar characters ($) with the corresponding environment variable, expands escaped octal codes into their ASCII representation, and writes the result to standard output.
+
+Here are the main parts of the program:
+
+- The main function reads lines from standard input using fgets, process the line with cb function and sends the results to standard output using fwrite function.
+
+- The cb function is the heart of the program. It performs the replacement of environment variable enclosed within dollar signs and octal escape sequence conversion:
+    - It first finds a dollar character in the current line
+    - If there's none, then the line is returned as is
+    - If there is, it copies the line up until the dollar sign
+    - Then it checks what's between this and the next dollar sign:
+        - If it's an environment variable (no space character within), it gets its value via getenv and copies it
+        - If it's an escaped octal code (starts with a backslash followed by one to three octal digits), it converts it to its ASCII representation and copies it
+        - If it's neither, it just copies as is
+    - This process goes on until the end of the current line
+
+- There are several parts of the code that seems to be not used like the function tng, 'int l' and 'FILE *o' which might be remains of a previous version
+
+- The formatting of the code is not standard. There are lots of unnecessary comments and spacing. Some of them look like they might be intended as a kind of obfuscation. 
+
+Please, note that, this is not typical practice and clean, easy to read code is always preferable for maintenance and development.

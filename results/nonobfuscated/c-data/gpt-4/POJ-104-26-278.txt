@@ -1,0 +1,19 @@
+This C++ code reads a string input from the user and prints out the string after removing extra spaces. Here is what each part of the code does:
+
+- The main function begins with the declaration of an integer `i` and a character array `a[101]`, which can hold up to 100 characters (plus an end-of-string null terminator).
+
+- A line of text is read from the standard input `cin` and stored in the character array `a`.
+
+- A char pointer `p` is created and points to the first element of array `a`.
+
+- The code then enters a loop that runs for the length of the input string.
+
+  - Inside the loop, it checks whether there are two subsequent spaces in the string (`a[i] == ' '` and `a[i + 1] == ' '`).
+
+  - If it finds two subsequent spaces, it moves the pointer `p` to the next character (effectively skipping one space).
+
+  - If it does not find two subsequent spaces (or in the first iteration when it still hasn't found a space yet), it outputs the character currently pointed to by `p` and moves the pointer to the next character.
+
+  - This process repeats for the entire string.
+
+So, for example, if the string input was "Hello  World !!!" the output will be "Hello World !!!" (with just one space between "Hello" and "World"). However, this implementation would not remove multiple (more than two) consecutive spaces since it only checks for two spaces at a time.

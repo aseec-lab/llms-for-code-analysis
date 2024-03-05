@@ -1,0 +1,55 @@
+The code provided defines several classes and functions related to benchmarking. 
+
+1. The first chunk of code sets the `performance.now` property with a cross-browser implementation. It checks if the `performance.now` property is already defined and if not, assigns it to one of the alternate properties (`performance.mozNow`, `performance.msNow`, `performance.oNow`, `performance.webkitNow`, or `Date.now`).
+
+2. The `Benchmark` class is defined with properties for the benchmark name, whether to do warmup before running, whether to run deterministically, the number of deterministic iterations, the run function, the setup function, the teardown function, the rms result, and the minimum number of iterations.
+
+3. The `BenchmarkResult` class is defined with properties for the benchmark, the time it took to run, and the latency.
+
+4. The `valueOf()` function is defined on the `BenchmarkResult` prototype to return the time value.
+
+5. The `BenchmarkSuite` class is defined with properties for the suite name, the reference implementation, and an array of benchmarks.
+
+6. The `BenchmarkSuite.suites` array is defined to store all benchmark suites.
+
+7. The `BenchmarkSuite.version` property is defined with the value '9'.
+
+8. The `BenchmarkSuite.config` object is defined with the properties `doWarmup` and `doDeterministic`.
+
+9. The `alert()` function is redefined to throw an error instead of showing an alert.
+
+10. The `BenchmarkSuite.ResetRNG()` function is defined which resets the `Math.random` function by assigning a new seed value.
+
+11. The `BenchmarkSuite.RunSuites()` function is defined which runs the benchmark suites. It takes a `runner` object and an array of `skipBenchmarks` as arguments. It initializes some variables, sets up a recursive `RunStep()` function, and calls it. Inside the `RunStep()` function, it checks if there is a continuation function to be executed or if there are more benchmark suites to run. It then calls the necessary functions to run the benchmark suites and notifies the runner about the start and end of each suite. It also calculates the geometric mean score of all the benchmark scores and notifies the runner with the result.
+
+12. The `BenchmarkSuite.CountBenchmarks()` function is defined which counts the total number of benchmarks in all the suites.
+
+13. The `BenchmarkSuite.GeometricMean()` function is defined which calculates the geometric mean of an array of numbers.
+
+14. The `BenchmarkSuite.GeometricMeanTime()` function is defined which calculates the geometric mean of an array of measurement times.
+
+15. The `BenchmarkSuite.GeometricMeanLatency()` function is defined which calculates the geometric mean of an array of latencies.The remaining part of the code defines several methods on the `BenchmarkSuite` prototype:
+
+1. The `NotifyStep()` method adds a result to the `results` array and notifies the runner about the current step.
+
+2. The `NotifyResult()` method calculates the mean time and score based on the results, adds the score to the `BenchmarkSuite.scores` array, and notifies the runner about the result. If the reference data includes latency, it also calculates and notifies the mean latency and score.
+
+3. The `NotifySkipped()` method adds a score of 1 to the `BenchmarkSuite.scores` array and notifies the runner that the benchmark has been skipped.
+
+4. The `NotifyError()` method notifies the runner about an error that occurred during the benchmark.
+
+5. The `RunSingleBenchmark()` method runs a single benchmark. It checks the benchmark and suite configuration to determine whether to perform warmup and deterministic iterations. It measures the time it takes to run the benchmark, and updates the data object with the number of runs and total elapsed time. If data is null, it returns a new object with zero runs and elapsed time. If the benchmark has not reached the minimum number of iterations, it returns the data object. Otherwise, it calculates the average time per run and root mean square (rms) if available, creates a new `BenchmarkResult` object, notifies the runner about the step, and returns null.
+
+6. The `RunStep()` method is the main recursive function for running the benchmarks. It resets the random number generator, initializes the results array and runner, and sets up the variables for tracking the current benchmark index and data object. 
+
+- The `RunNextSetup()` function runs the setup function for the next benchmark in the suite. If there are no more benchmarks, it notifies the runner about the result and returns null.
+
+- The `RunNextBenchmark()` function runs the next benchmark in the suite. If an error occurs, it notifies the runner about the error and returns null. If the benchmark has finished running, it calls `RunNextTearDown()`. Otherwise, it calls `RunNextBenchmark()` recursively to continue running the benchmark.
+
+- The `RunNextTearDown()` function runs the teardown function for the current benchmark. If an error occurs, it notifies the runner about the error and returns null. It then calls `RunNextSetup()` to move on to the next benchmark.
+
+The `RunStep()` function calls `RunNextSetup()` to start running the benchmarks.7. The `ReportResults()` method generates a report of the benchmark results. It sorts the scores array in ascending order and calculates the mean and median scores. It then logs the results, including the suite name, mean and median scores, and individual benchmark scores.
+
+8. The `Run()` method is the entry point for running the benchmark suite. It initializes the runner and sets up the benchmark settings and results. It starts running the benchmarks by calling the `RunStep()` method. After all the benchmarks have finished running, it calls the `ReportResults()` method to generate the benchmark report. Finally, it notifies the runner that the benchmark suite has finished running.
+
+The `BenchmarkSuite` class serves as the main controller for running benchmarks and gathering results. It provides methods for configuring the benchmark suite, running the benchmarks, and reporting the results. The class ensures that each benchmark in the suite is run in the correct order, handles errors that may occur during benchmarking, and calculates the mean and median scores for the suite.

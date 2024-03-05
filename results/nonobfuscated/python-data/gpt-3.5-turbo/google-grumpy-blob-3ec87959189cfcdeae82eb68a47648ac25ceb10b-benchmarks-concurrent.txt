@@ -1,0 +1,9 @@
+This code defines two functions, `Arithmetic` and `Fib`, which perform arithmetic operations. 
+
+The `_WORKLOADS` list contains tuples, each containing a function and an argument. These tuples define different workloads that will be executed in the benchmark.
+
+The `_MakeParallelBenchmark` function takes in a number of threads `p`, a work function, and its arguments. It creates a benchmark function `Benchmark` that will be used to measure the performance of the work function. This function creates `p` threads, executes the work function `b.N / p` times in each thread, and waits for all threads to finish before returning. The benchmark function is returned as a result.
+
+The `_RegisterBenchmarks` function iterates over the range from 1 to 12 to create different number of threads. For each number of threads, it iterates over the work function and argument tuples in `_WORKLOADS` to create unique benchmark function names. It then dynamically creates these benchmark functions using `globals()` and assigns the benchmark function created by `_MakeParallelBenchmark` as their value.
+
+Finally, if the script is executed directly (i.e., `__name__ == '__main__'`), it runs the benchmarks using the `weetest.RunBenchmarks()` function.

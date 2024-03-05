@@ -1,0 +1,11 @@
+This code is a Python script that is used to time-bin a set of light curves. Time-binning is a process used to group data points in a light curve into larger time bins, effectively reducing the time resolution of the light curve. The binned light curve can then be used for further analysis or visualization.
+
+The script first imports several modules and defines some constants and logging functions. The logging module is used to record information, warnings, and errors during the execution of the script.
+
+The script then defines a helper function and a main function for performing the time-binning. The main function takes several parameters, including the input light curve file, the desired time bin size in seconds, the output directory, the format of the light curve file, and the columns containing time, magnitude, and error values in the light curve. The main function calls the helper function to perform the time-binning for each specified light curve, and saves the binned light curve to a pickle file.
+
+The script also defines a worker function and another main function for parallel processing of the time-binning. The parallel processing function takes the same input parameters as the sequential processing function, but also allows for specifying the number of worker processes to use. The function creates a pool of worker processes and distributes the time-binning tasks among them. The results are then collected and returned as a dictionary.
+
+Finally, there is another main function that takes a directory containing multiple light curve files and performs parallel time-binning on all of them.
+
+Overall, this code provides a flexible and efficient way to time-bin a set of light curves, either sequentially or in parallel.

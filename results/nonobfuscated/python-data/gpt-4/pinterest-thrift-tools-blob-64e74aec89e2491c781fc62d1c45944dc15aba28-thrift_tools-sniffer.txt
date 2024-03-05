@@ -1,0 +1,19 @@
+The provided code is a packet sniffer built over Python's Scapy library. Scapy is a Python program that enables the user to send, sniff and dissect and forge network packets. A packet sniffer can monitor network traffic usually for malicious intentions or for debugging certain network features.
+
+The code mainly consists of three objects, `Stream`, `Dispatcher` and `Sniffer`.
+
+`Stream` object represents a bilateral data flow between source and destination. It has methods to push packets into the stream and pop packets out of it. Sequencing is also maintained of the packets.
+
+`Dispatcher` is a thread that continuously dequeues packets from a shared queue (`packet_queue`) and distributes them according to their Stream sources.
+
+`Sniffer` is a thread that uses the Scapy's sniff function to capture packets from a certain network interface (`iface`). 
+
+The captured packets are filtered based on source and destination IP addresses and ports, then added to a queue (`self._queue`) that is shared with `Dispatcher` object to handle further. 
+
+For each captured packet, the `Sniffer` even adds a `timestamp` to help understand the sequence in which they arrived. The packet's source address, destination address, and respective ports help form a unique key to tie the packet to its corresponding `Stream` object in the `Dispatcher`.
+
+Moreover, there is provision to stop the sniffing operation on-demand and more stream handlers can be added to the dispatcher.The remaining part of the function deals with performing an additional optional filter using IP addresses. If the attribute `self._ip` is set, the function checks if the source IP (`src_ip`) or destination IP (`dst_ip`) of the captured packet matches any IP address in `self._ip`. If neither matches, the function exits without adding the packet to `self._queue`.
+
+The function uses a helper function `get_ip(ip_p, ip_p.src)` and `get_ip(ip_p, ip_p.dst)` to extract the source and destination IP addresses from the packet respectively.
+
+The packets which pass all the checks and filters are appended to `self._queue` along with their capture timestamp (`packet.time`). The queue will be processed later by the `Dispatcher` thread. This use of two threads prefers the Producer-Consumer pattern, allowing the `Sniffer` to keep collecting packets while the `Dispatcher` handles them.

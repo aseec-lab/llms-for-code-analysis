@@ -1,0 +1,15 @@
+It appears to be a C program implementing a form of the Y combinator to calculate the factorial of 10, where the result is divided by the number of seconds in a day (60 seconds/minute, 60 minutes/hour, 24 hours/day). 
+
+This code is quite unconventional due to its heavy use of macros and polymorphic unions, but here's the general operation:
+
+1. The union `w` is used to store either an `int`, a pointer to a function, or a pointer to a void.
+
+2. The `F` function is the factorial function, which recalls itself via the Y combinator.
+
+3. The `a`, `a_`, and `_` functions are related to the application of the Y combinator. 
+
+4. The `W` function duplicates its argument, and the `Y` function applies the Y combinator to find a fixed point.
+
+5. The result is printed out in the main function, and it's divided by the number of seconds in a day. It's done so by passing in the fixed point of `F` (factored by `Y`) and the number 10 into `a`, then dividing the result by `60*60*24` to get the result in days. 
+
+Do note, this code may not work as expected in many modern C environments due to reliance on behaviors that are technically undefined in the C standard.

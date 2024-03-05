@@ -1,0 +1,80 @@
+Analyze the following piece of code: 
+
+
+import hashlib
+import re
+
+
+class TamperEvidentFile(object):
+    
+
+
+    def __init__(self, filename):
+        self.filename = filename
+
+    def write(self, text, hashline=b"
+        u
+
+        if not text.endswith(b"\n"):
+            text += b"\n"
+
+        actual_hash = hashlib.sha1(text).hexdigest()
+
+        with open(self.filename, "wb") as f:
+            f.write(text)
+            f.write(hashline.decode("utf8").format(actual_hash).encode("utf8"))
+            f.write(b"\n")
+
+    def validate(self):
+        
+
+
+        with open(self.filename, "rb") as f:
+            text = f.read()
+
+        start_last_line = text.rfind(b"\n", 0, -1)
+        if start_last_line == -1:
+            return False
+
+        original_text = text[:start_last_line+1]
+        last_line = text[start_last_line+1:]
+
+        expected_hash = hashlib.sha1(original_text).hexdigest().encode('utf8')
+        match = re.search(b"[0-9a-f]{40}", last_line)
+        if not match:
+            return False
+        actual_hash = match.group(0)
+        return actual_hash == expected_hash
+
+if __name__ == "__main__":
+    with open("test.txt", "rb") as f:
+        text = f.read()
+    te = TamperEvidentFile("test.txt")
+    te.write(text)
+    assert te.validate()
+
+The code is written in Python and implements a TamperEvidentFile class that provides an interface for writing and validating tamper-evident files. The class uses a combination of the SHA-1 hash function and a custom format string to ensure that the file contents cannot be modified without detection.
+
+The class defines a write method that takes a text string as input and writes it to the file along with an encoded hash of the contents. The hash is calculated using the SHA-1 hash function and encoded as a hexadecimal string. The encoded hash is appended to a hashline that is included in the file.
+
+The validate method reads the file contents and extracts the hash from the hashline. It then compares the calculated hash of the file contents with the extracted hash to ensure that the file has not been modified.
+
+Overall, the code is well-structured and follows best practices for Python development. The use of hash functions and a custom format string to ensure tamper-evidence is a common technique and provides a reliable way to protect against unauthorized changes to the file contents.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código binario.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable antes de ser ejecutada. El proceso de interpretación implica la utilización de un intérprete, que es un programa que traduce y ejecuta el código fuente en tiempo real.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lenguajes de programación se utilizan para escribir programas, que son secuencias de instrucciones que un computador puede ejecutar para realizar una tarea

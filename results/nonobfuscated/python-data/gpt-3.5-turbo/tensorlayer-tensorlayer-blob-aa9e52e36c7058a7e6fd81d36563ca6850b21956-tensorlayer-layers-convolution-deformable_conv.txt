@@ -1,0 +1,9 @@
+The code defines a class called `DeformableConv2d` which is a customized layer in TensorLayer library for performing deformable convolution. Deformable convolution is a type of convolutional operation where the receptive field of each output unit can be modified dynamically based on input feature maps. 
+
+The `DeformableConv2d` class inherits from the `Layer` class in TensorLayer and overrides the `__init__` method to initialize the deformable convolution layer. The class takes various parameters such as `prev_layer` (the previous layer in the network), `n_filter` (number of filters), `filter_size` (size of the filters), `act` (activation function), `W_init` (initializer for the filter weights), `b_init` (initializer for the bias), etc.
+
+The main function in the class is `_tf_batch_map_offsets`, which is responsible for performing the deformable convolution operation. It takes the inputs, offsets (which represents the deformations), and grid offsets as input. It reshapes the inputs and offsets to the required format and applies the deformable convolution operation by computing the coordinates based on the offsets and grid offsets. It then performs interpolation to get the mapped values at these coordinates. The resulting mapped values are reshaped and returned as the output of the layer.
+
+The class also includes several private methods such as `_to_bc_h_w`, `_to_b_h_w_n_c`, `tf_flatten`, `_get_vals_by_coords`, `_tf_repeat`, and `_tf_batch_map_coordinates`. These methods are utility functions that help in reshaping and manipulating tensors to perform the deformable convolution operation.
+
+In summary, the code defines a `DeformableConv2d` layer that performs deformable convolution operation on the input feature maps using the given filters and offsets.

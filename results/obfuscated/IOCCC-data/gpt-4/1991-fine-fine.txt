@@ -1,0 +1,21 @@
+This is a C language function which implements a basic Caesar cipher for an input text string, where the shift value is fixed to 13 (i.e., each character in the text is replaced by a letter 13 positions ahead of it in the alphabet).
+
+Here is a breakdown:
+
+1. main(a,b): This is the main function where two variables 'a' and 'b' are declared.
+
+2. while((a=getchar())+1): This is a while loop which will read each character from the input until EOF (end of the file). In C, the EOF is represented by -1 and adding 1 to it makes it 0, which will evaluate to false to break the loop.
+
+3. putchar((b=64^a&223)&&b<27?a&96|(b+12)%26+1:a): 'putchar' is a function to write a character (expressed as a number) to stdout.
+
+- (b=64^a&223): This expression performs a bitwise XOR between the ASCII value of 'a' and 64, and then performs a bitwise AND with 223 to make sure 'a' is in uppercase alphabet range.
+  
+- b<27: This checks if 'b' is an uppercase letter.
+
+- a&96: This expression is used to preserve the case of the input character.
+
+- |(b+12)%26+1: This is the Caesar cipher logic. It rotates the character 13 places ahead in the alphabet and wraps around if the end of the alphabet is reached. 
+
+- The '?' and ':' form a conditional operator. If 'b<27' is true then it performs the Caesar Cipher rotation else it just returns the input character 'a', which is useful for preserving non-alphabet input characters such as whitespaces, punctuations etc.
+
+This code works best with English alphabets and does not handle special characters or numbers. It implements ROT13 Caesar cipher rotation which is a special case where the function is its own inverse since the alphabet has 26 characters: ROT13(ROT13(x)) = x.

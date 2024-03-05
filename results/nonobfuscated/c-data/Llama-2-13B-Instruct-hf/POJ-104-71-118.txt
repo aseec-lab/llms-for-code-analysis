@@ -1,0 +1,98 @@
+Analyze the following piece of code: int main()
+{
+	int n, i, a[200], b[200], c[200], sum=0, d, e;
+     scanf("%d", &n);
+     for (sum=0,i=0; i<n; i++) {
+	     scanf("%d%d%d", &a[i], &b[i], &c[i]);
+		 if (b[i]>c[i]) {
+			 d=c[i];
+			 c[i]=b[i];
+			 b[i]=d;
+		 }
+		 if (a[i]%4==0&&a[i]%100!=0||a[i]%400==0) {
+			 for (sum=0,e=b[i]; e<c[i]; e++) {
+				 switch(e){
+					case 1:
+				    case 3:
+				    case 5:
+			        case 7:
+				    case 8:
+				    case 10:
+			    	case 12:
+						sum+=31;
+						break;
+					case 2:
+						sum+=29;
+						break;
+
+					case 4:
+			     	case 6:
+			    	case 9:
+				    case 11:
+				     	sum+=30;
+					    break;
+				}
+			 }
+				 if(sum%7==0) {
+					 printf("YES\n");
+				 }
+					 else {
+						 printf("NO\n");
+					 }
+			 
+		 }
+			 else  {
+
+                   for (sum=0,e=b[i]; e<c[i]; e++) {
+				 switch(e){
+					case 1:
+				    case 3:
+				    case 5:
+			        case 7:
+				    case 8:
+				    case 10:
+			    	case 12:
+						sum+=31;
+						break;
+					case 2:
+						sum+=28;
+						break;
+
+					case 4:
+			     	case 6:
+			    	case 9:
+				    case 11:
+				     	sum+=30;
+					    break;
+				}
+				   }
+				 if(sum%7==0) {
+					 printf("YES\n");
+				 }
+					 else {
+						 printf("NO\n");
+					 }
+			 
+			 }
+	 }
+	return 0;
+}
+
+What does this code do?
+
+This code appears to be a programming challenge. It is a C program that takes an integer 'n' as input and then performs some operations on the numbers 1 to n. The output of the program is either "YES" or "NO".
+
+Here's a breakdown of the code:
+
+1. The first line, `int main()`, declares a function called main, which is the entry point of the program.
+2. The next line, `int n, i, a[200], b[200], c[200], sum=0, d, e;`, declares several variables. n is an integer that will be read from the user, a, b, and c are arrays of integers that will be used to store numbers, and sum is an integer that will be used to keep track of the sum of the numbers. d and e are integers that will be used as temporary variables.
+3. The next line, `scanf("%d", &n);`, reads an integer from the user and stores it in the variable n.
+4. The next line, `for (sum=0,i=0; i<n; i++) {`, starts a loop that will iterate n times. The loop will execute the code inside the curly braces for each integer from 1 to n.
+5. Inside the loop, the code reads three integers from the user using the `scanf()` function, and stores them in the arrays a, b, and c respectively.
+6. The code then checks if the value of b is greater than the value of c. If it is, the code swaps the values of b and c, and then sets the value of d to c and the value of e to b. This is done to ensure that the values of b and c are correctly swapped if they are equal.
+7. The code then checks if the value of a is divisible by 4, and if it is not divisible by 100. If it is not divisible by 4 and 100, the code executes a special case.
+8. In the special case, the code loops through the values of b and c, and adds 31 to the sum for each value that is divisible by 4 (i.e. 4, 8, 12, 16, 20, 24, 28, and 32). If the sum is divisible by 7, the code prints "YES" and exits the program. Otherwise, the code prints "NO" and exits the program.
+9. If the value of a is divisible by 4 and 100, the code executes a different special case. In this case, the code loops through the values of b and c, and adds 30 to the sum for each value that is divisible by 4 (i.e. 4, 8, 12, 16, 20, 24, 28, and 32). If the sum is divisible by 7, the code prints "YES" and exits the program. Otherwise, the code prints "NO" and exits the program.
+10. If the value of a is not divisible by 4 and 100, the code simply prints "NO" and exits the program.
+
+In summary, this code takes an integer 'n' as input,

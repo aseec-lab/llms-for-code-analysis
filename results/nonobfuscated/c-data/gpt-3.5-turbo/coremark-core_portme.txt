@@ -1,0 +1,13 @@
+This code includes other header files, such as "stdio.h", "stdlib.h", and "coremark.h". It also includes "valgrind/callgrind.h" if the compilation flag CALLGRIND_RUN is defined.
+
+Next, it defines two functions portable_malloc() and portable_free(). The implementation of these functions depends on the value of the compilation flag MEM_METHOD. If MEM_METHOD is defined as MEM_MALLOC, then portable_malloc() and portable_free() are implemented using the malloc() and free() functions, respectively. Otherwise, they are implemented as empty functions.
+
+The code then defines several variables with the "volatile" keyword, depending on the value of the compilation flag SEED_METHOD. These variables are initialized with specific values depending on the value of the compilation flag VALIDATION_RUN, PERFORMANCE_RUN, or PROFILE_RUN.
+
+The code then defines some timing-related constants and uses conditional compilation to define macros and functions related to timing based on the platform and compilation flags. If certain preprocessor macros are not defined, an error is thrown.
+
+Next, the code initializes a variable default_num_contexts with the value of MULTITHREAD.
+
+The code then defines the portable_init() function, which initializes a core_portable struct, and the portable_fini() function, which releases resources associated with the core_portable struct.
+
+Lastly, the code defines the core_start_parallel() and core_stop_parallel() functions, which start and stop parallel execution of the coremark benchmark, respectively. The implementation of these functions depends on the compilation flags MULTITHREAD, USE_PTHREAD, USE_FORK, and USE_SOCKET.

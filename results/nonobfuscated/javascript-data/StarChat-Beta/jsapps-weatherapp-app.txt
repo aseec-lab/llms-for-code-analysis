@@ -1,0 +1,93 @@
+Analyze the following piece of code: 
+(function () {
+
+	let long;
+	let lat;
+
+	let locationTimezone = document.querySelector('.location-timezone');
+	let temperatureSection = document.querySelector('.temperature');
+	let temperatureDegree = document.querySelector('.temperature-degree');
+	let temperatureSpan = document.querySelector('.temperature span');
+	let temperatureDescription = document.querySelector('.temperature-description');
+
+	if (navigator.geolocation) {
+
+		navigator.geolocation.getCurrentPosition(position => {
+
+			long = position.coords.longitude;
+			lat = position.coords.latitude;
+
+			const proxy = 'https://cors-anywhere.herokuapp.com/'
+			const api = `${proxy}https://api.darksky.net/forecast/3ed2820bdef835d0923968060af681dd/${lat},${long}`;
+
+			fetch(api)
+				.then(response => {
+					return response.json();
+				})
+				.then(data => {
+					console.log(data)
+					const {temperature, summary, icon} = data.currently;
+
+										locationTimezone.textContent = data.timezone;
+					temperatureDegree.textContent = temperature;
+					temperatureDescription.textContent = summary;
+
+										setIcons(icon, document.querySelector('.icon'));
+
+										let celsius = (temperature - 32) * (5 / 9)
+
+										temperatureSection.addEventListener('click', () => {
+						if (temperatureSpan.textContent === 'F') {
+							temperatureSpan.textContent = 'C';
+							temperatureDegree.textContent = Math.floor(celsius);
+						} else {
+							temperatureSpan.textContent = 'F';
+							temperatureDegree.textContent = temperature;
+						}
+					})
+				})
+		});
+	}
+
+	function setIcons(icon, iconID) {
+		const skycons = new Skycons({
+			color: "white"
+		});
+		const currentIcon = icon.replace(/-/g, "_").toUpperCase();
+		skycons.play();
+		return skycons.set(iconID, Skycons[currentIcon]);
+	}
+
+})();
+
+The code is written in JavaScript and uses the async/await syntax. It fetches the current location of the user and then uses the Dark Sky API to get the current weather conditions and display them on the page.
+
+The code first defines some variables for storing the longitude and latitude, the DOM elements for displaying the weather information, and a function for setting the icons based on the weather condition.
+
+The main function starts by checking if the user's browser supports the Geolocation API. If it does, it calls the getCurrentPosition method to get the user's current location. Once the position is retrieved, the code uses the Dark Sky API to get the weather conditions for that location.
+
+The data from the API is then used to update the DOM elements with the current weather conditions, including the temperature, summary, and icon. The code also sets the icon for the weather conditions using the setIcons function.
+
+The code also includes an event listener for the temperature section that changes the temperature between Fahrenheit and Celsius.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código binario.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable antes de ser ejecutada. Esto significa que el código fuente se puede escribir y modificar en tiempo real, y se puede verificar inmediatamente sin necesidad de compilar.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lenguajes de programación se utilizan para escribir aplicaciones de software, como programas, aplicaciones web, juegos y sistemas operativos.
+
+Los lenguajes de programación se basan en un conjunto de reglas y construcciones que describen cómo se pueden combinar elementos para crear un programa. Estos elementos incluyen variables, constantes, operadores, condicionales, bucles y funciones.
+
+Los lenguajes de

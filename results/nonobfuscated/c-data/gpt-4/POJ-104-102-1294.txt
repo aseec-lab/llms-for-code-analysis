@@ -1,0 +1,17 @@
+This C-program reads a list of students' sexes and heights, separates them based on sex into 'girl' and 'boy' arrays, sorts each array in ascending order using the `qsort()` function, and then prints the sorted lists. 
+
+First, it defines a comparison function `compInc` to be used in the `qsort()` function, which compares two integers by subtracting the second from the first.
+ 
+Then the `main()` function defines several variables like `n` - the number of students, `q` and `j` - counters for girls and boys respectively, the `stu` struct array to hold details about students (sex and height), and two float arrays to hold the heights of girls and boys separately. 
+
+The function receives the number of students and then their sexes and heights from the standard input. While reading the list of students, two separate arrays (for boys and girls) are prepared depending on their sex. 
+
+Both boy and girl arrays are sorted in ascending order using the `qsort()` function.
+
+Finally, the sorted lists of boys and girls heights are printed. Boys' heights are printed in ascending order. However, the girls' heights are printed in descending order. 
+
+Note:
+- A point of potential confusion in this code is the use of the names 'girl' and 'boy', as these are arrays of float type and hold heights of students rather than any information specific to the gender of the students.
+- The `main()` function lacks a return type. According to the C standard, it should be `int main()`.
+- Another issue is the lack of any input validation or error checking. It's assumed that all inputs are perfectly as expected. Adjustment would be needed for real-world use.
+- There could also be an index out of bounds error if you enter more than 40 students.

@@ -1,0 +1,13 @@
+This code defines a python class hierarchy that appears to handle TUIO profile objects. TUIO is a common protocol for multitouch interfaces.  This analysis assumes the `objects` module imports `Tuio2DCursor` and `Tuio2DObject`, which would represent types of TUIO objects.
+
+The `TuioProfile` abstract base class sets up the basic structure and behavior of TUIO objects. It has two class attributes `address` and `list_label`, intended to be overridden by subclasses, a dictionary (`self.objects`), a list (`self.sessions`), and three methods where the body of the method is not implemented (`set`, `alive`, `fseq`) which send a signal that these methods must be implemented in any concrete (i.e., not abstract) subclass.
+
+The `objs` method is a generator that yields objects that have a session id contained in the `sessions` list.
+
+`Tuio2DcurProfile` and `Tuio2DobjProfile` are subclasses of `TuioProfile`. They provide specific implementations for `set` and `alive` methods, both adjusting the `self.objects` dictionary according to the `message` parameter (which appears to be a list of some sort). They also define specific strings for `address` and `list_label`.
+
+For `Tuio2DcurProfile`, `set` updates or creates a new `Tuio2DCursor` object in `self.objects` based on `sessionid`. The `alive` method updates the `sessions` list and removes any objects from `self.objects` not found in `sessions`.
+
+Similarly for `Tuio2DobjProfile`, `set` creates or updates a `Tuio2DObject` in `self.objects` keyed by `objectid`, and `alive` updates the `sessions` list. However, it does not remove objects from `self.objects`.
+
+In summary, this code provides a structure for processing and managing different types of TUIO objects and their related information through handlers. It may be a part of a larger system for interactive touch interfaces.

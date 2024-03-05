@@ -1,0 +1,13 @@
+This code represents a functionality that handles searching in a Wikipedia-like database.
+
+1. getSearchTerm(): It grabs the value from an HTML element with the id "search", trims whitespace on both ends, and replaces any occurrence of two or more spaces in a row with a single space, before returning the processed search term.
+
+2. retrieveSearchResults(): This is an async function that takes the search term, creates a search string, and retrieves the search results via the requestData() function. If the returned results contain a "query" object, it will further process these results with processWikiResults().
+
+3. getwikiSearchString(): It creates a URL for a Wikipedia search using a certain search term. The maximum number of characters for the returned extract depends on the screen width which is determined by the getMaxChars() function. This URL is then URL-encoded and returned.
+
+4. getMaxChars(): Checks the browser viewport's width and returns a number based on the range the width falls in.
+
+5. requestData(): This async function fetches the data from a passed URL. If the fetch is successful, the function converts the data to JSON and returns it. If there's an error, it logs the error message to the console.
+
+6. processWikiResults(): This function takes an object containing search results (specifically the 'pages' part of the 'query'), and for each page, extracts the page id, title, extract text, and thumbnail (if it exists). It then creates an array of simplified objects containing this information and returns it.

@@ -1,0 +1,29 @@
+This code appears to be converting base64 encoded strings into Uint8Array objects. 
+
+The `__universalAtob` function takes in a base64 encoded string and tries to convert it using the `atob` function. If that fails, it uses `global.Buffer.from` to convert the string. It returns the resulting Uint8Array.
+
+The code defines several variables that contain base64 encoded strings. These strings are then used to create WebAssembly Modules using the `WebAssembly.Module` constructor. The `__universalAtob` function is used to convert the base64 encoded strings into Uint8Array objects, which are then passed to the `WebAssembly.Module` constructor.
+
+The `__wasmStringModules` variable is an array of WebAssembly Instances. Each element in the array is created by passing a Uint8Array object to the `WebAssembly.Module` constructor and then creating an instance of the module.
+
+The `lS` function is defined and takes in three parameters: `wI`, `pos`, and `iWC`. Inside the function, it checks if `wI` is an array. If it is not an array, it retrieves a target module from the `__wasmStringModules` array and extracts a string from the module's memory. The string is then decoded and returned.
+
+If `wI` is an array, the function iterates through the elements in `wI` and retrieves target modules from the `__wasmStringModules` array.The remaining part of the code includes several more functions.
+
+1. The `getSearchTerm` function retrieves the raw search term from an input element on the HTML page. It then trims any leading or trailing whitespace and replaces any consecutive spaces with a single space. The resulting search term is returned.
+
+2. The `retrieveSearchResults` function takes in a search term and uses it to generate a Wikipedia search string. It then calls the `requestData` function to make a request to the Wikipedia API using the search string. The response is passed to the `processWikiResults` function to extract relevant data. Finally, the function returns an array of processed search results.
+
+3. The `getwikiSearchString` function takes in a search term and constructs a Wikipedia API search string. The search string includes various parameters such as the search term itself, the maximum number of characters in the search results, and the desired format for the response. The search string is then encoded and returned.
+
+4. The `getMaxChars` function determines the maximum number of characters to show in the search results based on the width of the browser window or device screen. It creates two instances of the `__ifWasmModule` WebAssembly module using different parameters. The first instance sets the `maxChars` variable to 65 if the window width is less than 414 pixels, indicating a small device screen. The second instance sets `maxChars` to 90 for larger screens. The maximum number of characters is then returned.
+
+Overall, these functions work together to retrieve a search term from the user, generate a Wikipedia search string, make a request to the Wikipedia API, process the response, and return the processed search results.The remaining part of the code includes several more functions.
+
+1. The `getMaxChars` function determines the maximum number of characters to show in the search results based on the width of the browser window or device screen. It creates two instances of the `__ifWasmModule` WebAssembly module using different parameters. The first instance sets the `maxChars` variable to 65 if the window width is less than 414 pixels, indicating a small device screen. The second instance sets `maxChars` to 90 for larger screens. The maximum number of characters is then returned.
+
+2. The `requestData` function takes in a search string and makes an asynchronous request to the Wikipedia API using the `fetch` function. It then awaits the response and retrieves the JSON data from it. The function returns the JSON data.
+
+3. The `processWikiResults` function takes in the JSON results from the Wikipedia API and processes them. It first initializes an empty array to store the processed results. It then iterates over the keys of the `results` object and extracts relevant data such as the ID, title, text, and image URL (if available) for each search result. This data is then used to create an item object and push it into the `resultArray`. The function returns the `resultArray` containing the processed search results.
+
+Overall, these functions work together to retrieve the maximum number of characters to display, make a request to the Wikipedia API, and process the JSON results from the API into a more manageable format.

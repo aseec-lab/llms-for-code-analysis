@@ -1,0 +1,14 @@
+This code implements a variant of the Goldbach Conjecture. The Goldbach Conjecture is a famous unsolved problem in number theory that states every even integer greater than 2 is the sum of two prime numbers.
+
+This code takes an integer number `n` as input and then for every even number between 6 and `n` (inclusive), it tries to find two odd prime numbers whose sum equals that even number. Note that unlike the original Goldbach Conjecture, the code tries to find pairs of ODD prime numbers adding up to even `i`.
+
+Here is the breakdown of the code:
+
+- `scanf("%d",&n);` takes the input from the user.
+- The first `for` loop (`for(i=6;i<=n;i+=2)`) loops over all even integers from 6 to `n`.
+- Inside this loop, the second `for` loop (`for(j=3;j<=(i/2);j+=2)`) loops over all odd numbers from 3 to `i/2`. This is because any two numbers adding up to `i` must each be less or equal to `i/2`.
+- The variable `b` is a flag which indicates whether the number `j` and `i-j` are both prime. If `b` remains 1, it means both numbers are prime, if it becomes 0, either or both the numbers are not prime.
+- Inside this inner loop, the third `for` loop (`for(l=2;l<=sqrt(j);l++)`) checks if `j` is a prime number by looking for any integer divisor of `j` other than 1 and `j` itself. 
+- Further, if `j` is prime, it checks (`for(k=2;k<=sqrt(i-j);k++)`) if `i-j` is also prime. If both `j` and `i-j` are prime, `b` remains 1 and the inner loop breaks.
+- When we are finished with the inner loops, if `b` is still 1 (which means `j` and `i-j` are both prime), it will print out the sum in the form of `i=j+(i-j)`.
+This process iterates untill we have checked for all even numbers till `n`.

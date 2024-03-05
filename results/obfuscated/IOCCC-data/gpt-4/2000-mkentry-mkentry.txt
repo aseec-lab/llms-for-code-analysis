@@ -1,0 +1,37 @@
+The given code seems to part of a program to manage entries to the International Obfuscated C Code Contest (IOCCC). The application accepts arguments detailing the location of various files (remarks file, program file, build file and output file) and combs through them, checking for various conditions and guidelines outlined by the IOCCC.
+
+Some key functionalities the code seems to be handling include:
+
+1. Parsing command line arguments.
+2. Opening and validating various input files.
+3. Formatting the output and uudecoding files.
+4. Generating an output file for the submission.
+
+The code checks for specific conditions according to the IOCCC rules, which include line lengths, indentation, uudecoding, etc. It sends detailed messages to the user if errors occur or rules are broken.This part of the code continues the process of file handling for the IOCCC contest entries. Specifically, it builds functions to open, analyze other files such as the build file, program source file, and output file, and validates these files by:
+
+1. Checking if files can be opened for reading or writing, and throwing appropriate errors if it fails (Example: `fprintf(stderr, "%s: cannot open program source file: %s: ", program, filename)`).
+
+2. Checking if the file sizes or content adhere to the defined limits (e.g `MAX_BUILD_SIZE`, `MAX_PROGRAM_SIZE`, `MAX_PROGRAM_SIZE2`) for different types of files, and throw errors if the sizes/content violate the limitations (Example: `fprintf(stderr, "%s: FATAL: the how to build file: %s, is %ld bytes long\n", program, filename, (long) statbuf.st_size)`).
+
+3. Running checks on the content of the file, like counting the non-white space characters or specific characters such as '{}', and comparing it to the defined limits (Example: `if (count > MAX_PROGRAM_SIZE2)`).
+
+4. Generating the IOCCC entry output file for the existance of certain properties or making sure it's formatted correctly.
+
+Again, the code caters to exception handling in case of errors, and provides informative messages to the console regarding the same. After validating each file, the code continues on to efficiently work with the now validated data.The remaining part consists of various functions defined to output multiple sections of an IOCCC submission, such as title, entry number, submission date, machine and OS information, remarks, author details, and info files. It follows a similar process with each function. The program prompts the user for information, validates this input, and then writes it to the appropriate section in the submission file.
+
+For example, the `output_author` function prompts the user to enter author information (name, organization, address, email, home page URL, anonymous status). The function continues to prompt for and write information for additional authors if 'y' is answered to "Is there another author?".
+
+The `output_info` function is for handling any additional info files. It prompts users if they want to include such a file. If 'y', it prompts for the filename, opens the file, uuencodes the file, and includes the uuencoded file information in the submission under the 'info' section. This process continues for any additional info files.
+
+Throughout these processes, the program uses helper functions such as `get_line` to readline inputs, `output_till_dot` to output stdin lines to a file until the user types '.\n', `check_io` to check for I/O errors, and `uuencode` to encode a file's contents in uuencode format. It also carefully handles potential issues such as long lines, failed file opens, and non-standard user inputs. It produces clear user prompts and error messages using printf and fprintf, it checks for error conditions and handles them appropriately.The remaining part of the submission_generation.c program defines various functions:
+
+- `output_build` function writes the `---build---` section. It uuencodes a build file and adds it to the output file.
+- `output_program` function writes the `---program---` section. It uuencodes a program file and adds it to the output file.
+- `output_end` function writes the `---end---` section to the output file.
+- `get_line` function reads a line from stdin, checks if the line length is acceptable, and returns the length of the line or 0 if the line length is too long.
+- `output_till_dot` function prompts the user for input and writes a set of lines to the output file until it receives a line consisting of a solo '.'
+- `col_len` function determines how many columns a string of text would occupy.
+- `check_io` function checks for EOF or I/O error on a stream and does not return if it spots an error.
+- `uuencode` function uuencodes a file and writes it to the output file. It implements the uuencode(5) 4.3BSD Reno man page algorithm.
+
+These functions together allow the creation of a submission file for the IOCCC. They handle file I/O, user input, and error checking to ensure the submission file is correctly formatted and complete.

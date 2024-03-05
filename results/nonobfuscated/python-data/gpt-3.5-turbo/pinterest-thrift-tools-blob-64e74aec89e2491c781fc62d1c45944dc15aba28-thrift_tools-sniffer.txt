@@ -1,0 +1,11 @@
+This code is a part of a packet sniffer program that captures network packets and analyzes them. 
+
+The code imports necessary modules and defines a Stream class and Dispatcher class. The Stream class represents a stream of packets between two IP addresses, while the Dispatcher class handles the captured packets and dispatches them to different stream handlers.
+
+In the Stream class, there are methods for adding and removing packets from the stream, as well as properties for retrieving the length and remaining bytes of the stream.
+
+In the Dispatcher class, there is a run method that loops continuously, processing the packets in the packet queue. It extracts information from the packets, creates or retrieves the corresponding stream, and pushes the packet to the stream. It then calls the stream handlers to process the stream.
+
+There is also a Sniffer class that extends the Thread class. It captures packets from the network interface, filters them based on the specified port and IP addresses, and adds the packets to the packet queue. It uses the Dispatcher class to handle the packets.
+
+Overall, this code defines the necessary classes and methods to capture and process network packets using a packet sniffer program.

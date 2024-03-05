@@ -1,0 +1,73 @@
+Analyze the following piece of code: console.log(':D');
+
+let botonDolar = document.querySelector("#dolar")
+let botonBitcoin = document.querySelector("#bitcoin")
+
+botonDolar.addEventListener('click', function () {
+	obtenerDatos('dolar')
+})
+botonBitcoin.addEventListener('click', function () {
+	obtenerDatos('bitcoin')
+})
+
+function obtenerDatos(valor) {
+
+	let url = `https://mindicador.cl/api/${valor}`
+
+	const api = new XMLHttpRequest
+	api.open('GET', url, true)
+	api.send()
+	api.onreadystatechange = respuesta
+}
+
+
+function respuesta() {
+
+	if (this.status == 200 && this.readyState == 4) {
+
+		let datos = JSON.parse(this.responseText)
+
+		console.log(datos)
+
+		let resultado = document.querySelector('#resultado')
+		resultado.innerHTML = ''
+
+		let i = 0
+		for (let item of datos.serie) {
+			i++
+			resultado.innerHTML += `<li>Fecha: ${item.fecha.substring(0, 10)} - $${item.valor}</li>`
+			if (i > 15) {
+				break
+			}
+		}
+
+	}
+}
+
+The code is written in JavaScript and it uses the XMLHttpRequest object to make an API request to the Mindicador API. The code has two buttons, one for the Dolar and one for the Bitcoin. When a button is clicked, the function obtenerDatos is called, which makes an API request to the Mindicador API and updates the HTML with the latest data.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación compilado y uno interpretado?
+
+La principal diferencia entre un lenguaje de programación compilado y uno interpretado es el proceso de traducción del código fuente en código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente es traducido a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente sin necesidad de un intérprete adicional. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código binario.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente es traducido en tiempo real mientras se está ejecutando. El intérprete es un programa que lee y ejecuta el código fuente directamente, sin necesidad de compilarlo previamente. En este caso, el código fuente se traduce en código ejecutable en tiempo real, lo que significa que el código puede ser modificado y ejecutado inmediatamente sin necesidad de volver a compilar.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y uno interpretado es que el primero se traduce a código ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lenguajes de programación se utilizan para escribir programas, que son secuencias de instrucciones que un computador puede entender y ejecutar. Los lenguajes de programación se utilizan para resolver problemas, crear software, automatizar procesos y mucho más.
+
+Los lenguajes de programación se dividen en varias categorías, incluyendo los lenguajes de programación compilados y los lenguajes de programación interpretados. Los lenguajes de programación compilados se traducen a código ejecutable antes de su ejecución, mientras que los lenguajes de programación interpretados se ejecutan directamente desde el código fuente.
+
+Algunos ejemplos de lenguajes de programación populares incluyen Java, Python, C++, JavaScript y PHP. Cada lenguaje de programación tiene sus propias fortalezas y debilidades, y la elección de un lenguaje de programación depende de las necesidades específicas del proyecto.
+
+
+
+¿

@@ -1,0 +1,17 @@
+The code defines several variables and functions related to logging and parallel processing. The main function is `get_varfeatures`, which calculates time series features for a given light curve file. The features are calculated for multiple columns in the light curve, and the results are saved in a pickle file. There are also functions `serial_varfeatures` and `parallel_varfeatures` that iterate over a list of light curve files and call `get_varfeatures` for each file, either sequentially or in parallel. Finally, there is a function `parallel_varfeatures_lcdir` that searches for light curve files in a given directory and calls `parallel_varfeatures` to process them.This remaining part of the code searches for light curve files in a given directory (`lcdir`) that match a specific file pattern (`fileglob`). First, the code checks the Python version. If the version is greater than 3.4, it uses the `glob.glob` function with the `recursive=True` argument to recursively search for matching files. If the version is 3.4 or lower, it uses `os.walk` and `glob.glob` to achieve the same result.
+
+After finding the matching files, the code checks if there are any files found (`matching`) and if the number of matching files is greater than 0. If there are matching files, it logs the number of files found and calls the `parallel_varfeatures` function to process the matching files in parallel.
+
+The `parallel_varfeatures` function is called with the following arguments:
+- `matching`: A list of paths to the matching light curve files
+- `outdir`: The output directory where the calculated features will be saved
+- `maxobjects`: The maximum number of light curves to process
+- `timecols`: A list of column indices or names for the time values in the light curve files
+- `magcols`: A list of column indices or names for the magnitude values in the light curve files
+- `errcols`: A list of column indices or names for the error values in the light curve files
+- `mindet`: The minimum number of non-missing observations required for a light curve to be considered valid
+- `lcformat`: The format of the light curve files
+- `lcformatdir`: The directory containing the format files for reading the light curve files
+- `nworkers`: The number of parallel workers to use for processing the light curves
+
+If no matching files are found, it logs an error message and returns `None`.

@@ -1,0 +1,71 @@
+The code is a JavaScript function called "__universalAtob" which takes a base64 encoded string as input and returns an array of unsigned 8-bit integers (bytes). The function tries to decode the base64 string using the browser function "atob". If successful, it converts each character in the decoded string to its corresponding ASCII code and stores it in a Uint8Array. If this decoding fails, it uses the "Buffer" class from the Node.js environment to decode the base64 string.
+
+The code also defines three base64 encoded strings "__forWasmBuffer", "__ifWasmBuffer", and "__callWasmBuffer". These strings are used to initialize WebAssembly modules "__forWasmModule", "__ifWasmModule", and "__callWasmModule" respectively. Each module is created by decoding the corresponding base64 string and converting it into a Uint8Array.
+
+Finally, the code uses the "__universalAtob" function to decode each element in the "__wasmStringModules" array. Each decoded element is then used to create a WebAssembly instance, and the instances are stored in the array "lS".The remaining part of the code defines two functions: "deleteSearchResults" and "buildSearchResults".
+
+The "deleteSearchResults" function gets the parent element from the DOM using its id and assigns it to the variable "parentElement". Then, it removes the last child element from the parent element until there are no more child elements left. This is done using a loop that checks if the "child" variable is truthy and removes the child element using the "removeChild" method of the parent element.
+
+The "buildSearchResults" function takes an array "resultArray" as input. It first creates a WebAssembly instance "__callInstance15" using the "__callWasmModule" and defines an environment with an "impFunc" function that logs the "resultArray" to the console. Then, it creates another WebAssembly instance "__callInstance14" with the same module and environment, but with a different "impFunc" function that iterates over each element in the "resultArray" and creates a result item using the "createResultItem" function. The result item is then appended to the DOM.The remaining part of the code continues the process of creating and appending result items to the DOM.
+
+Inside the main block of code, a new WebAssembly instance "__callInstance13" is created using the "__callWasmModule". It defines an environment with an "impFunc" function that adds a class to "resultContents" (presumably a DOM element).
+
+Next, a new WebAssembly instance "__ifInstance0" is created using the "__ifWasmModule". It defines an environment with two "impFunc" functions. The first function creates a result image using the "createResultImage" function and appends it to "resultContents". The second function does nothing.
+
+After that, a new "resultText" element is created using the "createResultText" function. It is then appended to "resultContents".
+
+A new WebAssembly instance "__callInstance10" is created using the "__callWasmModule" and defines an environment with an "impFunc" function that appends "resultContents" to "resultItem".
+
+Next, a "searchResults" element is retrieved from the DOM using its id.
+
+Then, a new WebAssembly instance "__callInstance9" is created using the "__callWasmModule" and defines an environment with an "impFunc" function that appends "resultItem" to "searchResults".
+
+Finally, the code returns "__exports.data()" to signify the end of the code block.
+
+The "createResultItem" function creates a "resultItem" element using the "document.createElement" method and adds a class to it using the "classList.add" method.
+
+Once again, the remaining part of the code and its purpose are not clear without further context or information about the overall JavaScript application.The remaining part of the code continues the process of creating and appending result items to the DOM.
+
+The code creates a new "resultTitle" element using the "createElement" method and adds a class to it using the "classList.add" method.
+
+A new WebAssembly instance "__callInstance7" is created using the "__callWasmModule" and defines an environment with an "impFunc" function that adds a class to "resultTitle".
+
+Next, a new "link" element is created using the "createElement" method. Its "href" property is set to a Wikipedia link generated using the "result.id". Its "textContent" property is set to the "result.title". And its "target" property is set to "_blank".
+
+A new WebAssembly instance "__callInstance6" is created using the "__callWasmModule" and defines an environment with an "impFunc" function that appends "link" to "resultTitle".
+
+Another WebAssembly instance "__callInstance5" is created using the "__callWasmModule" and defines an environment with an "impFunc" function that appends "resultTitle" to "resultItem".
+
+The code then returns "resultItem".
+
+The "createResultImage" function creates a "resultImage" element using the "createElement" method and adds a class to it using the "classList.add" method.
+
+A new WebAssembly instance "__callInstance4" is created using the "__callWasmModule" and defines an environment with an "impFunc" function that adds a class to "resultImage".
+
+Next, a new "img" element is created using the "createElement" method. Its "src" property is set to "result.img" and its "alt" property is set to "result.title".
+
+Another WebAssembly instance "__callInstance3" is created using the "__callWasmModule" and defines an environment with an "impFunc" function that appends "img" to "resultImage".
+
+The code then returns "resultImage".The remaining part of the code defines two additional functions: "createResultText" and "clearStatsLine".
+
+The "createResultText" function creates a new "resultText" element using the "createElement" method and adds a class to it using the "classList.add" method.
+
+A new WebAssembly instance "__callInstance2" is created using the "__callWasmModule" and defines an environment with an "impFunc" function that adds a class to "resultText".
+
+Next, a new "resultDescription" element is created using the "createElement" method.
+
+Another WebAssembly instance "__callInstance1" is created using the "__callWasmModule" and defines an environment with an "impFunc" function that adds a class to "resultDescription".
+
+The "textContent" property of "resultDescription" is set to "result.text".
+
+Another WebAssembly instance "__callInstance0" is created using the "__callWasmModule" and defines an environment with an "impFunc" function that appends "resultDescription" to "resultText".
+
+The "resultText" element is then returned.
+
+The "clearStatsLine" function finds the element with the specified id using the "getElementById" method and sets its "textContent" property to an empty string.
+
+The "setStatsLine" function finds the element with the specified id using the "getElementById" method.
+
+A new WebAssembly instance "__ifInstance1" is created using the "__ifWasmModule" and defines an environment with two "impFunc" functions. The first function sets the "textContent" property of "statsLine" to a string that includes the "numberOfResults". The second function sets the "textContent" property of "statsLine" to a localized string.
+
+The "data" function of "__ifInstance1" is then called and returns the result based on whether "numberOfResults" is truthy or falsy.

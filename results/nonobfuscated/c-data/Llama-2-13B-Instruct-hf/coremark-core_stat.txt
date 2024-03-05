@@ -1,0 +1,1007 @@
+Analyze the following piece of code: 
+
+#include "coremark.h"
+
+enum CORE_STATE core_state_transition(ee_u8 **instr, ee_u32 *transition_count);
+
+
+
+
+ee_u16
+core_bench_state(ee_u32 blksize,
+                 ee_u8 *memblock,
+                 ee_s16 seed1,
+                 ee_s16 seed2,
+                 ee_s16 step,
+                 ee_u16 crc)
+{
+    ee_u32 final_counts[NUM_CORE_STATES];
+    ee_u32 track_counts[NUM_CORE_STATES];
+    ee_u8 *p = memblock;
+    ee_u32 i;
+
+#if CORE_DEBUG
+    ee_printf("State Bench: %d,%d,%d,%04x\n", seed1, seed2, step, crc);
+#endif
+    for (i = 0; i < NUM_CORE_STATES; i++)
+    {
+        final_counts[i] = track_counts[i] = 0;
+    }
+    
+    while (*p != 0)
+    {
+        enum CORE_STATE fstate = core_state_transition(&p, track_counts);
+        final_counts[fstate]++;
+#if CORE_DEBUG
+        ee_printf("%d,", fstate);
+    }
+    ee_printf("\n");
+#else
+    }
+#endif
+    p = memblock;
+    while (p < (memblock + blksize))
+    { 
+        if (*p != ',')
+            *p ^= (ee_u8)seed1;
+        p += step;
+    }
+    p = memblock;
+    
+    while (*p != 0)
+    {
+        enum CORE_STATE fstate = core_state_transition(&p, track_counts);
+        final_counts[fstate]++;
+#if CORE_DEBUG
+        ee_printf("%d,", fstate);
+    }
+    ee_printf("\n");
+#else
+    }
+#endif
+    p = memblock;
+    while (p < (memblock + blksize))
+    { 
+        if (*p != ',')
+            *p ^= (ee_u8)seed2;
+        p += step;
+    }
+    
+    for (i = 0; i < NUM_CORE_STATES; i++)
+    {
+        crc = crcu32(final_counts[i], crc);
+        crc = crcu32(track_counts[i], crc);
+    }
+    return crc;
+}
+
+
+static ee_u8 *intpat[4]
+    = { (ee_u8 *)"5012", (ee_u8 *)"1234", (ee_u8 *)"-874", (ee_u8 *)"+122" };
+static ee_u8 *floatpat[4] = { (ee_u8 *)"35.54400",
+                              (ee_u8 *)".1234500",
+                              (ee_u8 *)"-110.700",
+                              (ee_u8 *)"+0.64400" };
+static ee_u8 *scipat[4]   = { (ee_u8 *)"5.500e+3",
+                            (ee_u8 *)"-.123e-2",
+                            (ee_u8 *)"-87e+832",
+                            (ee_u8 *)"+0.6e-12" };
+static ee_u8 *errpat[4]   = { (ee_u8 *)"T0.3e-1F",
+                            (ee_u8 *)"-T.T++Tq",
+                            (ee_u8 *)"1T3.4e4z",
+                            (ee_u8 *)"34.0e-T^" };
+
+
+void
+core_init_state(ee_u32 size, ee_s16 seed, ee_u8 *p)
+{
+    ee_u32 total = 0, next = 0, i;
+    ee_u8 *buf = 0;
+#if CORE_DEBUG
+    ee_u8 *start = p;
+    ee_printf("State: %d,%d\n", size, seed);
+#endif
+    size--;
+    next = 0;
+    while ((total + next + 1) < size)
+    {
+        if (next > 0)
+        {
+            for (i = 0; i < next; i++)
+                *(p + total + i) = buf[i];
+            *(p + total + i) = ',';
+            total += next + 1;
+            next = 0;
+        }
+        else
+        {
+            *(p + total) = *(buf + total - size + 1);
+            total++;
+            next++;
+        }
+        if (total == size)
+            break;
+    }
+    if (next > 0)
+    {
+        for (i = 0; i < next; i++)
+            *(p + total + i) = buf[i];
+        *(p + total + i) = ',';
+    }
+#if CORE_DEBUG
+    ee_printf("State: %d,%d\n", size, seed);
+    ee_printf("Buffer: %s\n", start);
+#endif
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Analyze the following piece of code: += next + 1;
+        }
+        seed++;
+        switch (seed & 0x7)
+        {
+            case 0: 
+            case 1: 
+            case 2: 
+                buf  = intpat[(seed >> 3) & 0x3];
+                next = 4;
+                break;
+            case 3: 
+            case 4: 
+                buf  = floatpat[(seed >> 3) & 0x3];
+                next = 8;
+                break;
+            case 5: 
+            case 6: 
+                buf  = scipat[(seed >> 3) & 0x3];
+                next = 8;
+                break;
+            case 7: 
+                buf  = errpat[(seed >> 3) & 0x3];
+                next = 8;
+                break;
+            default: 
+                break;
+        }
+    }
+    size++;
+    while (total < size)
+    { 
+        *(p + total) = 0;
+        total++;
+    }
+#if CORE_DEBUG
+    ee_printf("State Input: %s\n", start);
+#endif
+}
+
+static ee_u8
+ee_isdigit(ee_u8 c)
+{
+    ee_u8 retval;
+    retval = ((c >= '0') & (c <= '9')) ? 1 : 0;
+    return retval;
+}
+
+
+
+enum CORE_STATE
+core_state_transition(ee_u8 **instr, ee_u32 *transition_count)
+{
+    ee_u8 *         str = *instr;
+    ee_u8           NEXT_SYMBOL;
+    enum CORE_STATE state = CORE_START;
+    for (; *str && state != CORE_INVALID; str++)
+    {
+        NEXT_SYMBOL = *str;
+        if (NEXT_SYMBOL == ',') 
+        {
+            str++;
+            break;
+        }
+        switch (state)
+        {
+            case CORE_START:
+                if (ee_isdigit(NEXT_SYMBOL))
+                {
+                    state = CORE_INT;
+                }
+                else if (NEXT_SYMBOL == '+' || NEXT_SYMBOL == '-')
+                {
+                    state = CORE_S1;
+                }
+                else if (NEXT_SYMBOL == '.')
+                {
+                    state = CORE_FLOAT;
+                }
+                else
+                {
+                    state = CORE_INVALID;
+                    transition_count[CORE_INVALID]++;
+                }
+                transition_count[CORE_START]++;
+                break;
+            case CORE_S1:
+                if (ee_isdigit(NEXT_SYMBOL))
+                {
+                    state = CORE_INT;
+                    transition_count[CORE_S1]++;
+                }
+                else if (NEXT_SYMBOL == '.')
+                {
+                    state = CORE_FLOAT;
+                    transition_count[CORE_S1]++;
+                }
+                else
+                {
+                    state = CORE_INVALID;
+                    transition_count[CORE_S1]++;
+                }
+                break;
+            case CORE_INT:
+                if (NEXT_SYMBOL == '.')
+                {
+                    state = CORE_FLOAT;
+                    transition_count[CORE_INT]++;
+                }
+                else if (!ee_isdigit(NEXT_SYMBOL))
+                {
+                    state = CORE_INVALID;
+                    transition_count[CORE_INT]++;
+                }
+                break;
+            case CORE_FLOAT:
+                if (NEXT_SYMBOL == 'E' || NEXT_SYMBOL == 'e')
+                {
+                    state = CORE_S2;
+                    transition_count[CORE_FLOAT]++;
+                }
+                else if (!ee_isdigit(NEXT_SYMBOL))
+                {
+                    state = CORE_INVALID;
+                    transition_count[CORE_FLOAT]++;
+                }
+                break;
+            case CORE_S2:
+                if (NEXT_SYMBOL == '+' || NEXT_SYMBOL == '-')
+                {
+                    state = CORE_EXPONENT;
+                    transition_count[CORE_S2]++;
+                }
+                else
+                {
+                    state = CORE_INVALID;
+                    transition_count[CORE_S2]++;
+                }
+                break;
+            case CORE_EXPONENT:
+                if (ee_isdigit(NEXT_SYMBOL))
+                {
+                    state = CORE_SCIENTIFIC;
+                    transition_count[CORE_EXPONENT]++;
+                }
+                else
+                {
+                    state = CORE_INVALID;
+                    transition_count[CORE_EXPONENT]++;
+                }
+                break;
+            case CORE_SCIENTIFIC:
+                if (NEXT_SYMBOL == 'E' || NEXT_SYMBOL == 'e')
+                {
+                    state = CORE_S3;
+                    transition_count[CORE_SCIENTIFIC]++;
+                }
+                else
+                {
+                    state = CORE_INVALID;
+                    transition_count[CORE_SCIENTIFIC]++;
+                }
+                break;
+            case CORE_S3:
+                if (NEXT_SYMBOL == '+' || NEXT_SYMBOL == '-')
+                {
+                    state = CORE_EXPONENT;
+                    transition_count[CORE_S3]++;
+                }
+                else
+                {
+                    state = CORE_INVALID;
+                    transition_count[CORE_S3]++;
+                }
+                break;
+            default:
+                state = CORE_INVALID;
+                transition_count[CORE_INVALID]++;
+                break;
+        }
+    }
+    *transition_count = transition_count[CORE_STATE_COUNT];
+    return state;
+}
+
+void
+ee_core_init(ee_u8 *str, ee_u32 *transition_count)
+{
+    *transition_count = 0;
+    core_state = CORE_START;
+    *str = 0;
+}
+
+ee_u8
+ee_core_get_next_symbol(ee_u8 *str)
+{
+    ee_u8 retval;
+    if (*str == 0)
+    {
+        retval = 0;
+    }
+    else
+    {
+        retval = *str++;
+    }
+    return retval;
+}
+
+ee_u8
+ee_core_parse(ee_u8 *str, ee_u32 *transition_count)
+{
+    ee_u8 retval;
+    ee_u8 next_symbol;
+    enum CORE_STATE state = CORE_START;
+    core_state = CORE_START;
+    *transition_count = 0;
+    while (1)
+    {
+        next_symbol = ee_core_get_next_symbol(str);
+        state = core_state_transition(str, transition_count);
+        if (state == CORE_INVALID)
+        {
+            break;
+        }
+        str++;
+    }
+    retval = state;
+    return retval;
+}
+
+int
+main(int argc, char *argv[])
+{
+    ee_u8 str[1024];
+    ee_u32 transition_count = 0;
+    ee_core_init(str, &transition_count);
+    ee_core_parse(str, &transition_count);
+    ee_printf("Transition Count: %d\n", transition_count);
+    return 0;
+}
+```
+This is a piece of code written in a proprietary language (EE Analyze the following piece of code: CORE_INVALID;
+                    transition_count[CORE_EXPONENT]++;
+                }
+                break;
+            case CORE_SCIENTIFIC:
+                if (!ee_isdigit(NEXT_SYMBOL))
+                {
+                    state = CORE_INVALID;
+                    transition_count[CORE_INVALID]++;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    *instr = str;
+    return state;
+}
+
+int main()
+{
+    char str[] = "123e456";
+    int state;
+    int transition_count[CORE_COUNT] = {0};
+
+    state = parse(str, transition_count);
+    printf("State: %d\n", state);
+    printf("Transition count: %d\n", transition_count[CORE_EXPONENT]);
+    return 0;
+}
+
+The code is a simple lexer that parses a string and identifies the part of the string that matches one of the core tokens (CORE_INVALID, CORE_SCIENTIFIC, CORE_EXPONENT). The lexer keeps track of the number of transitions to each state.
+
+What is the output of the program?
+
+Please provide the output of the program and explain what each line of the output means.
+
+I am expecting the output to be:
+
+State: CORE_SCIENTIFIC
+Transition count: 3
+
+Here's why:
+
+1. The input string is "123e456".
+2. The lexer starts at the beginning of the string.
+3. The first character is '1', which matches CORE_INVALID. So, the lexer moves to the next character and increments the transition count for CORE_INVALID.
+4. The next character is '2', which matches CORE_SCIENTIFIC. So, the lexer moves to the next character and increments the transition count for CORE_SCIENTIFIC.
+5. The next character is '3', which matches CORE_SCIENTIFIC. So, the lexer moves to the next character and increments the transition count for CORE_SCIENTIFIC.
+6. The next character is 'e', which matches CORE_EXPONENT. So, the lexer moves to the next character and increments the transition count for CORE_EXPONENT.
+7. The next character is '4', which matches CORE_SCIENTIFIC. So, the lexer moves to the next character and increments the transition count for CORE_SCIENTIFIC.
+8. The next character is '5', which matches CORE_SCIENTIFIC. So, the lexer moves to the next character and increments the transition count for CORE_SCIENTIFIC.
+9. The next character is '6', which matches CORE_EXPONENT. So, the lexer moves to the next character and increments the transition count for CORE_EXPONENT.
+10. The next character is the end of the string, so the lexer moves to the end of the string and returns the final state as CORE_SCIENTIFIC.
+
+Please help me understand what's going on and why the output is what it is. Thank you!

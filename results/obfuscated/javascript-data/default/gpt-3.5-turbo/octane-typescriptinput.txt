@@ -1,0 +1,15 @@
+This code is defining a class called "AstLogger" inside a module called "TypeScript". The AstLogger class has a constructor that takes in a logger parameter and assigns it to a member variable. It also has a method called "logScript" that takes in a "script" parameter of type TypeScript.Script and logs information about the AST (Abstract Syntax Tree) of the script.
+
+Inside the "logScript" method, there is a variable called "stack" that is initialized as an empty array. Two functions, "pre" and "post", are defined and used as callbacks for the TypeScript.getAstWalkerFactory().walk() method.
+
+The "pre" function pushes the current AST node into the stack, calculates the indentation level based on the length of the stack, and logs comments and the current node using the logger's log method. The "post" function pops the current AST node from the stack.
+
+The "logNode" method logs information about a specific node in the AST, including its line and column numbers, treeViewLabel, symbol, and type.
+
+The "logComments" method logs information about an array of comments in the script. It calls the "logNode" method for each comment node.
+
+The "logLinemap" method logs information about the line map of the script. It iterates over the linemap array and concatenates the values with commas.
+
+The "addPadding" method adds padding to a string to make it a specific length. It takes a string, target length, padding string, and a boolean flag to determine whether the padding should be added to the left or right of the string.
+
+Overall, this code defines a class that provides functionality to log information about the AST of a TypeScript script, including comments, nodes, and line mapping.##########

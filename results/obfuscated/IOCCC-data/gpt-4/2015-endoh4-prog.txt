@@ -1,0 +1,9 @@
+This is a C program written in obfuscated form. This code prints the prime factorization of a given integer `y` on screen. 
+
+The `f()` function which implements the core logic of the program is recursively called and performs a sort of prime sieve by checking divisibility of the input integer `y` in the range of natural numbers up to its square root. If `y` is divisible by a number `m`, it is considered as a factor, and the function is called recursively to continue factoring. 
+
+The `putchar(x?10:32<<!y)` controls the output format, printing a newline (`10`) after each prime factor for `x != 0`, and a space character (`32`) for others. The `32<<!y` part serves to generate multiple spaces after the last factor (when `y` is `0`). 
+
+The `main(y)` starts iteration from `y - 1` and ends when only a single copy of the largest prime factor remains. 
+
+One thing this program does not do is handle `1` as input: it will loop indefinitely as `1` is not prime and has no prime factors. Cases where `y < 1` will also be problematic.

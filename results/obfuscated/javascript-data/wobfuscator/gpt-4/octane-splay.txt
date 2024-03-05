@@ -1,0 +1,107 @@
+This JavaScript code contains two helper functions: `__universalAtob` and `__lA`, and several variables storing raw data (`__aB`, `__forWasmBuffer`, `__ifWasmBuffer`, `__callWasmBuffer`) in form of base64 encoded WebAssembly binary code.
+
+__universalAtob function:
+`__universalAtob` function is a base64 decoder. It tries to decode the given base64 encoded string using the browser's built-in `atob` function. If it fails, it falls back to using the `global.Buffer` to do the same.
+
+__lA function:
+`__lA` function is used for interacting with the WebAssembly Instance `__wAM` and caching results. It retrieves an array of 32-bit unsigned integers (`Uint32Array`) from the memory buffer of WebAssembly Instance, and returns the array in a form that can be interpreted naturally in JavaScript (using `Array.from`). This operation is cached in a `Map` object stored in variable `ac`.
+
+WebAssembly Instances:
+WebAssembly instances (`__wAM`, with data `__aB`, and `__forWasmModule`, `__ifWasmModule` with data `__forWasmBuffer`, `__ifWasmBuffer`) represent compiled and instantiated WebAssembly code. This code is in binary format and is base64-decoded.
+
+WebAssembly is a binary code format that is intended to be run at near-native speed on the web. It's written in a low-level code that's then compiled to binary so it can run faster than JavaScript, and with predictable speed.
+
+Each base64 encoded string is processed by `atob` method to be converted into a human-readable binary code. If this operation fails, it falls back to using the `global.Buffer`. The processed data is then used to create a `WebAssembly.Module` and is passed to `WebAssembly.Instance` to create a new instance of that module. This is done for three chunks of code: `__aB`, `__forWasmBuffer`, and `__ifWasmBuffer`.
+
+As for the variable `__callWasmBuffer`, it seems like it is a base64 encoded WebAssembly binary code, but it hasn't been utilized in any part of the shared code.
+
+Without seeing how and where this code gets used, it's hard to discern a specific higher-level functionality from the code alone. It is essentially preparing several WebAssembly modules and instances for further use and providing helper functions for handling base64 and WebAssembly memory operation.This JavaScript code builds and works with WebAssembly instances for string manipulations and computation heavy operations like a splay tree.
+
+The `__callWasmModule` part is similar to earlier snippets - loading a base64 encoded WebAssembly code into a new WebAssembly instance. However, without knowing what `__callWasmBuffer` contains, it's hard to comment on what functionality it introduces.
+
+The `__wasmStringModules` creates an array of WebAssembly instances. Each entry inside this array corresponds to a specific WebAssembly binary defined by `__bytes`. These could be various functions or processes programmed to run at near-native speeds on the web.
+
+The `lS` function interacts with the WebAssembly instances and reads string data from them. It accepts three arguments - `wI` (which could be an array or a single number representing WebAssembly instance(s)), `pos` (the position of the string in WebAssembly memory), and `iWC` which is not used in given the code. The function reads a null-terminated string from the memory of the specified WebAssembly instance(s) and returns it as a JavaScript string.
+
+The part after defining `lS` creates a BenchmarkSuite instance called `Splay`. It benchmarks its two tasks: `SplayRun` and `SplayTearDown` by running several iterations of each task within a loop and recording performance data such as operation time.
+
+The last four lines set up constants `kSplayTreeSize`, `kSplayTreeModifications`, and `kSplayTreePayloadDepth` for a splay tree benchmark. Splay trees are a type of binary search tree with the additional property that recently accessed elements are quick to access again - they are "splayed" to the top of the tree.
+
+`splayTree` is set to null which indicates that this variable will later be used to hold the actual instance of the splay tree, but it is left uninitialized at the moment. 
+
+This JavaScript code is a part of a larger project involving benchmarking of compute heavy operations expected to be performed at a near-native speed using WebAssembly.Continuing from the previous script, this script defines additional parts of a benchmark for a splay tree operation. It involves a splay tree payload generation using the `GeneratePayloadTree` function which either attaches an object containing a custom array and a string if the depth value is 0 or it makes the left and right leaf node point to another payload tree recursively until the depth value becomes 0.
+
+`GenerateKey` method is used for creating random keys for the nodes of the splay tree. This function does not take any input and will return a randomly generated key.
+
+Further, the script works with the performance analysis of the splay tree operation including methods to update the statistics `SplayUpdateStats` and calculate the root mean square of the performance `SplayRMS`.
+
+The `InsertNewNode` function is a crucial part of the script where it continuously generates a key which does not exist in the splay tree. Basically, it ensures the uniqueness of keys. When a unique key is found, it generates a payload Tree and inserts this as a new node in the splay tree. However, this implementation seems to use WebAssembly instances to perform the key insertion, which allows for potentially faster execution speeds.
+
+The `SplaySetup` function adds nodes to the splay tree up to `kSplayTreeSize`. It checks whether the performance timing functionality is available in the browser, then creates a new `SplayTree` instance and starts the performance timer. It keeps inserting new nodes into the tree until the tree size is reached.
+
+This script, like the previous script, seems to be designed as a part of a larger project for benchmarking purposes, specifically for splay tree operations and compute heavy operations expected to be performed at a near-native speed using WebAssembly.The code in this section contains the functions that actually run the Splay benchmark (`SplayRun`) and clean up afterwards (`SplayTearDown`).
+
+The `SplayTearDown` function cleans up by setting variables `splayTree`, `splaySamples`, and `splaySumOfSquaredPauses` to their initial states. It also performs a check on the keys in the splay tree to ensure they are in ascending order and that the length of the keys is equal to `kSplayTreeSize`. If these conditions are not met, an error is thrown.
+
+The `SplayRun` function starts by declaring an anonymous function that will run the main loop of the benchmark. It first inserts a new node with a new key into the splay tree. Then it finds a key in the tree that is less than the new key and removes it from the tree. The loop continues to run until `kSplayTreeModifications` iterations have been made. This function also employs the use of WebAssembly instances for faster performance, for the loop functionality and within the loop for the key removal operation.
+
+The last segment of the `SplayRun` function updates the performance statistics by calling the `SplayUpdateStats` method, again employing WebAssembly to optimize this operation.
+
+Just like the previous parts, the script seems to continue leveraging WebAssembly instances for operations expected to be performed at a fast speed. Additionally, it makes extensive use of anonymous functions in its implementation style. This is a technique that improves code encapsulation and keeps global scope cleaner.The `SplayTree` function declared in this script is for creating a splay tree, which is a self-adjusting binary search tree. It has a property `root_` which starts as `null`.
+
+The `isEmpty` function checks whether the tree is empty by checking whether `root_` is `null`.
+
+The `insert` function inserts a new node into the splay tree. If the tree is empty, it creates a new root node with provided key and value. If the tree isn't empty, it splays the tree around the key and then checks whether the key of the root equals the inserted key. If not, it creates a new node and uses WebAssembly to decide whether to insert it to the left or the right of the root.
+
+The `remove` function removes a node with a given key from the splay tree. If the tree is empty, it throws an error. It splays the tree around the key and checks whether the key of the root equals the provided key. If not, it throws an error. It then removes the root node and uses WebAssembly to decide how to rearrange the tree.
+
+Similar to previous parts, WebAssembly instances are heavily used for operations expected to be performed at a fast speed.This script continues to define behavior for a Splay Tree.
+
+The `find` function finds a node by its key. It calls the private `splay_` function to adjust the tree as needed, then checks if the root's key matches the search key. If it does, it returns the root node.
+
+The `findMax` function finds the maximum valued node. It does this by traversing to the rightmost node starting at the root or the optional provided starting node (`opt_startNode`).
+
+The `findGreatestLessThan` function finds the node with the greatest key value that is less than the given key. To do so, it first splays the tree about the given key. If the root's key is less than the given key, it returns the root. If the root's key is greater than or equal to the given key and the left child of the root exists, it returns the maximum of the left sub-tree. If neither condition is met, it returns `null`.
+
+The `exportKeys` function creates a list of all keys currently in the tree. To achieve this, it traverses the tree and for each node, it pushes the key of that node to the `result` list. 
+
+Again, the heavy use of WebAssembly instances is noteworthy, suggesting that these operations need to be carried out quickly. WebAssembly is a low-level binary format that is faster than JavaScript for many computational tasks.The `splay_` function is a private function used to implement the process of "splaying" in a splay tree. Splaying is the process of adjusting the tree such that the requested key is brought to the root, and is a core operation in a splay tree.
+
+In detail: 
+
+- If the tree is empty, the function simply returns.
+- Three variables are initialized (`dummy`, `left`, and `right`) to new `SplayTree.Node` objects with null keys and values.
+- The variable `current` is set to the root of the tree (`this.root_`).
+- A loop is then entered that continues indefinitely until manually broken.
+
+  - If the key is less than the key of the current node:
+  
+    - If the left child of the current node doesn't exist, the function breaks from the loop.
+
+    - If the key is also less than the key of the left child of the current node, the current node and its left child are swapped (the left child becomes the parent and the current node becomes its right child) and `current` is updated to its parent.
+
+    - Regardless of whether the above swap occurred or not, the right child of the `right` dummy node is set to the current node and `current` is updated to its left child (which may now be its previous parent, if a swap occurred).
+  
+  - If the key is greater than the key of `current`:
+    
+    - If the right child of the current node doesn't exist, the function breaks from the loop.
+
+    - If the key is also greater than the key of the right child of current, the current node and its right child are swapped and `current` is updated to its parent.
+
+    - The left child of the `left` dummy node is then set to the current node and `current` is updated to its right child.
+
+  - If the key is equal to that of `current`, the function breaks from the loop.
+
+- Finally, after the loop, the right child of `left` is set to the left child of `current` and the left child of `right` is set to the right child of `current`.
+
+This function manipulates the splay tree such that the desired node is brought to the root, helping to decrease search times for frequently accessed elements.After the `splay_` function, the `current` node's left and right children are set to `dummy.right` and `dummy.left` respectively. This effectively reorganizes the tree, ensuring the desired `current` node is the root of the tree.
+
+The `SplayTree.Node` is a constructor for creating new nodes of the tree. It takes `key` and `value` as parameters and assigns them to `this.key` and `this.value` respectively.
+
+`SplayTree.Node.prototype.left` and `SplayTree.Node.prototype.right` are setting the default value of the left and right children of a node as `null`. This specifies that by default, any new node does not have any children.
+
+`SplayTree.Node.prototype.traverse_` is a function that traverses the tree starting from the node it is called on. It takes a function `f` as an argument that is called at every node. The traversal is done in a pre-order manner, meaning it first visits a node, then its left subtree, and finally its right subtree.
+
+The function `traverse_` uses WebAssembly, a binary instruction format for a stack-based virtual machine. Consider that WebAssembly is designed to be a low-level virtual machine that runs code at near-native speed by taking advantage of common hardware capabilities available on various platforms.
+
+The `__forInstance3` is a WebAssembly instance executing the code inside its environment. Inside the `body` function, it first checks if the current node's left child exists. If it does exist, it calls the `traverse_` function recursively on the left child. After that, it applies function `f` on the current node, and then updates the `current` node to the current node’s right child, moving to the next node in the preorder traversal.

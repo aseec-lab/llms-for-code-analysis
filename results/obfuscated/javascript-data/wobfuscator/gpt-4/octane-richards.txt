@@ -1,0 +1,125 @@
+This code is written in JavaScript and it's mainly dealing with WebAssembly and Base64-encoded strings.
+
+- The function `__universalAtob` defines a way to decode a base64 encoded string and return them in bytes.
+- `__aB`, `__forWasmBuffer`, `__ifWasmBuffer` are base64-encoded strings.
+- `__wAM`, `__forWasmModule`, and `__ifWasmModule` are WebAssembly modules. The base64 strings are converted to bytes array by the function `__universalAtob` and then used for the creation of the WebAssembly instances.
+- `ac` is a Map object to cache the result of function calls.
+- `__lA` sets up a function to convert WebAssembly memory positions into JavaScript array and cache results to avoid duplicate processing.
+- `__callWasmBuffer` is another base64 string probably contains WebAssembly binary data. 
+
+In general, this code is handling WebAssembly binary code with base64 string representation, working with it using JavaScript, and creating WebAssembly module instances with it. WebAssembly is frequently used to run code at near-native speed for web-based games, server applications, and potentially for future web standard library such as image recognition and processing.This part of the code is a continuation from the previous one, where it continues handling WebAssembly operations:
+
+- In `__wasmStringModules`, several other WebAssembly modules are created. The base64 strings are decoded and then used to instantiate the modules.
+- `lS` is a function that reads and decodes strings stored in the WebAssembly's linear memory at specified positions.
+- `Richards` is an instance of the `BenchmarkSuite` with parameters obtained from the WebAssembly memory.
+- The `runRichards` function is defined which is likely some form of performance benchmarking function. A new `Scheduler` is instantiated and an "idle task" is added to it, where `ID_IDLE` and `COUNT` are provided by the WebAssembly Module instance (__callWasmModule).
+- WebAssembly modules may contain linear memory (sometimes also called WebAssembly Memory) which is a resizable array buffer that can be read from and written to by both JavaScript and WebAssembly. This is actually how the JavaScript and WebAssembly codes communicate between each other.
+- The function `lS` is used to read string data from WebAssembly memory positions and convert them to JavaScript strings.
+- `Richards` is an instance of `BenchmarkSuite`, presumably a benchmarking module to assess the performance of certain functionalities.
+- The `runRichards` function appears to define a testing scenario or benchmark test setup which might be part of a performance assessment tool.
+- In the `runRichards` function, a WebAssembly instance is created where an "idle task" is added to the scheduler via imported function from JavaScript(`impFunc`). The parameter to this imported function is a function that adds an idle Task to a scheduler.
+  
+It's worth noting that while this method of encoding WebAssembly binary in base64 string then decoding it at runtime can work. It is not a common practice, and in general, most WebAssembly modules would be served directly as binary file (often with wasm file extension), eliminating the need for base64 encoding/decoding.The rest of the code is essentially adding tasks to the schedule and then running the schedule as part of the benchmark test setup. Each group of commands deals with a specific type of task (`Worker`, `Handler`, `Device`), and it sets up the tasks and enqueues them using the `Packet` class and methods from the `Scheduler` class.
+
+In the code snippet:
+
+- Variable `queue` is initialized with a new `Packet` instance with parameters `null`, `ID_WORKER`, and `KIND_WORK`.
+- Multiple tasks are added to the schedule:
+    - Two instances of a `Worker` task, with an ID of `ID_WORKER` and priority `1000`.
+    - Three instances of a `Handler` task, with two different IDs (`ID_HANDLER_A` and `ID_HANDLER_B`), priority `2000` and `3000` respectively.
+    - Two types of `Device` tasks, each with different IDs (`ID_DEVICE_A` and `ID_DEVICE_B`), and priority `4000` and `5000` respectively.
+- `scheduler.schedule()` is called without parameters. It seems to start the process of executing the tasks in the order they were added.
+- Each time a task is added, a WebAssembly instance is created using the previously instantiated WebAssembly module, providing an `impFunc` function to the instance via `env` which makes the `addWorkerTask`, `addHandlerTask`, `addDeviceTask`, and `schedule` methods from the `scheduler` available to the WebAssembly code.
+- Finally, after all tasks are added and the schedule is started, the data from the WebAssembly instance is returned.
+
+Each specific instance associates an `impFunc` with a particular scheduling action. The concept of WASM modules communicating with its host environment (in this case JavaScript) through importing and exporting functions is demonstrated here. It's interesting to point out that the `__callInstanceX` instances and their corresponding exported data `__exports` are both created and returned but never used or stored anywhere.
+
+This code defines a set of tasks and adds them to a scheduler, which is likely used to test or benchmark certain performance metrics, possibly in a concurrent or multi-threaded programming model.This part of the function creates different types of tasks that can be added to the scheduler:
+
+1. `addIdleTask`: An idle task is created with the given id, priority, queue, and count. It uses a newly instantiated WebAssembly module. 
+
+2. `addWorkerTask`: A worker task is created with the given id, priority, and queue. It also creates a new WebAssembly module instance.
+
+3. `addHandlerTask`: Similar to the above tasks, a handler task is created with a specific id, priority, and queue.
+
+4. `addDeviceTask`: This is the same as the above tasks, but it creates a device task.
+
+In each of these methods, a new WebAssembly module is instantiated with specific arguments, calling a function `impFunc`. This function adds the new task with the appropriate arguments to the scheduler's task list. The fresh instances are used to ensure that any side effects are isolated to that instance and do not impact other tasks or parts of the code.
+
+Another noteworthy part of the code is the validation process at the end of the function. It checks whether the final count of queues (`queueCount`) and holds (`holdCount`) in the scheduler matches predetermined expected values (`EXPECTED_QUEUE_COUNT` and `EXPECTED_HOLD_COUNT`). If they do not match, an error is thrown. This is likely a basic form of error checking, used to ensure all tasks have been queued and executed correctly.
+
+The function `Scheduler` is the constructor of an object that manages scheduling tasks. It has a number of fields including `queueCount`, `holdCount`, `blocks`, `list`, `currentTcb`, and `currentId`. These fields likely pertain to the tasks and their execution.
+
+Finally, this part of the script also defines several constants that seem to be used as identifiers (`ID_IDLE`, `ID_WORKER`, etc.) and types (`KIND_DEVICE`, `KIND_WORK`) of tasks that can be scheduled.This part of the script adds more methods to the `Scheduler` class:
+
+1. `addRunningTask`: In addition to creating a new task with a given id, priority, queue, and task it also sets the current task block control (currentTcb) to running.
+
+2. `addTask`: A helper function for adding a task. New instance of `TaskControlBlock` is created with the given parameters and added to the tasks list. It also tracks this task in the blocks map using its id.
+
+3. `schedule`: This function iterates through all the tasks in the scheduler's list and checks their state. If a task is not "held or suspended", its `id` is assigned to `currentId` and `run()` method is executed on current task block control. If a task is held or suspended, the scheduler moves onto the next task.
+
+4. `release`: This function accepts an `id` and uses it to find the corresponding task control block. If no control block is found, it immediately returns. Otherwise, it marks the task control block as not held by calling `markAsNotHeld()` on it.
+
+The common thread across these functions is the use of `WebAssembly.Instance` to create new instances of WebAssembly modules and thereby isolate side effects. Again, the `env` object containing the `impFunc` callback is used to allow these modules to reference and modify the scheduler's state and other task-specific data. For example, `addRunningTask` modifies `this.currentTcb`, which is part of the scheduler's state. Similarly, `schedule` uses a separate WebAssembly instance to cycle through tasks.Completing the `Scheduler` class, we have:
+
+5. `holdCurrent`: This function increments the `holdCount` and then marks the `currentTcb` as on hold. It does this by creating a new instance of the `WebAssembly` module that triggers the `markAsHeld` method for the current task control block.
+
+6. `suspendCurrent`: Similar to `holdCurrent`, it suspends the current task block control (running task), which is done by invoking `markAsSuspended` method with WebAssembly Instance.
+
+7. `queue`: This function takes a packet, adds it to the task associated with the packet's ID if such task exists, and returns the updated task. The packet's `id` is set to the `currentId` and its `link` field is set to `null`. The `queueCount` is incremented by one each time the method is called.
+
+There is also a `TaskControlBlock` function (which can be seen as a constructor for a `TaskControlBlock` object), a `STATE_RUNNING` constant, a `STATE_RUNNABLE` constant, a `STATE_SUSPENDED` constant, and a `STATE_HELD` constant.
+
+The `TaskControlBlock` function takes `link`, `id`, `priority`, `queue`, and `task` parameters and assigns them to the new object being created. Finally, it uses `WebAssembly.Instance` in an immediately invoked function to set the `state` of the object according to whether `queue` is `null` or not. The `state` can be `STATE_SUSPENDED` or `STATE_SUSPENDED_RUNNABLE`.The remaining part of the code describes some functions that are related to the behavior of the tasking system.
+
+8. `setRunning`: This sets the state of the task to `STATE_RUNNING`.
+
+9. `markAsNotHeld`: This marks the task as not held by applying a bitwise operation on the state with `STATE_NOT_HELD`.
+
+10. `markAsHeld`: This marks the task as being held by applying a bitwise OR operation on the state with `STATE_HELD`.
+
+11. `isHeldOrSuspended`: It checks whether the task is either held or suspended by comparing the state with `STATE_HELD` and `STATE_SUSPENDED`.
+
+12. `markAsSuspended`: This marks the task as suspended by applying a bitwise OR operation on the state with `STATE_SUSPENDED`.
+
+13. `markAsRunnable`: This marks the task as runnable by applying a bitwise OR operation on the state with `STATE_RUNNABLE`.
+
+14. `run`: This runs a task by invoking the `run` method on the `task` object. It first prepares a `packet` and updates the `queue` link and state based on the current `state` of the task. All operations are encapsulated within WebAssembly instances for high performance.
+
+15. `checkPriorityAdd`: This function is used to add a `packet` to the task and to adjust the priority based on comparison with another `task`. It checks if the queue of packets is empty. If it is, it adds the packet to the queue and marks the task as runnable. If the priority of the current task is higher than that of the given task, it returns the current task; otherwise, the given task is returned. If the queue is not empty, it simply adds the packet to the queue.The remaining functions in the code represent different types of tasks: IdleTask, DeviceTask, and WorkerTask. Each task has a different function. Here is a brief explanation of the functions, properties, and their roles:
+
+16. `IdleTask`: This is a task object that operates when the system is idle. The `run` function in it controls the behaviour when there is no active task in the system.
+
+17. `IdleTask.prototype.run`: This function decreases the count every time it's called. If count is zero, it tries to hold the current task. Depending on the properties of `v1`, it releases a device. The Device_ID can be `ID_DEVICE_A` or `ID_DEVICE_B`. 
+
+18. `IdleTask.prototype.toString`: Returns a string when the IdleTask object is referenced.
+
+19. `DeviceTask`: This is a task object that works in a way that it runs only when a packet exists. If a packet doesn't exist, it tries to suspend the current task or then queues up the packet for further processing.
+
+20. `DeviceTask.prototype.run`: It checks if a packet is null. If it is, it checks for property `v1` - if it's null, the task is suspended, else, the task is held. If the packet is not null, the task is held.
+
+21. `DeviceTask.prototype.toString`: Returns a string when the DeviceTask object is referenced.
+
+22. `WorkerTask`: This is a task object that changes its properties `v1` and `v2`, checks the id of a packet, and updates a1 of packets.
+
+23. `WorkerTask.prototype.run`: This function handles the task. If the packet is null, it suspends the current task, else it checks the value of `v1` and changes it accordingly. Then, it updates the packet id and resets packet's a1. A JavaScript for loop is used to run over the `DATA_SIZE` and the loop gets compiled with the WebAssembly `for` loop module.
+
+The remainder shows tasks performing different computations based on their properties and methods. It shows how a system could handle different tasks, all programmed with JavaScript using WebAssembly for increased performance optimization.The remaining functions in the code are part of the `HandlerTask` object. Here is a brief explanation of each of them:
+
+24. `HandlerTask`: This function is a constructor for a task object which deals with handling of tasks in a scheduler. Here 'scheduler' refers to an object responsible for managing and orchestrating task execution.
+
+25. `HandlerTask.prototype.run`: This function checks if a packet is null. If not, it checks kind of the packet. If the packet's kind is `KIND_WORK`, it adds the packet to `v1`, else it adds to `v2`. The next section checks if `v1` is null. If not, it checks a1 count against `DATA_SIZE`. If `v1`'s a1 count is less than `DATA_SIZE`, and if `v2` is not null, it updates `v2` link, updates `v1`'s a2 with `v2`'s a1 and `v1`'s a1 with incremented count and queues `v2`. If `v1`'s a1 count is more than `DATA_SIZE`, it updates `v1's` link and queues `v1`. In case if `v1` is null, it suspends the current task.
+
+The code handles some task-related operations using a queue and updates some properties based on certain conditions. It illustrates how task handling can be done with some complex logic and computations, with the use of WebAssembly for better performance.The functions in this part of the code create and manage packets. Here's a detailed look into the specifics:
+
+26. `HandlerTask.prototype.toString`: This is an overriding function that's used to provide a textual representation of the `HandlerTask` object.
+
+27. `DATA_SIZE` is a constant representing the size of data the packet can hold.
+
+28. `Packet`: This function is a constructor for a `Packet` object. A `Packet` object is made up of a `link` (a reference to another packet), an `id`, a `kind` (type of packet), `a1` (a counter), and `a2` (an array of data with size `DATA_SIZE`).
+
+29. `Packet.prototype.addTo`: This method is used to add a packet to a queue. It first checks if the queue is null. If it is, the method returns the current packet. If not, it runs through a loop until it finds the last packet in the queue (the packet where the `link` points to `null`) and adds the current packet to link of that last packet. Then it returns the `queue`.
+
+30. `Packet.prototype.toString`: This method provides a string representation of the `Packet`. The function `lS(0, 12)` is used to provide this representation, though we don't know what exactly it returns as the definition is not included in this code snippet.
+
+In the last part, the code seems to be using WebAssembly for creating a more optimized and efficient loop construct for going through the packets in the queue.

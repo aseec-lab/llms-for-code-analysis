@@ -1,0 +1,19 @@
+The provided code is written in Python and it makes use of numerous libraries like numpy for numerical operations, astropy for astronomical computations, and others for functionality related to lenses, arrays, dimensions, util operations, etc. 
+
+The code can be divided mainly into two parts:
+
+1) `AbstractPlane` class: This class describes an abstract plane for Astronomical computations. It has properties such as redshift, galaxies and cosmology and provides methods for various calculations related to the plane. It calculates angular diameter distance to earth, cosmic average density, checks presence of light profile, mass profile etc. in the galaxies, calculates centre of mass, axis ratio and phi of mass profiles, calculates luminosity and mass of galaxies, and Einstein's radius and mass.
+
+2) `AbstractGriddedPlane` class: This class extends the above `AbstractPlane` class and it represents a plane with grids. Additional attributes here are grid_stack, border and calculations for deflection stacks. It has methods to trace the grid stack to next plane, get the image plane image and calculate its properties such as convergence and potential.
+
+In both classes, the astropy's cosmology model `Planck15` is used by default if no cosmology model is provided.In the continuation section of the provided code, there are three additional classes defined: Plane, PlaneSlice and PlanePositions. 
+
+1) `Plane` class: This class extends the `AbstractGriddledPlane` class. It takes a list of galaxies, a grid stack, border, whether to compute deflection or not, and Cosmology. It calls the parent class's constructor (super) with these attributes and adding the redshift of the first galaxy from the galaxy list. It also checks whether the redshift attribute is same for all galaxies in the list or not. It has methods for getting unmasked blurred image of galaxies from point spread function (psf) and getting unmasked blurred image of a single galaxy with grid stack of point spread function (psf).
+
+2) `PlaneSlice` class: This class also extends the `AbstractGriddedPlane` class similar to the Plane class. However, it introduces an extra attribute called redshift but does not validate as Plane class.
+
+3) `PlanePositions` class: This class introduces attributes like redshift, galaxies, positions, deflections and cosmology. It computes deflections if the attribute compute_deflections is set. It also has a method to trace to next plane.
+
+4) `PlaneImage` class: This class extends the ScaledRectangularPixelArray for representing an array in a 2D plane image. It takes array, pixel scales, grid, and origin as input attributes. It calls the parent class's constructor with these attributes.
+
+Overall, these classes are additional extensions to the AbstractPlane and AbstractGriddedPlane classes and provide more functionalities and behaviours related to determination of galaxies' properties and their tracing and representation in a plane.

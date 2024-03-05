@@ -1,0 +1,45 @@
+Analyze the following piece of code: int main()
+{char *p1,*p2,*p3,*q1,*q2;
+ int i,j,k,flag;
+ p1=(char*)malloc(sizeof(char)*256);
+ p2=(char*)malloc(sizeof(char)*256);
+ p3=(char*)malloc(sizeof(char)*256);
+ q1=(char*)malloc(sizeof(char)*256);
+ q2=(char*)malloc(sizeof(char)*256);
+ gets(p1);gets(p2);gets(p3);
+ for(i=0;i<strlen(p1);i++)
+ {flag=1;
+  for(j=0;j<strlen(p2);j++)
+  if(*(p1+i+j)!=*(p2+j)) {flag=0;break;}
+  if(flag)
+  {for(k=0;k<i;k++)
+   *(q1+k)=*(p1+k);
+   *(q1+k)='\0';
+   for(k=i+strlen(p2);k<strlen(p1);k++)
+   *(q2+k-i-strlen(p2))=*(p1+k);
+   *(q2+k-i-strlen(p2))='\0';
+   break;}
+  }
+ if(flag){
+ strcat(q1,p3);
+ strcat(q1,q2);
+ puts(q1);}
+ else
+ puts(p1);
+}
+
+What does the code do?
+
+The code is a simple program that takes three lines of text as input from the user, and then compares the first line with the second line, and then the first line with the third line. If any character in the first line is not found in the second line, or if any character in the first line is not found in the third line, then the program will print the first line. Otherwise, it will print the concatenation of the first line and the third line.
+
+What are the potential problems with the code?
+
+There are several potential problems with the code:
+
+1. The `gets` function is deprecated and should not be used. It is vulnerable to buffer overflow attacks. Instead, the `fgets` function should be used to read lines of text from the user.
+2. The `flag` variable is not initialized before it is used. This could cause unexpected behavior if the program is run with uninitialized values.
+3. The `strcat` function is used to concatenate strings, but it does not check for buffer overflows. This could cause the program to crash or produce incorrect results.
+4. The `puts` function is used to print strings, but it does not check for buffer overflows. This could cause the program to crash or produce incorrect results.
+5. The program does not handle the case where the user enters only two lines of text. In this case, the program will print the first line twice.
+6. The program does not handle the case where the user enters more than three lines of text. In this case, the program will print the first line and the third line, but it will not print the second line.
+7. The program does not free the memory allocated by `malloc` for the arrays `p1`, `p2`, `p3`, `q1`, and `q2`. This could cause the program to crash or produce incorrect results.

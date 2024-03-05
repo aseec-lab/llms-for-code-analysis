@@ -1,0 +1,9 @@
+This code defines several functions related to random number generation. 
+
+The first function, randwc, takes in a single parameter 'num' and returns a random number between 0 and 'num' (exclusive). It does this by calling another function randnum and passing it the value 0. The randnum function returns a random number, and the remainder of that number divided by 'num' is returned by randwc.
+
+The second function, abs_randwc, is similar to randwc but takes in an unsigned 32-bit integer 'num'. It first calls randwc with 'num' as the parameter, and then checks if the result is less than 0. If it is, it takes the absolute value of the result (using a type cast), and then returns it as an unsigned 32-bit integer.
+
+The last function, randnum, is the core random number generator. It takes in a single parameter 'lngval', but in the code provided it is not used. The function has a static array called randw, which is initialized with the values 13 and 117. If the 'lngval' parameter is not equal to 0, randw is reset to those initial values. 
+
+The function then calculates a new random number by performing some arithmetic operations on the values in randw and selecting a remainder modulo 999563. After that, it updates the values in randw by assigning the current number to randw[1] and the calculated number to randw[0]. Finally, it returns the calculated number as the result of the function.

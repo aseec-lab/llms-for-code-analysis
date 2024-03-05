@@ -1,0 +1,73 @@
+Analyze the following piece of code: 
+void change(char a[])
+{
+	int i,j,k;
+	char temp;
+	k=strlen(a);
+	for(i=0;i<k;i++)
+		for(j=i+1;j<=k;j++)
+			if(a[i]<a[j])
+			{temp=a[i];a[i]=a[j];a[j]=temp;}
+}
+
+
+
+
+void main()
+{
+	int l1,l2,k=0,i;
+	char a[100],b[100];
+	scanf("%s%s",a,b);
+	l1=strlen(a);
+	l2=strlen(b);
+	if(l1==l2)
+	{
+		change(a);
+		change(b);
+		for(i=0;i<l1;i++)
+		{
+			if(a[i]!=b[i])k=1;
+		}
+		if(k==0)printf("YES");
+		else printf("NO");
+	}
+	else printf("NO");
+}
+
+What is the time complexity of this code?
+
+The time complexity of the above code can be estimated as O(n^2).
+
+The outer loop runs for n elements in the input string, and the inner loop runs for n-1 elements. Thus, the number of operations performed in each iteration of the inner loop is n-1. Therefore, the total number of operations performed in the outer loop is n^2.
+
+The algorithm uses two nested loops, which means that the time complexity is the product of the time complexity of the two loops. In this case, the time complexity is O(n^2), which is quadratic in nature.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente se traduce a un archivo ejecutable antes de ser ejecutado. El proceso de compilación implica la utilización de un compilador, que es una herramienta que traduce el código fuente en código objeto o código máquina que puede ser ejecutado directamente en la computadora. El archivo ejecutable resultante se puede ejecutar sin necesidad de volver a compilar el código fuente cada vez que se desea ejecutar la aplicación.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente se traduce en tiempo real mientras se está ejecutando la aplicación. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable antes de ser ejecutada.
+
+En resumen, la principal diferencia entre los dos tipos de lenguajes de programación es que los compilados se traducen a un archivo ejecutable antes de ser ejecutados, mientras que los interpretados se traducen en tiempo real mientras se está ejecutando la aplicación.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lenguajes de programación se utilizan para escribir programas, que son secuencias de instrucciones que una computadora puede ejecutar para realizar una tarea específica.
+
+Los lenguajes de programación se utilizan para resolver problemas y crear soluciones en una amplia variedad de campos, como la tecnología, la ciencia, la educación, la administración y la entretenimiento. Hay muchos lenguajes de programación diferentes en el mercado, cada uno con sus propias fortalezas y debilidades.
+
+Algunos ejemplos de lenguajes de programación populares son:
+
+- C
+- Java
+- Python
+- JavaScript
+- PHP
+
+Estos son solo algunos ejemplos de los muchos lenguajes de programación disponibles en el m

@@ -1,0 +1,34 @@
+This code accepts user input for the dimensions of a 2D array and then populates it with values entered by the user. 
+
+Here is a step-by-step breakdown of the code:
+
+1. Declare and initialize variables: 
+   - `i`, `j`, `m`, and `n` are integers initialized to 0.
+   - `a` is an integer initialized to 0.
+   - `p` is a pointer to a 2D array of integers. It is declared but not yet assigned any memory.
+
+2. Accept input for `m` and `n` using `scanf()`. These represent the number of rows and columns of the 2D array, respectively.
+
+3. Allocate memory for the 2D array using `calloc()`. `calloc(10000, 10000)` allocates memory for a 2D array of 10,000 rows and 10,000 columns. The `p` pointer is then cast to a pointer to this array.
+
+4. Use nested for loops to accept user input for each element of the 2D array. The values entered by the user are stored in the memory allocated for the array.
+
+5. Reset the values of `i` and `j` to 0.
+
+6. Enter a while loop that will iterate `n+m-1` times.
+
+7. Within the while loop, enter another while loop that executes until `i` is not equal to `m` and `j` is not equal to -1.
+
+8. Print the value of the current element of the 2D array using `printf()`. The element is accessed using the `p` pointer and indices `i` and `j`.
+
+9. Increment `i` and decrement `j`.
+
+10. Increment `a`.
+
+11. Check if `a` is greater than `n-1`. If true, set `j` to `n-1` and calculate the new value of `i` as `a` minus `(n-1)`. This ensures that `i` starts from the correct position in the next iteration of the loop.
+
+12. Check if `a` is less than or equal to `n-1`. If true, set `j` to `a` and set `i` to 0. This ensures that `j` starts from the correct position in the next iteration of the loop.
+
+13. Repeat the while loop until all iterations are complete.
+
+Overall, this code creates a 2D array based on user input and then prints its elements in a specific pattern. The pattern starts from the top-right element and moves diagonally towards the bottom-left corner.

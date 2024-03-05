@@ -1,0 +1,39 @@
+The code provided is an older part of the pyfolio library, a Python library for performance and risk analysis of financial portfolios. This particular module provides functionality for various financial metrics calculations. 
+
+The module starts by importing necessary Python packages and methods used to calculate these metrics and then defines them with the "@deprecated" decorator, indicating these methods are no longer the recommended way to access this functionality. A specific warning is also defined to notify users that these functions are deprecated. 
+
+Various metrics are implemented:
+- Value-at-Risk (VaR) using the variance-covariance method under the assumption of normal distribution ("var_cov_var_normal").
+- Maximum Drawdown (“max_drawdown”).
+- Annual Return (“annual_return”).
+- Annual Volatility (“annual_volatility”).
+- Calmar Ratio (“calmar_ratio”).
+- Omega Ratio (“omega_ratio”).
+- Sortino Ratio (“sortino_ratio”).
+- Downside Risk (“downside_risk”).
+- Sharpe Ratio (“sharpe_ratio”).
+- Alpha and Beta (“alpha_beta”, “alpha”, “beta”)
+- Stability of time series ("stability_of_timeseries")
+- Tail Ratio (“tail_ratio”) and Common Sense Ratio (“common_sense_ratio”).
+
+The module also provides methods to normalize, cumulatively return and aggregate data. A rolling window function is also implemented to generate moving metrics ("-rolling_beta", "rolling_regression"). Finally, it also provides a method to calculate the gross leverage of a portfolio (“gross_lev”) and a method for calculating value at risk (“value_at_risk”).The remaining code provides methods for performance statistics and metrics usually used in finance. 
+
+The `perf_stats` function applies a series of calculation functions to a given series of returns. It also computes additional metrics if positions and transactions are defined.
+
+The `perf_stats_bootstrap` function uses bootstrap sampling for the statistical analysis of the portfolio. Bootstrap sampling is a method that involves random subsampling from a data set to estimate the sampling distribution.
+
+The `calc_bootstrap` and `calc_distribution_stats` functions are helper functions used in bootstrap calculation and the analysis of the distribution of statistical metrics.
+
+The module provides functions to calculate the maximum drawdown and the top drawdown periods of a portfolio with `get_max_drawdown`, `get_top_drawdowns`, and `gen_drawdown_table`. Drawdowns measure the decline from a historical peak in some variable (most often the cumulative profit or total open equity).
+
+The `rolling_volatility` and `rolling_sharpe` functions compute the rolling volatility and the rolling Sharpe ratio. They provide a moving window view of these metrics.
+
+The last function, `simulate_paths`, allows the user to generate random walks based on the provided historical data. This can be useful for Monte Carlo simulations.These functions pertain to portfolio forecasting and the extraction and summarization of specific time ranges data. 
+
+The `simulate_paths` function uses the historical data provided by the user to generate random walks, which are often used in Monte Carlo simulations.
+
+The `summarize_paths` function calculates and summarizes the cumulative returns of the provided samples with their mean and standard deviation. Furthermore, it calculates cone bounds for a defined standard deviation, which can be useful for risk evaluation.
+
+The `forecast_cone_bootstrap` function combines the two previously described functions to generate the cone boundaries for the forecast of a portfolio.
+
+Lastly, the `extract_interesting_date_ranges` function allows the user to extract and return specific date ranges for historical return data. This is particularly useful for analysis of performance and risk metrics over specific periods. For example, during an economic downturn or financial crisis, the user may want to isolate the date range for these events and analyze them separately.

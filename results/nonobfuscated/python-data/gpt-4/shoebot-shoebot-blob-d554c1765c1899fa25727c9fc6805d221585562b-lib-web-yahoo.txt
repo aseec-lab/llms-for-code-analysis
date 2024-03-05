@@ -1,0 +1,26 @@
+This is a Python program that can be used to interface with some of Yahoo's APIs. It imports some necessary modules at the start and then defines some configuration variables such as the Yahoo ID and the different services that can be used like search, images, news, and spelling.
+
+It also defines several custom classes and exceptions to help manage the data and errors that might occur. Specifically:
+
+- The `YahooResults` and `YahooResult` classes are used to manage the results from the Yahoo API calls.
+- The `YahooSearch` class is used to perform searches on Yahoo using different services.
+- The `YahooSpelling` class is used specifically for suggesting spellings using Yahoo's spelling API.
+- The `YahooError` and `YahooLimitError` classes are for handling errors.
+  
+The program primarily involves making queries to Yahoo's web APIs (SearchService, ImageSearchService, NewsSearchService and Spelling Suggestion), after which XML data received is parsed and the results are stored in objects of the `YahooResult` class, which is then accumulated in `YahooResults` class as a list. The data is requested, received and processed asynchronously which means it allows multiple operations to occur at the same time without waiting for the other to finish.
+
+Additionally, the asynchronous handling can be disabled according to the user's preference. This program also provides caching functionality, which means it can store the QA pairs for quicker retrieval later. However, the cache function is disabled in all the functions (`search`, `search_images`, `search_news` and `suggest_spelling`) as per default configuration.
+
+There is also a `sort` function defined at the end, but the actual implementation is not provided in the code snipped you provided. Overall, the program is a client-side implementation for interaction with Yahoo's web services, packed with rich features like Caching, Error handling, Encoding support and others.This part of the code is where the actual search happens. A for loop is used to iterate through a list of 'words'. For each word, a 'query' (`q`) is made by appending the word with 'context' and then stripping any leading or trailing white spaces. If 'strict' is True, then quotes are added around the query, which most likely would be a part of syntax in API calls for exact phrase matching.
+
+Then, a `YahooSearch` object, `r`, is created by passing a number of parameters: the query, some unspecified '1's, service, context, wait, asynchronous, and cached. Each of these objects represents a query to the Yahoo API and is appended to the 'results' list.
+
+Then, this list is sorted using the `__cmp__` function of `YahooResults`, which compares two `YahooResults` objects based on certain defined rules. The sorted list is then reversed to presumably have the results in descending order.
+
+If the 'relative' flag is True and there are more than zero 'results', then the relative probabilities of each result are calculated. This is done by summing up all the 'total' attributes of the `YahooSearch` objects and then dividing each 'total' by this sum. This gives a relative scoring to each result.
+
+The `results` list is then replaced by creating a new list from it, where each element is a tuple containing the 'query' and the adjusted 'result' (relative probability).
+
+In the end, the function returns the adjusted `results`, which is a list of tuples, with each tuple containing a query and its relative result.
+
+The final line of code is a commented out `print` statement that would print the `title` attribute of an `item` object, which is not defined in the provided code.

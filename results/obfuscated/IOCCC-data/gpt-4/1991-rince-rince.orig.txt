@@ -1,0 +1,11 @@
+This C program seems to be a text-based mini-game in a grid, specifically in a terminal or console. It applies operations at a low level on characters and ASCII codes to define the mechanics of the game.
+
+The game consists of an object (represented by a character) that moves within a grid. The user provides directions to navigate it with specific keys — 'h', 'j', 'k', 'l' —which are respectively associated with moving left, down, up, and right.
+
+The game's state is stored element-wise in the 2D-char array `M[12][22]`, where each element is a specific character that represents a condition or state. The macro `#define` statements are mainly for macro substitution. They replace the constants and operations in a way to make the code more compressed and cryptic, substituting shorthand notations and operations for longer statements.
+
+During the game, when the user types a key to move the object, it checks if the move is possible using conditions in the `switch()` and `if()` statements. Further, 'M', 'N', 'O', and 'H' seem to define the different states of the object.
+
+The `initscr()`, `noecho()`, `cbreak()`, `endwin()`, etc., are functions from the 'curses' library, which is often used to create text user interfaces in a terminal-independent manner. The `initscr()` function initializes the library, `noecho()` turns off echoing of typed characters, and `cbreak()` disables line buffering.
+
+Lastly, when the game ends, it prints "Well done!" if the user completed all the moves successfully, otherwise "Too many moves". Then it calls `endwin()` to de-initialize curses and return the terminal to normal status.

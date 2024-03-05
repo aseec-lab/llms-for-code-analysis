@@ -1,0 +1,21 @@
+This program is written in C language. It reads from standard input (console) the number of points in the space, and then the coordinates for each point. For each pair of points, the program calculates the distance between them, and then reports the maximum distance calculated by printing it on the screen, rounded to four decimal places. 
+
+Here's a bit easier to understand step-by-step:
+
+1. The program defines a `struct`, a composite datatype, which stores a point in 2D space with `x` and `y` as its coordinates.
+
+2. `main()` function, the entry point of the program, starts by reading an integer `n` from the input, which represents the number of points. 
+
+3. Memory is allocated for `n` number of points using `malloc` function and the pointer to this memory is obtained which is `p`.
+
+4. The program then reads `n` number of points (their `x` and `y` coordinates) from the input.
+
+5. It allocates memory for array `d` of size `n-1`, where it will store the maximum distances calculated from each point to all the succeeding points. All elements of `d` are then initialized to 0.
+
+6. All pair of points are then processed in nested loops. For each pair, the Euclidean distance is calculated using the standard square root formula. If this calculated distance is greater than the existing maximum distance for the current point (stored in `d[i]`), then it replaces the current maximum.
+
+7. Once all pairs of points have been processed, the program finds the overall maximum distance from array `d` and stores it in variable `max`.
+
+8. The value of `max` is then printed to the console, with precision up to four decimal places.
+
+9. Three successive calls of the `getchar()` function are done at the end of the program. This is usually done in console applications to pause the console screen until the user hits 'Enter' three times to prevent it from closing immediately after the output is printed. This gives the user a chance to read the output.

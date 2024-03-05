@@ -1,0 +1,41 @@
+This code takes an input number in base 'a' represented as a string and converts it to base 'b'. It then outputs the converted number.
+
+Here is a step-by-step analysis of the code:
+
+1. It declares and initializes arrays `str`, `dest`, and `trans`. `str` is used to store the input number as a string. `dest` is used to store the converted number. `trans` is used as a lookup table to convert numbers from base 10 to base 'b' (0-9 represented by '0'-'9' and 10-35 represented by 'A'-'Z').
+
+2. It declares and initializes variables `a`, `b`, `i`, `d`, `len`, and `num`. `a` and `b` represent the original base and the desired base respectively. `i` is used as a loop counter. `d` is used to store the decimal value of each digit in the input number. `len` is used to store the length of the converted number. `num` is used to calculate the decimal value of the input number.
+
+3. It initializes the first 10 elements of the `trans` array with the characters '0' to '9' and the remaining elements with 'A' to 'Z'.
+
+4. It reads the values of `a`, `str`, and `b` from the user.
+
+5. It loops through each character in `str` until it reaches the null terminator '\0'.
+
+6. Inside the loop, it checks if the character is a digit (0-9), lowercase letter (a-z), or uppercase letter (A-Z). Depending on the type of character, it sets the variable `d` to the corresponding decimal value by subtracting the appropriate ASCII value.
+
+7. It updates the variable `num` by multiplying it with `a` and adding the decimal value `d`.
+
+8. After the loop, the variable `num` contains the decimal value of the input number in the original base 'a'.
+
+9. It resets the loop counter `i` to 0.
+
+10. It enters a do-while loop that continues until `num` becomes 0.
+
+11. Inside the loop, it calculates the remainder (`num % b`) and uses `trans` to convert it to the corresponding character in base 'b'. The character is stored in the `dest` array at the current index `i`.
+
+12. It updates the variable `num` by integer division (`num / b`) to get the next digit in base 'b'.
+
+13. The loop continues until `num` becomes 0.
+
+14. After the loop, the `dest` array contains the converted number in base 'b' stored in reverse order.
+
+15. It calculates the length of the `dest` array using the `strlen` function and stores it in the `len` variable.
+
+16. It loops backwards through the `dest` array from the last index to the first index.
+
+17. Inside the loop, it outputs each character in `dest` which represents the converted number in base 'b'.
+
+18. Finally, it returns 0 to indicate successful execution.
+
+In summary, this code takes an input number in base 'a', converts it to base 'b', and outputs the converted number as a string.

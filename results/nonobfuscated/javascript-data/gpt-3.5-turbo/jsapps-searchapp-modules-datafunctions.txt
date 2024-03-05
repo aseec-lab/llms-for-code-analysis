@@ -1,0 +1,18 @@
+This code is part of a search application that retrieves and processes search results from the Wikipedia API.
+
+The `getSearchTerm` function retrieves the search term inputted by the user, trims any whitespace, and replaces any consecutive spaces with a single space. It then returns the cleaned search term.
+
+The `retrieveSearchResults` function takes the cleaned search term as an argument and performs the following steps:
+1. It calls the `getwikiSearchString` function to generate the Wikipedia API search string.
+2. It calls the `requestData` function to send a request to the Wikipedia API with the generated search string.
+3. It initializes an empty `resultArray` variable.
+4. If the response from the Wikipedia API has a property called "query", it calls the `processWikiResults` function to process the API results and populate the `resultArray` variable.
+5. It returns the `resultArray`.
+
+The `getwikiSearchString` function takes the cleaned search term as an argument and generates the Wikipedia API search string by concatenating various parameters (such as the search term, maximum characters, and desired format) to the base URL. It then encodes the generated search string and returns it.
+
+The `getMaxChars` function determines the maximum number of characters allowed for the search results based on the width of the window. It checks the window's inner width and assigns a specific number of characters based on different conditions.
+
+The `requestData` function sends a request to the specified URL (received as an argument) using the Fetch API. It waits for the response, parses it as JSON, and returns the data.
+
+The `processWikiResults` function takes the results object received from the Wikipedia API and iterates over its keys. For each key, it extracts the necessary data (such as ID, title, text, and image) and creates an item object with these properties. It then adds the item object to the `resultArray`. Finally, it returns the `resultArray` containing the processed search results.

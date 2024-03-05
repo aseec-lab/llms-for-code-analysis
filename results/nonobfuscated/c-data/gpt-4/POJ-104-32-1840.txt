@@ -1,0 +1,13 @@
+This C++ code performs subtraction of numbers without using arithmetic subtraction operator '-'. The program takes as input a number 'n' that indicates how many pairs of numbers will be entered. For each pair, it then performs the operation of subtracting the second number (b) from the first number (a).
+
+The code reads each of them as a string (since they may be very large). It subtracts element by element, by going from right to left (as in normal subtraction) and if the digit of the second number is more than the corresponding digit of the first number, it "borrows" 1 from the next digit of the first number. The result of the subtraction is stored in an array 'c' and printed out in the right order. 
+
+The 'if' condition checks if character 'a' is greater than or equal to character 'b'. If it is, it subtracts the ASCII codes of the characters to get the integer representation and economic it at 'c[k]'. If character 'a' is less than character 'b', it subtracts the ASCII codes and adds 10 (because we are performing a borrow). It also subtracts 1 from the previous digit of 'a' (i.e., a[i-1]).
+
+The 'for' loop after the if-else copies the remaining numbers to 'c'. 
+
+The final 'for' loop prints out the elements of 'c' in reverse order (since array 'c' was filled in reverse). 
+
+This program ends when it has performed 'n' number of subtractions. 
+
+Do note that this code currently only works with non-negative results. It does not check if the first number is less than the second, in which case the result would be negative.

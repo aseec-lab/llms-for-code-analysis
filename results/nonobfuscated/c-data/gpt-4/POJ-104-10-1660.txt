@@ -1,0 +1,19 @@
+The given code is written in C++ and analyzes an input array to find the length of the longest non-increasing (not necessarily strictly decreasing) subsequence. It employs a dynamic programming technique to solve this problem. 
+
+Here is a more detailed run-through of what the code does:
+
+- It initializes two arrays, `a` and `f`, both of size 36. The array `a` will store input values and `f` will store temporary calculated values.
+
+- The function `max` returns the maximum of two integers.
+
+- In the `main` function, it inputs the length of the array `k` and then the elements of the array `a` are inputted.
+
+- The array `f` is used to store the length of the longest non-increasing subsequence ending at each position in the array `a`. `f[0]` is initialized to 0 as a base case.
+
+- For each position in the array `a` (from 1 to `k`), it initializes `f[i]` to 1 (since the length of the longest non-increasing subsequence ending at position `i` is at least 1, the element itself). 
+
+- Then for each element located before the `i`-th element in the array `a`, if `a[j]` is greater than or equal to `a[i]`, it updates `f[i]` to be the maximum value between `f[i]` and `f[j] + 1`. 
+
+- The maximum value in the array `f` would give the length of the longest non-increasing subsequence in the array `a`. This is updated in the variable `ans` throughout the loop.
+
+- Finally, `ans` (the result) is printed.

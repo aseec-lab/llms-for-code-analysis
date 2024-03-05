@@ -1,0 +1,23 @@
+This C code reads a string input by the user and prints out the lengths of each word in the string separated by commas. The length of a word is the number of non-space characters between two spaces or between a space and the beginning/end of the string. Here is a description of what each section of the code does:
+
+1. `char a[1301]={0};` This line initializes a character array `a` with 1301 elements, all set to the null character.
+
+2. `int i,j,l,t=0;` This line declares four integer variables `i`, `j`, `l`, `t`. `t` is initialized to zero.
+
+3. `gets(a);` This line reads a line from the standard input (usually the keyboard) and stores it in array `a`.
+
+4. `l=(int)strlen(a);` This line calculates the length of the string stored in `a` and stores it in `l`.
+
+5. The for loop `for(i=0;i<l;i++)` runs from the first character of the input string to the last.
+
+6. Inside the loop, 
+     - `if(a[i]!=' ')'` checks if the character at the current position `i` is not a space. If it is not,  `t` is incremented by 1. `t` acts as a counter for the number of characters in a word.
+     - `if(t!=0&&a[i]==' ')'` checks if `t` is not zero (i.e., we've encountered at least one non-space character) and current character is a space. If true, it prints the current count of `t` and resets `t` to zero. This marks the end of a word.
+
+7. Once the loop has finished, it checks if the last counter `t`, which will not be zero if the last word is not followed by a space. This value is then printed out.
+
+8. Finally, the program exits with `return 0`. 
+
+In summary, the code reads a string, counts the number of characters in each word, and prints these numbers out, separated by commas.
+
+Note: This code uses `gets()` function, which is dangerous because it can cause buffer overflow. It's better to use `fgets()` function instead for reading string input.

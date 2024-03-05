@@ -1,0 +1,18 @@
+This is a Ray tracing program coded in the C programming language which was compacted to save space. Each function carries out a specific computation.
+
+Here's what each function does:
+ 
+1. Function `F(b)` calculates and sets new values for the variables `E`, `C`, `S` and `D`.
+2. Function `I(x,Y,X)` is a recursive function that iterates on values of `Y` and either exchanges values of `X` and `Y` or sets the global variable `E` with value of `X`.
+3. Function `H(x)` called function `I(x,Y,X)` and substitutes `_` and `0` for `Y` and `X` in `I(x,_,0)`. 
+4. Function `q(c,x,y,z,k,l,m,a,b)` called function `F(c)` then calculated new values for `x`, `y` and `z` then calculated the values of `b` and `a`. 
+5. Function `o(c,x,y,z,k,l,m,a)` is a recursive function and was further called in `n(e,f,g …` function. 
+6. Function `n(e,f,g,h,i,j,d,a,b,V)` is a recursive function and was called in `t(x,y,a,b)`. It calculates tracing for each pixel in given parameters.
+7. Function `t(x,y,a,b)` is a recursive function that was called in `r(x,y)`. It provides values for the variables that will be used in ray tracing.
+8. Function `r(x,y)` is a recursive function and was called in `s(y)`. It starts the recursive iteration over the x axis of the image space.
+9. Function `s(y)` is a recursive function and called from `main()`. It starts the recursive iteration over the y axis of the image space.
+10. `main()` function initializes the main program, then calls `s(Y)` to start the process of ray tracing, and then output the result with values derived from the ray tracing algorithm.
+
+This code generates a bitmap image file as output. The image creation relies on the Ray tracing technique, which is a computationally intensive rendering procedure that simulates the physical behavior of light. The output image's resolution is defined as 1024x768 pixels. 
+
+Note: Description was based on code indentation, as this code has no comments explaining what is happening.

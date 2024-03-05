@@ -1,0 +1,29 @@
+The provided code defines a class `MusicManagerWrapper` which is a wrapper around Google's music API. 
+
+The main operations supported by this class are: 
+
+1. `login()` function - Logging into Google Music service using OAuth credentials. The function also creates a new OAuth credential if none exist.
+
+2. `logout()` function - Logout of the service, potentially revoking the OAuth token.
+
+3. `get_google_songs()` function - Get songs from the user's Google Music account. A user can specify the types of songs they want through the provided arguments.
+
+4. `_download()` and `download()` functions - Download songs from a user's Google Music account using a provided template (file path or other descriptor). Errors are handled and logged.
+
+5. `_upload()` and `upload()` functions - Upload songs to a user's Google Music account from local file paths. This handles errors and logs them.
+
+6. `download()` function - It downloads all the songs from the user's Google Music library to their local disk. It uses the `_download()` method to download each song, save it as a `.mp3` file and move it to the location specified by the user.
+
+7. `upload()` function - It uploads all the song files from the local disk of the user to their Google Music Library. It uses the `_upload()` method to upload each song. While uploading it also checks whether the song already exists in the library and handles any issues that may arise during the upload process.
+
+The purpose of this class is to implement an automatic sync service for Google Music library.This additional code expands the `upload()` function in the `MusicManagerWrapper` class.
+
+The code undertakes the following procedures:
+
+1. Handle the `response` if file failed to upload, and logs the incident. If the cause of the upload failure is due to the song being already present, then the response is logged and a `not_uploaded` result is added to the results. Otherwise, only the failed to upload message and response are logged and a `not_uploaded` result is added to the results.
+
+2. It checks if the song has been successfully uploaded/matched or not uploaded because it already exists in the google library. If this is true and the `delete_on_success` flag is also set to `True`, the original song file in user's local disk is removed using `os.remove()` function. In case of an error in removing, a warning is logged.
+
+3. If any errors are present, those filepaths are printed out with their accompanying error messages along with a statement suggesting that these filepaths may need to be synced again. 
+
+4. The `results` list is returned at the end of the function. This list contains dictionaries stating the result of each file attempted to be uploaded (whether uploaded, not uploaded, or matched) along with the filepath of the song file and an optional id and error message.

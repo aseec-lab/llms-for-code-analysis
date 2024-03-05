@@ -1,0 +1,61 @@
+Analyze the following piece of code: int main(){
+	int n,i,j;
+	int a[100],b[100];
+	int c=0,d=0,e=0,f=0;
+	scanf("%d",&n);
+	for(i=0;i<n;i++){
+		scanf("%d %d",&a[i],&b[i]);
+	}
+
+	for(i=0;i<n;i++){
+			if(a[i]>=90&&a[i]<=140&&b[i]>59&&b[i]<=90){
+				d=i;
+				for(j=d+1;j<n;j++){
+					if(a[j]>=90&&a[j]<=140&&b[j]>59&&b[j]<=90&&a[j-1]>=90&&a[j-1]<=140&&b[j-1]>59&&b[j-1]<=90){
+						e=j;
+					}else{
+						break;
+					}
+				}
+				f=e-d+1;
+				if(f>c){
+					c=f;
+				}
+					
+			}
+			
+	}
+	
+	printf("%d",c);
+
+	return 0;
+
+}
+
+
+The code is written in C. It reads in n integers, then stores them in two arrays a and b. It then goes through each element in the arrays, and checks if the following conditions are met:
+
+a[i] is between 90 and 140 inclusive, and b[i] is between 59 and 90 inclusive.
+a[j] is between 90 and 140 inclusive, and b[j] is between 59 and 90 inclusive, and a[j-1] is between 90 and 140 inclusive, and b[j-1] is between 59 and 90 inclusive.
+If these conditions are met, it sets e to be the index of the last element that satisfies the conditions, and sets d to be the index of the first element that satisfies the conditions. It then calculates the length of the subarray by subtracting d from e and adding 1. If this length is greater than the current maximum length, it is updated to the new maximum length.
+Finally, the maximum length is printed.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código binario.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable antes de ser ejecutada. Esto significa que el código fuente se puede escribir y modificar en tiempo real, y se puede verificar inmediatamente.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Está compuesto por un conjunto de reglas y construcciones que permiten a los programadores escribir instrucciones que se pueden entender y ejecutar por una computadora.
+
+Los lenguajes de programación se utilizan para escribir programas, que son las instrucciones que le indican a una computadora cómo realizar una tarea específica. Estas tareas pueden ser muy variadas,

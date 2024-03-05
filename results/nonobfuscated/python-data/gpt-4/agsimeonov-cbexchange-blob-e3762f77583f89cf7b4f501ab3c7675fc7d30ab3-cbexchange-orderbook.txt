@@ -1,0 +1,11 @@
+This code is for a Python class named `OrderBook`. The purpose of this class is to create an order book for a specific product from the Coinbase API and maintain it in real-time.
+
+The `OrderBook` class continuously synchronizes the order book in real-time using the WebSocket client to receive live updates. It uses a separate thread to do this, so updates happen in the background, hence, not blocking the main thread of execution.
+
+The class first initializes and establishes a connection through the WebSocket client for a specific product. Subsequently, it makes an API request to get the current state of the order book (asks, bids, and sequence). The asks and bids from the order book are then each organized into dictionaries where each key-value pair is an order ID and its corresponding price and size, and stored back in the book.
+
+The class has various private methods for handling updates, like `_handle_open`, `_handle_match`, `_handle_done`, and `_handle_change`, for open, matched (filled), completed, and modified orders respectively.
+
+The `__str__` method is used to return JSON-formatted strings of the order book that can be printed neatly. `end`, `pause`, and `resume` are used to control the execution of the real-time update thread.
+
+As a context manager, when used with 'with' statement, the `OrderBook` class calls the `end` method automatically at the end of the block, ensuring that it properly shuts down its background task.

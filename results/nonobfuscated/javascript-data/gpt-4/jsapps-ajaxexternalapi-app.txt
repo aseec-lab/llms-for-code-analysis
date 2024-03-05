@@ -1,0 +1,17 @@
+This JavaScript code fetches the latest exchange rate data of the United States dollar (USD) and Bitcoin in a foreign currency from an API (https://mindicador.cl/api/).
+
+Here is a breakdown of the flow of the code:
+
+1. Two variables `botonDolar` and `botonBitcoin` are declared to select HTML elements with the IDs "dolar" and "bitcoin" respectively. These are likely buttons.
+
+2. Event listeners are added to both buttons. When any button is clicked, the function `obtenerDatos` is called with an argument of 'dolar' or 'bitcoin', depending on which button is clicked.
+
+3. The function `obtenerDatos` constructs a URL to the API using the given argument (`valor`), creates a new XMLHttpRequest object, opens a connection to the API using that URL, and sends the request. It also sets the `respuesta` function to handle the state changes of the request.
+
+4. When the state changes are handled in the `respuesta` function, it firstly checks if the request was successful by checking if the status is 200 and the readyState is 4 (both suggest a successful request).
+
+5. Upon a successful request, it parses the JSON response text into a JavaScript object, logs it to the console, selects the HTML element with the ID "resultado", and clears any existing text within this element.
+
+6. Then it goes through the `serie` array in the parsed data, and for each item, it increases a counter and adds a new list item to the "resultado" element, displaying the date (`item.fecha`) and the value (`item.valor`) of the exchange rate. It stops this after the 15th element in the series and breaks the loop. 
+
+In summary, this code outputs the latest 15 forex values of USD and Bitcoin from the Mindicador API and appends it to an HTML element with the ID "resultado". The type of currency (dollar or bitcoin) is dependent on which button a user clicks.

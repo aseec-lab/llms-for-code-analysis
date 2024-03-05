@@ -1,0 +1,17 @@
+This code is written in JavaScript and uses the jQuery library. It defines a self-invoking anonymous function that takes jQuery as a parameter and executes immediately when the document is ready.
+
+Inside the function, the code sets the "use strict" mode, which enforces stricter rules and best practices in JavaScript.
+
+The code then assigns a custom property "transition" to the "$.support" object. This property is assigned the return value of a self-invoking anonymous function.
+
+Inside this inner function, a new DOM element with the tag name 'bootstrap' is created. This element is used to check for browser support of CSS transitions.
+
+An object named "transEndEventNames" is defined, which contains different vendor-specific transition event names as properties.
+
+A for loop iterates through the properties of "transEndEventNames" object. For each property, it checks if the style property with that name is defined on the "el" element. If it is, it returns the corresponding transition event name.
+
+Finally, the inner function returns the transition end event name that is supported by the browser. If no supported transition end event name is found, the function will return undefined.
+
+The outer function assigns the value returned by the inner function to the "end" property of the "transition" property in the "$.support" object.
+
+Overall, this code checks for browser support of CSS transitions and sets the supported transition end event name in the "$.support" object.

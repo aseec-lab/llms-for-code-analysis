@@ -1,0 +1,7 @@
+This code defines a class named "EditQueue" which is a subclass of the built-in Python "queue.Queue" class, used for thread-safe multi-producer, multi-consumer queue.
+
+The class has two methods. The "put_edit" method uses the "functools.partial()" function to create a new, partial function, with some defaults parameters filled in, and adds it to the queue instantly using the "put_nowait()" method.
+
+The second method "get_and_run_edits" is used to gather and execute all tasks in the queue. It continues to extract tasks from the queue until it's empty. The tasks are obtained in a non-blocking manner using the "get_nowait()" method. For each task, it attempts to run the task. If there's any exception/error while running the task, it logs the error and prints the traceback.
+
+This class is designed to store and manage multiple tasks (edits) in a queue, and execute those tasks safely.

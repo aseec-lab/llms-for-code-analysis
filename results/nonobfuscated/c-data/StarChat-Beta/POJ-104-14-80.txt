@@ -1,0 +1,68 @@
+Analyze the following piece of code: int main(int argc, char* argv[])
+{
+	struct student
+	{int id;
+	int x;
+	int y;
+	int z;
+	}student1,student2,student3,studenta;
+	int n,i;
+	scanf("%d",&n);
+	student1.z=student2.z=student3.z=0;
+	for(i=0;i<n;i++){
+		scanf("%d%d%d",&studenta.id,&studenta.x,&studenta.y);
+		studenta.z=studenta.x+studenta.y;
+		if(studenta.z>student1.z){
+			student3.z=student2.z;student3.id=student2.id;
+			student2.z=student1.z;student2.id=student1.id;
+			student1.z=studenta.z;student1.id=studenta.id;
+		}
+		else if(studenta.z>student2.z){
+			student3.z=student2.z;student3.id=student2.id;
+			student2.z=studenta.z;student2.id=studenta.id;
+		}
+		else if(studenta.z>student3.z){
+			student3.z=studenta.z;student3.id=studenta.id;
+		}
+	}
+	printf("%d %d\n%d %d\n%d %d\n",student1.id,student1.z,student2.id,student2.z,student3.id,student3.z);
+	return 0;
+}
+
+The code is written in C programming language and performs the following operations:
+
+1. Reads an integer n from the user.
+2. Reads n pairs of integers (id, x, y) from the user.
+3. For each pair, it calculates the sum of x and y and stores it in z.
+4. If the current value of z is greater than the maximum z so far, the third-best student is replaced by the current student.
+5. After all the pairs have been processed, the three best students are printed in decreasing order of their z-scores.
+
+The code is well-structured and easy to understand. The main function takes two arguments: argc, which stores the number of command-line arguments, and argv, which stores the arguments themselves.
+
+Within the main function, a structure named student is defined to store the information about each student. The structure contains four integers: id, x, y, and z, which store the student's ID, their scores in two subjects, and their overall z-score, respectively.
+
+The code then initializes three variables: n, which stores the number of students, i, which is used to iterate through the pairs of integers.
+
+The code then enters a loop that runs for n iterations. In each iteration, the code reads three integers: id, x, and y, from the user and stores them in a structure named studenta.
+
+The code then calculates the z-score for the current student by adding x and y and stores it in studenta.z.
+
+The code then checks if the current z-score is greater than the maximum z-score so far. If it is, the third-best student is replaced by the current student.
+
+After the loop has completed, the three best students are printed in decreasing order of their z-scores.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código binario.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente se traduce en tiempo real mientras se está ejecutando. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable antes de ser ejecutada.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un l

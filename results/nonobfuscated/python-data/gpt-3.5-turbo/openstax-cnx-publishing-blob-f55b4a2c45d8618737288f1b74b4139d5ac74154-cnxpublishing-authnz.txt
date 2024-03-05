@@ -1,0 +1,17 @@
+This code appears to be implementing an authentication policy for API keys in a Pyramid web application.
+
+The code first imports various modules and classes needed for authentication and authorization. It also imports a couple of functions and variables from external modules.
+
+The code then defines an SQL statement to select information about API keys from a database.
+
+Next, there is a function called `lookup_api_key_info` decorated with a cache manager. This function retrieves API key information from a database and returns it as a dictionary. The results are cached for 24 hours.
+
+The code then defines a class called `APIKeyAuthenticationPolicy`, which implements the `IAuthenticationPolicy` interface. This class handles authentication and authorization for API keys.
+
+The class has a property called `user_info_by_key`, which calls the `lookup_api_key_info` function to retrieve the API key information.
+
+There are various methods in the class that handle different aspects of authentication and authorization. The `authenticated_userid` method retrieves the authenticated user ID based on the API key. The `effective_principals` method determines the effective principals for the authenticated user. The `remember` and `forget` methods handle authentication remembering and forgetting.
+
+The code also defines a function called `includeme`, which is meant to be called by Pyramid during configuration. This function sets up the authentication and authorization policies and includes the `openstax_accounts` module.
+
+Finally, the code defines a variable called `__all__`, which lists the classes and functions that should be imported if this module is imported from another module.

@@ -1,0 +1,37 @@
+The provided code is written in Python and uses libraries like Numpy, Nibabel and Scipy to process and manipulate medical imaging data (3D or 4D images, like from an MRI).
+
+1. `drain_rois(img)`: This function accepts an image and applies a form of image filtering to set some values to zero using the "hit or miss" transformation function from the SciPy library.
+
+2. `pick_rois(rois_img, roi_values, bg_val=0)`: This function picks Regions of Interest (ROIs) in an image depending on the passed `roi_values`, and creates a new image where only the chosen ROIs retain their values and all the rest are set to the background value `bg_val`.
+
+3. `largest_connected_component(volume)`: This function returns the largest connected component in a 3D volume using the SciPy's `label()` method.
+
+4. `large_clusters_mask(volume, min_cluster_size)`: It creates a mask of the large clusters in a 3D volume that have a size equal or larger than `min_cluster_size`.
+
+5. `create_rois_mask(roislist, filelist)`: It creates a binary mask that contains the ROIs specified in the `roislist`.
+
+6. `get_unique_nonzeros(arr)`: This function gathers unique non-zero elements from an array.
+
+7. `get_roilist_from_atlas(atlas_img)`: Returns the unique non-zero values in an atlas image. This is typically used to get the list of ROIs from an atlas.
+
+8. `get_rois_centers_of_mass(vol)`: It calculates and returns the centers of mass for different ROIs in a volume.
+
+9. `partition_timeseries(image, roi_img, mask_img=None, zeroe=True, roi_values=None, outdict=False)`: It partitions a 4D timeseries image into different regions of interest.
+
+10. `partition_volume(*args, **kwargs)`: It's a wrapper function for `partition_timeseries`.
+
+11. `_check_for_partition(datavol, roivol, maskvol=None)`: It checks if volumes are of the correct dimensions and have the same 3D shape. 
+
+12. `_partition_data(datavol, roivol, roivalue, maskvol=None, zeroe=True)`: This is a helper function that partitions a 3D or 4D volume by a single ROI value.
+
+13. `_extract_timeseries_dict(tsvol, roivol, maskvol=None, roi_values=None, zeroe=True)`: This helper function partitions a 4D timeseries volume by multiple ROI values and returns results in a dictionary.
+
+14. `_extract_timeseries_list(tsvol, roivol, maskvol=None, roi_values=None, zeroe=True)`: This helper function is expected to partition a 4D timeseries volume by multiple ROI values and return the results in a list.
+
+This code appears to be part of a larger medical imaging library dedicated to analysis and manipulation of Regions of Interest (ROI) in medical volumetric images, such as those obtained via MRI scans.This part of the code includes two more functions: 
+
+1. `_extract_timeseries_list(tsvol, roivol, maskvol=None, roi_values=None, zeroe=True)`. The provided code completes this function which is called by the `partition_volume()` function. It takes a 4D timeseries volume (`tsvol`), a ROI volume (`roivol`), and optionally a mask volume (`maskvol`). If `roi_values` is not provided, it uses the unique non-zero values in the `roivol` as default. It partitions the `tsvol` into these ROIs and extracts the timeseries within each ROI. The partitioning is performed by the `_partition_data()` function. The extracted timeseries are appended to a list and the function returns this list.
+  
+2. `get_3D_from_4D(image, vol_idx=0)`. This function is used to extract and return a specified 3D volume from a 4D image. The function first checks the image with the `check_img()` function and obtains the image info. It then verifies that the image is 4D and that the provided volume index is valid. It extracts the 3D volume of interest by selecting the `vol_idx`th volume from the 4D image data. Finally, it updates the image header to reflect the new image shape and returns the new 3D volume, its header, and affine transformation matrix. 
+
+This script is part of a larger code dealing with medical imaging, specifically with MRI data manipulation and analysis. The functions outlined above are useful for dividing larger 4D data sets into individual 3D components or volumes, and also for partitioning these volumes based on regions of interest (ROIs).

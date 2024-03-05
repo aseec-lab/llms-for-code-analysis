@@ -1,0 +1,9 @@
+The code defines a class called ThreadedRunner which is a subclass of BaseRunner. 
+
+The ThreadedRunner class is used to run multiple agents in separate threads and control their execution. It takes as input an agent, an environment, and other optional parameters such as the number of repetitions of actions, the path to save models, and the frequency at which to save models.
+
+When the run() method is called, it creates a list of threads, one for each agent. Each thread runs the _run_single() method, which executes the agent's act() method to choose an action, executes the action in the environment, and observes the resulting state, reward, and terminal flag. This process is repeated until the terminal flag is True or the maximum number of timesteps is reached.
+
+The code also includes some helper methods and functions, such as close() to close the agents and environments, WorkerAgentGenerator() to create a worker agent class based on a given agent class, and clone_worker_agent() to clone an agent multiple times.
+
+Overall, the code provides a way to run multiple agents in parallel and control their execution.

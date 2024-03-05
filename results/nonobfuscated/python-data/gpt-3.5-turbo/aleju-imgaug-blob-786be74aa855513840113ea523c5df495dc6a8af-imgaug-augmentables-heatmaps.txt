@@ -1,0 +1,31 @@
+The code defines a class called HeatmapsOnImage. This class represents heatmaps overlaid on an image. It provides methods to manipulate and visualize heatmaps.
+
+The __init__ method initializes an instance of the HeatmapsOnImage class. It takes in an array representing the heatmap, the shape of the image, and optional parameters for the minimum and maximum values of the heatmap. The method checks the validity of the input arguments and performs necessary transformations on the array.
+
+The get_arr method returns a copy of the heatmap array.
+
+The draw method visualizes the heatmap by converting it to a colormap image. It takes in optional parameters for the size of the output image and the colormap to use. It returns a list of heatmap images, each representing a channel of the colormap.
+
+The draw_on_image method overlays the heatmap on a given image. It takes in parameters for the transparency of the overlay, the colormap to use, and the resizing method. It returns a list of images with the heatmap overlaid on the input image.
+
+The invert method flips the heatmap values. It returns a new HeatmapsOnImage instance with inverted values.
+
+The pad method adds padding to the heatmap array. It takes in parameters for the top, right, bottom, and left padding sizes, as well as the padding mode and value. It returns a new HeatmapsOnImage instance with the padded array.
+
+The pad_to_aspect_ratio method adds padding to the heatmap array to achieve a given aspect ratio. It takes in parameters for the desired aspect ratio, as well as the padding mode and value. It returns a new HeatmapsOnImage instance with the padded array. If the return_pad_amounts flag is set, it also returns the amount of padding added.
+
+The avg_pool method reduces the resolution of the heatmap by averaging values within blocks of a given size. It returns a new HeatmapsOnImage instance with the reduced resolution array.
+
+The max_pool method reduces the resolution of the heatmap by taking the maximum value within blocks of a given size. It returns a new HeatmapsOnImage instance with the reduced resolution array.
+
+The resize method resizes the heatmap array to a given size using interpolation. It takes in parameters for the target size and interpolation method. It returns a new HeatmapsOnImage instance with the resized array.
+
+The to_uint8 method converts the heatmap array to uint8 format. It returns the converted array.
+
+The from_uint8 method creates a HeatmapsOnImage instance from a uint8 array. It takes in parameters for the array, the shape, and the minimum and maximum values of the heatmap. It returns a new HeatmapsOnImage instance.
+
+The from_0to1 method creates a HeatmapsOnImage instance from a 0-1 normalized array. It takes in parameters for the array, the shape, and the minimum and maximum values of the heatmap. It returns a new HeatmapsOnImage instance.
+
+The change_normalization method converts the heatmap array from one normalization range to another. It takes in parameters for the array, the source normalization range, and the target normalization range. It returns the converted array.
+
+The copy and deepcopy methods create copies of the current HeatmapsOnImage instance. They return the copied instances.

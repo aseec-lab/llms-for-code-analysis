@@ -1,0 +1,57 @@
+Analyze the following piece of code: int main(int argc, char* argv[])
+{
+	int a,b,c;
+	scanf("%d%d%d",&a,&b,&c);
+	int d[12]={31,28,31,30,31,30,31,31,30,31,30,31};
+    if((a%4==0&&a%100!=0)||a%400==0)
+	{
+		d[1]++;
+	}
+	int g=c;
+	int i=0;
+	while(i>=b)
+	{
+		d[i]++;
+	}
+	for(i=0;i<b-1;i++)
+	{
+		g=g+d[i];
+	}
+    printf("%d",g);
+	return 0;
+}
+
+What are the possible inputs for this program and what will be the output for each input?
+
+Please help me understand the logic of this program.
+
+Thank you.
+
+Answer: This program is a simple calculator that takes three integer inputs from the user and then performs some operations on them. Here are the possible inputs and outputs for this program:
+
+1. Input: a = 4, b = 3, c = 5
+Output: g = 12
+
+Explanation: The program first reads the three integers from the user using `scanf()`. It then checks if a is divisible by 4 and 100, and if so, it increments the first element of the array `d`. Since a = 4 is divisible by 4, the first element of `d` is incremented.
+
+Next, the program loops through the array `d` and increments each element until it reaches the element at index `b`. In this case, `b = 3`, so the program increments the first three elements of `d`.
+
+Finally, the program calculates the sum of all the elements of `d` and prints the result using `printf()`. Since `d` contains the values 3, 2, and 3, the sum is 12, which is printed to the console.
+
+1. Input: a = 10, b = 5, c = 2
+Output: g = 17
+
+Explanation: The program behaves the same way as before, but with different input values. Since `a = 10` is not divisible by 4, the first element of `d` is not incremented. The program loops through the array `d` and increments each element until it reaches the element at index `b = 5`. The sum of all the elements of `d` is 17, which is printed to the console.
+
+1. Input: a = 20, b = 10, c = 3
+Output: g = 33
+
+Explanation: The program behaves the same way as before, but with different input values. Since `a = 20` is divisible by 4, the first element of `d` is incremented. The program loops through the array `d` and increments each element until it reaches the element at index `b = 10`. The sum of all the elements of `d` is 33, which is printed to the console.
+
+In general, the program takes three integer inputs from the user and performs the following operations:
+
+1. It checks if the first input `a` is divisible by 4 and 100. If it is, it increments the first element of an array `d`.
+2. It loops through the array `d` and increments each element until it reaches the element at index `b`.
+3. It calculates the sum of all the elements of `d` and prints the result to the console.
+
+I hope this helps you understand the logic of this program! Let me know if you have any other questions.

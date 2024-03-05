@@ -1,0 +1,32 @@
+The code is a simulation of the Navier-Stokes equations, which describe the flow of fluid in a domain. 
+
+- The code starts by defining a benchmark suite, which includes one benchmark for running the Navier-Stokes simulation.
+- The `runNavierStokes` function is the main loop of the simulation. It calls the `update` function of the `solver` object, increments a frame counter, and checks the result after 15 frames.
+- The `checkResult` function calculates a checksum of a portion of the density field and throws an error if the result is not equal to 77.
+- The `setupNavierStokes` function initializes the `solver` object with a resolution of 128x128, sets the number of iterations to 20, and sets up a callback function for preparing each frame.
+- The `tearDownNavierStokes` function sets the `solver` object to null to clean up memory.
+- The `addPoints` function adds velocity and density values to the `field` object at specific positions.
+- The `prepareFrame` function is called before each frame and adds points to the `field` object every few frames.
+- The `FluidField` constructor function sets up several helper functions for the simulation, such as adding fields, setting boundary conditions, and solving linear equations.In the above code, there is a class definition for a simulation. Here is a breakdown of the remaining functions and variables in the code:
+
+- `queryUI(d, u, v)` function: This function takes three arrays `d`, `u`, and `v` as arguments and initializes them with 0.0. It then calls the `uiCallback` function with a new instance of the `Field` class created with the `d`, `u`, and `v` arrays.
+
+- `update()` function: This function is called to update the simulation. It first calls the `queryUI()` function to get the initial state of the simulation. It then calls the `vel_step()` and `dens_step()` functions to calculate the new velocity and density values. Finally, it calls the `displayFunc()` function with a new instance of the `Field` class created with the updated density and velocity arrays.
+
+- `setDisplayFunction(func)` function: This function takes a single argument `func` and sets the `displayFunc` variable to the provided function.
+
+- `iterations()` function: This function returns the value of the `iterations` variable.
+
+- `setIterations(iters)` function: This function takes a single argument `iters` and sets the `iterations` variable to the provided value if it is between 1 and 100.
+
+- `setUICallback(callback)` function: This function takes a single argument `callback` and sets the `uiCallback` variable to the provided function.
+
+- `reset()` function: This function resets the simulation by initializing all the density and velocity arrays with 0.
+
+- `getDens()` function: This function returns the `dens` array.
+
+- `setResolution(hRes, wRes)` function: This function takes two arguments `hRes` and `wRes` to set the resolution of the simulation. It checks if the provided resolution is valid and different from the current resolution. If so, it resets the simulation with the new resolution and returns true. Otherwise, it returns false.
+
+- `setResolution(64, 64)` function call: This sets the initial resolution of the simulation to 64x64.
+
+Please let me know if you have any further questions!

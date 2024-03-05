@@ -1,0 +1,520 @@
+Analyze the following piece of code: 
+from __future__ import absolute_import, unicode_literals, division
+import re
+import six
+from importlib import import_module
+from armet import utils, authentication, authorization
+from armet.exceptions import ImproperlyConfigured
+from armet import connectors as included_connectors
+
+
+def _merge(options, name, bases, default=None):
+    
+
+    result = None
+    for base in bases:
+        if base is None:
+            continue
+
+        value = getattr(base, name, None)
+        if value is None:
+            continue
+
+        result = utils.cons(result, value)
+
+    value = options.get(name)
+    if value is not None:
+        result = utils.cons(result, value)
+
+    return result or default
+
+
+class ResourceOptions(object):
+
+    def __init__(self, meta, name, data, bases):
+        
+
+        
+        
+        self.debug = meta.get('debug')
+        if self.debug is None:
+            self.debug = False
+
+        
+        
+        
+        
+        
+        self.abstract = data.get('abstract')
+
+        
+        
+        
+        
+        
+        self.name = meta.get('name')
+        if self.name is None:
+            
+            
+            dashed = utils.dasherize(name).strip()
+            if dashed:
+                
+                self.name = re.sub(r'-resource$', '', dashed)
+
+            else:
+                
+                self.name = name
+
+        elif callable(self.name):
+            
+            
+            self.name = self.name(name)
+
+        
+        
+        
+        
+        
+        
+        self.asynchronous = meta.get('asynchronous', False)
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        self.connectors = connectors = _merge(meta, 'connectors', bases, {})
+
+        if not connectors.get('http') and not self.abstract:
+            raise ImproperlyConfigured('No valid HTTP connector was detected.')
+
+        
+        for key in connectors:
+            connector = connectors[key]
+            if isinstance(connector, six.string_types):
+                if connector in getattr(included_connectors, key):
+                    
+                    connectors[key] = 'armet.connectors.{}'.format(connector)
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        self.options = options = _merge(meta, 'options', bases, {})
+        for name in options:
+            
+            setattr(self, name, meta.get(name))
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        self.patterns = meta.get('patterns', [])
+        for index, pattern in enumerate(self.patterns):
+            
+            if isinstance(pattern, six.string_types):
+                pattern = (None, pattern)
+
+            
+            self.patterns[index] = (pattern[0], re.compile(pattern[1]))
+
+        
+        
+        
+        
+        self.trailing_slash = meta.get('trailing_slash', True)
+
+        
+        
+        
+        
+        self.http_allowed_methods = meta.get('http_allowed_methods')
+        if self.http_allowed_methods is None:
+            self.http_allowed_methods = (
+                'HEAD',
+                'OPTIONS',
+                'GET',
+                'POST',
+                'PUT',
+                'PATCH',
+                'DELETE',
+                'LINK',
+                'UNLINK'
+            )
+
+        
+        
+        self.http_allowed_headers = meta.get('http_allowed_headers')
+        if self.http_allowed_headers is None:
+            self.http_allowed_headers = (
+                'Content-Type',
+                'Authorization',
+                'Accept',
+                'Origin'
+            )
+
+        
+        
+        self.http_exposed_headers = meta.get('http_exposed_headers')
+        if self.http_exposed_headers is None:
+            self.http_exposed_headers = (
+                'Content-Type',
+                'Authorization',
+                'Accept',
+                'Origin'
+            )
+
+        
+        
+        
+        
+        
+        self.http_allowed_origins = meta.get('http_allowed_origins')
+        if self.http_allowed_origins is None:
+            self.http_allowed_origins = ()
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        self.legacy_redirect = meta.get('legacy_redirect', True)
+
+        
+        
+        
+        self.serializers = serializers = meta.get('serializers')
+        if not serializers:
+            self.serializers = {
+                'json': 'armet.serializers.JSONSerializer',
+                'url': 'armet.serializers.URLSerializer'
+            }
+
+        
+        for name, serializer in six.iteritems(self.serializers):
+            if isinstance(serializer, six.string_types):
+                segments = serializer.split('.')
+                module = '.'.join(segments[:-1])
+                module = import_module(module)
+                self.serializers[name] = getattr(module, segments[-1])
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        self.authentication = authentication = _merge(meta, 'authentication', bases, {})
+        if not authentication:
+            self.authentication = authentication = {}
+
+        if isinstance(authentication, six.string_types):
+            authentication = {'class': authentication}
+
+        self.authentication = authentication = authentication.copy()
+        if 'class' not in authentication:
+            authentication['class'] = 'armet.authentication.SessionAuthentication'
+
+        self.authentication.setdefault('kwargs', {})
+        if'resource' not in self.authentication['kwargs']:
+            self.authentication['kwargs']['resource'] = self
+
+        self.authentication = authentication = authentication.copy()
+        self.authentication['class'] = import_string(self.authentication['class'])
+        self.authentication = authentication.copy()
+        self.authentication['kwargs'] = authentication['kwargs'] = utils.deepcopy(authentication['kwargs'])
+        self.authentication['kwargs']['resource'] = self
+
+        if'session_key' not in self.authentication['kwargs']:
+            self.authentication['kwargs']['session_key'] = self.session_key
+
+        if'session' not in self.authentication['kwargs']:
+            self.authentication['kwargs']['session'] = self.session
+
+        if'serializer' not in self.authentication['kwargs']:
+            self.authentication['kwargs']['serializer'] = self.serializer
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        self.authorization = authorization = _merge(meta, 'authorization', bases, {})
+        if not authorization:
+            self.authorization = authorization = {}
+
+        if isinstance(authorization, six.string_types):
+            authorization = {'class': authorization}
+
+        self.authorization = authorization = authorization.copy()
+        if 'class' not in authorization:
+            authorization['class'] = 'armet.authorization.IsAuthenticated'
+
+        self.authorization.setdefault('kwargs', {})
+        if'resource' not in self.authorization['kwargs']:
+            self.authorization['kwargs']['resource'] = self
+
+        self.authorization = authorization = authorization.copy()
+        self.authorization['class'] = import_string(self.authorization['class'])
+        self.authorization = authorization.copy()
+        self.authorization['kwargs'] = authorization['kwargs'] = utils.deepcopy(authorization['kwargs'])
+        self.authorization['kwargs']['resource'] = self
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        self.filtering = meta.get('filtering', True)
+        if self.filtering is not True:
+            self.filtering = [self.filtering]
+
+        if self.filtering:
+            self.filtering = [
+                filter for filter in self.filtering
+                if isinstance(filter, six.string_types)
+            ]
+            if not self.filtering:
+                self.filtering = None
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        self.ordering = meta.get('ordering', True)
+        if self.ordering is not True:
+            self.ordering = [self.ordering]
+
+        if self.ordering:
+            self.ordering = [
+                order for order in self.ordering
+                if isinstance(order, six.string_types)
+            ]
+            if not self.ordering:
+                self.ordering = None
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        self.max_limit = meta.get('max_limit', None)
+        if self.max_limit is not None:
+            try:
+                self.max_limit = int(self.max_limit)
+            except ValueError:
+                raise ImproperlyConfigured(
+                    'The `max_limit` value must be an integer.'
+                )
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        self.cache_control = meta.get('cache_control')
+        if self.cache_control Analyze the following piece of code: [-1])
+
+        
+        self.allowed_serializers = meta.get('allowed_serializers')
+        if not self.allowed_serializers:
+            self.allowed_serializers = tuple(self.serializers.keys())
+
+        
+        
+        for name in self.allowed_serializers:
+            if name not in self.serializers:
+                raise ImproperlyConfigured(
+                    'The allowed serializer, {}, is not one of the '
+                    'understood serializers'.format(name))
+
+        
+        
+        self.default_serializer = meta.get('default_serializer')
+        if not self.default_serializer:
+            if 'json' in self.allowed_serializers:
+                self.default_serializer = 'json'
+
+            else:
+                self.default_serializer = self.allowed_serializers[0]
+
+        if self.default_serializer not in self.allowed_serializers:
+            raise ImproperlyConfigured(
+                'The chosen default serializer, {}, is not one of the '
+                'allowed serializers'.format(self.default_serializer))
+
+        
+        
+        
+        self.deserializers = deserializers = meta.get('deserializers')
+        if not deserializers:
+            self.deserializers = {
+                'json': 'armet.deserializers.JSONDeserializer',
+                'url': 'armet.deserializers.URLDeserializer'
+            }
+
+        
+        for name, deserializer in six.iteritems(self.deserializers):
+            if isinstance(deserializer, six.string_types):
+                segments = deserializer.split('.')
+                module = '.'.join(segments[:-1])
+                module = import_module(module)
+                self.deserializers[name] = getattr(module, segments[-1])
+
+        
+        self.allowed_deserializers = meta.get('allowed_deserializers')
+        if not self.allowed_deserializers:
+            self.allowed_deserializers = tuple(self.deserializers.keys())
+
+        
+        
+        for name in self.allowed_deserializers:
+            if name not in self.deserializers:
+                raise ImproperlyConfigured(
+                    'The allowed deserializer, {}, is not one of the '
+                    'understood deserializers'.format(name))
+
+        
+        
+        self.authentication = meta.get('authentication')
+        if self.authentication is None:
+            
+            self.authentication = (authentication.Authentication(),)
+
+        
+        
+        
+        self.authorization = meta.get('authorization')
+        if self.authorization is None:
+            
+            self.authorization = authorization.Authorization()
+
+```
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente se traduce a un archivo ejecutable antes de ser ejecutado. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código máquina que puede ser ejecutado directamente en la computadora. El archivo ejecutable resultante se puede ejecutar sin necesidad de volver a compilar el código fuente cada vez que se desea ejecutar la aplicación.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente se traduce en tiempo real mientras se está ejecutando la aplicación. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable antes de ser ejecutada. El proceso de interpretación implica la utilización de un intérprete, que es un programa que lee y ejecuta el código fuente directamente en la computadora.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de ser ejecutado, mientras que el segundo se traduce en tiempo real mientras se está ejecutando la aplicación.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lenguajes de programación se utilizan para escribir programas, que son secuencias de instrucciones que una computadora puede ejecutar para realizar una tarea específica.
+
+Los lenguajes de programación se utilizan para resolver problemas y para crear aplicaciones de software, como programas de escritorio, aplicaciones web, juegos y sistemas operativos. Los lenguajes de programación se basan en un conjunto de reglas y construcciones que describen cómo se pueden combinar los elementos de un programa para crear una solución.
+
+Los lenguajes de programación tienen diferentes niveles de abstracción, lo que significa que existen diferentes niveles de complejidad. Algunos lenguajes de programación, como el lenguaje de programación básico, se centran en la resolución de problemas básicos y no tienen un gran nivel de abstracción. Por otro lado, otros lenguajes de programación, como los lenguajes de programación de alto nivel, como los lenguajes de programación de alto nivel, como los lenguajes de programación de alto nivel, como los lenguajes de programación

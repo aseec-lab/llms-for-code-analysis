@@ -1,0 +1,29 @@
+This script provides functionalities for calculating the exposure of a set of positions in stocks or similar assets to different criteria, and for visualizing these exposures in different types of plot. 
+
+The script is organized in several sections:
+
+- The first two define dictionaries that map ID numbers to sector names and market capitalization ranges to bucket names. 
+
+- The `compute_style_factor_exposures` function calculates the exposure of a set of positions to a given risk factor. The resulting scores indicate to what extent the returns of the portfolio could be explained by the movements of this risk factor. 
+
+- The `plot_style_factor_exposures` function creates a line plot of the portfolio's exposure to a style (risk) factor over time. The plot also includes a horizontal line to indicate the average exposure, and the title and label are customizable.
+
+- The `compute_sector_exposures` and the next three functions (`plot_sector_exposures_longshort`, `plot_sector_exposures_gross`, `plot_sector_exposures_net`) are closely related. They compute and plot the long, short, gross, and net exposure of a portfolio to different business sectors. The `compute_` function calculates the exposures, and the `plot_` functions create stacked area plots (for long and short and gross exposures) and multiple time series plots (for net exposures). 
+
+- `compute_cap_exposures`, `plot_cap_exposures_longshort` are a pair of functions similar to the above, except they compute and plot the exposure of the positions to different market capitalization buckets instead of industry sectors. 
+
+The calculations done in this script remove the cash component from the exposure calculations, as cash is not typically associated with exposure to these style factors, industry sectors, or market capitalization. 
+
+The script uses the `pandas`, `numpy` and `matplotlib` libraries for data manipulation and plotting. The `partial` function from `functools` is imported but not used. The `OrderedDict` from `collections` is used to preserve the order of elements in the dictionaries.The last section of this script focuses on computing and visualizing the portfolio's exposure to 'illiquidity'. There is a pair of functions (compute_volume_exposures and plot_volume_exposures_longshort) that calculate the proportion of total volume that is long or short and plot these long and short exposures to illiquidity, respectively. 
+
+There is also a pair of functions that compute and plot the portfolio's 'gross exposure' to illiquidity. 'Gross exposure' here refers to the magnitude of both the long and short positions. 
+
+These functions require the current number of shares held and the traded volume of the stocks (at a specific point in time). 
+
+In all calculations, the proportion of volume that is currently held, either as long or short is computed relative to the total volume. The calculations handle NaN (missing) values and exclude zero positions. 
+
+The visualization functions create line plots of these exposure measures over time. With the y-axis indicating the percentile of the proportion of volume. 
+
+The functions use the 'partial' function from the functools library to apply percentile functions to dataframes along the column axis. The 'partial' function allows us to provide a function with some of its arguments already filled in, making it easier to use with other functions that expect a function of fewer arguments. However, in this script, 'partial' is imported but not actually used. 
+
+Once again, the script uses the pandas, numpy, and matplotlib libraries throughout.

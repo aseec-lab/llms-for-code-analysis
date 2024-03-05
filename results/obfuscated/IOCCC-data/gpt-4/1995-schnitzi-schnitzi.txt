@@ -1,0 +1,9 @@
+This C program uses recursion and child processes to determine the smallest prime divisor of a number that is given as a command line argument. 
+
+Here's the breakdown:
+
+* `main(l,i,I)char**i`: This is a shorthand way of defining the `main` function, which takes in the number of arguments `l`, the array of command line arguments `i` and an integer `I`.
+* `l/=!(l>(I=atoi(*++i))||fork()&&main(l+1,i-1)||I%l)`: This is a compound statement that increments the counter `l`, creates a child process and calls `main` recursively with the incremented counter and decreased argument array. If the counter exceeds the input number or the input number is divisible by the counter, the counter is divided by the result of the logical NOT operation (which is either 0 or 1), effectively resetting `l` to 1 if a divisor is found.
+* `return printf("%d\n",l)`: After the recursion ends and the smallest divisor is found, it prints the divisor as an integer followed by a newline and returns the number of characters printed by `printf`.
+
+Note: As per the modern standard, it is not good practice to write code like this due to its lack of readability. It's also worth noting that the use of `fork()` to create child processes could quickly lead to a significant amount of resource consumption if the input number is large.

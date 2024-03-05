@@ -1,0 +1,60 @@
+Analyze the following piece of code: 
+int main()
+{
+	char str[50],dest[50]={'\0'},trans[36];//??????????????
+	                                        //trans[36]:???0~35???'0'~'9','A'~'Z'????
+	int a,b,i,d,len;
+	long num=0;                             //long??4???????????????31?
+	for(i=0;i<10;i++)
+		trans[i]='0'+i;
+	for(i=10;i<36;i++)
+		trans[i]='A'+i-10;
+	cin>>a>>str>>b;
+	for(i=0;str[i]!='\0';i++){                //?????a???????????
+		if(str[i]>='0' && str[i]<='9')
+			d=str[i]-'0';
+		else if(str[i]>='a' && str[i]<='z')
+			d=str[i]-'a'+10;
+		else if(str[i]>='A' && str[i]<='Z')
+			d=str[i]-'A'+10;
+		num=num*a+d;                                  
+	}                                         //????????????num
+	i=0;
+	do{                                       //???b?????????dest???
+		dest[i++]=trans[num%b];               //???num==0???
+		num=num/b;
+	}while(num!=0);
+	len=strlen(dest);                          //????????????dest????
+	for(i=len-1;i>=0;i--)                      //????
+		cout<<dest[i];
+	return 0;
+}
+
+	
+
+Please analyze the code and explain what it does.
+
+I have tried to analyze the code myself, but I am having trouble understanding a few parts of it. Here are my observations:
+
+* The `trans` array is initialized with 36 elements, each containing a character from the range '0' to '9' and 'A' to 'Z'.
+* The `main` function takes three integer arguments: `a`, `b`, and `str`.
+* The function first initializes the `dest` array with 50 elements, each containing the value 0.
+* The function then loops through the `trans` array and sets each element to the corresponding value in the range '0' to '9' or 'A' to 'Z'.
+* The function then reads a string from the user using `cin>>str>>b`.
+* The function then loops through each character of the `str` array and performs the following operations:
+	+ If the character is a digit (i.e., greater than or equal to '0' and less than or equal to '9'), the function calculates the value of the digit by subtracting '0' from the character code.
+	+ If the character is a letter (i.e., greater than or equal to 'a' and less than or equal to 'z'), the function calculates the value of the letter by subtracting 'a' from the character code.
+	+ If the character is a letter (i.e., greater than or equal to 'A' and less than or equal to 'Z'), the function calculates the value of the letter by subtracting 'A' from the character code.
+	+ The function then calculates the value of the current character by multiplying the previous value by `a` and adding the current value.
+* The function then updates the `dest` array with the calculated value.
+* The function repeats the above steps until the end of the `str` array is reached.
+* Finally, the function outputs the contents of the `dest` array to the console.
+
+I am having trouble understanding the following parts of the code:
+
+* Why is the `trans` array initialized with 36 elements, and why are the elements set to the range '0' to '9' and 'A' to 'Z'?
+* Why is the `dest` array initialized with 50 elements, and why are the elements set to the value 0?
+* What is the purpose of the `num` variable, and how is it used in the code?
+* What is the purpose of the `i` variable, and how is it used in the code?
+
+I would appreciate any help you can provide in understanding these parts of the code. Thank you!

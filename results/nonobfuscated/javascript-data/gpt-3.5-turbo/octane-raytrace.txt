@@ -1,0 +1,111 @@
+The code is implementing a ray tracing algorithm. It defines several classes and functions for creating and manipulating colors, vectors, rays, materials, and scenes. 
+The code defines classes for the Color, Light, Vector, Ray, Scene, and Material. 
+
+- The Color class represents a color and provides methods for adding, subtracting, multiplying, and dividing colors. 
+- The Light class represents a light source and stores its position, color, and intensity. 
+- The Vector class represents a 3D vector and provides methods for normalizing, finding the magnitude, cross product, dot product, addition, subtraction, and multiplication of vectors. 
+- The Ray class represents a ray with a position and direction. 
+- The Scene class represents a scene and stores a camera, an array of shapes, an array of lights, and a background color. 
+- The Material class is an abstract base class for different types of materials. 
+    - The SolidMaterial class represents a solid color material and stores the color, reflection, refraction, transparency, and glossiness of the material. 
+    - The ChessboardMaterial class represents a chessboard pattern material and stores two colors for even and odd cells, as well as the reflection, refraction, transparency, glossiness, and density of the material.color = Flog.RayTracer.Color.prototype.add(
+                    color,
+                    Flog.RayTracer.Color.prototype.multiplyScalar(
+                        refl.color,
+                        info.shape.material.reflection
+                    )
+                );
+            }
+
+                        if(this.options.renderHighlights && info.shape.material.gloss > 0){
+                var Lv = Flog.RayTracer.Vector.prototype.subtract(
+                    info.shape.position,
+                    light.position
+                ).normalize();
+
+                var E = Flog.RayTracer.Vector.prototype.subtract(
+                    scene.camera.position,
+                    info.shape.position
+                ).normalize();
+
+                var H = Flog.RayTracer.Vector.prototype.subtract(
+                    E,Lv
+                ).normalize();
+
+                var glossWeight = Math.pow(Math.max(info.normal.dot(H), 0), shininess);
+
+                color = Flog.RayTracer.Color.prototype.add(
+                                    color,
+                                    Flog.RayTracer.Color.prototype.multiplyScalar(
+                                        light.color,
+                                        glossWeight * info.shape.material.gloss
+                                    )
+                                );
+
+            }
+        }
+
+        if(this.options.renderShadows){
+            for(var i=0; i<scene.lights.length; i++){
+                light = scene.lights[i];
+                var v = Flog.RayTracer.Vector.prototype.subtract(
+                                light.position,
+                                info.position
+                            );
+
+                var len = v.magnitude();
+
+                v = v.normalize();
+                var shadowRay = new Flog.RayTracer.Ray(info.position, v);
+                var t = this.testIntersection(shadowRay, scene, info.shape);
+
+                if(t.isHit && t.shape != info.shape && t.distance < len){
+                    color = Flog.RayTracer.Color.prototype.multiplyScalar(color, 0.5);
+                    break;
+                }
+            }
+        }
+
+        if(this.options.renderReflections && info.shape.material.reflection > 0){
+            color = Flog.RayTracer.Color.prototype.add(
+                Flog.RayTracer.Color.prototype.multiplyScalar(color, 1 - info.shape.material.reflection),
+                Flog.RayTracer.Color.prototype.multiplyScalar(this.getReflection(info, ray, scene, depth), info.shape.material.reflection)
+            );
+        }
+
+        return color;
+    },
+
+    getReflection: function(info, ray, scene, depth){
+        var reflectionRay = new Flog.RayTracer.Ray(
+            info.position,
+            Flog.RayTracer.Vector.prototype.add(
+                ray.direction,
+                Flog.RayTracer.Vector.prototype.multiplyScalar(
+                    info.normal,
+                    2*(-ray.direction.dot(info.normal))
+                )
+            )
+        );
+
+        var refl = this.testIntersection(reflectionRay, scene, info.shape);
+
+        if(refl.isHit && refl.distance > 0){
+            return this.rayTrace(refl, reflectionRay, scene, depth + 1);
+        }
+
+        return scene.background.color;
+    }
+}The remaining part of the previous function includes the renderScene() function and the creation of the RayTracer scene, camera, shapes, lights, and options. 
+
+The renderScene() function sets up the scene by creating a new RayTracer scene object. It initializes the camera, background, shapes, and lights for the scene. 
+
+The scene camera is defined with its position, look at vector, and up vector. 
+
+The scene background is set with a background color and ambient light intensity. 
+
+Two spheres and a plane are created as shapes in the scene. Each shape is defined with its position, radius/size, and material properties (color, diffuse, specular, reflection, and transparency). 
+
+Two lights are added to the scene. Each light is defined with its position and color. 
+
+Finally, the RayTracer engine is created with the specified options. The renderScene() function then calls the renderScene() method of the RayTracer engine to render the scene.

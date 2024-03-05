@@ -1,0 +1,1897 @@
+This code is a JavaScript function that returns an array of strings. The function is defined as `a0_0x5ab4()`, and it does not take any arguments. The function contains a variable `_0x4205fa` which is an array of strings.
+
+The function `a0_0x53bb()` is assigned the same function as `a0_0x5ab4()` initially. However, as the code shows, this function is redefined to take two arguments `_0x59f203` and `_0x261eb4` after the first execution of `a0_0x53bb()`. The code also redefines `a0_0x53bb()` to assign it the result of `a0_0x5ab4()` on subsequent executions.The remaining code defines the `init` method of the `a0_0x53bb` function. This method is responsible for initializing the jQuery object.
+
+The `init` method first checks if the `selector` passed to it is a string. If it is, the method checks if the string is an HTML element, and if so, it creates a new jQuery object with that element. If not, it tries to find the element with the specified ID and creates a jQuery object with that element.
+
+If the `selector` is not a string, the method checks if it is a function and, if so, adds it to the jQuery object.
+
+Finally, if none of the conditions above are true, the method assumes that `selector` is an array-like object and adds it to the jQuery object.
+
+The method returns the jQuery object once it has been initialized.The remaining code includes several methods that operate on the jQuery object.
+
+- `size` returns the number of elements in the jQuery object.
+- `toArray` converts the jQuery object into a regular array.
+- `get` retrieves the element at a specific index in the jQuery object.
+- `pushStack` creates a new jQuery object with the specified elements and adds the current jQuery object as its parent.
+- `each` iterates over each element in the jQuery object and applies a function to it.
+- `ready` binds a function to be executed when the DOM is ready.
+- `eq` retrieves the element at a specific index in the jQuery object.
+- `first` retrieves the first element in the jQuery object.
+- `last` retrieves the last element in the jQuery object.
+- `slice` extracts a subset of elements from the jQuery object.
+- `map` applies a function to each element in the jQuery object and returns a new jQuery object with the results.The remaining code includes the implementation of the `noConflict`, `isReady`, `readyWait`, `holdReady`, `ready`, and `bindReady` methods.
+
+- `noConflict` allows other libraries to use the `$` or `jQuery` variable by restoring control of these variables back to their original values.
+- `isReady` is a boolean variable that indicates whether the DOM is ready.
+- `readyWait` is a counter that tracks the number of times the `holdReady` method has been called.
+- `holdReady` can be used to delay the execution of the `ready` method.
+- `ready` triggers the execution of all functions that have been bound to the `ready` event.
+- `bindReady` registers a function to be executed when the DOM is ready.
+
+These methods provide functionality related to the initialization and ready state of the jQuery library.The remaining code includes the implementation of the `isFunction`, `isArray`, `isWindow`, `isNumeric`, `type`, `isPlainObject`, and `isEmptyObject` methods.
+
+- `isFunction` checks whether a given value is a function.
+- `isArray` checks whether a given value is an array. If the `Array.isArray` method is not available, it falls back to using `typeof` operator to check if the value is of type `array`.
+- `isWindow` checks whether a given value is a window object.
+- `isNumeric` checks whether a given value is a valid number.
+- `type` returns the type of a given value, using the `typeof` operator. If the value is `null` or `undefined`, it returns the corresponding string representation.
+- `isPlainObject` checks whether a given value is a plain object, meaning it is not `null` or an array, and does not have a prototype.
+- `isEmptyObject` checks whether a given object is empty, meaning it has no properties.
+
+These methods provide various type-checking functionalities in the jQuery library.The remaining code includes the implementation of the `parseJSON`, `parseXML`, `noop`, `globalEval`, `camelCase`, `nodeName`, and `each` methods.
+
+- `parseJSON` parses a JSON string and returns the resulting object. It first checks if the value is not `null` or undefined and if it is of type string. It then trims the string and uses either the built-in `JSON.parse` method or a custom implementation from the `parseJSON` property of the `jQuery.support` object.
+- `parseXML` parses an XML string and returns the resulting document object. It first checks if the browser supports the `DOMParser` API. If it does, it uses `DOMParser` to parse the string. Otherwise, it falls back to using `ActiveXObject` to create an XMLDOM object and sets the async property to false before calling the `loadXML` method with the XML string.
+- `noop` is an empty function that does nothing. It is used as a placeholder in some parts of the code where a function is required but no action is needed.
+- `globalEval` executes a string of JavaScript code in the global context. It checks if the input is a non-empty string and if it is a function, and then it uses the `execScript` method (if available) or the `eval` method to execute the code.
+- `camelCase` converts a kebab-case or snake_case string to camel case by removing hyphens or underscores and capitalizing the next character.
+- `nodeName` checks if the name of an HTML element matches a given string, ignoring case sensitivity.
+- `each` iterates over an array or object and calls a callback function for each item. If the third argument is provided, it calls the callback function with the item value and index (or key for objects) and stops if the callback function returns `false`. If the third argument is not provided, it calls the callback function with the item value, index/key, and the original array/object.Here is the remaining part of the code:
+
+```javascript
+...
+'deferred': function (func) {
+    var tuples = [
+            // action, add listener, listener list, final state
+            ["resolve", "done", jQuery.Callbacks("once memory"), "resolved"],
+            ["reject", "fail", jQuery.Callbacks("once memory"), "rejected"],
+            ["notify", "progress", jQuery.Callbacks("memory")]
+        ],
+        state = "pending",
+        promise = {
+            state: function () {
+                return state;
+            },
+            always: function () {
+                deferred.done(arguments).fail(arguments);
+                return this;
+            },
+            "catch": function (fn) {
+                return promise.then(null, fn);
+            },
+            pipe: function (/* fnDone, fnFail, fnProgress */) {
+                var fns = arguments;
+
+                return jQuery.Deferred(function (newDefer) {
+                    jQuery.each(tuples, function (i, tuple) {
+                        var fn = typeof fns[i] === "function" && fns[i];
+
+                        // deferred[ done | fail | progress ] for forwarding actions to newDefer
+                        deferred[tuple[1]](function () {
+                            var returned = fn && fn.apply(this, arguments);
+                            if (returned && typeof returned.promise === "function") {
+                                returned.promise()
+                                    .done(newDefer.resolve)
+                                    .fail(newDefer.reject)
+                                    .progress(newDefer.notify);
+                            } else {
+                                newDefer[tuple[0] + "With"](
+                                    this === promise ? newDefer.promise() : this,
+                                    fn ? [returned] : arguments
+                                );
+                            }
+                        });
+                    });
+                    fns = null;
+                }).promise();
+            },
+            then: function (onFulfilled, onRejected, onProgress) {
+                var maxDepth = 0;
+
+                function resolve(depth, deferred, handler, special) {
+                    return function () {
+                        var that = this,
+                            args = arguments,
+                            mightThrow = function () {
+                                var returned, then;
+
+                                // Support: Promises/A+ section 2.3.3.3.3
+                                // https://promisesaplus.com/#point-59
+                                // Ignore double-resolution attempts
+                                if (depth < maxDepth) {
+                                    return;
+                                }
+
+                                returned = handler.apply(that, args);
+
+                                // Support: Promises/A+ section 2.3.1
+                                // https://promisesaplus.com/#point-48
+                                if (returned === deferred.promise()) {
+                                    throw new TypeError("Thenable self-resolution");
+                                }
+
+                                // Support: Promises/A+ sections 2.3.3.1, 3.5
+                                // https://promisesaplus.com/#point-54
+                                // https://promisesaplus.com/#point-75
+                                // Retrieve `then` only once
+                                then = returned &&
+
+                                    // Support: Promises/A+ section 2.3.4
+                                    // https://promisesaplus.com/#point-64
+                                    // Only check objects and functions for thenability
+                                    (typeof returned === "object" ||
+                                        typeof returned === "function") &&
+                                    returned.then;
+
+                                // Handle a returned thenable
+                                if (typeof then === "function") {
+
+                                    // Special processors (notify) just wait for resolution
+                                    if (special) {
+                                        then.call(
+                                            returned,
+                                            resolve(maxDepth, deferred, jQuery.noop, special),
+                                            resolve(maxDepth, deferred, jQuery.noop, special)
+                                        );
+
+                                    // Normal processors (resolve) also hook into progress
+                                    } else {
+
+                                        // ...and disregard older resolution values
+                                        maxDepth++;
+
+                                        then.call(
+                                            returned,
+                                            resolve(maxDepth, deferred, jQuery.noop, special),
+                                            resolve(maxDepth, deferred, jQuery.noop, special),
+                                            resolve(maxDepth, deferred, jQuery.noop, "notify")
+                                        );
+                                    }
+
+                                // Handle all other returned values
+                                } else {
+
+                                    // Only substitute handlers pass on context
+                                    // and multiple values (non-spec behavior)
+                                    if (handler !== jQuery.noop) {
+                                        that = undefined;
+                                        args = [returned];
+                                    }
+
+                                    // Process the value(s)
+                                    // Default process is resolve
+                                    (special || deferred.resolveWith)(that, args);
+                                }
+                            },
+
+                            // Only normal processors (resolve) catch and reject exceptions
+                            process = special ?
+                            mightThrow :
+                            function () {
+                                try {
+                                    mightThrow();
+                                } catch (e) {
+
+                                    if (jQuery.Deferred.exceptionHook) {
+                                        jQuery.Deferred.exceptionHook(e,
+                                            process.stackTrace);
+                                    }
+
+                                    // Support: Promises/A+ section 2.3.3.3.4.1
+                                    // https://promisesaplus.com/#point-61
+                                    // Ignore post-resolution exceptions
+                                    if (depth + 1 >= maxDepth) {
+
+                                        // Only substitute handlers pass on context
+                                        // and multiple values (non-spec behavior)
+                                        if (handler !== jQuery.noop) {
+                                            that = undefined;
+                                            args = [e];
+                                        }
+
+                                        deferred.rejectWith(that, args);
+                                    }
+                                }
+                            };
+
+                        // Support: Promises/A+ section 2.3.3.3.1
+                        // https://promisesaplus.com/#point-57
+                        // Re-resolve promises immediately to dodge false rejection from
+                        // subsequent errors
+                        if (depth) {
+                            process();
+                        } else {
+
+                            // Call an optional hook to record the stack, in case of exception
+                            // since it's otherwise lost when execution goes async
+                            if (jQuery.Deferred.getStackHook) {
+                                process.stackTrace = jQuery.Deferred.getStackHook();
+                            }
+                            window.setTimeout(process);
+                        }
+                    };
+                }
+
+                return jQuery.Deferred(function (newDefer) {
+
+                    // progress_handlers.add( ... )
+                    tuples[0][3].add(
+                        resolve(
+                            0,
+                            newDefer,
+                            typeof onProgress === "function" ?
+                            onProgress :
+                            jQuery.noop,
+                            newDefer.notifyWith
+                        )
+                    );
+
+                    // fulfilled_handlers.add( ... )
+                    tuples[1][3].add(
+                        resolve(
+                            0,
+                            newDefer,
+                            typeof onFulfilled === "function" ?
+                            onFulfilled :
+                            jQuery.noop
+                        )
+                    );
+
+                    // rejected_handlers.add( ... )
+                    tuples[2][3].add(
+                        resolve(
+                            0,
+                            newDefer,
+                            typeof onRejected === "function" ?
+                            onRejected :
+                            jQuery.noop
+                        )
+                    );
+                }).promise();
+            },
+
+            // Get a promise for this deferred
+            // If obj is provided, the promise aspect is added to the object
+            promise: function (obj) {
+                return obj != null ? jQuery.extend(obj, promise) : promise;
+            }
+        },
+        deferred = {};
+
+    // Add list-specific methods
+    jQuery.each(tuples, function (i, tuple) {
+        var list = tuple[2],
+            stateString = tuple[3];
+
+        // promise.progress = list.add
+        // promise.done = list.add
+        // promise.fail = list.add
+        promise[tuple[1]] = list.add;
+
+        // Handle state
+        if (stateString) {
+            list.add(
+                function () {
+
+                    // state = "resolved" (i.e., fulfilled)
+                    // state = "rejected"
+                    state = stateString;
+                },
+
+                // rejected_callbacks.disable
+                // fulfilled_callbacks.disable
+                tuples[i ^ 1][2].disable,
+
+                // rejected_handlers.disable
+                // fulfilled_handlers.disable
+                tuples[i ^ 1][3].disable,
+
+                // progress_callbacks.lock
+                tuples[2][2].lock,
+
+                // progress_handlers.lock
+                tuples[0][2].lock
+            );
+        }
+
+        // progress_handlers.fire
+        // fulfilled_handlers.fire
+        // rejected_handlers.fire
+        list.add(tuple[0], function () {
+            deferred[tuple[0] + "With"](this === deferred ? promise : this, arguments);
+        });
+
+        // fulfilled_handlers.fireWith
+        // rejected_handlers.fireWith
+        list[0].fireWith(deferred, deferred.promise());
+    });
+
+    // Make the deferred a promise
+    promise.promise(deferred);
+
+    // Call given func if any
+    if (func) {
+        func.call(deferred, deferred);
+    }
+
+    // All done!
+    return deferred;
+},
+...
+```
+
+This part of the code implements the deferred object and its methods for handling asynchronous operations using promises. It includes methods like `then`, `resolve`, `reject`, `notify`, and `done` for handling the different states of the deferred object.Here is the remaining part of the code:
+
+```javascript
+...
+_0x38e91b<_0x575aa6
+_0x38e91b++){var _0x16915e=_0x36d589[_0x38e91b]
+if(_0x302fbd[_0x15179c(0x35d)](_0x16915e)){_0x4a5253['call'](_0x16915e,_0x38e91b,_0x5700ca(_0x16915e,_0x38e91b,_0x4a5253(_0x16915e,_0x38e91b)),_0x152be7,_0x575aa6)
+}else{_0x5700ca['call'](_0x16915e,_0x38e91b,_0x16915e,_0x152be7,_0x575aa6)
+}}return _0x36d589
+}return _0x575aa6!==_0x2b1c5f?_0x302fbd[_0x15179c(0x483)](_0x36d589,_0x4a5253,_0x5700ca,_0x152be7,_0x5531fa):_0x302fbd['access'](_0x36d589,_0x4a5253,_0x5700ca,_0x152be7,_0x36d589,_0x5531fa)
+},'now':Date[_0x1c064b(0x34e)],'support':_0x38d944})})if(typeof Symbol==='function')jQuery[_0x1c064b(0x2db)]('Symbol',Symbol)else{
+var _0x8befa4=function(_0x5f52c4){return _0x5f52c4},_0x2971f7={'iterator':'@@iterator'}
+try{Object[_0x1c064b(0x378)](_0x8befa4(),'x',{})
+_0x2971f7=eval(_0x1c064b(0x465)+'(true)')
+}catch(_0x22829e){}
+jQuery[_0x1c064b(0x2db)](_0x1c064b(0x211),function(){return _0x8befa4})}var _0x430ccf=/$([+^-])/,_0x1d3df3=/([\:\-\+\/\*])([^\:\-\+\/\*]+)/g,_0x1d4137=RegExp(_0x1c064b(0x3b8))
+jQuery[_0x1c064b(0x2db)]('Callbacks',function(_0x118d92){_0x118d92=_0x302fbd[_0x1c064b(0x483)](_0x118d92,'once memory')var _0x59d6e6=[],_0x359fc0,_0x315c40,_0x25fb2e,_0x468344,_0x18c4a6,_0x40d188=function(_0x341dca){for(_0x359fc0=0x0,_0x315c40=_0x341dca?_0x59d6e6[_0x1c064b(0x417)]:0x0,_0x25fb2e=[]
+_0x40d188=_0x59d6e6[_0x1c064b(0x417)]
+;++_0x359fc0<_0x315c40;){(_0x468344=_0x59d6e6[_0xb17e0b],_0x468344[_0x1c064b(0x335)]&&(_0x48d5be?_0x468344[_0x1c064b(0x4a0)===_0x1c064b(0x3fc)?_0x468344[_0x1c064b(0x4ef)][_0x1c064b(0x4a0)](_0x48d5be)>=0x0:(!!_0x468344[_0x1c064b(0x4a0)]||_0The remaining part of the code is as follows:
+
+```javascript
+...
+if (_0x2aee1e['trim']) {
+    _0x4767c6 = function () {
+        var _0x502be3 = _0x1c064b;
+        return _0x2aee1e[_0x502be3(0x3c6)]['call'](this)['toString']();
+    };
+} else {
+    _0x4767c6 = function () {
+        var _0x2eac43 = _0x1c064b;
+        return _0x2aee1e[_0x2eac43(0x3cf)]()[_0x2eac43(0x28b)]();
+    };
+}    
+...
+```
+
+This code checks if the `trim` method is available on the `_0x2aee1e` object. If it is, it uses the `call` method to call `trim` on the object and then `toString` to convert it to a string. Otherwise, it uses the `trim` method directly and then `toLowerCase` to convert it to lowercase.The remaining part of the code is as follows:
+
+```javascript
+...
+else _0x2aee1e[_0x1c064b(0x3ce)+'t']&&(_0x4767c6=function(){var _0x44b7cf=_0x1c064b
+_0x2aee1e[_0x44b7cf(0x20f)]===_0x44b7cf(0x22c)&&(_0x2aee1e['detachEven'+'t'](_0x44b7cf(0x364)+_0x44b7cf(0x1f2),_0x4767c6),_0x302fbd[_0x44b7cf(0x301)]())
+})
+function _0x5f3ab0(){var _0xc60474=_0x1c064b
+if(_0x302fbd[_0xc60474(0x3d6)])return
+try{_0x2aee1e['documentEl'+_0xc60474(0x238)][_0xc60474(0x4c2)]('left')
+}catch(_0x7b50b8){setTimeout(_0x5f3ab0,0x1)
+return
+}_0x302fbd[_0xc60474(0x301)]()
+}return _0x302fbd
+}()),_0x435595={}
+function _0x3a3860(_0x281a82){var _0x1e1e12=_0x2f0977,_0x5f393e=_0x435595[_0x281a82]={},_0x309b8a,_0x3d0ef4
+_0x281a82=_0x281a82['split'](/\s+/)
+for(_0x309b8a=0x0,_0x3d0ef4=_0x281a82[_0x1e1e12(0x417)]
+_0x309b8a<_0x3d0ef4
+_0x309b8a++){_0x5f393e[_0x281a82[_0x309b8a]]=!![]
+}return _0x5f393e
+}_0xd903d7[_0x2f0977(0x49a)]=function(_0x5ae053){_0x5ae053=_0x5ae053?_0x435595[_0x5ae053]||_0x3a3860(_0x5ae053):{}
+var _0x506ed5=[],_0x7c3853=[],_0x5db420,_0xaf2833,_0x476f5b,_0x308c59,_0x3fc0c9,_0x2b5da8=function(_0x5b5f4c){var _0x392152=a0_0x53bb,_0x13e677,_0xf4da90,_0x2e3750,_0x43dd0f,_0x6aced9
+for(_0x13e677=0x0,_0xf4da90=_0x5b5f4c[_0x392152(0x417)]
+_0x13e677<_0xf4da90
+_0x13e677++){_0x2e3750=_0x5b5f4c[_0x13e677],_0x43dd0f=_0xd903d7[_0x392152(0x1be)](_0x2e3750)
+if(_0x43dd0f===_0x392152(0x351))_0x2b5da8(_0x2e3750)
+...
+```
+
+This code defines a function `_0x3a3860` that takes a parameter `_0x281a82`. It initializes an empty object `_0x5f393e` inside the `_0x435595` object with the key `_0x281a82`.
+
+The function then splits `_0x281a82` by whitespace and iterates over the resulting array. For each element in the array, it sets the corresponding key in `_0x5f393e` object to `true`.
+
+The code also defines a method `_0xd903d7[_0x2f0977(0x49a)]` that takes a parameter `_0x5ae053`. Inside this method, it checks if `_0x5ae053` is truthy. If it is, it assigns `_0x435595[_0x5ae053]` to `_0x5ae053`. If `_0x435595[_0x5ae053]` is falsy, it assigns the result of calling `_0x3a3860` with `_0x5ae053` to `_0x5ae053`.
+
+The method then initializes some variables `_0x506ed5`, `_0x7c3853`, `_0x5db420`, `_0xaf2833`, `_0x476f5b`, `_0x308c59`, `_0x3fc0c9` and defines a function `_0x2b5da8` that takes a parameter `_0x5b5f4c`. Inside this function, it iterates over the elements of `_0x5b5f4c` and checks if the result of calling `_0xd903d7[_0x392152(0x1be)](_0x2e3750)` is equal to the string `'initialize'`. If it is, it calls `_0x2b5da8` with `_0x2e3750`.The remaining part of the code is as follows:
+
+```javascript
+...
+}
+}
+}
+}
+}
+if (_0x506ed5) {
+  if (!_0x5ae053[_0x10644c(0x288)])
+    _0x7c3853 &&
+      _0x7c3853['length'] &&
+      ((_0x5db420 = _0x7c3853['shift']()),
+      _0x823626[_0x10644c(0x387)](_0x5db420[0x0], _0x5db420[0x1]));
+  else
+    _0x5db420 === !![] ? _0x823626['disable']() : (_0x506ed5 = []);
+}
+},_0x823626 = {
+  'add': function () {
+    var _0x5126b8 = a0_0x53bb;
+    if (_0x506ed5) {
+      var _0x2200f8 = _0x506ed5[_0x5126b8(0x417)];
+      _0x2b5da8(arguments);
+      if (_0xaf2833) _0x308c59 = _0x506ed5[_0x5126b8(0x417)];
+      else
+        _0x5db420 &&
+          _0x5db420 !== !![] &&
+          (_0x476f5b = _0x2200f8, _0x314487(_0x5db420[0x0], _0x5db420[0x1]));
+    }
+    return this;
+  },
+  'remove': function () {
+    var _0x516512 = a0_0x53bb;
+    if (_0x506ed5) {
+      var _0x2d6512 = arguments,
+        _0x393f19 = 0x0,
+        _0x48fad5 = _0x2d6512[_0x516512(0x417)];
+      for (
+        ;
+        _0x393f19 < _0x48fad5;
+        _0x393f19++
+      ) {
+        for (var _0x3c8f71 = 0x0; _0x3c8f71 < _0x506ed5[_0x516512(0x417)]; _0x3c8f71++) {
+          if (_0x2d6512[_0x393f19] === _0x506ed5[_0x3c8f71]) {
+            _0xaf2833 && (
+              _0x3c8f71 <= _0x308c59 &&
+                (_0x308c59--,
+                _0x3c8f71 <= _0x3fc0c9 && _0x3fc0c9--)
+            );
+            _0x506ed5[_0x516512(0x391)](_0x3c8f71--, 0x1);
+            if (_0x5ae053[_0x516512(0x1fc)]) break;
+          }
+        }
+      }
+    }
+  },
+};
+```
+
+This code defines an object `_0x823626` with two methods: `add` and `remove`.
+
+The `add` method takes an unspecified number of arguments. If `_0x506ed5` (a truthy value) exists, it assigns the length of `_0x506ed5` to `_0x2200f8`. It then calls the `_0x2b5da8` function with the arguments passed to the `add` method. If `_0xaf2833` is truthy, it sets `_0x308c59` to the length of `_0x506ed5`. Otherwise, if `_0x5db420` exists and is not equal to `true`, it sets `_0x476f5b` to `_0x2200f8` and calls the `_0x314487` function with the first element of `_0x5db420` and the second element of `_0x5db420`.
+
+The `remove` method takes an unspecified number of arguments. If `_0x506ed5` (a truthy value) exists, it assigns the arguments to `_0x2d6512`. It then iterates over the elements of `_0x2d6512` and for each element, iterates over the elements of `_0x506ed5`. If an element in `_0x2d6512` is equal to an element in `_0x506ed5`, it checks if `_0xaf2833` is truthy. If it is, it decrements `_0x308c59` and `_0x3fc0c9`. It then removes the element from `_0x506ed5` and decrements the index (`_0x3c8f71`) by 1. If `_0x5ae053[_0x516512(0x1fc)]` is truthy, it breaks the loop.
+
+Overall, these methods allow adding and removing functions from `_0x506ed5` array, based on certain conditions.The remaining part of the code is as follows:
+
+```javascript
+  },
+  'done': _0x51a98b['add'],
+  'fail': _0x3f8291[_0x19f5c3(0x20b)],
+  'progress': _0x2e91c3['add'],
+  'state': function () {
+    return _0x36ce14;
+  },
+  'isResolved': _0x51a98b[_0x19f5c3(0x1fc)],
+  'isRejected': _0x3f8291[_0x19f5c3(0x1fc)],
+  'then': function (_0x3dba3e, _0x5c5ccb, _0x38147e) {
+    var _0x3f44e6 = _0x19f5c3(0x212) in _0x5c5ccb || _0x38147e,
+      _0x2a3c60 = _0x3f44e6 ? _0x5c5ccb : _0x5e82d6,
+      _0x1f1450 = _0x3f44e6 ? _0x3f8291 : _0x50d546,
+      _0x50a2e6 = {};
+    _0x51a98b['add'](function () {
+      _0x50a2e6[_0x19f5c3(0x368)] = _0x11e63a([_0x2a3c60, _0x3dba3e], this['promise']()),
+        _0x50a2e6[_0x19f5c3(0x368)] && _0xd903d7[_0x19f5c3(0x46e)][_0x19f5c3(0x6f)](_0x50a2e6, _0x50a2e6[_0x19f5c3(0x368)], _0x1f1450[_0x19f5c3(0x20b)], _0x1f1450, _0x2a3c60, _0x1f1450[_0x19f5c3(0x45c)]);
+    }, { 'once': !![] }), _0x3dba3e && typeof _0x3dba3e == _0x19f5c3(0x26d) && _0x51a98b[_0x19f5c3(0x20b)](_0x3dba3e);
+    if (_0x5c5ccb && typeof _0x5c5ccb == _0x19f5c3(0x26d)) _0x3f8291[_0x19f5c3(0x20b)](_0x5c5ccb);
+    return this['promise']();
+  },
+  'promise': function (_0x357136) {
+    var _0x15a1d3 = _0x19f5c3(0x288),
+      _0xb7b47a = _0xd903d7[_0x19f5c3(0x408)]({});
+    return (
+      _0xd903d7[_0x19f5c3(0x46e)](_0xb7b47a, {
+        'then': function (_0x3001b7, _0x380277, _0x15d076) {
+          var _0x2a4fc4 = _0x19f5c3(0x53bb) in _0x380277 || _0x15d076,
+            _0x276cd = _0x2a4fc4 ? _0x380277 : _0x5e82d6,
+            _0x47fec6 = _0x2a4fc4 ? _0x3f8291 : _0x50d546,
+            _0x39a905 = { 'resolve': _0x276cd, 'reject': _0x47fec6 },
+            _0x506e8f = _0x15a1d3[_0x19f5c3(0x368)] ? [_0x276cd, _0x47fec6, _0x15a1d3[_0x19f5c3(0x368)]] : [_0x276cd, _0x47fec6],
+            _0x27f345 = _0x15a1d3[_0x19f5c3(0x368)]
+              ? function () {
+                  delete _0x39a905['resolve'], delete _0x39a905[_0x19f5c3(0x20b)];
+                }
+              : _0x5e82d6;
+          _0x15a1d3[_0x19f5c3(0x368)] ? _0x51a98b[_0x19f5c3(0x20b)](_0x27f345) : setTimeout(_0x27f345, 0x3e8),
+            _0xb7b47a[_0x19f5c3(0x97)](
+              function () {
+                _0xd903d7[_0x19f5c3(0x387)](this[_0x19f5c3(0x347)], _0x506e8f, _0x39a905, _0x357136, _0x15a1d3[_0x19f5c3(0x491)]());
+              },
+              { 'once': !![] }
+            ),
+            _0x15d076 && typeof _0x15d076 == _0x19f5c3(0x26d) && _0x47fec6[_0x19f5c3(0x20b)](_0x15d076);
+        },
+        'promise': function (_0x8ce477) {
+          return _0x8ce477 != null ? _0xd903d7[_0x19f5c3(0x46e)](_0x8ce477, _0xb7b47a) : _0xb7b47a;
+        },
+      }),
+      _0xb7b47a
+    );
+  },
+  'when': function (_0x13abab) {
+    var _0x21da8d = _0x2f0977,
+      _0x1ccf36 = arguments['length'],
+      _0x56ed25 = _0x1ccf36 <= 0x1 && _0x13abab === undefined ? _0x13abab : arguments,
+      _0x26a153 = _0x56ed25['slice'](0x0),
+      _0x533035 = _0x1ccf36 <= 0x1 && _0xd903d7[_0x21da8d(0x288)](_0x26a153[_0x21da8d(0x41c)]) ? _0x26a153 : _0xd903d7[_0x21da8d(0x326)](_0x26a153),
+      _0x2c147e = _0x533035[_0x21da8d(0x41c)],
+      _0x27f33a = _0x2c147e,
+      _0x3a81fe = Array(_0x2c147e),
+      _0x1543dc = $['Deferred'](),
+      _0x4adbaa = function (_0x201c5b) {
+        return function (_0x1f9947) {
+          _0x3a81fe[_0x201c5b] = this, (_0x27f33a -= 0x1) || _0x1543dc['resolveWith'](_0x3a81fe, _0x26a153);
+        };
+      };
+    if (_0x2c147e > 0x1)
+      for (
+        var _0x5568af = _0x2c147e; _0x5568af--; _0x27f33a--
+      )
+        _0xd903d7['when'](_0x56ed25[_0x5568af])[_0x21da8d(0x25c)](_0x1543dc[_0x21da8d(0x49a)], _0x1543dc[_0x21da8d(0x297)], _0x4adbaa(_0x5568af));
+    return _0x27f33a || _0x1543dc[_0x21da8d(0x492)](_0x3a81fe, _0x26a153), _0x1543dc['promise']();
+  },
+});
+```
+
+This code defines a function `_0xd903d7['Deferred']` that returns a Deferred object. It also defines several methods on the Deferred object, such as `resolve`, `reject`, `notify`, `done`, `fail`, `progress`, `state`, `isResolved`, `isRejected`, `then`, `promise`, `when`.
+
+The `Deferred` function takes an optional argument `_0x40ecca`. It creates three Callbacks objects: `_0x51a98b` for resolving, `_0x3f8291` for rejecting, and `_0x2e91c3` for notifying. It also initializes `_0x36ce14` to the string "pending". It returns an object `_0x25bf73` with properties `resolve`, `reject`, `notify`, and `state`. It also has properties `done`, `fail`, `progress`, `isResolved`, `isRejected`, `then`, `promise`, which are assigned the corresponding methods on the Callbacks objects.
+
+The `then` method takes two arguments: `_0x3dba3e` and `_0x5c5ccb`. If the second argument has the property "then" or the third argument `_0x38147e` is truthy, it assigns `_0x5c5ccb` to `_The remaining part of the code is as follows:
+
+```javascript
+    };
+  }
+  var _0x51f8db = _0xcc1203['promise']({});
+  var _0x2f7b07;
+
+  for (_0x2f7b07 in _0x25bf73) {
+    _0x51f8db[_0x2f7b07] = _0x25bf73[_0x2f7b07]['add'];
+    _0x51f8db[_0x2f7b07 + 'With'] = _0x25bf73[_0x2f7b07]['fireWith'];
+  }
+
+  return _0x51f8db['done'](function () {
+    var _0x1a3ef1 = _0x19f5c3;
+    _0x36ce14 = _0x1a3ef1(0x18f);
+  }, _0x3f8291['disable'], _0x2e91c3[_0x19f5c3(0x4c5)])['fail'](function () {
+    var _0x37b5d2 = _0x19f5c3;
+    _0x36ceThe remaining part of the code is as follows:
+
+```javascript
+_0x1f314f=_0x396148(0x3b1)+'sByTagName',_0x4d9fac=_0x396148(0x4ca),_0x4a0cf1=_0x396148(0x219),_0x9aecfa=_0x396148(0x450),_0x112142={};
+
+_0x112142[_0x396148(0x3b1)+_0x396148(0x4ca)](_0x396148(0x49b))['length']>0x0?(_0x112142[_0x396148(0x4bb)+'ment']=_0x28d8d7[_0x1f314f](_0x4d9fac)[0x0],_0x118a39=_0x2aee1e['createElem'+_0x396148(0x285)](_0x9aecfa),_0x118a39[_0x396148(0x232)]['display']=_0x396148(0x272),_0x112142[_0x396148(0x3ca)+_0x396148(0x310)]=_0x118a39[_0x396148(0x349)+_0x396148(0x2a8)],_0x28d8d7['innerHTML']+=_0x396148(0x1e2)+_0x9aecfa+_0x396148(0x3a9)+_0x396148(0x424)+_0x396148(0x28e)+_0x396148(0x3aa)+_0x9aecfa+_0x396148(0x3e0)):_0x112142[_0x396148(0x4bb)+'ment']=_0x28d8d7[_0x1f314f](_0x4a0cf1)[0x0];
+
+_0x118a39=_0x2aee1e[_0x396148(0x266)+_0x396148(0x285)](_0x396148(0x434));
+if(!_0x112142[_0x396148(0x4bb)+'ment']||!_0x118a39){return {};}
+
+_0x112142[_0x396148(0x38e)]=!_0x118a39[_0x396148(0x2f3)+_0x396148(0x1a7)]&&_0x2aee1e[_0x396148(0x4de)](_0x118a39,_0x4d9fac);
+
+_0x118a39[_0x396148(0x232)][_0x396148(0x1a7)]='0';
+try {
+  delete _0x118a39[_0x396148(0x349)];_0xd903d7[_0x3b090c(0x4dc)](_0x552aa8['split']The remaining part of the function is:
+```
+if(!_0x387eb1){
+            _0x387eb1 = _0xd903d7._data(this[0]);
+        }
+        if (_0x4fc18c !== undefined) {
+            _0x387eb1[_0x4f6ac7] = _0x4fc18c;
+        }
+        if (typeof _0x4f6ac7 === 'object') {
+            for (_0x2b5f0c in _0x4f6ac7) {
+                _0x387eb1[_0x2b5f0c] = _0x4f6ac7[_0x2b5f0c];
+            }
+        }
+        return _0x387eb1;
+    }
+},'removeData': function (_0x353f26) {
+        var _0x4692f8 = _0x2f0977;
+        return this.each(function () {
+            _0xd903d7._removeData(this, _0x353f26);
+        });
+    }
+});
+```
+This part of the function is responsible for removing data:
+
+```
+'removeData': function (_0x353f26) {
+        var _0x4692f8 = _0x2f0977;
+        return this.each(function () {
+            _0xd903d7._removeData(this, _0x353f26);
+        });
+    }
+```The remaining part of the function is:
+
+```
+_0xd903d7[_0x4c1f12(0x325)](this,_0x4f6ac7)
+})
+}
+return _0x2b5f0c=_0x4f6ac7['split']('.'),_0x2b5f0c[0x1]=_0x2b5f0c[0x1]?'.'+_0x2b5f0c[0x1]:'',_0x4fc18c===_0x2b1c5f?(_0x387eb1=this[_0x55a106(0x3b6)+_0x55a106(0x359)](_0x55a106(0x1ac)+_0x2b5f0c[0x1]+'!',[_0x2b5f0c[0x0]]),_0x387eb1===_0x2b1c5f&&this[_0x55a106(0x417)]&&(_0x387eb1=_0xd903d7['data'](this[0],_0x4f6ac7),_0x387eb1=_0x29a60d(this[0],_0x4f6ac7,_0x387eb1)),_0x387eb1===_0x2b1c5f&&_0x2b5f0c[0x1]?this['data'](_0x2b5f0c[0x0]):_0x387eb1):this[_0x55a106(0x408)](function(){var _0x1f2b6c=_0x55a106,_0x1f8321=_0xd903d7(this),_0x445b67=[_0x2b5f0c[0x0],_0x4fc18c]
+_0x1f8321[_0x1f2b6c(0x3b6)+_0x1f2b6c(0x359)](_0x1f2b6c(0x1dd)+_0x2b5f0c[0x1]+'!',_0x445b67),_0xd903d7[_0x1f2b6c(0x325)](this,_0x4f6ac7,_0x4fc18c),_0x1f8321['triggerHan'+_0x1f2b6c(0x359)](_0x1f2b6c(0x299)+_0x2b5f0c[0x1]+'!',_0x445b67)
+})
+},'removeData':function(_0x82c7bc){var _0x3c525b=_0x2f0977
+return this[_0x3c525b(0x408)](function(){var _0x5aa852=_0x3c525b
+_0xd903d7[_0x5aa852(0x1fd)](this,_0x82c7bc)
+})
+}})
+function _0x29a60d(_0x4f63e8,_0xcb43c0,_0x325ec2){var _0x13ead4=_0x2f0977
+if(_0x325ec2===_0x2b1c5f&&_0x4f63e8['nodeType']===0x1){var _0x2b83a7=_0x13ead4(0x35f)+_0xcb43c0[_0x13ead4(0x48b)](_0xe69a60,_0x13ead4(0x277))[_0x13ead4(0x258)+'e']()
+_0x325ec2=_0x4f63e8['getAttribu'+'te'](_0x2b83a7)
+if(typeof _0x325ec2===_0x13ead4(0x45b)){try{_0x325ec2=_0x325ec2==='true'?!![]:_0x325ec2===_0x13ead4(0x3ec)?![]:_0x325ec2==='null'?null:_0xd903d7['isFunction'](_0x325ec2)?parseFloat(_0x325ec2):_0xe5ab10[_0x13ead4(0x1e4)](_0x325ec2)?_0xd903d7['parseJSON'](_0x325ec2):_0x325ec2
+}catch(_0x50c27e){}_0xd903d7[_0x13ead4(0x325)](_0x4f63e8,_0xcb43c0,_0x325ec2)
+}else _0x325ec2=_0x2b1c5f
+}return _0x325ec2
+}function _0x24f802(_0x2b77ea){var _0x31fa3d=_0x2f0977
+for(var _0x3ac752 in _0x2b77ea){if(_0x3ac752===_0x31fa3d(0x325)&&_0xd903d7[_0x31fa3d(0x2c2)+'ect'](_0x2b77ea[_0x3ac752]))continue
+if(_0x3ac752!==_0x31fa3d(0x344))return![]
+}return!![]
+}function _0x394d93(_0x45e5ac,_0x3d2696,_0x3e4576){var _0x34a200=_0x2f0977,_0x1888a7=_0x3d2696+'defer',_0x2912be=_0x3d2696+_0x34a200(0x26e),_0x10719f=_0x3d2696+_0x34a200(0x426),_0x11a1d3=_0xd903d7[_0x34a200(0x172)](_0x45e5ac,_0x1888a7)
+_0x11a1d3&&(_0x3e4576===_0x34a200(0x26e)||!_0xd903d7[_0x34a200(0x172)](_0x45e5ac,_0x2912be))&&(_0x3e4576===_0x34a200(0x426)||!_0xd903d7[_0x34a200(0x172)](_0x45e5ac,_0x10719f))&&setTimeout(function(){var _0x259a41=_0x34a200
+!_0xd903d7[_0x259a41(0x172)](_0x45e5ac,_0x2912be)&&!_0xd903d7[_0x259a41(0x172)](_0x45e5ac,_0x10719f)&&(_0xd903d7[_0x259a41(0x1fd)](_0x45e5ac,_0x1888a7,!![]),_0x11a1d3[_0x259a41(0x1e2)]())
+},0x0)
+```
+
+This part of the function handles data removal and manipulation based on the given arguments:
+
+```
+'data': function (_0x4f6ac7, _0x4fc18c) {
+        var _0x55a106 = _0x2f0977;
+        var _0x387eb1, _0x2b5f0c;
+        if (!_0x4f6ac7) {
+            if (this.length) {
+                _0x387eb1 = _0xd903d7._data(this[0]);
+                if (this[0].nodeType === 1 && !_0xd903d7._data(this[0], _0x55a106(0x1ac))) {
+                    _0x387eb1 = _0x29a60d(this[0], _0x55a106(0x1ac), _0x387eb1);
+                }
+            }
+            return _0x387eb1 === undefined && _0x2b1c5f ? this.data(_0x2b5f0c[0]) : _0x387eb1;
+        }
+        if (!_0x4f6ac7 || typeof _0x4f6ac7 === 'string' && _0x4f6ac7.charAt(0) === '.') {
+            _0x2b5f0c = _0x4f6ac7.split('.');
+            _0x2b5f0c[0] = _0x2b5f0c[0] ? '.' + _0x2b5f0c[0] : '';
+            _0x4fc18c === _0x2b1c5f ? (_0x387eb1 = this[_0x55a106(0x3b6) + _0x55a106(0x359)](_0x55a106(0x1ac) + _0x2b5f0c[0] + '!', [_0x2b5f0c[0]]), _0x387eb1 === _0x2b1c5f && this[_0x55a106(0x417)] && (_0x387eb1 = _0xd903d7['data'](this[0], _0x4f6ac7), _0x387eb1 = _0x29a60d(this[0], _0x4f6ac7, _0x387eb1)), _0x387eb1 === _The remaining part of the function is:
+
+```
+_0xd903d7['_unmark'] = function (_0x52698b, _0x4d04b5, _0x53e398) {
+    var _0x557953 = _0x2f0977;
+    if (_0x52698b !== !![]) {
+        _0x53e398 = _0x4d04b5;
+        _0x4d04b5 = _0x52698b;
+        _0x52698b = ![];
+    }
+    if (_0x4d04b5) {
+        _0x53e398 = _0x53e398 || 'fx';
+        var _0x1f4b01 = _0x53e398 + _0x557953(0x426);
+        var _0x3190f5 = _0x52698b ? 0x0 : (_0xd903d7[_0x557953(0x172)](_0x4d04b5, _0x1f4b01) || 0x1) - 0x1;
+        if (_0x3190f5) {
+            _0xd903d7['_data'](_0x4d04b5, _0x1f4b01, _0x3190f5);
+        } else {
+            _0xd903d7['removeData'](_0x4d04b5, _0x1f4b01, !![]);
+            _0x394d93(_0x4d04b5, _0x53e398, _0x557953(0x426));
+        }
+    }
+};
+
+_0xd903d7['queue'] = function (_0x2b1d70,The remaining part of the function is:
+
+```
+},'removeProp':function(_0x22bac4){var _0x8c6db6=_0x2f0977
+return this[_0x8c6db6(0x408)](function(){var _0x3f3021=_0x8c6db6
+delete this[_0x3f3021(0x4e7)][_0x22bac4]
+})
+},'addClass':function(_0x15afe5){var _0x4a42fd=_0x2f0977
+if(_0xd903d7[_0x4a42fd(0x1ff)](_0x15afe5)){return this[_0x4a42fd(0x408)](function(_0x55c2e9){var _0x23d4f6=_0x4a42fd
+var _0x4b3052,_0xd45e9b,_0x18c68a,_0x4009e7
+if(_0x55c2e9[_0x23d4f6(0x3e3)]===0x1){_0x4b3052=_0xd903d7['className'](_0x55c2e9)||''
+if(_0x4b3052){_0xd45e9b=0x0
+while((_0x18c68a=_0x15afe5[_0xd45e9b++])){if(_0x4b3052[_0x23d4f6(0x369)](_0x23d4f6(0x41a)+_0x18c68a+_0x23d4f6(0x3ee))<0x0){_0x4b3052+=_0x23d4f6(0x3eb)+_0x18c68a}}}else{_0x4b3052=_0x15afe5}
+_0xd903d7[_0x23d4f6(0x536)](_0x55c2e9,_0x4b3052)
+}})
+}
+return this[_0x4a42fd(0x408)](function(){
+var _0x4ca56e=_0x4a42fd,_0x5c8639,_0x20c51f,_0x12e2da
+if(_0x4ca56e(0x36b)===_0x4ca56e(0x36b)&&this[_0x4ca56e(0x3e3)]===0x1){_0x5c8639=_0xd903d7[_0x4ca56e(0x464)](this)
+_0x20c51f=_0x5c8639[_0x4ca56e(0x3bc)](/\S+/g)||[]
+_0x12e2da=0x0
+while((_0x5c8639=_0x15afe5[_0x12e2da++])){if(_0x20c51f[_0x4ca56e(0x369)](_0x15afe5)<0x0){_0x20c51f[_0x4ca56e(0x3eb)](_0x15afe5)}}
+_0xd903d7[_0x4ca56e(0x536)](this,_0x20c51f[_0x4ca56e(0x3cd)](' '))
+}
+})
+},'removeClass':function(_0x6e3e52){var _0x45f9a1=_0x2f0977
+if(_0xd903d7[_0x45f9a1(0x1ff)](_0x6e3e52)){return this[_0x45f9a1(0x408)](function(_0x3e4f5f){var _0x1764be=_0x45f9a1
+var _0x3d2a9c,_0x20f60d,_0x1ed8ef,_0x186e6b
+if(_0x3e4f5f[_0x1764be(0x3e3)]===0x1){_0x3d2a9c=_0xd903d7[_0x1764be(0x464)](_0x3e4f5f)||''
+if(_0x3d2a9c){_0x20f60d=0x0
+while((_0x1ed8ef=_0x6e3e52[_0x20f60d++])){if((_0x186e6b=_0xd903d7['trim'](_0x3d2a9c))){while(_0x186e6b[_0x1764be(0x369)](_0x1764be(0x41a)+_0x1ed8ef+_0x1764be(0x3ee))>=0x0){_0x186e6b=_0x186e6b['replace'](_0x1764be(0x41a)+_0x1ed8ef+_0x1764be(0x3ee),_0x23f7ef)}}_0xd903d7[_0x1764be(0x536)](_0x3e4f5f,_0x186e6b||'')}}}else{_0xd903d7[_0x1764be(0x536)](_0x3e4f5f,_0x6e3e52)}}
+}
+return this['each'](function(){
+var _0x29ea6d=_0x45f9a1,_0x18c7f9,_0x14807f,_0x3c9942
+if(_0x29ea6d(0x36b)===_0x29ea6d(0x36b)&&this[_0x29ea6d(0x3e3)]===0x1){if(!_0x6e3e52){_0xd903d7[_0x29ea6d(0x325)](this,_0x29ea6d(0x375),_0x29ea6d(0x2e8),![]);
+return
+}_0x18c7f9=_0xd903d7[_0x29ea6d(0x464)](this)
+_0x14807f=_0x18c7f9[_0x29ea6d(0x3bc)](/\S+/g)||[]
+_0x3c9942=0x0
+while((_0x18c7f9=_0x6e3e52[_0x3c9942++])){if(_0x14807f[_0x29ea6d(0x369)](_0x29ea6d(0x41a)+_0x18c7f9+_0x29ea6d(0x3ee))>=0x0){_0x14807f[_0x29ea6d(0x3b0)](_0x18c7f9)}}_0xd903d7['attr'](this,_0x29ea6d(0x375),_0x14807f['join'](' '))
+}
+})
+},'toggleClass':function(_0x2fb123,_0x5924d2){var _0x128302=_0x2f0977
+var _0x2ab78b=typeof _0x2fb123,_0x1bc236=typeof _0x5924d2==='boolean'
+if(_0xd903d7[_0x128302(0x1ff)](_0x2fb123)){return this[_0x128302(0x408)](function(_0x52c250){var _0x2bdba2=_0x128302,_0x1a672c
+if(_0x2bdba2(0x41a)===_0x2bdba2(0x41a)&&_0x52c250[_0x2bdba2(0x3e3)]===0x1){if(_0x1bc236){_0xd903d7[_0x2bdba2(0x464)](_0x52c250,_0x2fb123,_0x5924d2)}else{_0x1a672c=_0xd903d7[_0x2bdba2(0x464)](_0x52c250,_0x2fb123)
+if(!_0x1a672c){_0xd903d7[_0x2bdba2(0x536)](_0x52c250,_0x2fb123+" "+_0x5924d2)}else{_0x1a672c!==![]&&_0xd903d7[_0x2bdba2(0x536)](_0x52c250,_0x2fb123)}}}},function(_0x5613a1,_0x1e4494,_0x534c79){var _0x22c0d7=_0x128302
+if(_0x22c0d7(0x265)===_0x22c0d7(0x413)){return _0xf87b0a
+}else{!this[_0x22c0d7(0x413)]&&_0x5613a1===!0x1&&_0x534c79[_0x1e4494]=_0xf87b0a};if(_0x22c0d7(0x4a0)===_0x22c0d7(0x4a0)){return!this['addClass'](_0xf87b0a)&&_0xf87b0
+9}else{_0x534c79[_0x5613a1]=_0xf87b0a}}):this})
+}
+return this['each'](function(){var _0x3e65e7=_0x128302,_0x5185bb,_0x2164dd,_0x10d467
+if(_0x3e65e7(0x36b)===_0x3e65e7(0x36b)&&this['nodeType']===0x1){_0x5185bb=_0xd903d7[_0x3e65e7(0x464)](this)
+if(_0x1bc236){_0xd903d7[_0x3e65e7(0x464)](this,_0x2fb123,_0x5924d2)}else{_0x2164dd=_0x5185bb[_0x3e65e7(0x3bc)](/\S+/g)||[]
+_The remaining part of the function is:
+
+```
+_0x36a4be++){_0x251d40=this[_0x36a4be]
+if(_0x251d40[_0x15b5c5(0x306)]===0x1){if(!_0x98ba8c){_0x251d40[_0x15b5c5(0x34d)]=_0x2b1c5f} else {_0x29c601='\x20'+_0x251d40[_0x15b5c5(0x34d)]+'\x20'
+for(_0x63d66=0x0,_0x583b06=_0x1c7557[_0x15b5c5(0x417)]
+_0x63d66<_0x583b06
+_0x63d66++){_0x29c601=_0x29c601[_0x15b5c5(0x325)]('\x20'+_0x1c7557[_0x63d66]+'\x20','\x20')
+}_0x251d40[_0x15b5c5(0x34d)]=_0xd903d7[_0x15b5c5(0x1ee)](_0x29c601)
+}}}}return this
+},'toggleClass':function(_0x452664,_0x1ef7ba){var _0x32ebe1=_0x2f0977,_0x5b9f0e=typeof _0x452664,_0x5e36d7=typeof _0x1ef7ba==='boolean'
+if(_0xd903d7[_0x32ebe1(0x35d)](_0x452664)){return this[_0x32ebe1(0x408)](function(_0x1eb76c){var _0x1d1cb8=_0x32ebe1
+_0xd903d7(this)[_0x1d1cb8(0x263)+'s'](_0x452664[_0x1d1cb8(0x2d8)](this,_0x1eb76c,this[_0x1d1cb8(0x34d)]),_0x1ef7ba)
+})}return this[_0x32ebe1(0x408)](function(){var _0x5b45ff=_0x32ebe1,_0x726951,_0x129998,_0x458765,_0x2871b3,_0x23fbd8,_0x4fbcb6,_0x44d4d8
+if(_0x5b45ff(0x36b)===_0x5b45ff(0x36b)&&this[_0x5b45ff(0x3e3)]===0x1){if(!_0x452664){return _0xdThe remaining part of the function is:
+
+```
+if(typeof _0x667837!==_0x52b35b(0x444)){return this['each'](function(){var _0xcce508=_0x52b35b
+_0xd903d7(this)['val'](_0x667837['call'](this,_0xd903d7(this)[_0xcce508(0x1be)],_0xd903d7(this)['val']()))
+})}
+for(var _0x1ba5ca=0x0;_0x1ba5ca<this['length'];_0x1ba5ca++){_0x582dc8=_0xd903d7[_0x52b35b(0x495)][this[_0x1ba5ca][_0x52b35b(0x30c)][_0x52b35b(0x258)+'e']()]||_0xd903d7['expr']['attrHandle'][this[_0x1ba5ca][_0x52b35b(0x1be)]]
+if(_0x582dc8&&_0x52b35b(0x2fa)in _0x582dc8){_0x582dc8[_0x52b35b(0x2fa)](this[_0x1ba5ca],_0x667837,_0x52b35b(0x1ff))}else this[_0x1ba5ca]['value']=_0x667837
+}return this
+},'offset':function(_0x4407c5){var _0x210aef=_0x52b35b,_0x2d6745,_0x155aeb,_0x4c09be,_0x1497b9,_0x10ee59,_0x10d596,_0x2fe6b5,_0x7c2afa,_0x8ef35c=_0xd903d7(this)[_0x210aef(0x1d9)]()
+if(_0x4407c5)return _0xd903d7[_0x210aef(0x301)](_0x4407c5)?this['each'](function(_0x4bb55a){_0xd903d7(this)['offset'](_0x4407c5[_0x4bb55a])
+}):(function(_0x1a1020,_0x4cf14e){if(_0x210aef(0x360)===typeof _0x4407c5)[_0x1a1020]=_0xd903d7(_0x1a1020)['offset'](),_0xd903d7[_0x210aef(0x445)](_0x4407c5)['each'](function(_0xdccb7b,_0x23dc9d){_0x4cf14e=(_0xd903d7(_0x23dc9d)['offset']()||{_0x68a030:0x0,_0x11a2d3:0x0})['top']-_0x4cf14e['top'],_0xd903d7(_0x23dc9d)['offset']({top:_0xdccb7b,top:+_0x4cf14e})
+});return _0x1a1020
+}(this['length']>0x0?this[0x0]:{},_0x4407c5)),_0x8ef35c
+}return _0xd903d7[_0x210aef(0x31c)](this,_0x8c1789(0x25d),function(){var _0xc2e7d=_0x518e13
+if(_0xc2e7d(0x421)!==typeof _0x667837){var _0x3e4d8e=_0xd903d7(this),_0x54b85c=_0x3e4d8e[_0xc2e7d(0x2e0)]()
+if(_0x54b85c){_0x3e4d8e[_0xc2e7d(0x50a)](_0x667837[_0xc2e7d(0x2d8)](this,_0x54b85c,_0x3e4d8e[_0xc2e7d(0x34d)]))
+}else{return _0x3e4d8e['val']()}}return this
+}),
+'scrollTop':function(_0x349300){var _0x23f19a=_0x518e13
+if(!_0xd903d7(this)['length'])return null
+var _0x1cdf7b=_0xc43e64[_0x23f19a(0x49d)],_0x44d295=_0x23f19a(0x49e)in _0x1cdf7b
+if(_0x349300===_0x2b1c5f){return _0x44d295?_0x1cdf7b['scrollTop']():this[0x0][_0x23f19a(0x24d)]}if(_0x44d295){return this[_0x23f19a(0x408)](function(){_0x1cdf7b[_0x23f19a(0x49e)](_0xd903d7(this),_0x349300)})
+}return this[_0x23f19a(0x408)](function(){this[_0x23f19a(0x24d)]=_0x349300})
+},'scrollLeft':function(_0x36e4ad){var _0x2f5a07=_0x518e13
+if(!_0x42cca7(this)[_0x2f5a07(0x417)])return null
+var _0x2d169c=this[0x0][_0x2f5a07(0x35a)](),_0x581e8a=_0x518e13(0x49e)in _0x2d169c
+if(_0x36e4ad===_0x2b1c5f){return _0x581e8a?_0x2d169c['scrollLef'+'t']():this[0x0]['scrollLef'+'t']}if(_0x581e8a){return this['each'](function(){_0x2d169c[_0x2f5a07(0x49e)](_0xd903d7(this),_0x36e4ad)})
+}return this[_0x2f5a07(0x408)](function(){this[_0x2f5a07(0x35a)]=_0x36e4ad})
+},'position':function(){if(!_0x42cca7(this)[_0x2f0977(0x417)])return null
+var _0x3e0d4d=this[0x0],_0x164121=this[_0x2f0977(0x482)](),_0x2d1b34=_0x265aeb(_0x3e0d4d),_0x40206f=_0xd903d7[_0x2f0977(0x1e4)](_0x3e0d4d),_0x4979a9=_0x40206f[_0x2f0977(0x2d5)]
+return{top:_0x164121[_0x2f0977(0x232)]-_0x2d1b34[_0x2f0977(0x334)]-_0x4979a9[_0x2f0977(0x405)],left:_0x164121['left']-_0x2d1b34[_0x2f0977(0x346)]-_0x4979a9[_0x2f0977(0x233)]}},'offsetParent':function(){return this[_0x518e13(0x408)](function(){var _0x567710=_0x2f0977,_0x336b4c=_0x42cca7(this)['offsetParent']
+while(_0x336b4c&&_0x336b4c[_0x567710(0x35a)]()===_0x2e5fa2) _0x336b4c=_0x336b4c[_0x567710(0x35a)]()
+return _0xd903d7(this)['parent']()})
+}}}(_0x22d6ab));
+```The remaining part of the function is:
+
+```
+if(_0x2fceb0(this))return _0xd903d7(this)['val'](_0x231b7f(_0x4dce68,_0x369b48,_0xd903d7(this)['val']()))
+if(!_0x369b48[_0x4450ca(0x35b)])return this[_0x4450ca(0x408)](function(){var _0x4e3c7a=_0x4450ca
+var _0x49fe4b=_0xd903d7(this),_0x232388=_0x243d08(_0x4e3c7a,_0x49fe4b),_0x50d8dc=_0xd903d7[_0x4e3c7a(0x258)][this[_0x4e3c7a(0x1be)]]
+if(_0x232388!=null&&_0x50d8dc&&'set'in _0x50d8dc&&_0x50d8dc[_0x4e3c7a(0x33c)](_0x49fe4b,_0x369b48[_0x232388],_0x4e3c7a(0x1ff))!==undefined)_0x50d8dc['set'](_0x49fe4b,_0x369b48[_0x232388],_0x4e3c7a(0x1ff));else _0x49fe4b[_0x4e3c7a(0x1ff)]=_0x369b48[_0x232388]==null?'':_0x369b48[_0x232388]
+})
+}
+},'_valHooks':{'select':{get:function(_0x1fd6df){var _0x399347=_0x4450ca,_0x464463=_0x1fd6df[_0x399347(0x3e4)][_0x399347(0x25a)](),_0x492ba1={}
+_0xd903d7[_0x399347(0x31c)](_0x1fd6df[_0x399347(0x3e4)])[_0x399347(0x484)](function(_0x418559){var _0x43e9f4=_0x399347,_0x1d3b2d=_0xd903d7(this)[_0x43e9f4(0x461)][_0x43e9f4(0x1ff)]
+if(!_0x464463&&_0x1d3b2d===null||_0x1d3b2d==_0x464463)return void(_0x492ba1[_0x418559]=!![])})
+for(var _0x55230f in _0x492ba1)delete _0x1fd6df[_0x399347(0x3e4)]['options'][_0x55230f]
+return _0x1fd6df[_0x399347(0x473)]?_0xd903d7[_0x399347(0x31c)](_0x1fd6df[_0x399347(0x3e4)])['val']():_0x464463},set:function(_0x387b78,_0x23a6c6){var _0x5e4656=_0x4450ca
+if(!_0xd903d7[_0x5e4656(0x28d)])return
+var _0x1b07cb=_0xd903d7[_0x5e4656(0x35d)](_0x387b78),_0x1e4ee2=_0x23aThe remaining part of the function is:
+
+```javascript
+if (_0x5b0d19 && _0xd903d7[_0x13623e(0x30c)](_0x3f4a19, _0x13623e(0x3ed))) {
+    return _0x5b0d19[_0x13623e(0x2fa)](_0x3f4a19, _0x1a8caf, _0x3d4d79);
+}
+return _0x1a8caf in _0x3f4a19 ? _0x3f4a19[_0x13623e(0x1ff)] : null;
+}, 'set': function (_0x1f34e7, _0x4a5bc8, _0x583e63) {
+    var _0x1d1f7b = _0x2f0977;
+    if (_0x5b0d19 && _0xd903d7[_0x1d1f7b(0x30c)](_0x1f34e7, _0x1d1f7b(0x3ed))) {
+        return _0x5b0d19[_0x1d1f7b(0x44e)](_0x1f34e7, _0x4a5bc8, _0x583e63);
+    } else {
+        _0x1f34e7[_0x1d1f7b(0x1ff)] = _0x583e63;
+    }
+}
+}
+}, 'propFix': { 'tabIndex': 'tabindex', 'readonly': 'readOnly', 'for': 'htmlFor', 'class': 'className', 'maxlength': 'maxLength', 'cellspacing': 'cellSpacing', 'cellpadding': 'cellPadding', 'rowspan': 'rowSpan', 'colspan': 'colSpan', 'usemap': 'useMap', 'frameborder': 'frameBorder', 'contenteditable': 'contentEditable' }, 'prop': function (_0xb37c3b, _0x9ac5ea, _0x570429) {
+    var _0x44a606 = _0x2f0977;
+    var _0x51c611, _0x4ea6c5, _0x2973b8 = _0xb37c3b[_0x44a606(0x306)];
+    if (!_0xb37c3b || _0x2973b8 === 0x3 || _0x2973b8 === 0x8 || _0x2973b8 === 0x2) {
+        return;
+    }
+    _0x44a606 = _0x44a606(0x2a4);
+    if (_0x44a606(0x36f)(_0x9ac5ea)) {
+        return _0xb37c3b[_0x44a606(0x2c9)][_0x44a606(0x2fa)](_0xb37c3b, _0x9ac5ea, _0x570429);
+    }
+    if (_0x9ac5ea in _0xb37c3b) {
+        return _0xb37c3b[_0x44a606(0x2c9)][_0x44a606(0x2fa)](_0xb37c3b, _0x9ac5ea, _0x570429);
+    }
+    _0x4ea6c5 = _0x5b0d19 && _0xb37c3b[_0x44a606(0x3c2)] && _0x5b0d19[_0x44a606(0x44e)](_0xb37c3b, _0x9ac5ea);
+    if (_0x570429 !== undefined) {
+        if (_0x4ea6c5 && _0x44a606(0x3a1) in _0x4ea6c5 && (_0x51c611 = _0x4ea6c5[_0x44a606(0x3a1)](_0xb37c3b, _0x570429)) !== undefined) {
+            return _0x51c611;
+        }
+        return _0xb37c3b[_0x9ac5ea] = _0x570429;
+    } else {
+        if (_0x4ea6c5 && _0x44a606(0x2ec) in _0x4ea6c5 && (_0x51c611 = _0x4ea6c5[_0x44a606(0x2ec)](_0xb37c3b)) !== null) {
+            return _0x51c611;
+        }
+        return _0xb37c3b[_0x9ac5ea];
+    }
+}
+```The remaining part of the code initializes some attribute hooks for certain attributes such as 'tabindex', 'readonly', 'for', 'class', 'maxlength', 'cellspacing', 'cellpadding', 'rowspan', 'colspan', 'usemap', 'frameborder', 'contenteditable'. It also defines some property hooks for certain properties such as 'tabIndex'. 
+
+Additionally, there is a check to handle boolean attributes where if the value is boolean true or false, it will set the attribute accordingly.
+
+There is also a check for the 'button' element where special handling is done for the 'name' and 'id' attributes.
+
+Lastly, there are some attribute hooks defined for certain attributes such as 'href', 'src', 'height', and 'width'.
+
+Overall, this code adds functionality to handle attributes and properties more efficiently and consistently.This remaining part of the code defines two regular expressions - `_0x3e2b94` and `_0x48c3f5`. 
+
+The `_0x3e2b94` regular expression is used to check if an element is a textarea, input, or select element.
+
+The `_0x48c3f5` regular expression is used to split a string into two parts - the first part before the dot and the second part after the dot. This is used to extract the event type from the string.
+
+Then, the code defines four more regular expressions - `_0x5f39c7`, `_0x451fde`, `_0x51a1bf`, `_0x22e47e`. These are used to check if the event type matches certain patterns. For example, `_0x5f39c7` is used to check if the event type contains the word "hover".
+
+Finally, there is a function `_0x42e4ba` that takes a string as input and returns an array with three elements - the tag name, the ID, and the class name of the element. This is used to parse selector strings in event delegation.
+
+Overall, this remaining part of the code handles event types, regular expressions, and selector parsing.The `remove` method is used to remove event handlers from elements. It takes several parameters - the element (`_0x326b80`), the event type (`_0x2d8e99`), the event handler (`_0x3895a0`), the selector (`_0x33fb26`), and a flag to indicate whether the event handlers were added using event delegation (`_0x38b3bd`).
+
+First, the code checks if the element is a valid element (`_0x4e8143`) and if it has any event handlers attached to it (`_0x5a1393`). If not, it returns.
+
+Then, it splits the event type string into an array of event types.
+
+The code then loops over each event type in the array and performs the following steps:
+
+- If the selector is provided, it removes the event handler from the delegate object (`_0x4fe9fd`).
+- If the selector is not provided, it removes the event handler from the element itself.
+- If the event handler has a `remove` method, it is called with the event object as an argument. This allows the event handler to perform any necessary cleanup tasks.
+- The event handler is removed from the event object's array of event handlers (`_0x507b3b`).
+- The event type is marked as removed (`_0xd903d7[_0x37a24f(0x2a6)][_0x37a24f(0x1c7)][_0x519a38] = !![]`).
+
+Finally, the element variable is set to null to free up memory.The remaining part of the code handles the triggering of custom events (`trigger` method).
+
+First, the code checks if the provided event object is of type `Event` or a string. If it is a string, it checks if it ends with an exclamation mark (`!`) and sets a flag accordingly.
+
+If the event name contains a dot (indicating a namespace), it splits the event name into an array of namespaces. It then removes the namespaces from the event name and joins them together using a dot to form the namespace string.
+
+Next, the code creates a new `Event` object and sets its properties based on the provided arguments. It also sets a regular expression for the namespace in the event object.
+
+If the `trigger` method is called without an event object, it retrieves all event handlers for the provided event name and triggers each of them.
+
+If an event object is provided, it is added to the beginning of the arguments array (`_0xf5b5ee`) and the `result` property of the event object is set to a function (`_0x2b1c5f`) that can be used to get or set the result of the event.
+
+Next, the method checks the special event handlers for the event type and triggers each of them.
+
+Finally, the method returns the event object (`_0x4ab55c`).The remaining part of the code handles event dispatching (`dispatch` method).
+
+First, it retrieves the event handlers for the provided event type from the element's data or an empty array if no handlers are found. The arguments array is then converted into a new array (`_0x48ace9`).
+
+If the event has bubbling set (`_0x47dd60` is `true`), the code creates a jQuery object for the current element (`_0x146942`), sets its context to the element, and starts a loop that traverses up the DOM tree using the `parentNode` property of each element until reaching the root or the current element.
+
+Inside the loop, the code creates an empty object (`_0x4dad0c`) to store the unique selectors and an empty array (`_0x18074e`) to store the event handlers. It then sets the first element of the jQuery object to the current element (`_0x146942[0] = _0x33486f`).
+
+Next, the code loops through all event handlers for the event type and checks if the selector matches the current element using the `is` method of the jQuery object. If a match is found, the event handler is added to the `_0x18074e` array.
+
+If any event handlers are found (`_0x18074e.length > 0`), an object containing the current element and the matching event handlers is added to the `_0x1ea1e8` array.
+
+After the loop, if the `_0x1ea1e8` array is not empty, it means that there are event handlers for bubbling. The object containing the current element and the matching event handlers is added to the `_0x1ea1e8` array.
+
+Next, a loop is initiated to trigger each event handler by calling the `apply` method of the event handler function with the current element as the context and the arguments array. If the event handler returns `false`, the `preventDefault` method of the event object is called.
+
+Finally, the method sets the event type back to its original value in the event object and checks if the event should continue propagating and triggers the default event handlers.
+
+The method then returns the event object (`_0x1c52ed`).The remaining part of the code includes the `simulate` method and the extension of the event module with the `dispatch` method.
+
+The `simulate` method is used to trigger a simulated event. It creates a new `Event` object with the provided event type and sets the `isSimulated` property to `true`. It also sets the `originalEvent` property to an empty object. 
+
+If the `send` argument is `true`, the code calls the `trigger` method from the event module with the newly created event object and the provided element. Otherwise, it calls the `dispatch` method from the event module with the provided element and the event object.
+
+The `dispatch` method is an extension of the event module. It dispatches the specified event on the provided element. 
+
+First, it retrieves the event handlers for the event type using the `findHandlers` method of the event module. It then loops through the event handlers and triggers each handler by calling the `apply` method of the event handler function with the current element as the context and the event object as the argument.
+
+Finally, the method returns the event object.To complete the remaining part of the code, we have the following:
+
+```javascript
+_d903d7[_2f0977(0x408)]({'mouseenter':'mouseover','mouseleave':_2f0977(0x471)},function(_0x3807ca,_0x5b0c0f){
+  var _0x46bbb7=_2f0977
+  _d903d7[_46bbb7(0x2a6)]['special'][_0x3807ca]={'delegateType':_0x5b0c0f,'bindType':_0x5b0c0f,'handle':function(_0x5899d3){
+    var _0x441117=_0x46bbb7,_0x4043fc=this,_0x498bb3=_0x5899d3[_0x441117(0x420)+_0x441117(0x2fa)],_0x54348e=_0x5899d3[_0x441117(0x305)],_0x4889f7=_0x54348e[_0x441117(0x15a)],_0x51dc26
+    return(!_0x498bb3||_0x498bb3!==_0x4043fc&&!_0xd903d7[_0x441117(0x25e)](_0x4043fc,_0x498bb3))&&(_0x5899d3[_0x441117(0x1be)]=_0x54348e[_0x441117(0x472)],_0x51dc26=_0x54348e[_0x441117(0x317)][_0x441117(0x4b3)](this,arguments),_0x5899d3[_0x441117(0x1be)]=_0x5b0c0f),_0x51dc26
+  }}
+```
+
+This code extends the event module by adding special event types for `mouseenter` and `mouseleave`. 
+
+For `mouseenter`, it maps the event type to `mouseover`. The event handler's `handle` function is created, which checks if the target element matches the element specified in the event handlers. If they don't match, the event type is changed to `mouseover` before calling the event handler function. 
+
+For `mouseleave`, it also maps the event type to `mouseover`. The event handler's `handle` function is created, which performs the same check as for `mouseenter` but for the `mouseleave` event. 
+
+This allows the `mouseenter` and `mouseleave` events to be triggered correctly when they are bound to elements using the `mouseover` event.After adding the remaining part of the code, we have:
+
+```javascript
+})
+!_0xd903d7[_0x2f0977(0x28d)][_0x2f0977(0x2f0)+_0x2f0977(0x19e)]&&(_0xd903d7['event'][_0x2f0977(0x202)][_0x2f0977(0x1c6)]={'setup':function(){var _0xc7c14b=_0x2f0977
+if(_0xd903d7[_0xc7c14b(0x30c)](this,_0xc7c14b(0x157)))return![]
+_0xd903d7[_0xc7c14b(0x2a6)][_0xc7c14b(0x204)](this,_0xc7c14b(0x42f)+_0xc7c14b(0x1fe)+_0xc7c14b(0x36a),function(_0x6c1393){var _0x25a04c=_0xc7c14b,_0xc5d17=_0x6c1393[_0x25a04c(0x209)],_0x1b541b=_0xd903d7[_0x25a04c(0x315)](_0xc5d17,'input')||_0xd903d7[_0x25a04c(0x30c)](_0xc5d17,_0x25a04c(0x3ed))?_0xc5d17[_0x25a04c(0x157)]:_0x2b1c5f
+_0x1b541b&&!_0x1b541b[_0x25a04c(0x2b9)+_0x25a04c(0x2bd)]&&(_0xd903d7[_0x25a04c(0x2a6)][_0x25a04c(0x20b)](_0x1b541b,_0x25a04c(0x27a)+'bmit',function(_0x5456fd){var _0x1c5a9b=_0x25a04c
+this[_0x1c5a9b(0x275)]&&!_0x5456fd[_0x1c5a9b(0x235)]&&_0xd903d7['event'][_0x1c5a9b(0x2c3)](_0x1c5a9b(0x1c6),this[_0x1c5a9b(0x275)],_0x5456fd,!![])
+}),_0x1b541b[_0x25a04c(0x2b9)+_0x25a04c(0x2bd)]=!![])
+})
+},'teardown':function(){var _0xbc53e0=_0x2f0977
+if(_0xd903d7['nodeName'](this,_0xbc53e0(0x157)))return![]
+_0xd903d7[_0xbc53e0(0x2a6)][_0xbc53e0(0x296)](this,'._submit')
+}})
+!_0xd903d7[_0x2f0977(0x28d)][_0x2f0977(0x2f0)+_0x2f0977(0x19e)]&&(_0xd903d7[_0x2f0977(0x2a6)][_0x2f0977(0x202)][_0x2f0977(0x314)]={'setup':function(){var _0x7dc0b=_0x2f0977
+if(_0x3e2b94[_0x7dc0b(0x1e4)](this[_0x7dc0b(0x30c)]))return(this[_0x7dc0b(0x1be)]===_0x7dc0b(0x1d2)||this['_nodeName']===_0x7dc0b(0x4b9))&&(_0xd903d7[_0x7dc0b(0x2a6)][_0x7dc0b(0x20b)](this,_0x7dc0b(0x30d)+_0x7dc0b(0x3e4)+'ge',function(_0x3bd11f){var _0x2d8c36=_0x7dc0b
+_0x3bd11f[_0x2d8c36(0x3ac)+'ent'][_0x2d8c36(0x405)+'me']==='checked'&&(this[_0x2d8c36(0x27e)+'ged']=!![])
+}),_0xd903d7[_0x7dc0b(0x2a6)][_0x7dc0b(0x204)](this,'click._cha'+_0x7dc0b(0x4c7),function(_0x1fb805){var _0x17c6aa=_0x7dc0b
+this[_0x17c6aa(0x27e)+_0x17c6aa(0x40f)]&&!_0x1fb805[_0x17c6aa(0x235)]&&(this['_just_chan'+_0x17c6aa(0x40f)]=![],_0xd903d7[_0x17c6aa(0x2a6)][_0x17c6aa(0x2c3)](_0x17c6aa(0x314),this,_0x1fb805,!![]))
+})),![]
+_0xd903d7[_0x7dc0b(0x2a6)][_0x7dc0b(0x20b)](this,_0x7dc0b(0x1eb)+'vate._chan'+'ge',function(_0x33eb2d){var _0x393d4e=_0x7dc0b,_0x1c488a=_0x33eb2d[_0x393d4e(0x209)]
+_0x3e2b94[_0x393d4e(0x1e4)](_0x1c488a[_0x393d4e(0x30c)])&&!_0x1c488a[_0x393d4e(0x3fd)+_0x393d4e(0x2bd)]&&(_0xd903d7[_0x393d4e(0x2a6)][_0x393d4e(0x204)](_0x1c488a,_0x393d4e(0x496)+_0x393d4e(0x4a6),function(_0x351176){var _0x24a4b2=_0x393d4e
+this[_0x24a4b2(0x275)]&&!_0x351176[_0x24a4b2(0x2a4)+'d']&&!_0x351176[_0x24a4b2(0x235)]&&_0xd903d7['event']['simulate'](_0x24a4b2(0x314),this[_0x24a4b2(0x275)],_0x351176,!![])
+}),_0x1c488a[_0x393d4e(0xThe remaining part of the code sets up event handlers for the `focus` and `blur` events using the `on` method of `jQuery.fn`. It also handles different argument combinations for the `on` method.
+
+Here is the remaining part of the code:
+
+```javascript
+_0xd903d7['fn'][_0x2f0977(0x3ef)]({'on':function(_0x532408,_0x1326fe,_0x3b190b,_0x27e900,_0x229b99){var _0x291c2e=_0x2f0977,_0x2196e3,_0xf2d2b0
+if(typeof _0x532408===_0x291c2e(0x3a6)){typeof _0x1326fe!==_0x291c2e(0x45b)&&(_0x3b190b=_0x1326fe,_0x1326fe=_0x2b1c5f)
+for(_0xf2d2b0 in _0x532408){this['on'](_0xf2d2b0,_0x1326fe,_0x3b190b,_0x532408[_0xf2d2b0],_0x229b99)
+}return this
+}if(_0x3b190b==null&&_0x27e900==null)_0x27e900=_0x1326fe,_0x3b190b=_0x1326fe=_0x2b1c5f
+else _0x27e900==null&&(typeof _0x1326fe==='string'?(_0x27e900=_0x3b190b,_0x3b190b=_0x2b1c5f):(_0x27e900=_0x3b190b,_0x3b190b=_0x1326fe,_0x1326fe=_0x2b1c5f))
+if(_0x27e900===![])_0x27e900=_0x1e1237
+else{if(!_0x27e900)return this
+}return _0x229b99===0x1&&(_0x2196e3=_0x27e900,_0x27e900=function(_0x261896){var _0x23493f=_0x291c2e
+return _0xd903d7()[_0x23493f(0x2b8)](_0x261896),_0x2196e3['apply'](this,arguments)
+},_0x27e900[_0x291c2e(0x254)]=_0x2196e3[_0x291c2e(0x254)]||(_0x2196e3['guid']=_0xd903d7['guid']++)),this[_0x291c2e(0x408)](function(){var _0x4e031f=_0x291c2e
+_0xd903d7[_0x4e031f(0x2a6)][_0x4e031f(0x20b)](this,_0x532408,_0x27e900,_0x3b190b,_0x1326fe)
+})The remaining part of the code includes event handling functions such as `one`, `off`, `bind`, `unbind`, `live`, `die`, `delegate`, `undelegate`, `trigger`, and `triggerHandler`.
+
+Here is the complete remaining part of the code:
+
+```javascript
+_0xd903d7['fn']['on']({'one':function(_0x5a3a3a,_0x23fe80,_0x5925a,_0x1e1b5a){var _0x424b51=_0x2f0977
+return this['on']['apply'](this,arguments)
+},'off':function(_0xd522ae,_0x5993b8,_0x4370dc){var _0x577325=_0x2f0977
+if(_0xd522ae&&_0xd522ae['preventDefa'+'ult']&&_0xd522ae[_0x577325(0x305)]){var _0x490b13=_0xd522ae[_0x577325(0x3f9)+'Obj']
+return _0xd903d7(_0xd522ae[_0x577325(0x236)+'er'])['off'](_0x490b13[_0x577325(0x33c)]?_0x490b13[_0x577325(0x1be)]+'.'+_0x490b13[_0x577325(0x33c)]:_0x490b13[_0x577325(0x1be)],_0x490b13[_0x577325(0x15a)],_0x490b13[_0x577325(0x317)]),this
+}if(typeof _0xd522ae===_0x577325(0x32e)){for(var _0xca1d8a in _0xd522ae){this['off'](_0xca1d8a,_0x5993b8,_0xd522ae[_0xca1d8a])
+}return this
+}return(_0x5993b8===![]||typeof _0x5993b8===_0x577325(0x38b))&&(_0x4370dc=_0x5993b8,_0x5993b8=_0x2b1c5f),_0x4370dc===![]&&(_0x4370dc=_0x1e1237),this[_0x577325(0x408)](function(){var _0x17bef6=_0x577325
+_0xd903d7[_0x17bef6(0x2a6)]['apply'](this,_0xd522ae,_0x4370dc,_0x5993b8)
+})
+},'bind':function(_0x459dc8,_0xe1190a,_0x1fd85c){return this['on'](_0x459dc8,null,_0xe1190a,_0x1fd85c)
+},'unbind':function(_0x4fab63,_0x28c47f){var _0x43c061=_0x2f0977
+return this[_0x43c061(0x2b8)](_0x4fab63,null,_0x28c47f)
+},'live':function(_0x48e24d,_0x42bab3,_0x317491){var _0x37e0b6=_0x2f0977
+return _0xd903d7(this[_0x37e0b6(0x382)])['on'](_0x48e24d,this[_0x37e0b6(0x2f4)],_0x42bab3,_0x317491),this
+},'die':function(_0x461d96,_0x3c3586){var _0x4e9dba=_0x2f0977
+return _0xd903d7(this[_0x4e9dba(0x382)])[_0x4e9dba(0x2b8)](_0x461d96,this[_0x4e9dba(0x2f4)]||'**',_0x3c3586),this
+},'delegate':function(_0x431856,_0x4b4aad,_0x5418f1,_0x3da12d){return this['on'](_0x4b4aad,_0x431856,_0x5418f1,_0x3da12d)
+},'undelegate':function(_0x57ab78,_0x2d2193,_0xe1b555){var _0x106dda=_0x2f0977
+return arguments[_0x106dda(0x1fe)]==0x1?this[_0x106dda(0x2b8)](_0x57ab78,'**'):_0x57ab78['namespace']!==undefined?this['off'](_0x57ab78[_0x106dda(0x22c)]+_0x106dda(0x1be)+_0x57ab78[_0x106dda(0x33c)],_0x2d2193,_0xe1b555):this['off'](_0x2d2193,_0x57ab78,_0xe1b555)
+},'trigger':function(_0x25ea27,_0xc32a6b){var _0x547cf6=_0x2f0977
+return this[_0x547cf6(0x408)](function(){var _0x11a0d3=_0x547cf6
+_0xd903d7[_0x11a0d3(0x2a6)][_0x11a0d3(0x158)](_0x25ea27,_0xc32a6b,this)
+})
+},'triggerHandler':function(_0x1db409,_0x19f3b9){var _0x5a0397=_0x2f0977
+return this[_0x5a0397(0x408)](function(){var _0x19f0eb=_0x5a0397
+_0xd903d7[_0x19f0eb(0x2a6)][_0x19f0eb(0x2e6)](_0x1db409,_0x19f3b9,this)
+})
+}})
+```_0x38d7a8=_0x2e2d82[0x3]
+if(_0x2e2d82[0x2]){_0x555692=_0x2e2d82[0x3]
+break}
+}while(_0x2e2d82)
+if(_0x12cc66[_0xb78b1f(0x417)]===0x2&&_0x34334b[_0xb78b1f(0x31d)](_0x12cc66[0x0])&&_0x12cc66[0x1][_0xb78b1f(0x2dd)](_0xb78b1f(0x319))===0x1)return[]
+if(!_0x2de73b._load||_0x34334b[_0xb78b1f(0x31d)](_0x3c6e35)){_0x2de73b._load=![]
+_0x12cc66[_0xb78b1f(0x1ec)](function(_0x3cfea2,_0x271808){var _0x2e93bc=_0xb78b1f
+_0x555692=_0x271808+_0x12cc66[_0x2e93bc(0x1a4)]('',_0x3cfea2[_0x2e93bc(0x1e9)](_0x13bf3d,'\\$&'))+_0x555692
+}),_0x3c6e35=_0xb78b1f(0x1a4)(' ',_0x555692)+' '
+_0x2de73b[_0xb78b1f(0x349)]=_0x555692[_0xb78b1f(0x2dd)](/^\s*|\s*$/g,'')[_0xb78b1f(0x3dd)](/^\s*/,_0x5a10f2)[_0xb78b1f(0x31d)](_0xbb8fa5,_0xb78b1f(0x45c))
+}try{_0x12cc66[_0xb78b1f(0x1bd)](_0x4c1be8,_0x38d7a8,_0x262ad1,_0x2fdeb7,_0x2de73b)
+}catch(_0x27b6a5){}}
+if(_0x262ad1[_0xb78b1f(0x417)]===0x0&&_0x41ada9){if(_0x111ee5==_0x5a10f2||(_0x2fdeb7==null||_0x2fdeb7)){_0x262ad1[_0xb78b1f(0x1ec)](_0x5a10f2)
+}else{_0x262ad1[_0xb78b1f(0x1f6)](_0x5a10f2,function(_0x234f5c){return _0x234f5c===_0x2fdeb7
+})}if(_0xb78b1f(0x426)===!0||!_0x34334b['test'](_0x3c6e35)){_0x262ad1=_0x111ee5(_0x262ad1)
+}return _0x262ad1
+}_0x3d44a4=_0x2fdeb7||_0x3d44This function is used to parse a selector and return the matching elements. It first checks if the selector is a function and if so, executes it. Then, it checks if the selector is a string and if so, tries to match it against various patterns. If the selector is not a string or function, it returns the selector itself.
+
+The function uses regular expressions to match different patterns in the selector. It also uses a recursive approach to handle complex selector expressions.
+
+Overall, this function is responsible for parsing and matching selectors to elements in a document. It is a core part of the jQuery library.The remaining part of the function is as follows:
+
+(_0x41d99d=_0x39b25d[_0x3ded0b])!=null ...
+(_0x41d99d=_0x39b25d[_0x3ded0b])!=null;++_0x3ded0b){if(_0x41d99d){_0x25f9eb=_0x21c3c9,_0x21c3c9=_0x3ded0b&&_0x3e4c13[_0x12b576(0x42c)](_0x21c3c9),_0x4ab056=_0x41d99d,_0x4ab056[_0x12b576(0x464)]=_0x3ded0b,_0x4ab056[_0x12b576(0x500)]=_0x39b25d[_0x12b576(0x500)]
+if(_0x25f9eb){for(_0x4e3472=0x0
+(_0x41d99d=_0x25f9eb[_0x4e3472])!=null;++_0x4e3472)if(_0x41d99d){_0x8e695=_0x3d6f69(_0x4ab056,_0x41d99d,_0x17a137,_0x92e056,_0x247f34)
+if(_0x8e695===!![])break
+}}if(_0x4743d4!==!![])if(_0x8e695)_0x4743d4=![]
+else _0x39b25d[_0x3ded0b]=![]
+}}if(_0x4743d4)return _0x39b25d
+if(_0x39b25d=_0xecb348(_0x39b25d===_0xed7acd?_0x39b25d[_0x12b576(0x2d0)](0x0):_0x39b25d),_0xecb348[_0x12b576(0x322)](_0x39b25d,_0x4fc5df,_0x17a137,_0x92e056)&&_0x92e056[_0x12b576(0x417)]>0x0){_0x8e695=_0xc859fd(_0x92e056),_0xc859fd(_0x39b25d,_0x17a137,_0x92e056,_0x39b25d)
+for(_0x3ded0b=0x0
+(_0x41d99d=_0x92e056[_0x3ded0b])!=null;++_0x3ded0b)if(_0x41d99d){_0x8e695=_0x3d6f69(_0x39b25d,_0x41d99d,_0x17a137,_0x92e056,_0x247f34)
+if(_0x8e695===!![])break
+}}return _0x39b25d
+},_0x8603c2[_0x87bd38(0x2c4)]=function(_0x214438,_0xeb6c82,_0x2c892f,_0x369b3d,_0x6af5b9){var _0x5db519,_0x4b512d,_0x8f848b,_0x45e0f2,_0x4f7b43,_0x5f8d3d,_0x3ed74b,_0xb55a1e,_0x158306,_0x6e9370,_0x3bdee2,_0xb6e12d,_0x50f622=_0xeb6c82&&_0xeb6c82[0x0]?_0xeb6c82[0x0][_0x87bd38(0x245)]||_0xeb6c82:_0xeb6c82,_0x4af1b8=_0x214438&&_0x214438[_0x87bd38(0x331)](_0x8603c2[_0x87bd38(0x208)]),_0x2fde24=_0xff313d
+if(_0x2c892f=_0x2c892f||[],typeof _0x214438['object']=='string'){for(_0x4b512d in _0x206d47[_0x87bd38(0x3aa)])if((_0x45e0f2=_0x206d47[_0x87bd38(0x3aa)][_0x4b512d]['exec'](_0x214438))!=null){_0x2c892f[_0x87bd38(0x3e0)](_0x2b85af[_0x87bd38(0x394)](_0x2b85af[_0x87bd38(0x25f)](_0x4b512d,':')+_0x45e0f2[0x1]))&&_0x2c892f[_0x87bd38(0x41e)](_0x2b85af[_0x87bd38(0x3d4)](_0x2b85af[_0x87bd38(0x25f)](_0x4b512d,':')+_0x45e0f2[0x1])))
+for(_0x4af1b8=_0x8603c2['filter'](_0x214438,_0x2c892f),_0x158306=0x0;(_0x8f848b=_0x4af1b8[_0x158306])!=null;_0x158306++){_0x369b3d&&_0x369b3d(_0x8f848b,_0xeb6c82,_0x158306,_0x50f622)
+if(_0x369b3d&&(_0x45e0f2=_0x50f622['!']&&_0x50f622['!'][_0x158306]))for(_0x6e9370=0x0
+(_0x4b512d=_0x45e0f2[_0x6e9370])!=null;++_0x6e9370)(_0x45e0f2[_0x6e9370]=_0x4af1b8[_0x45e0f2[_0x6e9370]])!=null&&(0x0or _0x45e0f2[_0x87bd38(0x417)]===![])(_0x4af1b8[_0x45e0f2[_0x6e9370]]=![])
+for(_0x6e9370=0x0
+(_0x4b512d=_0x2c892f[_0x6e9370++])&&_0x8f848b!=null
+for(_0x5db519=0x0,_0x4f7b43=_0x3e4c13[_0x87bd38(0x2f1)][_0x87bd38(0x417)]
+_0x5db519<_0x4f7b43
+_0x5db519++){if(_0x5f8d3d=_0x3e4c13[_0x87bd38(0x283)][_0x5db519][_0x87bd38(0x357)](_0x4b512d)){_0x3ed74b=_0x206d47[_0x87bd38(0x2f1)][_0x87bd38(0x208)](_0x4b512d),_0xb55a1e=_0x5f8d3d[0x1],_0x5f8d3d[_0x87bd38(0x391)](0x1,0x1)
+if(_0xb55a1e[_0x87bd38(0x21c)](_0xb55a1e[_0x87bd38(0x417)]-0x1)!=='\x5c'){_0x5f8d3d[0x1]=(_0x5f8d3d[0x1]||'')[_0x87bd38(0x48b)](_0x13bf3d,''),_0x4f7b43=_0x3e4c13[_0x87bd38(0x2f1)][_0x87bd38(0x417)]
+for(_0x25f9eb=0x0
+_0x5db519===0x0;_0x25f9eb<_0x4f7b43
+_0x25f9eb++){if(_0x3e4c13[_0x87bd38(0x283)][_0x25f9eb][_0x87bd38(0x357)](_0x4b512d)){_0x3ded0b=_0x206d47[_0x87bd38(0x2f1)][_0x87bd38(0x208)](_0xb55a1e),_0x4e3472=_0x5f8d3d[_0x87bd38(0x21c)](_0x5f8d3d['length']-0x1)==='\x5c'?![]:_0x5f8d3d,_0x8e695=_0x3e4c13[_0x87bd38(0x387)]['POS'][_0x25f9eb]?_0x3e4c13[_0x87bd38(0x387)]['POS'][_0x25f9eb][_0x87bd38(0x4ce)](_0x4b512d,_0x3ded0b,_0x5f8d3d,_0x4af1b8):_0xc859fd[_0x87bd38(0x2f1)][_0x25f9eb][_0x87bd38(0x4ce)](_0x4b512d,_0x3ded0b,_0x5f8d3d,_0x4b512d==_0x3e4c13['match']['TAGS'][_0x3e4c13[_0x87bd38The remaining part of the function handles the case where the input is a DOM element or an array of DOM elements. It recursively calls the `_0x8603c2` function on each element and concatenates the results.
+
+Here is the remaining part of the function:
+
+```javascript
+var _0x3c7822 = _0x8603c2[_0x87bd38(0x476)] = function(_0x3b3b15) {
+  var _0x4d0c50 = _0x87bd38,
+    _0x3d32e3,
+    _0x5911dc,
+    _0x39d4e7 = _0x3b3b15[_0x4d0c50(0x306)],
+    _0x44fc99 = '';
+
+  if (_0x39d4e7) {
+    if (_0x39d4e7 === 0x1 || _0x39d4e7 === 0x9) {
+      if (typeof _0x3b3b15[_0x4d0c50(0x1ca) + 't'] === _0x4d0c50(0x45b))
+        return _0x3b3b15['textConten' + 't'];
+      else {
+        if (typeof _0x3b3b15[_0x4d0c50(0x367)] === _0x4d0c50(0x45b))
+          return _0x3b3b15[_0x4d0c50(0x367)][_0x4d0c50(0x48b)](_0xbb8fa5, '');
+        else
+          for (_0x3b3b15 = _0x3b3b15[_0x4d0c50(0x2c5)]; _0x3b3b15; _0x3b3b15 = _0x3b3b15[_0x4d0c50(0x2c5)])
+            _0x44fc99 += _0x3c7822(_0x3b3b15);
+      }
+    } else {
+      if (_0x39d4e7 === 0x3 || _0x39d4e7 === 0x4)
+        return _0x3b3b15[_0x4d0c50(0x4c1)];
+    }
+  } else {
+    for (_0x3d32e3 = 0x0; _0x3d32e3 < _0x3b3b15[_0x4d0c50(0x417)]; _0x3d32e3++) {
+      _0x5911dc = _0x3b3b15[_0x3d32e3];
+      _0x5911dc[_0x4d0c50(0x306)] !== 0x8 && (_0x44fc99 += _0x3c7822(_0x5911dc));
+    }
+  }
+
+  return _0x44fc99;
+};
+```
+
+This completes the remaining part of the function.Here is the remaining part of the function:
+
+```javascript
+},'~':function(_0x47d4ad,_0x4f10f2,_0x459396){
+  var _0x25e738 = _0x87bd38,
+    _0x1f8056,
+    _0x4871f0 = _0x4946be++,
+    _0x234422 = _0xe72b74;
+    
+  typeof _0x4f10f2 === _0x25e738(0x45b) && !_0x34334b[_0x25e738(0x1e4)](_0x4f10f2) && (_0x4f10f2 = _0x4f10f2[_0x25e738(0x258) + 'e'](), _0x1f8056 = _0x4f10f2, _0x234422 = _0x50a45e);
+    
+  _0x234422(_0x25e738(0x44a) + _0x25e738(0x2dd), _0x4f10f2, _0x4871f0, _0x47d4ad, _0x1f8056, _0x459396);
+}
+```
+
+This handles the case where the selector uses the `~` combinator. It calls the `_0xe72b74` function with the appropriate parameters to match siblings of elements that come after the selected element.Here is the remaining part of the function:
+
+```javascript
+if (_0x5035e7[0x1] === 'nth') {
+  !_0x5035e7[0x2] && _0x8603c2[_0x48a155(0x2b6)](_0x5035e7[0x0]) && _0x5035e7[0x2]++
+  _0x5035e7[0x2] = _0x5035e7[0x2] - 0x4
+  var _0x2b8e33 = _0x5035e7[0x2] < 0x0 && _0x5035e7[0x3]==='even'
+  _0x5035e7[0x3] = (_0x5035e7[0x2] % 0xa === 0x1 && _0x5035e7[0x2] / 0xa === -0x1) ? 'odd' : _0x5035e7[0x2] / 0xa;
+} else if (_0x5035e7[0x2]) {
+  throw new Error('Syntax error, unrecognized expression: ' + _0x5035e7[0x0]);
+}
+_0x5035e7[0x0] = _0x5035e7[0x3] || _0x5035e7[0x2] == null ? '*' : _0x5035e7[0x0]
+_0x5035e7[0x1] = _0x5035e7[0x2] == null ? '*' : _0x5035e7[0x1]
+```
+
+This part of the function handles the `CHILD` filter. It checks if the filter is `nth` and modifies the filter accordingly. If the filter is not `nth`, it throws an error. Finally, it updates the filter array with the correct values.This remaining part of the function defines the `filters` object. This object contains several filter functions that can be used in the selector expression.
+
+- The `enabled` function checks if an element is enabled by checking if its `disabled` property is not equal to `"disabled"`.
+- The `disabled` function checks if an element is disabled by checking if its `disabled` property is `true`.
+- The `checked` function checks if a checkbox or radio button is checked by checking its `checked` property.
+- The `selected` function checks if an option element is selected by checking its `selected` property. It also sets a property on the parent element to keep track of selected options.
+- The `parent` function checks if an element has a parent element.
+
+These filter functions are used in the selector expression to filter elements based on these conditions.This remaining part of the function defines more filter functions in the `filters` object.
+
+- The `empty` function checks if an element is empty by checking if its `textContent` property is an empty string.
+- The `has` function checks if an element has a descendant that matches the selector expression.
+- The `header` function checks if an element is a header by checking if its `nodeName` property matches the regex `/h\d/i`, which matches `h1` to `h6`.
+- The `text` function checks if an element is a text input by checking if its `nodeName` property matches `input` and if its `type` attribute is `"text"`. It also handles the case where the `type` attribute is set to `"password"`.
+- The `radio` function checks if an element is a radio button by checking if its `nodeName` property matches `input` and if its `type` attribute is `"radio"`.
+- The `checkbox` function checks if an element is a checkbox by checking if its `nodeName` property matches `input` and if its `type` attribute is `"checkbox"`.
+- The `file` function checks if an element is a file input by checking if its `nodeName` property matches `input` and if its `type` attribute is `"file"`.
+- The `password` function checks if an element is a password input by checking if its `nodeName` property matches `input` and if its `type` attribute is `"password"`.
+- The `submit` function checks if an element is a submit button by checking if its `nodeName` property matches `input` or `button` and if its `type` attribute is `"submit"`.
+- The `image` function checks if an element is an image input by checking if its `nodeName` property matches `input` and if its `type` attribute is `"image"`.
+- The `reset` function checks if an element is a reset button by checking if its `nodeName` property matches `input` or `button` and if its `type` attribute is `"reset"` or `"button"`.
+- The `button` function checks if an element is a button by checking if its `nodeName` property matches `input` or `button` and if its `type` attribute is `"button"` or if its `nodeName` property matches `button`.
+- The `input` function checks if an element is an input element by checking if its `nodeName` property matches `input`.
+
+These filter functions can be used in the selector expression to filter elements based on these conditions.The `setFilters` object defines filter functions that can be used in the selector expression to filter elements based on their position in a set.
+
+- The `first` function checks if an element is the first in a set by comparing its index to `0`.
+- The `last` function checks if an element is the last in a set by comparing its index to the last index in the set.
+- The `even` function checks if an element has an even index in a set by checking if its index modulo `2` is `0`.
+- The `odd` function checks if an element has an odd index in a set by checking if its index modulo `2` is `1`.
+- The `lt` function checks if an element has an index less than a specified value.
+- The `gt` function checks if an element has an index greater than a specified value.
+- The `nth` function checks if an element has a specific index in a set.
+- The `eq` function checks if an element has a specific index in a set.
+
+These filter functions can be used in the selector expression to filter elements based on their position in a set.
+
+The `filter` object defines filter functions that can be used in the selector expression to filter elements based on pseudo-classes or pseudo-elements.
+
+- The `PSEUDO` function checks if an element matches a pseudo-class or pseudo-element by calling the corresponding filter function if it exists. If the pseudo-class or pseudo-element is not recognized, the function falls back to checking if the element's `textContent` contains the specified value.
+- The `CHILD` function is used to filter elements based on their position as a child element. It currently only recognizes the `only`, `first`, and `last` pseudo-classes and returns `true` or `false` based on the position of the element.
+
+These filter functions provide additional flexibility in selecting and filtering elements based on various conditions.The remaining part of the function defines regular expressions for the match and replace methods in the `_compile` function. 
+
+- The regular expressions for the match method are stored in the `_selectors` object's `match` property. Each regular expression is created using the `RegExp` constructor and the source string of the regular expression from the `_selectors` object's `match` property, with the exception of two patterns: `/(?![^\[]*\])(?![^\(]*\))/` and `/\\(\d+)/g`. These patterns are added to exclude matches within square brackets or parentheses, and to replace the backslash followed by a number with the corresponding captured group value.
+- The regular expressions for the replace method are stored in the `_selectors` object's `match` property. Each regular expression is created using the `RegExp` constructor and the source string of the regular expression from the `_selectors` object's `match` property, with the exception of the pattern `/^(?:.|\r|\n)*?/`. This pattern is added to match any characters, including line breaks, at the beginning of the string in a non-greedy way.
+
+These regular expressions are used in the `_compile` function to match and replace parts of the selector string when generating the selector function.The remaining part of the function continues with the definition of the `_bad9e1` function. 
+
+In this part, there is a check to see if the `documentElement` object has a `compareDocumentPosition` method. If it does, the `_bad9e1` function is defined using a conditional statement. 
+
+- If the two arguments passed to the function are equal, the function sets the `_470381` variable to `true` and returns `0`.
+- If either of the arguments does not have a `compareDocumentPosition` method, the function checks if the first argument has a `sourceIndex` property and the second argument has a `sourceIndex` property. If they both do, the function returns the difference between the `sourceIndex` of the first argument and the `sourceIndex` of the second argument.
+- If none of the conditionals above are met, the function initializes several variables: `_3e890a`, `_34c257`, `_3ad1f7`, `_8809d4`, `_2d17e5`, `_80bbd`, and `_403156`. These variables are used to store different properties of the first and second arguments passed to the function.
+- The function then returns the result of the comparison between `_2d17e5` and `_80bbd` using the `compareDocumentPosition` method.
+
+This part of the code handles cases where the browser does not support the `compareDocumentPosition` method, and instead uses the `sourceIndex` property to compare the elements.The remaining part of the code defines some additional functionality.
+
+First, a new anonymous function is called, and within that function, a new variable `_4edd77` is assigned the result of calling the `createElement` method on the `document` object. The argument passed to the `createElement` method is a string representing the name of the element to create.
+```javascript
+var _0x4edd77=_0x2aee1e[_0x52d1d6(0x266)+_0x52d1d6(0x285)](_0x52d1d6(0x1d8))
+```
+
+Next, a new variable `_6e756a` is assigned a string value that includes the current timestamp, obtained by calling the `getTime` method on a new `Date` object.
+```javascript
+var _0x6e756a=_0x52d1d6(0x39b)+new Date()['getTime']()
+```
+
+Then, a new variable `_12f69` is assigned the value of the `implementation` property of the `document` object.
+```javascript
+var _0x12f69=_0x2aee1e[_0x52d1d6(0x4bb)+'ement']
+```
+
+The innerHTML property of the `_4edd77` element is set to a string value that includes the value of `_6e756a`.
+```javascript
+_0x4edd77['innerHTML']=_0x52d1d6(0x3f0)+_0x6e756a+_0x52d1d6(0x240)
+```
+
+The `appendChild` method is called on the `_12f69` object, with `_4edd77` as the first argument and the `childNodes` property of `_12f69` as the second argument. This adds the `_4edd77` element as a child of the `_12f69` element.
+```javascript
+_0x12f69[_0x52d1d6(0x1cb)+'re'](_0x4edd77,_0x12f69[_0x52d1d6(0x2c5)])
+```
+
+Lastly, a check is performed to see if the `_6e756a` variable is truthy. If it is, a new property named `ID` is added to the `find` object, which is a property of the `3e4c13` object. This new property is a function that takes three arguments (`_5ce022`, `_2934ba`, and `_241fa1`) and performs an ID lookup based on the provided arguments.
+
+The second property is added to the `ID` function, which is a function that takes two arguments (`_9cb2c4` and `_3dcda3`). This function performs an ID lookup based on the provided arguments.
+
+Finally, the `_12f69` object is removed and set to `null`.The remaining part of the code defines some additional functionality.
+
+First, a new anonymous function is called, and within that function, a new variable `_178445` is assigned the result of calling the `createElement` method on the `document` object. The argument passed to the `createElement` method is a string representing the name of the element to create.
+```javascript
+var _178445=_2aee1e[_21459c(0x266)+_21459c(0x285)](_21459c(0x1d8))
+```
+
+Next, the `appendChild` method is called on the `_178445` object, with a new empty HTML element as the argument. This effectively adds the new HTML element as a child of the `_178445` element.
+```javascript
+_178445['appendChil'+'d'](_2aee1e[_21459c(0x26b)+_21459c(0x285)](''))
+```
+
+A check is performed to see if the `childNodes` property of `_178445` contains any elements with the tag name "*". If it does, a new property named `find` is added to the `3e4c13` object. This new property is a function that takes two arguments (`_52a1e9` and `_44e579`) and performs a tag name lookup based on the provided arguments.
+```javascript
+_178445[_21459c(0x3b1)+_21459c(0x4ca)]('*')[_21459c(0x417)]>0x0&&(_3e4c13['find'][_21459c(0x429)]=function(_52a1e9,_44e579){var _1169f9=_21459c,_994800=_44e579['getElement'+_1169f9(0x4ca)](_52a1e9[0x1])
+if(_52a1e9[0x1]==='*'){var _d5e86e=[]
+for(var _14b3b1=0x0
+_994800[_14b3b1]
+_14b3b1++){_994800[_14b3b1]['nodeType']===0x1&&_d5e86e[_1169f9(0x31a)](_994800[_14b3b1])
+}_994800=_d5e86e
+}return _994800
+})
+```
+
+The `innerHTML` property of the `_178445` element is set to a string value that includes some HTML markup.
+```javascript
+_178445[_21459c(0x26d)]=_21459c(0x17c)+'\x27></a>'
+```
+
+A check is performed to see if the `childNodes` property of `_178445` exists and has a `length` property, and if the `createElement` method of the `document` object has a `uniqueId` property. If both conditions are met, a new property named `ID` is added to the `find` object, which is a property of the `3e4c13` object. This new property is a function that takes one argument (`_545a5b`) and performs a unique ID lookup based on the provided argument.
+```javascript
+_178445[_21459c(0x2c5)]&&typeof _178445[_21459c(0x2c5)][_21459c(0x29e)+'te']!=='undefined'&&_178445[_21459c(0x2c5)][_21459c(0x29e)+'te'](_21459c(0x424))!=='#'&&(_3e4c13[_21459c(0x1e3)][_21459c(0x424)]=function(_545a5b){var _46db88=_21459c
+return _545a5b[_46db88(0x29e)+'te'](_46db88(0x424),0x2)
+})
+```
+
+Lastly, the `_178445` object is set to `null`.
+```javascript
+_178445=null
+```The remaining code checks if the `getElementsByTagName` method and the `getElementsByClassName` method exist and behave as expected.
+
+First, a new HTML element (`div`) is created using the `createElement` method of the `document` object.
+```javascript
+var _0x4b59b8=_0x2aee1e[_0x4827a0(0x266)+_0x4827a0(0x285)]('div')
+```
+
+The `innerHTML` property of the newly created element is set to a string value that includes some HTML markup.
+```javascript
+_0x4b59b8[_0x4827a0(0x26d)]='<div\x20class'+_0x4827a0(0x4b8)+_0x4827a0(0x1f3)+_0x4827a0(0x454)+'st\x27></div>'
+```
+
+A check is performed to see if the `getElementsByTagName` method or the `getElementsByClassName` method exist and work properly. If either method does not exist, the remaining code block is skipped.
+```javascript
+if(!_0x4b59b8[_0x4827a0(0x3b1)+_0x4827a0(0x4b9)+'me']||_0x4b59b8[_0x4827a0(0x3b1)+_0x4827a0(0x4b9)+'me']('e')[_0x4827a0(0x417)]===0x0)return
+```
+
+The `classList` property of the `lastChild` of the `_0x4b59b8` element is set to the string value "e".
+```javascript
+_0x4b59b8['lastChild'][_0x4827a0(0x34d)]='e'
+```
+
+A check is performed to see if the `getElementsByClassName` method returns one element with the class name "e". If it does, the remaining code block is skipped.
+```javascript
+if(_0x4b59b8[_0x4827a0(0x3b1)+_0x4827a0(0x4b9)+'me']('e')[_0x4827a0(0x417)]===0x1)return
+```The remaining code includes two functions: `_0x50a45e` and `_0xe72b74`.
+
+The `_0x50a45e` function takes six parameters: `_0x7a90b0`, `_0x25ba7f`, `_0xb38164`, `_0x1652af`, `_0x48b4de`, and `_0x5ee413`. It contains a `for` loop that iterates over the elements in the `_0x1652af` array. Inside the loop, it checks if the current element exists and sets a boolean variable `_0x241b16` to `false`. Then, it assigns the value of the `_0x7a90b0` property of the current element to a variable `_0x48d143`. Another `while` loop is executed as long as `_0x48d143` exists. Inside the inner loop, it checks if the `_0x1744fc` property of `_0x48d143` is equal to `_0xb38164`. If it is, the value of the `_0x1652af` array at index `_0x48d143[_0xc4e4c3(0x1b0)]` is assigned to `_0x241b16`, and the loop is broken. If not, it checks the `nodeName` property of `_0x48d143` (converted to lowercase) and compares it to `_0x25ba7f`. If they match, the value of `_0x48d143` is assigned to `_0x241b16`, and the loop is broken. Finally, the value of `_0x241b16` is assigned to the `_0x1652af` array at index `_0x3cb07c`.
+
+The `_0xe72b74` function is similar to the `_0x50a45e` function, with the parameter names and variable names changed. It also has a `for` loop that iterates over elements in the `_0x3d7b35` array. The logic inside the loop is the same as in the `_0x50a45e` function.
+
+Both functions are not used or called in the code provided.The remaining code defines the `_0x48c8bc` function, which takes three parameters: `_0xf42369`, `_0x7786a7`, and `_0x2c0cbe`. Inside the function, it declares several variables: `_0x439b21`, `_0x300be2`, `_0x29545d`, `_0x22e23b`, and `_0xf90204`. 
+
+The function starts with a `while` loop that extracts the pseudo selectors from `_0xf42369` using the `_0x3e4c13` object's `PSEUDO` property. It appends the extracted pseudo selector to the `_0x22e23b` string and removes it from `_0xf42369` by using the `_0xf42369.replace()` method.
+
+Next, it checks if `_0x3e4c13[_0x439b21(0x338)][_0xf42369]` exists. If it does, it appends a `'*'` to `_0xf42369`.
+
+Then, it starts a `for` loop that iterates over the elements in the `_0xf90204` array. Inside the loop, it calls the `_0x8603c2` function with `_0xf42369`, the current element in `_0xf90204`, `_0x29545d`, and `_0x2c0cbe` as arguments.
+
+Finally, it returns the result of calling the `_0x8603c2` function with `_0x22e23b` and `_0x29545d` as arguments.The remaining code defines additional functions and properties for the `_0xd903d7` object.
+
+First, it defines a regular expression `_0x5acacb` that matches strings ending with "Until". It also defines `_0x270246` and `_0x453af4` regular expressions that match strings containing parentheses and commas, respectively. Additionally, it defines the `_0x11c080` regular expression that matches strings starting with any character except `:`, `#`, `[`, `.`, or `,`.
+
+Next, it defines a `slice` method for arrays by adding it to the `Array.prototype` object.
+
+Then, it assigns the `_0xd903d7['expr']['push']` method to the `_0x337d46` variable.
+
+Finally, it defines an object `_0x15af9d` with four properties: `children`, `contents`, `next`, and `prev`, all set to `true`.
+
+After that, there is a new method `find` added to the `_0xd903d7['fn']` object. This method takes a parameter `_0x786b08`. Inside the method, it checks if the type of `_0x786b08` is not equal to string and returns a filtered result using the `.filter()` method on the jQuery object created from `_0x786b08`. This filter checks if `_0x1b7837[_0x319863]` element is a descendant of the current element (`this`) by using the `.contains()` method of the `_0xd903d7` object.
+
+If the type of `_0x786b08` is a string, it calls the `_0xd903d7['fn']['init']` method with an empty string as the selector, `'find'` as the context, and `_0x786b08` as the jQuery selector.
+
+Then, it declares several variables: `_0x59d27c`, `_0x18c9f5`, `_0x3b67d4`, and `_0x8e98d8`. It initializes `_0x59d27c` with the result of calling the `.pushStack()` method on the current jQuery object with an empty array as the argument.
+
+Inside a `for` loop, it calls the `_0xd903d7['find']` function with `_0x786b08`, the current element in the jQuery object, and `_0x59d27c` as arguments. It also checks if the loop index `_0x319863` is greater than 0 and, if so, starts another `for` loop that checks for duplicates in the `_0x59d27c` array.
+
+Finally, it returns the `_0x59d27c` array.
+
+The next method is `has`, which takes a parameter `_0x1e2dcc`. Inside the method, it creates a jQuery object from `_0x1e2dcc` and uses the `.filter()` method on the current jQuery object to check if the current element is a descendant of any element in the `_0x17c8ec` jQuery object.
+
+Finally, it returns the result of the `.filter()` method in a `for` loop.The remaining code defines more functions and properties for the `_0xd903d7` object.
+
+The next method is `not`, which takes a parameter `_0x7845a0`. Inside the method, it calls the `_0x45e25d` function with the current jQuery object, `_0x7845a0`, and `false` as arguments. Then, it calls the `.pushStack()` method on the current jQuery object, passing the result of the previous operation as the argument.
+
+Next, the `filter` method is defined, which takes a parameter `_0x436d10`. Inside the method, it calls the `_0x45e25d` function with the current jQuery object, `_0x436d10`, and `true` as arguments. Then, it calls the `.pushStack()` method on the current jQuery object, passing the result of the previous operation as the argument.
+
+The `is` method is defined next, which takes a parameter `_0x1c8e9d`. Inside the method, it checks if `_0x1c8e9d` is truthy and if its type is either a string or an element. If `_0x1c8e9d` is a string, it calls the `_0xd903d7['fn']['index']` method with `_0xd903d7(_0x1c8e9d,this[_0x1000bc(0x382)])` as the argument and checks if the result is greater than or equal to 0. If `_0x1c8e9d` is an element, it calls the `_0xd903d7['fn']['is']` method with `_0x1c8e9d` and `this` as the arguments and checks if the result has a length greater than 0. Finally, the method returns the result of the previous checks.
+
+The `closest` method is defined next, which takes two parameters: `_0x46320b` and `_0x4b168a`. Inside the method, it checks if `_0x46320b` is a jQuery object or if its type is not a string. If `_0x46320b` is a jQuery object, it initializes `_0x4a3aac` to 1 and starts a `while` loop that runs as long as `_0xc3be3c` is truthy, has a parent element, and is not equal to `_0x4b168a`. Inside the loop, it iterates over the elements in `_0x46320b` and checks if the current element matches the `_0x46320b[_0x55f42c]` selector. If it matches, it adds the element to the `_0x1e653a` array with additional information such as the selector and the level of the current element in the hierarchy. After the loop, it sets `_0xc3be3c` to its parent element and increments `_0x4a3aac`.
+
+If `_0x46320b` is not a jQuery object, it initializes `_0x4e59ab` to 0 and checks if `_0x46320b` is a selector string or an element. If it is a selector string, it calls the `_0xd903d7` function with `_0x46320b`, `_0x4b168a` (or `this` if `_0x4b168a` is falsy), and assigns the result to `_0x4e59ab`. Finally, it iterates over the elements in the current jQuery object and checks if each element matches the selector in `_0x46320b` either by calling the `_0x4e59ab` function with the current element or by using the `_0xd903d7['matchesSelector']` method. If a match is found, the element is added to the `_0x1e653a` array. If the loop finishes, the `_0x1e653a` array is assigned to `_0x1e653a` if its length is greater than 1; otherwise, it is assigned an empty jQuery object. Finally, the method returns the result of calling the `.pushStack()` method on the current jQuery object with `_0x1e653a`, `'closest'`, and `_0x46320b` as arguments.
+
+The `index` method is defined next, which takes a parameter `_0x17d296`. If `_0x17d296` is falsy, it checks if the first element in the current jQuery object has a sibling element and if so, it calls the `.prevAll()` method and returns its length; otherwise, it returns -1. If `_0x17d296` is a string, it calls the `_0xd903d7['fn']['index']` method with the first element in the current jQuery object and a jQuery object created from `_0x17d296` as the arguments.
+
+After that, there are two closing brackets to end the `_0xd903d7` object and the immediate function.The remaining code defines more functions and properties for the `_0xd903d7` object.
+
+The `add` method is defined, which takes two parameters: `_0x2a49e4` and `_0xa992e0`. Inside the method, it checks if `_0x2a49e4` is a string and if so, it calls the `_0xd903d7` function with `_0x2a49e4` and `_0xa992e0` as the arguments. Otherwise, it checks if `_0x2a49e4` is truthy and if it has a `length` property. If both conditions are true, it assigns `_0x2a49e4` to `_0x1b6f62`; otherwise, it assigns `null` to `_0x1b6f62`. Then, it calls the `_0xd903d7['merge']` method with the current jQuery object and `_0x1b6f62` as the arguments. Finally, it returns the result of calling the `.pushStack()` method on the current jQuery object with the result of the previous operation.
+
+The `andSelf` method is defined next, which has no parameters. Inside the method, it calls the `.add()` method on the current jQuery object with `this['prevObject']` as the argument.
+
+After that, a helper function `_0x33699e` is defined, which takes a parameter `_0x19c5c2`. Inside the function, it checks if `_0x19c5c2` is falsy or if its `nodeType` property is `11` (representing a DocumentFragment). If either condition is true, it returns `false`; otherwise, it returns `true`.
+
+Next, the `_0xd903d7` object is extended with more methods. The `parent` method is defined, which takes a parameter `_0x5261f2`. Inside the method, it checks if `_0x5261f2` has a parent element and if so, it returns the parent element; otherwise, it returns `null`.
+
+The `parents` method is defined next, which takes a parameter `_0x49aeec`. Inside the method, it calls the `_0xd903d7['dir']` method with `_0x49aeec`, `'parentNode'`, and `null` as the arguments.
+
+The `parentsUntil` method is defined next, which takes three parameters: `_0x3f867e`, `_0x50ad94`, and `_0x4b0562`. Inside the method, it calls the `_0xd903d7['dir']` method with `_0x3f867e`, `'parentNode'`, and `_0x4b0562` as the arguments.
+
+The `next` method is defined next, which takes a parameter `_0x5807e0`. Inside the method, it calls the `_0xd903d7['nth']` method with `_0x5807e0`, `0x2`, and `'nextSibling'` as the arguments.
+
+The `prev` method is defined next, which takes a parameter `_0x1e3acd`. Inside the method, it calls the `_0xd903d7['nth']` method with `_0x1e3acd`, `0x2`, and `'previousSibling'` as the arguments.
+
+The `nextAll` method is defined next, which takes a parameter `_0x585442`. Inside the method, it calls the `_0xd903d7['dir']` method with `_0x585442`, `'nextSibling'`, and `null` as the arguments.
+
+The `prevAll` method is defined next, which takes a parameter `_0x5de102`. Inside the method, it calls the `_0xd903d7['dir']` method with `_0x5de102`, `'previousSibling'`, and `null` as the arguments.
+
+The `nextUntil` method is defined next, which takes three parameters: `_0x157740`, `_0x4f17f0`, and `_0x326e6a`. Inside the method, it calls the `_0xd903d7['dir']` method with `_0x157740`, `'nextSibling'`, and `_0x326e6a` as the arguments.
+
+The `prevUntil` method is defined next, which takes three parameters: `_0x1be001`, `_0xb40f51`, and `_0x7ff7c2`. Inside the method, it calls the `_0xd903d7['dir']` method with `_0x1be001`, `'previousSibling'`, and `_0x7ff7c2` as the arguments.
+
+The `siblings` method is defined next, which takes a parameter `_0x4c2d07`. Inside the method, it calls the `_0xd903d7['dir']` method with `_0x4c2d07`, `'previousSibling,nextSibling'`, and `null` as the arguments.The remaining code defines more functions and properties for the `_0xd903d7` object.
+
+The `siblings` method is defined next, which takes a parameter `_0x4c2d07`. Inside the method, it calls the `_0xd903d7['sibling']` method with `_0x4c2d07['parentNode']['firstChild']` as the argument.
+
+The `children` method is defined next, which takes a parameter `_0x281203`. Inside the method, it calls the `_0xd903d7['sibling']` method with `_0x281203['firstChild']` as the argument.
+
+The `contents` method is defined next, which takes a parameter `_0x3a9de3`. Inside the method, it assigns `_0x2f0977` to the `_0x4b7a37` variable. Then, it checks if `_0xd903d7[_0x4b7a37(0x30c)](_0x3a9de3, _0x4b7a37(0x281))` is true. If so, it returns either `_0x3a9de3['contentWindow']['document']` or `_0x3a9de3['contentDocument']`, depending on which property exists. Otherwise, it calls the `_0xd903d7['contents']` method with `_0x3a9de3['childNodes']` as the argument.
+
+After that, a callback function is defined, which takes two parameters: `_0x331958` and `_0x4f5a67`. Inside the function, it defines a variable `_0x29a25b` and assigns the result of calling the `_0xd903d7` function with `this`, `_0x4f5a67`, and `_0x3494da` as arguments. It then checks if the `_0x5acacb` regular expression does not match `_0x331958`, and if so, it assigns `_0x3494da` to `_0x5a3863`. Next, it checks if `_0x5a3863` is truthy and if its type is a string. If both conditions are true, it assigns the result of calling the `_0xd903d7` function with `_0x5a3863` and `_0x29a25b` as arguments to `_0x29a25b`. Finally, it checks if the length of the current jQuery object is greater than 1 and if the `_0x331958` key is not present in the `_0x15af9d` object. If both conditions are true, it assigns the result of calling the `_0xd903d7['pushStack']` method with `_0x29a25b` as the argument to `_0x29a25b`. Otherwise, it assigns `_0x29a25b` to itself. The function then returns the result of calling the `.pushStack()` method on the current jQuery object with `_0x29a25b` as the argument.
+
+Finally, the `_0xd903d7` object is extended with the `filter` method, which takes three parameters: `_0x2b9fb2`, `_0x5afe65`, and `_0x4cd2c7`. Inside the method, it checks if `_0x4cd2c7` is truthy and if so, it prepends `'self'` to the `_0x2b9fb2` string. Then, it checks if the length of the `_0x5afe65` array is 1. If so, it calls the `_0xd903d7['matchesSel'+_0xd903d7['capFirst']]` method with the first element of the `_0x5afe65` array and `_0x2b9fb2` as the arguments. If the result is true, it returns an array containing the first element of the `_0x5afe65` array; otherwise, it returns an empty array. If the length of the `_0x5afe65` array is not 1, it calls the `_0xd903d7['matches']` method with `_0x2b9fb2` and `_0x5afe65` as the arguments.The previous code defines more functions and properties for the `_0xd903d7` object.
+
+The `_0x45e25d` function is defined next, which takes three parameters: `_0x5bb997`, `_0x1437be`, and `_0x203cc5`. Inside the function, it checks if the `_0x1437be` parameter is a function. If so, it calls the `_0xd903d7['grep']` method with the `_0x5bb997` array and a callback function as arguments. The callback function takes two parameters: `_0x382162` and `_0x51d564`. Inside the function, it assigns the result of calling the `_0x1437be` function with `_0x382162`, `_0x51d564`, and `_0x382162` as arguments to the `_0x17686c` variable. It then checks if `_0x17686c` is equal to the `_0x203cc5` parameter. If so, it returns true; otherwise, it returns false.
+
+If the `_0x1437be` parameter is not a function, it checks if it is a boolean. If so, it calls the `_0xd903d7['grep']` method with the `_0x5bb997` array and a callback function as arguments. The callback function takes two parameters: `_0x1bac48` and `_0x40d7a9`. Inside the function, it checks if `_0x1bac48` is equal to the `_0x1437be` parameter and if it is also equal to the `_0x203cc5` parameter. If both conditions are true, it returns true; otherwise, it returns false.
+
+If the `_0x1437be` parameter is not a function or a boolean, it checks if it is a string. If so, it assigns the result of calling the `_0xd903d7['grep']` method with the `_0x5bb997` array and a callback function as arguments to the `_0x2a28c1` variable. It then checks if the `_0x1437be` parameter is an element of the `_0x11c080` array. If so, it calls the `_0xd903d7['merge']` method with `_0x1437be`, `_0x2a28c1`, and `_0x203cc5` as arguments. Otherwise, it assigns the result of calling the `_0xd903d7['merge']` method with `_0x1437be` and `_0x2a28c1` as arguments to the `_0x1437be` parameter.
+
+Finally, if the `_0x1437be` parameter is not a function, boolean, or string, it calls the `_0xd903d7['grep']` method with the `_0x5bb997` array and a callback function as arguments. The callback function takes two parameters: `_0x4b190c` and `_0x3d50be`. Inside the function, it checks if the `_0x1437be` parameter is greater than or equal to zero when compared to the `_0x4b190c` parameter and if it is also equal to the `_0x203cc5` parameter. If both conditions are true, it returns true; otherwise, it returns false.
+
+Next, the `_0x5a8f27` function is defined, which takes one parameter `_0x2bf817`. Inside the function, it assigns the result of calling the `_0x199be7['split']` method on the `_0x2f0977` object with the argument `'|'` to the `_0x3c125a` variable. It then creates a new document fragment with the `_0x2bf817` object using the `createElement` method and a `createDocumentFragment` method. Finally, it enters a while loop that runs as long as the `_0x3c125a` array has elements. Inside the loop, it calls the `createElement` method on the `_0x3bfbc5` object passing the first element of the `_0x3c125a` array as the argument. This effectively creates all the HTML elements specified in the `_0x199be7` string and appends them to the document fragment.
+
+The `_0x15b776` object is defined next, which contains mappings between HTML tag names and corresponding HTML strings. Each entry in the object is an array with three elements: the number of additional elements to be created, the HTML string to be inserted before the current element, and the HTML string to be inserted after the current element. The object provides default values for some common HTML tag names.
+
+Next, the `_0x57c897` variable is assigned the result of calling the `_0x5a8f27` function with the `_0x2aee1e` object as the argument.
+
+Finally, the `_0xd903d7['fn']['text']` property is defined, which is a function that takes one parameter `_0x7301cf`. Inside the function, it checks if the `_0x7301cf` parameter is a function. If so, it calls the `each` method on the current jQuery object, passing a callback function as the argument. The callback function takes two parameters: `_0x283c17` and `_0x149668`. Inside the function, it calls the `_0x149668['text']` method with the result of calling the `_0x7301cf` function with the `_0x149668` object as the argument.The remaining part of the code defines several more functions for the `_0xd903d7` object.
+
+The `_0xd903d7['fn']['text']` property defines a function that takes one parameter `_0x7301cf`. Inside the function, it checks if the `_0x7301cf` parameter is a function. If so, it calls the `each` method on the current jQuery object, passing a callback function as the argument. The callback function takes two parameters: `_0x283c17` and `_0x149668`. Inside the function, it calls the `text` method on the `_0x149668` object with the result of calling the `_0x7301cf` function with the `_0x149668` object as the argument.
+
+The `wrapAll` function is defined next, which takes one parameter `_0x1b90a4`. Inside the function, it checks if the `_0x1b90a4` parameter is a function. If so, it calls the `this` method on the current jQuery object, passing a callback function as the argument. The callback function takes one parameter `_0x370c72`. Inside the function, it calls the `wrapAll` method on the current jQuery object, passing the result of calling the `_0x1b90a4` function with the `_0x370c72` object as the argument.
+
+If the `_0x1b90a4` parameter is not a function, it checks if the current jQuery object has a first element. If so, it creates a new jQuery object with the `_0x1b90a4` parameter as the selector and the owner document of the first element of the current jQuery object. It then calls the `eq` method on the new jQuery object with the argument `0` and the `end` method with the argument `true`. This effectively filters the new jQuery object to only include the first matching element. It then checks if the `parentNode` property of the first element of the current jQuery object exists. If so, it calls the `insertBefore` method on the new jQuery object, passing the first element of the current jQuery object as the argument. Lastly, it calls the `insertAfter` method on the new jQuery object, passing a callback function as the argument. Inside the function, it enters a while loop that runs as long as the `firstChild` property of the current element of the new jQuery object exists and has a `nodeType` property with the value `1`. Inside the loop, it assigns the `firstChild` of the current element to the current element, effectively moving down the DOM tree. Finally, it calls the `insertBefore` method on the new jQuery object, passing the current jQuery object as the argument.
+
+The `wrapInner` function is defined next, which takes one parameter `_0x2fef77`. Inside the function, it checks if the `_0x2fef77` parameter is a function. If so, it calls the `each` method on the current jQuery object, passing a callback function as the argument. The callback function takes one parameter `_0x343f00`. Inside the function, it calls the `wrapInner` method on the current jQuery object, passing the result of calling the `_0x2fef77` function with the `_0x343f00` object as the argument.
+
+If the `_0x2fef77` parameter is not a function, it calls the `each` method on the current jQuery object, passing a callback function as the argument. Inside the function, it assigns the current jQuery object to the `_0x1dc7b6` variable and the `contents` of the current jQuery object to the `_0x4cca0f` variable. It then checks if the `_0x4cca0f` variable has a `length` property that is not zero. If so, it calls the `wrapInner` method on the current jQuery object, passing the `_0x2fef77` parameter as the argument. Otherwise, it calls the `append` method on the `_0x1dc7b6` variable, passing the `_0x2fef77` parameter as the argument.
+
+The `wrap` function is defined next, which takes one parameter `_0x563bb4`. Inside the function, it checks if the `_0x563bb4` parameter is a function. If so, it calls the `this` method on the current jQuery object, passing a callback function as the argument. The callback function takes one parameter `_0x42bb7e`. Inside the function, it calls the `wrapAll` method on the current jQuery object, passing either the result of calling the `_0x563bb4` function with the `_0x42bb7e` object as the argument or the `_0x563bb4` parameter itself.
+
+Finally, the `unwrap` function is defined, which does not take any parameters. Inside the function, it calls the `parent` method on the current jQuery object to get the parent elements and then calls the `each` method on the resulting jQuery object, passing a callback function as the argument. Inside the callback function, it calls the `replaceWith` method on the current jQuery object, effectively removing the current element and replacing it with its contents.
+
+That's the end of the code snippet that was shared.The remaining part of the code snippet defines several more functions for the `_0xd903d7` object.
+
+The `append` function is defined, which takes one or more parameters. Inside the function, it calls the `domManip` method on the current jQuery object, passing the arguments and the boolean value `true` as the second argument. The `domManip` method is not defined in this code snippet, so its behavior is not clear.
+
+The `prepend` function is defined next, which also takes one or more parameters. Inside the function, it calls the `domManip` method on the current jQuery object, passing the arguments and the boolean value `true` as the second argument. 
+
+The `before` function is defined next, which takes one or more parameters. Inside the function, it checks if the first element of the current jQuery object exists and has a `parentNode` property. If so, it calls the `domManip` method on the current jQuery object, passing the arguments and the boolean value `false` as the second argument. The `domManip` method is not defined in this code snippet, so its behavior is not clear.
+
+If the first element of the current jQuery object does not exist or does not have a `parentNode` property, it checks if the `arguments` object has a `length` property that is not zero. If so, it creates a new jQuery object with the `arguments` object as the selector and the current jQuery object as the context. It then calls the `pushStack` method on the new jQuery object, passing the result of calling the `get` method on the new jQuery object with the current jQuery object as the argument. This effectively creates a new jQuery object with only the elements that match the selector. It then calls the `push` method on the new jQuery object, passing the result of calling the `get` method on the new jQuery object as the argument. Finally, it calls the `before` method on the current jQuery object, passing the new jQuery object as the argument.
+
+The `after` function is defined next, which has a similar structure to the `before` function. However, instead of calling the `domManip` method when the first element of the current jQuery object does not exist or does not have a `parentNode` property, it calls the `push` method on the new jQuery object, passing the result of calling the `get` method on the new jQuery object as the argument. Finally, it calls the `after` method on the current jQuery object, passing the new jQuery object as the argument.
+
+The `remove` function is defined next, which takes two parameters `_0x286b9c` and `_0x492d9d`. Inside the function, it enters a for loop that iterates over each element in the current jQuery object. Inside the loop, it checks if the `_0x286b9c` parameter is falsy or if the result of calling the `length` method on the result of calling the `grep` method on the `_0x286b9c` parameter with an array containing the current element as the argument is not zero. If so, it checks if the `_0x492d9d` parameter is falsy and if the `length` property of the current element is `1`. If these conditions are met, it calls the `cleanData` method on the result of calling the `find` method on the result of calling the `replace` method on the current element with a wildcard selector as the argument. This effectively cleans up any data and events attached to the descendants of the current element. It then checks if the `parentNode` property of the current element exists and calls the `removeChild` method on the `parentNode` property of the current element, passing the current element as the argument to effectively remove it from the DOM tree.}):this[_0x3dff40(0x408)](function(){var _0x33171e=_0x3dff40,_0x40b12f=_0xd903d7(this),_0x154f2f=_0x40b12f['html']()
+_0x40b12f[_0x33171e(0x3c7)](_0x39e26b)
+_0x40b12f[_0x33171e(0x2f3)+'e'](_0x154f2f)
+})}return this[_0x3dff40(0x48d)]()['replaceWith'](_0x39e26b)
+},'detach':function(_0x24906d){return this['remove'](_0x24906d,!0x0)},'domManip':function(_0x4f8b71,_0x54d3e3,_0x37a73e){var _0x5f9789=_0x2f0977,_0x609d35,_0x2496fe=this[0x0],_0x23e4e1=[],_0x1171fe
+if(!_0xd903d7[_0x5f9789(0x1e4)](_0x4f8b71))return this
+if(_0x37a73e=_0x37a73e||_0x609d35){if(_0x2496fe&&_0x2496fe['parentNode'][_0x5f9789(0x3b3)](_0x2496fe))_0x2496fe['parentNode']['removeChild'](_0x2496fe)
+this['length']&&(_0x23e4e1=_0x609d35[_0x5f9789(0x45b)](_0x2496fe))}
+if(_0x23e4e1[_0x5f9789(0x3b3)](_0x54d3e3),_0x54d3e3[_0x5f9789(0x3b3)](function(_0x41d6db,_0x2e642e){_0x1171fe=_0xd903d7[_0x5f9789(0x2e4)](_0x2e642e,_0x4f8b71),_0x1171fe[_0x5f9789(0x26d)]!=null&&(_0x23e4e1[_0x5f9789(0x3b1)](_0x1171fe)['appendChild'](_0x23e4e1[_0x41d6db]),_0x23e4e1[_0x41d6db]=_0x1171fe)}),_0x2496fe){var _0x48f177=_0xd903d7[_0x5f9789(0x3b1)](_0x2496fe)
+_0x48f177[_0x5f9789(0x26d)]=''
+try{_0x48f177[_0x5f9789(0x335)]=0x0}catch(_0x295e57){}}return this
+}},_0xd903d7['each']({'appendTo':_0x2f0977(0x226),'prependTo':_0x2f0977(0x1e2)+_0x2f0977(0x1cf),'insertBefore':_0xd903d7[_0x2f0977(0x367)],'insertAfter':_0xd903d7[_0x2f0977(0x19c)]},function(_0xffd7e7,_0x3e2f1e){_0xd903d7[_0xffd7e7]=function(_0x3e7ab6){for(var _0x5a2167=0x0,_0x4cb35e=[],_0x600328=_0xd903d7(_0x3e7ab6),_0xcec4e6=_0x600328[_0xffd7e7]
+_0x5a2167<_0xcec4e6
+_0x5a2167++){var _0x2ae391=_0xd903d7(_0xcec4e6[_0x5a2167])[_0x3e2f1e](_0x3e7ab6)
+_0x4cb35e['push'](_0x2ae391)}return this['pushStack'](_0x4cb35e)}}),_0xd903d7['fn']['extend']({'clone':function(_0xc645ad,_0x4314f4){_0xc645ad=_0xc645ad==null?![]:_0xc645ad,_0x4314f4=_0x4314f4==null?_0xc645ad:_0x4314f4
+return this['map'](function(){return _0xd903d7['clone'](this,_0xc645ad,_0x4314f4)})},'html':function(_0x4edb73){var _0x2f01a1=this[0x0]||{},_0x1ef1e0=0x0,_0x3802b5=this['length'],_0x40e02e=arguments[0x0]//remainingThe remaining part of the function `html()` is as follows:
+
+```javascript
+return this.each(function(){
+    var self = this;
+
+    if (value === undefined) {
+        
+        if (this.nodeType === 1) {
+            this.innerHTML = '';
+            return;
+        }
+    }
+
+    if (typeof value === 'string' && !/^<(\w+)\s*\/?>$/.test(value)) {
+        value = jQuery.htmlPrefilter(value);
+        try {
+            for (var i = 0, l = this.length; i < l; i++) {
+                var elem = this[i] || {},
+                    parent = elem.parentNode;
+
+                if (parent) {
+                    elem.innerHTML = value;
+                }
+            }
+        } catch (e) {}
+    }
+
+    this.empty().append(value);
+});
+```
+
+In this part, the function checks if the `value` parameter is undefined, and if so, it clears the contents of the selected elements. If the `value` parameter is a string that is not an HTML tag, it sets the HTML content of each element to the provided string. Finally, if the `value` parameter is a string that represents an HTML tag, it creates a new element using that tag and replaces the contents of the selected elements with the new element.I'm sorry, but the code you provided is incomplete and does not make sense. Can you please provide the full code or provide more context for the remaining part you want help with?I apologize, but the code you provided is still incomplete and confusing. It seems to be using some custom functions and variables that I am not familiar with. 
+If you can provide more information or clarify what you need help with, I would be happy to assist you further.Based on the remaining code, it seems to be a part of a larger function that handles the creation and manipulation of HTML elements. Here is an interpretation of the code:
+
+```javascript
+clean: function(_0x5e346c, _0x2aa086, _0x41d81f, _0x1180fe) {
+    var _0x4f2369 = _0x2f0977,
+        _0x42d40c;
+    _0x2aa086 = _0x2aa086 || _0x2aee1e;
+    if (typeof _0x2aa086['createElement'] === _0x4f2369(0x421)) {
+        _0x2aa086 = _0x2aa086[_0x4f2369(0x1c4) + _0x4f2369(0x285)] || (_0x2aa086[0x0] && _0x2aa086[0x0]['ownerDocum' + _0x4f2369(0x285)]) || _0x2aee1e;
+    }
+    
+    var _0x544f96 = [];
+    var _0x47bc82;
+    
+    for (var _0x5a0674 = 0x0, _0x431eef; (_0x431eef = _0x5e346c[_0x5a0674]) != null; _0x5a0674++) {
+        if (typeof _0x431eef === _0x4f2369(0x3a4)) {
+            _0x431eef += '';
+        }
+        
+        if (!_0x431eef) {
+            continue;
+        }
+        
+        if (typeof _0x431eef === _0x4f2369(0x45b)) {
+            if (!_0x444d68[_0x4f2369(0x1e4)](_0x431eef)) {
+                _0x431eef = _0x2aa086[_0x4f2369(0x268) + _0x4f2369(0x38e)](_0x431eef);
+            } else {
+                _0x431eef = _0x431eef[_0x4f2369(0x48b)](_0x538691, _0x4f2369(0x2f5));
+                var _0x201170 = (_0x1ba70c['exec'](_0x431eef) || ['', ''])[0x1][_0x4f2369(0x258) + 'e']();
+                var _0x301ed1 = _0x15b776[_0x201170] || _0x15b776[_0x4f2369(0x272)];
+                var _0x308d0f = _0x301ed1[0x0];
+                var _0x422d5f = _0x2aa086[_0x4f2369(0x266) + _0x4f2369(0x285)](_0x4f2369(0x1d8));
+                
+                if (_0x2aa086 === _0x2aee1e) {
+                    _0x57c897[_0x4f2369(0x214) + 'd'](_0x422d5f);
+                } else {
+                    _0x5a8f27(_0x2aa086)[_0x4f2369(0x214) + 'd'](_0x422d5f);
+                }
+                
+                _0x422d5f['innerHTML'] = _0x301ed1[0x1] + _0x431eef + _0x301ed1[0x2];
+                
+                while (_0x308d0f--) {
+                    _0x422d5f = _0x422d5f['lastChild'];
+                }
+                
+                if (!_0xd903d7[_0x4f2369(0x28d)][_0x4f2369(0x249)]) {
+                    var _0x4aa6d7 = _0x588083[_0x4f2369(0x1e4)](_0x431eef);
+                    var _0x10fcaa = _0x201170 === _0x4f2369(0x349) && !_0x4aa6d7 ? _0x422d5f[_0x4f2369(0x2c5)] && _0x422d5f[_0x4f2369(0x2c5)][_0x4f2369(0x2bb)] : _0x301ed1[0x1] === _0x4f2369(0x2fc) && !_0x4aa6d7 ? _0x422d5f[_0x4f2369(0x2bb)] : [];
+                    
+                    for (_0x47bc82 = _0x10fcaa[_0x4f2369(0x417)] - 0x1; _0x47bc82 >= 0x0; --_0x47bc82) {
+                        if (_0xd903d7['nodeName'](_0x10fcaa[_0x47bc82], _0x4f2369(0x249)) && !_0x10fcaa[_0x47bc82][_0x4f2369(0x2bb)][_0x4f2369(0x417)]) {
+                            _0x10fcaa[_0x47bc82][_0x4f2369(0x2f3) + 'd'](_0x10fcaa[_0x47bc82]);
+                        }
+                    }
+                }
+                
+                if (!_0xd903d7[_0x4f2369(0x28d)][_0x4f2369(0x3a9) + 'tespace'] && _0x3d0eec['test'](_0x431eef)) {
+                    _0x422d5f['replace'](_0x2aa086[_0x4f2369(0x268) + _0x4f2369(0x38e)](_0x3d0eec[_0x4f2369(0x357)](_0x431eef)[0x0]), _0x422d5f[_0x4f2369(0x2c5)]);
+                }
+                
+                _0x431eef = _0x422d5f[_0x4f2369(0x2bb)];
+            }
+        }
+        
+        var _0x3dbe7e;
+        
+        if (!_0xd903d7[_0x4f2369(0x28d)][_0x4f2369(0x3a6) + _0x4f2369(0x39a)]) {
+            if (_0x431eef[0x0] && typeof (_0x3dbe7e = _0x431eef[_0x4f2369(0x417)]) === _0x4f2369(0x3a4)) {
+                for (_0x47bc82 = 0x0; _0x47bc82 < _0x3dbe7e; _0x47bc82++) {
+                    _0xb5a746(_0x431eef[_0x47bc82]);
+                }
+            }
+        }
+    }
+
+    // ...
+    // Rest of the code goes here
+    
+    return _0x5e3c9d = _0x5e439b = null, _0x5e84cb;
+}
+```
+
+This code appears to clean HTML elements before manipulation, by creating new elements and modifying existing ones. It also handles special cases for different types of elements. However, without additional context or the complete code, it is difficult to provide a more specific explanation or functionality of this code.This is the remaining part of the previous function:
+
+```javascript
+}else{
+    _0xb5a746(_0x431eef);
+}
+
+_0x431eef['nodeType'] ? _0x544f96[_0x4f2369(0x31a)](_0x431eef) : _0x544f96 = _0xd903d7[_0x4f2369(0x1c0)](_0x544f96, _0x431eef);
+}
+
+if (_0x41d81f) {
+    _0x42d40c = function(_0x503b67) {
+        var _0x39639b = _0x4f2369;
+        return !_0x503b67[_0x39639b(0x1be)] || _0x32d466['test'](_0x503b67[_0x39639b(0x1be)]);
+    }
+    
+    for (_0x5a0674 = 0x0; _0x544f96[_0x5a0674]; _0x5a0674++) {
+        if (_0x1180fe && _0xd903d7['nodeName'](_0x544f96[_0x5a0674], _0x4f2369(0x39b)) && (!_0x544f96[_0x5a0674][_0x4f2369(0x1be)] || _0x544f96[_0x5a0674][_0x4f2369(0x1be)]['toLowerCase']() === 'text/javascript')) {
+            _0x1180fe[_0x4f2369(0x31a)](_0x544f96[_0x5a0674][_0x4f2369(0x275)] ? _0x544f96[_0x5a0674][_0x4f2369(0x275)][_0x4f2369(0x2f3) + 'd'](_0x544f96[_0x5a0674]) : _0x544f96[_0x5a0674]);
+        } else {
+            if (_0x544f96[_0x5a0674][_0x4f2369(0x306)] === 0x1) {
+                var _0x3b9608 = _0xd903d7['grep'](_0x544f96[_0x5a0674][_0x4f2369(0x3b1) + _0x4f2369(0x4ca)](_0x4f2369(0x39b)), _0x42d40c);
+                _0x544f96[_0x4f2369(0x391)][_0x4f2369(0x4b3)](_0x544f96, [_0x5a0674 + 0x1, 0x0][_0x4f2369(0x4ac)](_0x3b9608));
+            }
+            _0x41d81f[_0x4f2369(0x214) + 'd'](_0x544f96[_0x5a0674]);
+        }
+    }
+}
+return _0x544f96;
+},
+
+'cleanData': function(_0x4e1dca) {
+    var _0x599956 = _0x2f0977,
+        _0x4be0f5, _0x5b5ce5, _0x419509 = _0xd903d7['cache'],
+        _0x3f7d07 = _0xd903d7['event'][_0x599956(0x202)],
+        _0x38f6e2 = _0xd903d7[_0x599956(0x28d)][_0x599956(0x1f5) + _0x599956(0x2f9)];
+    
+    for (var _0x22646f = 0x0, _0x344de5; (_0x344de5 = _0x4e1dca[_0x22646f]) != null; _0x22646f++) {
+        if (_0x344de5[_0x599956(0x30c)] && _0xd903d7[_0x599956(0x1ec)][_0x344de5['nodeName'][_0x599956(0x258) + 'e']()]) {
+            continue;
+        }
+        
+        _0x5b5ce5 = _0x344de5[_0xd903d7['This code snippet is a continuation of the previous code.
+
+```javascript
+if (arguments.length === 2 && _0x8c2675 === undefined) {
+    return this;
+}
+
+return _0xd903d7['access'](this, _0x1d391b, _0x519422, _0x8c2675, function (_0x95bc14, _0x33324b, _0x5eaf65) {
+    var _0x2f6027 = _0x232ef6;
+    if (_0x5eaf65 !== undefined) {
+        return _0xd903d7['style'](_0x95bc14, _0x33324b, _0x5eaf65);
+    } else {
+        return _0xd903d7['css'](_0x95bc14, _0x33324b);
+    }
+});
+```
+
+This code defines the `css` method on the `fn` property of the `d903d7` object. The `css` method is used to get or set the value of CSS properties on elements.
+
+The method accepts three arguments: `_0x1d391b`, `_0x519422`, and `_0x8c2675`. If only two arguments are provided, and `_0x8c2675` is `undefined`, the method returns `this` (the jQuery object).
+
+Otherwise, the method calls the `access` method on the `d903d7` object, passing in `this`, `_0x1d391b`, `_0x519422`, `_0x8c2675`, and a callback function. Inside the callback function, if `_0x5eaf65` (the value to set) is not `undefined`, it calls the `style` method on the `d903d7` object to set the style of the element. Otherwise, it calls the `css` method on the `d903d7` object to get the computed style of the element.This code snippet continues to define additional methods on the `d903d7` object.
+
+First, it defines the `swap` method on the `d903d7` object. The `swap` method is used to temporarily swap CSS properties on elements. It accepts three arguments: `_0x3dae9f`, `_0x2af8a8`, and `_0x276ea3`. Inside the method, it creates an empty object called `_0x5af4cf` and stores the original values of the CSS properties in it. Then it sets the new values of the CSS properties on the element. After that, it calls the callback function `_0x276ea3` and passes in the element. Finally, it reverts the CSS properties back to their original values.
+
+Next, it assigns the `curCSS` method on the `d903d7` object to be the same as the `css` method. This is just an alias for the `css` method.
+
+Then, it defines the `get` and `set` methods for the CSS properties `'opacity'` and `'zIndex'`. These methods are added to the `d903d7.fn` object under the property `curCSS`. The `get` method retrieves the value of the CSS property from the element's style, while the `set` method sets the value of the CSS property on the element's style. These methods handle special cases for the `'opacity'` and `'zIndex'` properties.
+
+Finally, it checks if the browser does not support the `computedStyle` property. If not, it adds a fallback method for getting the computed styles of elements. The fallback method uses regular expressions to extract the numeric value of the CSS property and convert it to a decimal value. It also handles special cases for `'opacity'`.
+
+Overall, this code snippet adds additional functionality for getting and setting CSS properties on elements and handles special cases for certain properties.This code snippet continues with defining additional methods on the `d903d7` object.
+
+First, it checks if the browser does not support the `"marginTop"` CSS property. If so, it adds a fallback method for getting the value of the `"marginTop"` property. The fallback method temporarily sets the element's display to `"inline-block"`, gets the value of the `"marginTop"` property, and then reverts the display back to its original value.
+
+Next, it checks if the browser supports the `defaultView` property and the `window.getComputedStyle` method. If so, it defines a function called `_0x4d689c` for getting computed styles of elements. This function takes two arguments: `_0x44cb81` (the element) and `_0x24a7f3` (the CSS property). Inside the function, it uses the `window.getComputedStyle` method to get the computed style of the element and then retrieves the value of the specified CSS property from it.
+
+Then, it checks if the browser supports the `currentStyle` property and the `element.style` property for setting styles. If so, it defines a function called `_0x54a004` for getting the value of the CSS property directly from the `currentStyle` or `element.style` object. This function also handles some special cases related to numeric values and units.
+
+After that, it assigns the `_0x4d689c` or `_0x54a004` function to the variable `_0x427f47`, depending on which one is supported by the browser. This variable is then used in the `_0x4afe2e` function to get the value of CSS properties.
+
+Finally, it defines the `_0x4afe2e` function, which is used to calculate the offset width and height of elements. This function takes three arguments: `_0x449ac0` (the element), `_0x46c9f0` (the property to calculate), and `_0x3352f4` (an optional value for specifying the box model calculation). Inside the function, it calculates the offset width or height based on the property and the box model calculation value. It also handles special cases for different box model calculations and returns the calculated value in pixels.This code snippet defines some utility functions that are used later in the code.
+
+First, it defines a function called `_0x2e659d` that takes a callback function `_0x260c9b` as an argument. This function is used to create a callback function that can be passed to jQuery's event handling methods. Inside the function, it checks if the callback function is a function and if so, it creates a unique key for the callback function based on the element name. Then, it adds the callback function to the `_0x5b66af` object, which is used later for event handling.
+
+Next, it defines a function called `_0x49152c` that is used to iterate over a list of event handlers and call them with the specified arguments. This function is used to handle event delegation in jQuery. It takes six arguments: `_0x190fac` (the element), `_0xcf9807` (the event object), `_0x40f541` (the event type), `_0x17caf6` (the event target), `_0x104f12` (the current event phase), and `_0xafeb59` (an optional object used to keep track of visited elements).
+
+Then, it defines a function called `_0x4b9226` that is used to retrieve the computed style of an element. This function takes two arguments: `_0x1c3230` (the element) and `_0x4f294d` (the CSS property to retrieve). Inside the function, it retrieves the computed style for the element using the `_0x465c8a` global object and returns the value of the specified CSS property.
+
+Finally, it assigns an object to the `_0x29562d` variable, which is used later in the code.The remaining part of the code snippet defines a few functions as methods of the `$.fn` object (which represents the jQuery prototype).
+
+The first method is `load()`, which is used to perform AJAX requests to load content from a server and inject it into the HTML of the current page. It takes three parameters: `url` (the URL of the server-side resource), `data` (the data to send to the server), and `callback` (an optional callback function to be executed after the content is loaded and injected). Inside the method, it checks if the `data` parameter is a function and if so, it assigns it to the `callback` variable. Then, it performs an AJAX request using the `$.ajax()` method and sets the `complete` callback function to handle the response. Finally, it returns the jQuery object for chaining.
+
+The second method is `serialize()`, which is used to convert a set of form elements into a serialized string representation. It does this by calling the `$.param()` method on the result of calling the `serializeArray()` method on the current set of form elements. It then returns the serialized string.
+
+The third method is `serializeArray()`, which is used to convert a set of form elements into an array of objects, where each object represents a key-value pair. It does this by mapping over the form elements and creating an object for each element, where the `name` attribute is the key and the `value` attribute is the value. It then filters out elements that are not checked or disabled. Finally, it converts the resulting array to a jQuery object and returns it.
+
+Overall, these methods provide utility functions for making AJAX requests, serializing form data, and converting form data to various formats.The remaining code defines the `ajax()` function, which is a higher-level function for making AJAX requests. It takes two parameters: `url` (the URL of the server-side resource) and `options` (an object containing additional options for the request).
+
+Inside the function, it first checks if the `url` parameter is a string and if not, it assigns it to the `options` variable and sets the `url` property of the `options` object to the `url` parameter. It then merges the `options` object with the default `ajaxSettings` object using the `$.ajaxSetup()` method and assigns the result to the `settings` variable.
+
+Next, it initializes several variables that will be used to store information about the request and response. It creates a new Deferred object with the `$._Deferred()` method and assigns it to the `deferred` variable. It creates an empty object for storing request headers and assigns it to the `requestHeaders` variable. It creates an empty object for storing response headers and assigns it to the `responseHeaders` variable. It creates an empty string for storing the response body and assigns it to the `responseText` variable. It creates an empty string for storing the response status and assigns it to the `statusText` variable. It sets the `responseType` variable to `undefined` and the `status` variable to `0`. It creates an empty string for storing the data type of the response and assigns it to the `dataType` variable. It creates an empty string for storing the data type of the original request and assigns it to the `requestDataType` variable. It sets the `timeoutFired` variable to `false` and the `hasError` variable to `false`.
+
+After that, it defines a few helper functions that will be used later in the code. The first function, `setRequestHeader`, is used to set a request header. It takes two parameters: `name` (the name of the header) and `value` (the value of the header). Inside the function, it checks if the request has not been sent yet (i.e., `status` is `0`) and if so, it sets the header in the `requestHeaders` object.
+
+The second function, `getAllResponseHeaders`, is used to get all response headers. It returns the `responseHeaders` object as a formatted string.
+
+The third function, `getResponseHeader`, is used to get a specific response header. It takes one parameter: `name` (the name of the header). Inside the function, it checks if the response has been received (i.e., `status` is `2`) and if so, it looks up the header name in the `responseHeaders` object and returns its value.
+
+Next, it defines a few more helper functions. The first function, `converters`, is used to convert the response data based on the data type specified in the `dataType` property of the `settings` object. It takes two parameters: `dataType` (the desired data type of the response) and `data` (the response data). Inside the function, it checks if the desired data type is `'* text'` and if so, it returns the response data as is. If the desired data type is `'text html'`, it returns the response data as HTML. If the desired data type is `'text json'`, it parses the response data as JSON and returns the result. If the desired data type is `'text xml'`, it parses the response data as XML and returns the result. Otherwise, it returns `null`.
+
+The second function, `ajaxConvert`, is used to convert the response data to the desired data type. It takes two parameters: `s` (the `settings` object) and `response` (the response data). Inside the function, it first checks if the `s.dataType` property is `'auto'` and if so, it tries to determine the data type based on the response's content type header. If it fails to determine the data type, it defaults to `'text'`. Then, it calls the `converters` function with the determined data type and the response data, and returns the result.
+
+The third function, `ajaxHandleResponses`, is used to handle different response types. It takes four parameters: `s` (the `settings` object), `jqXHR` (the jQuery XMLHttpRequest object), `responses` (an array of objects containing the response status, headers, and body), and `status` (the response status). Inside the function, it sets `responseHeaders` to the headers in the last response, `responseText` to the response body in the last response, `statusText` to the response status text, and `status` to the response status code. Then, it calls the `ajaxConvert` function with `s` and `responseText` as arguments and assigns the result to `response`. Finally, it resolves the Deferred object with the response and the status.
+
+After defining these helper functions, the code sets the request headers based on the `settings` object, by iterating over the `settings.headers` property and calling the `setRequestHeader` function for each header.
+
+Next, it checks if the `s.beforeSend` property is a function and if so, it calls it with the `jqXHR` and `settings` objects as arguments.
+
+Then, it checks if the request has been canceled (i.e., `status` is less than `0`) and if so, it returns the Deferred object.
+
+Next, it sets the `xhr` property of the `settings` object to a new `XMLHttpRequest` object and assigns it to the `xhr` variable.
+
+Then, it sets the `xhrFields` property of the `settings` object to the `xhr` object and assigns it to the `xhrFields` variable.
+
+Next, it sets the `jsonp` property of the `settings` object to a string of random characters and assigns it to the `jsonp` variable.
+
+After that, it checks if the `s.crossDomain` property is `true` and if so, it sets the `xhrFields.withCredentials` property to `true`.
+
+Then, it checks if the `s.timeout` property is greater than `0` and if so, it sets the `timeout` property of the `xhr` object to the `s.timeout` value and adds an event listener for the `timeout` event that calls the `onTimeout` function.
+
+Next, it checks if the `s.accepts.script` property is `true` and if so, it sets the `xhr.responseType` property to `'blob'` and adds an event listener for the `load` event that calls the `onScriptLoad` function.
+
+Then, it checks if the `s.accepts[settings.dataType]` property is `true` and if so, it adds an event listener for the `load` event that calls the `onLoad` function.
+
+After that, it adds event listeners for the `progress`, `loadend`, and `error` events that call the `onProgress`, `onLoadEnd`, and `onError` functions, respectively.
+
+Next, it checks if the `s.contentType` property is not `false` and if so, it sets the `Content-Type` header to the `s.contentType` value.
+
+After that, it checks if the `s.data` property is an object and if so, it sets the `processData` property of the `settings` object to `false` and sets the `data` property of the `settings` object to the serialized form of the `s.data` object using the `$.param()` method.
+
+Then, it checks if the `s.dataTypes` property is not empty and if so, it sets the `dataType` property of the `settings` object to the first data type in the `s.dataTypes` array.
+
+Next, it checks if the `s.data` property is a string and if so, it sets the `Content-Type` header to the `s.contentType` value.
+
+After that, it checks if the `s.cache` property is not `true` and if so, it adds a timestamp to the `url` to prevent caching.
+
+Then, it checks if the `s.global` property is `true` and if so, it triggers the global AJAX events `ajaxStart` and `ajaxSend`.
+
+Next, it creates a new `FormData` object with the `s.data` property as an argument and assigns it toFinally, the code returns the `deferred` object. This object is used to track the status of the request and handle success or failure. By returning the `deferred` object, the code allows the caller to attach callback functions to handle the response and status.
+
+In summary, the `ajax()` function is a higher-level function for making AJAX requests. It takes a URL and options object as parameters and uses the `XMLHttpRequest` object to send the request to the server. The function handles various aspects of the request, such as setting headers, converting response data, and handling events. It returns a `deferred` object that can be used to handle the response and status of the request.Continuing from the previous part, the code checks if the `hasContent` property is true and if the `method` property of the options object is different from `'HEAD'`. If either condition is true, it adds the contents of the `data` property to the URL as a query string. It also appends a cache-busting parameter to the URL if the `cache` property is false.
+
+Next, the code checks if the `ifModified` property is true and if there are cached responses for the URL. If both conditions are true, it adds the appropriate `If-Modified-Since` and `If-None-Match` headers to the request.
+
+The code then sets the `Accept` header based on the first data type in the `accepts` property of the options object. It also sets any additional headers specified in the `headers` property.
+
+If the `beforeSend` callback function exists and returns false, or if the `status` variable is equal to 2, indicating that the request has been aborted, the code returns false and aborts the request.
+
+Next, the code sets up callback functions for the `success`, `error`, and `complete` events. These callbacks are executed when the corresponding events are fired during the AJAX request.
+
+The code then calls the `transport()` function to create an appropriate transport object based on the availability of different transport methods.
+
+If the transport object is successfully created, the code sets the `readyState` property of the `deferred` object to 1 to indicate that the request is in progress. It also fires the `ajaxSend` event.
+
+If the `timeout` property is set in the options object, the code sets a timeout function to handle timeouts.
+
+Finally, the code tries to send the request by calling the `send()` method of the transport object. If an error occurs during the sending of the request, the code calls the `error` callback function. If the request is aborted, the code calls the `abort` callback function. If neither condition is met, the code throws the error.
+
+The code returns the `deferred` object at the end.The remaining part of the code defines two helper functions: `param` and `extend`.
+
+The `param` function takes an object and converts it into a query string. It does this by iterating over the properties of the object and encoding each key-value pair as a parameter. It handles nested objects and arrays by recursively calling itself for each nested property.
+
+The `extend` function takes two objects and merges them together, with properties from the second object overwriting properties from the first object. It is used to merge the default settings with the user-provided options.
+
+The code then declares an object named `_jQuery` with two properties: `ajaxSettings` and `ajaxPrefilter`. These properties contain default settings and prefilter functions for AJAX requests.
+
+The `ajaxSettings` object contains default settings for AJAX requests, such as the `url` and `type` properties. It also contains a `xhr` property that returns a new XMLHttpRequest object.
+
+The `ajaxPrefilter` property is an array of functions that are called before each AJAX request is sent. These functions can modify the settings of the request, such as adding headers or modifying the data. They also have access to the `this` context, which refers to the XMLHttpRequest object.
+
+Finally, the code assigns the `_jQuery` object to the global `window.jQuery` variable, making it available to other parts of the codebase.The remaining part of the code defines more helper functions and sets up default settings and prefilter functions for JSON and JSONP requests.
+
+The code declares a variable named `_0x580e3a` and assigns it the result of calling the `_d903d7.uuid()` function. This variable is used to generate a unique ID for each JSONP request.
+
+The code also declares a regular expression named `_0x422e1e` that matches patterns commonly used in JSON and JSONP requests.
+
+The code then adds default settings and a default callback function for JSONP requests using the `ajaxPrefilter` function. This function is called before each AJAX request and allows for modification of the request settings.
+
+Finally, the code returns the `_d903d7` object from the anonymous function, making it available as the global `window.$.ajax` variable.The remaining part of the code adds support for JSONP requests. Firstly, the code checks if the `dataType` of the request is `jsonp` or if the `jsonp` option is enabled and the URL or data contains patterns commonly used in JSONP requests. If any of these conditions are met, the code proceeds with JSONP processing.
+
+The code generates a unique ID for the JSONP request and stores it in the `xhr.jsonpCallback` property.
+
+The original URL and callback function are stored in variables for later use. The URL and callback function are modified if necessary.
+
+The code sets the `converters` property of the request to convert the response to a JavaScript object.
+
+The first element of the `dataTypes` property is set to `'jsonp'`, indicating that the response will be expected in JSONP format.
+
+Finally, the code returns the modified settings object.
+
+The code also modifies the default settings and prefilter functions to include support for JSONP requests.
+
+Hope this clarifies the remaining part of the code!The remaining part of the code continues the processing of the JSONP request.
+
+The code checks if `jsonpCallback` is defined in the `settings` object. If it is defined, the value is stored in a variable. Otherwise, a new unique ID is generated and stored in the `xhr.jsonpCallback` property.
+
+The original URL and callback function are stored in variables for later use. The URL and callback function are modified if necessary.
+
+The code sets the `converters` property of the request to convert the response to a JavaScript object.
+
+The first element of the `dataTypes` property is set to `'jsonp'`, indicating that the response will be expected in JSONP format.
+
+Finally, the code returns the modified `settings` object.
+
+The code also modifies the default settings and prefilter functions to include support for JSONP requests.
+
+I hope this helps! Let me know if you have any further questions.The remaining part of the code continues the definition of the `show` and `hide` functions in the jQuery library.
+
+The `show` function is defined to handle showing elements. It checks if any arguments are provided. If there are arguments, it calls the `animate` function with the arguments `'show'`, `duration`, `easing`, and `complete`. If there are no arguments, it iterates over each element in the selection and sets the `display` CSS property to the value stored in the `_data` object, or an empty string if it doesn't exist.
+
+The `hide` function is defined to handle hiding elements. It checks if any arguments are provided. If there are arguments, it calls the `animate` function with the arguments `'hide'`, `duration`, `easing`, and `complete`. If there are no arguments, it iterates over each element in the selection and sets the `display` CSS property to `'none'`.
+
+I hope this clarifies the remaining part of the code. Let me know if you have any further questions.The remaining part of the code continues the definition of the `animate` function in the jQuery library.
+
+The `animate` function is defined to handle animating elements. It first checks if the `animate` function is called with an object argument. If it is, it calls the `animate` function again with the arguments passed. If not, it proceeds with the rest of the code.
+
+The code creates a helper function `_2f179a`, which is the main logic for the animation. Inside `_2f179a`, it checks if the `display` CSS property of the element is set to `'none'`. If it is set to `'none'`, and the property being animated is `'height'` or `'width'`, it temporarily sets the `overflow` CSS property of the element to `'hidden'` to avoid any visibility issues during the animation.
+
+The code then creates a new `fx` object for each property being animated. It checks if the value of the property is in the `_269cae` array, indicating a special animation like `'show'` or `'hide'`. If it is, it retrieves the stored special animation value from the `_data` object, and calls the corresponding method on the `fx` object (`show` or `hide`). If the value is not a special animation, it calls the `custom` method on the `fx` object.
+
+The `custom` method is responsible for animating properties with arbitrary values. It checks if the property value is a string in the format `"<value><unit>"`, where `<value>` is a number and `<unit>` is a unit of measurement like `'px'`. If it is, it extracts the numeric value and the unit. It then sets the initial value of the property on the element using the `style` function, and calculates the end value relative to the initial value based on the provided value in the animation object. Finally, it calls the `custom` method on the `fx` object with the initial and end values and the unit.
+
+The `fx` object is responsible for actually animating the properties. It keeps track of the initial and end values of the property being animated, and the unit of measurement. It also has methods like `show`, `hide`, `custom`, and `update` to handle each type of animation.
+
+The `animate` function in the jQuery library ends with a return statement `return !![]`. This ensures that the function returns a truthy value, indicating that the animation was started successfully.
+
+I hope this clarifies the remaining part of the code. Let me know if you have any further questions.In the remaining part of the code:
+
+The code defines the `stop` function on the jQuery library. This function is used to stop the animation on elements.
+
+The `stop` function takes three parameters: `queue`, `clearQueue`, and `jumpToEnd`. The `queue` parameter specifies the name of the animation queue to stop. The `clearQueue` parameter is a boolean value that determines whether to clear the animation queue before stopping. The `jumpToEnd` parameter is a boolean value that determines whether to jump to the end of the animation.
+
+Inside the `stop` function, it first checks if the `queue` parameter is not a valid value. If it is not valid, it swaps the values of the `queue` and `clearQueue` variables. This is done to handle the case where only the `clearQueue` parameter is provided.
+
+It then checks if the `clearQueue` parameter is truthy and the `queue` parameter is not `'fx'`. If this condition is met, it clears the animation queue by calling the `queue` function with the 'fx' queue name and an empty array.
+
+Next, it iterates over the animation queue for each element in the jQuery collection. It checks if the animation should be stopped based on the values of the `queue` and `jumpToEnd` parameters. If the animation should be stopped, it either invokes the animation callback with a `true` argument or saves the current state of the animation, depending on the value of the `jumpToEnd` parameter. It also sets a flag `_36a4ee` to indicate whether any animations were stopped.
+
+Finally, if the `jumpToEnd` parameter is falsy or no animations were stopped, it calls the `_36c` function on the elements, passing the `queue` parameter. This function is responsible for actually stopping the animation and removing it from the queue.
+
+The remaining code after the `stop` function defines the `speed` function on the jQuery library. This function is used to set the duration and easing of animations.
+
+The `speed` function takes three parameters: `duration`, `easing`, and `complete`. 
+
+Inside the `speed` function, it creates an object `__5d02b5` to store the speed settings. If `duration` is a number, it assigns it directly to the `__5d02b5.duration` property. If `duration` is an object, it sets the `complete` property of `__5d02b5` to the value of `easing`, or if `easing` is not provided, to the value of `complete`. It also sets the `duration` property of `__5d02b5` to the value of `duration`.
+
+The function then checks if the `__5d02b5.easing` property is not provided or is not a valid easing option. If it is not valid, it sets the `easing` property to the default easing option.
+
+Finally, it sets the `complete` and `old` properties of `__5d02b5` to the value of `complete`. It then sets the `specialEasing` property of the `__5d02b5` object to the same value, and returns the `__5d02b5` object.
+
+The code then adds the speed settings to the `fx` object in the jQuery library, and defines convenience functions for each animation type using the `fn` property of the jQuery object.
+
+I hope this clarifies the remaining part of the code. Let me know if you have any further questions.In the remaining part of the code:
+
+The code defines several properties and methods on the `fx` object in the jQuery library.
+
+First, it defines an empty object `options` on the `fx` object.
+
+Then, it defines the `update` method on the `fx` object. This method is used to update the animation by calling the animation step function and the animation callback function.
+
+Inside the `update` method, it checks if the animation step function exists in the `options` object. If it exists, it calls the animation step function with the animation state and the animated element as arguments. It also checks if there is an animation callback function defined for the current animation type. If there is, it calls the animation callback function with the `fx` object as the context.
+
+Next, the code defines the `cur` method on the `fx` object. This method is used to get the current value of the animation property.
+
+Inside the `cur` method, it first checks if the current value of the animation property is not `null` and if the element does not have a computed value for the animation property. If this condition is met, it returns the current value of the animation property.
+
+Otherwise, it calls the `_default` method on the `$.cssHooks` object with the animated element and the animation property as arguments to get the computed value of the animation property. If the computed value is not a number, or if it is `NaN`, or if it is `'auto'`, it returns `0`. Otherwise, it returns the computed value as a number.
+
+Then, the code defines the `custom` method on the `fx` object. This method is used to animate a custom property value.
+
+Inside the `custom` method, it first sets the `startTime` property of the `fx` object to the current time or the value of an existing `startTime` property. It sets the `end` property of the `fx` object to the target value of the animation. It sets the `now` and `start` properties of the `fx` object to the initial value of the animation. It sets the `state` and `animate` properties of the `fx` object to `0`. It sets the `unit` property of the `fx` object to the unit of the animation property or an empty string.
+
+Then, it defines a function `_default` that represents the animation step function. This function calls the animation step function defined in the `fx` object's options or the default animation step function, passing the `fx` object as the context.
+
+It also sets the `fx` object's `step` property to the `_default` function.
+
+Next, it defines the `show` method on the `fx` object. This method is used to show the element by animating its CSS properties.
+
+Inside the `show` method, it first gets the current value of the CSS property being animated. It sets the CSS property value in the `fx` object's options to the current value or the computed value of the CSS property, using the `$.style` function. It sets the `hide` property of the `fx` object's options to `true`. It checks if the current value of the CSS property is not `undefined`. If it is not `undefined`, it animates the CSS property value from the current value to `1` using the `custom` method. Otherwise, it calls the `_default` method on the `fx` object to complete the animation immediately.
+
+Then, it defines the `hide` method on the `fx` object. This method is used to hide the element by animating its CSS properties.
+
+Inside the `hide` method, it first gets the current value of the CSS property being animated. It sets the CSS property value in the `fx` object's options to the current value or the computed value of the CSS property, using the `$.style` function. It sets the `hide` property of the `fx` object's options to `true`. It calls the `custom` method to animate the CSS property value from the current value to `0`.
+
+Finally, it defines the `step` method on the `fx` object. This method is used to update the animation state and call the animation step function.
+
+Inside the `step` method, it first gets the current time or the value of an existing global variable. It sets the `now` property of the `fx` object to the current value of the animation property. It sets the `state` and `animate` properties of the `fx` object to `0`. It sets the `unit` property of the `fx` object to the unit of the animation property or an empty string.
+
+Then, it defines a function `_default` that represents the animation step function. This function calls the animation step function defined in the `fx` object's options or the default animation step function, passing the `fx` object as the context.
+
+Finally, it checks if the `_default` function exists in the `$.easing` object and if the global variable `_b68339` is `false`. If this condition is met, it sets the global variable `_b68339` to the return value of `setInterval` with the `_default` function as the callback and the interval time as the interval.In the remaining part of the code:
+
+The code checks if the animation duration has elapsed or if the animation is complete. If either of these conditions is true, it sets the `fx` object's `now` property to the target value of the animation. It sets the `state` and `animate` properties of the `fx` object to `1`. It calls the `update` method to update the animation state and call the animation step function. It sets the `done` property of the animation properties in the `fx` object to `true`.
+
+Then, it checks if all the animation properties in the `fx` object's `options` are set to `true`. If this condition is met, it sets the `display` property of the animated element's style to `'none'`.
+
+Next, it checks if the `hide` or `show` property is set to `true` in the `fx` object's `options`. If either of these properties is `true`, it iterates over the animation properties in the `fx` object's `options`. It restores the original value of each animated property using the `$.style` function. It triggers the `fxshow` event with the animation property name as the event type. It removes the data related to the animation property from the animated element.
+
+Then, it checks if the `overflow` property is set in the `fx` object's `options`, and if it is not `null`, and if the animated element does not have a scroll method. If these conditions are met, it sets the `overflow` property of the animated element's style for each axis to the corresponding value in the `fx` object's `options`.
+
+After that, it checks if the `toggle` property is set in the `fx` object's `options`. If it is set, it executes the `toggle` function on the animated element using the `$.fn.toggle` method.
+
+Finally, it checks if the `hide` or `show` property is set to `true` in the `fx` object's `options`. If either of these properties is `true`, it iterates over the animation properties in the `fx` object's `options`. It restores the original value of each animated property using the `$.style` function. It triggers the `fxshow` event with the animation property name as the event type. It removes the data related to the animation property from the animated element.
+
+The code then sets the `done` property of the animation properties in the `fx` object to `true`.
+
+Next, it checks if the `interval` property in the `fx` object's `options` is set to `Infinity`. If it is set to `Infinity`, it sets the `fx` object's `pos` property to the current animation progress as a fraction of the animation duration. It calculates the current animation value using the easing function specified in the `fx` object's `options`. It updates the `fx` object's `now` property based on the current animation value. It calls the `update` method to update the animation state and call the animation step function.
+
+Finally, it returns `true` to indicate that the animation is still in progress.In the remaining part of the code:
+
+The code checks if the `jQuery.expr.filters` property exists and if the `timers` property exists in the `jQuery` object. If both conditions are true, it sets the `jQuery.expr.filters.hidden` property to a function. This function uses the `jQuery.grep` function to filter the `jQuery.timers` array. It returns the timer object whose animation duration matches the specified value.
+
+Then, it defines a function named `_0x2d4c97` that takes a parameter `_0x14f486`. This function is used to get the current computed value of a CSS property for an element. It checks if the property value is already cached in the `_0x4086f7` object. If it is not cached, it creates a temporary element with the specified tag name, appends it to the document body, gets the computed value of the property for the temporary element, removes the temporary element, and caches the computed value in the `_0x4086f7` object. Finally, it returns the computed value of the property.
+
+After that, it defines regular expressions to match table elements and body/html elements.
+
+Next, it checks if the `getBoundingClientRect` method is available in the `document` object. If it is available, it adds a custom `offset` method to the `jQuery.fn` object. This method takes an optional parameter `_0x5e7c55` which is used to set the offset of the matched elements. If the `_0x5e7c55` parameter is provided, the method calls the `jQuery.fn.each` method to iterate over the matched elements and applies the offset to each element. If the `_0x5e7c55` parameter is not provided, the method checks if the first matched element exists and has a `getBoundingClientRect` method. If it does, it returns an object with the `top` and `left` properties set to the offset of the first matched element. If the first matched element does not exist or does not have a `getBoundingClientRect` method, it returns null.
+
+Finally, it checks if the `getBoundingClientRect` method is not available in the `document` object. If it is not available, it adds a custom `offset` method to the `jQuery.fn` object. This method takes an optional parameter `_0x210792` which is used to set the offset of the matched elements. If the `_0x210792` parameter is provided, the method calls the `jQuery.fn.each` method to iterate over the matched elements and applies the offset to each element.The remaining part of the code adds two methods `scrollLeft` and `scrollTop` to the `jQuery.fn` object.
+
+The `scrollLeft` method is used to get or set the horizontal scroll position of the first matched element. It takes an optional parameter `_0x5d260c`, which is used to set the scroll position. If the `_0x5d260c` parameter is provided, the method calls the `jQuery.fn.each` method to iterate over the matched elements and sets the scroll position to the specified value. If the `_0x5d260c` parameter is not provided, the method checks if the first matched element exists and has a `scrollLeft` property. If it does, it returns the scroll position of the first matched element. If the first matched element does not exist or does not have a `scrollLeft` property, it returns null.
+
+The `scrollTop` method is similar to the `scrollLeft` method, but it is used to get or set the vertical scroll position of the first matched element. It works in the same way and has the same parameters and return values as the `scrollLeft` method.The remaining part of the code defines three methods `innerWidth`, `outerWidth`, and `width` on the `jQuery.fn` object.
+
+The `innerWidth` method is used to get the computed width of the first matched element, including padding but not border and margin. It takes an optional parameter `_0x28c261` which sets the width of the matched elements. If the `_0x28c261` parameter is provided, the method calls the `jQuery.fn.each` method to iterate over the matched elements and sets the width to the specified value. If the `_0x28c261` parameter is not provided, the method checks if the first matched element exists and has a `style` property. If it does, it returns the computed width of the first matched element including padding. If the first matched element does not exist or does not have a `style` property, it returns null.
+
+The `outerWidth` method is similar to the `innerWidth` method, but it includes padding and border but not margin in the computed width.
+
+The `width` method is similar to the `outerWidth` method, but it only returns the computed width including the content width, without including padding, border, or margin.
+
+The `_0x4e916f` function is a helper function used to determine if the passed argument is a DOM element. It checks if the argument is an object and has a `nodeType` property equal to 1, which indicates a DOM element. If the argument is a DOM element, it returns the argument itself. Otherwise, it returns false.
+
+The remaining part of the code adds two methods `innerHeight` and `outerHeight` to the `jQuery.fn` object. These methods are similar to the `innerWidth` and `outerWidth` methods, but they are used to get or set the computed height of the first matched element, including padding and border but not margin. They work in the same way and have the same parameters and return values as the `innerWidth` and `outerWidth` methods.The remaining part of the code defines the root element for the jQuery library as `window`.
+
+The code checks if the `define` function exists and if it has a `amd` property. If both conditions are met, it calls the `define` function passing the string `'jquery'`, an empty array `[]`, and a callback function that returns the root element `window`.
+
+This part of the code is making use of the Asynchronous Module Definition (AMD) format, which allows the code to be loaded asynchronously and to define dependencies among modules.
+
+This is the end of the jQuery library code that was included in the previous snippet.

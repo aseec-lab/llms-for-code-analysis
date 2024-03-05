@@ -1,0 +1,24 @@
+The code is a program written in C that is used to find and print all the palindromes within a given input string. Here is a breakdown of the code:
+
+1. The code starts by declaring some variables:
+   - `char s[550]`: A character array that can hold up to 550 characters. It is initialized with zeros.
+   - `int i, num, j, k`: Integer variables used for looping and indexing.
+
+2. A `for` loop is used to read characters from the input using `scanf()` and store them in the `s` array. The loop exits when a newline character (`'\n'`) is encountered.
+   - Inside the loop, each character is checked if it is a newline character. If true, the character is set to zero (`s[i] = 0`), and the index of the last character is stored in `num`.
+
+3. Two character pointers, `p1` and `p2`, are declared.
+
+4. Another `for` loop is used to iterate over possible palindrome lengths (`i` from 2 to `num + 1`).
+   - Inside this loop, memory is dynamically allocated for `p1` and `p2`, each with length `i + 1`.
+
+5. A nested `for` loop is used to iterate over possible starting positions of each palindrome.
+   - The inner loop constructs each palindrome by copying characters from the `s` array to `p1` and `p2` in the forward and reverse orders, respectively.
+   - The `*(p1 + i)` and `*(p2 + i)` are set to zero (`'\0'`) to terminate the strings.
+
+6. `strcmp()` function is used to compare `p1` and `p2` to check if they are palindromes.
+   - If they are equal, the palindrome string `p1` is printed using `printf()`.
+
+7. The dynamically allocated memory for `p1` and `p2` is freed using `free()`.
+
+8. The `main()` function returns 0, indicating successful execution of the program.

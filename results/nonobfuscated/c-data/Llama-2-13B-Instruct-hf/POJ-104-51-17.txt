@@ -1,0 +1,75 @@
+Analyze the following piece of code: int main()
+{
+	int m,n,i,j,k=0;
+	char a[1000],b[1000][5],c[5];
+	int num[1000];
+	for(i=0;i<1000;i++)
+		num[i]=0;
+    scanf("%d\n",&n);
+	gets(a);
+	for(i=0;;i++)
+	{
+		for(j=i;j<=i+n-1;j++)
+		{
+			
+			if(a[j]=='\0')goto loop;
+			b[k][j-i]=a[j];
+		}k++;
+		b[k-1][n]='\0';
+	}loop:;
+	
+	//printf("%d\n",k);
+	
+	//puts(b[1]);
+	for(i=0;i<k-1;i++)
+		for(j=i+1;j<k;j++)
+		{
+          if(strcmp(b[i],b[j])==0)num[i]++;
+		}
+
+		for(i=k-2;i>0;i--)
+			for(j=0;j<i;j++)
+			{
+				if(num[j]<num[j+1])
+				{	strcpy(c,b[j]);strcpy(b[j],b[j+1]);strcpy(b[j+1],c);
+				    m=num[j];num[j]=num[j+1];num[j+1]=m;
+				}
+			}
+if(num[0]==0)
+printf("NO");
+else{
+
+			printf("%d\n",num[0]+1);
+    puts(b[0]);
+ for(i=1;;i++)
+ {
+	if(num[i]==num[0]){puts(b[i]);}
+	else break;
+ }
+	
+}
+
+}
+
+What does this code do?
+
+This code is a solution for the "Longest Common Subsequence" problem. It takes a string as input and finds the longest common subsequence between two strings. The input string is read from the user and the longest common subsequence is printed.
+
+Here's a breakdown of the code:
+
+1. The first line defines the main function, which takes no arguments.
+2. The next line declares several arrays and variables that will be used during the execution of the program.
+	* int m, n, i, j, k: These are used to keep track of the length of the longest common subsequence, the number of elements in the input string, and the indices of the elements in the input string and the common subsequence.
+	* char a[1000], b[1000][5], c[5]: These are used to store the input string, the common subsequence, and the temporary string that is used during the sorting process.
+	* int num[1000]: This is used to keep track of the number of occurrences of each element in the input string.
+3. The next line reads an integer from the user, which represents the length of the input string.
+4. The following line reads the input string from the user using the gets function.
+5. The next line starts a loop that will iterate over the input string and find the longest common subsequence.
+	* Inside the loop, there are three nested loops that iterate over the input string, the common subsequence, and the temporary string.
+	* The outer loop iterates over the input string and the common subsequence, and the inner loops iterate over the temporary string.
+	* During each iteration of the outer loop, the program checks if the current element of the input string is the same as the current element of the common subsequence. If they are the same, the program adds the current element of the temporary string to the common subsequence and increments the index of the current element of the input string.
+	* If the current element of the input string is not the same as the current element of the common subsequence, the program skips to the next element of the input string and continues the loop.
+6. Once the loop finishes, the program checks if the length of the common subsequence is zero. If it is, the program prints "NO" and exits. Otherwise, the program prints the length of the common subsequence plus one, and then prints the common subsequence.
+7. Finally, the program enters a nested loop that iterates over the common subsequence and prints each element of the common subsequence.
+
+In summary, this code reads a string from the user and finds the longest common subsequence between the input string and a temporary string that is created during the execution of the program. The length of the common subsequence is printed, along with the common subsequence itself.

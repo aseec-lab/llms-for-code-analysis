@@ -1,0 +1,209 @@
+This code appears to be working with WebAssembly and binary data. 
+
+The first function, `__universalAtob`, is a helper function that decodes a base64 string to a Uint8Array. It first tries to use the built-in `atob` function to decode the string. If that fails, it falls back to using the `global.Buffer` object to decode the string.
+
+The next block of code initializes a WebAssembly module using a provided binary string, `__aB`. It first decodes the binary string using the `__universalAtob` function and then creates a new WebAssembly instance with the decoded bytes.
+
+The `ac` variable is then initialized as an empty Map.
+
+The `__lA` function is defined as a function that takes in three parameters: `pos`, `stIdx`, and `eIdx`. It checks if the `ac` Map already has a value stored at the `pos` key and returns it if it does. Otherwise, it constructs a new key, `sK`, composed of the string "arr" concatenated with the value of `pos`. It then calls a function from the WebAssembly instance, `__wAM`, using the constructed key as the property name. It creates a new `Uint32Array` by accessing a slice of memory from the WebAssembly instance's buffer, with `stIdx` and `eIdx` specifying the start and end indices of the slice. It then converts the `Uint32Array` to a regular array, `rA`, and stores it in the `ac` Map with the `pos` key. Finally, it returns `rA`.
+
+There are two more blocks of code that are similar to the first one, defining WebAssembly modules using binary strings and initializing WebAssembly instances with those modules.
+
+The last block of code initializes a variable, `__callWasmBuffer`, as another binary string. However, there is no further code that shows how this binary string is used or what it does.
+
+Overall, this code is utilizing WebAssembly to work with binary data and provides helper functions for decoding base64 strings to Uint8Arrays. However, without further context, it is difficult to determine the complete purpose and functionality of this code.In the remaining part of the code, there are several additional functions and variables defined.
+
+The `lS` function takes in three parameters: `wI`, `pos`, and `iWC`. 
+
+If `wI` is not an array, it retrieves a web assembly module from the `__wasmStringModules` array using the index `wI`. It then creates a `Uint8Array` called `__mem` that represents the memory buffer of the web assembly module. It constructs a string key `__stringKey` using the value of `pos`. It retrieves the memory address of the string from the web assembly module using the `__stringKey`. It starts iterating from that memory address to extract the characters of the string. It appends each character to the `__str` variable until it reaches the end of the string or encounters a character with the highest bit set to 1. Finally, it decodes the URI component of the constructed string and returns it.
+
+If `wI` is an array, it iterates over each element of `wI` and performs the same steps as described above. The extracted strings from each web assembly module are appended to the `__str` variable. The end result is a concatenation of all the extracted strings, and the URI component is decoded.
+
+The `RayTrace` variable is assigned a new `BenchmarkSuite` object. It takes two arguments: the first one is the result of the `lS` function with arguments `0` and `0`, and the second one is the result of the `__lA` function with arguments `0`, `16`, and `20`. It also includes an array with one `Benchmark` object, which has arguments obtained by calling the `lS` function with arguments `0` and `1`, and other specific values.
+
+The `checkNumber` variable is declared, but it is not assigned a value.
+
+The `Class` object is defined with a `create` method. This method returns a new function. Inside the returned function, a new instance of the web assembly module stored in `__callWasmModule` is created using `new WebAssembly.Instance`. The instance is created with an environment object that has an `impFunc` property set to a function. This function calls the `initialize` method of the object that is being created by the `create` method. The `initialize` method is a method that is defined outside of this code and is not shown here.
+
+Finally, the `__exports` variable is assigned the value of the `exports` property of the web assembly module instance.
+
+Overall, this code appears to be setting up a benchmark suite, defining functions to extract strings from web assembly modules, and creating a class with a `create` method that initializes an object with a web assembly module instance. However, without further context and the complete code, it is difficult to determine the exact purpose and functionality of this code.The remaining part of the code continues with the definition and initialization of classes and prototypes.
+
+A `Color` class is created under the `Flog.RayTracer` namespace. The `Color` prototype has three properties: `red`, `green`, and `blue`, all initialized to 0.
+
+The `Color` class has an `initialize` method with parameters `r`, `g`, and `b`. Inside the method, three nested functions are called, each creating a new web assembly module instance and checking if the parameters `r`, `g`, and `b` meet certain conditions. It is unclear what these conditions are exactly, as the implementation of the anonymous impFunc1 and impFunc2 functions is not provided.
+
+After the nested functions, the `red`, `green`, and `blue` properties of the `Color` instance are assigned the values of the parameters `r`, `g`, and `b`, respectively.
+
+The `Color` class also has an `add` method that takes two `Color` objects as parameters. Inside the method, a new `Color` object called `result` is created with initial values of 0 for `red`, `green`, and `blue`.
+
+The `red`, `green`, and `blue` properties of `result` are assigned the sum of `red`, `green`, and `blue` properties of the `c1` and `c2` objects, respectively.
+
+This part of the code defines the `Color` class and its prototype methods, including the `initialize` and `add` methods. However, the exact functionality and purpose of these methods are not clear without further context and the complete code.The remaining part of the code defines several other methods and properties for the `Color` class and its prototype.
+
+The `addScalar` method takes a `Color` object (`c1`) and a scalar value (`s`) as parameters. It creates a new `Color` object called `result` with initial values of 0 for `red`, `green`, and `blue`.
+
+The `red`, `green`, and `blue` properties of `result` are assigned the sum of `red`, `green`, and `blue` properties of the `c1` object and the scalar value `s`, respectively.
+
+Inside the `addScalar` method, there is a nested function that creates a new web assembly module instance. The purpose and functionality of this module are not clear without further context and the complete code.
+
+The `subtract` method takes two `Color` objects (`c1` and `c2`) as parameters. It creates a new `Color` object called `result` with initial values of 0 for `red`, `green`, and `blue`.
+
+The `red`, `green`, and `blue` properties of `result` are assigned the difference between `red`, `green`, and `blue` properties of the `c1` and `c2` objects, respectively.
+
+Similarly, the `multiply` method multiplies the corresponding properties of two `Color` objects (`c1` and `c2`) and assigns the results to `result`.
+
+The `multiplyScalar` method multiplies the properties of a `Color` object (`c1`) by a scalar value (`f`) and assigns the results to `result`.
+
+The `divideFactor` method divides the properties of a `Color` object (`c1`) by a factor (`f`) and assigns the results to `result`.
+
+The `limit` method is called from within the `addScalar` method and limits the `red`, `green`, and `blue` properties of the `Color` object to be within the range of 0 to 1.
+
+The `distance` method calculates the absolute difference between the `red`, `green`, and `blue` properties of two `Color` objects and returns the sum of these absolute differences.
+
+The `blend` method blends two `Color` objects (`c1` and `c2`) together based on a weight (`w`). It creates a new `Color` object called `result` and assigns the blended color to it.
+
+The `brightness` method calculates the brightness of a `Color` object by multiplying its `red` property by 255 and rounding it to the nearest whole number. The calculated brightness is returned.
+
+Overall, these methods provide various operations and calculations on `Color` objects, such as addition, subtraction, multiplication, division, limiting values, blending, distance calculation, and brightness calculation.The remaining part of the code defines the `Light` and `Vector` classes.
+
+The `Light` class has properties `position`, `color`, and `intensity`. The `initialize` method is used to set the values for these properties. If `intensity` is not provided, it defaults to 10.
+
+The `toString` method is used to convert the `position` property of the `Light` object to a formatted string.
+
+The `Vector` class has properties `x`, `y`, and `z`. The `initialize` method is used to set the values for these properties. If no values are provided, they default to 0.
+
+The `copy` method is used to copy the values of another `Vector` object to the current `Vector` object.
+
+These classes and methods are utilized in the code by creating instances of the classes and calling their methods.The code below defines the `Ray` class and the `Scene` class.
+
+The `Ray` class has properties `position` and `direction`, which are set in the `initialize` method. The `toString` method is used to convert the properties of the `Ray` object to a formatted string.
+
+The `Scene` class has properties `camera`, `shapes`, `lights`, and `background`. The `camera` property is initialized using the `Camera` class from earlier.
+
+The `shapes` and `lights` properties are empty arrays, which can be populated with objects of the `Shape` and `Light` classes respectively.
+
+The `background` property is not defined in the code provided, so its value is `null`.
+
+These classes and properties define a scene in a ray tracer, with a camera, shapes, lights, and background.The code above continues defining the `Scene` class and its properties.
+
+After initializing the `camera`, `shapes`, and `lights` properties, the code initializes the `background` property by creating a new instance of the `Background` class from the `Flog.RayTracer` namespace. The `Background` class takes two arguments: a `Color` object and a number representing the ambient light intensity.
+
+The code then defines the `BaseMaterial` class in the `Flog.RayTracer.Material` namespace.
+
+The `BaseMaterial` class has properties `gloss`, `transparency`, `reflection`, `refraction`, and `hasTexture`. The `initialize` method is empty. The `getColor` method takes `u` and `v` coordinates and returns a color. The `wrapUp` method wraps a value `t` between 0 and 2. The `toString` method converts the properties of the `BaseMaterial` object to a formatted string.
+
+These classes and properties further define the scene in a ray tracer, including the camera, shapes, lights, background, and material properties.The remaining part of the code defines two more classes: `Solid` and `Chessboard`, both of which inherit from `BaseMaterial`.
+
+The `Solid` class initializes the `color`, `reflection`, `refraction`, `transparency`, `gloss`, and `hasTexture` properties. The `getColor` method returns the `color` property. The `toString` method converts the properties to a formatted string.
+
+The `Chessboard` class initializes the `colorEven`, `colorOdd`, `reflection`, `transparency`, `gloss`, `density`, and `hasTexture` properties. The `getColor` method calculates a value `t` based on the `u` and `v` coordinates and returns the `colorEven` or `colorOdd` property based on the value of `t`. The `toString` method converts the properties to a formatted string.
+
+These classes represent different types of materials that can be assigned to objects in the scene. The `Solid` material represents a solid color, while the `Chessboard` material represents a chessboard pattern with alternating colors.The remaining code defines the `Sphere` class, which is a subclass of the `Shape` class in the `Flog.RayTracer` namespace. 
+
+The `Sphere` class has an `initialize` method that sets the `position`, `radius`, and `material` properties. 
+
+The `intersect` method calculates the intersection of a ray with the sphere. It creates a new instance of `IntersectionInfo` and sets the `shape` property to the current sphere. It then calculates the discriminant `D` and checks if it is greater than 0. If it is, it means that the ray intersects with the sphere. The method sets the `isHit`, `distance`, `position`, `normal`, and `color` properties of the `IntersectionInfo` object accordingly.
+
+The `toString` method converts the properties of the sphere to a formatted string.
+
+Finally, the code checks if the `Flog.RayTracer` namespace exists and creates it if it doesn't.The remaining code defines the `Plane` class, which is a subclass of the `Shape` class in the `Flog.RayTracer` namespace.
+
+The `Plane` class has an `initialize` method that sets the `position`, `d`, and `material` properties.
+
+The `intersect` method calculates the intersection of a ray with the plane. It creates a new instance of `IntersectionInfo` and sets the `shape` property to the current plane. It then calculates `Vd` by taking the dot product of the `position` and `direction` properties of the ray. If `Vd` is 0, it means that the ray is parallel to the plane and there is no intersection. The method calculates `t` based on the equation of the plane `-(position.dot(ray.position) + d) / Vd`. If `t` is less than or equal to 0, it means that the intersection point is behind the viewer and there is no intersection. The method sets the `isHit`, `position`, `normal`, and `distance` properties of the `IntersectionInfo` object accordingly. 
+
+The method then checks if the material of the plane has a texture. If it does, it calculates the `u` and `v` coordinates of the intersection point on the plane and uses them to calculate the color of the intersection point using the `getColor` method of the material. If the material does not have a texture, it sets the color of the intersection point to the default color of the material.
+
+The `toString` method converts the properties of the plane to a formatted string.
+
+Finally, the code checks if the `Flog` namespace exists and creates it if it doesn't.The remaining code defines the `IntersectionInfo` class and the camera class of the `Flog.RayTracer` namespace.
+
+The `IntersectionInfo` class has properties such as `isHit`, `shape`, `position`, `normal`, `color`, and `distance`. It also has an `initialize` method that initializes the `color` property to black and a `toString` method that returns a formatted string representation of the object.
+
+The `Camera` class has properties such as `position`, `lookAt`, `equator`, `up`, and `screen`. It also has an `initialize` method that sets these properties based on the given parameters. The class has a `getRay` method that calculates the position and direction of a ray based on the given `vx` and `vy` values. The method creates a new `Vector` object for the position, sets the `y` value of the position to -1, and calculates the direction using vectors and scalar multiplication. The method then creates a new `Ray` object with the calculated position and direction, and returns it. The class also has a `toString` method that returns a formatted string representation of the object.
+
+Finally, the code checks if the `Flog` namespace exists and creates it if it doesn't.The remaining code defines the `Background` class and the `Engine` class of the `Flog.RayTracer` namespace.
+
+The `Background` class has properties such as `color` and `ambience`. It also has an `initialize` method that initializes these properties based on the given parameters.
+
+The `Engine` class has properties such as `canvas` and `options`. It also has an `initialize` method that sets the `options` property based on the given parameters. The method also adjusts the canvas height and width based on the pixel height and width options. The class has a `setPixel` method that sets the color of a pixel on the canvas based on the given coordinates and color. The method creates a new WebAssembly instance and uses it to interact with the canvas. The class also has a `renderScene` method that renders the scene on the canvas. The method creates a new WebAssembly instance and uses it to interact with the canvas.
+
+Finally, the code checks if the `Flog.RayTracer` and `Flog` namespaces exist and creates them if they don't.The remaining code defines the `getPixelColor`, `testIntersection`, and `rayTrace` methods of the `Engine` class.
+
+The `getPixelColor` method takes a `ray` and a `scene` as parameters. It first calls the `testIntersection` method to check if the ray intersects any objects in the scene. If there is an intersection, it calls the `rayTrace` method to calculate the color at the intersection point. If there is no intersection, it returns the background color of the scene.
+
+The `testIntersection` method takes a `ray`, a `scene`, and an `exclude` object as parameters. It initializes variables for the number of hits and the best intersection information. It then iterates over each object in the scene to check for intersections with the ray. If the intersection is closer than the current best intersection, it updates the best intersection information. Finally, it returns the best intersection information.
+
+The `rayTrace` method takes the intersection information, the ray, the scene, and a recursion depth as parameters. It first checks if the recursion depth exceeds the maximum level defined in the scene. If it does, it returns black. Otherwise, it calculates the color at the intersection point using the properties of the intersected object. If the object has reflective properties, it recursively calls the `rayTrace` method to calculate the reflected color. Finally, it returns the calculated color.
+
+The code also defines a condition at the end to check if a variable named `checkNumber` is equal to the value 2321. If the condition is not met, an error is thrown.
+
+This completes the definition of the `renderScene` method and the remaining part of the `Engine` class.The remaining code defines the `getReflectionRay` and `rayTrace` methods of the `Engine` class.
+
+The `getReflectionRay` method takes the intersection point (`P`), surface normal (`N`), and view vector (`V`) as parameters. It calculates the reflection vector (`R1`) using the formula `R1 = (2 * c1)N + V`, where `c1` is the dot product of the surface normal and view vector. It then returns a new ray with the intersection point as the origin and the reflection vector as the direction.
+
+The `rayTrace` method takes the intersection information (`info`), the ray, the scene, and a recursion depth as parameters. It first initializes the `color` variable with the ambient color of the scene multiplied by the color of the intersected object. It also stores the initial color in the `oldColor` variable.
+
+Then, it iterates over each light in the scene to calculate the diffuse reflection. It calculates the vector `v` from the intersection point to the light source and normalizes it. Using the dot product of `v` and the surface normal (`info.normal`), it calculates the scalar value `L`. If `L` is greater than 0, it adds the diffuse reflection color to the `color` variable.
+
+Finally, it checks if the `renderDiffuse` option is enabled. If it is, it returns the result of the previous calculations. Otherwise, it returns the `oldColor` value.
+
+This completes the definition of the `renderScene` method and the remaining part of the `Engine` class.The remaining part of the code calculates the reflection color.
+
+First, it checks if the `renderReflections` option is enabled and if the material's reflection property is greater than 0. If both conditions are met, it enters the if statement.
+
+Inside the if statement, it creates a reflection ray using the `getReflectionRay` method with the intersection point, surface normal, and ray direction as parameters. It then tests the intersection of the reflection ray with the scene using the `testIntersection` method and stores the result in the `refl` variable.
+
+Next, it checks if the reflection ray hit an object (`refl.isHit && refl.distance > 0`). If it did, it recursively calls the `rayTrace` method with the reflection ray, incremented depth, and scene as parameters. It assigns the return value to `refl.color`.
+
+Finally, it blends the color of the current intersection with the reflection color (`color = Flog.RayTracer.Color.prototype.blend(color, refl.color, info.shape.material.reflection)`).
+
+After calculating the reflection color, the code proceeds to calculate the shadow color.
+
+It creates a new instance of `IntersectionInfo` called `shadowInfo` and sets it to the default values.
+
+Inside an if statement, it checks if the `renderShadows` option is enabled. If it is, it creates a shadow ray from the intersection point (`info.position`) to the light source direction (`v`) and tests the intersection of the shadow ray with the scene using the `testIntersection` method. It stores the result in the `shadowInfo` variable.
+
+Next, it checks if the shadow ray hit an object that is different from the current intersection shape (`shadowInfo.isHit && shadowInfo.shape != info.shape`). If it did, it reduces the intensity of the color by blending it with a darker color (`color = Flog.RayTracer.Color.prototype.addScalar(vA, dB)`), where `vA` is the current color multiplied by 0.5 and `dB` is half the square root of the transparency value of the material.
+
+Finally, it calculates the highlight color.
+
+It checks if the `renderHighlights` option is enabled and if the shadow ray did not hit anything (`!shadowInfo.isHit`). If both conditions are met, it enters the if statement.
+
+Inside the if statement, it calculates the vector `Lv` from the intersection shape to the light source direction, the vector `E` from the camera position to the intersection shape, and the vector `H` as the difference between `E` and `Lv`, all normalized.
+
+It calculates the gloss weight as the maximum of the dot product of the surface normal and `H` raised to the power of `shininess`.
+
+Finally, it adds the product of the light color and the gloss weight to the current color (`color = Flog.RayTracer.Color.prototype.add(Flog.RayTracer.Color.prototype.multiplyScalar(light.color, glossWeight), color)`).
+
+This completes the remaining part of the function.The remaining part of the code sets up the scene and adds shapes and lights to it.
+
+In the `renderScene` function, it creates a new instance of `Flog.RayTracer.Scene` and assigns it to the `scene` variable.
+
+It sets the camera of the scene using the `Flog.RayTracer.Camera` constructor with the camera position, target position, and up direction as parameters.
+
+It sets the background of the scene using the `Flog.RayTracer.Background` constructor with a color and intensity as parameters.
+
+It creates two instances of `Flog.RayTracer.Shape.Sphere` called `sphere` and `sphere1`, and assigns them to the respective variables. It uses the `Flog.RayTracer.Vector` constructor to set the position of the spheres, and the `Flog.RayTracer.Material.Solid` constructor to set the material of the spheres.
+
+It creates an instance of `Flog.RayTracer.Shape.Plane` called `plane`, and assigns it to the `plane` variable. It uses the `Flog.RayTracer.Vector` constructor to set the normal vector of the plane, and the `Flog.RayTracer.Material.Chessboard` constructor to set the material of the plane.
+
+It pushes the `plane`, `sphere`, and `sphere1` shapes to the `scene.shapes` array using the `push` method.
+
+It creates two instances of `Flog.RayTracer.Light` called `light` and `light1`, and assigns them to the respective variables. It uses the `Flog.RayTracer.Vector` constructor to set the position of the lights, and the `Flog.RayTracer.Color` constructor to set the color of the lights.
+
+It pushes the `light` to the `scene.lights` array using the `push` method.
+
+This completes the remaining part of the function.The remaining part of the code sets up the rendering options for the raytracer and invokes the `renderScene` method to render the scene.
+
+It creates a new instance of `Flog.RayTracer.Engine` called `raytracer` and assigns it to the variable. It uses the following options to configure the raytracer:
+- `canvasWidth` and `canvasHeight` set the size of the final rendered image in pixels.
+- `pixelWidth` and `pixelHeight` set the size of each pixel in the final image.
+- `renderDiffuse`, `renderHighlights`, `renderShadows`, and `renderReflections` control whether or not the raytracer will calculate diffuse lighting, specular highlights, shadows, and reflections, respectively.
+- `rayDepth` determines the maximum number of bounces a ray can make before terminating.
+
+Finally, a new WebAssembly.Instance is created to invoke the `renderScene` method of the `raytracer`. Inside the `env` property, the `impFunc` function is defined to call `raytracer.renderScene(scene, null, 0)`, passing the `scene` variable as the first argument.
+
+This completes the remaining part of the code.

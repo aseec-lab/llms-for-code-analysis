@@ -1,0 +1,21 @@
+The code describes a class, `MPEventLoopRunner`, which is a runner for multi-processor event loops. It appears to be a framework for running multiple events asynchronously on different processors and collating their completion statuses and results.
+
+Here is a brief rundown of the key methods in the class:
+
+- `__init__(self, communicationChannel):` The constructor initializes the object with a communication channel and sets an event counter, nruns to zero.
+
+- `__repr__(self):` This is a special method to get a string representation of the object. It returns the object’s class name and current communication channel.
+
+- `begin(self):` This method is seemingly incomplete and might be intended for preparing the object to start executing processes.
+
+- `run(self, eventLoop):` This method increments the event counter and pushes an event loop to the communication channel.
+
+- `run_multiple(self, eventLoops):` This method increments the event counter based on the length of received event loops and pushes them to the communication channel.
+
+- `poll(self):` This method receives finished elements from the communication channel, decrements the event counter based on the received completed events, and returns them.
+
+- `receive_one(self):` This method receives one event, decrements the event counter if there is a result, and returns it.
+
+- `receive(self):` This method receives all results from the communication channel, adjusts the counter, checks the difference between expected and received results, logs warnings if there are any discrepancies, and returns the results.
+
+- `end(self):` This method receives all results from the communication channel, checks if the count of results matches the counter, logs a warning if there's a discrepancy, and returns the results.

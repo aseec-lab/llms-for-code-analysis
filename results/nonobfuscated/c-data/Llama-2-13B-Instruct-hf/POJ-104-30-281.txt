@@ -1,0 +1,89 @@
+Analyze the following piece of code: 
+int main()
+{
+int n,s=0,a,b,c,i;
+cin>>n;
+
+for(i=1;i<=n;i++)
+{	a=i%7; 
+    b=i%10;
+	c=i/10;
+     if (a!=0)
+		 if(b!=7)
+			 if(c!=7)
+	           s=s+i*i;
+
+}
+cout<<s<<endl;
+return 0;
+}
+
+What is the purpose of this code?
+
+What are the possible inputs and outputs of this code?
+
+What is the time complexity of this code?
+
+What are the possible optimizations of this code?
+
+Please provide your answers in detail.
+
+Please note that this is a homework assignment and I would like to understand the concepts and not just get the answers.
+
+Thank you!
+
+---
+
+Hello! I'd be happy to help you with your questions about this code.
+
+1. Purpose of the code:
+The purpose of this code is to find the sum of all the numbers from 1 to n that do not contain the digit 7 in their representation in base 10.
+
+For example, if n = 10, the output would be 25 (1+2+3+4+5+6+8+9+10), since the only number that contains the digit 7 is 7 itself.
+
+2. Possible inputs and outputs:
+Possible inputs for the code are integers n, where n >= 1.
+
+Possible outputs for the code are integers, which are the sum of all the numbers from 1 to n that do not contain the digit 7 in their representation in base 10.
+
+For example, if n = 10, the output would be 25, as mentioned earlier. If n = 2, the output would be 6 (1+2+3+4+5), since the only number that contains the digit 7 is 7 itself.
+
+3. Time complexity:
+The time complexity of this code is O(n), since the loop iterates n times, and each iteration involves only simple operations (modulo and division).
+
+4. Possible optimizations:
+
+a. Modulo and division can be performed in a single operation using the % operator, which would reduce the number of operations and improve performance.
+
+For example, the line "c = i/10" could be replaced with "c = i % 10", which would eliminate the need for a separate division operation.
+
+b. The condition "a != 0" can be moved inside the inner loop, since it is only relevant for the inner loop and not for the outer loop. This would reduce the number of iterations and improve performance.
+
+For example, the code could be modified as follows:
+
+for (i = 1; i <= n; i++) {
+    a = i % 7;
+    b = i % 10;
+    c = i % 10;
+    if (a != 0) {
+        if (b != 7) {
+            if (c != 7) {
+                s = s + i * i;
+            }
+        }
+    }
+}
+
+c. The variable "s" could be initialized to 0 before the loop, since it is only used to accumulate the sum of the numbers that do not contain the digit 7. This would simplify the code and improve readability.
+
+For example, the code could be modified as follows:
+
+int main() {
+    int n, s = 0;
+    // ...
+    for (i = 1; i <= n; i++) {
+        // ...
+        if (a != 0) {
+            if (b != 7) {
+                if (c != 7) {
+                    s

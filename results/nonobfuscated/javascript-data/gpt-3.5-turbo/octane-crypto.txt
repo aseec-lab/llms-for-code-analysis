@@ -1,0 +1,52 @@
+The code defines various functions and constructs a BenchmarkSuite object called Crypto. The Crypto suite contains two benchmarks: "Encrypt" and "Decrypt". The goal of the code is to perform benchmarking for encryption and decryption operations. The code also sets up various constants and utility functions needed for the encryption and decryption operations.The remaining part of the code defines various utility functions and operators used for bitwise operations on BigIntegers. 
+
+The function bnClone() creates a new BigInteger object and copies the value of the current BigInteger into it.
+
+The function bnIntValue() returns the value of the BigInteger as a JavaScript number.
+
+The functions bnByteValue() and bnShortValue() return the value of the BigInteger as a byte or short JavaScript number respectively.
+
+The function bnpChunkSize(r) returns the number of digits in the smallest radix that can represent the BigInteger.
+
+The function bnSigNum() returns the sign of the BigInteger as -1, 0, or 1.
+
+The function bnpToRadix(b) converts the BigInteger to a string representation in the specified radix.
+
+The function bnpFromRadix(s,b) converts a string representation in the specified radix to a BigInteger.
+
+The function bnpFromNumber(a,b,c) initializes the BigInteger from a JavaScript number or a byte array.
+
+The function bnToByteArray() returns the value of the BigInteger as a byte array.
+
+The function bnEquals(a) checks if the current BigInteger is equal to the given BigInteger.
+
+The functions bnMin(a) and bnMax(a) return the minimum and maximum of the current BigInteger and the given BigInteger respectively.
+
+The function bnpBitwiseTo(a,op,r) performs a bitwise operation (AND, OR, XOR) between the current BigInteger and the given BigInteger and stores the result in the output BigInteger 'r'.
+
+The functions bnAnd(a) and bnOr(a) perform a bitwise AND and OR operation between the current BigInteger and the given BigInteger respectively and return the result as a new BigInteger.The remaining functions in the code are as follows:
+
+The function bnGCD(a) calculates the greatest common divisor of two BigIntegers.
+
+The function bnpModInt(n) calculates the remainder of the BigInteger when divided by a JavaScript number n.
+
+The function bnModInverse(m) calculates the modular inverse of the BigInteger with respect to a modulus m.var bt = 0;
+if (xp.compareTo(xq) < 0) {
+    bt = xp.subtract(xq).multiply(this.coeff).mod(this.p).intValue();
+    bt = this.p.subtract(bt);
+} else {
+    bt = xq.subtract(xp).multiply(this.coeff).mod(this.p).intValue();
+}
+
+var result = xp.multiply(this.q).add(bt.multiply(this.q)).mod(this.n);
+return result;The remaining part of the previous function is as follows:
+
+```javascript
+while (xp.compareTo(xq) < 0) {
+    xp = xp.add(this.p);
+}
+var bt = xp.subtract(xq).multiply(this.coeff).mod(this.p).multiply(this.q).add(xq);
+return bt;
+```
+
+This section of the code first compares `xp` and `xq` to make sure `xp` is larger than or equal to `xq`. If it is smaller, it adds `this.p` to `xp` until `xp` is larger than or equal to `xq`. Then it calculates `bt` by subtracting `xq` from `xp`, multiplying by the coefficient, taking the modulus of `this.p`, multiplying by `this.q`, and adding `xq`. Finally, it returns `bt`.

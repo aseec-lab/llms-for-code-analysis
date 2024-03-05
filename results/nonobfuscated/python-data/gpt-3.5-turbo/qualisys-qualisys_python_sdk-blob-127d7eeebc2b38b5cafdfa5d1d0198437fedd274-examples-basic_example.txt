@@ -1,0 +1,9 @@
+This code is written in Python and uses the asyncio library to set up an asynchronous connection and stream frames from a Qualisys Track Manager (QTM) motion capture system.
+
+The main part of the code is the `on_packet` function, which takes a packet object as an argument and prints the frame number and component information of the packet. It then iterates through the 3D markers in the packet and prints each marker.
+
+The `setup` function is defined as an asynchronous function and is marked with the `async` keyword. It first connects to the QTM system at the IP address "127.0.0.1" using the `qtm.connect()` function. If the connection is successful (`connection` is not `None`), it then starts streaming frames with the components set to "3d" and registers the `on_packet` function as the callback to be called when a packet is received.
+
+In the main block, the `setup` function is called as an asynchronous task using `asyncio.ensure_future()`. The `run_forever()` function is then called on the event loop to keep the program running indefinitely.
+
+Overall, this code connects to a QTM system and streams 3D marker data, printing the frame number and marker information for each received packet.

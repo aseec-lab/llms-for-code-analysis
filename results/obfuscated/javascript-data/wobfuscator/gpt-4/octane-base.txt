@@ -1,0 +1,125 @@
+This JavaScript code uses WebAssembly to perform some computation. WebAssembly (Wasm) is a binary instruction format for a stack-based virtual machine that is primarily designed as a portable target for compilation of high-level languages like C++, enabling deployment on the web for client and server applications.
+
+Here's a rundown of what the code does:
+
+1. `__universalAtob` is a function that decodes a base-64 encoded string into a byte array. If the built-in `atob` function throws an error (possibly because it doesn't exist in non-browser environments), it uses a Node.js-specific method to perform the same task.
+
+2. `__forWasmBuffer`, `__ifWasmBuffer`, and `__callWasmBuffer` are base64 encoded strings which represent WebAssembly modules code.
+
+3. `__forWasmModule`, `__ifWasmModule`, and `__callWasmModule` are instances of WebAssembly.Module, created by decoding the corresponding base64 strings into bytes and feeding them to the WebAssembly.Module constructor. If the `atob` function is not available, it uses a Node.js-specific method to decode the base64.
+
+4. `__wasmStringModules` is an array of WebAssembly.Instance objects. It's constructed by decoding each base64 string in the array, creating a WebAssembly.Module for each, and then creating a WebAssembly.Instance from that module.
+
+5. `lS` function takes three parameters (wI, pos, iWC), it seems that function reads and processes some data from the WebAssembly instances created above. It retrieves certain data from the memory of the respective WebAssembly instance according to the function parameters. 
+
+Please note that the full functionality of `lS` function is truncated, so there may be more actions it performs that are not specified here.In the continuation of the code:
+
+1. It completes the `lS` function. Given indices (`wI`) for WebAssembly instances/memory segments, the function extracts certain data from these segments. When it retrieves a character from the memory segment, it checks if the most significant bit (MSB, which is 128 in decimal) is set. If the MSB isn't set, the character is added to a string (`__str`). If the MSB is set or no more information is available in the memory segment, it stops adding characters to the string. Finally, it decodes the string using `decodeURIComponent` (which decodes a string that was previously encoded using `encodeURIComponent`) and returns this final string. Note that the `while` loop and string decoding is done separately for each instance/memory segment described by the indices in `wI`.
+
+2. It introduces a `performance` object, which seems to aim to provide a unified interface to access system clock-related functions. However, there's a mistake - it assigns a new time value (which is a timestamp representing current moment of time) to `performance.now`. It means, `performance.now` doesn't work as a function as expected (returning current time). Instead, it will always return the value representing the time when it was initially computed.
+
+3. It defines three classes/functions: `Benchmark`, `BenchmarkResult`, and `BenchmarkSuite`, which are likely to be used for performance testing. Each benchmark includes its name, a setup and teardown function (run before and after each test), and the actual function to test the performance of (via `run`).
+
+4. `BenchmarkResult` keeps the results of single benchmark test - it keeps the reference to `benchmark` that the result belongs to, the `time` it took to run, and `latency`.
+
+5. `BenchmarkSuite` is a collection of benchmarks involved in a suite of tests. It contains an array called `BenchmarkSuite.suites`. In the IIFE (Immediately Invoked Function Expression), it adds the created BenchmarkSuite into this storage.
+
+6. At the end of the code, it creates a WebAssembly instance (`__callInstance26`) from `__callWasmModule` and modifies WebAssembly's environment to add functionality in `env.impFunc`. The function added appears to push the current `this` (presumably a BenchmarkSuite) into `BenchmarkSuite.suites`.1. It continues on with the `BenchmarkSuite` class, adding several new properties (`suites`, `version`, `config`) and methods (`ResetRNG`, `RunSuites`). The `suites` array holds the BenchmarkSuite instances to include in the test suite. 
+
+2. The `version` and `config` properties seem to be related to the overall configuration and versioning of the benchmark suite. 
+
+3. The `ResetRNG` method resets the random number generator (RNG); it replaces the built-in `Math.random` function with a new pseudorandom number generator, which uses a fixed seed to always generate the same sequence of pseudorandom numbers (important for deterministic benchmarks).
+
+4. `RunSuites` is a method used to execute the suite of benchmarks. This function does a lot of things: First is error checking, with the `alert` function being overwritten to throw an error instead of showing a popup. If the runner object is not exactly "undefined" or "null", it will start running the benchmarks. 
+
+5. Then initializes some variables, including `continuation` that seems to be used for asynchronous operation, `suites` that is an array of tests, `length` that reflects the total number of these tests, `scores` array to store test results, and index that tracks the current test. Then, it enters a while loop to run each suite in order.
+
+6. Inside the `while` loop, it creates multiple WebAssembly instances with custom environments. The `NotifyStart` and `NotifySkipped` methods send notifications about the state of the benchmark suite to the runner.
+
+7. This section of the code is arguably the most complex one in the whole script with heavy usage of WebAssembly instances and callbacks. Most likely, it's an attempt to replicate async-await syntax for handling potentially time-consuming or blocking operations (like running heavy benchmarks) without stopping the whole script execution. Without further context of how the `runner`, WebAssembly instances or imported `impFunc`s are used it's quite hard to clearly describe what operations are performed here.
+   
+8. The nested structure of the WebAssembly Instances and the use of callbacks strongly imply that the benchmark suite tests are run asynchronously and their completion handlers are queued up for execution as each test completes. It seems that the ability to notify suite start, suite skip is conditionally included into the instances' environment.1. The nested structure of the wasm module instance continues in the `RunSuites` method. As per previous instance, these instances have environments with some functions related to benchmarks. The function `impFunc2` in the environment of `__ifInstance2` seems to run the next step of the `suite`.
+
+2. Next, code checks `continuation` and `window` object. It seems the tests take time, so the `setTimeout()` method is used to queue them and continue with other tasks. If the `window.setTimeout` method exists, `RunStep` is delayed for 25 milliseconds and then the function is exited with `return`.
+
+3. After finishing the test suite, the geometric mean of scores is calculated and formatted. Then, the average score will be sent to runner.
+
+4. Lastly, another wasm instance is launched (via "__callInstance21") to call `RunStep()`. 
+
+5. The `CountBenchmarks` method is defined to calculate total number of benchmarks in all test suites. The `suites` array is iterated with a `for` loop implemented via wasm instances. There, `__forInstance0` has three functions in environment: `test` which checks loop condition, `update` which increments the counter, `body` which adds the number of benchmarks in the current suite to the result. 
+
+6. In general, the code utilizes WebAssembly to carry out key tasks. WebAssembly provides fast, low-level performance by allowing developers to code close to the hardware level.1. `BenchmarkSuite.GeometricMean()` calculates the geometric mean of an array of numbers. It uses a WebAssembly instance (`__forInstance1`) with a test function (`test`) that verifies whether the iteration variable `i` has exceeded the length of the array, an update function (`update`) increments `i` after each iteration, and the function `body` adds the natural logarithm of the current number to the variable `log`.
+
+2. `BenchmarkSuite.GeometricMeanTime()` is similar to `BenchmarkSuite.GeometricMean()`, but it considers the time property from an array of objects instead of simple numbers array. 
+
+3. `BenchmarkSuite.GeometricMeanLatency()` is also similar to above two methods, but with the addition of an `if` condition check within the `body` function, verified using a WebAssembly instance (`__ifInstance4`). If the latency property of the current object is not equal to zero, it adds the natural log of latency to `log` and sets `hasLatencyResult` as true. If not, it does nothing.
+
+4. In each of the three methods, after completing the iterations, it calculates the geometric mean of the logged numbers by raising the mathematical constant `e` to the power of `log divided by array's length`.
+
+5. In conclusion, these methods are used to find the geometric mean of various properties of measured results such as numbers, time and latency using the features of WebAssembly for fast and efficient computation.1. `BenchmarkSuite.FormatScore()` is a utility function that formats the score. If the score is greater than 100, it is rounded to the nearest integer. Else, it is displayed with the precision of three digits.
+
+2. `BenchmarkSuite.prototype.NotifyStep()` is called for each step in a benchmark. The step's result is added to an array `this.results`. If the runner has a `NotifyStep` method, `this.runner.NotifyStep(result.benchmark.name)` is called.
+
+3. `BenchmarkSuite.prototype.NotifyResult()` calculates the geometric mean of the time of the results, computes the score as the ratio of the reference value to the mean time, and pushes the score to `BenchmarkSuite.scores`. If the runner has a `NotifyResult` method, `this.runner.NotifyResult(this.name, formatted)` is called, where formatted is the score formatted by `BenchmarkSuite.FormatScore(100 * score)`.
+
+4. The final part of the JavaScript code contains the continuation of methods `BenchmarkSuite.GeometricMeanLatency()`, `BenchmarkSuite.prototype.NotifyStep()`, and `BenchmarkSuite.prototype.NotifyResult()`.  
+
+5. Inside `BenchmarkSuite.GeometricMeanLatency()`, if there was any latency (determined by `hasLatencyResult`), the mathematical constant `e` is raised to the power of the average of the natural logarithms of latencies stored in `log` (geometric mean is computed), else `0` is returned. 
+
+6. In `BenchmarkSuite.prototype.NotifyStep()`, if the current benchmark suite has an instance `NotifyStep` it is then called with the name of the current benchmark result.
+
+7. In `BenchmarkSuite.prototype.NotifyResult()`, the score is pushed into the `BenchmarkSuite.scores` array. If there's an instance of `NotifyResult`, it's called with the name of the suite and the formatted score. 
+
+8. Please note that this code uses WebAssembly instances extensively for computations, potentially benefiting from faster execution times and lower memory utilization.1. `BenchmarkSuite.prototype.NotifySkipped()` is another utility function that handles the benchmarks which are skipped during execution. For each skipped test, it pushes a `1` to the `BenchmarkSuite.scores` array.
+
+2. If the `runner` instance contains a `NotifyResult` method, it calls `runner.NotifyResult` with the `name` of the skipped benchmark as a parameter.
+
+3. As observed throughout the code, it continues to extensively use the functionality provided by the WebAssembly Instances for performing its computations. WebAssembly provides near-native performance and compact binary format for web applications. WebAssembly's binary format is designed to be executable efficiently on a variety of operating systems and instruction set architectures, on the web and off the web.
+
+4. `(() => { const __ifInstance10 = new WebAssembly.Instance...` this chunk of code checks if `runner.NotifyResult` exists, if it does then it executes `runner.NotifyResult(this.name, lS(0, 5))`, where `this.name` is the name of the test suite and `lS(0,5)` is a localized string data.
+
+5. This script is a part of a larger benchmarking suite, intended to standardize and streamline the process of benchmarking JavaScript, or potentially other WASM-supported codes.
+
+6. `NotifySkipped()` indicates that if a benchmark test is skipped during a run, it's safe to still give it a passing score `1` and also to notify that this benchmark was skipped with a reason (string indexed at `0,5`).
+
+7. It's important to note that WebAssembly instance creation could have a performance impact, but given this code is for benchmarking, the purpose is to provide a controlled and repeatable environment for tests, not for production performance.1. `BenchmarkSuite.prototype.NotifyError()` is another utility function that is used to handle the scenario when an error occurs during the benchmarking run. This method uses the WebAssembly instances to deliver robust and efficient error handling.
+
+2. It creates two new WebAssembly instances (`__ifInstance11` and `__ifInstance12`), and within each instance, it checks if the `runner` object has `NotifyError` and `NotifyStep` methods respectively. If the methods exist, they are called with the `BenchmarkSuite` name and error message as arguments.
+
+3. It's important to note how WebAssembly is being used here. WebAssembly is a binary instruction format that allows developers to execute code at near-native speed in web browsers. Its instances are providing a runtime environment to execute these tests in a fast and efficient manner.
+
+4. `BenchmarkSuite.prototype.RunSingleBenchmark()` is used to run a single benchmark within the suite. The function sets up configuration, loops the execution of the benchmark using a WebAssembly instance, and tracks the elapsed time and number of runs.
+
+5. The `doWarmup` parameter determines whether the benchmark needs a warmup run before the actual measurements. The `doDeterministic` option is used to set whether the benchmark should run for a deterministic number of iterations (`benchmark.deterministicIterations`) instead of running for a certain amount of time.
+
+6. Inside the WebAssembly instance (`__forInstance4`), it checks whether to execute the benchmark run depending on `doDeterministic` and elapsed time.
+
+7. After each iteration of the benchmark, it calculates the elapsed time from the start of the benchmark. The total number of runs is also tracked in `data.runs`.8. The function then checks if the data object is null. If so, it calls the `Measure` method with null as an argument, and then returns an object with both `runs` and `elapsed` as zero.
+
+9. If `data` is not null, it again calls the `Measure` method with the `data` as an argument. It checks whether `data.runs` is less than `benchmark.minIterations`. If `data.runs` is less, it returns the data object. 
+
+10. It then calculates the usec (elapsed time in microseconds per run) and rms (Root Mean Square) depending on the benchmark results.
+
+11. It then calls the `NotifyStep` method with the new `BenchmarkResult` object as its argument. This object includes information such as benchmark used, the achieved usec, and rms.
+
+12. `BenchmarkSuite.prototype.RunStep(runner)` is initiated next. This function first resets the RNG (Random Number Generator) which is used to ensure the benchmark runs are not affected by any previously generated random numbers.
+
+13. It then sets the `results` attribute to an empty array and the `runner` attribute to the provided `runner` argument. 
+
+14. It finally sets up two local variables, `length`, which holds the number of benchmarks in the suite, and `index`, which is initialized at 0 to keep track of the benchmarks as they run.15. In `RunNextSetup`, the function first checks if the current index is less than the length (the number of benchmarks). If true, it tries to set up the next benchmark through the `Setup` method for that benchmark index. If any error is found in setting up the benchmark, it catches the error and notifies it by calling the `NotifyError` method.
+ 
+16. If there is no error in setting up the benchmark, it returns the `RunNextBenchmark` function. 
+
+17. If the index is not less than the length of the benchmarks (meaning that all the benchmarks have been set up), it notifies the result by calling `NotifyResult` method before exiting the function.
+
+18. In `RunNextBenchmark`, the function first tries to run the current benchmark by passing it with the `data` variable to `RunSingleBenchmark` which runs a single benchmark. After running, it checks whether the `data` variable has been returned as `null`. If it is `null`, it tear downs the current benchamark by calling `RunNextTearDown` otherwise it will run the same benchmark again.
+
+19. In `RunNextTearDown`, the function tears down the current benchmark by calling `TearDown` method for that benchmark. After teardown, the it increments the `index` by 1 to move to the next benchmark and then calls `RunNextSetup` function to set up the next benchmark and return it. If there is any error during the teardown, it catches the error and notifies it by calling `NotifyError` method. 
+
+Note that WebAssembly (abbreviated as Wasm) is a binary instruction format for a stack-based virtual machine. It is designed as a portable target for the compilation of high-level languages like C, C++, and Rust, enabling deployment on the web for client and server applications. In each syntax we see being used above, a new instance of WebAssembly is created using certain exported methods and modules.Following from the previous explanation, after tearing down all the benchmarks, `RunNextSetup()` is called to check if there are any remaining benchmarks to be configured. 
+
+When no more benchmarks are left to setup, the `NotifyResult` method is invoked to signal the completion of all of the benchmarks. After notifying the result, the function ends, completing the benchmark workflow.
+
+This function is important to cleanly and systematically walk through each benchmark that is part of the suite. It ensures each one is properly setup, ran, and torn down in order, handling any errors that may occur at each step. 
+
+The final `return RunNextSetup()` ensures that this process continues as long as there are more benchmarks to run.

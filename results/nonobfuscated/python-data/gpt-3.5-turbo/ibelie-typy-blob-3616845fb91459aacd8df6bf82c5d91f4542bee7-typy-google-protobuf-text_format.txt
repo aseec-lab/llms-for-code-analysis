@@ -1,0 +1,158 @@
+The code includes several functions and classes related to parsing and merging protobuf messages. 
+
+The main functions are:
+
+- `MessageToString`: Converts a protobuf message to a string representation.
+- `PrintMessage`: Prints a protobuf message to a specified output stream.
+- `PrintField`: Prints the content of a protobuf field to a specified output stream.
+- `PrintFieldValue`: Prints the value of a protobuf field to a specified output stream.
+- `Parse`: Parses a string representation of a protobuf message into a protobuf message object.
+- `Merge`: Merges a string representation of a protobuf message into an existing protobuf message object.
+
+The code also includes a few helper classes and functions:
+
+- `TextWriter`: A class for writing text to a stream, used by the printing functions.
+- `_Printer`: A class for printing protobuf messages and fields.
+- `_Parser`: A class for parsing and merging protobuf object representations.
+- `_Tokenizer`: A class for tokenizing protobuf representations.
+
+Overall, the code provides functionality for converting protobuf messages to strings, printing their contents, and parsing/merging string representations of protobuf messages.if not self.token.startswith('"'):
+      raise self._ParseError('Expected string literal.')
+    if not self.token.endswith('"') and not self.token.endswith('?"'):
+      end_token = '"'
+    else:
+      end_token = '?"' if self.token.endswith('?"') else '"'
+    result = ParseByteString(self.token[1:-1])
+    if end_token == '?"':
+      result = result.rstrip()
+    self.NextToken()
+    if end_token == '?"':
+      self.Consume('?')
+    return result
+
+  def TryConsumeEnum(self, field):
+    try:
+      return self.ConsumeEnum(field)
+    except ParseError:
+      return None
+
+  def ConsumeEnum(self, field):
+    if not field.enum_type:
+      raise self._ParseError('Field "%s" is not an enum.' % field.name)
+    try:
+      result = field.enum_type.values_by_name[self.token].number
+    except KeyError:
+      raise self._ParseError('Unknown enum value: "%s".' % self.token)
+    self.NextToken()
+    return result
+
+  def NextToken(self):
+    
+
+    
+    
+    
+    
+    
+    prev_len = len(self.token) if self.token is not None else 0
+    self._previous_line = self._line
+    self._previous_column = self._column
+
+    self._token_start = self._column
+
+    if self._more_lines and self._column >= len(self._current_line):
+      self._PopLine()
+
+    start = self._column
+    if self._column < len(self._current_line):
+      match = self._TOKEN.match(self._current_line, self._column)
+
+      
+      
+      
+      if match.start() != self._column:
+        raise self._ParseError('Invalid token.')
+
+      self._column = match.end()
+      self.token = match.group(0)
+    else:
+      self.token = ''
+
+    if prev_len > 0 or len(self.token) > 0:
+      return
+
+    self._lines = None
+    self._current_line = None
+
+  def _ParseError(self, error):
+    
+    
+    line = self._previous_line if self._previous_line >= 0 else self._line
+    column = self._previous_column if self._previous_column > 0 else self._column
+    return ParseError(error, line + 1, column + 1)
+
+  def _StringParseError(self, error):
+    
+    
+    line = self._previous_line if self._previous_line >= 0 else self._line
+    column = self._previous_column if self._previous_column > 0 else self._column
+    return ParseError('%s at line %d, column %d' % (
+        error,
+        line + 1,
+        column + 1,
+    ))The remaining part of the previous function is as follows:
+
+```python
+def ParseInteger(text, is_signed=False, is_long=False):
+    try:
+        if is_long:
+            result = long(text, 0)
+        else:
+            result = int(text, 0)
+    except ValueError:
+        raise ValueError('Couldn\'t parse integer: %s' % text)
+    checker = _INTEGER_CHECKERS[2 * int(is_long) + int(is_signed)]
+    checker.CheckValue(result)
+    return result
+
+def ParseFloat(text):
+    try:
+        return float(text)
+    except ValueError:
+        if _FLOAT_INFINITY.match(text):
+            if text[0] == '-':
+                return float('-inf')
+            else:
+                return float('inf')
+        elif _FLOAT_NAN.match(text):
+            return float('nan')
+        else:
+            try:
+                return float(text.rstrip('f'))
+            except ValueError:
+                raise ValueError('Couldn\'t parse float: %s' % text)
+
+def ParseBool(text):
+    if text in ('true', 't', '1'):
+        return True
+    elif text in ('false', 'f', '0'):
+        return False
+    else:
+        raise ValueError('Expected "true" or "false".')
+        
+def ParseEnum(field, value):
+    enum_descriptor = field.enum_type
+    try:
+        number = int(value, 0)
+    except ValueError:
+        enum_value = enum_descriptor.values_by_name.get(value, None)
+        if enum_value is None:
+            raise ValueError('Enum type "%s" has no value named %s.' % (
+                enum_descriptor.full_name, value))
+    else:
+        enum_value = enum_descriptor.values_by_number.get(number, None)
+        if enum_value is None:
+            raise ValueError('Enum type "%s" has no value with number %d.' % (
+                enum_descriptor.full_name, number))
+    return enum_value.number
+```

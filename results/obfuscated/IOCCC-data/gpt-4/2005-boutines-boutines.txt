@@ -1,0 +1,16 @@
+This code generates a scatter plot of data points (x, y) read from standard input using SVG (Scalable Vector Graphics) output. 
+
+The color of the points and regions are determined by a pseudo-random process, varying as the user provides the input data. The size and position of regions in the plot are determined by the values of the points in the dataset.
+
+The function `main()` begins by allocating space to store the dataset and reads data from standard input into this memory. 
+
+If certain conditions about the size of the memory allocation fail, then the program aborts with a message that prints "0x7F". If the conditions pass, then it proceeds to sort the data array, and then passes this array to the function `tr()` which begins the recursive process of producing the SVG output.
+
+The code uses a variety of `define` statements at the start which functions as shortcuts for various operations, useful in obfuscating the code's functionality. For example, the `define std()` statement replaces the commonly used scanf and printf functions with i() and o(), respectively. This makes the code difficult to read and interpret.
+
+In summary, this code performs the following:
+1. Reads a set of (x, y) coordinates from input.
+2. Sorts these coordinates.
+3. Recursively divides the plot area into smaller regions based on the distribution of points.
+4. Colors each region and plots each point.
+5. Outputs this as an SVG file which can be displayed by any web browser or SVG viewer.

@@ -1,0 +1,45 @@
+The code primarily handles some operations with the WebAssembly. Here is a breakdown:
+
+1. `__universalAtob` function: This function decodes a base64 string (`b64Encoded` parameter), then converts the decoded binary string into a Uint8Array (an array of 8-bit unsigned integers) and returns it. If there is a decoding error, it tries to create a new Uint8Array from a NodeJS Buffer.
+
+2. `__callWasmBuffer`: It is a hard-coded, Base64-encoded string that presumably contains binary data for a WebAssembly module.
+
+3. `__callWasmModule`: It initiates a WASM instance using a decrypted `__callWasmBuffer` string.
+
+4. `__wasmStringModules`: It is an array containing the Base64 encoded strings. Each string is decrypted, converted into Uint8Array and a new WebAssembly Instance is created using the converted data.
+
+5. `lS` function: This function receives a WebAssembly instance index or array of instances' indexes along with position and a cursor. For the single index, it extracts a string using a particular memory/interface layout that appears to be defined in the WebAssembly Instance. For array of indexes, it does the above process for each index separately, and decodes and adds each string to the original string.The remaining part of this code describes game logic. Here is a brief overview:
+
+1. `game` function: This is the main function for handling the logic of the game. It initializes `pScore` and `cScore` to keep the player and computer's scores.
+
+2. `startGame` function: This function handles the start of the game. It selects the intro screen, play button, and match component from the DOM. The play button has an event listener that, when clicked, creates two new WebAssembly instances and adds CSS classes to the intro screen and match to presumably switch views.
+
+3. `playMatch` function: This function handles the game logic. It selects computer and player hand images, the options the player can choose, and their hand animations. It adds an animation event listener to every hand animation. Finally, it creates an array with the options the computer can pick.
+
+In this section, the use of WebAssembly seems to serve obfuscation and/or optimization purpose. WebAssembly instances are created with an imported function that interacts with the components required for the game. However, the exact functioning remains unclear without having the actual WebAssembly content. Also, the `lS` function is used to dynamically fetch/select elements from the DOM by using decoded strings from the WebAssembly memory. 
+
+Note: Given the structure of the original script and the `lS` function, it appears that the actual element selectors and other strings are stored in the WebAssembly memory, encoded as base64 strings. This is a fairly unusual way to organize a JavaScript/WebAssembly codebase and might be done for code obfuscation or protection purposes since it complicates reverse-engineering efforts.The remaining part of the code handles the game logic:
+
+1. An anonymus function creates a new WebAssembly instance `__callInstance12`. This instance is running the condition checks for every game round. Inside the click event listener (attached on the options rendered on the screen), we get the player's choice (`this.textContent`) and computer's choice (`computerChoise`). After a delay of two seconds, the images of the selected hands are updated (`playerHand.src = ./imgs/{this.textContent}.png`).
+
+2. `compareHands` is a function declared to determine the winner between the player and the computer based on their choices. It has two arguments: `playerChoice` and `computerChoice`. Then, it compares the choices made. If the player and computer choose the same option, the result is a draw. If the player choice is a rock (`lS(0, 20)`), and the computer choice is scissors (`lS(0, 21)`), the player wins and the `pScore` is incremented. In other scenarios where player's choice is a rock, the computer wins and the `cScore` is incremented. For each round, the `updateScore` function is called to keep the score up to date.
+
+Note: The actual rules of Rock, Scissors, and Paper game are missing from this excerpt. They are probably handled in other parts of the code.
+
+In this part too, the WebAssembly instances are created with an imported function that interacts with the game components reflecting the player and computer choices. The exact functioning remains unclear without the actual WebAssembly content. The `lS` function is used to dynamically fetch/select elements from the DOM by using decoded strings from the WebAssembly memory.The remaining code completes the game logic:
+
+1. There are more anonymous functions that create new WebAssembly instances (`__callInstance7`, `__callInstance6`, `__callInstance5`, `__callInstance4`, and `__callInstance3`). Each one is linked to specific game outcomes and each instance runs an imported function `impFunc` that updates the score using the `updateScore` function. Again, an `if` statement checks player's choice and determines whether player or computer won the round based on the comparison of their choices.
+
+2. The `updateScore` function is declared but not completed in this part of the code. In the single line included, it seems to be selecting an element from the DOM (`playerScore = document.querySelector(lS(0, 32))`), probably the element displaying the player's current score. The exact functionality will be clearer when the complete function is available.
+
+An interesting point is that for each possible action outcome, a new WebAssembly instance is created. This suggests that the game may be utilizing WebAssembly to calculate or determine the result of each interaction in the game for optimal performance.
+
+Remember the `lS(0, n)` function is a sort of decoder, taking the `n` value as an argument and returning corresponding value from the string in the WebAssembly memory. The specific return value depends on the functionality of the loaded WebAssembly module.In the remaining part of the function, the function `updateScore` is completed. It updates the scores of the player and the computer on the screen. It selects the element with `lS(0, 33)`, which probably corresponds to the computer's score in the HTML, and assigns it to the `computerScore` variable. It then updates the `textContent` of the player and computer scores with the current scores stored in the `pScore` and `cScore` variables.
+
+The anonymous function then creates three new instances of the imported WebAssembly module, `__callWasmModule`. These last three seem particularly important since they define the beginning of the game (`startGame()`), the match (`playMatch()`) and the entire game (`game()`). 
+
+Each one of these instances starts an imported function via `impFunc`. Again, the specifics around these functions aren't provided, but given their names, one can only assume that they might involve initializing and carrying out instances of the game.
+
+The naming of these WebAssembly instances, (`__callInstance2`, `__callInstance1`, and `__callInstance0`), suggests that they should be called in reverse order. And indeed, they are defined inside Immediately Invoked Function Expressions (IIFEs) to ensure they are executed right after their declaration. The function returns `__exports.data()`, which probably contains the result of the game process.
+
+Overall, the whole function seems to create and manage a rock-paper-scissors game, utilizing WebAssembly for computation related to score alterations, the game process and handling the winner of each round.

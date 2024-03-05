@@ -1,0 +1,25 @@
+This code defines a class, `HeatmapsOnImage`, that is used to create, modify and analyze heatmaps over images.
+
+This class includes the following functionalities:
+
+1. Initialization from a given array (`__init__()`) with several assertions for input validation. The array is then normalized between the provided min_value and max_value.
+
+2. `get_arr()`: This function retrieves the array (2D or 3D depending upon input) representing the heatmap(s), reverted back to its original value range (from normalized 0-1 range).
+
+3. `draw()`: This function is used to visualize the heatmap(s) with optionally specified size and color map (cmap). It converts the heatmaps to 8-bit type and applies color map on them.
+
+4. `draw_on_image()`: This function is used to overlay the heatmap on the given image.
+
+5. `invert()`, `pad()`, `pad_to_aspect_ratio()`, `avg_pool()`, `max_pool()`: These methods perform respective operations on the heatmaps. 
+
+6. `resize()`: This function resizes the heatmaps to the given shape applying an interpolation method.
+
+7. `to_uint8()`, `from_uint8()`, `from_0to1()`: These functions convert heatmaps to or from 8-bit unsigned integers and between the normalized 0-1 range.
+
+8. `change_normalization()` adjusts the normalization of the heatmap between different ranges.
+
+The class also keeps track of several attributes, such as whether the original input heatmap was 2D, the shape of the underlying image that the heatmap relates to, and the minimum and maximum values used for normalization.This section of the code introduces two additional methods for the `HeatmapsOnImage` class:
+
+1. `copy()`: Creates a shallow copy of the HeatmapsOnImage object which returns a new instance with the same values. It uses internally a call to `deepcopy()`.
+
+2. `deepcopy()`: Creates a deep copy of the HeatmapsOnImage object. It behaves like `copy()`, but a deepcopy does not share inner objects, meaning a change in the copies won't affect the original object. It creates a new instance of the class, recreates the heatmap array with `get_arr()`, and copies over the initial attributes of the instance. The attribute `.shape` indicates the shape of the image on which this heatmap is based, while `.min_value` and `.max_value` store the minimum and maximum possible values of the heatmap.

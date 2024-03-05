@@ -1,0 +1,13 @@
+This is a C program named makeholes.c. It creates holes in a file at random locations. The holes are created by writing a given character at different offsets in the file.
+
+The holes are placed by first reading a series of random numbers from `/dev/urandom`, and then using those numbers as file offsets. These offsets are then sorted and the program iterates over this sorted list, writing the hole character at each offset. 
+
+The number of holes to be created, the character representing the hole, and the option to specify the bit mask when calculating the offset can be set when calling the program on the command line. If no values are provided, defaults are used - 100 holes represented by the '@' character. 
+
+This program uses system calls like `stat`, `open`, `read`, `write`, `malloc`, `lseek`, `qsort` and other standard C library functions like `getopt` for parsing command-line arguments. 
+
+If any necessary system call fails at any point, the program handles the error gracefully, closing any open file descriptors and freeing any allocated memory before exiting. 
+
+Finally, the program loops over the arguments after the options, treating each one as a file to create holes in. 
+
+`main` function return is EXIT_SUCCESS unless there's no file specified, in that case, program will print the usage message to stderr and return EXIT_FAILURE.

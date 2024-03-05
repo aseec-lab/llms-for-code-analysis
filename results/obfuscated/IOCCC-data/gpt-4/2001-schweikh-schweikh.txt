@@ -1,0 +1,21 @@
+This a very tricky piece of code written in C. It's a minimalistic C code that performs a pattern matching. More specifically, it matches a string `s` against a pattern `t` and returns `0` if they do not match and `1` if they do. The input arguments are provided through command line arguments.
+
+The pattern can contain two special characters:
+
+- An asterisk '*' which matches zero or more arbitrary characters. This is checked in `return*t-42`.
+
+- A question mark '?' which matches exactly one arbitrary character. This is checked in `63==*t`.
+
+The main function `main(int c,char**v)` is normally executed when the program starts. `v[1]` and `v[2]` are the 2nd and 3rd command line arguments, because `v[0]` is the name of the program itself.
+
+This function `m(char*s,char*t)` is a recursive function that checks if a string `s` matches a pattern `t`. It does this by comparing the current character of each string, and advancing to the next character or skipping characters depending on the result of the comparison.
+
+In `return*t-42?*s?63==*t|*s==*t&&m(s+1,t+1):!*t:m(s,t+1)||*s&&m(s+1,t)`, the values `42` and `63` represent the ascii values of the characters '*' and '?' respectively. The code '*t-42' compares the current character in 't' to '*', and '*t==63' checks if the current character in 't' is a '?'. 
+
+If the current character of `t` is '*', the function checks two conditions: either the rest of `t` matches `s` (which looks like skipping the '*' in `t`), or the rest of `s` matches `t` (which is equivalent to matching the '*' in `t` with the first character in 's'). 
+
+If the current character of `t` is '?', the function simply ignores the current characters of `t` and `s` and looks at the rest. 
+
+If the current character of `t` is a regular character, the function checks that it is the same as the current character of `s`, and if it is, looks at the rest. 
+
+Finally, if the current character of `s` is a null character, the function checks that the current character of `t` is also a null character, which would mean that `s` and `t` are the same and the function returns `1`.

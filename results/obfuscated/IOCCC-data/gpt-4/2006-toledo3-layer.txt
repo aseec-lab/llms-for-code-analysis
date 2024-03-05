@@ -1,0 +1,9 @@
+This program seems to be written in mixture of XLib and WinAPI functions that are used to write GUI applications on Unix-like operating systems, and Microsoft Windows respectively. The effectiveness of the code is doubtful as it might not work as expected. 
+
+The macro definitions at the beginning of the code suggest an attempt to wrap WinAPI function calls to use function names from XLib. Definitions like '#define Window HWND' are an attempt to make Windows API function calls from Unix commands. 'HWND' is a handle to a window, which is used in the Windows API to manage and control Windows.
+
+The code creates, displays and manages a simple window for a Chess application using system messages and commands.Some other dedicated macros like XMapWindow(a,b)ShowWindow(b,dd) and XCopyPlane etc. perform utility functions.
+
+The WinMain function at the end is the entry point for a graphical Windows-based application and calls the function 'main' with arguments that may be manipulated or changed by the user when launching the application. Finally, the application's class information is registered using RegisterClassEx() function.
+
+It should be noted that this sort of code is not recommended. It is not very readable, and subsequently difficult to maintain. A more orthodox approach would be to use the appropriate libraries as they are intended to be used for the operating systems they were designed for instead of trying to define certain functions to work in different operating systems.

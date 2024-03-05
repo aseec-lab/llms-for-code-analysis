@@ -1,0 +1,9 @@
+This code defines a class named `TamperEvidentFile`. This class contains methods to check the integrity of a file. 
+
+The `__init__` method initializes an object of the class `TamperEvidentFile` with the provided file name.
+
+The `write` function takes in a block of text and writes it to a file. It converts the text to bytes, generates a SHA-1 hash for these bytes, then writes both the text and the hash (as a new line at the end) to a file. The output file contains the original text followed by the cryptographic hash of the text.
+
+The `validate` function reads the content of the file, separates the last line (which is expected to contain the hash) from the rest of the text. It then calculates again the SHA-1 hash of the original text, and compares it with the hash read form the last line. If the actual hash and the expected hash match, it means the file was not tampered with since it was written, and the function returns `True`. Otherwise, it returns `False`. In case the last line does not match the required hash pattern, it is also considered a tampering attempt.
+
+Essentially, this class is creating a check (via SHA-1 hashing) to ensure that the contents of a file have not been changed (tampered with) after being initially written.

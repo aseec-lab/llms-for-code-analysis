@@ -1,0 +1,23 @@
+This code defines a class called `MPEventLoopRunner`. The class has several methods that manage the execution and communication of event loops.
+
+Here is a breakdown of each method:
+
+1. `__init__(self, communicationChannel)`: This is the constructor method that initializes the `MPEventLoopRunner` object. It takes a parameter `communicationChannel` which is assigned to the `communicationChannel` attribute. It also initializes the `nruns` attribute to 0.
+
+2. `__repr__(self)`: This method returns a string representation of the `MPEventLoopRunner` object. It uses string formatting to include the `communicationChannel` attribute.
+
+3. `begin(self)`: This method does nothing. It is an empty method that is meant to be overridden by subclasses.
+
+4. `run(self, eventLoop)`: This method runs a single event loop by putting it into the `communicationChannel` and incrementing the `nruns` attribute by 1. It returns the result of calling the `put()` method of the `communicationChannel` object.
+
+5. `run_multiple(self, eventLoops)`: This method runs multiple event loops by putting them into the `communicationChannel` and incrementing the `nruns` attribute by the number of event loops provided. It returns the result of calling the `put_multiple()` method of the `communicationChannel` object.
+
+6. `poll(self)`: This method receives finished event loops from the `communicationChannel`, updates the `nruns` attribute by subtracting the number of received event loops, and returns the received event loops.
+
+7. `receive_one(self)`: This method receives a single event loop from the `communicationChannel`, updates the `nruns` attribute if a event loop is received, and returns the received event loop or `None` if no event loops are expected (i.e. `nruns == 0`).
+
+8. `receive(self)`: This method receives all event loops from the `communicationChannel`, updates the `nruns` attribute by subtracting the number of received event loops, and returns the received event loops. It also logs a warning message if there are too few or too many event loops received.
+
+9. `end(self)`: This method receives all event loops from the `communicationChannel`, compares the number of received event loops with the expected `nruns` attribute, logs a warning message if the counts do not match, and returns the received event loops.
+
+Overall, this class provides methods to run and manage event loops using a communication channel for interprocess or interthread communication.

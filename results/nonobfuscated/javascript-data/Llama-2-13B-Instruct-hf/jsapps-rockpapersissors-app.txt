@@ -1,0 +1,126 @@
+Analyze the following piece of code: 
+const game = () => {
+	let pScore = 0;
+	let cScore = 0;
+
+		const startGame = () => {
+		const introScreen = document.querySelector('.intro');
+		const playBtn = document.querySelector('.intro button');
+		const match = document.querySelector('.match');
+
+		playBtn.addEventListener('click', () => {
+			introScreen.classList.add('fadeOut');
+			match.classList.add('fadeIn');
+		})
+	}
+
+		const playMatch = () => {
+		const computerHand = document.querySelector('.computer-hand');
+		const playerHand = document.querySelector('.player-hand');
+		const options = document.querySelectorAll('.options button');
+
+		const hands = document.querySelectorAll('.hands img');
+
+		hands.forEach((hand) => {
+			hand.addEventListener('animationend', function () {
+				this.style.animation = ''
+			})
+		})
+
+				const computerOptions = ['rock', 'paper', 'scissors'];
+
+		options.forEach((option) => {
+			option.addEventListener('click', function () {
+								const computerNumber = Math.floor(Math.random() * 3);
+				const computerChoise = computerOptions[computerNumber];
+
+				setTimeout(() => {
+										compareHands(this.textContent, computerChoise);
+										playerHand.src = `./imgs/${this.textContent}.png`
+					computerHand.src = `./imgs/${computerChoise}.png`
+				}, 2000);
+
+								playerHand.style.animation = 'shakePlayer 2s ease';
+				computerHand.style.animation = 'shakeComputer 2s ease';
+			})
+		})
+	}
+
+	const compareHands = (playerChoise, computerChoise) => {
+		const winner = document.querySelector('.winner');
+
+				if (playerChoise === computerChoise) {
+			winner.textContent = "It is a tie";
+			return;
+		}
+				if (playerChoise === 'rock') {
+			if (computerChoise === 'scissors') {
+				winner.textContent = 'Player Wins!'
+				pScore++;
+				updateScore();
+				return;
+			} else {
+				winner.textContent = 'Computer Wins';
+				cScore++;
+				updateScore();
+				return;
+			}
+		}
+				if (playerChoise === 'paper') {
+			if (computerChoise === 'rock') {
+				winner.textContent = 'Player Wins!'
+				pScore++;
+				updateScore();
+				return;
+			} else {
+				winner.textContent = 'Computer Wins';
+				cScore++;
+				updateScore();
+				return;
+			}
+		}
+				if (playerChoise === 'scissors') {
+			if (computerChoise === 'paper') {
+				winner.textContent = 'Player Wins!'
+				pScore++;
+				updateScore();
+				return;
+			} else {
+				winner.textContent = 'Computer Wins';
+				cScore++;
+				updateScore();
+				return;
+			}
+		}
+	}
+
+	const updateScore = () => {
+		const playerScore = document.querySelector('.player-score p');
+		const computerScore = document.querySelector('.computer-score p');
+		playerScore.textContent = pScore;
+		computerScore.textContent = cScore;
+	}
+
+
+		startGame();
+	playMatch();
+}
+
+game();
+
+What does this code do?
+
+This code is a simple rock-paper-scissors game written in JavaScript. It uses HTML and CSS to create the game interface, and it uses JavaScript to handle the game logic and update the score.
+
+Here's a breakdown of the code:
+
+1. The `const game = () => {...}` line defines a function called `game` that returns an object with three properties: `pScore`, `cScore`, and `startGame`.
+2. The `let pScore = 0;` and `let cScore = 0;` lines initialize two variables to keep track of the player and computer scores.
+3. The `const startGame = () => {...}` line defines a function called `startGame` that sets up the game interface and listens for the player to click the "Start" button.
+4. The `const playMatch = () => {...}` line defines a function called `playMatch` that is called when the player clicks the "Start" button. This function creates the computer's hand, the player's hand, and the options for the player to choose. It also adds event listeners to the options to listen for the player's choice.
+5. The `const compareHands = (playerChoise, computerChoise) => {...}` line defines a function called `compareHands` that compares the player's choice to the computer's choice and determines the winner.
+6. The `updateScore = () => {...}` line defines a function called `updateScore` that updates the player and computer scores based on the outcome of the game.
+7. The `startGame();` line calls the `startGame` function to set up the game interface and start the game.
+8. The `playMatch();` line calls the `playMatch` function to start the game logic and update the score.
+
+Overall, this code creates a simple rock-paper-scissors game that allows the player to choose a hand gesture and compares it to the computer's gesture to determine the winner. The game also keeps track of the player and computer scores and displays them at the end of the game.

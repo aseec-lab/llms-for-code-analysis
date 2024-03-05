@@ -1,0 +1,25 @@
+The code appears to be implementing operations on floating-point numbers using a custom data structure called InternalFPF. 
+
+The function "SetupCPUEmFloatArrays" initializes three arrays of InternalFPF structures with random values. It takes four parameters: abase, bbase, cbase, and arraysize. It uses the randnum() function to generate random numbers and assigns them to the locFPF1 and locFPF2 variables. It then performs division operations on locFPF1 and locFPF2 and stores the results in the abase and bbase arrays. This process is repeated for "arraysize" number of times.
+
+The function "DoEmFloatIteration" performs iterations on the abase, bbase, and cbase arrays. It takes four parameters: abase, bbase, cbase, arraysize, and loops. It initializes a variable called elapsed to the current timestamp. It then enters a while loop and performs operations on the arrays based on the value of the "loops" parameter. The operations include additions, subtractions, multiplications, and divisions. The specific operation performed on each array element is determined by the jtable array. After each iteration, it checks a condition and prints the values of certain array elements if the condition is met. Finally, it returns the elapsed time.
+
+The other functions in the code perform various operations related to the InternalFPF data structure. Some of these functions include setting an InternalFPF structure to zero, infinity, or NaN (Not a Number); checking if the mantissa of an InternalFPF structure is zero; performing addition and subtraction on 16-bit integers; shifting the mantissa of an InternalFPF structure left or right; normalizing and denormalizing an InternalFPF structure; rounding an InternalFPF structure; and multiplying two InternalFPF structures.The remaining part of the code includes functions that deal with different cases of operations on InternalFPF numbers. 
+
+The `case NAN_ZERO`, `case NAN_SUBNORMAL`, `case NAN_NORMAL`, and `case NAN_INFINITY` cases handle operations where one operand is NaN and the other is zero, subnormal, normal, or infinity. In these cases, the result is set to NaN.
+
+The `case ZERO_NAN`, `case SUBNORMAL_NAN`, `case NORMAL_NAN`, and `case INFINITY_NAN` cases handle operations where one operand is zero, subnormal, normal, or infinity and the other is NaN. In these cases, the result is set to NaN.
+
+The `case SUBNORMAL_SUBNORMAL`, `case SUBNORMAL_NORMAL`, `case NORMAL_SUBNORMAL`, and `case NORMAL_NORMAL` cases handle operations where both operands are either subnormal or normal numbers. These cases involve multiplication of mantissas and shifting operations to adjust the exponent. The result is then normalized by shifting the mantissa and adjusting the exponent.
+
+The `case NAN_NAN` case handles operations where both operands are NaN. It calls the `choose_nan` function to determine the result.
+
+The `DivideInternalFPF` function handles division operations on InternalFPF numbers. It follows similar logic as the previous cases, but with division-specific operations. 
+
+The `n_int32ToInternalFPF` function converts a 32-bit integer to an InternalFPF number. It sets the sign, type, mantissa, and exponent of the destination data structure based on the input integer. 
+
+The `InternalFPFToString` function converts an InternalFPF number to a string representation. It handles different cases including NaN, infinity, zero, and normal numbers. It performs arithmetic operations to determine the digits of the mantissa and exponent. The resulting string is stored in the `dest` buffer.
+
+The code section `#ifdef DEBUG` is used to conditionally compile the `InternalFPFToString` function for debugging purposes.
+
+Overall, the remaining part of the code handles different cases of operations on InternalFPF numbers, including arithmetic operations and string conversion.

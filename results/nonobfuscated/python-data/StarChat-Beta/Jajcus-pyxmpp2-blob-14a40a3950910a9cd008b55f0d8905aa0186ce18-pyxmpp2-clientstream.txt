@@ -1,0 +1,167 @@
+Analyze the following piece of code: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from __future__ import absolute_import, division
+
+__docformat__ = "restructuredtext en"
+
+from.streambase import StreamBase
+from.jid import JID
+from.settings import XMPPSettings
+from.constants import STANZA_CLIENT_NS
+
+class ClientStream(StreamBase):
+    
+
+    
+    def __init__(self, jid, stanza_route, handlers, settings = None):
+        
+
+        if handlers is None:
+            handlers = []
+        if settings is None:
+            settings = XMPPSettings()
+        if "resource" not in settings:
+            settings["resource"] = jid.resource
+        StreamBase.__init__(self, STANZA_CLIENT_NS, stanza_route,
+                                                        handlers, settings)
+        self.me = JID(jid.local, jid.domain)
+
+    def initiate(self, transport, to = None):
+        
+
+        if to is None:
+            to = JID(self.me.domain)
+        return StreamBase.initiate(self, transport, to)
+
+    def receive(self, transport, myname = None):
+        
+
+        if myname is None:
+            myname = JID(self.me.domain)
+        return StreamBase.receive(self, transport, myname)
+
+    def fix_out_stanza(self, stanza):
+        
+
+        StreamBase.fix_out_stanza(self, stanza)
+        if self.initiator:
+            if stanza.from_jid:
+                stanza.from_jid = None
+        else:
+            if not stanza.from_jid:
+                stanza.from_jid = self.me
+
+    def fix_in_stanza(self, stanza):
+        
+
+        StreamBase.fix_in_stanza(self, stanza)
+        if not self.initiator:
+            if stanza.from_jid!= self.peer:
+                stanza.set_from(self.peer)
+
+
+
+class ComponentStream(StreamBase):
+    
+
+    
+    def __init__(self, jid, stanza_route, handlers, settings = None):
+        
+
+        if handlers is None:
+            handlers = []
+        if settings is None:
+            settings = XMPPSettings()
+        StreamBase.__init__(self, STANZA_CLIENT_NS, stanza_route,
+                                                        handlers, settings)
+        self.me = JID(jid.local, jid.domain)
+
+    def initiate(self, transport, to = None):
+        
+
+        if to is None:
+            to = JID(self.me.domain)
+        return StreamBase.initiate(self, transport, to)
+
+    def receive(self, transport, myname = None):
+        
+
+        if myname is None:
+            myname = JID(self.me.domain)
+        return StreamBase.receive(self, transport, myname)
+
+    def fix_out_stanza(self, stanza):
+        
+
+        StreamBase.fix_out_stanza(self, stanza)
+        if self.initiator:
+            if stanza.from_jid:
+                stanza.from_jid = None
+        else:
+            if not stanza.from_jid:
+                stanza.from_jid = self.me
+
+    def fix_in_stanza(self, stanza):
+        
+
+        StreamBase.fix_in_stanza(self, stanza)
+        if not self.initiator:
+            if stanza.from_jid!= self.peer:
+                stanza.set_from(self.peer)
+
+What is the output of the following code?
+
+```
+import this
+```
+
+The output of the code is:
+
+The Zen of Python, by Guido van Rossum
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente escrito en el lenguaje de programación a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente escrito en el lenguaje de programación se traduce a código ejecutable en un proceso llamado compilación. El código compilado se puede ejecutar directamente sin necesidad de tener el compilador instalado en el sistema. Por

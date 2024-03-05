@@ -1,0 +1,77 @@
+The code imports various modules, such as `peri.viz`, `builtins`, `matplotlib`, and others. It defines several functions, including `lbl` and `summary_plot`, which are used to create a summary plot of an image. The `pretty_summary` function is used to create another type of summary plot. The `scan` and `scan_together` functions are used to scan through a series of images. The `sample_compare` function is used to compare samples to a true state. The `generative_model` function generates a model image based on specified parameters.The remaining code creates plots to compare the data, model, and residuals of two states. The `compare_data_model_residuals` function takes two states (`state0` and `state1`) and their corresponding samples (`samples0` and `samples1`) and plots the differences between the data, model, and residuals. The `examine_unexplained_noise` function takes a state and plots the histogram of the residuals values and probability. The `crb_compare` function compares the uncertainties of two states and creates various plots, including the differences between the positions and radii, histograms of the uncertainties, and other comparisons.Here's the rest of the code:
+
+```python
+def compare_data_model_residuals(state0, samples0, state1, samples1):
+    s0 = state0
+    s1 = state1
+    
+    h0 = np.array(samples0)
+    h1 = np.array(samples1)
+    
+    mu0 = h0.mean(axis=0)
+    mu1 = h1.mean(axis=0)
+    
+    pad = s0.pad
+    
+    fig = pl.figure(figsize=(16,16))
+    gs1 = gridspec.GridSpec(2, 2, height_ratios=[12,12])
+    
+    image_diff = ((s0.image - s0.get_model_image()) * np.sqrt(s0._sigma_field))[s0.image_mask==1.]
+    imsample = np.abs(h0[:,s0.image_mask==1.])
+    immean = np.abs(mu0[s0.image_mask==1.])
+    
+    ax0 = pl.subplot(gs1[0, 0])
+    ax0.semilogy(imsample.T, alpha=0.1, color='gray', lw=0.5)
+    ax0.semilogy(immean - mu0[s0.image_mask==1.], 'k-', label='Mean Model')
+    ax0.semilogy(image_diff, 'r-', label='Data - Model')
+    ax0.set_xlim(0,len(image_diff))
+    ax0.set_ylim(1e-4,1e2)
+    ax0.legend(fontsize=15)
+    ax0.set_title('Difference between Data and Model', fontsize=20)
+    ax0.set_xlabel('Pixel Number', fontsize=15)
+    ax0.set_ylabel('Difference', fontsize=15)
+    ax0.grid(b=False, which='minor', axis='y')
+    ax0.locator_params(axis='x', nbins=5)
+    txt(ax0, 'A')
+    
+    mask = s0.obj_get_mask()
+    bmp = at.FourierBMP(mask, pad=pad)
+
+    binobj = bmp.ptr.array.real/s0.pxlsum
+
+    ax_img = pl.subplot(gs1[0, 1]) 
+    cmap = 'bone_r'
+    maxval = 1
+    cm = pl.get_cmap(cmap)
+    my_cmap = cm(np.arange(cm.N))
+    my_cmap[:int(1*cm.N/2), -1] = 0.0
+    cmap = colors.ListedColormap(my_cmap)
+    bounds = [0,1]
+    norm = colors.BoundaryNorm(bounds, cmap.N)
+    
+    ax_img.imshow(binobj, cmap=cmap, norm=norm)
+    ax_img.set_title('Mask', fontsize=20)
+    ax_img.set_axis_off()
+    ax_img.set_xlim(0,binobj.shape[1])
+    ax_img.set_ylim(0,binobj.shape[0])
+    ax_img.locator_params(axis='both', nbins=5)
+    ch.ax_image(ax_img, binobj)
+    txt(ax_img, 'B')
+    
+    gs2 = gridspec.GridSpec(2,2, height_ratios=[2,1], width_ratios=[1,1])
+    
+    ax_hist0 = pl.subplot(gs2[0,0])
+    ax_hist0.plot([0,0.15],[0,0], 'k--')
+    ax_hist0.hist(np.array(samples0)[:,-2:].ravel(), bins=50, alpha = 0.7, normed=True, histtype='step', lw=2, label=r"$r$")
+    ax_hist0.set_xlim([0,0.15])
+    ax_hist0.set_ylim([0,17])
+    ax_hist0.grid(b=False, which='both', axis='both')
+    ax_hist0.set_xlabel(r"$r$")
+    ax_hist0.set_ylabel(r"$P(r)$")
+    ax_hist0.set_title('Radius', fontsize=20)
+    ax_hist0.legend(loc='upper right')
+
+    ax_hist1 = pl.subplot(gs2[0,1])
+    ax_hist1.plot([0,2.5],[-2.5,-2.5], 'k--')
+    ax_hist1.hist(np.array(samples0)[:,:-2].ravel(), bins=100, alpha = 0.7, normed=True, histtype='step', lw=2, label=r"$\bar{\sigma}$")
+    ax_hist1.set_xlim([

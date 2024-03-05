@@ -1,0 +1,25 @@
+This code filters a list of products based on user input and displays the filtered results on the webpage.
+
+Here's a breakdown of what each part of the code does:
+
+1. The code defines an array `productos` which contains objects representing products. Each product has a `nombre` (name) and `valor` (value).
+
+2. The code selects the HTML elements with the IDs `formulario`, `boton`, and `resultado` using `document.querySelector()`. These elements are used to get user input and display the filtered results.
+
+3. The code defines a function `filtrar()` which is responsible for filtering the products based on the user input.
+
+4. Inside the `filtrar()` function:
+   - It first clears the existing content of the `resultado` element by setting its `innerHTML` property to an empty string.
+   - It gets the user input value from the `formulario` element and converts it to lowercase using `toLowerCase()`.
+   - It then iterates over each product in the `productos` array using a `for...of` loop.
+   - For each product, it converts the product name (`nombre`) to lowercase using `toLocaleLowerCase()`.
+   - It checks if the lowercase product name contains the input text using `indexOf()`. If it does, it adds a list item to the `resultado` element with the product name and value using string interpolation (`${}`).
+   - After the loop, it checks if `resultado.innerHTML` is still an empty string. If it is, it means there were no matching products. In that case, it adds a list item to the `resultado` element with the message "Producto no encontrado".
+
+5. The code adds an event listener to the `boton` element for the 'click' event. When the button is clicked, it calls the `filtrar()` function.
+
+6. The code adds an event listener to the `formulario` element for the 'keyup' event. When the user releases a key in the input field, it calls the `filtrar()` function.
+
+7. Finally, the code calls the `filtrar()` function initially to display all products in the `resultado` element.
+
+Overall, this code allows the user to filter the list of products by typing in a search term and see the filtered results on the webpage.

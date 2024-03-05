@@ -1,0 +1,23 @@
+The Python script seems to be used for time binning of light curves. Light curves are a graphical representation of the brightness of an object over time, and they are widely used in astronomy. The binning process is a way of summarizing large amounts of data in order to reduce their size and to highlight some specific aspects of it.
+
+The code first sets up and configures the logging. Then, it tries to import the cPickle module otherwise it imports the pickle, os, os.path, glob, multiprocessing, and other modules which will be used in the code.
+
+It then defines a private function "_dict_get" which takes a dictionary ('datadict') and a list of keys ('keylist') as arguments and returns the value of the nested dictionary key.
+
+The code then gets the number of CPUs available on the current system to which this script will run and stores its value to 'NCPUS' variable.
+
+The code then imports the 'get_lcformat' function from the 'astrobase.lcproc' package and some other functions from 'astrobase.lcmath'. These functions are used to get information about the light curve format and perform calculations involving light curves.
+
+The 'timebinlc' function is defined which performs the time binning of a given light curve file 'lcfile' with a specified bin size. The function reads configuration variables, reads the light curve data files, performs checks and normalizes the light curve data series before binning it. It also checks if a specified light curve file has already been binned. If not, it normalizes the data, bins the data, and outputs the binned data as a new file.
+
+The 'timebinlc_worker' function is defined which seems to work as a wrapper function in the multiprocessing module. It takes a task, applies the 'timebinlc' function to it and handles any exceptions that might occur during the process. If an exception is caught, it logs the error message and returns None.
+
+The 'parallel_timebin' function is defined which is used to concurrently apply the binning process on multiple light curve files. It first prepares the tasks by creating tuples with information for binning each light curve file. It creates a pool of workers, each one will execute the task in parallel and store the results.The final part of the script defines the function 'parallel_timebin_lcdir'. This function is similar to the 'parallel_timebin' function, but instead of taking just a list of light curve files, it takes a directory (lcdir) that contains light curve files. It assumes that all the light curve files in this directory should be binned.
+
+The function first gets the data formatting information by calling the 'get_lcformat' function. If the function fails or the format cannot be determined, the function logs an error and returns 'None'.
+
+It then gets a list of all light curve files in the given directory by using the 'glob' function and sorting the resulting list.
+
+Finally, it calls the function 'parallel_timebin' on this list of files with all the other arguments passed on as they were received. The results of 'parallel_timebin' (the binned light curves) are returned by the function.
+
+In summary, this script bins light curve data across many files. It does this by binning each light curve file individually, allowing for the process to be run in parallel using multiple CPU cores. The result is a new file for each light curve file with its data binned as per the provided bin size.

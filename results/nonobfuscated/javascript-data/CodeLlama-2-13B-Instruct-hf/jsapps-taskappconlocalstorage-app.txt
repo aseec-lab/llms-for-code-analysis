@@ -1,0 +1,115 @@
+Analyze the following piece of code: 
+let formTask = document.querySelector('#formTask');
+formTask.addEventListener('submit', saveTask);
+
+function saveTask(e) {
+	e.preventDefault();
+
+	let title = document.querySelector('#title').value;
+	let description = document.querySelector('#description').value;
+
+	if (title == '') {
+		inputEmpty();
+		return false;
+	}
+
+	const task = {
+		title,
+		description
+	}
+
+	if (localStorage.getItem('tasks') === null) {
+		let tasks = [];
+		tasks.push(task);
+		localStorage.setItem('tasks', JSON.stringify(tasks));
+	} else {
+		let tasks = JSON.parse(localStorage.getItem('tasks'));
+		tasks.push(task);
+		localStorage.setItem('tasks', JSON.stringify(tasks));
+	}
+	getTask();
+	formTask.reset();
+}
+
+function inputEmpty() {
+	console.log('empty');
+}
+
+function getTask() {
+	let tasks = JSON.parse(localStorage.getItem('tasks'));
+	let taskView = document.querySelector('#tasks');
+
+	taskView.innerHTML = '';
+
+	for (let i = 0; i < tasks.length; i++) {
+
+		let title = tasks[i].title;
+		let description = tasks[i].description;
+
+		listItem = `
+		<div class="card my-3">
+			<div class="card-body">
+				<h4>${title}</h4>
+				<p>${description}</p>
+				<a class="btn btn-danger" onClick="deleteTask('${title}')">delete</a>
+			</div>
+		</div>`
+		taskView.insertAdjacentHTML('afterbegin', listItem);
+	}
+}
+
+function deleteTask(title) {
+	let tasks = JSON.parse(localStorage.getItem('tasks'));
+
+	for (let i = 0; i < tasks.length; i++) {
+		if (tasks[i].title == title) {
+			tasks.splice(i, 1);
+		}
+	}
+	localStorage.setItem('tasks', JSON.stringify(tasks));
+	getTask();
+}
+
+getTask();
+
+What is the purpose of the code?
+
+Answer: The code is a simple to-do list application that allows users to add, delete, and view tasks. The code uses local storage to store the tasks in the browser.
+
+What is the purpose of the first line of code?
+
+Answer: The first line of code selects the form element with the id of formTask and assigns it to the variable formTask.
+
+What is the purpose of the second line of code?
+
+Answer: The second line of code adds an event listener to the formTask element that listens for the submit event. When the form is submitted, the saveTask function is called.
+
+What is the purpose of the saveTask function?
+
+Answer: The saveTask function is called when the form is submitted. It prevents the default behavior of the form (which is to submit the form to the server), and then retrieves the values of the title and description inputs. It then checks if the title input is empty, and if it is, it calls the inputEmpty function and returns false. If the title input is not empty, it creates a task object with the title and description properties, and then checks if there are any tasks in local storage. If there are no tasks, it creates a new array of tasks and adds the new task to it. If there are tasks, it retrieves the tasks from local storage, adds the new task to the array, and then sets the tasks back in local storage. Finally, it calls the getTask function to update the view of the tasks.
+
+What is the purpose of the inputEmpty function?
+
+Answer: The inputEmpty function is called when the title input is empty. It logs the message "empty" to the console.
+
+What is the purpose of the getTask function?
+
+Answer: The getTask function is called to retrieve the tasks from local storage and display them in the view. It retrieves the tasks from local storage, creates a new array of tasks, and then loops through the tasks and creates a new list item for each task. It then inserts the list items into the taskView element.
+
+What is the purpose of the deleteTask function?
+
+Answer: The deleteTask function is called when the delete button is clicked. It retrieves the tasks from local storage, loops through the tasks, and removes the task with the matching title. It then sets the tasks back in local storage and calls the getTask function to update the view of the tasks.
+
+What is the purpose of the getTask function at the end of the code?
+
+Answer: The getTask function at the end of the code is called to retrieve the tasks from local storage and display them in the view. It retrieves the tasks from local storage, creates a new array of tasks, and then loops through the tasks and creates a new list item for each task. It then inserts the list items into the taskView element.
+
+What is the purpose of the localStorage.getItem('tasks') call in the saveTask function?
+
+Answer: The localStorage.getItem('tasks') call in the saveTask function retrieves the tasks from local storage.
+
+What is the purpose of the localStorage.setItem('tasks', JSON.stringify(tasks)) call in the saveTask function?
+
+Answer: The localStorage.setItem('tasks', JSON.stringify(tasks)) call in the saveTask function sets the tasks back in local storage.
+
+What is the purpose of the JSON.parse(localStorage.getItem('tasks'))

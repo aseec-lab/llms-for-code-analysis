@@ -1,0 +1,25 @@
+This code appears to be a graphical buffer display system written in the C programming language. 
+
+Here's what it's doing:
+
+1. A 2D array `graphtab[16][16]` is declared that contains several ASCII characters. This seems to be a character mapping table.
+
+2. `BITROWS`, `BITCOLS`, `SCREENROWS`, and `SCREENCOLS` are defined as constants. These values signify the dimensions of the framebuffer and the screen resolution respectively.
+
+3. The framebuffer is defined as a 2D array of characters `framebuffer[BITROWS][BITCOLS]`. This serves as a buffer to hold bit pattern to be displayed.
+
+4. Macros for setting and clearing bits in the framebuffer are defined `BITSET` and `BITCLR`.
+
+5. A strange and incomplete function definition for `double f()` and `double atof()` is present, but these functions don't seem to do anything because they aren't defined further in this code.
+
+6. A `FILE` pointer `d` is mentioned, likely for file reading but it is never utilized in this part of the code.
+
+7. In the `main` function, it reads from standard input three hexadecimal numbers per line for 48 lines and stores these numbers into the framebuffer using the function `bs()` (bit set).
+
+8. The `bs` function sets the respective bit in the framebuffer based on the value in the 16 bit number read earlier.
+
+9. `bitshow()` is then called which calls `bitshow2()` (or `bitshow1()` if uncommented).
+
+10. `bitshow1` and `bitshow2` functions convert series of 4 and 8 bits respectively from the framebuffer into a single character based on the mapping in graphtab. These characters are then displayed on the console, creating an ASCII representation of the data stored in the framebuffer.
+
+In summary, this code appears to read binary data from standard input, represent it in memory as bits in a framebuffer, and then render those bits as ASCII characters on the terminal. This is an ancient way to do simple graphic operations in environments that support only text, pre-graphic interfaces.

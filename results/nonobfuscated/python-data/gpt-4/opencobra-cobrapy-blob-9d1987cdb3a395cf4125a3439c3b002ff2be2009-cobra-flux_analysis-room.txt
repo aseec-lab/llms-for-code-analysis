@@ -1,0 +1,7 @@
+The code snippet defines two methods: `room` and `add_room`. Both of these methods are used as part of the Regulatory On/Off Minimization (ROOM) algorithm used in the field of metabolic engineering to predict reaction flux based on a constraint-based model of metabolism. This algorithm aims to minimize the difference between wild type and mutant organisms.
+
+1. The `room` method establishes constraints on the flux model, optimizes the model based on these constraints and then returns the optimized solution. 
+
+2. The `add_room` method is where the bulk of the action happens. First, it checks if a model is already adjusted for ROOM, it raises an error. Then, it adds constraints to the reactions of the model to focus on minimizing disruption between the wild-type and mutant models. If the `linear` boolean is set to true, it adjusts a flux control variable 'y' between 0 and 1. However, if `linear` is false, the 'y' variable is Binary (0 or 1).  It also calculates upper and lower bounds for the flux of each reaction and adds constraints to the model based on these calculated bounds. At the end, it sets these constraints on the model's objective function and coefficients.
+
+The ROOM algorithm is a way to predict the behavior of a mutated organism based on the metabolic model of the wild type. It is a computational method used in the field of systems biology.

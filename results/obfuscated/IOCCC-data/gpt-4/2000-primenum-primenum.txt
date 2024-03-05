@@ -1,0 +1,23 @@
+This is a C program structured using a set of #define preprocessor directives to replace certain words/phrases with their corresponding actual code. The main action of the program is to find and print all the prime numbers up until the command line argument taken in by the program.
+
+Here's an explanation:
+
+- The macros defined at the start essentially rename common C keywords and operations to other words for example, `#define ForLoop for` renames "for" to "ForLoop", `#define BeginProgram void main(int argc, char *argv[])` renames the typical main function declaration with "BeginProgram" etc. This is likely done to obfuscate the code.
+
+- The `BeginProgram` macro starts the main function of the program, which accepts a command line argument.
+
+- The `Declare Variables` macro declares some integer variables, and a char variable.
+
+- `GetCommandLineArgument` macro is used to convert the first command-line argument to an integer and assign it to `n`.
+
+- The program then enters a `ForLoop` (actually a "for" loop), initializing `PossiblePrime`(actually `i`) to `SmallestPrime`(actually `2`), the smallest prime number, and increments it until `i` is less than or equal to `n` (the input number).
+
+- Inside this loop, another loop starts where `PossibleFactor`(actually `j`) also starts from `SmallestPrime`(2) and increments until it reaches the current `PossiblePrime`.
+
+- If `PossiblePrime` is divisible by `PossibleFactor`, it's not a prime number. This sets the `Flag` to `False`.
+
+- If `PossiblePrime` is not divisible by any number (i.e., `Flag` remains `True`), the program prints it out, demonstrating that it's a prime number.
+
+- The program continues until it checks all numbers up until `n`, as provided by the command line during initial run time.
+
+In a nutshell, the program prints out all prime numbers up to a given input number.

@@ -1,0 +1,43 @@
+This is a LINPACK benchmark program in C. 
+
+The LINPACK Benchmark is a measure of a computer's floating-point rate of execution ability, using procedures to evaluate and solve linear equations. It's often used to benchmark high-performance computing systems.
+
+This program starts with defining libraries, constants (DP, SP, ONE, ZERO), and basic types depending on whether single or double precision is desired (controlled by the SP and DP macros).
+
+The main function first asks for an array size to be entered by the user. If entered size is less than 10, it asks to enter again. The program checks if it can allocate the requested size of memory. If it can, it goes onto executing the LINPACK benchmark using the entered size. If not, it says that not enough memory is available for the requested array size and requests for input again.
+
+Furthermore, the main function then benchmarks how long it takes to execute a linpack operation multiple times, doubling the number of repetitions until it takes more than 10 seconds in order to ensure a valid measurement. 
+
+The function linpack performs operations using a variety of other functions such as matgen, dgefa, dgesl etc.
+
+The matgen function generates a NxN matrix filling it with pseudo-random numbers and another N-element vector calculated based on generated matrix.
+
+The dgefa routine is used for LU decomposition, which is a key step in solving systems of linear equations, a common task in scientific computing.
+
+Finally, the linpack procedure outputs the time taken and the resulting kiloflops (thousands of floating-point operations per second) achieved for the operations performed.This part of the function continues the implementation of the LINPACK benchmark, implementing a variety of mathematical functions such as matrix-vector multiplication (daxpy_r) and dot product (ddot_r), which are often used in scientific computing. 
+
+In the DAXPY operation (short for Double precision A*X Plus Y), it computes a scalar multiplication and addition, that is, computes the operation `dy = dy + da*dx` where `da` is a scalar, `dx` is a vector (incremented by `incx`), and `dy` is another vector (incremented by `incy`). 
+
+The DDOT operation (short for Double precision DOT product computation), calculates the dot product of two vectors `dx` and `dy`, incremented by `incx` and `incy`, respectively. 
+
+The dgesl function solves a system of linear equations given an LU factorization result of a matrix. It checks whether backward substitution or forward substitution should be applied according to the `job` parameter.
+
+These functions are called with different values and parameters throughout the LINPACK benchmarking process. Roll argument in these functions specifies whether to roll the loop in row major (roll=1) or in column major (roll=0).
+
+Further, they use some common operations such as checking whether an operation is to be performed (if the number of elements n is not less or equal to zero and the scalar `da` or `dtemp` is not zero), an operation (such as addition, multiplication, or division), and incrementing the indices for the next operation.
+
+This whole part of the program is quite critical for the LINPACK benchmark as these operations represent some common tasks in scientific and high-performance computing. 
+
+Please note that these functions are working with points to arrays or matrices to modify and return their values to the caller representing the major concept of passing by reference in C programming. These parts of a function constitute the classic structure of a numerical linear algebra algorithm.This section continues the previous one and includes functions for scaling vectors, finding the maximum absolute value in a vector, and estimating the elapsed CPU time.
+
+`dscal_r` and `dscal_ur` functions scale a vector by a given scalar. In these functions, incx parameter is used to ensure the flexibility of the vector in memory. For instance, if incx = 1 then the vector is stored consecutively in memory, but if incx = 2 then every second element in memory belongs to this vector allowing the computation to be performed on subsets of given vectors as per use cases.
+
+The `daxpy_ur` function carries out the DAXPY operation with unrolled loops to possibly accrue the performance advantage of reducing the loop overhead in repeated calculations.
+
+`ddot_ur` computes the dot product of two vectors using unrolled loops for the same reason.
+
+`idamax` function finds the index of the first element with the maximum absolute value in a vector. This function is used to carry out certain pivoting strategies in direct methods for linear systems.
+
+Finally, the `second` function returns the elapsed CPU time in seconds since the program started. This function leverages the standard library function `clock` from the `time.h` header in C to get this timing, and it is divided by `CLOCKS_PER_SEC` to convert the value to seconds.
+
+Please note that these are auxiliary functions used in the main routines (like matrix factorization and solving linear systems) in order to modularize the code and avoid code repetition which follows good programming practices.

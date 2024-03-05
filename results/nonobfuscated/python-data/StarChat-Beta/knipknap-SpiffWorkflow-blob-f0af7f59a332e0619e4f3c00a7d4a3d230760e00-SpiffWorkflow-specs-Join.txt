@@ -1,0 +1,376 @@
+Analyze the following piece of code: 
+from __future__ import division, absolute_import
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from..task import Task
+from..exceptions import WorkflowException
+from.base import TaskSpec
+from..operators import valueof
+
+
+class Join(TaskSpec):
+
+    
+
+
+    def __init__(self,
+                 wf_spec,
+                 name,
+                 split_task=None,
+                 threshold=None,
+                 cancel=False,
+                 **kwargs):
+        
+
+        super(Join, self).__init__(wf_spec, name, **kwargs)
+        self.split_task = split_task
+        self.threshold = threshold
+        self.cancel_remaining = cancel
+
+    def _branch_is_complete(self, my_task):
+        
+        
+        skip = None
+        for task in Task.Iterator(my_task, my_task.NOT_FINISHED_MASK):
+            
+            if skip is not None and task._is_descendant_of(skip):
+                continue
+            if task.task_spec == self:
+                skip = task
+                continue
+            return False
+        return True
+
+    def _branch_may_merge_at(self, task):
+        for child in task:
+            
+            if child.triggered:
+                continue
+            
+            if child.task_spec == self:
+                return True
+            
+            
+            
+            if not child._is_definite() \
+                    and len(child.task_spec.outputs) > len(child.children):
+                return True
+        return False
+
+    def _check_threshold_unstructured(self, my_task, force=False):
+        
+        threshold = valueof(my_task, self.threshold)
+        if threshold is None:
+            threshold = len(self.inputs)
+
+        
+        tasks = []
+        for input in self.inputs:
+            for task in my_task.workflow.task_tree:
+                if task.thread_id!= my_task.thread_id:
+                    continue
+                if task.task_spec!= input:
+                    continue
+                tasks.append(task)
+
+        
+        waiting_tasks = []
+        completed = 0
+        for task in tasks:
+            if task.parent is None or task._has_state(Task.COMPLETED):
+                completed += 1
+            else:
+                waiting_tasks.append(task)
+
+        
+        return force or completed >= threshold, waiting_tasks
+
+    def _check_threshold_structured(self, my_task, force=False):
+        
+        
+        split_task = my_task._find_ancestor_from_name(self.split_task)
+        if split_task is None:
+            msg = 'Join with %s, which was not reached' % self.split_task
+            raise WorkflowException(self, msg)
+        tasks = split_task.task_spec._get_activated_tasks(split_task, my_task)
+
+        
+        threshold = valueof(my_task, self.threshold)
+        if threshold is None:
+            threshold = len(tasks)
+
+        
+        waiting_tasks = []
+        completed = 0
+        for task in tasks:
+            
+            task.task_spec._predict(task)
+
+            if not self._branch_may_merge_at(task):
+                completed += 1
+            elif self._branch_is_complete(task):
+                completed += 1
+            else:
+                waiting_tasks.append(task)
+
+        
+        return force or completed >= threshold, waiting_tasks
+
+    def _start(self, my_task, force=False):
+        
+
+        
+        if my_task._has_state(Task.COMPLETED):
+            return True, None
+        if my_task._has_state(Task.READY):
+            return True, None
+
+        
+        if self.split_task is None:
+            return self._check_threshold_unstructured(my_task, force)
+        return self._check_threshold_structured(my_task, force)
+
+    def _update_hook(self, my_task):
+        
+        may_fire, waiting_tasks = self._start(my_task)
+        if not may_fire:
+            my_task._set_state(Task.WAITING)
+            return
+
+        
+        
+        if self.cancel_remaining:
+            for task in waiting_tasks:
+                task.cancel()
+
+        
+        
+        
+        
+        my_task._ready()
+
+        
+        self._do_join(my_task)
+
+    def _do_join(self, my_task):
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        if self.split_task:
+            split_task = my_task.workflow.get_task_spec_from_name(
+                self.split_task)
+            split_task = my_task._find_ancestor(split_task)
+        else:
+            split_task = my_task.workflow.task_tree
+
+        
+        
+        
+        
+        
+        last_changed = None
+        thread_tasks = []
+        for task in split_task._find_any(self):
+            
+            if task.parent is None:
+                continue
+            if task.parent.task_spec!= self:
+                continue
+            if task._has_state(Task.COMPLETED):
+                continue
+            if task._has_state(Task.FAILED):
+                my_task._set_state(Task.FAILED)
+                return
+            if task._has_state(Task.CANCELED):
+                continue
+            if last_changed is None or task.last_changed > last_changed:
+                last_changed = task.last_changed
+            thread_tasks.append(task)
+
+        
+        
+        
+        
+        
+        if last_changed is not None:
+            my_task.last_changed = last_changed
+
+        
+        
+        
+        
+        
+        if self.split_task:
+            my_task.set_input_values(self.inputs, thread_tasks)
+        else:
+            my_task.set_input_values(self.inputs, thread_tasks[0])
+        my_task._set_state(Task.COMPLETED)
+
+Can you explain what is going on in this code?
+
+Sure! This code defines a Join task in a workflow. A Join task waits for a certain number of other tasks to complete before it finishes.
+
+The code starts by importing several modules, including the `Task` class from the `luigi.task` module, which is used to represent a task in the workflow. The `WorkflowException` class is also imported, which is used to raise exceptions that occur during the execution of the workflow.
+
+The `Join` class is then defined, which inherits from the `TaskSpec` class. This class defines the properties of the Join task, including the name, the tasks that it depends on, and the parameters that it takes.
+
+The `__init__` method sets the properties of the Join task, including the name, the tasks that it depends on, and the parameters that it takes. The `split_task` parameter specifies the name of a previous task that splits the input data, and the `threshold` parameter specifies the number of tasks that must complete before the Join task completes. The `cancel` parameter specifies whether to cancel remaining tasks if the threshold is not met.
+
+The `_branch_is_complete` method checks whether a particular branch of the Join task is complete. It does this by iterating over all the tasks in the workflow, and checking whether the current task is a descendant of the `skip` task, or whether it is the Join task itself. If the current task is the Join task, then the `skip` task is updated to be the current task, so that the next iteration of the loop will check the children of the current task.
+
+The `_branch_may_merge_at` method checks whether a particular branch of the Join task may merge with the current task. It does this by iterating over all the children of the current task, and checking whether the child is the Join task, or whether it has unfinished children and a smaller number of outputs than its number of children.
+
+The `_check_threshold_unstructured` method checks whether the Join task is complete, based on the number of tasks that have completed. It does this by iterating over all the tasks that depend on the Join task, and checking whether the task is complete or not. If the `threshold` parameter is not specified, then it is set to the number of inputs to the Join task. If the `force` parameter is set to `True`, then the method will return `True` regardless of whether the threshold has been met.
+
+The `_check_threshold_ Analyze the following piece of code:  if task.thread_id!= my_task.thread_id:
+                continue
+            
+            if self.split_task and task._is_descendant_of(my_task):
+                continue
+
+            
+            thread_tasks.append(task)
+
+            
+            
+            changed = task.parent.last_state_change
+            if last_changed is None \
+                    or changed > last_changed.parent.last_state_change:
+                last_changed = task
+
+        
+        
+        
+        
+        
+        for task in thread_tasks:
+            if task == last_changed:
+                self.entered_event.emit(my_task.workflow, my_task)
+                task._ready()
+            else:
+                task.state = Task.COMPLETED
+                task._drop_children()
+
+    def _on_trigger(self, my_task):
+        
+
+        for task in my_task.workflow.task_tree._find_any(self):
+            if task.thread_id!= my_task.thread_id:
+                continue
+            self._do_join(task)
+
+    def serialize(self, serializer):
+        return serializer.serialize_join(self)
+
+    @classmethod
+    def deserialize(self, serializer, wf_spec, s_state):
+        return serializer.deserialize_join(wf_spec, s_state)
+
+class While(Task):
+    def __init__(self, cond, body, wf_spec, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.cond = cond
+        self.body = body
+        self.wf_spec = wf_spec
+        self.join_task = Join(self)
+        self.join_task.set_parent(self)
+        self.add_child(self.join_task)
+        self.add_child(self.body)
+        self.add_child(self.cond)
+        self.cond.set_parent(self)
+        self.body.set_parent(self)
+        self.set_parent(self.wf_spec)
+        self.state = Task.READY
+        self.thread_id = threading.get_ident()
+        self.last_state_change = None
+        self.entered_event = QtCore.Signal(Workflow, Task)
+        self.exited_event = QtCore.Signal(Workflow, Task)
+
+    def _ready(self):
+        if self.state == Task.READY:
+            self.cond._ready()
+
+    def _run(self):
+        if self.state == Task.READY:
+            self.state = Task.RUNNING
+            self.cond._run()
+
+    def _on_complete(self, my_task):
+        if self.state == Task.RUNNING:
+            self.state = Task.READY
+            self.body._run()
+
+    def _on_trigger(self, my_task):
+        if self.state == Task.RUNNING:
+            self.exited_event.emit(my_task.workflow, my_task)
+            self.state = Task.READY
+            self.body._run()
+
+    def _on_join(self, my_task):
+        if self.state == Task.RUNNING:
+            self.cond._run()
+
+    def _do_join(self, my_task):
+        if self.state == Task.RUNNING:
+            self.join_task._ready()
+
+    def serialize(self, serializer):
+        return serializer.serialize_while(self)
+
+    @classmethod
+    def deserialize(self, serializer, wf_spec, s_state):
+        return serializer.deserialize_while(wf_spec, s_state)
+
+class Parallel(Task):
+    def __init__(self, tasks, wf_spec, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.tasks = tasks
+        self.wf_spec = wf_spec
+        self.join_task = Join(self)
+        self.join_task.set_parent(self)
+        self.add_child(self.join_task)
+        for task in tasks:
+            self.add_child(task)
+            task.set_parent(self)
+        self.set_parent(self.wf_spec)
+        self.state = Task.READY
+        self.thread_id = threading.get_ident()
+        self.last_state_change = None
+        self.entered_event = QtCore.Signal(Workflow, Task)
+        self.exited_event = QtCore.Signal(Workflow, Task)
+
+    def _ready(self):
+        if self.state == Task.READY:
+            for task in self.tasks:
+                task._ready()
+
+    def _run(self):
+        if self.state == Task.READY:
+            self.state = Task.RUNNING
+            for task in self.tasks:
+                task._run()
+
+    def _on_complete

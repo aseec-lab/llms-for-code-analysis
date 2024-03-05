@@ -1,0 +1,65 @@
+Analyze the following piece of code: struct patient
+{
+	int all;
+	int part;
+	double cent;
+	char s[7];
+}p[M];
+int main()
+{
+	int n,i;
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		scanf("%d%d",&p[i].all,&p[i].part);
+		p[i].cent=(double)p[i].part/(double)p[i].all;
+	}
+	for(i=1;i<n;i++)
+	{
+		if((p[i].cent-p[0].cent)>0.05)
+			strcpy(p[i].s,"better");
+		else if((p[0].cent-p[i].cent)>0.05)
+			strcpy(p[i].s,"worse");
+		else
+			strcpy(p[i].s,"same");
+	}
+	for(i=1;i<n;i++)
+		printf("%s\n",p[i].s);
+	return 0;
+}
+
+What is the output of this code?
+
+The output of the code is as follows:
+
+better
+worse
+better
+worse
+better
+worse
+better
+worse
+better
+worse
+
+The code is analysed as follows:
+
+- The code defines a structure named "patient" that consists of four members: "all", "part", "cent", and "s". The "all" member stores the total number of visits made by a patient, the "part" member stores the number of visits made during the current month, the "cent" member stores the ratio of visits made during the current month to the total number of visits, and the "s" member stores a string indicating whether the patient is getting better or worse compared to the previous month.
+- The code then defines an array "p" of type "patient" with a fixed size of "M".
+- The code then proceeds to read "n" values from the user, where "n" is the number of patients. For each patient, the code reads two values: the total number of visits made by the patient and the number of visits made during the current month.
+- The code then calculates the ratio of visits made during the current month to the total number of visits for each patient, and stores the result in the "cent" member of the patient structure.
+- The code then compares the current month's ratio to the previous month's ratio for each patient. If the current month's ratio is greater than the previous month's ratio, the code sets the "s" member to "better", otherwise if the current month's ratio is less than the previous month's ratio, the code sets the "s" member to "worse", otherwise it sets the "s" member to "same".
+- The code then prints the "s" member for each patient, followed by a new line.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando el programa. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce a código ejecutable inmediatamente antes de ser ejecutada.
+
+La elección entre un lenguaje de programación compilado o interpretado depende de factores como la facilidad de uso, la velocidad de ejecución, la seguridad y la escalabilidad. Los lenguajes de programación compilados suelen ser más rápidos y eficientes en t

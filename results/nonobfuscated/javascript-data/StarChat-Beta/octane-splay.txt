@@ -1,0 +1,443 @@
+Analyze the following piece of code: 
+
+var Splay = new BenchmarkSuite('Splay', [81491, 2739514], [
+  new Benchmark("Splay", true, false, 1400,
+    SplayRun, SplaySetup, SplayTearDown, SplayRMS)
+]);
+
+
+var kSplayTreeSize = 8000;
+var kSplayTreeModifications = 80;
+var kSplayTreePayloadDepth = 5;
+
+var splayTree = null;
+var splaySampleTimeStart = 0.0;
+
+function GeneratePayloadTree(depth, tag) {
+  if (depth == 0) {
+    return {
+      array  : [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+      string : 'String for key'+ tag +'in leaf node'
+    };
+  } else {
+    return {
+      left:  GeneratePayloadTree(depth - 1, tag),
+      right: GeneratePayloadTree(depth - 1, tag)
+    };
+  }
+}
+
+
+function GenerateKey() {
+      return Math.random();
+}
+
+var splaySamples = 0;
+var splaySumOfSquaredPauses = 0;
+
+function SplayRMS() {
+  return Math.round(Math.sqrt(splaySumOfSquaredPauses / splaySamples) * 10000);
+}
+
+function SplayUpdateStats(time) {
+  var pause = time - splaySampleTimeStart;
+  splaySampleTimeStart = time;
+  splaySamples++;
+  splaySumOfSquaredPauses += pause * pause;
+}
+
+function InsertNewNode() {
+    var key;
+  do {
+    key = GenerateKey();
+  } while (splayTree.find(key)!= null);
+  var payload = GeneratePayloadTree(kSplayTreePayloadDepth, String(key));
+  splayTree.insert(key, payload);
+  return key;
+}
+
+
+function SplaySetup() {
+      if (!performance.now) {
+    throw "PerformanceNowUnsupported";
+  }
+
+  splayTree = new SplayTree();
+  splaySampleTimeStart = performance.now()
+  for (var i = 0; i < kSplayTreeSize; i++) {
+    InsertNewNode();
+    if ((i+1) % 20 == 19) {
+      SplayUpdateStats(performance.now());
+    }
+  }
+}
+
+
+function SplayTearDown() {
+        var keys = splayTree.exportKeys();
+  splayTree = null;
+
+  splaySamples = 0;
+  splaySumOfSquaredPauses = 0;
+
+    var length = keys.length;
+  if (length!= kSplayTreeSize) {
+    throw new Error("Splay tree has wrong size");
+  }
+
+    for (var i = 0; i < length - 1; i++) {
+    if (keys[i] >= keys[i + 1]) {
+      throw new Error("Splay tree not sorted");
+    }
+  }
+}
+
+
+function SplayRun() {
+    for (var i = 0; i < kSplayTreeModifications; i++) {
+    var key = InsertNewNode();
+    var greatest = splayTree.findGreatestLessThan(key);
+    if (greatest == null) splayTree.remove(key);
+    else splayTree.remove(greatest.key);
+  }
+  SplayUpdateStats(performance.now());
+}
+
+
+
+function SplayTree() {
+};
+
+
+
+SplayTree.prototype.root_ = null;
+
+
+
+SplayTree.prototype.isEmpty = function() {
+  return!this.root_;
+};
+
+
+
+SplayTree.prototype.insert = function(key, value) {
+  if (this.isEmpty()) {
+    this.root_ = new SplayTree.Node(key, value);
+    return;
+  }
+      this.splay_(key);
+  if (this.root_.key == key) {
+    return;
+  }
+  var node = new SplayTree.Node(key, value);
+  if (key > this.root_.key) {
+    node.left = this.root_;
+    node.right = this.root_.right;
+    this.root_.right = null;
+  } else {
+    node.right = this.root_;
+    node.left = this.root_.left;
+    this.root_.left = null;
+  }
+  this.root_ = node;
+};
+
+
+
+SplayTree.prototype.remove = function(key) {
+  if (this.isEmpty()) {
+    return;
+  }
+      this.splay_(key);
+  if (this.root_.key!= key) {
+    return;
+  }
+  if (!this.root_.left) {
+    this.root_ = this.root_.right;
+    return;
+  }
+  if (!this.root_.right) {
+    this.root_ = this.root_.left;
+    return;
+  }
+  var successor = this.root_.right;
+  while (successor.left) {
+    successor = successor.left;
+  }
+  this.root_.key = successor.key;
+  this.root_.value = successor.value;
+  this.remove(successor.key);
+};
+
+
+
+SplayTree.prototype.find = function(key) {
+  if (this.isEmpty()) {
+    return null;
+  }
+      this.splay_(key);
+  if (this.root_.key!= key) {
+    return null;
+  }
+  return this.root_;
+};
+
+
+
+SplayTree.prototype.findGreatestLessThan = function(key) {
+  if (this.isEmpty()) {
+    return null;
+  }
+      this.splay_(key);
+  if (this.root_.key >= key) {
+    return this.root_;
+  }
+  if (!this.root_.left) {
+    return null;
+  }
+  this.root_.left.right = this.root_.right;
+  this.root_.right = this.root_.left;
+  this.root_.left = null;
+  var node = this.root_;
+  this.root_ = node.right;
+  node.right = null;
+  this.splay_(key);
+  return node;
+};
+
+
+
+SplayTree.prototype.exportKeys = function() {
+  var keys = [];
+  var node = this.root_;
+  while (node) {
+    keys.push(node.key);
+    node = node.left;
+  }
+  return keys;
+};
+
+
+
+SplayTree.prototype.splay_ = function(key) {
+  var node = this.root_;
+  var parent = null;
+  while (node) {
+    parent = node;
+    if (key < node.key) {
+      node = node.left;
+    } else if (key > node.key) {
+      node = node.right;
+    } else {
+      return;
+    }
+  }
+  if (!parent) {
+    return;
+  }
+  if (key < parent.key) {
+    parent.left = null;
+    this.root_ = parent;
+    this.splay_(key);
+  } else {
+    parent.right = null;
+    this.root_ = parent;
+    this.splay_(key);
+  }
+};
+
+
+
+SplayTree.Node = function(key, value) {
+  this.key = key;
+  this.value = value;
+  this.left = null;
+  this.right = null;
+};
+
+
+Can you explain what this code does?
+
+Sure! This code defines a new benchmark suite called "Splay" that contains a single benchmark called "Splay". The Splay benchmark measures the performance of the Splay algorithm, which is a self-balancing binary search tree algorithm.
+
+The code sets some constants that define the size of the Splay tree, the number of modifications that will be made Analyze the following piece of code: root_ = node;
+};
+
+
+
+SplayTree.prototype.remove = function(key) {
+  if (this.isEmpty()) {
+    throw Error('Key not found:'+ key);
+  }
+  this.splay_(key);
+  if (this.root_.key!= key) {
+    throw Error('Key not found:'+ key);
+  }
+  var removed = this.root_;
+  if (!this.root_.left) {
+    this.root_ = this.root_.right;
+  } else {
+    var right = this.root_.right;
+    this.root_ = this.root_.left;
+        this.splay_(key);
+            this.root_.right = right;
+  }
+  return removed;
+};
+
+
+
+SplayTree.prototype.find = function(key) {
+  if (this.isEmpty()) {
+    return null;
+  }
+  this.splay_(key);
+  return this.root_.key == key? this.root_ : null;
+};
+
+
+
+SplayTree.prototype.findMax = function(opt_startNode) {
+  if (this.isEmpty()) {
+    return null;
+  }
+  var current = opt_startNode || this.root_;
+  while (current.right) {
+    current = current.right;
+  }
+  return current;
+};
+
+
+
+SplayTree.prototype.findGreatestLessThan = function(key) {
+  if (this.isEmpty()) {
+    return null;
+  }
+      this.splay_(key);
+      if (this.root_.key < key) {
+    return this.root_;
+  } else if (this.root_.left) {
+    return this.findMax(this.root_.left);
+  } else {
+    return null;
+  }
+};
+
+
+
+SplayTree.prototype.exportKeys = function() {
+  var result = [];
+  if (!this.isEmpty()) {
+    this.root_.traverse_(function(node) { result.push(node.key); });
+  }
+  return result;
+};
+
+
+
+SplayTree.prototype.splay_ = function(key) {
+  if (this.isEmpty()) {
+    return;
+  }
+            var dummy, left, right;
+  dummy = left = right = new SplayTree.Node(null, null);
+  var current = this.root_;
+  while (true) {
+    if (key < current.key) {
+      if (!current.left) {
+        break;
+      }
+      if (key < current.left.key) {
+                var tmp = current.left;
+        current.left = tmp.right;
+        tmp.right = current;
+        current = tmp;
+        if (!current.left) {
+          break;
+        }
+      }
+            right.left = current;
+      right = current;
+      current = current.left;
+    } else if (key > current.key) {
+      if (!current.right) {
+        break;
+      }
+      if (key > current.right.key) {
+                var tmp = current.right;
+        current.right = tmp.left;
+        tmp.left = current;
+        current = tmp;
+        if (!current.right) {
+          break;
+        }
+      }
+            left.right = current;
+      left = current;
+      current = current.right;
+    } else {
+      break;
+    }
+  }
+    left.right = current.left;
+  right.left = current.right;
+  current.left = dummy.right;
+  current.right = dummy.left;
+  this.root_ = current;
+};
+
+
+
+SplayTree.Node = function(key, value) {
+  this.key = key;
+  this.value = value;
+};
+
+
+
+SplayTree.Node.prototype.left = null;
+
+
+
+SplayTree.Node.prototype.right = null;
+
+
+
+SplayTree.Node.prototype.traverse_ = function(f) {
+  var current = this;
+  while (current) {
+    var left = current.left;
+    if (left) left.traverse_(f);
+    f(current);
+    current = current.right;
+  }
+};
+
+In this code, the SplayTree class is defined as a constructor function that creates a new SplayTree object. The constructor initializes the root_ property to null.
+
+The insert method adds a new node with the given key and value to the SplayTree. It uses the splay_ method to perform a splay operation on the new node, which ensures that the new node is placed at the root of the tree and that the tree is balanced after the insertion.
+
+The remove method removes the node with the given key from the SplayTree. It uses the splay_ method to perform a splay operation on the node to be removed, and then checks that the node was removed successfully. If the node was not found, an Error is thrown.
+
+The find method searches for the node with the given key in the SplayTree and returns it if found, or null if not found.
+
+The findMax method returns the node with the greatest key in the SplayTree. It traverses the tree in a pre-order traversal, starting from the given node (or the root if no node is given) and stopping when it reaches a node with no right child.
+
+The findGreatestLessThan method returns the node with the greatest key less than the given key, or null if no such node exists. It uses the splay_ method to perform a splay operation on the given key, and then traverses the tree in a in-order traversal, starting from the root and stopping when it reaches a node with a key greater than the given key.
+
+
+
+¿Cuáles son los principales desafíos para la implementación de una IA que pueda superar el test de Turing?
+
+El test de Turing fue un experimento que se llevó a cabo en los años 50 para evaluar si las máquinas podían ser consideradas inteligentes. Sin embargo, hoy en día se considera que este test no es suficiente para evaluar la inteligencia artificial, ya que no se considera que las máquinas tengan la capacidad de pensar abstractamente o de tener emociones.
+
+En lugar de esto, se han propuesto nuevos test para evaluar la inteligencia artificial, como el test de Lovelace, el test de Hutter y el test de Strong AI. Estos test se enfocan en evaluar si la IA puede superar los desafíos que plantea la naturaleza humana en términos de lenguaje, comprensión del mundo y creatividad.
+
+Sin embargo, aunque estos test son más amplios y complejos que el test de Turing, todavía hay desafíos importantes que deben superarse para que la IA sea considerada inteligente. Estos desafíos incluyen la capacidad de resolver problemas complejos, la capacidad de adaptarse a situaciones nuevas y la capacidad de comunicarse con otras IA y humanos.
+
+En resumen, aunque la inteligencia artificial ha avanzado significativamente en los últimos años, todavía hay muchos desafíos por superar para que la IA sea considerada inteligente.
+
+
+
+¿Qué es un lenguaje de programación?

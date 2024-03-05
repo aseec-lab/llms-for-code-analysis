@@ -1,0 +1,16 @@
+This is a C program meant to implement the Randomized Prim's algorithm for generating a random maze.
+
+Here is the line-by-line breakdown:
+
+1. `#define P(X)j=write(1,X,1)`: This line is defining a macro `P(X)` which is a call to the write() system call to write the string `X` to the standard output (file descriptor 1).
+   
+2. `#define C 39`: This line is defining a macro `C` which is used to denote the width of the maze.
+   
+3. `int M[5000]={2},*u=M,N[5000],R=22,a[4],l[]={0,-1,C-1,-1},m[]={1,-C,-1,C},*b=N,*d=N,c,e,f,g,i,j,k,s`:
+This line is declaring and initializing several integer arrays and integer variables. `M` is the maze array, `u` is a pointer to the maze array, `N` is another array used in maze generation, `R` is the height of the maze, `a` is an array to store directions, `l` and `m` are arrays used to control movement directions, `b` and `d` are pointers to array `N`, and `c, e, f, g, i, j, k, s` are iterator/indexer variables used in loops.
+
+4. The maze generation starts with a single cell, then it randomly chooses a neighboring cell and breaks the wall between them. The process is repeated for the new cell. If there were no walls left, it backtracks to the previous cell. It continues until every cell has been visited.
+
+5. `P(" ")` and such calls throughout the code are used to print the maze out to the standard output.
+
+Overall this is a fairly compact and complex piece of C code. It uses a number of clever programming techniques to generate a maze in a minimal amount of code, at the expense of readability.

@@ -1,0 +1,40 @@
+The presented code is a C language implementation of the Hashlife algorithm - an optimized version of Conway's Game of Life which uses a hash table and memoization to speed up computation of future generations of a universe. 
+
+Here is an analysis of the different parts of the code:
+
+1. The `q8x8` function is used to perform a single step in Conway's Game of Life on a leaf node of the quadtree. It takes a 64-bit input representing the current state and returns a 32-bit output representing the next state.
+
+2. The `getquad` function retrieves a quadrant from a leaf or a node.
+
+3. The `mq` function is used to split a node into its constituent quadrants, storing the results in an array.
+
+4. The `calc_result` function calculates the next generation of a leaf or a node using the hashlife algorithm, capturing the result as a leaf or a node and storing it in the memory.
+
+5. The `hget` function retrieves a leaf or node from the hash table (or creates a new one if it doesn't exist) using the hash function on a set of quadrants. It also checks if the calculated result is out of date and will update it through the `calc_result` function if needed.
+
+6. The `init_empty_space` function pre-calculates empty leafs and nodes up to a specified level and stores them, which helps optimize the algorithm's performance.
+
+7. The `adv` function advances the state of a leaf or node in time for a given number of generations. It first expands the input cell with enough free space to be at a target level. Then, it performs the required time step and finally shrinks back the result if necessary.
+
+8. In the end, the `getin` function is used to read the initial universe state from an input file in the ".mc" (macrocell) format used by Golly. This function also focuses error handling mechanism.
+
+The overall code is highly optimized for performance and has constraints with respect to memory and step size. It uses a 2D Hashlife algorithm with an array of 64-bit cells. It also uses the Xlib library for graphical output and, as such, requires the X11 library to compile and run.The remaining part of the code handles some important interactions with the window in which the cellular automaton will be displayed, user inputs for controlling the view, the main program loop, and the input file processing:
+
+1. The function `draw` creates a graphical representation of the cellular universe in memory by converting state data into pixel color data. The graphical representation is divided into cells, where each cell may represent multiple actual cells from the universe depending on the current zoom level.
+
+2. The function `processEvent` scans the event queue for an X11 window for key input from the user for controlling the simulation:
+   - `N==83/81/82/84` moves the view along x and y axis.
+   - `N==61/45` zooms in or out of the view.
+   - `N==93/91` changes the speed of time steps.
+   - `N==32` toggles whether the simulation is advancing forward or not.
+   - `N==8` toggles the direction of simulation, forward or backward.
+   - `N==48` makes the simulation single step on button press.
+   - `N==27` quits the program.
+   
+3. The first part of the `main` function reserves memory space for the simulation, initializes the empty spaces, loads the input file, opens a connection to the X server and creates an X11 window for showing the output.
+
+4. The `while(1)` loop is the main loop of the program, where the graphical user interface (GUI) is updated and the next generation of cells is computed at each step. If the 'g_adv' variable is true, the program advances the simulation state appropriately, either by calculating the next state or by using previously stored state data.
+
+5. The `if(curr>2)` condition prints some simulation status information to the console, including the current generation, the amount of memory used, the current zoom level and whether memory has run out (shown as 'Frozen').
+
+6. The `if(g_sstep)g_adv=0` statement prevents the simulation state from advancing further when single-step mode is enabled.

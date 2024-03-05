@@ -1,0 +1,15 @@
+The code provided is a program that finds and prints all the prime palindrome numbers between a given range of numbers (m and n). 
+
+The program has three functions: "su" which checks if a number is prime, "hui" which checks if a number is a palindrome, and "main" which is the main function that executes the program.
+
+The "su" function takes an integer n as input and checks if it is divisible by any number from 2 to n-1. It keeps a count of the number of divisors found in variable t. If the count is 0, it means the number is prime, so the function returns 1. Otherwise, it returns 0.
+
+The "hui" function takes an integer n as input and checks if it is a palindrome. It initializes two variables o and q to 0, where q is a copy of the input number. The function takes the last digit of q using the modulo operator and adds it to o after multiplying it by 10. It then updates q by dividing it by 10. This process is repeated until q becomes 0. If the reversed number (stored in o) is equal to the original number, the function returns 1. Otherwise, it returns 0.
+
+The "main" function is responsible for executing the program. It first reads the values of m and n from the user. Then it initializes an array a to store the prime palindrome numbers. It also initializes a counter variable k to 0.
+
+A for loop is used to iterate through the numbers from m to n. Within the loop, the "su" and "hui" functions are called to check if the current number is prime and a palindrome. If both conditions are met, the number is added to the array a and k is incremented.
+
+After the loop, the program checks the value of k. If it is 0, it means no prime palindrome numbers were found in the given range, so it prints "no". Otherwise, it uses another for loop to print all the numbers in the array a, separated by commas.
+
+Finally, the program prints a new line character and returns 0 to indicate successful execution.

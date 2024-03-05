@@ -1,0 +1,41 @@
+This code is used to create a simple task manager application that allows users to add and remove tasks. 
+
+First, the code selects the form element with the id "formTask" and adds an event listener to it. The event listener is set to trigger the "saveTask" function when the form is submitted.
+
+The "saveTask" function is defined with the event parameter "e". It prevents the default behavior of the form submission, which is to reload the page.
+
+The function then retrieves the values entered in the input fields with the ids "title" and "description" and assigns them to the variables "title" and "description".
+
+Next, the function checks if the "title" variable is empty. If it is, the function calls the "inputEmpty" function and returns false.
+
+If the "title" variable is not empty, the function creates a new task object with the "title" and "description" variables.
+
+Then, the function checks if there are any tasks stored in the localStorage. If there are no tasks, it creates a new empty array called "tasks", adds the new task object to it, and stores the tasks array in the localStorage.
+
+If there are already tasks stored in the localStorage, the function retrieves the tasks array, parses it from JSON format, adds the new task object to it, and stores the updated tasks array back in the localStorage.
+
+After saving the task, the function calls the "getTask" function to display the updated list of tasks. It also resets the form inputs to their default values.
+
+The "inputEmpty" function simply logs the message "empty" to the console.
+
+The "getTask" function retrieves the tasks array from the localStorage, parses it from JSON format, and assigns it to the "tasks" variable.
+
+Then, it selects the element with the id "tasks" and assigns it to the "taskView" variable.
+
+The function clears the content of the "taskView" element by setting its innerHTML to an empty string.
+
+Next, it iterates over each task in the "tasks" array and retrieves the "title" and "description" of each task.
+
+For each task, it creates an HTML string with the task details and an associated delete button. The HTML string is then added to the "taskView" element using the "insertAdjacentHTML" method, which adds the HTML string as the first child of the "taskView" element.
+
+The "deleteTask" function takes a "title" parameter, which is the title of the task to be deleted.
+
+First, it retrieves the tasks array from the localStorage, parses it from JSON format, and assigns it to the "tasks" variable.
+
+Then, it iterates over each task in the "tasks" array and checks if the "title" of the current task matches the "title" parameter.
+
+If a match is found, the function uses the "splice" method to remove the task from the "tasks" array.
+
+After removing the task, the function stores the updated tasks array back in the localStorage and calls the "getTask" function to display the updated list of tasks.
+
+Finally, the script calls the "getTask" function initially to display any existing tasks when the page is loaded.

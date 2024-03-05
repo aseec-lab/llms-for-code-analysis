@@ -1,0 +1,19 @@
+This is a very minimalist shell implementation in C. Here is a step-by-step analysis of what the code does:
+
+1. The `main` function starts an infinite loop to get the user’s commands until exit or error condition.
+
+2. `gets(1+(c=q))` captures the user’s inputs line by line till NULL input or an exit command.
+
+3. Inputting a command will increase the pointer `c`. So, the loop `*++c` processes each command character by character.
+
+4. The function `r(t, o)` processes the command strings. It separates the command and arguments into two parts using `i` and `u` pointers respectively.
+
+5. The commands are compared to check if they are "cd". If they are, the current directory is changed using `chdir(u[1])`. 
+
+6. If the command is not "cd", then a child process is created via `fork()` and the command is executed using `execvp(*u,u)`. 
+
+7. During the execution of the command, input/output redirections are handled. If a file needs to be opened or created, it uses the `e(open(*i,0))` or `e(creat(i[2],438))` calls respectively.
+
+8. Finally, it returns to the main function to read the next command. In case any error occurs, `e(x)` function writes a question mark and exits.
+
+This code is highly obfuscated and uses a lot of unreadable shorthand tricks to keep it as short as possible. The execution flow and the use of variables is very convoluted, and it might take a while to understand all the specifics. But at its core, this is a barebones version of a Unix command shell.

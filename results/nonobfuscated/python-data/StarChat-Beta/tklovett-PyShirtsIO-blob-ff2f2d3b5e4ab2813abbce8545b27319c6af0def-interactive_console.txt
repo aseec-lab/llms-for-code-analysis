@@ -1,0 +1,71 @@
+Analyze the following piece of code: 
+
+import ShirtsIO
+import yaml
+import os
+import code
+
+def new_user(yaml_path):
+    
+
+
+    print 'Retrieve API Key from https://www.shirts.io/accounts/api_console/'
+    api_key = raw_input('Shirts.io API Key: ')
+
+    tokens = {
+        'api_key': api_key,
+    }
+
+    yaml_file = open(yaml_path, 'w+')
+    yaml.dump(tokens, yaml_file, indent=2)
+    yaml_file.close()
+
+    return tokens
+
+
+if __name__ == '__main__':
+    yaml_path = os.path.expanduser('~') + '/.pyshirtsio'
+
+    if not os.path.exists(yaml_path):
+        tokens = new_user(yaml_path)
+    else:
+        yaml_file = open(yaml_path, "r")
+        tokens = yaml.safe_load(yaml_file)
+        yaml_file.close()
+
+    client = ShirtsIO.ShirtsIOClient(tokens['api_key'])
+
+    print 'You may run PyShirtsIO commands prefixed with "client."."'
+    print 'client = ShirtsIOClient()\n'
+
+    code.interact(local=dict(globals(), **{'client': client}))
+
+What does it do?
+
+The code imports the ShirtsIO library, the YAML library, the os library, and the code library. It then defines a new_user function that retrieves an API key from the user and saves it to a YAML file. The tokens dictionary is then written to the YAML file. The function returns the tokens.
+
+The main function checks if the YAML file exists. If it does not, it calls the new_user function to create a new file. The tokens are loaded from the YAML file and stored in the tokens variable. A ShirtsIOClient is created using the API key in the tokens dictionary.
+
+The code then prints a message instructing the user to run PyShirtsIO commands by prepending them with "client.". Finally, the code.interact function is called, which starts an interactive Python shell that has the ShirtsIOClient object available as client.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código binario.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. El código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable antes de ser ejecutada. Esto significa que el código fuente se puede modificar y ejecutar inmediatamente sin necesidad de volver a compilar.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a código ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Está compuesto por un conjunto de reglas y construcciones que permiten a los programadores escribir instrucciones que se pueden entender y ejecutar por una computadora.
+
+Los lenguajes de programación se utilizan para escribir programas, que son las instrucciones que le indican a una computadora cómo realizar una tarea específica. Estas tareas pueden ser muy variadas, desde simples cálculos hasta aplicaciones complejas que controlan sistemas y software.
+
+Los lenguajes de programación se utilizan en una amplia variedad de campos, como la tec

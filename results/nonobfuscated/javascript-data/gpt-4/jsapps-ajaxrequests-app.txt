@@ -1,0 +1,17 @@
+This JavaScript code is using AJAX to fetch data from a file named "ajax-text.txt" and then directly puts that into an HTML element with an ID of "respuesta". 
+
+Here's a step-by-step explanation:
+
+"boton" is a variable that is assigned to a button element from HTML with an ID of "boton". It's selected using the `document.querySelector('#boton')` instruction.
+
+The second line of code adds an event listener to the button. This means it 'listens' for an event, in this case a click event. When the button is clicked, the function `traerDatos` is triggered or executed.
+
+In the `traerDatos` function, a new `XMLHttpRequest` object `xhttp` is created.
+
+The `xhttp.open('GET', 'ajax-text.txt', true)` sends an HTTP request to a server to retrieve "ajax-text.txt". The 'GET' method is used to request data from a specified resource.
+
+`xhttp.send()` actually sends the request.
+
+`xhttp.onreadystatechange` is an event handler that is called whenever the `readyState` attribute changes. It checks whether the fetch was successful i.e., whether `readyState` is 4 (request finished and response is ready) and `status` is 200 (OK, successful HTTP request). 
+
+If successful, it logs the response text (contents of the "ajax-text.txt" file) to the console and sets the actual inner HTML of an HTML element with the ID "respuesta" to this response text.

@@ -1,0 +1,17 @@
+This code calculates the number of days between two dates entered by the user. 
+
+First, the code initializes several variables including the year, month, and day of the two dates (y1, m1, d1 and y2, m2, d2). It also initializes variables D1, D2, and D as 0.
+
+The code then uses scanf to read the two dates entered by the user.
+
+Next, the code calculates the number of days between y1 and y2 by incrementing a variable y from y1+1 to y2-1. For each year, if it is a leap year (divisible by 4 but not divisible by 100 unless divisible by 400), 366 days are added to D, otherwise 365 days are added. This loop ensures that the correct number of days are added for each year between the two dates.
+
+After that, the code calculates the number of days in the first month of the first date (D1) by using a switch statement and adding the appropriate number of days for each month. The last month (case 0) does not have a break, so it continues to the next case until it reaches the desired month. Then, if the year is a leap year, it adds 29 days to D1, otherwise 28 days.
+
+The code does the same calculation for the second month of the second date (D2).
+
+Next, the code checks if y1 is equal to y2. If it is, it subtracts D1 from D2 to get the total number of days between the two dates. If not, it checks if y1 is a leap year. If it is, it adds D2, 366 days (leap year), and subtracts D1. If not, it adds D2, 365 days (non-leap year), and subtracts D1. This calculation ensures that the correct number of days are added for each year between the two dates.
+
+Finally, the code prints the total number of days between the two dates using printf.
+
+In summary, this code calculates the number of days between two dates entered by the user, taking into account leap years.

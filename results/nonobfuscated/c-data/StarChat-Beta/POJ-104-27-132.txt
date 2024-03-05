@@ -1,0 +1,78 @@
+Analyze the following piece of code: int main()
+{
+	double a,b,c,d,e,f,g,x1,x2;
+	int n,i;
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		scanf("%lf%lf%lf",&a,&b,&c);
+		d=b*b-4*a*c;
+		if(d>0)
+		{
+			if(b==0)
+			{
+				x1=(b+sqrt(d))/(2*a);
+				x2=(b-sqrt(d))/(2*a);
+				printf("x1=%.5lf;x2=%.5lf\n",x1,x2);
+			}
+			else
+			{
+			x1=(-b+sqrt(d))/(2*a);
+			x2=(-b-sqrt(d))/(2*a);
+			printf("x1=%.5lf;x2=%.5lf\n",x1,x2);
+			}
+			
+		}
+		else if(d==0)
+		{
+			x1=(-b)/(2*a);
+			printf("x1=x2=%.5lf\n",x1);
+		}
+		else
+		{
+			if(b==0)
+			{
+				e=-d;
+			f=sqrt(e)/(2*a);
+			g=(-b)/(2*a);
+			printf("x1=%.5lf+%.5lfi;x2=%.5lf-%.5lfi\n",g,f,g,f);
+			}
+			else
+			{
+
+			e=-d;
+			f=sqrt(e)/(2*a);
+			g=(-b)/(2*a);
+			printf("x1=%.5lf+%.5lfi;x2=%.5lf-%.5lfi\n",g,f,g,f);
+			}
+		}
+	}
+	return 0;
+}
+
+The code appears to be a program for solving quadratic equations. The program takes in n, the number of quadratic equations to solve, and then loops through each equation. The program then takes in the coefficients of the quadratic equation, a, b, and c, and calculates the discriminant, d.
+
+The program then checks if the discriminant is greater than 0, which indicates that the quadratic equation has one real solution. If b is equal to 0, the program calculates the solutions using the formula x = (-b +/- sqrt(d)) / (2a). If b is not equal to 0, the program calculates the solutions using the formula x = (-b +/- sqrt(d)) / (2a).
+
+If the discriminant is equal to 0, the program indicates that the quadratic equation has two real solutions. The program calculates the solutions using the formula x1 = x2 = (-b) / (2a).
+
+If the discriminant is less than or equal to 0, the program checks if b is equal to 0. If b is equal to 0, the program calculates the solutions using the formula x = (-d +/- sqrt(e)) / (2a), where e is the discriminant. If b is not equal to 0, the program calculates the solutions using the formula x = (-b +/- sqrt(e)) / (2a).
+
+In both cases, the program prints out the solutions in the format x1 = x2, where x1 and x2 are the two solutions to the quadratic equation.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código binario.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente se traduce en tiempo real mientras se está ejecutando. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable antes de ser ejecutada. Esto significa que el código fuente se puede escribir y modificar en tiempo real, y se puede verificar inmediatamente sin necesidad de compilar.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+

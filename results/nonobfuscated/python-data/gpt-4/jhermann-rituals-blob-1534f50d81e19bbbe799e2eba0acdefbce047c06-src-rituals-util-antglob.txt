@@ -1,0 +1,15 @@
+The code defines a class named `FileSet` that is able to match and select files and directories based on specified pattern rules. These rules can indicate whether the file or directory should be included or excluded from the set. 
+
+The `FileSet` class generates a set of files or directories by taking a root directory and a list of patterns as arguments. It walks through the directory structure, applying the rule patterns to files and directories. These patterns can be inclusive (i.e., they define what files or directories to include in the set) or exclusive (i.e., they define what to exclude from the set).
+
+Here's a summary of other functions and classes in the code:
+
+- `glob2re` and `parse_glob` function: These two functions take a pattern and convert it from the glob format into a regular expression format.
+
+- `compile_glob` function: This method compiles the created regular expression.
+
+- `Pattern` class: This class defines patterns which have an inclusive/exclusive rule and can be checked if they match a certain path. It uses previously mentioned functions.
+
+- `includes` and `excludes` functions: These two functions create an instance of the `Pattern` class, with the respective inclusive value.
+
+`FileSet` also overrides a few magic methods for merging and intersecting with other `FileSet` or normal `set` objects, using binary OR (`|`) and AND (`&`) operators.

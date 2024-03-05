@@ -1,0 +1,29 @@
+This script is implementing a form of Tree data structure called a splay tree. This tree is a self-adjusting binary search tree with the additional property that recently accessed elements are quick to access again. More specifically, the script uses a form of `splay` operation to bring an accessed key to the root.
+
+Here's a breakdown of what the code does:
+
+- `SplayTree.prototype.insert`: This function is used to insert a new node into the splay tree. If the tree is empty, the root of the tree is set to the newly created node. Otherwise, it splay the given key and check that key's position. If that key isn't in the tree, create a new node then decide it will become new root and its left or right child based on the key's value. 
+
+- `SplayTree.prototype.remove`: This function removes a node from the splay tree. It first checks whether the tree is empty. After that it will splay the key and checks if that's the actual key needs to be removed. After that it removes the node and respectively set its left or right child as the new root.
+
+- `SplayTree.prototype.find`: This one splay the given key and returns that node contains the key from tree.
+
+- `SplayTree.prototype.findMax`: This function retrieves the maximum value/key of the tree.
+
+- `SplayTree.prototype.isEmpty`: This function checks if the tree is empty.
+
+- In addition, other functions like `SplayUpdateStats`, `SplayRMS`, `InsertNewNode` and `SplaySetup`, `SplayTearDown`, `SplayRun` are used for the performance evaluation of the splay tree for inserting, removing and splaying elements. 
+
+The purpose of the obfuscation is to make the code hidden from someone human who reads it, but to a computer, it's all the same. This form of obfuscation (encoded hex string) is quite common in JavaScript to hide the code's real functionality.The script continues to build out the functions for manipulating the SplayTree:
+
+- `SplayTree.prototype.findGreatestLessThan`: This function finds the greatest value in the splay tree that is less than the given input.
+
+- `SplayTree.prototype.exportKeys`: This function brings all of the keys (values) in the tree together into an array in such a way as to maintain their order.
+
+- `SplayTree.prototype.splay_`: This function is the heart of the splay tree. It rearranges the tree so that the key `k` is at the root of the tree and all other nodes are below `k`. This ensures that recently accessed nodes can be accessed quickly.
+
+- `SplayTree.Node.prototype.traverse_`: This function recurses through the tree allowing an action (defined by the function parameter `_0x5509e2`) to be performed on each node.
+
+- `SplayTree.Node`: This function is a constructor to initialize a new node of the Splay tree. `Node` objects have properties for the `key`, `value`, `left` (the left child of the node) and `right` (the right child of the node).
+
+In the obfuscated version, hex-encoded strings are still used to obscure the code's actual functionality. Once the strings are decoded, the real purpose becomes clear.

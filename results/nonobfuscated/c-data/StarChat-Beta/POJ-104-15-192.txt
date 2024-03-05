@@ -1,0 +1,68 @@
+Analyze the following piece of code: void main()
+{
+	int N;
+	int **array,i,j;
+	int a=1000,b=1000,c=0,d=0;
+	scanf("%d",&N);
+	array=(int**)malloc(N*sizeof(int*));
+	for(i=0;i<N;i++)
+	{
+		array[i]=(int*)malloc(N*sizeof(int));
+		for(j=0;j<N;j++)
+		{
+			scanf("%d",&array[i][j]);
+
+			if(array[i][j]==0&&i<=a&&j<=b)
+			{
+				a=i;
+				b=j;
+			}
+			if(array[i][j]==0&&i>=c&&j>=d)
+			{
+				c=i;
+				d=j;
+			}
+
+
+		
+		}
+	}
+	printf("%d",(c-a-1)*(d-b-1));
+}
+
+The code appears to be a part of a program to find the maximum size of a sub-matrix in an NxN matrix that contains only 0s.
+
+The code starts by declaring several variables:
+
+- N: The size of the matrix
+- array: A two-dimensional array of integers
+- i, j: Loop indices
+- a, b, c, d: Variables used to store the row and column indices of the top-left corner of the sub-matrix
+
+The code then initializes the two-dimensional array using the malloc function.
+
+The next part of the code reads the elements of the matrix using the scanf function and stores them in the array. It also checks if the element is 0 and updates the row and column indices of the top-left corner of the sub-matrix if it is.
+
+The code then loops through all the elements of the matrix and checks if the current element is 0 and updates the row and column indices of the bottom-right corner of the sub-matrix if it is.
+
+Finally, the code prints the size of the sub-matrix by calculating the difference between the row and column indices of the bottom-right corner and the top-left corner.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando el programa. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable antes de ser ejecutada. Esto significa que el código fuente se puede escribir y modificar en tiempo real, lo que facilita la programación en iteración.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando el programa.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y ejecutar secuencias de instrucciones que realizan una tarea específica. Los lenguajes de programación se utilizan para desarrollar software, aplicaciones y soluciones informáticas.
+
+Los lenguajes de programación se basan en un conjunto de reglas y construcciones que descri

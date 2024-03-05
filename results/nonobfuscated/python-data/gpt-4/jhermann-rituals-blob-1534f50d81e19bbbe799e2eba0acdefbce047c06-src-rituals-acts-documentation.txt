@@ -1,0 +1,13 @@
+This Python script contains tasks that can be run via the Invoke library, which provides a way to represent shell/scripting tasks in Python, allowing you to use Python's features, like libraries and good syntax, for running shell commands.
+
+The code provides basic functionality for authenticating with PyPI (Python Package Index), managing then killing processes bound to specific ports (done through `watchdogctl` function).
+
+The `sphinx` task automatically builds documentation using Sphinx (a Python documentation generator), converting markdown files to reStructuredText, including the `LICENSE` file, and potentially auto-generating documentation from Python docstrings in packages. If `watchdog` is set to True, it keeps the documentation continuously updated by monitoring for file changes (using `sphinx-autobuild`). After successfully building the documentation, if `browse` is set to True, it opens the generated index page in a new browser tab.
+
+The `confluence` task in the script also generates documentation using Sphinx, but this time for Confluence, a teamwork collaboration software. The generated pages can be published to Confluence, unless the `no_publish` flag is set to True.
+
+Settings for the tasks are loaded from a configuration file using the `config.load()` function. Notably, error messages are displayed using custom wrapper functions (like `notify.info`, `notify.warning`).This segment of the script continues from the previous. It defines a class named `DocsUploader` which is used to manage the uploading of python-related documentation to specified URLs. The `DocsUploader` methods handle processes like zipping files, sending POST requests to PyPI (Python Package Index), and sending PUT requests to a webDav server.
+
+The `upload` task method is defined to manage the uploading of documentation files. It first ensures that the HTML docs directory exists, then uploads the documentation to a specified URL using the `DocsUploader.upload()` method. If successful, it can optionally open the URL of the uploaded docs in a new browser tab, if the `browse` parameter is true.
+
+The script ends with the definition of the Invokes' namespace configuration object, specifying project sources, build location, and upload methods for the documentation. The `target` argument in the `upload` task could be `pypi` or `webdav`. It also includes settings for a `watchdog` process, which monitors for file changes and acts upon them. Note that the URLs of the upload targets (`pypi` and `webdav`) are placeholders and must be provided by the user/environment.

@@ -1,0 +1,17 @@
+The provided code is written in Python and it primarily involves interacting with a web socket for the purpose of connecting, sending data to, and receiving data from a Lavalink audio server. The `WebSocket` class is the main class in this code, and appears to create, manage, and close an asynchronous web socket connection.
+
+Here is a brief outline of each method and its functionality:
+
+1. `__init__`: Initializes a `WebSocket` instance with several parameters, including host, password, port etc., and starts the async task for connecting to the server.
+
+2. `connected`: A property that checks if the web socket is both created and open.
+
+3. `connect`: Asynchronously connects to the Lavalink server with appropriate headers.
+
+4. `_attempt_reconnect`: Attempts to reconnect to the Lavalink server after an unexpected disconnect, based on a specified retry limit.
+
+5. `listen`: Constantly listens and reads the data coming from the web socket. It handles connection errors, unexpected disconnects, and specific types of server event messages.
+
+6. `send`: Asynchronously sends the specified data through the web socket, queuing the data if the server is not yet connected.
+
+7. `destroy`: Changes the `_shutdown` variable to `True`, hence stopping the `listen` method.

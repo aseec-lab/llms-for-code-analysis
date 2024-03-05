@@ -1,0 +1,15 @@
+The code provided is a C program that read inputs from the user and convert the input into a hexadecimal format. The program continues reading new input until EOF (or end-of-file) signal is detected.
+
+Here's the step-by-step breakdown of the code:
+
+- It has a character variable 'O'.
+- Next, it has an uninitialized character array 'o[]'.
+- The 'main(l)' function is doing all the work. 'l' is used to hold the ASCII value of the input character.
+- Within the 'for' loop, 'getchar()' function is called which reads the next available character from the screen. The output of the function is assigned to 'l'.
+- If there is input, it will check if the ASCII value of the character is more than 32 (4^(4^l>>5)). If true, the input character's ASCII value is stored back to 'l' else 46 (which is ASCII for '.') is stored back to 'l'.
+- If the character read is not EOF(~(l=getchar())), it converts the ASCII value to hexadecimal using printf("%02x ",l).
+- 'O' character is set to be the next character whenever it's possible based on bitwise calculations.
+- 'puts(o)' method prints the hexadecimal output accumulated so far.
+- The loop continues until EOF is reached.
+
+Note: This code lacks readability due to complex bitwise operations and a lack of explanatory comments. And it may not run in a standard compiler due to unconventional use of the main function and it's arguments.  It's always better to write maintainable and readable code with proper use of variables and constants.

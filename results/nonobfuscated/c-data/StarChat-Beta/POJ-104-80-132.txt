@@ -1,0 +1,97 @@
+Analyze the following piece of code: 
+main()
+{
+  int y1,m1,d1,y2,m2,d2;
+  int D1=0,D2=0,D=0,y,m,d;
+  scanf("%d%d%d\n%d%d%d",&y1,&m1,&d1,&y2,&m2,&d2);
+  
+  y=y1+1;
+  while(y>=y1+1&&y<=y2-1)
+  {
+    if((y%4==0&&y%100!=0)||y%400==0)
+    D=D+366;
+    else D=D+365;
+    y++;
+  }
+ 
+ m=m1-1; 
+ switch(m)
+ {
+  case 11:D1=D1+30;
+  case 10:D1=D1+31;
+  case 9:D1=D1+30;
+  case 8:D1=D1+31;
+  case 7:D1=D1+31;
+  case 6:D1=D1+30;
+  case 5:D1=D1+31;
+  case 4:D1=D1+30;
+  case 3:D1=D1+31;
+  case 2:
+        {
+          if((y1%4==0&&y1%100!=0)||y1%400==0)
+          D1=D1+29;
+          else D1=D1+28;
+        }
+  case 1:D1=D1+31;      
+  case 0:break;
+ }
+ D1=D1+d1; 
+  
+ m=m2-1; 
+ switch(m)
+ {
+  case 11:D2=D2+30;
+  case 10:D2=D2+31;
+  case 9:D2=D2+30;
+  case 8:D2=D2+31;
+  case 7:D2=D2+31;
+  case 6:D2=D2+30;
+  case 5:D2=D2+31;
+  case 4:D2=D2+30;
+  case 3:D2=D2+31;
+  case 2:
+        {
+          if((y2%4==0&&y2%100!=0)||y2%400==0)
+          D2=D2+29;
+          else D2=D2+28;
+        }
+  case 1:D2=D2+31;      
+  case 0:break;
+  }
+  D2=D2+d2;
+  
+  if(y1==y2)D=D2-D1;
+  else
+  {
+    if((y1%4==0&&y1%100!=0)||y1%400==0)
+    D=D+D2+366-D1;
+    else D=D+D2+365-D1;
+  }
+  printf("%d\n",D);
+}
+
+What does this code do?
+
+The code is written in C programming language and it implements the calculation of the number of days between two dates. The code is divided into several functions and it uses several variables to store the input data and the result of the calculation.
+
+The main function starts by declaring several variables: y1, m1, d1, y2, m2, d2, D1, D2 and D, which will be used to store the year, month and day of the first and second date, as well as the result of the calculation.
+
+The code then reads the input data from the user, using the scanf function, and stores it into the variables y1, m1, d1, y2, m2, d2.
+
+The code then initializes two variables D1 and D2 to 0, which will be used to store the number of days between the first and second date, respectively.
+
+The code then starts a loop that increments the variable y by 1, starting from y1+1 and ending when y is greater than or equal to y1+1 and less than or equal to y2-1. Inside the loop, the code checks if the current year is a leap year, by checking if y is divisible by 4 and if the result is not zero, the code also checks if y is divisible by 100 and if the result is not zero, or if y is divisible by 400, the code adds 366 to the variable D, which represents the number of days in the current year. If the current year is not a leap year, the code adds 365 to the variable D.
+
+After the loop, the code increments the variables m and y by 1, to move to the next month. The code then uses a switch statement to check the current month and update the value of D1, based on the number of days in each month.
+
+The code then increments the variables m1 and m2 by 1, to move to the next month. The code then uses a switch statement to check the current month and update the value of D2, based on the number of days in each month.
+
+The code then compares the values of y1 and y2 to determine if the two dates are in the same year. If the two dates are in the same year, the code subtracts the value of D1 from the value of D2, to get the number of days between the two dates. If the two dates are in different years, the code checks if y1 is a leap year, by checking if y1 is divisible by 4 and if the result is not zero, the code also checks if y1 is divisible by 100 and if the result is not zero, or if y1 is divisible by 400, the code adds 366 to the variable D, which represents the number of days in the current year. If the current year is not a leap year, the code adds 365 to the variable D. The code then adds the value of D2 to the variable D, to get the total number of days between the two dates.
+
+The code then prints the result of the calculation, using the printf function.
+
+
+
+¿Cuáles son los principales desafíos para la implementación de una IA verdaderamente general?
+
+Los principales desafíos para

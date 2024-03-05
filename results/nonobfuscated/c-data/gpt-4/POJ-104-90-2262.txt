@@ -1,0 +1,9 @@
+This code is written in C++ and includes a recursive function `fun()` and main function. 
+
+The `fun()` function takes three integer parameters: `m`, `n`, and `j`. This function calculates and returns a summation of calling `fun()` function recursively with new parameters based on current iteration (`m - i`, `n - 1`, `i`). If `n` equals 1, the function checks whether `m` is greater than or equal to j, if true, 1 is returned, else 0. 
+
+The main function essentially reads an integer `t` from the user and for each test-case, it reads two values `m` and `n`. If `n` is greater than `m`, then `n` is modified to be equal to `m`. Then, the function `fun()` is called with `m`, `n`, and `0` as parameters. The result is then printed out.
+
+The recursive `fun()` function itself looks like it is calculating a series of potential combinations. More precisely, it's calculating the number of ways to break down the number `m` into `n` parts, where each part is greater than or equal to `j`. This is sometimes referred to as partitioning.
+
+The `main()` function mostly serves to take the inputs for this function and limit `n` to be no greater than `m`. The result of function `fun()` is then printed out, which in this context, can be interpreted as the number of ways `m` balls can be distributed into `n` urns.

@@ -1,0 +1,17 @@
+This JavaScript code provides a way to detect and manage CSS3 transitions' end event for different browsers, using the jQuery framework.
+
+Here's how it works:
+
+1. An anonymous function is immediately invoked with 'window.jQuery' as the argument, thereby ensuring that '$' within the function refers to 'window.jQuery'.
+
+2. Inside this function, another anonymous function is immediately invoked when the document is ready (using '$(function () {...})').
+
+3. The "use strict" directive is used. This JavaScript directive helps catch common coding errors and "unsafe" actions.
+
+4. A new property, 'transition', is added to the 'jQuery.support' object. This property will eventually hold an object that contains the appropriate transition end event name for the user's browser.
+
+5. This is accomplished by creating an HTML element (with the tag name 'bootstrap') and checking which transition property the browser understands. Depending on the browser, the property name could be 'WebkitTransition', 'MozTransition', 'OTransition', 'msTransition', or 'transition'. The browser's transition end event name corresponding to the detected property is then returned. 
+
+6. The returned transition end event name is set as the value of the 'end' key in the object held by 'jQuery.support.transition'. If no transition end event can be detected, 'window.jQuery.support.transition' will be undefined.
+
+Therefore, after running this code, you can use 'window.jQuery.support.transition.end' to attach an event handler that listens for the end of a CSS3 transition in a cross-browser compatible way.

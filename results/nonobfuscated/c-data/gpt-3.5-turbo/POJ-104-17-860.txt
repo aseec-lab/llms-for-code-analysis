@@ -1,0 +1,33 @@
+This code analyzes a string input character by character and determines if each character is part of a balanced parentheses pair. The code prints the input string and then prints a symbol for each character indicating whether it is an opening parentheses, closing parentheses, or neither.
+
+The code starts with the declaration of an array `ch` of characters, an array `note` of integers, and two integer variables `l` and `r`.
+
+The `while` loop reads input from the user until there are no more strings to read. Within this loop, the `memset` function is used to reset all elements of the `note` array to 0.
+
+The next loop iterates through each character in the input string `ch`. Within this loop, a `switch` statement is used to handle three cases: '(' character, ')' character, and all other characters.
+
+For '(' case:
+ - The variables `l` and `r` are set to 0.
+ - The `note` array element at index `i` is set to 1 to indicate an opening parentheses.
+ - Another nested loop starts from the current index `i` and iterates through the string until the end.
+ - Within this nested loop, another `switch` statement is used to handle two cases: '(' and ')' characters.
+ - The variables `l` and `r` are incremented based on the encountered characters.
+ - If `l` becomes equal to `r`, the loop is exited and the `note` array element at index `i` is set to 0 to indicate a balanced parentheses pair.
+ 
+For ')' case:
+ - Similar to the '(' case, the variables `l` and `r` are set to 0.
+ - The `note` array element at index `i` is set to -1 to indicate a closing parentheses.
+ - Another nested loop starts from the current index `i` and iterates towards the beginning of the string.
+ - Within this nested loop, the variables `l` and `r` are incremented based on the encountered characters.
+ - If `l` becomes equal to `r`, the loop is exited and the `note` array element at index `i` is set to 0 to indicate a balanced parentheses pair.
+
+In both cases, any other characters encountered are ignored and the loop continues to the next character.
+
+After analyzing the input string, the code prints the original string `ch` using `cout`. Then, a new loop iterates through each character in the string `ch` again and prints a symbol based on the value of the corresponding `note` array element.
+ - If the `note` element is 1, '$' is printed to indicate an opening parentheses.
+ - If the `note` element is -1, '?' is printed to indicate a closing parentheses.
+ - If the `note` element is 0, ' ' (space) is printed to indicate a balanced parentheses pair.
+
+Finally, a newline character is printed before the next iteration of the `while` loop.
+
+The program returns 0 to indicate successful execution.

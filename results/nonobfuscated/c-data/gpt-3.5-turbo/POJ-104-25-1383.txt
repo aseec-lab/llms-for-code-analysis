@@ -1,0 +1,23 @@
+This code takes an input N from the user and calculates the value of 2^N. 
+
+Firstly, an integer array `a` of size 42 is created and initialized with all zeros. The variable `N`, and loop variables `i`, `j`, and `k` are also declared. 
+
+The value of `N` is then taken as input from the user. 
+
+Next, `a[41]` is set to 1, which signifies that the initial value of the array represents 1 like a binary number. 
+
+If `N` is equal to 0, the code prints "1" and returns 0, meaning the calculation is complete. This is because 2^0 is equal to 1. 
+
+Now, a loop is started from k=1 to k=N. 
+
+Inside this loop, there are two nested loops: 
+
+1. The first nested loop is used to multiply each element of the array `a` by 2. Starting from `i=41` (the highest index), it iterates down to `i=0` and multiplies `a[i]` by 2, storing the result back in `a[i]`. This loop performs the operation of multiplying by 2 for each bit of the binary number. 
+
+2. The second nested loop is used to handle carry operations. It starts from `j=41` (the highest index) and iterates down to `j=0`. If `a[j]` is greater than or equal to 10, it means there is a carry. In such a case, the carry is added to `a[j-1]` and `a[j]` is updated to store the remainder after division by 10. This loop handles the carry operation when a digit is greater than or equal to 10. 
+
+After the nested loops, the code checks for leading zeros in the array `a`. It initializes `i` to 0 and then checks if `a[i]` is equal to 0. If it is, `i` is incremented to move to the next index. This process continues until the first non-zero element is found. 
+
+Finally, a loop is started from `i` to `i=41` to print the elements of the array `a` which represent the calculated value 2^N. 
+
+The code then prints a new line and returns 0, indicating successful execution of the main function.

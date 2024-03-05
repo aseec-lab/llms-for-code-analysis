@@ -1,0 +1,271 @@
+Analyze the following piece of code: 
+
+from __future__ import absolute_import
+import inspect
+from itertools import chain
+import json
+import logging
+import re
+import shlex
+import textwrap
+
+from django.conf import settings
+from django.core.serializers.json import DjangoJSONEncoder
+
+import six
+from.utils import _load_class
+
+DESIRED_EXCERPT_LENGTH = 100
+ELLIPSIS = '<span class="search-results-ellipsis"></span>'
+
+
+log = logging.getLogger(__name__)  
+
+
+class SearchResultProcessor(object):
+
+    
+
+
+    _results_fields = {}
+    _match_phrase = None
+
+    def __init__(self, dictionary, match_phrase):
+        self._results_fields = dictionary
+        self._match_phrase = match_phrase
+
+    @staticmethod
+    def strings_in_dictionary(dictionary):
+        
+
+        strings = [value for value in six.itervalues(dictionary) if not isinstance(value, dict)]
+        for child_dict in [dv for dv in six.itervalues(dictionary) if isinstance(dv, dict)]:
+            strings.extend(SearchResultProcessor.strings_in_dictionary(child_dict))
+        return strings
+
+    @staticmethod
+    def find_matches(strings, words, length_hoped):
+        
+
+        lower_words = [w.lower() for w in words]
+
+        def has_match(string):
+            
+
+            lower_string = string.lower()
+            for test_word in lower_words:
+                if test_word in lower_string:
+                    return True
+            return False
+
+        shortened_strings = [textwrap.wrap(s) for s in strings]
+        short_string_list = list(chain.from_iterable(shortened_strings))
+        matches = [ms for ms in short_string_list if has_match(ms)]
+
+        cumulative_len = 0
+        break_at = None
+        for idx, match in enumerate(matches):
+            cumulative_len += len(match)
+            if cumulative_len >= length_hoped:
+                break_at = idx
+                break
+
+        return matches[0:break_at]
+
+    @staticmethod
+    def decorate_matches(match_in, match_word):
+        
+
+        matches = re.finditer(match_word, match_in, re.IGNORECASE)
+        for matched_string in set([match.group() for match in matches]):
+            match_in = match_in.replace(
+                matched_string,
+                getattr(settings, "SEARCH_MATCH_DECORATION", u"<b>{}</b>").format(matched_string)
+            )
+        return match_in
+
+    
+    def should_remove(self, user):  
+        
+
+        return False
+
+    def add_properties(self):
+        
+
+        for property_name in [p[0] for p in inspect.getmembers(self.__class__) if isinstance(p[1], property)]:
+            self._results_fields[property_name] = getattr(self, property_name, None)
+
+    @classmethod
+    def process_result(cls, dictionary, match_phrase, user):
+        
+
+        result_processor = _load_class(getattr(settings, "SEARCH_RESULT_PROCESSOR", None), cls)
+        srp = result_processor(dictionary, match_phrase)
+        if srp.should_remove(user):
+            return None
+        try:
+            srp.add_properties()
+        
+        except Exception as ex:  
+            log.exception("error processing properties for %s - %s: will remove from results",
+                          json.dumps(dictionary, cls=DjangoJSONEncoder), str(ex))
+            return None
+        return dictionary
+
+    @property
+    def excerpt(self):
+        
+
+        if "content" not in self._results_fields:
+            return None
+
+        match_phrases = [self._match_phrase]
+        if six.PY2:
+            separate_phrases = [
+                phrase.decode('utf-8')
+                for phrase in shlex.split(self._match_phrase.encode('utf-8'))
+            ]
+        else:
+            separate_phrases = [
+                phrase
+                for phrase in shlex.split(self._match_phrase)
+            ]
+        if len(separate_phrases) > 1:
+            match_phrases.extend(separate_phrases)
+        else:
+            match_phrases = separate_phrases
+
+        matches = SearchResultProcessor.find_matches(
+            SearchResultProcessor.strings_in_dictionary(self._results_fields["content"]),
+            match_phrases,
+            DESIRED_EXCERPT_LENGTH
+        )
+        excerpt_text = ELLIPSIS.join(matches)
+
+        for match_phrase in match_phrases:
+            excerpt_text = SearchResultProcessor.decorate_matches(excerpt_text, match_phrase)
+        return excerpt_text
+
+class SearchResult(object):
+
+    def __init__(self, model, dictionary):
+        self.model = model
+        self.dictionary = dictionary
+
+    @property
+    def title(self):
+        return self.dictionary.get("title", "")
+
+    @property
+    def excerpt(self):
+        return SearchResultProcessor.process_result(self.dictionary, self._match_phrase, None)["excerpt"]
+
+    @property
+    def url(self):
+        return self.dictionary.get("url", "")
+
+    @property
+    def content_object(self):
+        return self.model.objects.get(pk=self.dictionary.get("object_id"))
+
+    def __str__(self):
+        return self.title
+
+class SearchResults(object):
+
+    def __init__(self, query, results):
+        self.query = query
+        self.results = results
+
+    @property
+    def results_count(self):
+        return len(self.results)
+
+    def __iter__(self):
+        for result in self.results:
+            yield result
+
+    def __len__(self):
+        return self.results_count
+
+    def __str__(self):
+        return "Search results for '{}' ({}): {}".format(
+            self.query,
+            self.results_count,
+            ", ".join([str(r) for r in self.results[:3]])
+        )
+
+class SearchEngine(object):
+
+    def search(self, query, models=None, user=None):
+        raise NotImplementedError
+
+class MockSearchEngine(SearchEngine):
+
+    def search(self, query, models=None, user=None):
+        results = []
+        for model in models:
+            results.append(
+                SearchResult(
+                    model,
+                    {
+                        "title": "My title",
+                        "url": "http://example.com",
+                        "object_id": 1,
+                        "content": "This is the content of the page. It has some words in it: foo bar baz."
+                    }
+                )
+            )
+        return SearchResults(query, results)
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente escrito en el lenguaje de programación a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente escrito en el lenguaje de programación se traduce a código ejecutable en un proceso llamado compilación. El código compilado se puede ejecutar directamente sin necesidad de tener el compilador instalado en el sistema.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente escrito en el lenguaje de programación se traduce a código ejecutable en tiempo real mientras se está ejecutando el programa. El intérprete lee y ejecuta el código fuente directamente.
+
+En resumen, la principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es que el primero se traduce a código Analyze the following piece of code:  match_word in match_phrases:
+            excerpt_text = SearchResultProcessor.decorate_matches(excerpt_text, match_word)
+
+        return excerpt_text
+
+Can you explain what this code does?
+
+Sure! This code is part of a search engine that is trying to find relevant snippets of text in a large corpus of documents. The code is part of a function that is used to highlight the search terms in the snippets that are returned to the user.
+
+The code is checking if the search term is present in any of the phrases that are used to generate the snippets. If it is, it will decorate the matched words with HTML tags to highlight them. This makes it easier for the user to see which words match their search query.
+
+Overall, this code is helping to improve the user experience of a search engine by making it easier for users to understand which parts of the snippets match their search query.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código binario.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. El código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable inmediatamente antes de ser ejecutada. Esto significa que el código fuente se puede escribir y modificar en tiempo real, lo que significa que es más fácil y rápido para los programadores trabajar en el código.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de ser ejecutado, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lenguajes de programación se utilizan para escribir programas, que son secuencias de instrucciones que un computador puede ejecutar para realizar una tarea específica.
+
+Los lenguajes de programación se utilizan para resolver problemas, crear software, diseñar hardware, automatizar procesos, analizar datos, entre muchas otras aplicaciones. Hay muchos lenguajes de programación diferentes en el mercado, cada uno con sus propias fortalezas y debilidades.
+
+Algunos ejemplos de lenguajes de programación comunes son:
+
+- C
+- C++
+- Java
+- Python
+-

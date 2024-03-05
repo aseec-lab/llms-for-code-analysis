@@ -1,0 +1,7 @@
+The code provides several functions to convert magnitudes in different wavelength bands to absolute magnitudes using different sets of conversion constants.
+
+The main function `convert_constants` takes the input magnitudes (jmag, hmag, kmag) and the conversion constants for the specific wavelength band and calculates the absolute magnitude. It uses nested if-else statements to handle different combinations of available magnitudes. If no magnitude is provided, it returns `np.nan`.
+
+The other functions (`jhk_to_bmag`, `jhk_to_vmag`, etc.) are wrappers for the `convert_constants` function, each using a different set of conversion constants for different wavelength bands. They directly pass the input magnitudes and the respective conversion constants to the `convert_constants` function and return the calculated absolute magnitude.
+
+The `absolute_gaia_magnitude` function takes the Gaia magnitude and parallax measurements and calculates the absolute Gaia magnitude using the formula M_G = 5 - 5 * log10(d_pc) + gaia_mag, where d_pc is the distance in parsecs calculated from the parallax measurement. If the errors in parallax and magnitude measurements are provided, it also calculates the error in the absolute magnitude using error propagation formulas.

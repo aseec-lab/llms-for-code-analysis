@@ -1,0 +1,21 @@
+The given code is written in C++. The main function of this code is to calculate the number of ways a given number can be expressed as a product of primes.
+
+Here's a detailed analysis of code:
+
+- First of all, it sets up an integer variable `sum` which is used to accumulate the total number of ways a number can be expressed as a product of factors (each factor should be greater than or equal to two).
+
+- Then, the function `fenjie(int t, int n)` serves as a recursive function that breaks down a certain number `n` into factors, starting from `t`.
+
+- If `n` is 1, increment `sum`. 
+
+- For values of `i` from `t` to `n`, it checks if `n` is divisible by `i`. If it is, the function makes a recursive call `fenjie(i, n/i)`. The recursion allows to compute all possible factor combinations. 
+
+- In the main function, it takes an input for number of test cases `n`.
+
+- Then it runs a while loop, which will run `n` times. 
+
+- In each iteration, it takes an input `k`, then resets `sum` to 0, and invokes `fenjie(2,k)`. This invocation starts factorizing `k` from the first prime number, which is 2. 
+
+- After the breaking down of `k` into prime factors is done, it decrements `n` and outputs the total number of ways recorded in `sum`.
+
+In summary, it's a program that read a series of numbers from input, and for each number, computes and prints out the number of ways it can be expressed as a product of prime numbers.

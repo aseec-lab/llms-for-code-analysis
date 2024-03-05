@@ -1,0 +1,68 @@
+Analyze the following piece of code: 
+
+int main(int argc, char* argv[])
+{
+	int juzhen[5][5];
+	int i,j;
+	int m,n;
+
+	for(i=0;i<5;i++)
+	{
+		for(j=0;j<5;j++)
+		{
+			scanf("%d",&juzhen[i][j]);
+		}
+	}
+	
+	scanf("%d%d",&m,&n);
+	
+	if(n>=0&&n<5&&m>=0&&m<5)
+	{
+		int a[5],i;
+		for(i=0;i<5;i++)
+		{
+			a[i]=juzhen[m][i];
+			juzhen[m][i]=juzhen[n][i];
+			juzhen[n][i]=a[i];
+		}
+		for(i=0;i<5;i++)
+		{
+			for(j=0;j<5;j++)
+			{
+				if(j==4)
+					printf("%d",juzhen[i][j]);
+				else
+					printf("%d ",juzhen[i][j]);
+			}
+			printf("\n");
+		}	
+	}
+	else
+		printf("error");
+
+	return 0;
+}
+
+What is the output of the following code?
+
+A. 1 2 3 4 5
+B. 1 2 3 4 5 6
+C. 1 2 3 4 5 6 7
+D. 1 2 3 4 5 6 7 8
+E. error
+
+Answer: B
+
+Explanation:
+
+The code first declares an array juzhen of size 5x5. Then it reads 25 integers from the user and stores them in the array.
+
+The next line reads two integers m and n from the user.
+
+The code then checks if m and n are both between 0 and 4. If they are, then it swaps the rows m and n of the array juzhen.
+
+Finally, the code prints the array juzhen.
+
+The output of the code is the array juzhen with the rows m and n swapped.
+
+The output of the code is 1 2 3 4 5 6.

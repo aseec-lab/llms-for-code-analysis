@@ -1,0 +1,96 @@
+Analyze the following piece of code: 
+const productos = [
+	{ nombre: 'manzana', valor: 500 },
+	{ nombre: 'pera', valor: 300 },
+	{ nombre: 'mango', valor: 250 },
+	{ nombre: 'naranja', valor: 300 },
+	{ nombre: 'uvas', valor: 400 },
+	{ nombre: 'ciruela', valor: 550 },
+]
+const formulario = document.querySelector('#formulario');
+const boton = document.querySelector('#boton');
+const resultado = document.querySelector('#resultado');
+
+const filtrar = () => {
+
+	resultado.innerHTML = '';
+
+	const text = formulario.value.toLowerCase();
+
+	for (let producto of productos) {
+		let nombre = producto.nombre.toLocaleLowerCase();
+		if (nombre.indexOf(text) !== -1) {
+			resultado.innerHTML += 
+				`<li>${producto.nombre} - Valor ${producto.valor}</li>`
+		}
+	}
+	if (resultado.innerHTML === '') {
+		resultado.innerHTML +=
+			`<li>Producto no encontrado</li>`
+	}
+}
+
+boton.addEventListener('click', filtrar);
+formulario.addEventListener('keyup', filtrar);
+
+filtrar();
+
+What is the purpose of the code?
+
+Answer: The code is a search engine for a list of products. The user can search for a product by its name and the code will show the product name and its value.
+
+What is the purpose of the variable "productos"?
+
+Answer: The variable "productos" is an array of objects that contains the name and value of each product.
+
+What is the purpose of the variable "formulario"?
+
+Answer: The variable "formulario" is a reference to the HTML form element.
+
+What is the purpose of the variable "boton"?
+
+Answer: The variable "boton" is a reference to the HTML button element.
+
+What is the purpose of the variable "resultado"?
+
+Answer: The variable "resultado" is a reference to the HTML element that will show the results of the search.
+
+What is the purpose of the function "filtrar"?
+
+Answer: The function "filtrar" is called when the user clicks the button or presses a key in the form. It filters the list of products by the text entered in the form and shows the results in the "resultado" element.
+
+What is the purpose of the "for" loop?
+
+Answer: The "for" loop is used to iterate over the "productos" array and check if the name of each product contains the text entered in the form. If it does, it adds a list item to the "resultado" element with the product name and value.
+
+What is the purpose of the "if" statement?
+
+Answer: The "if" statement is used to check if the "resultado" element is empty. If it is, it adds a list item to the "resultado" element that says "Producto no encontrado" (Product not found).
+
+What is the purpose of the "addEventListener" method?
+
+Answer: The "addEventListener" method is used to add an event listener to the "boton" element. When the user clicks the button, the "filtrar" function is called.
+
+What is the purpose of the "keyup" event?
+
+Answer: The "keyup" event is used to call the "filtrar" function when the user presses a key in the form.
+
+What is the purpose of the "toLowerCase" method?
+
+Answer: The "toLowerCase" method is used to convert the text entered in the form to lowercase. This is done so that the search is not case-sensitive.
+
+What is the purpose of the "indexOf" method?
+
+Answer: The "indexOf" method is used to check if the name of a product contains the text entered in the form. If it does, it returns the index of the first occurrence of the text in the name. If it doesn't, it returns -1.
+
+What is the purpose of the "!== -1" condition?
+
+Answer: The "!== -1" condition is used to check if the name of a product contains the text entered in the form. If it does, it adds a list item to the "resultado" element with the product name and value.
+
+What is the purpose of the "resultado.innerHTML" property?
+
+Answer: The "resultado.innerHTML" property is used to set the HTML content of the "resultado" element.
+
+What is the purpose of the "li" element?
+
+Answer: The

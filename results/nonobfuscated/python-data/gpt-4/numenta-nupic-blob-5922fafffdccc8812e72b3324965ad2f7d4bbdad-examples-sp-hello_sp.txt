@@ -1,0 +1,19 @@
+The provided code is written in Python. It demonstrates the concept of Sparse Distributed Representation (SDR) using a Spatial Pooler from Numenta's HTM (Hierarchical Temporal Memory) theory.
+
+The code first sets up an `Example` class with attributes such as `inputDimensions`, `columnDimensions`, `inputArray`, `activeArray`, and an instance of a `SpatialPooler`.
+
+Here's what the methods within the `Example` class do:
+- `__init__(self, inputDimensions, columnDimensions)`: The constructor method initializes the object. It sets up the dimensions for input and column, calculates the input size and number of columns, and creates zeros-filled arrays as `inputArray` and `activeArray`. It also initializes a `SpatialPooler` instance with certain parameters.
+
+- `createInput(self)`: It creates a random binary input vector to be fed to the Spatial Pooler. The input vector size would equal `inputSize`.
+
+- `run(self)`: It computes the SDR for the current `inputArray` using the SpatialPooler instance and prints the active columns of the SpatialPooler's output.
+
+- `addNoise(self, noiseLevel)`: It introduces noise to the `inputArray` by flipping a percentage of 1s to 0s and vice versa. The noise level defines the percentage of bits to flip.
+
+Next, an `Example` object is created with given input dimensions and column dimensions. Then, different scenarios are demonstrated:
+1. The effect of different inputs on SDR: A new input is created and its corresponding SDR is calculated three times to show that different inputs yield different SDRs.
+2. The effect of identical inputs on SDR: The same input is used to calculate SDRs two times to show that identical inputs yield identical SDRs.
+3. The effect of slightly altered inputs on SDR: Noise is added to the input, and the corresponding SDRs are calculated to show that similar inputs yield similar SDRs (not identical). Noise is added in increments of 10% and 20% to demonstrate how increasing the level of noise gradually creates more dissimilarity in the SDR.
+   
+Generally, this code helps to understand the behavior of a Spatial Pooler in creating Sparse Distributed Representations.

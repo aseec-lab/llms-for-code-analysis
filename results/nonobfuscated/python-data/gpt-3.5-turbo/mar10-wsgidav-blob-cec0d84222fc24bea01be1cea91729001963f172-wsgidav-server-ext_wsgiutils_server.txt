@@ -1,0 +1,35 @@
+The code is a Python implementation of a server that can handle HTTP requests. It uses the WsgiDAV library to provide support for WebDAV access on top of the HTTP server.
+
+The code is split into several parts:
+
+1. Import statements: These import the necessary modules and classes from the WsgiDAV library, as well as other standard Python libraries.
+
+2. Class `ExtHandler`: This class is a subclass of `BaseHTTPServer.BaseHTTPRequestHandler` and is responsible for handling HTTP requests.
+
+3. Class `ExtServer`: This class is a subclass of `BaseHTTPServer.HTTPServer` and is responsible for creating and starting the HTTP server.
+
+4. Function `serve`: This function is used to start the server. It takes a configuration dictionary and an application object as parameters and creates an instance of `ExtServer` to handle the requests.
+
+The main functionality of the server is implemented in the `ExtHandler` class. It overrides several methods from the base class to customize the behavior:
+
+- `do_method`: This method is called when a request is received. It determines the appropriate WSGI application to handle the request based on the path of the URL and calls the `runWSGIApp` method to run the application and handle the response.
+
+- `runWSGIApp`: This method sets up the environment for the WSGI application, including the request method, path, query string, and headers. It then calls the application with the environment and a callback function (`wsgiStartResponse`) to handle the response. The response data is written to the client connection.
+
+- `wsgiStartResponse`: This method is called by the WSGI application to set the response status and headers. It saves the status and headers in the `wsgiHeaders` attribute and returns a callback function (`wsgiWriteData`) to write the response data.
+
+- `wsgiWriteData`: This method writes the response data to the client connection. It first sends the response headers if they haven't been sent yet, and then writes the data to the connection.
+
+The `ExtServer` class extends the `BaseHTTPServer.HTTPServer` class and adds some additional functionality:
+
+- `handle_error`: This method is called when an error occurs while processing a request. It logs the error and prints a traceback.
+
+- `stop_serve_forever`: This method is used to stop the server from running. It sends a shutdown request to the server itself and waits for it to stop.
+
+- `serve_forever_stoppable`: This method is similar to `serve_forever` from the base class but can be stopped by calling `stop_serve_forever`.
+
+The `serve` function is used to start the server. It takes a configuration dictionary and an application object as parameters and creates an instance of `ExtServer` to handle the requests. It also logs some information about the server and starts serving forever.The code checks if the current module is being run as the main module (`__name__ == "__main__"`). If it is, it raises a `RuntimeError` with the message "Use run_server.py".
+
+This is a safety measure to prevent the server from being run directly from this module. Instead, the server should be started using the "run_server.py" script, which sets up the necessary configuration and calls the `serve` function.
+
+By raising a `RuntimeError`, the code ensures that if someone accidentally tries to run this module directly, an error will be raised and the server won't start.

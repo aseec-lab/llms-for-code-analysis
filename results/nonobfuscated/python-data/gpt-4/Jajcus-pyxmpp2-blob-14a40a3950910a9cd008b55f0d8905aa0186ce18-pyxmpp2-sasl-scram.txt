@@ -1,0 +1,33 @@
+This script defines a SCRAM (Salted Challenge Response Authentication Mechanism) client and its operations in Python using various hash functions such as SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, and MD-5.
+
+The internal `SCRAMOperations` class consists of utility methods for the SCRAM Authentication protocol like Normalizing strings, HMAC generation, Hashing, XOR operations, generating salted password (Hi), escaping and unescaping data. 
+
+The class `SCRAMClientAuthenticator` is a SCRAM client that uses the methods from `SCRAMOperations` and `ClientAuthenticator` to handle the SCRAM protocol from the client-side. This includes setting up the initial properties, starting the authentication process, and handling server challenges.
+
+It validates the server's first message and processes subsequent challenges until the authentication process is completed. It also supports channel binding for additional security, subject to availability.
+
+RegEx patterns are established for validation and specific attributes are extracted from messages like nonce, salt, iteration count, proof (from client's final message), and error or verifier (from server's final message).
+
+When started, it prepares a client-first-message as per the SCRAM protocol. Later during the SCRAM handshake, server's challenges are processed in their own methods. Errors such as bad challenges, unsupported extension, nonce mismatch, etc. are handled and logged.
+
+Overall, it provides a solid foundation for implementing a SCRAM client in Python, but would need to be integrated with server communication code for full functionality.The `_make_response` method is part of the SCRAM authentication process on the client side. It generates the client's final message in the SCRAM handshake by creating the authentication message, calculating the client key, stored key, and client signature, and then combining these with the nonce and salt from the server's first message.
+
+In the `_final_challenge` method, the final server message is authenticated. The server_signature is computed from the server key and the authenticated message. A comparison between the computed server_signature and the server_signature in the server's final message is made to assert its validity. 
+
+The `finish` method is used to finalize the authentication process. If the authentication has already finished, a success message containing the username and authzid is returned. If the authentication is not yet complete, the `_final_challenge` method is called again to validate the server's final message.
+
+The `SCRAMServerAuthenticator` class is used for SCRAM authentication on the server side. It starts the authentication process, handles the client's responses, creates challenges, and performs validations. 
+
+It includes the `_handle_first_response` method, which validates the first message from the client, generates a nonce, retrieves and hashes the password, and formulates the server's first message. 
+
+The `_handle_final_response` method is responsible for validating the final message received from the client, which includes the nonce, channel binding data, and the client's proof.This part of the code is focused on the creation of different SCRAM Authenticators as per different situations and specific requirements: 
+
+The subsections of the `SCRAMClientAuthenticator` class, `SCRAM_SHA_1_ClientAuthenticator` and `SCRAM_SHA_1_PLUS_ClientAuthenticator` are client-side mechanisims that use the SHA-1 hash function for purposes of calculation. The key difference between the two is that the PLUS version also supports the addition of channel binding of the protocol to provide an extra layer of security.
+
+Similarly, two server-side SCRAM Authenticators, `SCRAM_SHA_1_ServerAuthenticator` and `SCRAM_SHA_1_PLUS_ServerAuthenticator` are also built upon the `SCRAMServerAuthenticator` class, with the key difference being the support for channel binding in the PLUS version. 
+
+All four variants have their respective `__init__` methods to initialize objects using the predefined attributes provided by their parent classes: `SCRAMClientAuthenticator` or `SCRAMServerAuthenticator`.
+
+Each PLUS variant of SCRAM Authenticator also includes the function `are_properties_sufficient` to check if the properties they have are enough for secure communication. It checks not only basic properties, but also for the 'channel-binding' property, returning True if all are present, and False otherwise.  
+
+In short, the given part of code is focused on creating different kinds of SCRAM Authenticators under different situations, mainly focusing on whether channel binding is supported or not.

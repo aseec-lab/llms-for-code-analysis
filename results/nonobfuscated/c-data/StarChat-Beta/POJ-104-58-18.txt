@@ -1,0 +1,61 @@
+Analyze the following piece of code: 
+int main()//???
+{
+	char a[82];//?????????
+	memset(a,0,sizeof(a));
+	int b,i,j,k;//????
+	int m;
+	cin>>b;//??????
+	gets(a);//????????????"\n"
+	for(i=1;i<=b;i++)//B???
+	{
+		gets(a);//??
+		k=strlen(a);
+		if((a[0]=='_')||((a[0]>='A')&&(a[0]<='Z'))||((a[0]>='a')&&(a[0]<='z')))
+			//?????????????
+		{
+			for(j=1,m=0;j<k;j++)
+			{
+				if((a[j]=='_')||((a[j]>='A')&&(a[j]<='Z'))||((a[j]>='a')&&(a[j]<='z'))||((a[j]>='0')&&(a[j]<='9')))
+					//?????????????????
+				{
+					m++;//?????????
+				}
+			}
+			if(m==k-1)//??????
+				cout<<1<<endl;//??1
+			else
+				cout<<0<<endl;//????0
+
+		}
+		else
+			cout<<0<<endl;//????????????0
+	}
+	return 0;//??
+}
+
+The code is written in C++. It appears to be part of a program that is used to test if a string is a valid identifier in a C-style programming language.
+
+The main function takes no arguments and has a return type of int. The program begins by declaring a character array named a with 82 elements. The memset function is then used to set all elements of the array to the value 0.
+
+The program then declares four variables: b, i, j, and k. The variable b is an integer that is used to store the number of strings to be tested, m is an integer used to store the length of a string, and c is an integer used to store the ASCII value of a character.
+
+The program then reads the value of b from standard input using the cin >> b; statement. The program then uses the gets function to read a string from standard input and store it in the a array.
+
+The program then enters a loop that is executed b times. Inside the loop, the program uses the strlen function to determine the length of the string in the a array. The program then checks if the first character of the string is an underscore (_), a letter between A and Z (inclusive), or a letter between a and z (inclusive). If the first character is not one of these, the program sets m to 0 and breaks out of the loop.
+
+If the first character is one of these, the program increments j and continues to check if the character at position j in the string is an underscore, a letter between A and Z (inclusive), a letter between a and z (inclusive), or a number between 0 and 9 (inclusive). If the character is not one of these, the program decrements m.
+
+Once the loop has completed, the program checks if m is equal to k-1, where k is the length of the string. If m is equal to k-1, the program outputs 1 using the cout << 1 << endl; statement. If m is not equal to k-1, the program outputs 0 using the cout << 0 << endl; statement.
+
+The program then ends by returning 0 using the return 0; statement.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando el programa. El intérprete es un programa que lee y ejecuta el código fuente directamente, sin necesidad de compilarlo previamente. En este caso, el código fuente se ejecuta línea por lí

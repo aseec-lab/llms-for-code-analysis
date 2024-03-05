@@ -1,0 +1,68 @@
+Analyze the following piece of code: 
+int main() {
+	int A=0,B=0,C=0;//????A,B,C???
+	int As=0,Bs=0,Cs=0;//??????????????
+	int dA=0,dB=0,dC=0;//????????
+	for(A=1;A<=3;A++){
+		for(B=1;B<=3;B++){
+			for(C=1;C<=3;C++){
+				As=(B>A)+(C==A);
+				Bs=(A>B)+(A>C);
+				Cs=(C>B)+(B>A);
+				if(!(A<=B&&As<=Bs||A<=C&&As<=Cs||
+					 B<=A&&Bs<=As||B<=C&&Bs<=Cs||
+					 C<=A&&Cs<=As||C<=B&&Cs<=Bs))//???????????????????????????
+				{
+					dA=A;
+					dB=B;
+					dC=C;
+				}//??????????
+			}
+		}
+	}
+	if (dA>=dB&&dB>=dC)
+		cout << "CBA" << endl;
+	if (dA>=dC&&dC>=dB)
+		cout << "BCA" << endl;
+	if (dB>=dA&&dA>=dC)
+		cout << "CAB" << endl;
+	if (dB>=dC&&dC>=dA)
+		cout << "ACB" << endl;
+	if (dC>=dA&&dA>=dB)
+		cout << "BAC" << endl;
+	if (dC>=dB&&dB>=dA)
+		cout << "ABC" << endl;//??A,B,C????????????ABC
+	return 0;
+}
+
+The code is a bit hard to read, can you explain what it does?
+
+Sure! The code is a program in C that uses nested for loops to find the order of three numbers (A, B, and C) in which the sum of any two numbers is less than or equal to the sum of the third number.
+
+The program starts by declaring three integer variables A, B, and C, and setting them all to 0. It then creates three more integer variables, As, Bs, and Cs, which will be used to store the sums of the two smaller numbers and the largest number, respectively.
+
+The program then enters a for loop that runs from 1 to 3 for the value of A. Inside this loop, another for loop runs from 1 to 3 for the value of B. Inside this second loop, a third for loop runs from 1 to 3 for the value of C.
+
+For each iteration of the innermost loop (C), the program calculates the sum of the two smaller numbers (As) and the largest number (C) using the formula As = (B > A) + (C == A). It then checks if the following conditions are true:
+
+A is less than or equal to B, and As is less than or equal to Bs
+A is less than or equal to C, and As is less than or equal to Cs
+B is less than or equal to A, and Bs is less than or equal to As
+B is less than or equal to C, and Bs is less than or equal to Cs
+C is less than or equal to A, and Cs is less than or equal to As
+C is less than or equal to B, and Cs is less than or equal to Bs
+If any of these conditions are not true, the program sets the variables dA, dB, and dC to the current values of A, B, and C, respectively, and then exits the innermost for loop.
+
+Once the innermost for loop has finished, the program checks if any of the variables dA, dB, and dC have been set to a non-zero value. If so, it uses a series of if statements to determine the order of the three numbers based on the values of dA, dB, and dC.
+
+The program then prints the result to the console.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente se traduce a un archivo ejecutable antes de ser ejecutado. El proceso de compilación implica la utilización de un compilador, que es una herramienta que traduce el código fuente en código objeto o código máquina que puede ser ejecutado directamente en la computadora. El archivo ejecutable resultante se puede ejecutar sin necesidad de volver a compilar el código fuente cada vez que se desea ejecutar la aplicación.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente se

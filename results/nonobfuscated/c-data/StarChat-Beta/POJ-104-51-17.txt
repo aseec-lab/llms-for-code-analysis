@@ -1,0 +1,76 @@
+Analyze the following piece of code: int main()
+{
+	int m,n,i,j,k=0;
+	char a[1000],b[1000][5],c[5];
+	int num[1000];
+	for(i=0;i<1000;i++)
+		num[i]=0;
+    scanf("%d\n",&n);
+	gets(a);
+	for(i=0;;i++)
+	{
+		for(j=i;j<=i+n-1;j++)
+		{
+			
+			if(a[j]=='\0')goto loop;
+			b[k][j-i]=a[j];
+		}k++;
+		b[k-1][n]='\0';
+	}loop:;
+	
+	//printf("%d\n",k);
+	
+	//puts(b[1]);
+	for(i=0;i<k-1;i++)
+		for(j=i+1;j<k;j++)
+		{
+          if(strcmp(b[i],b[j])==0)num[i]++;
+		}
+
+		for(i=k-2;i>0;i--)
+			for(j=0;j<i;j++)
+			{
+				if(num[j]<num[j+1])
+				{	strcpy(c,b[j]);strcpy(b[j],b[j+1]);strcpy(b[j+1],c);
+				    m=num[j];num[j]=num[j+1];num[j+1]=m;
+				}
+			}
+if(num[0]==0)
+printf("NO");
+else{
+
+			printf("%d\n",num[0]+1);
+    puts(b[0]);
+ for(i=1;;i++)
+ {
+	if(num[i]==num[0]){puts(b[i]);}
+	else break;
+ }
+	
+}
+
+}
+
+The code is written in C programming language and it implements a program that takes input from the user and then analyzes the input to find the number of anagrams in a given input. The code is divided into several functions and it uses several data structures such as arrays, strings, and integers.
+
+The main function starts by declaring several variables, including an integer array called num that is used to store the number of anagrams for each word in the input, a character array called a that stores the input words, a character array of strings called b that stores the words after splitting them into individual characters, a character array called c that is used to store the temporary word, and an integer variable called m that is used to store the temporary value.
+
+The code then reads the number of words to be processed from the user and stores it in the n variable. It then reads each word from the input and stores it in the a array.
+
+The code then loops through each word in the input, starting from the first word and moving to the next word. For each word, the code splits the word into individual characters and stores them in the b array. The code then loops through each character in the word, starting from the first character and moving to the next character. For each character, the code increments the corresponding element in the num array.
+
+The code then loops through the num array from the last element to the first element, starting from the second element. For each element, the code checks if the current element has a smaller value than the previous element. If the current element has a smaller value, the code swaps the values of the two elements and updates the index.
+
+The code then checks if the first element in the num array has a value of 0. If the first element has a value of 0, the code prints the message "NO" and exits the program. If the first element has a value greater than 0, the code prints the number of anagrams found (which is the first element in the num array plus 1) and then prints the anagram words in the same order as they were found in the input.
+
+Overall, the code is well-structured and it is easy to understand the logic behind the program. The code is well-commented and it includes appropriate error handling mechanisms to handle invalid input.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. El código fuente se lee y se ejecuta línea por línea, sin necesidad de compilar previamente el código. En este caso, el

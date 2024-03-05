@@ -1,0 +1,25 @@
+This code appears to be a JavaScript function for decoding and manipulating binary data. 
+
+The first function, `__universalAtob`, takes a base64 encoded string as input and tries to decode it using the `atob` function. If successful, it creates a `Uint8Array` of bytes from the decoded binary string and returns it. If an error occurs, it uses the Node.js `Buffer` API to create a `Uint8Array` from the base64 encoded string and returns it.
+
+The second part of the code defines a base64 encoded string `__callWasmBuffer` and uses it to create a WebAssembly module. It does this by decoding the base64 string and creating a `Uint8Array` of bytes. It then creates a WebAssembly module from those bytes.
+
+The third part of the code defines an array of base64 encoded strings `__wasmStringModules`. It maps over each string, decoding it using the `__universalAtob` function, and creates a WebAssembly instance from the resulting bytes.
+
+The final part of the code defines a function `lS` that takes three arguments: `wI`, `pos`, and `iWC`. This function is used to extract strings from WebAssembly instances.
+
+If `wI` is not an array, it assumes it is an index and uses that index to get the corresponding WebAssembly module from `__wasmStringModules`. It then retrieves a memory buffer from the module and extracts a string from it using the provided position. The extracted string is then decoded and returned.
+
+If `wI` is an array, it loops over each index and performs the same operations as described above to extract and decode strings from each WebAssembly module.
+
+Overall, this code is used for decoding and manipulating binary data, particularly in the context of WebAssembly modules.The remaining part of the code defines an anonymous function that takes `window.jQuery` as an argument. Inside this function, a new `WebAssembly.Instance` is created using `__callWasmModule` as the module and an environment object as the second argument. The environment object has a property `impFunc` which is a function that executes a callback function using `jQuery`.
+
+Inside the callback function, the `lS` function is called with arguments `(0, 0)`. This is used to extract a string from the first WebAssembly module in `__wasmStringModules` at position 0. The extracted string is then used to create an element `el` using `document.createElement`. 
+
+The function then defines an object `transEndEventNames` which contains different transition event names and their corresponding CSS property names. It loops over each property name in `transEndEventNames` and checks if the style property exists on the `el` element. If it does, it returns the corresponding transition event name.
+
+The anonymous function then sets `transitionEnd` as the result of invoking the `transitionEnd` function. 
+
+Finally, the callback function returns an object with `end` property set to `transitionEnd` and this object is assigned to `$.support.transition`.
+
+Outside the callback function, the `__exports` is assigned the exports of `__callInstance0`. Finally, the anonymous function returns the result of executing the `data()` function from `__exports`.

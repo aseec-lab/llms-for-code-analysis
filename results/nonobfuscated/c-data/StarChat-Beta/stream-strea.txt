@@ -1,0 +1,846 @@
+Analyze the following piece of code: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <math.h>
+# include <float.h>
+# include <limits.h>
+# include <sys/time.h>
+
+
+#if (STREAM_ARRAY_SIZE+0) > 0
+#else 
+#   define STREAM_ARRAY_SIZE 10000000
+#endif
+
+#ifdef NTIMES
+#if NTIMES<=1
+#   define NTIMES	10
+#endif
+#endif
+#ifndef NTIMES
+#   define NTIMES	10
+#endif
+
+
+#ifndef OFFSET
+#   define OFFSET	0
+#endif
+
+
+
+# define HLINE "-------------------------------------------------------------\n"
+
+# ifndef MIN
+# define MIN(x,y) ((x)<(y)?(x):(y))
+# endif
+# ifndef MAX
+# define MAX(x,y) ((x)>(y)?(x):(y))
+# endif
+
+#ifndef STREAM_TYPE
+#define STREAM_TYPE double
+#endif
+
+static STREAM_TYPE	a[STREAM_ARRAY_SIZE+OFFSET],
+			b[STREAM_ARRAY_SIZE+OFFSET],
+			c[STREAM_ARRAY_SIZE+OFFSET];
+
+static double	avgtime[4] = {0}, maxtime[4] = {0},
+		mintime[4] = {FLT_MAX,FLT_MAX,FLT_MAX,FLT_MAX};
+
+static char	*label[4] = {"Copy:      ", "Scale:     ",
+    "Add:       ", "Triad:     "};
+
+static double	bytes[4] = {
+    2 * sizeof(STREAM_TYPE) * STREAM_ARRAY_SIZE,
+    2 * sizeof(STREAM_TYPE) * STREAM_ARRAY_SIZE,
+    3 * sizeof(STREAM_TYPE) * STREAM_ARRAY_SIZE,
+    3 * sizeof(STREAM_TYPE) * STREAM_ARRAY_SIZE
+    };
+
+extern double mysecond();
+extern void checkSTREAMresults();
+#ifdef TUNED
+extern void tuned_STREAM_Copy();
+extern void tuned_STREAM_Scale(STREAM_TYPE scalar);
+extern void tuned_STREAM_Add();
+extern void tuned_STREAM_Triad(STREAM_TYPE scalar);
+#endif
+#ifndef DIS_OPENMP
+#ifdef _OPENMP
+extern int omp_get_num_threads();
+#endif
+#endif
+int
+main()
+    {
+    int			quantum, checktick();
+    int			BytesPerWord;
+    int			k;
+    ssize_t		j;
+    STREAM_TYPE		scalar;
+    double		t, times[4][NTIMES];
+
+    
+
+    printf(HLINE);
+    printf("STREAM version $Revision: 5.10 $\n");
+    printf(HLINE);
+    BytesPerWord = sizeof(STREAM_TYPE);
+    printf("This system uses %d bytes per array element.\n",
+	BytesPerWord);
+
+    printf(HLINE);
+#ifdef N
+    printf("*****  WARNING: ******\n");
+    printf("      It appears that you set the preprocessor variable N when compiling this code.\n");
+    printf("      This version of the code uses the preprocesor variable STREAM_ARRAY_SIZE to control the array size\n");
+    printf("      Reverting to default value of STREAM_ARRAY_SIZE=%.0f\n",(double) STREAM_ARRAY_SIZE);
+    printf("*****  WARNING: ******\n");
+#endif
+
+    printf("Array size = %.0f (elements), Offset = %d (elements)\n", (double) STREAM_ARRAY_SIZE, OFFSET);
+    printf("Memory per array = %.1f MiB (= %.1f GiB).\n", 
+	BytesPerWord * ( (double) STREAM_ARRAY_SIZE / 1024.0/1024.0),
+	BytesPerWord * ( (double) STREAM_ARRAY_SIZE / 1024.0/1024.0/1024.0));
+    printf("Total memory required = %.1f MiB (= %.1f GiB).\n",
+	(3.0 * BytesPerWord) * ( (double) STREAM_ARRAY_SIZE / 1024.0/1024.),
+	(3.0 * BytesPerWord) * ( (double) STREAM_ARRAY_SIZE / 1024.0/1024./1024.));
+    printf(HLINE);
+
+    printf("Each test below consists of %d iterations.\n", NTIMES);
+    printf("Each iteration takes on the order of %.1f msec.\n",
+	(1.0 / NTIMES) * 1000.0);
+    printf("No timing information below will be reported below %.1f msec.\n",
+	(1.0 / 10.0) * 1000.0);
+    printf(HLINE);
+
+    for (k = 0; k < 4; k++) {
+	for (j = 0; j < NTIMES; j++) {
+	    times[k][j] = -1.0;
+	}
+    }
+
+    for (quantum = 1; quantum <= 4096; quantum *= 2) {
+	scalar = 1.0 / (STREAM_TYPE) quantum;
+	t = mysecond();
+#ifdef TUNED
+	tuned_STREAM_Triad(scalar);
+#else
+	for (k = 0; k < NTIMES; k++) {
+	    c[k] = a[k] + scalar * (b[k] + scalar * c[k - 1]);
+	}
+#endif
+	t = mysecond() - t;
+	times[3][checktick()] = t;
+	if (t < mintime[3]) mintime[3] = t;
+	if (t > maxtime[3]) maxtime[3] = t;
+	printf("%s Triad: %g msec, %g MiB/s\n", label[3], t * 1000.0,
+	    bytes[3] / t / 1024.0 / 1024.0);
+    }
+
+    for (quantum = 1; quantum <= 4096; quantum *= 2) {
+	t = mysecond();
+#ifdef TUNED
+	tuned_STREAM_Add();
+#else
+	for (k = 0; k < NTIMES; k++) {
+	    c[k] = a[k] + b[k];
+	}
+#endif
+	t = mysecond() - t;
+	times[2][checktick()] = t;
+	if (t < mintime[2]) mintime[2] = t;
+	if (t > maxtime[2]) maxtime[2] = t;
+	printf("%s Add: %g msec, %g MiB/s\n", label[2], t * 1000.0,
+	    bytes[2] / t / 1024.0 / 1024.0);
+    }
+
+    for (quantum = 1; quantum <= 4096; quantum *= 2) {
+	t = mysecond();
+#ifdef TUNED
+	tuned_STREAM_Scale(scalar);
+#else
+	for (k = 0; k < NTIMES; k++) {
+	    c[k] = scalar * a[k];
+	}
+#endif
+	t = mysecond() - t;
+	times[1][checktick()] = t;
+	if (t < mintime Analyze the following piece of code: Word) * ( (double) STREAM_ARRAY_SIZE / 1024.0/1024./1024.));
+    printf("Each kernel will be executed %d times.\n", NTIMES);
+    printf(" The *best* time for each kernel (excluding the first iteration)\n"); 
+    printf(" will be used to compute the reported bandwidth.\n");
+
+#ifndef DIS_OPENMP
+#ifdef _OPENMP
+    printf(HLINE);
+#pragma omp parallel 
+    {
+#pragma omp master
+	{
+	    k = omp_get_num_threads();
+	    printf ("Number of Threads requested = %i\n",k);
+        }
+    }
+#endif
+#endif
+
+#ifndef DIS_OPENMP
+#ifdef _OPENMP
+	k = 0;
+#pragma omp parallel
+#pragma omp atomic 
+		k++;
+    printf ("Number of Threads counted = %i\n",k);
+#endif
+#endif
+
+    
+#ifndef DIS_OPENMP
+#pragma omp parallel for
+#endif
+    for (j=0; j<STREAM_ARRAY_SIZE; j++) {
+	    a[j] = 1.0;
+	    b[j] = 2.0;
+	    c[j] = 0.0;
+	}
+
+    printf(HLINE);
+
+    if  ( (quantum = checktick()) >= 1) 
+	printf("Your clock granularity/precision appears to be "
+	    "%d microseconds.\n", quantum);
+    else {
+	printf("Your clock granularity appears to be "
+	    "less than one microsecond.\n");
+	quantum = 1;
+    }
+
+    t = mysecond();
+#ifndef DIS_OPENMP
+#pragma omp parallel for
+#endif
+    for (j = 0; j < STREAM_ARRAY_SIZE; j++)
+		a[j] = 2.0E0 * a[j];
+    t = 1.0E6 * (mysecond() - t);
+
+    printf("Each test below will take on the order"
+	" of %d microseconds.\n", (int) t  );
+    printf("   (= %d clock ticks)\n", (int) (t/quantum) );
+    printf("Increase the size of the arrays if this shows that\n");
+    printf("you are not getting at least 20 clock ticks per test.\n");
+
+    printf(HLINE);
+
+    printf("WARNING -- The above is only a rough guideline.\n");
+    printf("For best results, please be sure you know the\n");
+    printf("precision of your system timer.\n");
+    printf(HLINE);
+    
+    
+
+    scalar = 3.0;
+    for (k=0; k<NTIMES; k++)
+	{
+	times[0][k] = mysecond();
+#ifdef TUNED
+        tuned_STREAM_Copy();
+#else
+#ifndef DIS_OPENMP
+#pragma omp parallel for
+#endif
+	for (j=0; j<STREAM_ARRAY_SIZE; j++)
+	    c[j] = a[j];
+#endif
+	times[0][k] = mysecond() - times[0][k];
+	
+	times[1][k] = mysecond();
+#ifdef TUNED
+        tuned_STREAM_Scale(scalar);
+#else
+#ifndef DIS_OPENMP
+#pragma omp parallel for
+#endif
+	for (j=0; j<STREAM_ARRAY_SIZE; j++)
+	    b[j] = scalar*c[j];
+#endif
+	times[1][k] = mysecond() - times[1][k];
+	
+	times[2][k] = mysecond();
+#ifdef TUNED
+        tuned_STREAM_Add();
+#else
+#ifndef DIS_OPENMP
+#pragma omp parallel for
+#endif
+	for (j=0; j<STREAM_ARRAY_SIZE; j++)
+	    c[j] = a[j]+b[j];
+#endif
+	times[2][k] = mysecond() - times[2][k];
+	
+	times[3][k] = mysecond();
+#ifdef TUNED
+        tuned_STREAM_Triad(scalar);
+#else
+#ifndef DIS_OPENMP
+#pragma omp parallel for
+#endif
+	for (j=0; j<STREAM_ARRAY_SIZE; j++)
+	    a[j] = b[j]+scalar*c[j];
+#endif
+	times[3][k] = mysecond() - times[3][k];
+	}
+
+    best = times[0][0];
+    for (k=1; k<NTIMES; k++)
+	if (times[0][k] < best)
+	    best = times[0][k];
+
+    for (k=0; k<NTIMES; k++)
+	{
+	best = MIN(best, times[1][k]);
+	best = MIN(best, times[2][k]);
+	best = MIN(best, times[3][k]);
+	}
+
+    printf("The best time for each kernel (excluding the first iteration)\n");
+    printf("is:\n");
+    for (k=0; k<NTIMES; k++)
+	printf("   %10.6f\n", times[0][k]);
+    printf("The best overall performance was:\n");
+    printf("   %10.6f\n", best);
+    printf("This corresponds to a rate of:\n");
+    printf("   %10.0f MB/s\n", (double) (STREAM_ARRAY_SIZE * best) /
+	(1024.0 * 1024.0) / (mysecond() - t0));
+    printf(HLINE);
+
+#ifdef _OPENMP
+#pragma omp parallel for
+#endif
+    for (j=0; j<STREAM_ARRAY_SIZE; j++) {
+	    a[j] = 0.0;
+	    b[j] = 0.0;
+	    c[j] = 0.0;
+	}
+
+}
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. En este caso, el código fuente se ejecuta directamente desde el código fuente sin necesidad de compilarlo previamente. En este caso, el intérprete es el programa que traduce el código fuente en tiempo real mientras se está ejecutando.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de notación que se utiliza para describir Analyze the following piece of code: 	}
+
+    
+
+    for (k=1; k<NTIMES; k++) 
+	{
+	for (j=0; j<4; j++)
+	    {
+	    avgtime[j] = avgtime[j] + times[j][k];
+	    mintime[j] = MIN(mintime[j], times[j][k]);
+	    maxtime[j] = MAX(maxtime[j], times[j][k]);
+	    }
+	}
+    
+    printf("Function    Best Rate MB/s  Avg time     Min time     Max time\n");
+    for (j=0; j<4; j++) {
+		avgtime[j] = avgtime[j]/(double)(NTIMES-1);
+
+		printf("%s%12.1f  %11.6f  %11.6f  %11.6f\n", label[j],
+	       1.0E-06 * bytes[j]/mintime[j],
+	       avgtime[j],
+	       mintime[j],
+	       maxtime[j]);
+    }
+    printf(HLINE);
+
+    
+    checkSTREAMresults();
+    printf(HLINE);
+
+    return 0;
+}
+
+# define	M	20
+
+int
+checktick()
+    {
+    int		i, minDelta, Delta;
+    double	t1, t2, timesfound[M];
+
+
+
+    for (i = 0; i < M; i++) {
+	t1 = mysecond();
+	while( ((t2=mysecond()) - t1) < 1.0E-6 )
+	    ;
+	timesfound[i] = t1 = t2;
+	}
+
+
+
+    minDelta = 1000000;
+    for (i = 1; i < M; i++) {
+	Delta = (int)( 1.0E6 * (timesfound[i]-timesfound[i-1]));
+	minDelta = MIN(minDelta, MAX(Delta,0));
+	}
+
+   return(minDelta);
+    }
+
+
+
+
+
+
+
+#include <sys/time.h>
+
+double mysecond()
+{
+        struct timeval tp;
+        
+        int i;
+
+        i = gettimeofday(&tp,NULL);
+        return ( (double) tp.tv_sec + (double) tp.tv_usec * 1.e-6 );
+}
+
+#ifndef abs
+#define abs(a) ((a) >= 0? (a) : -(a))
+#endif
+void checkSTREAMresults ()
+{
+	STREAM_TYPE aj,bj,cj,scalar;
+	STREAM_TYPE aSumErr,bSumErr,cSumErr;
+	STREAM_TYPE aAvgErr,bAvgErr,cAvgErr;
+	double epsilon;
+	ssize_t	j;
+	int	k,ierr,err;
+
+    
+	aj = 1.0;
+	bj = 2.0;
+	cj = 0.0;
+    
+	aj = 2.0E0 * aj;
+    
+	scalar = 3.0;
+	for (k=0; k<NTIMES; k++)
+        {
+            cj = aj;
+            bj = scalar*cj;
+            cj = aj+bj;
+            aj = bj+scalar*cj;
+        }
+
+    
+	aSumErr = 0.0;
+	bSumErr = 0.0;
+	cSumErr = 0.0;
+	for (j=0; j<STREAM_ARRAY_SIZE; j++) {
+		aSumErr += abs(a[j] - aj);
+		bSumErr += abs(b[j] - bj);
+		cSumErr += abs(c[j] - cj);
+		 
+	}
+	aAvgErr = aSumErr / (STREAM_TYPE) STREAM_ARRAY_SIZE;
+	bAvgErr = bSumErr / (STREAM_TYPE) STREAM_ARRAY_SIZE;
+	cAvgErr = cSumErr / (STREAM_TYPE) STREAM_ARRAY_SIZE;
+
+	if (sizeof(STREAM_TYPE) == 4) {
+		epsilon = 1.e-6;
+	}
+	else if (sizeof(STREAM_TYPE) == 8) {
+		epsilon = 1.e-13;
+	}
+	else {
+		printf("WEIRD: sizeof(STREAM_TYPE) = %lu\n",sizeof(STREAM_TYPE));
+		epsilon = 1.e-6;
+	}
+
+	ierr = 0;
+	for (j=0; j<STREAM_ARRAY_SIZE; j++) {
+		err = abs(a[j] - aj);
+		if (err > epsilon) {
+			ierr = 1;
+			printf("a[%ld] = %g, should be %g\n",j,a[j],aj);
+		}
+		err = abs(b[j] - bj);
+		if (err > epsilon) {
+			ierr = 1;
+			printf("b[%ld] = %g, should be %g\n",j,b[j],bj);
+		}
+		err = abs(c[j] - cj);
+		if (err > epsilon) {
+			ierr = 1;
+			printf("c[%ld] = %g, should be %g\n",j,c[j],cj);
+		}
+	}
+
+	if (ierr == 0) {
+		printf("All values OK\n");
+	}
+}
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando el programa. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce a código ejecutable antes de ser ejecutada.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando el programa.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de notación que se utiliza para describir cómo se deben realizar las tareas de un computador. Los lenguajes de programación se utilizan para escribir programas, que son las instrucciones que un computador puede seguir para realizar una tarea específica.
+
+Los lenguajes de programación se utilizan para describir tareas de una manera que sea universal y que pueda ser entendida por personas y computadores. Esto permite a los programadores escribir un programa una vez y que este pueda ser ejecutado en diferentes entornos, como computadoras y dispositivos móv Analyze the following piece of code: 	}
+
+	err = 0;
+	if (abs(aAvgErr/aj) > epsilon) {
+		err++;
+		printf ("Failed Validation on array a[], AvgRelAbsErr > epsilon (%e)\n",epsilon);
+		printf ("     Expected Value: %e, AvgAbsErr: %e, AvgRelAbsErr: %e\n",aj,aAvgErr,abs(aAvgErr)/aj);
+		ierr = 0;
+		for (j=0; j<STREAM_ARRAY_SIZE; j++) {
+			if (abs(a[j]/aj-1.0) > epsilon) {
+				ierr++;
+#ifdef VERBOSE
+				if (ierr < 10) {
+					printf("         array a: index: %ld, expected: %e, observed: %e, relative error: %e\n",
+						j,aj,a[j],abs((aj-a[j])/aAvgErr));
+				}
+#endif
+			}
+		}
+		printf("     For array a[], %d errors were found.\n",ierr);
+	}
+	if (abs(bAvgErr/bj) > epsilon) {
+		err++;
+		printf ("Failed Validation on array b[], AvgRelAbsErr > epsilon (%e)\n",epsilon);
+		printf ("     Expected Value: %e, AvgAbsErr: %e, AvgRelAbsErr: %e\n",bj,bAvgErr,abs(bAvgErr)/bj);
+		printf ("     AvgRelAbsErr > Epsilon (%e)\n",epsilon);
+		ierr = 0;
+		for (j=0; j<STREAM_ARRAY_SIZE; j++) {
+			if (abs(b[j]/bj-1.0) > epsilon) {
+				ierr++;
+#ifdef VERBOSE
+				if (ierr < 10) {
+					printf("         array b: index: %ld, expected: %e, observed: %e, relative error: %e\n",
+						j,bj,b[j],abs((bj-b[j])/bAvgErr));
+				}
+#endif
+			}
+		}
+		printf("     For array b[], %d errors were found.\n",ierr);
+	}
+	if (abs(cAvgErr/cj) > epsilon) {
+		err++;
+		printf ("Failed Validation on array c[], AvgRelAbsErr > epsilon (%e)\n",epsilon);
+		printf ("     Expected Value: %e, AvgAbsErr: %e, AvgRelAbsErr: %e\n",cj,cAvgErr,abs(cAvgErr)/cj);
+		printf ("     AvgRelAbsErr > Epsilon (%e)\n",epsilon);
+		ierr = 0;
+		for (j=0; j<STREAM_ARRAY_SIZE; j++) {
+			if (abs(c[j]/cj-1.0) > epsilon) {
+				ierr++;
+#ifdef VERBOSE
+				if (ierr < 10) {
+					printf("         array c: index: %ld, expected: %e, observed: %e, relative error: %e\n",
+						j,cj,c[j],abs((cj-c[j])/cAvgErr));
+				}
+#endif
+			}
+		}
+		printf("     For array c[], %d errors were found.\n",ierr);
+	}
+	if (err == 0) {
+		printf ("Solution Validates: avg error less than %e on all three arrays\n",epsilon);
+	}
+#ifdef VERBOSE
+	printf ("Results Validation Verbose Results: \n");
+	printf ("    Expected a(1), b(1), c(1): %f %f %f \n",aj,bj,cj);
+	printf ("    Observed a(1), b(1), c(1): %f %f %f \n",a[1],b[1],c[1]);
+	printf ("    Rel Errors on a, b, c:     %e %e %e \n",abs(aAvgErr/aj),abs(bAvgErr/bj),abs(cAvgErr/cj));
+#endif
+}
+
+#ifdef TUNED
+
+void tuned_STREAM_Copy()
+{
+	ssize_t j;
+#ifndef DIS_OPENMP
+#pragma omp parallel for
+#endif
+        for (j=0; j<STREAM_ARRAY_SIZE; j++) {
+                a[j] = b[j];
+        }
+}
+
+void tuned_STREAM_Add()
+{
+	ssize_t j;
+#ifndef DIS_OPENMP
+#pragma omp parallel for
+#endif
+        for (j=0; j<STREAM_ARRAY_SIZE; j++) {
+                c[j] = a[j] + b[j];
+        }
+}
+
+void tuned_STREAM_Triad()
+{
+	ssize_t j;
+#ifndef DIS_OPENMP
+#pragma omp parallel for
+#endif
+        for (j=0; j<STREAM_ARRAY_SIZE; j++) {
+                d[j] = a[j] - b[j] + c[j];
+        }
+}
+
+void tuned_STREAM_Scale()
+{
+	ssize_t j;
+#ifndef DIS_OPENMP
+#pragma omp parallel for
+#endif
+        for (j=0; j<STREAM_ARRAY_SIZE; j++) {
+                e[j] = a[j] * b[j];
+        }
+}
+
+void tuned_STREAM_Axpy()
+{
+	ssize_t j;
+#ifndef DIS_OPENMP
+#pragma omp parallel for
+#endif
+        for (j=0; j<STREAM_ARRAY_SIZE; j++) {
+                f[j] = c[j] + a[j] * b[j];
+        }
+}
+
+void tuned_STREAM_Dot()
+{
+	double sum = 0.0;
+	ssize_t j;
+#ifndef DIS_OPENMP
+#pragma omp parallel for reduction(+:sum)
+#endif
+        for (j=0; j<STREAM_ARRAY_SIZE; j++) {
+                sum += a[j] * b[j];
+        }
+	*dot_result = sum;
+}
+
+void tuned_STREAM_Sum()
+{
+	double sum = 0.0;
+	ssize_t j;
+#ifndef DIS_OPENMP
+#pragma omp parallel for reduction(+:sum)
+#endif
+        for (j=0; j<STREAM_ARRAY_SIZE; j++) {
+                sum += a[j];
+        }
+	*sum_result = sum;
+}
+
+void tuned_STREAM_SumSq()
+{
+	double sum = 0.0;
+	ssize_t j;
+#ifndef DIS_OPENMP
+#pragma omp parallel for reduction(+:sum)
+#endif
+        for (j=0; j<STREAM_ARRAY_SIZE; j++) {
+                sum += a[j] * a[j];
+        }
+	*sumsq_result = sum;
+}
+
+void tuned_STREAM_Norm()
+{
+	double sum = 0.0;
+	ssize_t j;
+#ifndef DIS_OPENMP
+#pragma omp parallel for reduction(+:sum)
+#endif
+        for (j=0; j<STREAM_ARRAY_SIZE; j++) {
+                sum += a[j] * a[j];
+        }
+	*norm_result = sqrt(sum);
+}
+
+void tuned_STREAM_Inv()
+{
+	ssize_t j;
+#ifndef DIS_OPENMP
+#pragma omp parallel for
+#endif
+        for (j=0; j<STREAM_ARRAY_SIZE; j++) {
+                a[j Analyze the following piece of code: _ARRAY_SIZE; j++)
+            c[j] = a[j];
+}
+
+void tuned_STREAM_Scale(STREAM_TYPE scalar)
+{
+	ssize_t j;
+#ifndef DIS_OPENMP
+#pragma omp parallel for
+#endif
+	for (j=0; j<STREAM_ARRAY_SIZE; j++)
+	    b[j] = scalar*c[j];
+}
+
+void tuned_STREAM_Add()
+{
+	ssize_t j;
+#ifndef DIS_OPENMP
+#pragma omp parallel for
+#endif
+	for (j=0; j<STREAM_ARRAY_SIZE; j++)
+	    c[j] = a[j]+b[j];
+}
+
+void tuned_STREAM_Triad(STREAM_TYPE scalar)
+{
+	ssize_t j;
+#ifndef DIS_OPENMP
+#pragma omp parallel for
+#endif
+	for (j=0; j<STREAM_ARRAY_SIZE; j++)
+	    a[j] = b[j]+scalar*c[j];
+}
+
+#endif
+
+int main(int argc, char *argv[])
+{
+	int i;
+	double t1, t2;
+	STREAM_TYPE scalar;
+
+	if (argc!= 2) {
+		fprintf(stderr, "Usage: %s <scalar>\n", argv[0]);
+		return 1;
+	}
+
+	scalar = atof(argv[1]);
+
+	/* Initialize the arrays */
+	for (i = 0; i < STREAM_ARRAY_SIZE; i++) {
+		a[i] = (STREAM_TYPE) i;
+		b[i] = (STREAM_TYPE) i;
+		c[i] = (STREAM_TYPE) i;
+	}
+
+	/* Warm up the cache */
+	for (i = 0; i < WARMUP_LOOPS; i++) {
+		tuned_STREAM_Scale(scalar);
+		tuned_STREAM_Add();
+		tuned_STREAM_Triad(scalar);
+	}
+
+	/* Time the kernel */
+	t1 = omp_get_wtime();
+	for (i = 0; i < ITERATIONS; i++) {
+		tuned_STREAM_Scale(scalar);
+		tuned_STREAM_Add();
+		tuned_STREAM_Triad(scalar);
+	}
+	t2 = omp_get_wtime();
+
+	/* Print the results */
+	printf("Time for %d iterations: %g s\n", ITERATIONS, t2-t1);
+	printf("Performance = %g GFLOPS\n", (2.0e-9 * ITERATIONS) / (t2-t1));
+
+	return 0;
+}
+
+This code defines a set of functions that implement the three basic operations of the Stream benchmark: array scaling, array addition, and array triad. The functions are designed to be easily parallelized using OpenMP directives. The code also includes a main function that times the execution of the kernel using the tuned functions, and prints out the performance results.
+
+To compile and run the code, save it in a file named stream.c and compile it using the following command:
+
+gcc -fopenmp stream.c -o stream
+
+Then, run the executable using the desired scalar value as an argument, for example:
+
+./stream 1.0
+
+This will time the execution of the kernel for 100 million iterations, and print out the performance results.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado

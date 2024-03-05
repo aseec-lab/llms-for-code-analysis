@@ -1,0 +1,68 @@
+Analyze the following piece of code: struct point
+{
+       double x;
+       double y;
+};
+main()
+{
+      int n;
+      scanf("%d",&n);
+      struct point *p;
+      p=(struct point*)malloc(sizeof(point)*n);
+      int i,j;
+      for(i=0;i<n;i++)
+      {
+                      scanf("%lf %lf",&p[i].x,&p[i].y);
+      }
+      double*d=(double*)malloc(sizeof(double)*(n-1));
+      for(i=0;i<n-1;i++)
+      {d[i]=0.0;}
+      double c;
+      for(i=0;i<n-1;i++)
+      {
+                        for(j=i+1;j<n;j++)
+                        {
+                                          c=sqrt(((p[i].x-p[j].x)*(p[i].x-p[j].x))+((p[i].y-p[j].y)*(p[i].y-p[j].y)));
+                                          if(c>d[i])
+                                          d[i]=c;
+                        }
+      }
+      double max=0.0;
+      for(i=0;i<n-1;i++)
+      {
+                        if(d[i]>max)
+                        max=d[i];
+      }
+      printf("%.4lf\n",max);
+      getchar();
+      getchar();
+      getchar();
+}
+                                          
+                                          
+      
+
+The code is written in C programming language and it implements a program that takes a set of n points in the plane as input, represented by their x- and y-coordinates, and computes the maximum distance between any two points.
+
+The code is structured in the following way:
+
+- The program starts by defining a structure called "point" that stores the x- and y-coordinates of a point in the plane.
+- The main function initializes a pointer called "p" to a dynamically allocated array of "point" structures, using the "malloc" function. The size of the array is determined by the number of points n that the user will enter as input.
+- The program then enters a loop that allows the user to enter the x- and y-coordinates of each point, one by one. For each point, the "scanf" function is used to read the input from the user. The input is stored in the "point" structures that are located at the addresses pointed to by "p".
+- After the user has entered all the points, the program calculates the distance between each pair of points using the Pythagorean theorem. The distance is calculated using the "sqrt" function, which calculates the square root of the sum of squares of the differences between the x- and y-coordinates of the two points.
+- The distances between the points are stored in an array of doubles called "d", starting from the first element of the array, which corresponds to the distance between the first and second points.
+- The program then enters another loop that iterates over all the pairs of points, starting from the second point. For each pair of points, the program calculates the distance between them and updates the value of the largest distance in the "d" array, if the current distance is greater than the largest distance so far.
+- After the program has calculated the distances between all the pairs of points, it prints out the largest distance using the "printf" function.
+- The program then frees the memory allocated for the "point" array using the "free" function, and terminates.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando el programa. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce a código ejecutable inmediatamente antes de ser ejecutada.
+
+La elección entre un lenguaje de programación compilado o interpretado depende de factores como la facilidad de uso, la velocidad de ejecución, la

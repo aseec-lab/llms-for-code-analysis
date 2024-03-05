@@ -1,0 +1,17 @@
+This code is a simple C++ program that reads an integer (n) and applies a series of operations to n lines of input. The input lines are expected to be strings of characters that are expected to contain a mix of the letters 'A', 'T', 'G', and 'C'. 
+
+For each string, it replaces every 'A' with 'T', 'T' with 'A', 'G' with 'C', 'C' with 'G', to create a new string. If the input character is not 'A', 'T', 'G', or 'C' then the behavior is undefined and will likely lead to errors. 
+
+After each new string is created, it is immediately printed to the standard output. 
+
+These operations are repeated n times, where n is the integer initially read from the standard input.
+
+This algorithm is commonly known as the DNA complementing process, where 'A' pairs with 'T' and 'G' pairs with 'C' and vice versa. 
+
+Some points to note about the code:
+
+1. The code uses the 'gets' function to read strings, which has been removed from latest C++ standards due to its vulnerability to buffer overrun errors. It is recommended to use fgets, or better yet, std::getline in C++. 
+
+2. The code assumes that the string ends with a null character ('\0'). If it does not, this could lead to an off-by-one error narrowing the last set character in z2 with '\0'. 
+
+3. All other possible characters from the input string are not handled, which could lead to unpredictable results. Use of a 'default' case to handle unexpected input would be a more robust solution.

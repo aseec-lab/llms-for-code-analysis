@@ -1,0 +1,70 @@
+This program seems to be for creating an entry for the International Obfuscated C Code Contest (IOCCC). The IOCCC is a contest where coders vie to write the most obfuscated (hard to understand) C program, so this program seems to embed comments, rules, and descriptions into the code. 
+
+The program takes several command line arguments: a remarks file (`-r`), a build file (`-b`), a program file (`-p`), and an output file (`-o`). 
+
+The developers of this program are really keen on making sure this program's usage fits perfectly according to the IOCCC rules, to the point where this software has attempted to implement the contest's rules. The program has specific global limits to ensure the submission fits within contest rules, and it outputs a warning if the year is not the same as the defined rule year. 
+
+The program does a lot of error checking to ensure the input and output files can be successfully opened before starting to process the files: it opens and truncates the output file first, in case it is the same as one of the input files. Then it opens the input files: the remarks stream, build file stream, and program stream.
+
+The program emphasizes that, while this tool has been provided as a guide for submitters, it is the submitter's responsibility to ensure that their entry conforms to the current competition rules. 
+
+Before the software ends, the user is advised to check their generated file to make sure there are no problems, and to ensure that the `uudecode` utility can correctly decode the build file and program.
+
+The software ends by providing the email addresses that entries can be sent to and tells the user to use the subject "ioccc entry" when sending their entries.
+
+This code analyzes and parses command-line arguments, opens the mentioned files, reads them, and then writes them to the specified output file in a specific format. 
+
+Here's a brief overview of what the key functions perform:
+
+- `parse_args()`: parses the command-line arguments 
+- `usage()`: displays usage instructions and details about the flags the program accepts
+- `open_remark()`, `open_build()`, `open_program()`, `open_output()`: these functions open the respective files 
+- `output_entry()`, `output_remark()`, `output_author()`, `output_info()`, `output_build()`, `output_program()` , `output_end()`: these functions manage the output to the final entry 
+- `get_line()`, `output_till_dot()`, `col_len()`, `check_io()`, `uuencode()`: manage the reading, writing and processing of lines of data from the files. 
+
+Please note that the functions are forward-declared, but the actual implementations of these functions are not provided in this code snippet.This set of code continues managing file I/O and text formatting for the purpose of submitting to the International Obfuscated C Code Contest (IOCCC). Each subroutine opens, checks, and handles errors related to a specific file: `open_remark()` handles remarks files, `open_build()` handles the 'how to build' instructions file, `open_program()` handles the actual program source file, and `open_output()` handles the IOCCC entry output file.
+
+These subroutines contain various checks to ensure that the files conform to IOCCC rules and restrictions. For example, `open_remark()` checks that lines are indented by four spaces and do not exceed a certain length. `open_build()` and `open_program()` check that the files in question do not exceed a maximum size in bytes.
+
+Additionally, `open_program()` involves a complex check that counts all non-whitespace characters (and some specific special characters) and checks that this count does not exceed a specified max value. This count-check involves a notable sub-check where characters '{', '}', and '\n' are not counted if they're followed by a whitespace character or End of File (EOF).
+
+The function `output_entry()` manages the output of the ---entry--- section of the IOCCC submission, taking user input to determine if the submission is a fix, update, or resubmission to a previously submitted entry.
+
+Lastly, many of these functions handle errors by printing to `stderr`, and in some cases, returning NULL or exiting the script outright.
+
+Note that the actual implementation code for many of the functions declared at the beginning of the script is outside the provided code snippet.The snippet starts with the completion of `output_entry()`, where the title of the submission is confirmed by checking each character using `isascii()` and `isalnum()` functions, as well as determining if the character is one of the allowed special characters (_ = + -).
+
+Next, the entry number is collected and checked, this must be less than the maximum number of entries allowed per year.
+
+The submission timestamp is then written to the ffdb file along with the machine and OS info that will be provided by the user. The section is finalized by calling `output_till_dot()`.
+
+This is followed by `output_remark()` function which is responsible for appending the remark section to the ffdb file. It simply copies the contents from the remark file while ensuring they are terminated with a newline.
+
+Following this, is the `output_author()` function which takes the author details including name, organization, address, email, and anonymity preference and ouputs it into the ffdb file. It is also responsible for handling multiple authors by repeatedly asking for each details until the user inputs 'n' when asked for another author.
+
+Lastly, `output_info()` function is introduced which is responsible for outputting optional files that supplement the entry. The details of this function are not included in the code.This section is the completion of the round of functions defined above. Here, function definitions for output_info for including info file, output_build for the build section, output_program for the program section and output_end for the end section are provided. These involve steps to uudecode input files by reading the information, writing section start, and encoding using the uuencode function. 
+
+The `get_line` function reads and returns the length of user inputs with specified size and max column. If the line is too long, it returns zero length.
+
+The function `output_till_dot` takes outputs with lines of input on the console till the user inputs ‘.' 
+
+The auxiliary function `col_len` calculates and return the greatest column number that a string would reach if printed starting at column 1.
+
+The next set of functions (`check_io` and `uuencode`) deepen the detailing by checking for End-Of-File (EOF) or Input/Output (I/O) errors using the `ferror` and `feof` functions, and performing the uuencoding - transforming the raw file data into a format that can be sent over email or other text only transfer methods - respectively.
+
+The provided code snippet, however, does not include the entire `uuencode` function where we were supposed to see the implementation of the detailed uuencoding process described in the uuencode(5) 4.3BSD Reno man page. The uuencoding process usually involves three steps: reading the input in manageable chunks, converting the chunks to a printable encoding and then outputting the translated chunks to the receiver.This provided code completes the `uuencode` function which is used to transform raw file data into a format (`uuencode`) that can be sent over email or other instances where text-only transfer is required. It does so by converting 24 bits (3 wets of 8 bits) at a time into 4 sets of uuencoded 6 bits using bitwise operations.
+
+This function follows the described method of uuencoding in the uuencode(5) 4.3BSD Reno man page.
+
+The steps of the process include:
+- Outputting the uuencode header
+- Clearing out the input buffer
+- Processing `UUENCODE_LEN` characters at a time to form a single output line for each
+- Converting 3 sets of 8 bits into 4 sets of uuencoded 6 bits
+- Clearing out the input buffer
+- Checking the last read on the input file
+- Writing the end of the uuencoded file
+
+In each stage it checks the input/output for any errors using the `check_io` function.
+
+The `UUENCODE` macro is used for the encoding; we assume that it converts a value to its corresponding uuencode character.

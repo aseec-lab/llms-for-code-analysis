@@ -1,0 +1,13 @@
+This is a C program that outputs lines of text and integer numbers based on the arguments passed on the command line.
+
+1. It initializes a character array `foo[]` with the value "line one\ntwo\nthree\n". The backslashes at the end of each line of the string imply that the string is going over multiple lines (they are 'continuation lines').
+
+2. Then it checks if the first character of the first argument (`av[0][0]`) is a double quote. 
+
+    - If it is, it checks the second character of the first argument (`av[0][1]`). If the second character is 'a', it prints out 'a', and if it's 'b', it prints out 'b'. If it's any other character, it does nothing.
+
+3. It then enters a `while` loop, which will continue as long as the argument count (`ac`) is more than 0, each time decrementing `ac` by one. In the loop, it prints out the current value of `ac`.
+
+4. After exiting the loop, it prints out the value of `foo` (which is "line one\ntwo\nthree\n").
+
+Note: As written, the code won't actually compile due to syntax errors. There are missing semicolons, two of them should be at the end of `printf("a\n")` and `printf("b\n")`. Another one should be placed after `printf(foo)` and `printf("%d", ac)`. The string should also be ended correctly. In C, you need to put ';' at the end of each statement. Furthermore, the declaration of the `main` function isn't following the standard format. It should be written as `int main(int ac, char **av)`.

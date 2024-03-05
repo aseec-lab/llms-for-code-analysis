@@ -1,0 +1,19 @@
+The provided code appears to define a vectorized environment for use in reinforcement learning. The class `ShmemVecEnv` extends the `VecEnv` class from OpenAI's 'baselines' library. A vectorized environment can simulate several environments in parallel and return observations and rewards from all of them for each action. 
+
+The `ShmemVecEnv` class specifically uses multiprocessing and shared memory to run multiple environments in parallel, which can improve the learning speed. The class has several functions including:
+
+1. `__init__`: Initializes the class with a list of functions to create environments, it creates a separate process for each environment, and setups pipes for interprocess communication. 
+
+2. `reset`: For each running environment, it sends a reset signal, and then decodes the observations that it receives.
+
+3. `step_async`: Takes a step in each environment asynchronously without waiting for the results.
+
+4. `step_wait`: Waits for the results from the async steps taken in each environment.
+
+5. `close_extras`: Stops the processes running each environment and closes the communication pipes.
+
+6. `get_images`: Asks each environment to render an image and return it.
+
+7. `_decode_obses`: Takes an observation from each environment and decoded into a format specified in `self.obs_keys`
+
+The `_subproc_worker` function is the function that each process will be running. It creates an environment and waits for signals from the main process to either reset itself, take a step, render an image, or close itself. If the signal is unrecognized, it raises a `RuntimeError`.

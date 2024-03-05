@@ -1,0 +1,92 @@
+The code is sorting arrays of numbers and strings. The `DoNumSort()` function is responsible for sorting arrays of numbers using the NumHeapSort algorithm. It first checks if the `adjust` flag is set to 0, which indicates that the sorting parameters have not been adjusted yet. If `adjust` is 0, it starts with 1 array and keeps increasing the number of arrays until the sorting time surpasses a minimum threshold (`global_min_ticks`). It allocates memory for the arrays using `AllocateMemory()` and then performs sorting iterations using `DoNumSortIteration()`. Once the sorting time exceeds the required seconds (`request_secs`), it calculates the number of sorts per second and updates the `sortspersec` field in the `numsortstruct`. If `adjust` is already set to 1, it directly allocates memory for the arrays and performs sorting iterations. The time taken for the sorting iterations is accumulated, and at the end, the number of sorts per second is calculated.
+
+The `DoNumSortIteration()` function performs one iteration of the NumHeapSort algorithm for the given array. It first loads the array with random numbers using `LoadNumArrayWithRand()`. Then it starts a stopwatch, performs the sorting using the NumHeapSort algorithm, and stops the stopwatch. It also checks for any sorting errors in `DEBUG` mode.
+
+The `LoadNumArrayWithRand()` function populates the numsort arrays with random numbers.
+
+The `NumHeapSort()` function implements the NumHeapSort algorithm. It takes an array, the bottom index, and the top index as parameters. It first sifts the array to create a max heap and then swaps the top element with the last element in the heap one by one to sort the array.
+
+The `DoStringSort()` function is responsible for sorting arrays of strings using the StrHeapSort algorithm. It follows a similar process as `DoNumSort()`, adjusting the number of arrays and allocating memory accordingly. It calls the `DoStringSortIteration()` function to perform sorting iterations. Once the required seconds are exceeded, it calculates the number of sorts per second and updates the `sortspersec` field in the `strsortstruct`. The `adjust` flag is updated accordingly.
+
+The `DoStringSortIteration()` function performs one iteration of the StrHeapSort algorithm for the given array. It first loads the array with strings using `LoadStringArray()`. Then it starts a stopwatch, performs the sorting using the StrHeapSort algorithm, and stops the stopwatch. It also checks for any sorting errors in `DEBUG` mode.
+
+The `LoadStringArray()` function populates the strsort arrays with random strings. It generates random string lengths and characters to fill the arrays.
+
+The `StrHeapSort()` function implements the StrHeapSort algorithm. It takes the optr array, the str array, the number of strings, the bottom index, and the top index as parameters. It sifts the heap to create a max heap and then swaps the top element with the last element in the heap one by one to sort the array. It also adjusts the optr array based on the length of each string.
+
+The code includes several helper functions for memory allocation, error reporting, and stopwatch timing.The code continues withThe remaining part of the code is the implementation of the NNET (Neural Network) algorithm. Here is the explanation of the remaining functions:
+
+- `do_mid_forward` function performs the forward pass for the middle layer of the neural network. It calculates the output of each neuron by multiplying the weights with the input patterns and applying the sigmoid function.
+
+- `do_out_forward` function performs the forward pass for the output layer of the neural network. It calculates the output of each neuron by multiplying the weights with the outputs of the middle layer and applying the sigmoid function.
+
+- `do_forward_pass` function performs the complete forward pass of the neural network for a given input pattern. It calls the `do_mid_forward` and `do_out_forward` functions.
+
+- `do_out_error` function calculates the error for the output layer of the neural network. It compares the predicted outputs with the target outputs and calculates the difference. It also calculates the total error and the average error for each input pattern.
+
+- `worst_pass_error` function calculates the worst error and the average error for all the input patterns.
+
+These functions are called in the `DoNNetIteration` function, which is called in the `DoNNET` function. The `DoNNET` function is the entry point for running the NNET algorithm. It initializes the random number generator, reads the data file, and performs the iterations of the NNET algorithm. The elapsed time for each iteration is recorded and returned.
+
+Overall, the code implements the training process of a neural network using the NNET algorithm.sum=b[ip];
+b[ip]=b[i];
+if(ii!=-1)
+	for(j=ii;j<=i-1;j++)
+		sum-=a[i][j]*b[jThe remaining part of the previous function is as follows:
+
+```
+for(i=(n-1);i>=0;i--)
+{
+	sum=b[i];
+	if(i!=(n-1))
+		for(j=(i+1);j<n;j++)
+			sum=sum-a[i][j]*b[j];
+	b[i]=sum/a[i][i];
+}
+return;
+}
+
+
+static int lusolve(double a[][LUARRAYCOLS],
+		int n,
+		double b[LUARRAYROWS])
+{
+int indx[LUARRAYROWS];
+int d;
+#ifdef DEBUG
+int i,j;
+#endif
+
+if(ludcmp(a,n,indx,&d)==0) return(0);
+
+
+lubksb(a,n,indx,b);
+
+#ifdef DEBUG
+printf("Solution:\n");
+for(i=0;i<n;i++)
+{
+  for(j=0;j<n;j++){
+  
+  }
+  printf("%6.2f\t",b[i]);
+  
+}
+printf("\n");
+#endif
+
+return(1);
+}
+```
+
+This part solves the equation by back substituting, starting from the bottom row and updating the values of `b`. It then calls the `lubksb` function to perform the back substitution.
+
+The `lubksb` function takes the `a` matrix, the dimension `n`, the `indx` array, and the `b` array as parameters. It solves the equation `Ax = b` by using the LU decomposition stored in the `a` matrix and the `indx` array.
+
+The function first initializes the `indx` array to store the row permutation, and the `d` variable to store the number of row interchanges. It then calls the `ludcmp` function to perform the LU decomposition.
+
+If the LU decomposition fails (i.e., if it returns 0), the function returns 0 to indicate failure.
+
+If the LU decomposition is successful, the function calls the `lubksb` function to perform the back substitution. The `lubksb` function updates the `b` array with the solution to the equation.
+
+Finally, the function prints the solution (if the `DEBUG` flag is defined) and returns 1 to indicate success.

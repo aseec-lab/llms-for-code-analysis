@@ -1,0 +1,58 @@
+Analyze the following piece of code: 
+
+
+import asyncio
+import qtm
+
+
+def on_packet(packet):
+    
+
+    print("Framenumber: {}".format(packet.framenumber))
+    header, markers = packet.get_3d_markers()
+    print("Component info: {}".format(header))
+    for marker in markers:
+        print("\t", marker)
+
+
+async def setup():
+    
+
+    connection = await qtm.connect("127.0.0.1")
+    if connection is None:
+        return
+
+    await connection.stream_frames(components=["3d"], on_packet=on_packet)
+
+
+if __name__ == "__main__":
+    asyncio.ensure_future(setup())
+    asyncio.get_event_loop().run_forever()
+
+What does this code do?
+
+This code imports the necessary libraries and defines a function that will be called every time a new 3D marker packet is received. The function prints out the frame number, component information, and the 3D marker data.
+
+The main function sets up a connection to the QTM device and starts streaming frames. It calls the setup function, which returns an asyncio coroutine. The main function then runs the event loop and waits for the coroutine to complete.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable antes de ser ejecutado. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código máquina que puede ser ejecutado directamente en la computadora. El archivo ejecutable resultante se puede ejecutar sin necesidad de volver a compilar el código fuente cada vez que se desea ejecutar la aplicación.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable antes de ser ejecutada. El proceso de interpretación implica la utilización de un intérprete, que es un programa que lee y ejecuta el código fuente directamente en la computadora.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de ser ejecutado, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lenguajes de programación se utilizan para escribir programas, que son secuencias de instrucciones que una computadora puede ejecutar para realizar una tarea específica.
+
+Los lenguajes de programación se utilizan para resolver problemas y crear soluciones en una amplia variedad de campos, como la tecnología, la ciencia, la educación, la administración y la economía. Hay muchos lenguajes de programación diferentes en el mercado, cada uno con sus propias fortalezas y debilidades.
+
+Los lenguajes de programación se pueden clasificar en diferentes categorías, como los lenguajes de programación compilados y los lenguajes de programación interpretados, según cómo se traducen el código fuente en código ejecutable. También se pueden clasificar según

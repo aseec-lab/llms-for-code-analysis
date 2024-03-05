@@ -1,0 +1,19 @@
+This code is an implementation of a Prioritized Replay memory for reinforcement learning.
+The code is divided into two classes: SumTree and PrioritizedReplay.
+
+The SumTree class represents a sum tree data structure, which is used to store the prioritized replay memory. It has the following methods:
+- __init__(self, capacity): Initializes the SumTree object with a specified capacity.
+- put(self, item, priority=None): Insert an item with an optional priority into the sum tree.
+- move(self, external_index, new_priority): Move an item in the sum tree to a new position with a new priority.
+- sample_minibatch(self, batch_size): Sample a minibatch of items from the sum tree based on their priorities.
+- __len__(self): Get the number of items currently in the sum tree.
+- __getitem__(self, index): Get the item at a specific index in the sum tree.
+- __getslice__(self, start, end): Get a slice of items from the sum tree.
+
+The PrioritizedReplay class extends the Memory class and represents a prioritized replay memory for reinforcement learning. It has the following methods:
+- __init__(self, states_spec, actions_spec, capacity, prioritization_weight=1.0, prioritization_constant=0.0): Initializes the PrioritizedReplay object with a specified capacity and parameters for prioritization.
+- add_observation(self, states, internals, actions, terminal, reward): Add an observation to the replay memory.
+- get_batch(self, batch_size, next_states=False): Get a batch of observations from the replay memory.
+- update_batch(self, loss_per_instance): Update the priorities of the observations in a batch based on their losses.
+
+Overall, this code implements a data structure and methods for a prioritized replay memory, which is commonly used in reinforcement learning algorithms to improve learning and sample efficiency.

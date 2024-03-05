@@ -1,0 +1,27 @@
+This code is written for the International Obfuscated C Code Contest (IOCCC) and is named as 'iocccsize'. It's a tool used in the contest to determine the size of source files.
+
+The code takes input from the standard input and applies the IOCCC source size rule. It then writes the official program length to the standard error.
+
+The rules applied include counting all non-comment, non-whitespace characters outside of quotation marks and count C reserved words as one byte if a -r flag is used.
+
+The purpose of the code is to measure and limit the size of submissions to the contest. It will limit entries to <= 4096 bytes in length, and the number of octets excluding certain conditions must be <= 2048 or <= 2053 (if the -r command line option is used).
+
+The program also allows for a number of flags to be passed into the program which manipulate how the size is calculated. These flags include keeping comment blocks (-k), counting C reserved words as 1 byte (-r), suppressing source output (-s), and using the IOCCC size rule (-i).
+
+The source code also contains arrays of the C reserved words to check for when the -r flag is used.This is the second part and the main function of the code.
+
+•	The code goes into an infinite loop (while loop) that continues getting command line arguments (options).
+
+•	Each option flags a corresponding function by setting the bitwise OR of flag and the respective constant associated with that option.
+
+•	Command line options are: '-k' for commenting, '-i' for IOCCC, '-r' for reserve word count, '-s' for silence, '-c' and '-h' for a silly input reaction, and '-h' for usage instruction display.
+
+•	For invalid options, the program prints a usage message and returns with exit status 2.
+
+•	There are some error messages built into the function to handle different combinations of command-line arguments.
+
+•	Then, it calls the count function to process the input file and display the stats, based on the flags set.
+
+•	Finally, the program exits normally with exit status 0. 
+
+The program ends with a humorous comment to signal that the execution is complete.

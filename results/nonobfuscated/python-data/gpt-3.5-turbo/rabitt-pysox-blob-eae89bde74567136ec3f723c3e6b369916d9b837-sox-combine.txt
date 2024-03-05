@@ -1,0 +1,17 @@
+The code defines a class called `Combiner` that is a subclass of `Transformer`. The `Combiner` class is used to combine audio files into a single audio file.
+
+The class has several methods:
+
+1. `build`: This method takes a list of input file paths, an output file path, a combine type (e.g., concatenate, merge, mix), and optionally a list of input volumes. It validates the input file list, output file, combine type, and input volumes. It then builds a list of arguments to pass to the `sox` function, which is used to combine the audio files. It executes the `sox` function and returns `True` if the combination is successful.
+2. `preview`: This method takes a list of input file paths, a combine type, and optionally a list of input volumes. It builds a list of arguments to pass to the `play` function, which is used to play the combined audio. It executes the `play` function.
+3. `set_input_format`: This method is used to set the format of the input files. It takes optional parameters for the file type, sample rate, bits, channels, encoding, and whether to ignore the length of the files. It validates the input parameters and builds a list of arguments to set the input format.
+
+There are several helper functions:
+
+1. `_validate_file_formats`: This function validates the file formats of the input files based on the combine type.
+2. `_validate_sample_rates`: This function validates the sample rates of the input files. It raises an error if the sample rates are not equal.
+3. `_validate_num_channels`: This function validates the number of channels of the input files. It raises an error if the number of channels are not equal.
+4. `_build_input_format_list`: This function builds a list of input formats based on the input volumes and input format. It handles cases where the input volumes and input format lists are shorter or longer than the input file list.
+5. `_build_input_args`: This function builds a list of input arguments to pass to the `sox` function. It combines the input file paths and input formats into a single list.
+6. `_validate_combine_type`: This function validates the combine type. It raises an error if the combine type is not one of the valid values.
+7. `_validate_volumes`: This function validates the input volumes. It raises an error if the input volumes are not None or a list of numbers.

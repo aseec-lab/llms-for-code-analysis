@@ -1,0 +1,15 @@
+The given code is for a multimedia player using HTML, CSS and JavaScript, which plays a video and a song when the play button is clicked, and pauses when clicked again. It consists of a sound picker that allows the user to change the sound and video when different buttons are clicked. Also, it consists of a timer that determines the song's duration.
+
+Here is how it works:
+
+1. The code first selects various DOM elements like the song, play button, replay button, outline of the media player, the video to be played, sound picker buttons, the time display, and the time select buttons. It also sets a fake duration for the song.
+
+2. Then it attaches a click event to the play button which plays or pauses the song and video based on their current state.
+
+3. For the sound picker buttons, when a button is clicked, the source of the song and video are changed based on the 'data-sound' and 'data-video' attributes of the clicked button. 
+
+4. For the time select buttons, when clicked, the fake duration of the song is changed based on the 'data-time' attribute of the clicked button and the display is updated.
+
+5. The checkPlaying function checks if the song is paused or playing, and toggles between play and pause states when invoked. The play button's source image changes accordingly.
+
+6. The song's 'ontimeupdate' event fires when the current playback position has changed. In this handler, the function updates the time left, updates the progress of the song on the outline of the media player, and if the current time of the song is equal to or greater than the fake duration, it pauses the song, resets the song to the beginning, and pauses the video.

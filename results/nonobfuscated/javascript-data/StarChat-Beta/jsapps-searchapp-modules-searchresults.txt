@@ -1,0 +1,105 @@
+Analyze the following piece of code: export const deleteSearchResults = () => {
+    const parentElement = document.getElementById("search-results")
+    let child = parentElement.lastElementChild
+    while (child) {
+        parentElement.removeChild(child)
+        child = parentElement.lastElementChild
+    }
+}
+
+export const buildSearchResults = (resultArray) => {
+    console.log(resultArray)
+    resultArray.forEach((result) => {
+        const resultItem = createResultItem(result)
+        const resultContents = document.createElement("div")
+        resultContents.classList.add("result-content")
+        if (result.img) {
+            const resultImage = createResultImage(result)
+            resultContents.append(resultImage)
+        }
+        const resultText = createResultText(result)
+        resultContents.append(resultText)
+        resultItem.append(resultContents)
+        const searchResults = document.getElementById("search-results")
+        searchResults.append(resultItem)
+    })
+}
+
+
+
+const createResultItem = (result) => {
+    const resultItem = document.createElement("div")
+    resultItem.classList.add("result-item")
+    const resultTitle = document.createElement("div")
+    resultTitle.classList.add("result-title")
+    const link = document.createElement("a")
+    link.href = `https://en.wikipedia.org/?curid=${result.id}`
+    link.textContent = result.title
+    link.target = "_blank"
+    resultTitle.append(link)
+    resultItem.append(resultTitle)
+    return resultItem
+}
+
+const createResultImage = (result) => {
+    const resultImage = document.createElement("div")
+    resultImage.classList.add("result-image")
+    const img = document.createElement("img")
+    img.src = result.img
+    img.alt = result.title
+    resultImage.append(img)
+    return resultImage
+}
+
+const createResultText = (result) => {
+    const resultText = document.createElement("div")
+    resultText.classList.add("result-text")
+    const resultDescription = document.createElement("p")
+    resultDescription.classList.add("result-description")
+    resultDescription.textContent = result.text
+    resultText.append(resultDescription)
+    return resultText
+}
+
+export const clearStatsLine = () => {
+    document.getElementById("stats").textContent = ""
+}
+
+export const setStatsLine = (numberOfResults) => {
+    const statsLine = document.getElementById("stats")
+    if (numberOfResults) {
+        statsLine.textContent = `Diplaying ${numberOfResults} results.`
+    } else {
+        statsLine.textContent = "No Results"
+    }
+}
+
+What is the purpose of the code?
+
+The code is part of a React functional component that is responsible for displaying search results and handling user interactions with the search results. The code is written in JavaScript and uses the React DOM library to manipulate the DOM elements.
+
+The code exports two functions: `deleteSearchResults` and `buildSearchResults`. The `deleteSearchResults` function is responsible for deleting all the search results from the DOM. The `buildSearchResults` function is responsible for building the search results and adding them to the DOM.
+
+The code also exports several helper functions that are used to create the different DOM elements that make up the search results, such as `createResultItem`, `createResultImage`, and `createResultText`.
+
+Overall, the code is part of a React functional component that is responsible for displaying search results and handling user interactions with the search results.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente se traduce a un archivo ejecutable antes de ser ejecutado. El proceso de compilación implica la utilización de un compilador, que es una herramienta que traduce el código fuente en código objeto o código máquina que puede ser ejecutado directamente en la computadora. El archivo ejecutable resultante se puede ejecutar sin necesidad de volver a compilar el código fuente cada vez que se desea ejecutar la aplicación.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente se traduce en tiempo real mientras se está ejecutando. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable antes de ser ejecutada. El proceso de interpretación se realiza mediante la utilización de un intérprete, que es una herramienta que traduce el código fuente en código ejecutable en tiempo real.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de ser ejecutado, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lenguajes de programación se utilizan para escribir programas, que son secuencias de instrucciones que una computadora puede ejecutar para realizar una tarea específica.
+
+Los lenguajes de programación se utilizan para resolver problemas y crear soluciones en una amplia variedad de campos, como la tecnología, la ciencia, la educación, la administración y la entretenimiento. Hay muchos lenguajes de program

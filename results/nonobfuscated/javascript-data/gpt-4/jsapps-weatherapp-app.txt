@@ -1,0 +1,17 @@
+The provided JavaScript code is a implementation of a web weather application. Here is what each section does:
+
+1. Initially, several HTML elements are selected using `document.querySelector` to display location, temperature, temperature unit, and weather conditions.
+
+2. It checks whether the user's browser supports the Geolocation API which allows the browser to know the user's location. If it does, the latitude and longitude of the user's current position are retrieved.
+
+3. These coordinates are then passed to the Dark Sky API via a proxy to get the weather data for that location. The API key is included in the URL.
+
+4. The weather data returned from the API is in JSON format and is extracted using the `.json()` method.
+
+5. The temperature, weather summary, and icon from the current weather data are extracted and displayed in the corresponding HTML elements selected earlier.
+
+6. It also listens for a click event on the temperature section of the page. This swaps the displayed temperature between Fahrenheit (default) and Celsius.
+
+7. The `setIcons` function takes two parameters: `icon` which represents the weather condition and `iconID` where the symbol should be displayed. As the Dark Sky API has its own set of weather symbols, the function creates instances of these symbols, plays the animation and sets the appropriate symbol for the current weather condition.
+
+Note: This code will only run if the website has HTTPS protocol because it's using the Geolocation API. If this website is opened with a HTTP protocol, then the user's geolocation cannot be accessed due to security reasons and the Geolocation API will not work. Also, this code will not work if the Dark Sky API key is not valid or the API limit has been reached.

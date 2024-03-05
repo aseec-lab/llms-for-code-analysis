@@ -1,0 +1,15 @@
+The code appears to be a module that provides functions for encoding and decoding data using variable-length integers. 
+
+The provided functions are:
+
+1. `extract_prefix(bytes_)`: This function takes a byte string as input and attempts to decode it as a variable-length integer using the `varint.decode_bytes()` function. If successful, it returns the decoded integer. If the input is not a valid variable-length integer, a `TypeError` is caught and a `ValueError` is raised.
+
+2. `get_prefix(multicodec)`: This function takes a string `multicodec` as input and attempts to encode it as a variable-length integer using the `varint.encode()` function and a lookup table called `NAME_TABLE`. If the `multicodec` is not present in the `NAME_TABLE`, a `KeyError` is caught and a `ValueError` is raised. If successful, the function returns the encoded prefix.
+
+3. `add_prefix(multicodec, bytes_)`: This function takes a `multicodec` string and a byte string `bytes_` as input. It uses the `get_prefix()` function to obtain the encoded prefix for the `multicodec` and then concatenates the prefix with the `bytes_` using `b''.join()`. The function returns the resulting byte string.
+
+4. `remove_prefix(bytes_)`: This function takes a byte string `bytes_` as input. It uses the `extract_prefix()` function to extract the variable-length integer prefix from `bytes_`. It then encodes this prefix using `varint.encode()` and removes the prefix from `bytes_` by slicing the byte string. The resulting byte string is returned.
+
+5. `get_codec(bytes_)`: This function takes a byte string `bytes_` as input. It uses the `extract_prefix()` function to extract the variable-length integer prefix from `bytes_`. It then looks up this prefix in the `CODE_TABLE` lookup table. If the prefix is not present in the lookup table, a `KeyError` is caught and a `ValueError` is raised. If successful, the function returns the corresponding codec.
+
+6. `is_codec(name)`: This function takes a string `name` as input and checks if it exists in the `NAME_TABLE` lookup table. It returns a boolean value indicating whether or not the provided name is a valid codec.

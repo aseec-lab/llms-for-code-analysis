@@ -1,0 +1,27 @@
+The provided code is a script that analyzes python's Cython source codes and it does the following:
+
+1. It imports the requisite libraries: json, os, re, sys, xml.etree.ElementTree, Cython for compiling built-in python modules to C or C++ extensions.
+
+2. It assures that the script is running in its parent-directory.
+
+3. It creates a class `Visitor` which is a subclass of `TreeVisitor` from the `Cython.Compiler.Visitor` module. This class is used to parse or analyze ((visits each node of)) a Cython Abstract Syntax Tree (AST) while recording some navigation information in the `state` dictionary and node events in the `events` list. It also recognizes specific nodes to give context to the navigating AST, recording the structures, functions, variables, classes, properties, and attributes.
+
+4. The `extract` function is defined to compile the Cython source code files ('.pyx' and '.pxd' files) into an AST and then visit this tree using an 'Visitor' object, returning the recorded node events.
+
+5. The `iter_cython` function walks through a directory structure and yields each Cython source file found.
+
+6. The code then extracts and loads a Doxygen tagfile which contains Doxygens (documentation from source codes in XML format) in a different method depending on whether pre-parsed Doxygen tag files exist or not.
+
+7. It goes through every Cython source files inside the 'av' folder, extracts the AST and collects all the `use` type node events.
+
+8. Then it walks through all Cython source codes inside the 'include' folder (excluding 'libav.pxd'), extracts the AST nodes, matches those with comments in the source codes, sorts them, and gets their Doxygen documentation. 
+
+This way, the code traverses through a library of Cython source codes, compiles them into an AST, infers meaning from every node, matches those with existing Doxygens, groups by types and sort them, to some unseen end, possibly, a documentation builder, or a compiler etc.1. It continues working on events of types = 'struct' and infers information about them including hyperlink to the Doxygen documentation.
+
+2. It forms reference pairs for every encountered event. For each reference pair, if it has something in property, it branches off to add another entry to the reference pairs list. If it has something in function, depending on function name as '__init__', '__cinit__', or '__dealloc__', it directs to a class, otherwise it directs to a function. '`continue`' is called if either 'property' or 'function' are not found.
+
+3. The code also makes the reference pairs unique by removing any duplicates.
+
+4. Finally, it organizes and creates a sort of table & documentation for each event detected in the code where each element of a particular classification is presented along with their references, notes and a quicklink to their Doxygen documentation. Also, the function and variables are structured using reStructuredText (rst) markup for better renderability in document formats such as sphinx documentation.
+
+This whole structure is displayed on the console, hence this would work as a code documentation creation script, making documentation based on Doxygen documentations and Cython AST of the library, properly sorted and marked up. Note, it only processes/prints events of type 'struct' if there are no associated comments or references.

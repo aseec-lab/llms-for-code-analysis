@@ -1,0 +1,32 @@
+This python code defines two classes: `SumTree` and `PrioritizedReplay`.
+
+The `SumTree` class creates a binary tree that helps in prioritizing items (like experiences in reinforcement learning where certain experiences are more important than others and should be retrieved more frequently) based on their priorities. 
+
+Here are the main functionalities of this `SumTree` class:
+
+- It initializes the Tree memory with the given capacity and sets initial pointers.
+- The `put` method is used to insert items with their priority into the tree.
+- The `move` method moves an item to a new priority and updates the internal node accordingly.
+- The `_update_internal_nodes` method updates the priorities of the parent nodes of the tree.
+- The `_sample_with_priority` method allows you to sample an item based on the priority.
+- The `sample_minibatch` method selects a mini-batch of items weighted by their priority.
+
+The `PrioritizedReplay` class inherits from the Memory base class and uses `SumTree` to maintain a prioritized experience replay memory buffer used for training reinforcement learning algorithms. It mainly preserves the experiences that the agent interacts within the environment and then learn from them to generate a better policy. The experiences are stored in terms of states, actions, and rewards, which are given certain priority for efficient recall during learning.
+
+The main functions of this `PrioritizedReplay` class are:
+
+- It initializes the memory with states, actions, and respective priorities.
+- The `add_observation` method is used to store states, actions, rewards, and priorities of observed items.
+- The `get_batch` method is used to get a batch_size amount of memory, which could be used for learning purposes. 
+
+These classes are part of the TensorForce library, a TensorFlow library for applied reinforcement learning.In the provided python code continuation of the PrioritizedReplay class:
+
+- The `update_batch` method is used to update the priorities in the memory after the agent has learned from them. The new priority is calculated based on the absolute loss and the prioritization_constant, raised to the power of the prioritization_weight. This calculated priority is then used to update the tree.
+
+The process works by taking into account the error/loss between the prediction of an agent and the actual target. The greater the error, the more priority is given to that particular experience/error for future learning purposes. The none_priority_index is then incremented. 
+
+The update_batch method can only be called after a call to get_batch. If the method update_batch is called before get_batch, it gives a TensorForce Error. 
+
+Importantly, for these classes to run smoothly, they require the third-party library numpy for numerical operations and the custom TensorForceError exception for error handling.
+
+This class is mostly used in deep reinforcement learning where we use deep learning models to approximate the value functions. The use of prioritized replay buffers significantly improves the performance of these models.

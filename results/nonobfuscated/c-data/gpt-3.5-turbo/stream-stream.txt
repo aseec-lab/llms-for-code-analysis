@@ -1,0 +1,31 @@
+The code is a benchmarking program for measuring memory bandwidth and computing performance. 
+
+The code measures the time taken for various memory operations such as copying data, scaling data, adding data, and performing a triad operation (combination of scaling and adding data). These operations are performed on arrays of double precision floating-point numbers.
+
+The code includes preprocessor directives for defining the size of the arrays (STREAM_ARRAY_SIZE), the number of iterations (NTIMES), and the offset (OFFSET). It also defines constants for calculating the memory required and the total data size.
+
+The code initializes the arrays a, b, and c with initial values and performs the memory operations in a loop for the specified number of iterations. The time taken for each operation is recorded and stored in the times array.
+
+After the loop, the code calculates the average, minimum, and maximum time for each operation based on the recorded times. It also calculates the bandwidth for each operation based on the data size and the minimum time.
+
+The code then checks the accuracy of the memory operations by comparing the computed values with the expected values. The sum of the absolute differences between the computed and expected values is calculated for each array. The average error is calculated by dividing the sum of errors by the number of elements in the array.
+
+The code outputs the results, including the bandwidth, the average time, the minimum time, and the maximum time for each operation. It also outputs the average error for each array.
+
+In summary, the code is a benchmarking program that measures memory bandwidth and computing performance by performing memory operations on arrays of double precision floating-point numbers. The code also checks the accuracy of the memory operations by comparing the computed values with the expected values.The remaining part of the code includes the implementation of the memory operations for the tuned version of the benchmark. 
+
+The code includes four functions: tuned_STREAM_Copy, tuned_STREAM_Scale, tuned_STREAM_Add, and tuned_STREAM_Triad.
+
+The tuned_STREAM_Copy function copies the contents of array a to array c. It uses a parallel for loop to perform the copying operation.
+
+The tuned_STREAM_Scale function scales the contents of array c by a scalar value and stores the result in array b. It uses a parallel for loop to perform the scaling operation.
+
+The tuned_STREAM_Add function adds the corresponding elements of arrays a and b and stores the result in array c. It uses a parallel for loop to perform the addition operation.
+
+The tuned_STREAM_Triad function performs a combination of scaling and addition operations. It scales the contents of array c by a scalar value, adds the corresponding elements of arrays b and c, and stores the result in array a. It uses a parallel for loop to perform the triad operation.
+
+The parallel for loops are implemented using OpenMP directives (#pragma omp parallel for). These directives distribute the loop iterations among multiple threads, enabling parallel execution of the memory operations.
+
+The code contains preprocessor directives (ifndef DIS_OPENMP) to check if the code is being compiled with OpenMP support. If OpenMP support is not available, the parallel for loops are not used and the memory operations are performed sequentially.
+
+Overall, the code includes the implementation of memory operations for the tuned version of the benchmark, which can take advantage of parallelism using OpenMP directives.

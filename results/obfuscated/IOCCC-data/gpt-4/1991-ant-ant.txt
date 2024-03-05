@@ -1,0 +1,22 @@
+The given code is a minimalistic form of a text editor written in C. This editor allows you to make changes to a file by applying single-character commands similar to those found in the 'vi' editor.
+
+Main features include:
+
+   - Loading a text file into the editor for viewing and modifying
+   - Moving the cursor around the loaded text
+   - Adding, deleting, and replacing characters
+   - Saves modified text back to the file
+   - Supports basic text navigation commands similar to 'vi' ('h', 'j', 'k', 'l')
+
+This program doesn't interact with the underlying filesystem to fetch or manage files. Instead, the file to edit must be passed as a command-line argument when starting the program.
+
+Here's how some of the code works:
+
+- The program starts by loading the file content into a buffer. The buffer is then modified as per user inputs without affecting the original file.
+- At the end, the contents of the buffer are written back to the file, replacing the original content with the modified version.
+- Several functions are defined to handle different commands: cursor movement, line navigation, removing or adding characters, clearing the display, and more. All these functions use curses library for handling terminal input/output.
+- All commands are single-character and aren't displayed as you type them (noecho()), thanks to the curses library.
+- Function pointers are used to map the single-character commands to their respective functions.
+- The main loop continually updates the display and handles the user input until the quit command is given. After that, the file is saved and the program ends.
+   
+To sum up, while it's a rudimentary text editor, this program showcases buffer management, file I/O, terminal input/output handling, pointer arithmetic, and function pointers in C.

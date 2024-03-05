@@ -1,0 +1,15 @@
+The given complex JavaScript code is interacting with the API of the site 'https://mindicador.cl/'. As per the function calls and defined functions, the code appears to be designed to fetch the value of bitcoin and dollar from the aforementioned website, and print the fetched data in a specific HTML element in the calling web page. Here's the step-by-step explanation of what's going on:
+
+1. When a button with id 'dolar' or 'bitcoin' (retrieved with `botonDolar=document[a0_0x47bb5d(0x148)](a0_0x47bb5d(0x13e))` and `botonBitcoin=document[a0_0x47bb5d(0x148)](a0_0x47bb5d(0x14b))`) is clicked, the function 'obtenerDatos' is called with the argument 'dolar' or 'bitcoin' respectively.
+
+2. In 'obtenerDatos', an XMLHttpRequest object is created. This is how the client (the code you've posted) communicates with the server (mindicador.cl). It is configured to request data from a specific URL, 'https://mindicador.cl/api/' concatenated with either 'dolar' or 'bitcoin' (from the previous point), and sends this request with `send()`.
+
+3. Whenever there is a change in readyState (The condition of the XMLHttpRequest) `onreadystatechange` calls function `respuesta`.
+
+4. In the `respuesta` function, once the request has received a response (`this['status'] == 0xc8` or decimal 200 which stands for HTTP status 'OK', and `this['readyState'] == 0x4` or decimal 4 which stands for 'request finished and response is ready'), the response is parsed from JSON format into a JavaScript object and displayed on the console.
+
+5. After that, it fetches 'innerHTML' of the HTML element with the id 'resultado' and assigns it to a variable '_0x15d71a'. It then clears the contents of this HTML element on the webpage.
+
+6. For each item in `serie` from the received data, the program appends a string consisting of date and value ('fecha' and 'valor') of dollar/bitcoin, to the 'innerHTML' of the HTML element with id 'resultado'. It only does this for the first 16 items in the 'serie' (As verified by the line 'if(_0x58160c['jlKWg'](_0x2032e1,0xf))break').
+
+The code has obscured variable and function names (like a0_0x47bb5d, _0x386b21, etc.). These information hiding techniques are usually done to prevent reverse-engineering the code, for security purposes, and for compression/optimization.

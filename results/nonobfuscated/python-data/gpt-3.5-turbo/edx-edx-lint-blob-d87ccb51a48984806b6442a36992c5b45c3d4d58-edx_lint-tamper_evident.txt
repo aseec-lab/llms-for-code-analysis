@@ -1,0 +1,9 @@
+This code defines a class called `TamperEvidentFile` which is used to write and validate files with tamper-evident features.
+
+The `TamperEvidentFile` class has three methods:
+
+1. `__init__(self, filename)`: This is the constructor method that initializes the class instance with a `filename` attribute.
+
+2. `write(self, text, hashline=b"u)`: This method is used to write the `text` to a file with the filename specified during initialization. It appends a hash of the text at the end of the file. The `hashline` parameter is an optional argument that determines how the hash is written. If not provided, it defaults to `b"u"`. The function first checks if the `text` does not end with a new line character (`b"\n"`) and if so, appends a new line character. It then calculates the SHA1 hash of the `text` and writes the `text` and the hash to the file.
+
+3. `validate(self)`: This method is used to validate the integrity of the file. It reads the contents of the file specified during initialization. It finds the last line in the file and separates it from the original text. It then calculates the expected hash of the original text using SHA1 and compares it to the actual hash found in the last line. If they match, the method returns `True`, indicating that the file has not been tampered with. Otherwise, it returns `False`.

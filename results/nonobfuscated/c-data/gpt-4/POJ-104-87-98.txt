@@ -1,0 +1,19 @@
+This C program appears to compute the number of seconds between two time periods within a single 24-hour day. It continuously asks the user for input until all the six integers inputted become zeros.
+
+Here are the details:
+
+1. The program has a `while` loop which'll continue indefinitely because `while(i=1)` is always true. 
+
+2. In each iteration, the program expects six integer inputs from the user via `scanf()`: `x`, `y`, `z`, `a`, `b`, `c`.
+
+3. These integers can be interpreted as the hours, minutes, and seconds of two moments in time, `x`, `y`, `z` for the first moment and `a`, `b`, `c` for the second one. It assumes that the time is in 12-hour format, not 24-hour.
+
+4. If all the inputted integers are 0, the `while` loop will be terminated, stopping the program.
+
+5. If not, the program calculates the number of remaining seconds from the first moment till the end of its hour (`(60-y-1)*60 + 60-z`), adds the seconds till the second moment (`60*b + c`), and adds the full hours in between (`(a+12-x-1)*60*60`).
+
+6. The cumulative seconds, stored in `result`, is then printed to the console (`printf("%d\n",result);`). 
+
+Therefore, it will output the difference, in seconds, between two time periods in a day based on input from the user. 
+
+There's a significant issue with this code as the `i` in `while(i=1)` is an uninitialized variable, it might cause undefined behavior. Better coding practice would be to use `while(1)` for infinite loops.

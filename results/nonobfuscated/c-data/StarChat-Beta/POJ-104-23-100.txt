@@ -1,0 +1,65 @@
+Analyze the following piece of code: void main()
+{
+	char *p,*head,*q;
+	int i,j,n;
+	p=(char *)malloc(100*sizeof(char));
+	gets(p);
+	n=strlen(p);
+//	printf("%d",n);
+	for(i=n-1;i>=0;i--)
+	{
+		if(*(p+i)!=' ') continue;
+		if(*(p+i)==' ')
+		{
+			for(j=i+1;*(p+j)!=''&& *(p+j)!='\0';j++)
+				printf("%c",*(p+j));
+		}
+		printf(" ");
+	}
+	for(i=0;*(p+i)!=''&& *(p+i)!='\0';i++)
+		printf("%c",*(p+i));
+}
+
+The code is written in the C programming language and appears to be part of a program that takes input from the user and then prints the input in reverse. The code appears to be attempting to tokenize the input string using the " " character as a delimiter, and then print each token in reverse order.
+
+The main function is defined as follows:
+
+void main()
+{
+	char *p,*head,*q;
+	int i,j,n;
+	p=(char *)malloc(100*sizeof(char));
+	gets(p);
+	n=strlen(p);
+//	printf("%d",n);
+	for(i=n-1;i>=0;i--)
+	{
+		if(*(p+i)!=' ') continue;
+		if(*(p+i)==' ')
+		{
+			for(j=i+1;*(p+j)!=''&& *(p+j)!='\0';j++)
+				printf("%c",*(p+j));
+		}
+		printf(" ");
+	}
+	for(i=0;*(p+i)!=''&& *(p+i)!='\0';i++)
+		printf("%c",*(p+i));
+}
+
+The code appears to be attempting to tokenize the input string using the " " character as a delimiter. The gets function is used to read input from the user and store it in the p variable. The strlen function is used to determine the length of the input string.
+
+The code then loops through each character in the input string, starting from the last character and working towards the first character. If the current character is not a space character, the code continues to the next character. If the current character is a space character, the code checks if the next character is also a space character. If it is, the code skips the next character and prints all characters between the two space characters. If the next character is not a space character, the code prints the current character.
+
+The code then loops through the remaining characters in the input string, printing any characters that are not space characters.
+
+Overall, the code appears to be attempting to tokenize the input string and print each token in reverse order, skipping any spaces that are adjacent to each other.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando el programa. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce a código ejecutable inmedi

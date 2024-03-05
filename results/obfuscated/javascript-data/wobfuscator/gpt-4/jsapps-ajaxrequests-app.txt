@@ -1,0 +1,27 @@
+The code is using WebAssembly JavaScript API to run low-level bytecode.
+
+1. `__universalAtob` is a function that decodes a base-64 encoded string. It attempts to decode the base-64 input string to binary using the built-in `atob` function. If that fails, it fallbacks to Node.js's, or a similar platform's, Buffer interface to decode the base-64 string.
+
+2. `__ifWasmBuffer`, `__ifWasmModule`, `__callWasmBuffer`, and `__callWasmModule` are string representations of WebAssembly programs/binary modules in base64 format. They are decoded and instantiated into WebAssembly modules using the JavaScript WebAssembly API.
+
+3. `__wasmStringModules` is an array of WebAssembly instances. Each instance in this array is formed by decoding a base-64 representation of a WebAssembly module (from a hardcoded array of strings) and instantiating that module.
+
+4. `lS` is a function that reads data from the memory of one or multiple WebAssembly instance and returns the result. Given three arguments: `wI` (an index or an array of indices indicating which WebAssembly instance to read from), `pos` (specifying where to start reading) and `iWC` (unused in the code part you shared), the function retrieves the module(s) indexed by `wI` from `__wasmStringModules`, fetches and decodes data in the module's memory according to `pos`, and concatenates the results, potentially across multiple modules.
+
+Please note that WebAssembly is a binary instruction format for a stack-based virtual machine, primarily designed as a portable target for the compilation of high-level languages like C, C++, and Rust. It runs in memory sandbox and is used to build high-performance web apps.
+
+As a side note, the code appears to be obfuscated for security reasons or to make it harder to understand its execution flow.The script continued to make use of WebAssembly JavaScript API with its initial variable declarations. 
+
+`boton` is a reference to an HTML element retrieved using the function `lS` that provides selector information.
+
+Following that, there is an Immediately Invoked Function Expression (IIFE) that instantiates a WebAssembly module using `__callWasmModule`. The instantiated WebAssembly module (`__callInstance3`) exports an object which is assigned to `__exports`. The function then returns the result of calling `__exports.data()`.
+
+The function `traerDatos` is a JavaScript function that does an asynchronous HTTP request using the XMLHttpRequest object `xhttp`. Inside this function, you see a pattern that is similar to the IIFE above, where a WebAssembly module gets instantiated and returns data from calling `__exports.data()`. This pattern repeats multiple times:
+
+* To open a connection (`xhttp.open(lS(0, 2), lS(0, 3), true)`)
+* To send the request (`xhttp.send()`)
+* For the `onreadystatechange` event of `xhttp`
+
+The `onreadystatechange` is an event handler that gets called when the `readyState` attribute of the `xhttp` object changes. This event handler creates another WebAssembly instance using `__ifWasmModule` and it has more involved logic compared to the prior instantiations. It checks if `readyState` is `4` and the `status` is `200`, and if both conditions hold, the response text of the request (`this.responseText`) gets printed to the console and gets assigned as the inner HTML of an HTML element.
+
+The use of WebAssembly in this script seems highly unconventional. It's unclear what the purpose or benefit of this code is, as all JavaScript is doing here is acting as a host environment to WebAssembly modules, which are performing basic operations that could as easily have been written directly in JavaScript. It's possible that the actual WebAssembly modules, not shown, perform more complex operations which justify the use of WebAssembly.

@@ -1,0 +1,183 @@
+Analyze the following piece of code: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from collections import deque
+from abc import ABCMeta, abstractproperty
+import sys
+import locale
+import gettext
+from shoebot.core.drawqueue import DrawQueue
+
+APP = 'shoebot'
+DIR = sys.prefix + '/share/shoebot/locale'
+locale.setlocale(locale.LC_ALL, '')
+gettext.bindtextdomain(APP, DIR)
+
+gettext.textdomain(APP)
+_ = gettext.gettext
+
+CENTER = 'center'
+CORNER = 'corner'
+
+TOP_LEFT = 1
+BOTTOM_LEFT = 2
+
+
+class Canvas(object):
+    __metaclass__ = ABCMeta
+
+    DEFAULT_SIZE = 400, 400
+    DEFAULT_MODE = CENTER
+
+    
+
+    def __init__(self, sink):
+        
+        self.sink = sink
+
+        self.finished = False
+        self.color_range = 1
+        self.color_mode = 1
+        self.path_mode = CORNER
+        self.size = None
+        self.reset_canvas()
+
+    def set_bot(self, bot):
+        
+
+        self.bot = bot
+        self.sink.set_bot(bot)
+
+    def get_input_device(self):
+        
+
+        return None
+
+    def initial_drawqueue(self):
+        
+
+        return DrawQueue()
+
+    def initial_transform(self):
+        
+
+        pass
+
+    @abstractproperty
+    def reset_drawqueue(self):
+        pass
+
+    @abstractproperty
+    def reset_transform(self):
+        pass
+
+    def reset_canvas(self):
+        self.reset_transform()
+        self.reset_drawqueue()
+        self.matrix_stack = deque()
+
+    def settings(self, **kwargs):
+        
+
+        for k, v in kwargs.items():
+            setattr(self, k, v)
+
+    def size_or_default(self):
+        
+
+        if not self.size:
+            self.size = self.DEFAULT_SIZE
+        return self.size
+
+    def set_size(self, size):
+        
+
+        if self.size is None:
+            self.size = size
+            return size
+        else:
+            return self.size
+
+    def get_width(self):
+        if self.size is not None:
+            return self.size[0]
+        else:
+            return self.DEFAULT_SIZE[0]
+
+    def get_height(self):
+        if self.size is not None:
+            return self.size[1]
+        else:
+            return self.DEFAULT_SIZE[1]
+
+    def snapshot(self, target, defer=True, file_number=None):
+        
+
+        output_func = self.output_closure(target, file_number)
+        if defer:
+            self._drawqueue.append(output_func)
+        else:
+            self._drawqueue.append_immediate(output_func)
+
+    def flush(self, frame):
+        
+
+        self.sink.render(self.size_or_default(), frame, self._drawqueue)
+        self.reset_drawqueue()
+
+    def deferred_render(self, render_func):
+        
+
+        self._drawqueue.append(render_func)
+
+    width = property(get_width)
+    height = property(get_height)
+
+
+class ShoebotCanvas(Canvas):
+    pass
+
+
+Here's the analysis:
+
+1. The code is written in Python 3.x and uses the Py3k syntax.
+2. The code is using the `collections` module, `abc` module, `sys` module, `locale` module, `gettext` module, and `shoebot.core.drawqueue` module.
+3. The code is defining a class `Canvas` and a subclass `ShoebotCanvas`.
+4. The `Canvas` class has an `__metaclass__` attribute set to `ABCMeta`, indicating that it is an abstract class.
+5. The `Canvas` class has several instance variables and methods, including `sink`, `finished`, `color_range`, `color_mode`, `path_mode`, `size`, `reset_canvas`, `set_bot`, `get_input_device`, `initial_drawqueue`, `initial_transform`, `reset_drawqueue`, `reset_transform`, `reset_canvas`, `settings`, `size_or_default`, `set_size`, `get_width`, `get_height`, `snapshot`, and `flush`.
+6. The `ShoebotCanvas` class is a subclass of `Canvas` and has the same instance variables and methods as `Canvas`.
+7. The `ShoebotCanvas` class is using the `shoebot.core.drawqueue` module to render the canvas.
+8. The `Canvas` class has an `abstractproperty` for `reset_drawqueue` and `reset_transform`, indicating that these properties should be implemented by subclasses.
+9. The `Canvas` class has a `property` for `width` and `height` that return the width and height of the canvas.
+10. The code is using the `gettext` module to internationalize the application.
+
+Overall, this code is defining a canvas class with methods for drawing and manipulating graphics, as well as properties for configuring the canvas. The `ShoebotCanvas` subclass is using the `shoebot.core.drawqueue` module to render the canvas. The code is also using the `gettext` module for internationalization.

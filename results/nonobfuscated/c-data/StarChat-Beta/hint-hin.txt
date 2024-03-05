@@ -1,0 +1,570 @@
+Analyze the following piece of code: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include       "hint.h"    
+
+
+#pragma GCC push_options
+#pragma GCC optimize ("O0")
+int main(int argc, char *argv[])
+{
+    FILE    *curv;        
+#ifndef DEBUG
+    char    filnm[80];    
+#endif
+    Speed   qdata[NSAMP]; 
+
+    ERROR   eflag;        
+
+    ISIZE   imax,         
+            itm,          
+            n,            
+            nscout;       
+
+	volatile
+	ISIZE   itm2;         
+ 
+    volatile
+    DSIZE   tm1;          
+
+    DSIZE   dmax,         
+            gamut,        
+            scx,          
+            scy,          
+            tm, tm2;      
+
+	double  memref,
+			bandwt;
+
+    double  delq,         
+			quips,        
+            qpnet,        
+            qpeak,        
+            qprat,        
+			qptmp,        
+            t,            
+            t0,           
+            t1,           
+            tdelta,       
+                   
+            tscout;       
+
+    int     dbits,        
+            ibits,        
+            i, j, k,      
+            laps,         
+            memuse;       
+
+    printf("         _    _\n");
+    printf("         |    |  _ _   _ _____ TM\n");
+    printf("         |--  |  | |\\  | | | |\n");
+    printf("         |  --|  | | \\ |   |\n");
+    printf("         |    |  | |  \\|   |\n");
+    printf("         ^    ^  ^ ^   ^   ^\n\n");
+    printf("*** The  HINT  PERFORMANCE ANALYZER ***\n");
+    printf("   Version 1.0.1  June 1994-July 2022\n");
+    printf("   John L. Gustafson & Quinn O. Snell\n");
+    printf("     Scalable Computing Laboratory\n");
+    printf("   236 Wilhelm, Iowa State University\n");
+    printf("        Ames, Iowa    50011-3020\n");
+    printf("            (515) 294 - 9294\n\n");
+    printf("Copyright (C) 1994");
+    printf(" Iowa State University Research Foundation, Inc.\n");
+    printf("Modified for strict ANSI C compatibility 07/2022\n");
+    printf("Please send results and questions to: hint@scl.ameslab.gov\n");
+    printf("When sending results please follow the form in README\n");
+    printf("________________________________________________________\n");
+
+  if (argc > 1) printf("NOTE: This program does not take arguments.\n"); 
+	printf("RECT is %d bytes\n",sizeof(RECT));
+#ifdef DEBUG
+    curv = stdout;
+#else
+    sprintf(filnm,"data/%s",DFILE);
+    if ((curv = fopen(filnm, "w")) == NULL)
+    {
+        printf("Could not open data file\n");
+        exit(1);
+    }
+#endif
+
+ 
+    for (t0 = When(); ((t1 = When()) == t0););
+    tdelta = t1 - t0;
+
+ 
+    dbits = 0;
+    tm = (DSIZE)1;
+    tm2 = tm + tm;
+    tm1 = tm2 + 1;
+ 
+    while (((tm1 - tm2) == (DSIZE)1) && (tm2 > (DSIZE)0)) 
+    {
+        dbits++;
+        tm  += tm;
+        tm2 += tm2;
+        tm1  = tm2 + 1;
+    }
+    dbits++;
+ 
+    dmax = tm + (tm - 1);
+    printf("Apparent number of bits of accuracy: %d\n", dbits);   
+    printf("Maximum associative whole number:    %.0f\n",(double)dmax);
+
+ 
+    ibits = 0;
+    itm = (ISIZE)1;
+    itm2 = itm + itm;
+ 
+    while (itm2 > (ISIZE)0) 
+    {
+        ibits++;
+        itm  += itm;
+        itm2 += itm2;
+    }
+    imax = itm;
+    printf("Maximum number of bits of index:     %d\n", ibits);     
+    printf("Maximum representable index:         %.0f\n\n", (double)imax);
+
+ 
+    n = 0;
+    while (n < NSAMP) 
+    {
+        qdata[n].speed = (float)n;
+        qdata[n].error = (float)(n * n);
+        n++;
+    }
+
+    laps = 0;
+    while (tm < dmax) 
+    {
+        laps++;
+        tm *= 2;
+    }
+    printf("Number of levels in the tree:         %d\n", laps);   
+
+    gamut = (tm - 1) / laps;
+    printf("Size of each level of the tree:      %.0f\n", (double)gamut);   
+
+    scx = 1;
+    scy = 1;
+    memuse = 0;
+    for (j = 0; j < laps; j++) 
+    {
+        scx *= 2;
+        scy *= 2;
+        memuse += scx * scy;
+    }
+    printf("Total memory required:               %.0f\n", (double)memuse);   
+
+    eflag = 0;
+    for (n = 0; n < NSAMP; n++) 
+    {
+        if (qdata[n].error > MAXERR) 
+        {
+            eflag = 1;
+            break;
+        }
+    }
+    if (eflag) 
+    {
+        printf("WARNING: Some errors are too large\n");
+    }
+
+    tscout = 0;
+    for (n = 0; n < NSAMP; n++) 
+    {
+        tscout += qdata[n].speed;
+    }
+    printf("Sum of squares of speeds:            %.0f\n", tscout);   
+
+    t = 0;
+    for (n = 0; n < NSAMP; n++) 
+    {
+        t += qdata[n].speed * qdata[n].speed;
+    }
+    t /= (double)NSAMP;
+    printf("Mean square of speeds:               %.0f\n", t);   
+
+    qpnet = 0;
+    for (n = 0; n < NSAMP; n++) 
+    {
+        qpnet += qdata[n].speed * qdata[n].error;
+    }
+    printf("Product of speeds and errors:        %.0f\n", qpnet);   
+
+    qpeak = qdata[0].error;
+    for (n = 1; n < NSAMP; n++) 
+    {
+        if (qdata[n].error > qpeak) 
+        {
+            qpeak = qdata[n].error;
+        }
+    }
+    printf("Largest error:                       %.0f\n", qpeak);   
+
+    qprat = qpeak / tscout;
+    printf("Ratio of largest error to sum of squares:  %.4f\n", qprat);   
+
+    qptmp = 0;
+    for (n = 0; n < NSAMP; n++) 
+    {
+        qptmp += qdata[n].speed * qdata[n].speed * qdata[n].error;
+    }
+    t = qptmp / tscout;
+    printf("Quadratic mean of squares of speeds and errors: %.0f\n", t);   
+
+    bandwt = 0;
+    for (n = 0; n < NSAMP; n++) 
+    {
+        bandwt += (double)qdata[n].error / (double)qdata[n].speed;
+    }
+    bandwt /= (double Analyze the following piece of code: ax); 
+
+ 
+    if ((ibits + ibits) < dbits)
+    {
+        dmax = (DSIZE)imax * (DSIZE)imax - 1;
+        dbits = ibits + ibits;
+    }
+    printf("Index-limited data accuracy:         %d bits\n", dbits); 
+    printf("Maximum usable whole number:         %.0f\n",(double)dmax);
+
+ 
+    j = (dbits)/2;         
+
+ 
+    for (i = 0, scx = 1; i < j; scx += scx, i++);
+    for (i = 0, scy = 1; i < dbits - j; scy += scy, i++);
+    printf("Grid: %.0f wide by %.0f high.\n",(double)scx,(double)scy);
+
+ 
+    tscout = 0; 
+
+ 
+    for (nscout = NMIN, laps = 3; nscout < scx; )
+    {
+        t = Run(laps, &gamut, scx, scy, dmax, nscout, &eflag);
+
+        if (eflag!= NOERROR)
+        {
+            nscout /= 2;
+            break;
+        }
+        else if ((t > RUNTM) && (eflag == NOERROR))
+        {
+            tscout = t;
+            break;
+        }
+        else
+        {
+            tscout =  t;
+            nscout *= 2;
+            if (nscout > scx)
+            {
+                nscout /= 2;
+                break;
+            }
+        }
+    }
+    if (tscout == 0)
+    {
+        printf( "Data type for %s is too small\n", argv[0]);
+        exit(0);
+    }
+    if ((tscout < RUNTM) && (eflag == NOMEM))
+       printf("Memory is not sufficient for > %3.1f second runs.\n",
+                                                                         RUNTM);
+    else if (tscout < RUNTM)
+       printf("Precision is not sufficient for > %3.1f second runs.\n",
+                                                                         RUNTM);
+
+ 
+    for (t = 0, i = 0, n = NMIN, qpeak = 0, qprat = 1; 
+        ((i < NSAMP) && (t < STOPTM) && (n < scx) && (qprat > STOPRT));
+        i++, n = ((int)(n * ADVANCE) > n)? (n * ADVANCE) : n + 1)
+    {     
+        printf(".");
+        fflush(stdout);
+
+     
+        laps = MAX(RUNTM * nscout / (tscout * n), 1);
+        t = Run(laps, &gamut, scx, scy, dmax, n, &eflag);
+        if (t == 0)
+            t = tdelta;
+
+        if (eflag!= NOERROR)
+            break;
+            
+     
+     
+		delq = (double)dmax / gamut - 1;
+        quips = delq / t + 1.0 / gamut / t;
+        qdata[i].t  = t;
+        qdata[i].qp = quips;
+        qdata[i].delq = delq;
+        qdata[i].n  = n;
+        qpeak = MAX(qpeak, quips);
+        qprat = quips / qpeak;
+    }
+    memuse = (int)(qdata[i-1].n * (sizeof(RECT)+sizeof(DSIZE)+sizeof(ISIZE)));
+    if ((qprat > STOPRT) && (eflag == NOMEM))
+        #if defined(ILONG)
+        printf("\nThis run was memory limited at %ld subintervals -> %d bytes\n",
+        #else
+        printf("\nThis run was memory limited at %d subintervals -> %d bytes\n",
+        #endif
+                                                 n, memuse);
+    printf("\nDone with first pass. Now computing net QUIPS\n");
+
+	memref = (DSREFS * sizeof(DSIZE) + ISREFS * sizeof(ISIZE)) * qdata[i-1].n;
+	memref /= (1024 * 1024);
+	bandwt = memref / qdata[i-1].t;
+    fprintf(curv,"%12.10f %f %f %f %10d %f\n", 
+            qdata[i-1].t, qdata[i-1].qp, qdata[i-1].delq, bandwt, memref, qprat);
+
+	for (j = 1; j < i; j++)
+	{
+		t = qdata[j].t;
+		delq = qdata[j].delq;
+		n = qdata[j].n;
+		qp = qdata[j].qp;
+		memref = (DSREFS * sizeof(DSIZE) + ISREFS * sizeof(ISIZE)) * n;
+		memref /= (1024 * 1024);
+		bandwt = memref / t;
+		qpeak = MAX(qpeak, qp);
+		qprat = qp / qpeak;
+		fprintf(curv,"%12.10f %f %f %f %10d %f\n", t, qp, delq, bandwt, memref, qprat);
+	}
+	fprintf(curv,"\n");
+	fprintf(curv,"# %12s %10s %10s %10s %10s %s\n", "t (sec)", "QUIPS", "delq", "bandwt (MB/s)", "mem (MB)", "qprat");
+	fprintf(curv,"# %12s %10s %10s %10s %10s %s\n", "------", "-----", "-----", "-------------", "-----", "----");
+	fprintf(curv,"\n");
+	fprintf(curv,"# %12s %10s %10s %10s %10s %s\n", "t (sec)", "QUIPS", "delq", "bandwt (MB/s)", "mem (MB)", "qprat");
+	fprintf(curv,"# %12s %10s %10s %10s %10s %s\n", "------", "-----", "-----", "-------------", "-----", "----");
+	fprintf(curv,"\n");
+	fprintf(curv,"# %12s %10s %10s %10s %10s %s\n", "t (sec)", "QUIPS", "delq", "bandwt (MB/s)", "mem (MB)", "qprat");
+	fprintf(curv,"# %12s %10s %10s %10s %10s %s\n", "------", "-----", "-----", "-------------", "-----", "----");
+	fprintf(curv,"\n");
+	fprintf(curv,"# %12s %10s %10s %10s %10s %s\n", "t (sec)", "QUIPS", "delq", "bandwt (MB/s)", "mem (MB)", "qprat");
+	fprintf(curv,"# %12s %10s %10s %10s %10s %s\n", "------", "-----", "-----", "-------------", "-----", "----");
+	fprintf(curv,"\n");
+	fprintf(curv,"# %12s %10s %10s %10s %10s %s\n", "t Analyze the following piece of code: i-1].delq,
+            (double)qdata[i-1].n, memuse, bandwt);
+    
+ 
+    for (qpnet = qdata[i-1].qp, j = i - 2; j >= 0; j--)
+    {
+     
+        for (k = 0; ((qdata[j+1].t < qdata[j].t) && (k < PATIENCE)); k++)
+        {
+            printf("#"); 
+            laps  = MAX(RUNTM * nscout / (tscout * qdata[j].n), 1);
+            t = Run(laps, &gamut, scx, scy, dmax, qdata[j].n, &eflag);
+            if (t == 0)
+                t = tdelta;
+
+	    delq = (double)dmax / gamut - 1;
+            quips = delq / t + 1.0 / gamut / t;
+            qdata[j].t  = t;
+            qdata[j].qp = quips;
+        }
+        if (qdata[j+1].t < qdata[j].t)
+        {
+            #if defined(ILONG)
+            printf(" Forcing a time for %ld subintervals\n", qdata[j].n);
+            #else
+            printf(" Forcing a time for %d subintervals\n", qdata[j].n);
+            #endif
+            qdata[j].t  = qdata[j+1].t;
+			delq = (double)dmax / gamut - 1;
+            qdata[j].qp = delq / qdata[j].t + 1.0 / gamut / qdata[j].t;
+        }
+        memuse = (int)(qdata[j].n * (sizeof(RECT)+sizeof(DSIZE)+sizeof(ISIZE)));
+		memref = (DSREFS * sizeof(DSIZE) + ISREFS * sizeof(ISIZE)) * qdata[j].n;
+		memref /= (1024 * 1024);
+		bandwt = memref / qdata[j].t;
+        fprintf(curv,"%12.10f %f %f %f %10d %f\n", 
+                qdata[j].t, qdata[j].qp, qdata[j].delq,
+                (double)qdata[j].n, memuse, bandwt);
+
+     
+     
+        qptmp = qdata[j].qp * qdata[j].t / qdata[j+1].t;
+        qpnet += (qdata[j].qp - qptmp);
+    }
+    printf("\nFinished with %f net QUIPs\n", qpnet);
+    fclose(curv);
+    return 0;
+}
+#pragma GCC push_options
+
+double
+Run(int laps,
+    DSIZE *gamut, DSIZE scx, DSIZE scy, DSIZE dmax, ISIZE memry, ERROR *eflag)
+{
+    RECT    *rect=NULL;   
+    ISIZE   *ixes=NULL;   
+    DSIZE   *errs=NULL;   
+ 
+    int     i, j;         
+
+    double  t0, t1, tm,   
+            mint = 1e32;  
+
+    *eflag = NOERROR;
+
+ 
+    rect = (RECT  *)malloc((MSIZE)(memry * sizeof(RECT)));
+    errs = (DSIZE *)malloc((MSIZE)(memry * sizeof(DSIZE) * 2));
+    ixes = (ISIZE *)malloc((MSIZE)(memry * sizeof(ISIZE) * 2));
+
+ 
+    if ((rect == NULL) || (errs == NULL) || (ixes == NULL))
+    {
+        if (rect!= NULL)
+            free(rect);
+        if (errs!= NULL)
+            free(errs);
+        if (ixes!= NULL)
+            free(ixes);
+        *eflag = NOMEM;
+        return (-NOMEM);
+    }
+
+    for (i = 0; i < NTRIAL; i++)
+    {
+        t0 = When();
+
+     
+        for (j = 0; j < laps; j++)
+            *gamut = Hint(&scx, &scy, &dmax, &memry, rect, errs, ixes, eflag);
+
+        t1 = When();
+
+     
+        tm = (t1 - t0) / laps;
+        mint = MIN(mint, tm);
+    }
+
+ 
+    free(rect);
+    free(errs);
+    free(ixes);
+    return mint;
+}
+
+#pragma GCC pop_options
+
+DSIZE
+Hint(DSIZE *scx, DSIZE *scy, DSIZE *dmax, ISIZE *memry,
+     RECT *rect, DSIZE *errs, ISIZE *ixes, ERROR *eflag)
+{
+    DSIZE   gamut, dx, dy, d, err,;
+    ISIZE   i, j, k,0, ival;
+    double  t, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15,
+            t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29,
+            t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43,
+            t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57,
+            t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71,
+            t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85,
+            t86, t87, t88, t89, t90, t91, t92, t93, t94, t95, t96, t97, t98, t99,
+            t100;
+
+    *eflag = NOERROR;
+
+    for (i = 0; i < *memry; i++)
+    {
+        rect[i].xmin = i;
+        rect[i].xmax = i + 1;
+        rect[i].ymin = 0;
+        rect[i].ymax = 1;
+    }
+
+    for (i = 0; i < NTRIAL; i++)
+    {
+        t = When();
+
+        for (j = 0; j < NSTEPS; j++)
+        {
+            k = j % 2;
+            if (k == 0)
+            {
+                for (i = 0; i < *memry; i++)
+                {
+                    t1 = When();
+                    t2 = t1 + (rand() % 1000) / 1000.0;
+                    t3 = t2 + (rand() % 1000) / 1000.0;
+                    t4 = t3 + (rand() % 1000) / 1000.0;
+                    t5 = t4 + (rand Analyze the following piece of code: 
+    free(ixes);
+
+    return (mint);
+}
+    
+
+double
+When(void)
+{
+    struct timeval tp;
+    gettimeofday(&tp, NULL);
+    return ((double) tp.tv_sec + (double) tp.tv_usec * 1e-6);
+}
+
+int
+main(void)
+{
+    int N = 1000000;
+    int *ixes = malloc(N * sizeof(*ixes));
+    if (!ixes)
+        return 1;
+
+    double t0 = When();
+    for (int i = 0; i < N; i++)
+        iyes[i] = i;
+    double t1 = When();
+    printf("%f\n", t1 - t0);
+
+    free(ixes);
+    return 0;
+}
+
+The code is a part of a program that calculates the time it takes to sort an array of integers using the quick sort algorithm. The `When` function is used to measure the time passed since the beginning of the program.
+
+The main function creates an array of size `N` using the `malloc` function and initializes it with random integers. Then, it measures the time it takes to sort the array using the `When` function. Finally, the program frees the memory allocated for the array and ends.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código binario.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable antes de ser ejecutada. Esto significa que el código fuente se puede modificar y ejecutar inmediatamente sin necesidad de volver a compilar.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Está compuesto por un conjunto de reglas y construcciones que permiten a los programadores escribir instrucciones que se pueden entender y ejecutar por una computadora.
+
+Los lenguajes de programación se utilizan para escribir programas, que son las instrucciones que le indican a una computadora cómo realizar una tarea específica. Estas tareas pueden ser muy variadas, desde simples cálculos hasta aplicaciones complejas como sistem

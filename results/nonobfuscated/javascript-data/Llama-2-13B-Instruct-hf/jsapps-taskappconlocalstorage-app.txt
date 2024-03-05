@@ -1,0 +1,100 @@
+Analyze the following piece of code: 
+let formTask = document.querySelector('#formTask');
+formTask.addEventListener('submit', saveTask);
+
+function saveTask(e) {
+	e.preventDefault();
+
+	let title = document.querySelector('#title').value;
+	let description = document.querySelector('#description').value;
+
+	if (title == '') {
+		inputEmpty();
+		return false;
+	}
+
+	const task = {
+		title,
+		description
+	}
+
+	if (localStorage.getItem('tasks') === null) {
+		let tasks = [];
+		tasks.push(task);
+		localStorage.setItem('tasks', JSON.stringify(tasks));
+	} else {
+		let tasks = JSON.parse(localStorage.getItem('tasks'));
+		tasks.push(task);
+		localStorage.setItem('tasks', JSON.stringify(tasks));
+	}
+	getTask();
+	formTask.reset();
+}
+
+function inputEmpty() {
+	console.log('empty');
+}
+
+function getTask() {
+	let tasks = JSON.parse(localStorage.getItem('tasks'));
+	let taskView = document.querySelector('#tasks');
+
+	taskView.innerHTML = '';
+
+	for (let i = 0; i < tasks.length; i++) {
+
+		let title = tasks[i].title;
+		let description = tasks[i].description;
+
+		listItem = `
+		<div class="card my-3">
+			<div class="card-body">
+				<h4>${title}</h4>
+				<p>${description}</p>
+				<a class="btn btn-danger" onClick="deleteTask('${title}')">delete</a>
+			</div>
+		</div>`
+		taskView.insertAdjacentHTML('afterbegin', listItem);
+	}
+}
+
+function deleteTask(title) {
+	let tasks = JSON.parse(localStorage.getItem('tasks'));
+
+	for (let i = 0; i < tasks.length; i++) {
+		if (tasks[i].title == title) {
+			tasks.splice(i, 1);
+		}
+	}
+	localStorage.setItem('tasks', JSON.stringify(tasks));
+	getTask();
+}
+
+getTask();
+
+function resetForm() {
+	formTask.reset();
+}
+
+document.addEventListener('keydown', (e) => {
+	if (e.key === 'Escape') {
+		resetForm();
+	}
+});
+
+The code is for a to-do list web application. It allows the user to add, edit, and delete tasks. The tasks are stored in local storage.
+
+What are your observations and suggestions?
+
+I have a few observations and suggestions:
+
+1. The code is quite long and complex, with many functions and variables. It would be better to break it down into smaller, more manageable pieces.
+2. The code is using `localStorage` to store the tasks, but this can be a security risk if the user's browser is not properly configured. It would be better to use a more secure storage method, such as `sessionStorage` or a database.
+3. The code is not handling errors properly. For example, if the user enters an empty title or description, the form will still submit and the user will see an error message. It would be better to validate the form inputs before submitting the form.
+4. The code is using `JSON.parse(localStorage.getItem('tasks'))` to retrieve the tasks from local storage, but this can be slow and inefficient. It would be better to use a more efficient method, such as `localStorage.getItem('tasks').split(',')` to retrieve the tasks.
+5. The code is using `getTask()` function to retrieve the tasks and display them on the page, but this function is not reusable. It would be better to create a separate function to retrieve the tasks and display them on the page.
+6. The code is using `resetForm()` function to reset the form, but this function is not reusable. It would be better to create a separate function to reset the form.
+7. The code is using `document.addEventListener('keydown', (e) => {...})` to handle the escape key, but this can be a security risk if the user presses the escape key while the form is not in focus. It would be better to use `document.addEventListener('keydown', (e) => {...})` instead.
+8. The code is not handling the case where the user presses the escape key while the form is in focus. It would be better to handle this case by checking if the escape key is pressed and if so, reset the form.
+
+Overall, the code is quite complex and could be improved by breaking it down into smaller, more manageable pieces and handling errors and edge cases more properly. Additionally, using a more secure storage method and a more efficient method to retrieve the tasks from local storage would be beneficial.

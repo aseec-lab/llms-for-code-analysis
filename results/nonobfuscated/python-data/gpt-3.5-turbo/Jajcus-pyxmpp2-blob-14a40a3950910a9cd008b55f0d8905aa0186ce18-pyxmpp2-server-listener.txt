@@ -1,0 +1,31 @@
+This code defines a class called TCPListener that is used to listen for TCP connections on a specific address. 
+
+The class inherits from the IOHandler interface, which defines a set of methods that need to be implemented for handling I/O events.
+
+The constructor of the TCPListener class takes three parameters: family, address, and target. The family parameter specifies the address family (e.g. AF_INET for IPv4) for the socket. The address parameter is a tuple that specifies the IP address and port number to bind the socket to. The target parameter is a callable that will be called with the accepted socket and address as arguments.
+
+In the constructor, a new socket is created using the specified address family and socket type (in this case, SOCK_STREAM for TCP). The socket is then bound to the specified address using the bind() method. If an error occurs during the binding process, the socket is closed and an exception is raised.
+
+The close() method is defined to close the socket. It first acquires a lock to ensure thread safety, then checks if the socket is not None before closing it. 
+
+The prepare() method prepares the socket for I/O operations. It first acquires a lock to ensure thread safety, then checks if the socket is not None. If the socket is not None, it sets the listen backlog to SOMAXCONN (maximum number of pending connections) and sets the socket to non-blocking mode. Finally, it returns a HandlerReady object indicating that the handler is ready for I/O operations.
+
+The fileno() method returns the file descriptor of the socket. It first acquires a lock to ensure thread safety, then checks if the socket is not None. If the socket is not None, it returns the fileno() method of the socket.
+
+The is_readable() method returns a boolean indicating whether the socket is readable. It first acquires a lock to ensure thread safety, then checks if the socket is not None.
+
+The wait_for_readability() method is called to wait for the socket to become readable. It first acquires a lock to ensure thread safety, then checks if the socket is not None.
+
+The is_writable() method returns a boolean indicating whether the socket is writable. In this case, it always returns False.
+
+The wait_for_writability() method is called to wait for the socket to become writable. In this case, it always returns False.
+
+The handle_write() method is called when the socket is ready for writing. In this case, it does nothing.
+
+The handle_read() method is called when the socket is ready for reading. It first acquires a lock to ensure thread safety, then checks if the socket is not None. If the socket is not None, it enters a loop to accept incoming connections. It tries to accept a new connection using the accept() method of the socket. If a blocking error occurs, it breaks out of the loop. Otherwise, it logs the accepted connection and calls the target callable with the accepted socket and address as arguments.
+
+The handle_hup() method is called when a hang-up event is detected on the socket. It calls the close() method to close the socket.
+
+The handle_err() method is called when an error event is detected on the socket. It calls the close() method to close the socket and raises a PyXMPPIOError.
+
+The handle_nval() method is called when an invalid file descriptor is used in the main event loop. It calls the close() method to close the socket and raises a PyXMPPIOError.

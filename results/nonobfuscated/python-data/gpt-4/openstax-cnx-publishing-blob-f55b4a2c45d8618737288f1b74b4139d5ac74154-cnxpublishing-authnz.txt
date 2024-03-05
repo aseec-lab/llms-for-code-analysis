@@ -1,0 +1,15 @@
+The code defines functions and classes for authentication and authorization using an API key based system. 
+
+The `lookup_api_key_info()` function retrieves all the information about API keys from a database. This data include their associated IDs, keys, names and groups. It caches this information for 24 hours so it does not have to query the database every time it needs this information.
+
+The `APIKeyAuthenticationPolicy` class is used to implement the functionalities of an authentication policy. It provides methods for finding the user ID, authenticated user ID, unauthenticated user ID and effective principals based on the request headers. 
+
+- The `_discover_requesting_party()` method extracts the API key from the request header, uses it to lookup the associated user information and returns three things: the API key, the user ID and a dictionary of other user information. If the API key is not found in the cache, it returns None for user_id and principal_info.
+- The `authenticated_userid()` lets Pyramid know who is authenticated by returning a user_id based on an API key.
+- The `unauthenticated_userid` method does the same thing. 
+- `effective_principals`() method, which returns the groups a user belongs to. If the API key or user ID is None, it returns an empty list.
+- `remember()` & `forget()` are required methods for authorization, but they are not implemented in this policy so they just return an empty list.
+
+The `includeme()` function registers this APIKeyAuthenticationPolicy alongside an existing OpenStax authentication policy in a multi authentication policy. It sets this multi authentication policy and an ACL Authorization Policy into Pyramid's configurator.
+
+Finally, `APIKeyAuthenticationPolicy` and `lookup_api_key_info` are exported.

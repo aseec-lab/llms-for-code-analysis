@@ -1,0 +1,15 @@
+This code does several things related to the terminal setup and gameplay of a snake game:
+
+1. Checks capabilities of the terminal: The code first checks if the terminal supports certain features through the use of the term.h and curses.h libraries. It verifies different capabilities such as cursor movement, visibility and bold text. If the capability is not recognized or supported, it increases a count of unsupported features (k) and flags it as a potential issue.
+
+2. Validates screen dimensions: The code also checks if the terminal size is at least 10 lines by 10 columns. If not, it terminates the program with a warning/output stating that the terminal size must be at least 10 lines and 10 columns.
+
+3. Retrieves and verifies environment variables: The "MAXSIZE", "GROW" and "SIZE" environment variables are fetched and assigned to Y, S and X respectively. Y is the maximum snake size, S is its growth rate per bug eaten and X is its starting size.
+
+4. Provides gameplay information: Once the environment variables and screen size have been verified, the code estimates the maximum possible size of the snake (K) and the number of bugs (N) required to reach that size, based on the terminal size and the growth rate of the snake.
+
+5. Provides recommendations on column size: The code also gives recommendations on the minimum number of columns required for the snake to play unhindered, based on the size, maximum size and growth rate of the snake. 
+
+6. Checks for detected problems: If any issues have been detected (unsupported terminal features or inadequate terminal size), the program alerts the user about them and exits with an error. The count of fatal errors is also revealed. If no problems are detected, it prints "No problems detected."
+
+Overall, this code is a pre-check and diagnostic tool for the classic Snake game, making sure the terminal environment is suitable for the game and providing some gameplay information based on available environment variables.

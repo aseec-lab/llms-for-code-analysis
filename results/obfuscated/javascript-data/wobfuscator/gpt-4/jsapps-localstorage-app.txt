@@ -1,0 +1,39 @@
+This Javascript code declares several functions and variables. 
+
+`__universalAtob` is a function that accepts a Base64-encoded string and tries to decode it using the `atob` function. It then converts the result into a binary string, creates a byte array (`Uint8Array`) from it and returns that byte array. If an error occurs (for example if `atob` is not defined in a non-browser environment), it falls back to using Node.js `Buffer` API to decode the Base64 string and convert it to bytes.
+
+`__ifWasmBuffer` and `__callWasmBuffer` are string variables that contains raw WebAssembly (WASM) modules encoded as Base64 strings.
+
+`__ifWasmModule` and `__callWasmModule` are WebAssembly modules which are created by decoding the corresponding Base64 strings to byte arrays, similar to what `__universalAtob` function does. 
+
+`__wasmStringModules` is an array of WebAssembly instances. It takes an array of Base64-encoded strings, decodes them to byte arrays and creates a new WebAssembly module and instance from each byte array.
+
+`lS` function accepts three parameters and uses them to reference the WebAssembly modules and extract specific strings from their memory. It deals with both the case where a single module is passed as well as an array of module indicators.
+
+In summary the code is about loading and interacting with WebAssembly modules. The modules are Base64-encoded and stored as strings within the script. The `lS` function is used to extract strings from the WebAssembly module's memory buffer.This second part of the code declares the `nombre` variable and sets its value to be the outcome of the function `lS` when it is passed the arguments `0, 0`.
+
+It then initialises a new WebAssembly instance (`__callInstance14`) with `__callWasmModule` as its module and an `env` object as the import object. In this `env` object, `impFunc` is set as an anonymous function that stores the `nombre` value in our local storage using `lS(0, 1)`. This function is immediately invoked, and the value stored is retrieved back using `localStorage.getItem(lS(0, 2))`, and is stored in the variable `nombreLocalStorage`.
+
+Next, it creates DOM references to HTML elements using query selectors and the `lS` function to get the appropriate query strings. Notice that the query strings aren't directly hard-coded, they are stored within our WebAssembly code.
+
+Following that, it creates more WebAssembly instances that perform various tasks, such as logging the `nombreLocalStorage` value, getting and logging a color from `localStorage`, and even changing the className of the `fondo` DOM element based on specific conditions. 
+
+In summary, this code is combining usage of WebAssembly with JavaScript to perform certain tasks and manipulations in the webpage. WebAssembly is providing the logic for the task in binary format, whilst JavaScript is interfacing this logic with the webpage’s DOM and the browser's localStorage. It’s worth noticing that depending on how complex the logic, using WebAssembly can generally be more performant than JavaScript.In this third part of the code, you will notice a similar structure to the previous one, combining WebAssembly instances with JavaScript to perform tasks.
+
+It begins by declaring more WebAssembly instances that attach event listeners using the `addEventListener()` method to the `btnBotones` and `botones` DOM elements. The listeners set for these buttons are functions -- `agregarBotones` and `delegacion` respectively -- which are defined later.
+
+The `agregarBotones(e)` function creates a new WebAssembly instance that prevents a form refresh or redirection when the form button is triggered using the `preventDefault()` method. It then adds a string of button elements to the `botones` element.
+
+The `delegacion(e)` function is a little more complex:
+- It creates a WebAssembly instance that prevents a form refresh or redirection when its button is triggered.
+- It creates another one to log the secondary class of the event target (the clicked button in this case).
+- It then gathers this secondary class and switches through the potential values (using the switch statement).
+- In the case `lS(0, 10)` (which could represent a string like 'btn-primary' for example), it changes the className of the `fondo` element and sets a value in the localStorage using a WebAssembly instance. The remaining functionality, if any, for other case statements isn't shown within the provided code snippet.This section finalizes the functionality for the `delegacion(e)` function. It is comprised of multiple switch statements corresponding to the class names of some element (which class it exactly corresponds to is not present in the provided code).
+
+After each match, it changes the className for the `fondo` element corresponding to the match and sets an item (`localStorage.setItem()`) in the localStorage using a WebAssembly instance. This local storage key-value pair seems to be storing some sort of preference or status, perhaps related to a theme or a mode (like 'dark-mode' etc based on className).
+
+This pattern repeats for the different case sections matching `lS(0, 14)`, `lS(0, 18)`, `lS(0, 22)`, and `lS(0, 26)`. 
+
+The `localStorage.setItem()` function is being used to store the preference across sessions as local storage keeps the data until it is deleted explicitly by the user or the application.
+
+This section finalizes the `delegacion(e)` function with the closing bracket. Each of the inner anonymous functions within the case statements is responsible for creating a new WebAssembly instance, defining a function in its environment which sets a value in the localStorage, and then calling that function.

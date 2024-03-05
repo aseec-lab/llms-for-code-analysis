@@ -1,0 +1,9 @@
+This code defines a system for handling exceptions while running functions in separate greenlets, lightweight concurrent primitives provided by the gevent library in python. The code wraps the function to be executed inside a greenlet where any exceptions are caught, logged, and then rethrown inside a special SilentGreenletExceptionWrapper. 
+
+The spawn function wraps the caller's function with the exception handler and then spawns a greenlet with that function.
+
+The join function waits for the greenlet to return a value and checks if it is an instance of SilentGreenletExceptionWrapper, i.e., an exception occurred in the greenlet. If it is, and if the raise_error flag is set to True, the original exception is re-raised. If raise_error is set to False, None is returned.
+
+The joinall function waits for all greenlets to finish and then optionally checks and raises any exceptions they might have thrown if raise_error is set to True. If raise_error is False, it simply returns without checking or raising any exceptions.
+
+Therefore, the main purpose of this code is to implement concurrency through greenlets, but with an additional level of control over exception handling.

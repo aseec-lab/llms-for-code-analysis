@@ -1,0 +1,79 @@
+Analyze the following piece of code: 
+
+int main(int argc, char* argv[])
+{
+	int juzhen[5][5];
+	int i,j;
+	int m,n;
+
+	for(i=0;i<5;i++)
+	{
+		for(j=0;j<5;j++)
+		{
+			scanf("%d",&juzhen[i][j]);
+		}
+	}
+	
+	scanf("%d%d",&m,&n);
+	
+	if(n>=0&&n<5&&m>=0&&m<5)
+	{
+		int a[5],i;
+		for(i=0;i<5;i++)
+		{
+			a[i]=juzhen[m][i];
+			juzhen[m][i]=juzhen[n][i];
+			juzhen[n][i]=a[i];
+		}
+		for(i=0;i<5;i++)
+		{
+			for(j=0;j<5;j++)
+			{
+				if(j==4)
+					printf("%d",juzhen[i][j]);
+				else
+					printf("%d ",juzhen[i][j]);
+			}
+			printf("\n");
+		}	
+	}
+	else
+		printf("error");
+
+	return 0;
+}
+
+The code is written in C programming language and it performs the following operations:
+
+1. Reads a 5x5 matrix from the user input.
+2. Reads two indices m and n from the user input.
+3. Swaps the elements in the mth row and nth column of the matrix.
+4. Prints the modified matrix.
+
+The main function takes two arguments: argc, which stores the number of command-line arguments, and argv, which is an array of pointers to the command-line arguments.
+
+The code starts by declaring an integer array juzhen of size 5x5, which will store the input matrix. The code then initializes a variable i and a variable j, which will be used to iterate over the elements of the matrix.
+
+The code then enters a for loop that iterates over all the elements of the matrix. Inside the loop, it reads an element from the user input and stores it in the corresponding position of the matrix.
+
+After reading all the elements, the code reads two indices m and n from the user input. It then enters a second for loop that iterates over the elements of the mth row and the nth column of the matrix. Inside this loop, it swaps the elements at the ith position of the mth row and the jth position of the nth column.
+
+Finally, the code enters a third for loop that prints the modified matrix. It iterates over the elements of each row and prints them in a single line, with each element separated by a space.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. El código fuente se lee y se ejecuta línea por línea, sin necesidad de compilar previamente el código. En este caso, el intérprete es el programa que traduce el código fuente en tiempo real mientras se está ejecutando.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lengu

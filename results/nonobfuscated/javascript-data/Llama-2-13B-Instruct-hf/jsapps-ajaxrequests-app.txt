@@ -1,0 +1,41 @@
+Analyze the following piece of code: 
+let boton = document.querySelector('#boton')
+
+boton.addEventListener('click', traerDatos)
+
+function traerDatos(){
+
+	const xhttp = new XMLHttpRequest()
+
+	xhttp.open('GET', 'ajax-text.txt', true)
+
+	xhttp.send()
+
+	xhttp.onreadystatechange = function() {
+
+		if( this.readyState == 4 && this.status == 200 ){
+			
+			console.log(this.responseText)
+
+			document.querySelector('#respuesta').innerHTML = this.responseText
+		}
+	}
+
+}
+
+What is the purpose of this code?
+
+This code is using the XMLHttpRequest object to make an asynchronous GET request to a file named "ajax-text.txt". The response from the server is logged to the console and also set as the innerHTML of an element with the id "respuesta".
+
+What are the benefits of using XMLHttpRequest over other methods for making HTTP requests?
+
+Using XMLHttpRequest over other methods for making HTTP requests has several benefits:
+
+1. Asynchronous: XMLHttpRequest allows for asynchronous requests, which means that the request can be sent and the script can continue executing without blocking the main thread. This improves the responsiveness of the page and reduces the likelihood of the user noticing any delays.
+2. Cross-domain: XMLHttpRequest allows for cross-domain requests, which means that the request can be sent to a different domain than the one the script is running on. This is useful for making requests to APIs or other external resources.
+3. Customizable: XMLHttpRequest allows for customization of the request headers, query string, and response handling. This gives developers more control over the request and response.
+4. Browser compatibility: XMLHttpRequest is supported by most modern browsers, making it a reliable choice for making HTTP requests.
+
+What is the purpose of the onreadystatechange event listener?
+
+The purpose of the onreadystatechange event listener is to handle the response from the server once it has been received. The event listener is set up to listen for the "readystate" change event, which is fired when the request has completed and the response has been received. The event listener function is called with the current ready state and status of the request as arguments. In this code, the event listener function checks the ready state and status of the request to determine if the response has been received and if it was successful. If the response was successful, the response text is logged to the console and set as the innerHTML of an element with the id "respuesta".

@@ -1,0 +1,19 @@
+This C program appears to be a tool for counting various elements in a C-like programming language.
+
+The top of the file contains some definitions, such as the character string of keywords to be recognized by tac. These keywords are defined in an external file that is filtered into a new file and included using the preprocessor variable W. If the source keywords file is not available, a predefined string for the IOCCC reserved word list for 2016 is used. 
+
+Below the keyword definitions, there are several integer variables declared which are used for various counts (like line count, word count, byte count), totals (like total saved, total key), and flags (like keep flag, suppress flag, reserved flag). 
+
+The program then reads the source code from the input, and recognizes keywords. It also skips whitespaces and new line characters.
+
+A function 'lex' is implemented at the end of the script that it appears to be a lexical analyzer for C-like languages that serves as the heart of the tool. It reads one character at a time (read: it tokenizes the input). Based on what it reads, it performs different operations like skipping white spaces, incrementing counts, recognizing and handling different symbols and their combinations like ‘//’, ‘/* */’, '= =', '! =', ‘^ = ', '| =', '& =', '+ =', '- =', '> =', '- >', etc.).
+
+In general, the code seems to be highly optimized and uses tricks for performance enhancement such as buffer increment using pointer arithmetic, minimizing function calls by inlining operation via macros and bit manipulation techniques.The rest of the program registers several processing cases for the character by character source code interpretation, and wraps up the lex() function. A number of these branches are for specific scenarios to process and count different elements of the code (for example, certain special characters, numbers expressed in hexadecimal form or as floats, identifiers, keywords, etc.).
+
+There are then two functions called compat_words() and compat_kw() which adjust the counts for white space, keywords and comments in the code. 
+
+The count() function appears to kickstart the code processing and count keeping, looping through the source code and calling the lex() function until there's no more code left. All the counts are processed depending on the modes which are activated (compatibility, keep comments, reserved words count as one, etc.).
+
+The main() function then sets up a few switch cases to handle command line arguments denoting specific modes of the tool when the tool is ran from a terminal. It also checks and prints error messages when a file opening is unsuccessful. The readsource() function reads in the characters from the source code and count() starts processing the code as described previously. The counts are then printed at the end based on whether the tool runs in token, ioccc or default mode. 
+
+In summary, this is a C code analyzer written in C, with several modes to specify whether the comments should be counted in, whether keywords (as listed in IOCCC reserved word list for 2016) should be considered etc.

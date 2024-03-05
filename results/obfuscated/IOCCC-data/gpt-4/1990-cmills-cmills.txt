@@ -1,0 +1,15 @@
+This is a text-based card game in C, specifically a variation of Blackjack with some rule differences. The game uses a random number seed and shuffles a deck of cards, then allows the player to play a series of rounds until they run out of "money" or choose to quit.
+
+The pseudorandom generator in this game is initialized using the current timestamp, producing different results each time it's run. It uses the C time function, which returns the number of seconds that have passed since January 1, 1970, as required by POSIX.
+
+The code includes a series of preprocessor macros and functions that can make it difficult to understand:
+
+1. The `S(q)` macro is used to print messages.
+2. The `W(w)` macro seems to adjust the value of the card, registering face cards as 10 points and aces as either 1 or 11.
+3. The `F` macro is a loop that goes through the deck of cards.
+4. The `H(v,g)` macro gets the next card from the deck and calculates its value.
+5. The `B(n)` macro is used to generate messages by picking characters from a string and putting them into an array.
+
+In the main game loop, the program gets a bet from the user, deals the initial cards, checks for Blackjack, and then follows the standard game rules for the player and dealer's turn.
+
+After each round, the game prints the result, updates the player's total score, and offers the opportunity to play again. The game continues until the player chooses to exit or runs out of "money."

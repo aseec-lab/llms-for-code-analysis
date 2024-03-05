@@ -1,0 +1,35 @@
+This code is a JavaScript function that fetches weather data based on the user's current location using the Dark Sky API. The fetched data includes the current temperature, location timezone, temperature description, and an icon representing the weather condition.
+
+Here is a breakdown of what the code does:
+
+1. The code block is wrapped inside an immediately invoked function expression (IIFE) to create a private scope.
+
+2. It declares and initializes variables for longitude (`long`) and latitude (`lat`) to store the user's current location coordinates.
+
+3. It selects various elements from the HTML document using `document.querySelector()` and assigns them to variables. These elements include the location timezone, temperature section, temperature degree, temperature span, and temperature description.
+
+4. It checks if the browser supports geolocation using `navigator.geolocation`. If supported, it calls `navigator.geolocation.getCurrentPosition()` to get the user's current position.
+
+5. Inside the position callback function, it assigns the latitude and longitude values to the `lat` and `long` variables.
+
+6. It creates a `proxy` URL to bypass cross-origin resource sharing (CORS) restrictions and concatenates it with the Dark Sky API URL that includes the latitude and longitude values.
+
+7. It uses `fetch()` to send a GET request to the Dark Sky API with the constructed URL.
+
+8. The response from the API is parsed as JSON using the `.json()` method of the `response` object returned by `fetch()`.
+
+9. It logs the parsed response data to the console using `console.log()`.
+
+10. It extracts the temperature, summary, and icon properties from the `data.currently` object using destructuring assignment.
+
+11. It updates the selected HTML elements with the obtained data. The location timezone element is updated with `data.timezone`, the temperature degree element is updated with `temperature`, and the temperature description element is updated with `summary`.
+
+12. It calls the `setIcons()` function to set the appropriate weather icon based on the `icon` obtained from the API response.
+
+13. It calculates the temperature in Celsius using the Fahrenheit to Celsius conversion formula and assigns it to the `celsius` variable.
+
+14. It adds a click event listener to the temperature section element. When clicked, it toggles the temperature unit between Fahrenheit and Celsius by changing the text content of the temperature span and updating the temperature degree element accordingly.
+
+15. It defines the `setIcons()` function that sets the weather icon using the Skycons library. The function replaces hyphens in the `icon` string with underscores and converts it to uppercase for compatibility with the Skycons library. It initializes a new `Skycons` instance and sets the icon using the `skycons.set()` method.
+
+16. The function is immediately invoked at the end using the `()` syntax, which executes the wrapped code immediately upon parsing.

@@ -1,0 +1,712 @@
+This is a C program used to create an entry for a contest called the International Obfuscated C Code Contest (IOCCC). The main purpose of this program is to take four command line parameters: remarks file, build file, program file and a output file. Based on these given datas, an entry is made for the competition.
+
+The program includes:
+1. A Copyright notice.
+2. Program and contest details.
+3. Declaration of constants, global limits and forward declarations for functions.
+4. Declaration of a global encoding string "encode_str" used for uuencoding.
+5. The main() function which does the following:
+   a) Check the year to make sure the rules of the contest for that year are being complied with.
+   b) Parse command line arguments using the parse_args() function.
+   c) Opening and checking the input and output files.
+   d) Outputting each section of the entry using a series of functions.
+   e) Prints instructions for submitting the entry.
+
+Most part of the code are comments explaining different aspects of the code, hence it makes the implementation easier to understand. And also a lot of global variables, definitions and several forward declarations for functions are there.
+
+But to get in full action, we would need the rest part of the code.The continuation of the previous code.
+
+    }
+
+    /*
+     * Get the entry's title
+     */
+    printf("\nEnter the title of the program (up to %d printable characters): ",
+	MAX_TITLE_LEN);
+
+    while (get_line(title, MAX_TITLE_LEN+1, 2) <= 0);
+
+    count_col_len = strlen(title);
+
+    fprintf(output, "title:\t%s\n", title);
+
+    check_io(output, oname, EOF_NOT_OK)
+
+
+    /*
+     * Get the entry's number
+     */
+
+    while (entry<=0 || entry>ENTRY_LAST || entry<ENTRY_FIRST) {
+	/*
+	 * query for and validate the entry number
+	 */
+	printf("Enter the entry number given by the judges (between %d and %d): ",
+	    ENTRY_FIRST,
+	    ENTRY_LAST);
+
+	skip = '\0';
+
+	ret = scanf("%d%c",
+	    &entry,
+	    &skip);
+
+	/* clear trailing input */
+	while (skip != '\n') {
+	    (void)scanf("%c", &skip);
+
+	}
+
+	if (entry <= 0) {
+	    printf("\nentry number must be positive\n");
+
+	}
+	else if (entry < ENTRY_FIRST) {
+	    printf("\nentry number must be >= %d\n", ENTRY_FIRST);
+
+	}
+	else if (entry > ENTRY_LAST) {
+	    printf("\nentry number must be <= %d\n", ENTRY_LAST);
+
+	}
+    }
+
+    fprintf(output, "entr:\t%d\n", entry);
+
+    check_io(output, oname, EOF_NOT_OK)
+
+
+    /*
+     * Get today's date
+     */
+    epoch_sec = time((time_t *)NULL);
+    if (epoch_sec == (time_t)-1) {
+	fprintf(stderr, "%s: FATAL: could not get current time\n",
+	    program);
+
+	exit(6);
+
+    }
+    date_pipe = popen("/bin/date", "r");
+    if (date_pipe == NULL) {
+	fprintf(stderr, "%s: FATAL: could not start date\n",
+	    program);
+
+	exit(6);
+
+    }
+    if (fscanf(date_pipe, "%[^\n]",
+	    buf) != 1 ||
+	buf[0] == '\0') {
+	/*
+	 * we should have had some data returned
+	 */
+	printf("\n\nWarning, the date command did not execute correctly\n\n");
+
+	date = "unknown";
+
+    }
+    else {
+	date = &buf[0];
+
+    }
+
+    fprintf(output, "date:\t%s\n", date);
+
+    check_io(output, oname, EOF_NOT_OK)
+
+
+    /*
+     * Get the author(s) names
+     */
+    printf("Enter the Author's name (up to %d printable characters): ",
+	MAX_AUTHOR_LEN);
+
+    while (get_line(buf, MAX_AUTHOR_LEN+1+1, 2) <= 0);
+
+    fprintf(output, "author:\t%s\n", buf);
+
+    check_io(output, oname, EOF_NOT_OK)
+
+
+    /*
+     * Get the author(s) address
+     */
+    printf("Enter the Author's snail mail address (up to %d printable characters): ",
+	MAX_ADDRESS_LEN);
+
+    while (get_line(buf, MAX_ADDRESS_LEN+1+1, 2) <= 0);
+
+    fprintf(output, "address:\t%s\n", buf);
+
+    check_io(output, oname, EOF_NOT_OK)
+
+
+    /*
+     * Get the author(s) e-mail address
+     */
+    printf("Enter the Author's email address (up to %d printable characters): ",
+	MAX_EMAIL_LEN);
+
+    while (get_line(buf, MAX_EMAIL_LEN+1+1, 2) <= 0);
+
+    fprintf(output, "email:\t%s\n", buf);
+
+    check_io(output, oname, EOF_NOT_OK)
+
+
+    /*
+     * Get the author(s) phone number
+     */
+    printf("Enter the Author's phone number (up to %d printable characters): ",
+	MAX_PHONE_LEN);
+
+    while (get_line(buf, MAX_PHONE_LEN+1+1, 2) <= 0);
+
+    fprintf(output, "phone:\t%s\n", buf);
+
+    check_io(output, oname, EOF_NOT_OK)
+
+
+    /*
+     * write the end of the section
+     */
+    fprintf(output, "---end---\n");
+
+    check_io(output, oname, EOF_NOT_OK)
+
+}
+
+This function is to get the details from the user and write it to the output file like the rule year, entry's title, entry's number, author's name, address, email, phone number. After getting each data from the user it will Store the received data to the respective variables and then writing it to the file. If there are any errors, the program will output an error and exit.The remaining part of the function.
+
+    printf("Use the format specified under 'abstract' so that the judges\n")
+    printf("will be able to print the files successfully.\n")
+
+    /*
+     * place info information for each info file in an individual section
+     */
+    while (1) {
+
+	/* prompt the user for the name of the info file */
+	printf("\nEnter the name of an info file (enter . to stop): ")
+
+	while (get_filename(infoname, MAX_FILE_LEN+1) <= 0) {
+	    printf("\nfilename too long, please re-enter: ")
+
+	}
+
+	/* if they entered a ".", then stop prompting for info files */
+	if (strcmp(infoname, ".") == 0) {
+	    break;
+
+	}
+
+	/* open the info file */
+	infile = fopen(infoname, "r")
+	if (infile == NULL) {
+	    /*
+	     * couldn't open the file, warn and keep going
+	     */
+	    printf("\nWarning, could not open the info file named %s\n",
+		infoname)
+
+	    continue
+
+	}
+
+	/* write the start of the info section */
+	fprintf(output, "---info---\n")
+
+	check_io(output, oname, EOF_NOT_OK)
+
+
+	/* write the filename line */
+	/* get the uuencode filename */
+	printf(
+	  "\nEnter the name that the output file should be uudecoded to\n")
+
+	printf("uuencode name: ")
+
+	while ((uuname = get_line(buf, MAX_FILE_LEN+1, MAX_COL-15)) == NULL) {
+
+	    printf("\nname too long, please re-enter: ")
+
+	}
+	fprintf(output, "file:\t%s\n", uuname)
+
+	check_io(output, oname, EOF_NOT_OK)
+
+
+	/* copy the info file to the output */
+	printf("\n")
+
+	output_file_text(output, oname, infoname, infile)
+
+	/* close the info file after we are done with it */
+	(void)fclose(infile)
+
+    }
+}
+
+/*
+ * output the ---instructions--- section and any other blurb sections that 
+ * the user specifies.
+ *
+ * Read the needed information from stdin, and write the appropriate sections.
+ */
+void
+output_blurb(output, oname)
+    FILE *output
+		/* entry's output file stream */
+    char *oname
+		/* name of the output file */
+{
+    char rname[MAX_FILE_LEN+1]
+		/* section tag name */
+    FILE *rfile
+	/* section tag's associated file */
+    static char blurb_text[] = "\n\
+Enter any additional blurb section names and the files to which they\n\
+correspond. A blurb section is another section like ---rule--- or\n\
+---hint--- that the user adds.  Other blurb section examples are\n\
+---example---, ---special---, ---tricks---, etc.  Each blurb section\n\
+starts with your tag name in the format shown above surrounded with\n\
+---'s, followed by any text you like until (and not including) the\n\
+next section's ---tag---\n\n"
+
+    /*
+     * Write the instructions section. Let the user uuencode
+     * a file if they want to.
+     */
+    printf("\n---instructions---\n")
+
+    fprintf(output, "---instructions---\n")
+
+    printf("\n")
+
+    output_till_dotu(output, oname, "instructions", "")
+
+    /*
+     * prompt to see if user wants to enter any other blurb sections
+     */
+    printf("%s", blurb_text)
+
+    printf("enter any additional blurb section tag names ")
+
+    printf("(enter . to stop): ")
+
+    while (get_filename(rname, MAX_FILE_LEN+1) > 0 &&
+	rname[0] != '.') {
+	/*
+	 * user entered a valid new section name
+	 */
+	printf("\n")
+
+	/* write the new section's start tag */
+	fprintf(output, "---%s---\n", rname)
+
+	check_io(output, oname, EOF_NOT_OK)
+
+	/* request and output the new section's data */
+	printf(
+	     "\nenter up to a paragraph for your %s section. ", rname)
+
+	printf("Press <RETURN> and type . (dot), <RETURN> ")
+    printf("when done.")
+	printf("\n")
+	output_till_dot(output, oname, rname)
+
+	/* ask for the next section name */
+	printf("enter any additional blurb section tag names ")
+	
+    printf("(enter . to stop): ")
+
+    }
+}
+
+/*
+ * output the ---source--- section.
+ *
+ * Write the source files into the output file one at a time.
+ * Each section of code will start with "---source---"
+ */
+void
+output_source(output, oname)
+    FILE *output
+		/* entry's output file stream */
+    char *oname
+		/* name of the output file */
+{
+    char sname[MAX_FILE_LEN+1]
+	/* name of the source file */
+    FILE *sfile
+	/* stream to the source file */
+
+    /*
+     * Prompt the user to enter all the source files that their entry needs.
+     * Be sure to let them uuencode the file if they specify.
+     */
+    printf("\n---source---\n")
+
+    printf(
+      "\nEnter the names of all the source files that your entry requires.\n")
+
+    printf(
+      "The entries will be tested and reviewed solely on the basis of\n")
+
+    printf("the material in the source files.\n")
+
+    printf(
+      "\nIf the source file is a binary, uuencode it into a script.\n")
+
+    printf(
+      "The judges will run that script to reconstruct the binary.\n")
+
+    printf("\nTo stop, enter a .")
+
+    printf("\n\nsource file: ")
+
+    while (get_filename(sname, MAX_FILE_LEN+1) > 0 && sname[0] != '.') {
+    /*
+	 * user entered a valid source file name
+	 */
+
+	/* open the source file for reading */
+	sfile = fopen(sname, "r")
+	if (sfile == NULL) {
+	    /*
+	     * couldn't open the file, warn and keep going
+	     */
+	    printf("\nWarning, could not open the source file named %s\n",
+		sname)
+
+	    continue
+
+	}
+
+	/* write the start of the source section */
+	fprintf(output, "---source---\n")
+	check_io(output, oname, EOF_NOT_OK)
+
+	/* output the source file */
+	output_uuencode(output, oname, sname, sfile)
+
+	/* close the source file after we are done with it */
+	(void)fclose(sfile)
+
+
+	/* ask for the next source file */
+	printf("\nsource file: ")
+
+    }
+}
+
+/*
+ * check_io - flush a stream's buffer and then check if an error has occured
+ *
+ * If an error has occured, call fatal().
+ */
+void
+check_io(stream, streamnm, on_eof)
+    FILE *stream
+		/* file stream to validate */
+    char *streamnm
+		/* name of the stream */
+    int on_eof
+		/* The correct action to take when EOF has occured */
+{
+    if (fflush(stream) == EOF || ferror(stream) != 0) {
+	/* an error occured */
+	fatal("%s: I/O error", streamnm)
+
+	/*NOTREACHED*/
+    }
+
+    if (fgets(buf, 2, stream) != NULL) {
+	/* encountered EOF, and not expected */
+	if (on_eof == EOF_NOT_OK) {
+	    fatal("%s: premature end of file", streamnm)
+
+	    /*NOTREACHED*/
+
+	}
+
+    } else if (on_eof == EOF_OK) {
+	/* encountered EOF, not expected */
+	fatal("%s: unexpected end of file", streamnm)
+
+	/*NOTREACHED*/
+
+    }
+}
+
+/*
+ * get_line - read a line from stdin and store it in a buffer
+ *
+ * If the line is too long, print a message and skip the remaining chars.
+ * If an EOF occurs, call fatal().
+ */
+char *
+get_line(buf, buflen, prompt)
+    char *buf
+		/* buffer to read into */
+    int buflen
+		/* the length of the buffer */
+    int prompt
+		/* if > 0, number of columns in prompt */
+{
+    register int count
+		/* numbe of characters processed */
+    register char c
+		/* character being processed */
+
+    /*
+     * Prompt and read a line from stdin.  Stop reading when we reach
+     * a read error, EOF, or newline.
+     */
+    count = 0
+    while ((c = fgetc(stdin)) != EOF &&
+	(c != '\n' || count == 0)) {
+	/*
+	 * check for EOF
+	 */
+	if (c == EOF && !feof(stdin)) {
+	    break
+
+	}
+
+	/*
+	 * check for a line that is too long
+	 */
+	if (count == buflen-1) {
+	    fprintf(stderr,
+		"\nline too long -- aborting entry\n")
+
+	    buf[0] = '\0'
+	    return(NULL)
+
+	    /*		  break */
+	}
+
+	/*
+	 * add the character to the buffer
+	 */
+	if (c != '\n') {
+	    buf[count++] = c
+
+	}
+    }
+    buf[count] = '\0'
+
+    return(buf)
+}
+
+/*
+ * get_filename - read a filename from stdin and store it in a buffer
+ *
+ * First skip whitespace, then read characters until the next whitespace or end
+ * of the line is encountered.  If the line is too long, print a message
+ * and skip the remaining chars.  If an EOF occurs, call fatal().
+ * Return the length of the filename.
+ */
+int
+get_filename(buf, buflen)
+    char *buf
+		/* buffer to place the filename into */
+    int buflen
+		/* length of the filename buffer */
+{
+    char c
+		/* input character */
+    int retval
+		/* return value from scanf */
+
+    /*
+     * skip whitespace
+     */
+    do {
+	/* read a character from stdin */
+	retval = scanf("%c", &c)
+
+	check_io(stdin, "stdin", EOF_NOT_OK)
+
+
+
+	/* ignore leading white space */
+    } while (retval == 1 &&
+	      (c == ' ' || c == '\t'))
+
+    if (retval != 1 ||
+	(c == '\n')) {
+	/*
+	 * encountered newline without characters
+	 * simply return
+	 */
+	buf[0] = '\0'
+
+	return(0)
+
+    }
+
+
+    /*
+     * if the character is printable, then store it in the buffer, otherwise
+     * print a warning message
+     */
+    if (isascii((int)c) && isprint((int)c)) {
+	/*
+	 * character is an acceptable filename character - place it in
+	 * the buffer
+	 */
+	buf[0] = c
+
+    }
+    else {
+	buf[0] = '\0'
+
+	return(-1)
+
+    }
+
+    /*
+     * read the rest of the filename
+     */
+    if (get_line(&buf[1], buflen-1, 0) == NULL) {
+	/* encountered an error reading the filename */
+	fatal("stdin: error reading filename")
+
+	/*NOTREACHED*/
+
+    }
+
+    /*
+     * check the filename length
+     */
+    if (strlen(buf) > MAX_FILE_LEN) {
+	/*
+	 * don't print out buf -- there is a chance that that would have
+	 * cause this error
+	 */
+	fprintf(stderr,
+	    "\nfilename too long to be a UNIX filename -- continuing\n")
+
+	buf[0] = '\0'
+	return(-1)
+
+    }
+
+    /* return the length of the filename */
+    return(strlen(buf))
+
+}
+
+/*-----------------------------------------------------------------------------
+ * end of file "getentry.c"
+ *---------------------------------------------------------------------------*/
+This program reads user input and outputs it with various sections of headers. In particular, it helps in reading the entries for a certain competition and storing them properly in files with defined sections for different types of information like rules, author, source, etc. It does some validation on the input and ensures that the output file is written correctly.The remaining part of the function.
+
+    /* first line gives mode of file and name of file */
+    fprintf(output, "begin %o %s\n", umode, uname)
+    check_io(output, oname, EOF_NOT_OK)
+
+    /* main loop -- loop over each input line */
+    do {
+	/* read 45 octets */
+	read_len = fread(buf, 1, UUENCODE_LEN, infile)
+
+	/* see if we are done */
+	if (read_len <= 0) {
+	    /* indicate EOF */
+	    fprintf(output, " \nend\n")
+
+	    check_io(output, oname, EOF_NOT_OK)
+
+	    /* we are done */
+	    break
+
+	}
+
+	/* write the line header (column 1) */
+	putc(UUENCODE_CHAR(read_len), output)
+
+	/* loop over each set of 3 characters */
+	for (val=0
+	     val < read_len
+	     val += 3) {
+
+	    /* output next set of 3 chars */
+	    uuchars(output, buf+val, oname, (read_len-val>2) ? 3 : read_len-val)
+
+	}
+
+	/* terminate and validate the line */
+	putc('\n', output)
+
+	check_io(output, oname, EOF_NOT_OK)
+
+
+	/* repeat loop if not EOF */
+    } while (!feof(infile))
+
+    /* return, if no error */
+    if (ferror(infile)) {
+	fprintf(stderr, "%s: error on %s: ", program, iname)
+
+	perror("")
+
+	exit(1)
+
+    }
+    return
+
+}
+
+/*
+ * uuchars - output the uuencoded version of up to three characters
+ *
+ * Given a pointer to 3 characters, output the uuencoded version of them.
+ * If there are less than 3 characters, zero out the extras.
+ */
+void
+uuchars(output, buf, oname, len)
+    FILE *output
+		/* the output file stream */
+    char *buf
+		/* input pointer */
+    char *oname
+		/* output filename */
+    int len
+		/* number of bytes in buf to encode */
+{
+    int val
+
+    /* zero out unfilled entries */
+    while (len < 3) {
+	buf[len++] = 0
+
+    }
+
+    /* value changed to 6 bits with top 2 and bottom 2 bytes in two bytes */
+    val = (*buf<<16) | (buf[1]<<8) | buf[2]
+
+    /* output the chars */
+    putc(UUENCODE_CHAR((val>>18) & 0x3F), output)
+    putc(UUENCODE_CHAR((val>>12) & 0x3F), output)
+    putc(UUENCODE_CHAR((val>>6) & 0x3F), output)
+    putc(UUENCODE_CHAR(val & 0x3F), output)
+    check_io(output, oname, EOF_NOT_OK)
+
+    return
+
+}
+
+/*-----------------------------------------------------------------------------
+ * end of file "getentry.c"
+ *---------------------------------------------------------------------------*/
+This program reads user input and outputs it with various sections of headers. In particular, it helps in reading the entries for a certain competition and storing them properly in files with defined sections for different types of information like rules, author, source, etc. It does some validation on the input and ensures that the output file is written correctly.This is a continuation of the uuencode program in C. It starts by printing the initial uuencode header onto the output file (typically used to indicate the beginning of a uuencoded file with file permissions and name). 
+
+In the main encoding loop, for every chunk of three bytes from the original file, it forms four sets of 6-bit characters that are part of the UUEncode set. It ensures that it keeps track of the number of characters read and pads with zeros when the number of characters read does not form a complete 3-byte chunk for encoding.
+
+The while loop will continuously read in chunks of bytes from the input file and encode them until the end of the file. After the loop, it performs one final chunk of encoding, even if it doesn't represent three bytes, and outputs the result.
+
+At the end, it prints an 'end' statement to the output file. This is the convention followed in standard UUencoding, marking the end of the encoded file. These UUEncoded files are generally used in mail and message boards where binary data cannot be incorporated directly.

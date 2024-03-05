@@ -1,0 +1,59 @@
+Analyze the following piece of code: 
+
+import ShirtsIO
+import yaml
+import os
+import code
+
+def new_user(yaml_path):
+    
+
+
+    print 'Retrieve API Key from https://www.shirts.io/accounts/api_console/'
+    api_key = raw_input('Shirts.io API Key: ')
+
+    tokens = {
+        'api_key': api_key,
+    }
+
+    yaml_file = open(yaml_path, 'w+')
+    yaml.dump(tokens, yaml_file, indent=2)
+    yaml_file.close()
+
+    return tokens
+
+
+if __name__ == '__main__':
+    yaml_path = os.path.expanduser('~') + '/.pyshirtsio'
+
+    if not os.path.exists(yaml_path):
+        tokens = new_user(yaml_path)
+    else:
+        yaml_file = open(yaml_path, "r")
+        tokens = yaml.safe_load(yaml_file)
+        yaml_file.close()
+
+    client = ShirtsIO.ShirtsIOClient(tokens['api_key'])
+
+    print 'You may run PyShirtsIO commands prefixed with "client."."'
+    print 'client = ShirtsIOClient()\n'
+
+    code.interact(local=dict(globals(), **{'client': client}))
+
+
+What does this code do?
+
+This code defines a Python module called PyShirtsIO that provides an interface to the Shirts.io API. It allows you to create a new user, retrieve an API key, and then use that API key to interact with the Shirts.io API.
+
+Here's a breakdown of the code:
+
+1. The first line imports the ShirtsIO module, which provides the API client.
+2. The second line imports the yaml module, which is used to store the API key in a YAML file.
+3. The third line imports the os module, which is used to expand the user's home directory.
+4. The fourth line imports the code module, which is used to provide an interactive shell for the user.
+5. The fifth line defines a function called new_user, which takes a YAML path as an argument. This function retrieves an API key from the user, creates a YAML file with the API key, and returns the YAML file.
+6. The sixth line defines a main function, which is the entry point for the program. It checks if a YAML file exists in the user's home directory, and if not, it calls the new_user function to create a new YAML file. If the YAML file exists, it loads the API key from the file.
+7. The seventh line creates a new ShirtsIO client with the API key.
+8. The eighth line provides an interactive shell for the user, allowing them to run PyShirtsIO commands prefixed with "client.".
+
+In summary, this code provides a simple way to interact with the Shirts.io API using Python. It creates a new user, retrieves an API key, and provides an interactive shell for the user to run PyShirtsIO commands.

@@ -1,0 +1,17 @@
+The code is a Python implementation of the SCRAM (Salted Challenge Response Authentication Mechanism) protocol. SCRAM is a type of authentication protocol used in secure messaging systems. The code provides functionality for both the client and server sides of the authentication process.
+
+Here is a summary of the functionality provided by the code:
+
+- In the `SCRAMOperations` class, there are several helper functions for handling various cryptographic operations required by the SCRAM protocol, such as hashing and generating random nonces.
+
+- The `SCRAMClientAuthenticator` class implements the client side of the SCRAM authentication process. It provides methods for generating the initial client message, handling server challenges, and verifying the final server response.
+
+- The `SCRAMServerAuthenticator` class implements the server side of the SCRAM authentication process. It provides methods for verifying the client messages and generating the server challenges and response.
+
+The code implements the SCRAM authentication protocol according to the specifications defined in the RFC 5802 and RFC 7677 documents.The remaining part of the code defines four subclasses: `SCRAM_SHA_1_ClientAuthenticator`, `SCRAM_SHA_1_PLUS_ClientAuthenticator`, `SCRAM_SHA_1_ServerAuthenticator`, and `SCRAM_SHA_1_PLUS_ServerAuthenticator`. These subclasses extend the `SCRAMClientAuthenticator` and `SCRAMServerAuthenticator` classes, providing implementations specific to the SHA-1 hashing algorithm.
+
+The `SCRAM_SHA_1_ClientAuthenticator` and `SCRAM_SHA_1_PLUS_ClientAuthenticator` classes override the parent class's `__init__` method, specifying the SHA-1 hash function and whether or not channel binding is enabled.
+
+The `SCRAM_SHA_1_ServerAuthenticator` and `SCRAM_SHA_1_PLUS_ServerAuthenticator` classes also override the parent class's `__init__` method, specifying the SHA-1 hash function and whether or not channel binding is enabled. These classes also define a class method `are_properties_sufficient` that checks if the necessary properties, including channel binding, are provided.
+
+These subclasses provide specific implementations for the SCRAM authentication protocol using the SHA-1 hashing algorithm. The `SCRAM_SHA_1_ClientAuthenticator` and `SCRAM_SHA_1_ServerAuthenticator` are the basic implementations, while the `SCRAM_SHA_1_PLUS_ClientAuthenticator` and `SCRAM_SHA_1_PLUS_ServerAuthenticator` subclasses are enhanced versions that support channel binding.

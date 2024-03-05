@@ -1,0 +1,9 @@
+This code appears to be a part of a larger codebase that deals with transformation of data in a repository. Here is a breakdown of what each function does:
+
+1. `instantiate(repo, name=None, filename=None)`: This function takes in a repository object (`repo`), an optional name (`name`), and an optional filename (`filename`). It retrieves a dictionary of default transformers from the repository options. It then creates a new dictionary called `transformers` and populates it based on the provided `name` and `filename`. If no `name` is provided, it simply assigns the default transformers to `transformers`. Finally, it searches for matching input files based on the transformers and returns the `transformers` dictionary.
+
+2. `transform(repo, name=None, filename=None, force=False, args=[])`: This function takes in a repository object (`repo`), optional `name`, `filename`, and `force` parameters, and a list of `args`. It first retrieves the plugin manager using `plugins_get_mgr()` function. It then calls the `instantiate()` function to get the `specs` (transformer specifications) based on the provided `name` and `filename`. It initializes an empty list called `allresults`. 
+
+   The function then iterates over each transformer specification in `specs`. For each specification, it calls the `mgr.search()` function to search for transformer plugins with the specified name. For each found plugin, it retrieves the plugin object using `mgr.get_by_key()` function. It then calls the `evaluate()` method of the plugin object to evaluate the transformer on the repository, using the respective transformer specifications, `force` flag, and `args`. The results of the evaluation are appended to the `allresults` list.
+   
+   Finally, the function returns the `allresults` list containing the results of the transformation.

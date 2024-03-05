@@ -1,0 +1,23 @@
+The provided code is a part of the CoreMark benchmark suite. The benchmark suite runs a set of mathematical tasks which are then used to provide a rating of a computer's processor speed. 
+
+Given the code, the array "list_known_crc", "matrix_known_crc" and "state_known_crc" are precomputed checksum values used for comparison to determine if the benchmark calculations were accurately performed.
+
+The "iterate" function performs a series of bench list operations and updates the crc value for each operation in a CoreMark results structure.
+
+In the "main" function, it starts by setting initial conditions, seeds, and executes allocated memory to handle the benchmark operations depending on the defined memory handling method: static, heap (malloc) or stack. It then initialises the numerical tasks (list, matrix, state) to be performed in the benchmark and assigns the amount of memory each task can use. The main function also sets the number of iterations in the benchmark tests.
+
+After setting initial conditions, it then runs the iterate function to perform the benchmark tests then calculates the checksum from the seeds. It finally determines which set of parameters were used based on the checksum value and outputs a corresponding message. The code is configured to run in a multithreaded environment depending on the number specified by MULTITHREAD. If MULTITHREAD is more than one, then it will use core_start_parallel and core_stop_parallel to handle the benchmark operations.
+
+The purpose of this code is to benchmark the performance of a computer's processor using these mathematical tasks via different memory handling methods and in a potential multithreaded environment. Coremark is a popular method for benchmarking embedded systems.The remaining part of the CoreMark benchmark code checks if the calculated checksum from the benchmark tests matches the precomputed values. If there is a mismatch, it outputs an error message, indicating the task (list, matrix, or state), the checksum it received, and the expected checksum. It then increments the error count.
+
+Afterwards, it outputs the size of the CoreMark run, the total time taken for the benchmarks (both in ticks and seconds), the number of iterations per second if the total time was greater than zero, and the total number of iterations.
+
+If the total time taken for the benchmarks was less than 10 seconds, an error message is displayed and an error count is incremented, because the benchmark must run for at least 10 seconds to generate a valid result.
+
+After this, the code outputs the version of the compiler used, the compiler flags, the method of parallelism and number of contexts if multithreading was used, and the memory location used for the benchmark.
+
+Following that, if the PRINT_CRC preprocessor directive was defined, it will print the checksum values for the seed, list, matrix and state.
+
+The code then provides an overall validation or error message based on the total errors, and if no errors were found, it prints the CoreMark score, compiler version, compiler flags, memory location, and the parallel method and number of contexts if multithreading was used.
+
+Finally, if the memory method used was MEM_MALLOC, the code will use portable_free to free memory blocks allocated at the start of the tests in the main function. It also finalizes the portability code layer with the portable_fini function, and the main function returns, ending the benchmark.

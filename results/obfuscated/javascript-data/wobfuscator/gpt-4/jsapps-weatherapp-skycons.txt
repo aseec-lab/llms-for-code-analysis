@@ -1,0 +1,172 @@
+The JavaScript code appears to be handling WebAssembly modules.
+
+1. It defines a function '__universalAtob' that takes a Base64 encoded string as input, decodes it into a binary string, and returns it as a Uint8Array. It uses the 'atob' function or the 'global.Buffer.from' function for decoding.
+
+2. It then defines several Base64 encoded strings representing WebAssembly modules and converts them into WebAssembly.Module objects.
+
+3. The '__wasmStringModules' variable is an array of WebAssembly instances. The instances are created by decoding the Base64 strings using '__universalAtob' and then using them to construct WebAssembly.Module objects, which are in turn used to construct WebAssembly.Instance objects.
+
+4. The function 'lS' extracts data from a WebAssembly module. It fetches a module from '__wasmStringModules' and reads data from the module's memory using a Uint8Array. It uses 'exports[__stringKey]' to determine the start of the data in the memory buffer, although it is not clear from this part of the code what exactly '__stringKey' refers to, or what the 'pos' and 'iWC' parameters represent. 
+
+Note: The use of private naming (e.g., '__forWasmBuffer', '__wasmStringModules') suggests this script might be part of a larger code base or a module in a larger application. Also, the logic in '__universalAtob' and 'lS' appear to deal with strings in a way that is specific to the application. Only segments of code are provided, so some functionality may not be fully clear without the rest of the module.The JavaScript code is still handling WebAssembly modules. Here's the explanation of the remaining code:
+
+1. The function 'lS' is extended with more logic that continues to extract a string from a WebAssembly module's memory. The string starts at a position indicated by 'pos' and is sequentially built character by character. It seems to be ASCII-encoded (each character is represented by its ASCII value as a byte), with values above 128 marking the end of the string. The resulting string is then URL-decoded.
+
+2. The anonymous self-invoking function at the end, also known as an Immediately Invoked Function Expression (IIFE), creates another instance of the WebAssembly module '__callWasmModule', passing in an object with one property 'env'. This environment object contains a function 'impFunc' which delegates to a series of nested functions and WebAssembly instances.
+
+3. Within this IIFE, the function 'requestInterval' is defined. It creates a loop that repeatedly calls the passed in function at each frame request using functions like 'requestAnimationFrame'. If 'requestAnimationFrame' is available, it will be used to setup a callback that will be invoked in sync with the browser's refresh rate. 
+
+4. The 'cancelInterval' function is also defined, which cancels the frame request loop created by 'requestInterval'. It uses available cancel methods like 'cancelAnimationFrame', if they're available, to cancel the request made with 'requestAnimationFrame'.
+
+5. Throughout the IIFE, multiple new instances of WebAssembly modules are created (through '__callWasmModule') for different reasons.
+
+Note: It's important to mention that 'requestAnimationFrame' and 'cancelAnimationFrame' are methods provided by the Web Api, which let you optimize animations and other visual updates for maximum performance. The naming of the methods suggests that this script is likely part of an application that uses animations or other types of visual updates. This script seems to be setting up an environment where such animations or updates can be handled by WebAssembly code.This segment of the JavaScript code contains additional definitions of functions and constants that are used for drawing on a Canvas object using WebAssembly instances. Below are more details:
+
+1. Some constants are defined, like 'KEYFRAME', 'STROKE', 'TAU' and 'TWO_OVER_SQRT_2'. These probably represent some kind of standard or frequently used values in the drawing process.
+
+2. Then there are definitions of two functions named 'circle' and 'line'. It appears that these functions are wrappers for some WebAssembly code around the normal Canvas operations for drawing circles and lines:
+
+   - The 'circle' function uses three WebAssembly instances to perform the three steps necessary for drawing a circle on a canvas, i.e., beginning the path, specifying the arc, and filling the path.
+   - The 'line' function uses three WebAssembly instances to perform the three steps necessary for drawing a line on a canvas, i.e., beginning the path, moving the pen to the start point (ax, ay), and drawing a line to the specified end point (bx, by).
+
+3. Within both the 'circle' and 'line' functions, new WebAssembly instances are created, with each instance given an environment object with an 'impFunc' property. This function appears to correspond to one step in the process of drawing on the canvas.
+
+Overall, it seems this code accomplishes drawing circles and lines, but it does so using WebAssembly instances. This may be for education, experimentation, encapsulation, or to potentially offload compute-heavy canvas operations to WebAssembly for performance improvements. But since the basic canvas operations (that are being wrapped here) are already quite efficient, the practicality and efficiency of this approach might depend on more specific details or purposes not evident from just this code.This part of the JavaScript code extends the previous functions for drawing on a Canvas object using WebAssembly instances.
+Here are several functions that clearly represent different elements of a possible weather animation:
+
+1. The `puff` function is for drawing one 'puff' of a cloud. It takes in several parameters to specify the position, size, and appearance of the puff.
+
+2. The `puffs` function is to draw several puffs together, using the `puff` function within a loop, 5 times in this case. This could be representing multiple cloud elements in a weather image or animation.
+
+3. The `cloud` function seems to represent an entire cloud, which might be made up of several puffs. It uses the `puffs` function to draw the cloud.
+
+4. The `sun` function seems to start the drawing of a sun element, though it's not finished in the provided piece of code.
+
+Like in the previously assessed code, functions are encapsulated within WebAssembly instances for each specific operation. This is still experimental or exploratory in nature as native Canvas operations are just as, if not more, efficient for these kinds of tasks.
+
+It is important to notice a repeated pattern; each function uses a module for the WebAssembly instance, passes a specific function to the 'impFunc' in the env option when creating the instance, and finally, invokes the "data" function exported by the module. This seems to be process for each drawing operation.
+
+The last part that stands out is the use of `ctx.globalCompositeOperation`. This property of the Canvas 2D API is used for setting the type of compositing operation to apply when drawing new shapes. In this case, it sets the value returned by the function `lS(0, 1)` and `lS(0, 2)`. These could be methods for determining how the visuals combine when one shape is drawn over another.This portion of the code completes the `sun` function and provides the starting part of the `moon` function. It is similar in structure to the previously mentioned functions, `cloud` and `puff`, meaning this is for creating objects for the weather image or animation.
+
+1. The `sun` function: Following setting up canvas and line properties (like `strokeStyle`, `lineWidth`, `lineCap` and `lineJoin`), drawing methods such as `beginPath`, `arc`, and `stroke` are invoked within different WebAssembly instances in order to draw the body of the sun and the rays around it. They are used in combination with trigonometric calculations to draw these elements in a loop, and arranging them in a circular fashion around the sun.
+
+2. The `moon` function: Like the `sun` function, it sets up some initial variables and canvas properties and uses WebAssembly instances for drawing operations. One point of interest here is the variable `c` which calculates the cosine of a time-related value, and `p` which results in a time-based trajectory. These are associated with animations that might show the moon changing position or phase over time.
+
+As with the other functions, these all utilize WebAssembly instances for carrying out the drawing operations within the provided context. So we can infer that this method is used consistently throughout the code for creating the weather animation. This technique could have been used to explore WebGL applications of WebAssembly for complex graphics and animations.In the remainder of the `moon` function and the beginning of the `rain` function, we continue on the pattern of using `WebAssembly` instances to carry out the drawing and animation operations.
+
+1. The `moon` function: It continues to manipulate the context to draw the moon. The values for the context's arc method are being mathematically calculated to replicate the properties of a moon. Further we can see the context's `closePath` and `stroke` methods being called, which could be for closing the path of the moon drawing and rendering the strokes to realize the moon on the canvas.
+
+2. The `rain` function: This function seems to animate raindrops. It sets up initial variables like time, color, and coordinates. The variable `a` appears to control the size of the raindrop, while `b` and `c` appear to control their angular position. `i` seems to control the number of raindrops.
+The function then uses a loop to create the raindrops (indicated by `i = 4`). The x and y coordinates are calculated using a mixture of constants, input parameters, and the loop variable `i`. The number of drops equal to `i` are drawn with the help of `beginPath`, `moveTo`, and `fill` methods, each executed within different WebAssembly instances inside a for loop.In the `sleet` and `snow` functions, we continue to witness the use of `WebAssembly` instances to carry out operations of drawing on the canvas context. 
+
+1. `sleet` function: This function presumably animates precipitation as sleet (rain and snow mixed). It sets up variables for size, color, linewidth, lineCap, and lineJoin. Then it uses a loop (indicated by `i = 4`) with a `WebAssembly` instance to repeatedly call the `line` function to draw the sleet droplets from calculated x and y coordinates.
+
+2. `snow` function: It probably animates snowfall. The initial variables are setup for time, size, color etc. Constants and trigonometric functions are used to calculate the coordinates (in variables `ux`, `uy`, `vx`, `vy`, `wx`, `wy`) which would possibly be used within the drop creation process in a `WebAssembly` instance inside the loop that might follow.This code snippet has a third function named `fogbank`. It uses multiple WebAssembly instances to create an animated fog effect on the canvas in addition to the snow and sleet effects.
+
+3. `fogbank` function: This function is presumably used for creating an animated fog effect. It receives a couple of parameters including, `ctx` (canvas context), `t` (time), `cx` and `cy` (coordinates), `cw` (canvas width), `s` (size) and `color`. Similar to previous functions, it sets up numerous variables mainly for defining the fog dimensions on the canvas. The `puffs` function appears to be invoked in two different instances of `WebAssembly`, possibly adding two layers of fog with slightly different parameters giving a sense of depth to the animation. Notably, the `globalCompositeOperation` property of context `ctx` is set to `lS(0, 11)` that signifies the way of drawing new content onto the existing one.
+
+Each piece of the fog is created using the line method, but clever positioning and coloring brings it together as "fog". The `WebAssembly` instances are used for efficient loop execution, and potentially to multi-thread the drawing process for a smooth rendering experience. 
+
+In all three functions (`sleet`, `snow` and `fogbank`), the `WebAssembly` instances execute binary codes written in low-level language for high-efficiency performance of operations.This code snippet has a function named `leaf`. It is intended to create an animated leaf effect on the canvas.
+
+4. `leaf` function: This function receives parameters including, `ctx` (canvas context), `t` (time), `x` & `y` (coordinates), `cw` (canvas width), `s` (size) and `color`. It starts by setting up several variables mainly for defining the leaf dimensions on the canvas. Notably, the `globalCompositeOperation` property of context `ctx` is set to `lS(0, 15)` and `lS(0, 16)` that signifies the way of drawing new content onto the existing one. 
+
+Inside this function, a `WebAssembly` instance is used multiple times for drawing four arcs which together form the shape of the leaf. The `fill` and `stroke` methods are deployed to fill the leaf figure with color and set its outline. The binary code executed inside the `WebAssembly` instances efficiently performs all these operations.
+
+The `WIND_PATHS` is an array of two arrays containing pairs of values determining the sine-wave-like paths that mimic the blowing of the wind. `WIND_OFFSETS` is another array containing wind offset objects referring to the place where the wind starts and ends.
+
+The `leaf`, `sleet`, `snow` and `fogbank` functions, with the help of `WebAssembly`, work collectively to provide an animated weather effect involving falling sleet, snow, floating fog and blowing leaves.This part of the function `swoosh` first sets context properties such as the 'strokeStyle', 'lineWidth', 'lineCap' & 'lineJoin'. It then conduces a series of computations involving the WebAssembly instances inside a void function. Throughout the process, `env.impFunc1` & `env.impFunc` correspond to custom functions created for managing operations related to the canvas context `ctx`.
+
+The purpose of this function is to create a swoosh effect on the canvas, which can be used to depict wind or motion in the weather animation. It starts by using the `canvas.beginPath()` method that begins a new path or resets the current path.
+
+The function then conducts an intricate series of calculations, carries out a sequence of `moveTo` and `lineTo` operations carefully interspaced with the binary instructions (action points) executed by the WebAssembly instances.
+
+The function completes the drawing of the path using the context's `lineTo()` function, which adds a new point and creates a line from the last specified point in the canvas to the point(x,y). This process is executed in a loop to create the wind path. 
+
+In summary, the function is responsible for creating animated swoosh effects typically depicting the blowing wind on the canvas.This part of the function `swoosh` extends the functionality described earlier. It repeats code for instance invocation where custom 'impFunc' is created to interact with the canvas context 'ctx'. These functions, in various computations and 'if' and 'for' loops, formulate the destination points for the 'lineTo()' method as part of the swoosh effect's drawing process.
+
+The 'impFunc1' function is mainly used for plotting the path based on the computed points around the center (cx, cy) scaled already with factor 'cw'. 'impFunc2' function handles the case when all the points in the path have been calculated (a < 1). It moves through every calculated point and draws the line to create the final swoosh effect.
+
+The 'impFunc' in the block of 'impFunc2' is used to draw the line further on the canvas. In this part, 'c' is calculated as a part of the path length, which then floor down to get 'd.' These computations help in orchestrating the swoosh path that is drawn on the canvas.
+
+The logic enclosed within 'impFunc2' uses 'for' loops and line drawing operations to draw the path between every calculated point in the path. 
+
+In summary, these functions work in tandem to create a comprehensive swoosh effect employing a series of intricate computations and canvas drawing operations. 
+
+At the end of this function, the 'ctx.stroke()' method finally draws the paths composed by all the prior 'moveTo()' and 'lineTo()' operations on the canvas. This brings the displayed swoosh to life, enhancing the weather portrayal against the backdrop for the user.This part of the function `swoosh` continues from the previous section and adds more functionality to the swoosh effect.
+
+`impFunc` within the function call of `__callInstance30` extends the line on the canvas to a new point. The values of this new point are calculated as a weighted average of two points from the path array, considering the relative position of the denominator length 'c'.
+
+In the code block of `impFunc` within `__callInstance29`, `ctx.stroke()` is used to finalize the path drawn on the canvas. This marking is necessary to ensure that the swoosh effect is physically drawn on the canvas.
+
+In the function call of `__ifInstance3`, `impFunc1` calculates the position of a forecast icon (represented by the `leaf` function) based on the path plot. It uses a similar approach of weighted averages to calculate the x and y coordinates of the position and then execute the `leaf` function at that position.
+
+These operations work in stride with previously described code to create a full swoosh effect using line and leaf drawings on the canvas while adding the weather forecast icons accurately along the swoosh path.
+
+As previously explained, these `__callInstance`, `__forInstance`, and `__ifInstance` structures are related to how WebAssembly compiles and wraps native operations, helping to optimize performance and resources.The code block you provided is the continuation of the `swoosh` function from before. In fact, the start of the provided block is ending the `swoosh` function.
+
+A new function `Skycons` is defined taking an optional parameter `opts`. `Skycons` are dynamic weather icons. The icons are primarily drawn with the HTML5 canvas tag and should scale well on all devices.
+
+This function sets `this.list` as an empty array. It sets this.color to either opts.color, if opts is defined and includes color, or to the output of `lS(0, 19)`. It appears that `lS` is a function that generates a specific color. `this.resizeClear` is set to `true` if  opts and `opts.resizeClear` are defined.
+
+Individual weather conditions are then defined as individual functions on the `Skycons` object such as `CLEAR_DAY`, `CLEAR_NIGHT`, `PARTLY_CLOUDY_DAY`, and `PARTLY_CLOUDY_NIGHT`. Each function defines the appearance of the icons for their corresponding weather conditions. They all take a canvas rendering context (ctx), a time variable (t), and a color.
+
+These functions use the canvas context to draw different weather icons based on the input weather conditions. They determine the display size based on the minimum dimension of the canvas for consistent scaling. The `WebAssembly.Instance` in each function works the same way as previously explained, execiting the appropriate icon drawing function in WebAssembly's environment, like `moon` for `CLEAR_NIGHT` and `sun` for `CLEAR_DAY`.
+
+The closures with `__callInstance`, `impFunc`, and `__exports` are tools to create portable binary code with WebAssembly, ensuring optimised performance and resource usage of the operations.This code block continues to establish weather animations in the `Skycons` object.
+
+Here are the functions of the `Skycons`:
+
+- `Skycons.CLOUDY` displays the cloudy weather icon. The `cloud` function, called within the WebAssembly instance, draws the cloud shape.
+
+- `Skycons.RAIN` displays the rain weather icon. Two functions are called within the instances of WebAssembly. The first `rain` function draws the raindrop shapes, and the second `cloud` function draws the cloud shape above the rain, resulting in a raining cloud animation.
+
+- `Skycons.SLEET` executes two functions to depict a sleet weather condition. The `sleet` function creates sleet drops and the second `cloud` function creates the cloud from which the sleet is falling.
+
+- `Skycons.SNOW` also creates a snowing effect using two functions. The `snow` function draws the snow falling and the `cloud` function draws the cloud from which the snow is falling.
+
+All of the functions in `Skycons` have the same generic setup. Each function takes a `ctx`, `t`, and `color`. They determine the dimensions of the weather icon based on the canvas's dimensions. WebAssembly instances are created to execute the appropriate functions to build the corresponding weather icons.
+
+The `impFunc` function in each closure performs the task of executing the appropriate weather icon function like `cloud`, `rain`, `sleet`, etc. The `__callInstance` absorbs the output of `WebAssembly.Instance`, the `__exports.data()` return statement then fetches the data from each respective produced instance. Each closure encapsulates its environment ensuring the body of the function only has access to the variables that are passed. The enclosed environment and the returned instance data help in accurately depicting the corresponding weather condition on the HTML5 canvas.The remaining part of this script continues to define weather conditions through `Skycons`.
+
+1. `Skycons.WIND` display the wind icon. It calls the `swoosh` function twice on two instances of WebAssembly to draw two variants of the wind animation. 
+
+2. `Skycons.FOG` depicts the fog weather condition. It applies the `fogbank`, `line` functions on the instances of WebAssembly to draw the fog effect.
+
+Each function within the `Skycons` object still follows the same generic procedure of the previous functions, utilizing the WebAssembly and closures to create the weather animations. 
+
+The `impFunc` in each method contains the specific weather icon functions being used to create the animation:
+
+- `swoosh` function draws a swoosh of the wind in the wind icon.
+- `fogbank` function draws the fog in the fog icon.
+- `line` function is used to draw lines representing fog.
+
+Each function draws each part of the icon on a 2D rendering context of the canvas (`ctx`). The output of each respective produced instance is absorbed by the `__callInstance` constant, and the desired data is fetched from the `__exports.data()` return statement. The process helps to create an accurate icon representation for `WIND` and `FOG` weather conditions. 
+
+Parameters `ctx`, `t`, `color` are still used for determining the dimensions of the weather icon based on the canvas's dimensions. Variable `k` represents the width of the strokes made by the fog animation. The variables `a`, `b`, `c`, `d` are used to create small variations in the fog lines to give a more fluid, natural appearance. The `n`, `e` and `f` variables are used to calculate the positions of the fog lines on the canvas.The remaining part of the script contains methods for adding and setting weather icons on the webpage.
+
+1. `_determineDrawingFunction`: This helper method is to identify the appropriate drawing animation for each weather condition from the `Skycons` object using the `draw` parameter. The WebAssembly Instance changes `draw` to the corresponding icon function if the parameter represents a valid weather condition. The function result is either the appropriate animation function or null if the `draw` parameter could not be matched to any weather conditions.
+
+2. `add`: This method adds a new weather icon drawn on a context obtained from a canvas element identified by the `el` parameter. The particular weather icon to be drawn is determined by the `draw` parameter. The method creates a new object `obj` with the properties of `element`, `context`, and `drawing` representing the canvas element, its 2D context, and the weather icon to be drawn, respectively. The new `obj` is added to the `list` array which holds all objects that need to be drawn on the existing canvas.
+
+3. `set`: This method updates the drawing function of an existing object in the `list` array. It finds the object with the canvas matching the `el` parameter and updates the `drawing` property of that object with the new `draw` parameter. 
+
+   The `__callInstance7` instance redraws the updated object using the new `drawing` function associated with the weather icon.
+
+WebAssembly Instances in each method verify the validity of parameters `el` and `draw`. If both parameters are valid, the operations proceed or else, they are prematurely stopped.
+
+All these methods contribute to manipulating weather icons. They can add new icons or change the drawing function of existing ones, resulting in weather icons that can either stay constant or change dynamically as required.The following methods for manipulating weather icons are defined in this section:
+
+1. `remove`: This method takes a parameter `el` representing a canvas HTML element from which a weather icon should be removed. The method first checks if an `el` is a valid string (if it's not already an element) and converts it to an Element if so; this is ensured using the WebAssembly Instance `__ifInstance7`. Then it loops through the `list` array to find the object that matches the `el`. Upon finding the match, the method removes it from the `list`. If the match is not found, nothing happens.
+
+2. `draw`: This method is called to draw a weather icon on the canvas. It takes two parameters `obj`, a previously defined object that has a `context` and a `drawing` needed to draw the icon on the canvas, and `time` representing the current animation frame of the drawing. If the `resizeClear` property is `true`, it sets the canvas width to itself which triggers a clear operation. Then, it draws an icon on the canvas by calling the `drawing` function from the `obj`.
+
+3. `play`: This method first calls `pause` (not defined in this part of the script) to ensure that any previous animations are stopped. Then it sets up a new frame animation in which `draw` is called for all elements in the `list` array. This essentially starts the icon animation for each weather icon added to the list. 
+
+Particularly noteworthy is the constant use of the WebAssembly Instance to verify parameters, which ensures that the operations are safely executed. The emergence of Wasm in this script points to the desire for performance-intensive tasks since WebAssembly is designed to be fast and efficient, allowing animations to run smoothly with reduced load times.This remaining part of the function further defines `play` and a new method called `pause`, while the animation loop started within the `play` utilizes WebAssembly as well.
+
+WebAssembly is employed in the `play` method's `requestInterval` function to execute `draw` on each weather icon object in the `list` array until there are no more items left in the list. This operation is done in intervals specified by `1000 / 60` milliseconds (approximating 60 frames per second, typical for animations), and for each interval, the `draw` function is called for every item in the list. 
+
+The `pause` method stops the ongoing animation by calling the `cancelInterval` on `this.interval` (which was set in the `play` method) using a helper function `__callInstance0` in WebAssembly. If the `this.interval` exists, it gets canceled, and then it is set to `null`. The `pause` function is expected to stop animations and clear the interval previously set in `play`.
+
+Finally, the `Skycons` object, enriched with the `remove`, `draw`, `play` and `pause` methods, gets registered globally, allowing usage of `Skycons` elsewhere in the application. All calls and executions are also wrapped in WebAssembly instances for security and efficiency.

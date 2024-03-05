@@ -1,0 +1,11 @@
+This JavaScript code does the following:
+
+1. Initial definitions: The code first defines a few constants and functions that appear to be part of some obfuscation mechanism. It also defines a function `a0_0x201c` which returns an array of strings. 
+
+2. Event Listener Assignment: It assigns two HTML elements (referenced by CSS Selectors `#dolar` and `#bitcoin`, most likely buttons) to the variables `botonDolar` and `botonBitcoin` respectively. Event Listeners are then added to these elements which respond to click events, calling a function `obtenerDatos` with arguments 'dolar' or 'bitcoin', depending on the button clicked.
+
+3. AJAX Request: The `obtenerDatos` Function constructs a URL by concatenating the argument (either 'dolar' or 'bitcoin') to a base URL (`https://mindicador.cl/api/`). It then initiates an AJAX (Asynchronous JavaScript and XML) request to this URL using the `XMLHttpRequest` Object. When the ready state of the request changes, the `respuesta` function is invoked.
+
+4. Response Handling: The `respuesta` function is the callback function for the AJAX request and handles the server's response. It first checks if the request status is successful (200) and if the readyState equals 4 (request finished and response is ready). It then parses the server's response (assumed to be in JSON format) and logs the parsed data to the console. It also updates the innerHTML of an HTML element with the id `resultado` with the parsed data, specifically the 'serie' field which seems to be an array of objects representing currency rates for different dates. The script only handles/display the first 16 responses (0x0f in hexadecimal equals 15 in decimal, but since count starts from 0, it's 16 elements). Each response is structured into list items with date and the corresponding currency rate.
+
+This script is intended to provide a functionality where, when a button (`#dolar` or `#bitcoin`) is clicked, it fetches currency rates from a remote server and updates an HTML element (`#resultado`) with the returned data.

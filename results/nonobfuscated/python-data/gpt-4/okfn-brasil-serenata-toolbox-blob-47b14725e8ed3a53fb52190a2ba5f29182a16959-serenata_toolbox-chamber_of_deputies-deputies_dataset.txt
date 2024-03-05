@@ -1,0 +1,13 @@
+This Python code is essentially a module that fetches, parses, and saves information about deputies from the open data of the Brazilian Chamber of Deputies website.
+
+1. The `DeputiesDataset` class defines the URL endpoint where the deputies data is fetched from as a constant. 
+
+2. Its `fetch()` method requests the XML data from the URL, parses it into a data tree structure using the `ElementTree` class, then extracts each deputy's data into a Pandas DataFrame.
+
+3. The `_parse_deputies()` method helper is used to iterate over each deputy node in the XML root, yielding a tuple of extracted data for each deputy (e.g., ID, budget ID, gender, party, email).
+
+4. The `_translate()` method is a helper function that translates certain data fields from Portuguese to English.
+
+5. The `fetch_deputies()` function instantiates the `DeputiesDataset` class, calls the `fetch()` method to get the DataFrame of deputies data, saves it to a CSV file, and logs the total number of deputies fetched and their conditions (Holder/Substitute).
+
+In summary, the code is a scraper used for fetching, parsing, translating, and saving deputies data from the Brazilian Chamber of Deputies website.

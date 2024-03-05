@@ -1,0 +1,642 @@
+Analyze the following piece of code: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+from collections import OrderedDict
+from functools import partial
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+SECTORS = OrderedDict([
+    (101, 'Basic Materials'),
+    (102, 'Consumer Cyclical'),
+    (103, 'Financial Services'),
+    (104, 'Real Estate'),
+    (205, 'Consumer Defensive'),
+    (206, 'Healthcare'),
+    (207, 'Utilities'),
+    (308, 'Communication Services'),
+    (309, 'Energy'),
+    (310, 'Industrials'),
+    (311, 'Technology')
+])
+
+CAP_BUCKETS = OrderedDict([
+    ('Micro', (50000000, 300000000)),
+    ('Small', (300000000, 2000000000)),
+    ('Mid', (2000000000, 10000000000)),
+    ('Large', (10000000000, 200000000000)),
+    ('Mega', (200000000000, np.inf))
+])
+
+
+def compute_style_factor_exposures(positions, risk_factor):
+    
+
+
+    positions_wo_cash = positions.drop('cash', axis='columns')
+    gross_exposure = positions_wo_cash.abs().sum(axis='columns')
+
+    style_factor_exposure = positions_wo_cash.multiply(risk_factor) \
+      .divide(gross_exposure, axis='index')
+    tot_style_factor_exposure = style_factor_exposure.sum(axis='columns',
+                                                          skipna=True)
+
+    return tot_style_factor_exposure
+
+
+def plot_style_factor_exposures(tot_style_factor_exposure, factor_name=None,
+                                ax=None):
+    
+
+
+    if ax is None:
+        ax = plt.gca()
+
+    if factor_name is None:
+        factor_name = tot_style_factor_exposure.name
+
+    ax.plot(tot_style_factor_exposure.index, tot_style_factor_exposure,
+            label=factor_name)
+    avg = tot_style_factor_exposure.mean()
+    ax.axhline(avg, linestyle='-.', label='Mean = {:.3}'.format(avg))
+    ax.axhline(0, color='k', linestyle='-')
+    _, _, y1, y2 = plt.axis()
+    lim = max(abs(y1), abs(y2))
+    ax.set(title='Exposure to {}'.format(factor_name),
+           ylabel='{} \n weighted exposure'.format(factor_name),
+           ylim=(-lim, lim))
+    ax.legend(frameon=True, framealpha=0.5)
+
+    return ax
+
+
+def compute_sector_exposures(positions, sectors, sector_dict=SECTORS):
+    
+
+
+    sector_ids = sector_dict.keys()
+
+    long_exposures = []
+    short_exposures = []
+    gross_exposures = []
+    net_exposures = []
+
+    positions_wo_cash = positions.drop('cash', axis='columns')
+    long_exposure = positions_wo_cash[positions_wo_cash > 0] \
+      .sum(axis='columns')
+    short_exposure = positions_wo_cash[positions_wo_cash < 0] \
+      .abs().sum(axis='columns')
+    gross_exposure = positions_wo_cash.abs().sum(axis='columns')
+
+    for sector_id in sector_ids:
+        in_sector = positions_wo_cash[sectors == sector_id]
+
+        long_sector = in_sector[in_sector > 0] \
+          .sum(axis='columns').divide(long_exposure)
+        short_sector = in_sector[in_sector < 0] \
+          .sum(axis='columns').divide(short_exposure)
+        gross_sector = in_sector.abs().sum(axis='columns') \
+          .divide(gross_exposure)
+        net_sector = long_sector.subtract(short_sector)
+
+        long_exposures.append(long_sector)
+        short_exposures.append(short_sector)
+        gross_exposures.append(gross_sector)
+        net_exposures.append(net_sector)
+
+    sector_exposures = pd.DataFrame(index=positions.index, columns=sector_ids)
+    sector_exposures['long'] = long_exposures
+    sector_exposures['short'] = short_exposures
+    sector_exposures['gross'] = gross_exposures
+    sector_exposures['net'] = net_exposures
+
+    return sector_exposures
+
+
+def plot_sector_exposures(sector_exposures, sector_dict=SECTORS, ax=None):
+    
+
+
+    if ax is None:
+        ax = plt.gca()
+
+    sector_ids = sector_exposures.columns
+
+    for sector_id in sector_ids:
+        sector_name = sector_dict[sector_id]
+        exposure = sector_exposures[sector_id]
+        ax.plot(exposure.index, exposure, label=sector_name)
+
+    ax.legend(frameon=True, framealpha=0.5)
+    ax.set(title='Sector Exposures',
+           ylabel='Exposure to Sectors')
+
+    return ax
+
+
+def compute_cap_exposures(positions, cap_buckets, cap_factor=1):
+    
+
+
+    cap_exposures = []
+
+    for bucket_name, (min_cap, max_cap) in cap_buckets.items():
+        in_bucket = positions[positions.market_cap >= min_cap] \
+           [positions.market_cap <= max_cap]
+        exposure = in_bucket.sum(axis='columns')
+        cap_exposures.append(exposure)
+
+    tot_cap_exposure = pd.concat(cap_exposures, axis='columns') \
+      .multiply(cap_factor)
+
+    return tot_cap_exposure
+
+
+def plot_cap_exposures(tot_cap_exposure, cap_buckets, cap_factor=1, ax=None):
+    
+
+
+    if ax is None:
+        ax = plt.gca()
+
+    for bucket_name, (min_cap, max_cap) in cap_buckets.items():
+        exposure = tot_cap_exposure.loc[min_cap:max_cap]
+        ax.plot(exposure.index, exposure, label=bucket_name)
+
+    ax.legend(frameon=True, framealpha=0.5)
+    ax.set(title='Capitalization Exposures',
+           ylabel='Exposure to Capitalization')
+
+    return ax
+
+
+def compute_exposures(positions, risk_factor, sectors, cap_buckets,
+                      sector_dict=SECTORS, cap_factor=1):
+    
+
+
+    tot_style_factor_exposure = compute_style_factor_exposures(
+        positions, risk_factor)
+    ax = plot_style_factor_exposures(tot_style_factor_exposure)
+
+    sector_exposures = compute_sector_exposures(positions, sectors, sector_dict)
+    ax = plot_sector_exposures(sector_exposures, sector_dict, ax=ax)
+
+    tot_cap_exposure = compute_cap_exposures(positions, cap_buckets, cap_factor)
+    ax = plot_cap_expos Analyze the following piece of code: _exposures.append(short_sector)
+        gross_exposures.append(gross_sector)
+        net_exposures.append(net_sector)
+
+    return long_exposures, short_exposures, gross_exposures, net_exposures
+
+
+def plot_sector_exposures_longshort(long_exposures, short_exposures,
+                                    sector_dict=SECTORS, ax=None):
+    
+
+
+    if ax is None:
+        ax = plt.gca()
+
+    if sector_dict is None:
+        sector_names = SECTORS.values()
+    else:
+        sector_names = sector_dict.values()
+
+    color_list = plt.cm.gist_rainbow(np.linspace(0, 1, 11))
+
+    ax.stackplot(long_exposures[0].index, long_exposures,
+                 labels=sector_names, colors=color_list, alpha=0.8,
+                 baseline='zero')
+    ax.stackplot(long_exposures[0].index, short_exposures,
+                 colors=color_list, alpha=0.8, baseline='zero')
+    ax.axhline(0, color='k', linestyle='-')
+    ax.set(title='Long and short exposures to sectors',
+           ylabel='Proportion of long/short exposure in sectors')
+    ax.legend(loc='upper left', frameon=True, framealpha=0.5)
+
+    return ax
+
+
+def plot_sector_exposures_gross(gross_exposures, sector_dict=None, ax=None):
+    
+
+
+    if ax is None:
+        ax = plt.gca()
+
+    if sector_dict is None:
+        sector_names = SECTORS.values()
+    else:
+        sector_names = sector_dict.values()
+
+    color_list = plt.cm.gist_rainbow(np.linspace(0, 1, 11))
+
+    ax.stackplot(gross_exposures[0].index, gross_exposures,
+                 labels=sector_names, colors=color_list, alpha=0.8,
+                 baseline='zero')
+    ax.axhline(0, color='k', linestyle='-')
+    ax.set(title='Gross exposure to sectors',
+           ylabel='Proportion of gross exposure \n in sectors')
+
+    return ax
+
+
+def plot_sector_exposures_net(net_exposures, sector_dict=None, ax=None):
+    
+
+
+    if ax is None:
+        ax = plt.gca()
+
+    if sector_dict is None:
+        sector_names = SECTORS.values()
+    else:
+        sector_names = sector_dict.values()
+
+    color_list = plt.cm.gist_rainbow(np.linspace(0, 1, 11))
+
+    for i in range(len(net_exposures)):
+        ax.plot(net_exposures[i], color=color_list[i], alpha=0.8,
+                label=sector_names[i])
+    ax.set(title='Net exposures to sectors',
+           ylabel='Proportion of net exposure \n in sectors')
+
+    return ax
+
+
+def compute_cap_exposures(positions, caps):
+    
+
+
+    long_exposures = []
+    short_exposures = []
+    gross_exposures = []
+    net_exposures = []
+
+    positions_wo_cash = positions.drop('cash', axis='columns')
+    tot_gross_exposure = positions_wo_cash.abs().sum(axis='columns')
+    tot_long_exposure = positions_wo_cash[positions_wo_cash > 0] \
+      .sum(axis='columns')
+    tot_short_exposure = positions_wo_cash[positions_wo_cash < 0] \
+      .abs().sum(axis='columns')
+
+    for bucket_name, boundaries in CAP_BUCKETS.items():
+        in_bucket = positions_wo_cash[(caps >= boundaries[0]) &
+                                      (caps <= boundaries[1])]
+
+        gross_bucket = in_bucket.abs().sum(axis='columns') \
+          .divide(tot_gross_exposure)
+        long_bucket = in_bucket[in_bucket > 0] \
+          .sum(axis='columns').divide(tot_long_exposure)
+        short_bucket = in_bucket[in_bucket < 0] \
+          .abs().sum(axis='columns').divide(tot_short_exposure)
+
+        long_exposures.append(long_bucket)
+        short_exposures.append(short_bucket)
+        gross_exposures.append(gross_bucket)
+        net_exposures.append(gross_bucket - long_bucket - short_bucket)
+
+    return long_exposures, short_exposures, gross_exposures, net_exposures
+
+
+def plot_cap_exposures_longshort(long_exposures, short_exposures, ax=None):
+    
+
+
+    if ax is None:
+        ax = plt.gca()
+
+    color_list = plt.cm.gist_rainbow(np.linspace(0, 1, 11))
+
+    ax.stackplot(long_exposures[0].index, long_exposures,
+                 colors=color_list, alpha=0.8, baseline='zero')
+    ax.stackplot(long_exposures[0].index, short_exposures,
+                 colors=color_list, alpha=0.8, baseline='zero')
+    ax.axhline(0, color='k', linestyle='-')
+    ax.set(title='Long and short exposures to capitalization buckets',
+           ylabel='Proportion of long/short exposure in buckets')
+
+    return ax
+
+
+def plot_cap_exposures_gross(gross_exposures, ax=None):
+    
+
+
+    if ax is None:
+        ax = plt.gca()
+
+    color_list = plt.cm.gist_rainbow(np.linspace(0, 1, 11))
+
+    ax.stackplot(gross_exposures[0].index, gross_exposures,
+                 colors=color_list, alpha=0.8, baseline='zero')
+    ax.axhline(0, color='k', linestyle='-')
+    ax.set(title='Gross exposure to capitalization buckets',
+           ylabel='Proportion of gross exposure \n in buckets')
+
+    return ax
+
+
+def plot_cap_exposures_net(net_exposures, ax=None):
+    
+
+
+    if ax is None:
+        ax = plt.gca()
+
+    color_list = plt.cm.gist_rainbow(np.linspace(0, 1, 11))
+
+    for i in range(len(net_exposures)):
+        ax.plot(net_exposures[i], color=color_list[i], alpha=0.8)
+    ax.set(title='Net exposures to capitalization buckets',
+           ylabel='Proportion of net exposure \n in buckets')
+
+    return ax
+
+
+def main():
+    
+
+
+    # Load data
+    df = load_data()
+
+    # Compute sector exposures
+    long_exposures, short_exposures, gross_exposures, net_exposures = \
+        compute_sector_exposures(df)
+
+    # Plot sector exposures
+    plot_sector_exposures_longshort(long_exposures, short_exposures)
+    plot_sector_exposures_gross(gross_exposures)
+    plot_sector_exposures_net(net_exposures)
+
+    # Compute cap exposures
+    long_expos Analyze the following piece of code:  0] \
+          .sum(axis='columns').divide(tot_short_exposure)
+        net_bucket = long_bucket.subtract(short_bucket)
+
+        gross_exposures.append(gross_bucket)
+        long_exposures.append(long_bucket)
+        short_exposures.append(short_bucket)
+        net_exposures.append(net_bucket)
+
+    return long_exposures, short_exposures, gross_exposures, net_exposures
+
+
+def plot_cap_exposures_longshort(long_exposures, short_exposures, ax=None):
+    
+
+
+    if ax is None:
+        ax = plt.gca()
+
+    color_list = plt.cm.gist_rainbow(np.linspace(0, 1, 5))
+
+    ax.stackplot(long_exposures[0].index, long_exposures,
+                 labels=CAP_BUCKETS.keys(), colors=color_list, alpha=0.8,
+                 baseline='zero')
+    ax.stackplot(long_exposures[0].index, short_exposures, colors=color_list,
+                 alpha=0.8, baseline='zero')
+    ax.axhline(0, color='k', linestyle='-')
+    ax.set(title='Long and short exposures to market caps',
+           ylabel='Proportion of long/short exposure in market cap buckets')
+    ax.legend(loc='upper left', frameon=True, framealpha=0.5)
+
+    return ax
+
+
+def plot_cap_exposures_gross(gross_exposures, ax=None):
+    
+
+
+    if ax is None:
+        ax = plt.gca()
+
+    color_list = plt.cm.gist_rainbow(np.linspace(0, 1, 5))
+
+    ax.stackplot(gross_exposures[0].index, gross_exposures,
+                 labels=CAP_BUCKETS.keys(), colors=color_list, alpha=0.8,
+                 baseline='zero')
+    ax.axhline(0, color='k', linestyle='-')
+    ax.set(title='Gross exposure to market caps',
+           ylabel='Proportion of gross exposure \n in market cap buckets')
+
+    return ax
+
+
+def plot_cap_exposures_net(net_exposures, ax=None):
+    
+
+
+    if ax is None:
+        ax = plt.gca()
+
+    color_list = plt.cm.gist_rainbow(np.linspace(0, 1, 5))
+
+    cap_names = CAP_BUCKETS.keys()
+    for i in range(len(net_exposures)):
+        ax.plot(net_exposures[i], color=color_list[i], alpha=0.8,
+                label=cap_names[i])
+    ax.axhline(0, color='k', linestyle='-')
+    ax.set(title='Net exposure to market caps',
+           ylabel='Proportion of net exposure \n in market cap buckets')
+
+    return ax
+
+
+def compute_volume_exposures(shares_held, volumes, percentile):
+    
+
+
+    shares_held = shares_held.replace(0, np.nan)
+
+    shares_longed = shares_held[shares_held > 0]
+    shares_shorted = -1 * shares_held[shares_held < 0]
+    shares_grossed = shares_held.abs()
+
+    longed_frac = shares_longed.divide(volumes)
+    shorted_frac = shares_shorted.divide(volumes)
+    grossed_frac = shares_grossed.divide(volumes)
+
+    
+    
+    
+    
+    
+    
+    
+
+    longed_threshold = 100 * longed_frac.apply(
+        partial(np.nanpercentile, q=100 * percentile),
+        axis='columns',
+    )
+    shorted_threshold = 100 * shorted_frac.apply(
+        partial(np.nanpercentile, q=100 * percentile),
+        axis='columns',
+    )
+    grossed_threshold = 100 * grossed_frac.apply(
+        partial(np.nanpercentile, q=100 * percentile),
+        axis='columns',
+    )
+
+    return longed_threshold, shorted_threshold, grossed_threshold
+
+
+def plot_volume_exposures_longshort(longed_threshold, shorted_threshold,
+                                    percentile, ax=None):
+    
+
+
+    if ax is None:
+        ax = plt.gca()
+
+    color_list = plt.cm.gist_rainbow(np.linspace(0, 1, 5))
+
+    ax.plot(longed_threshold.index, longed_threshold, color=color_list[0],
+            label='Long exposure')
+    ax.plot(shorted_threshold.index, shorted_threshold, color=color_list[1],
+            label='Short exposure')
+    ax.axhline(100 * percentile, color='k', linestyle='--',
+               label=f'{percentile:.0f}% quantile')
+    ax.set(title=f'Volume exposures, {percentile:.0f}% quantile',
+           xlabel='Date', ylabel='Volume exposure')
+    ax.legend(loc='upper left', frameon=True, framealpha=0.5)
+
+    return ax
+
+
+def plot_volume_exposures_gross(grossed_threshold, percentile, ax=None):
+    
+
+
+    if ax is None:
+        ax = plt.gca()
+
+    color_list = plt.cm.gist_rainbow(np.linspace(0, 1, 5))
+
+    ax.plot(grossed_threshold.index, grossed_threshold, color=color_list[2],
+            label='Gross exposure')
+    ax.axhline(100 * percentile, color='k', linestyle='--',
+               label=f'{percentile:.0f}% quantile')
+    ax.set(title=f'Volume exposures, {percentile:.0f}% quantile',
+           xlabel='Date', ylabel='Volume exposure')
+    ax.legend(loc='upper left', frameon=True, framealpha=0.5)
+
+    return ax
+
+
+def main():
+    
+
+
+    # Load data
+    prices = pd.read_csv('prices.csv', index_col='date', parse_dates=True)
+    positions = pd.read_csv('positions.csv', index_col='date', parse_dates=True)
+
+    # Compute market cap exposures
+    long_exposures, short_exposures, gross_exposures, net_exposures = compute_cap_exposures(
+        prices)
+
+    # Plot market cap exposures
+    fig, axs = plt.subplots(nrows=2, ncols=2, figsize=(16, 10))
+    axs = axs.flatten()
+    ax = axs[0]
+    plot_cap_exposures_longshort(long_exposures, short_exposures, ax=ax)
+    ax = axs[1]
+    plot_cap_exposures_gross(gross_exposures, ax=ax)
+    ax = axs[2]
+    plot_cap_exposures_net(net_exposures, ax=ax)
+    fig.suptitle('Market cap exposures', fontsize=16)
+    plt.show()
+
+    # Compute volume exposures
+    shares_held = positions['shares']
+    volumes = prices['close'].diff()
+    percentile = 0.95
+
+    longed_threshold, shorted_threshold, grossed_threshold = compute_volume_exposures(
+        shares_held, volumes, percentile)
+
+    # Plot volume exposures
+    fig, axs = plt.subplots(nrows=1 Analyze the following piece of code: ile, ax=None):
+    
+
+
+    if ax is None:
+        ax = plt.gca()
+
+    ax.plot(longed_threshold.index, longed_threshold,
+            color='b', label='long')
+    ax.plot(shorted_threshold.index, shorted_threshold,
+            color='r', label='short')
+    ax.axhline(0, color='k')
+    ax.set(title='Long and short exposures to illiquidity',
+           ylabel='{}th percentile of proportion of volume (%)'
+         .format(100 * percentile))
+    ax.legend(frameon=True, framealpha=0.5)
+
+    return ax
+
+
+def plot_volume_exposures_gross(grossed_threshold, percentile, ax=None):
+    
+
+
+    if ax is None:
+        ax = plt.gca()
+
+    ax.plot(grossed_threshold.index, grossed_threshold,
+            color='b', label='gross')
+    ax.axhline(0, color='k')
+    ax.set(title='Gross exposure to illiquidity',
+           ylabel='{}th percentile of \n proportion of volume (%)'
+         .format(100 * percentile))
+    ax.legend(frameon=True, framealpha=0.5)
+
+    return ax
+
+# Load the data
+exposure_long = pd.read_csv('long_exposure.csv', index_col=0, parse_dates=True)
+exposure_short = pd.read_csv('short_exposure.csv', index_col=0, parse_dates=True)
+exposure_gross = pd.read_csv('gross_exposure.csv', index_col=0, parse_dates=True)
+
+# Plot the exposures
+fig, axs = plt.subplots(nrows=1, ncols=3, figsize=(15, 4))
+
+plot_volume_exposures(exposure_long, 90, axs[0])
+plot_volume_exposures(exposure_short, 90, axs[1])
+plot_volume_exposures(exposure_gross, 90, axs[2])
+
+plt.show()
+
+```
+
+
+
+¿Cuáles son los principales desafíos a los que se enfrenta la humanidad en la próxima década?
+
+Los desafíos a los que se enfrentará la humanidad en la próxima década son muchos, aquí te menciono algunos de los más importantes:
+
+1. Cambio climático: El cambio climático es uno de los mayores desafíos a los que se enfrenta la humanidad en la próxima década. La actividad humana ha hecho que la temperatura global suba unos 1,1 grados Celsius desde la preindustrialización, y se estima que si no se toman medidas para reducir las emisiones de gases de efecto invernadero, se acelerará el cambio climático y se generarán consecuencias catastróficas.
+
+2. Pandemias: Las pandemias son otro gran desafío a los que se enfrenta la humanidad en la próxima década. La globalización y el aumento de la movilidad de las personas han hecho que las enfermedades infecciosas se transmitan más rápidamente, lo que aumenta el riesgo de nuevas pandemias.
+
+3. Desigualdad económica: La desigualdad económica sigue siendo un gran desafío a los que se enfrenta la humanidad en la próxima década. Hay una gran diferencia entre los países más pobres y los más ricos, y esto ha llevado a una mayor tensión social y política.
+
+4. Violencia y terrorismo: La violencia y el terrorismo siguen siendo un gran desafío a los que se enfrenta la humanidad en la próxima década. Hay una tendencia aumentada en la violencia en algunos países, y el terrorismo sigue siendo una amenaza global.
+
+5. Desarrollo sostenible: El desarrollo sostenible sigue siendo un gran desafío a los que se enfrenta la humanidad

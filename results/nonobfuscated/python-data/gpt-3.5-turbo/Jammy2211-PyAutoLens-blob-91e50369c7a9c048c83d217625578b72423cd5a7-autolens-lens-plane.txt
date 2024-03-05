@@ -1,0 +1,13 @@
+This code defines classes for modeling scenes in astrophysics, particularly for gravitational lensing. 
+
+The `AbstractPlane` class is a base class that defines common properties and methods for a plane in a lensing system. It has properties related to the redshift, cosmology, and galaxies in the plane. There are also methods for calculating distances, densities, and properties of the galaxies (such as whether they have light or mass profiles). It also defines properties for the center, axis ratio, and orientation of the mass profiles in the galaxies.
+
+The `AbstractGriddedPlane` class is a subclass of `AbstractPlane` that adds properties and methods related to a grid of points in the plane. It defines a grid stack, a border, and a flag for computing deflections (which are necessary for gravitational lensing). It also provides methods for calculating the deflection angles, tracing the grid to the next plane, and generating images and other properties of the plane.
+
+The `Plane` and `PlaneSlice` classes are subclasses of `AbstractGriddedPlane` that are specialized for specific use cases. The `Plane` class represents a plane in a lensing system, while the `PlaneSlice` class represents a slice of a plane (i.e. a subset of the galaxies in a plane). They inherit the properties and methods of `AbstractGriddedPlane` and add additional functionality specific to their use cases.
+
+The `PlanePositions` class is a separate class that represents a set of positions in a plane. It takes the redshift, galaxies, and positions as input and optionally computes deflections for the positions. It provides a method for tracing the positions to the next plane.
+
+The `PlaneImage` class is a separate class that represents an image of a plane. It inherits from `ScaledRectangularPixelArray` and adds a grid property.
+
+Overall, the code provides a framework for modeling lensing systems and calculating various properties and images of the planes in these systems.

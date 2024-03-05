@@ -1,0 +1,65 @@
+The code is creating a benchmark suite for a Gameboy emulator. The benchmark measures the performance of running the Gameboy emulator and passes it a ROM file to run. The setupGameboy function checks if the necessary TypedArray objects are supported, and decodes the gameboy_rom using the base64_decode function. The runGameboy function runs the Gameboy emulator for a specified number of instructions, resetting some global variables and running the gameboy's run and audio functions in a loop. The tearDownGameboy function resets some variables after running the benchmark. The GameBoyContext, GameBoyCanvas, and GameBoyAudioContext functions define objects and their properties and methods for simulating a Gameboy environment in a web browser. The base64 and base64_decode functions encode and decode data using the base64 algorithm. The to_little_endian_dword, to_little_endian_word, and to_byte functions convert numbers to little-endian byte representation. The Resampler function is used for audio resampling.The remaining part of the code is for initializing the audio output for different platforms like Mozilla audio, Web audio, and Flash. The XAudioServer constructor initializes the audio channels, sample rate, buffer sizes, volume, and sets the underRunCallback function. Then, it calls the initializeAudio function to initialize the audio output based on the platform support.
+
+The MOZWriteAudio function is used to write audio data to the Mozilla audio output, while the callbackBasedWriteAudio and callbackBasedWriteAudioNoCallback functions are used for the Web audio output. The remainingBuffer function returns the remaining audio buffer size.
+
+The MOZExecuteCallback and callbackBasedExecuteCallback functions are used to execute the underRunCallback function when the audio buffer is running low. 
+
+The initializeAudio function initializes the audio output based on the platform support. It first checks if Mozilla audio support is available and pre-initializes the audio buffer if found. If not, it tries to initialize the Web audio output. If that fails, it initializes the Flash audio output using SWFObject.
+
+The XAudioServer also provides functions for changing the volume and writing audio data to the output based on the chosen platform.
+
+The getFloat32 and getFloat32Flat functions are utility functions for creating Float32Array objects or regular arrays of a specified size.
+
+The audioOutputFlashEvent function is a callback function for Flash audio output events. It calls the resampleRefill function and returns the output convert function.
+
+The generateFlashStereoString and generateFlashMonoString functions are used to generate binary strings for Flash audio output. The strings are constructed by mapping the resampled audio data to the range of 0x3000 to 0x6FFF and converting it to a character code.}
+  } while (weight > 0 && actualPosition < this.finalResultThis is the remaining part of the previous function:
+
+```javascript
+  Resize.prototype.resize = function (buffer) {
+    return this.resizeHeight(this.resizeWidth(buffer));
+  }
+  Resize.prototype.bypassResizer = function (buffer) {
+    return buffer;
+  }
+  Resize.prototype.initializeFirstPassBuffers = function (BILINEARAlgo) {
+    this.widthBuffer = this.generateFloatBuffer(this.widthPassResultSize);
+    if (!BILINEARAlgo) {
+      this.outputWidthWorkBench = this.generateFloatBuffer(this.originalHeightMultipliedByChannels);
+    }
+  }
+  Resize.prototype.initializeSecondPassBuffers = function (BILINEARAlgo) {
+    this.heightBuffer = this.generateUint8Buffer(this.finalResultSize);
+    if (!BILINEARAlgo) {
+      this.outputHeightWorkBench = this.generateFloatBuffer(this.targetWidthMultipliedByChannels);
+    }
+  }
+  Resize.prototype.generateFloatBuffer = function (bufferLength) {
+    try {
+      return new Float32Array(bufferLength);
+    }
+    catch (error) {
+      return [];
+    }
+  }
+  Resize.prototype.generateUint8Buffer = function (bufferLength) {
+    try {
+      return this.checkForOperaMathBug(new Uint8Array(bufferLength));
+    }
+    catch (error) {
+      return [];
+    }
+  }
+  Resize.prototype.checkForOperaMathBug = function (typedArray) {
+    typedArray[0] = -1;
+    typedArray[0] >>= 0;
+    if (typedArray[0] != 0xFF) {
+      return [];
+    }
+    else {
+      return typedArray;
+    }
+  }
+```
+
+These functions include the initialization of different buffers needed for resizing the image, as well as a function to bypass the resizer and directly return the input buffer. There are also helper functions to generate float and uint8 buffers, and to check for a specific bug in the Opera browser.

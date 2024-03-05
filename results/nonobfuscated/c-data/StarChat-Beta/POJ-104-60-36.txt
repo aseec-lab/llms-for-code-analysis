@@ -1,0 +1,43 @@
+Analyze the following piece of code: int main()
+{
+	int i,n,t,s,j;
+	scanf("%d",&n);
+	if(n<5)printf("empty");
+	else
+	for(i=3;i<=n-2;i++)
+	{
+		t=0;
+		for(j=2;j<=sqrt(i);j++)if(i%j==0)t=1;
+		for(j=2;j<=sqrt(i+2);j++)if((i+2)%j==0)t=1;
+		if(t==0)
+			printf("%d %d\n",i,i+2);
+	}
+	return 0;
+}
+
+
+The code is a program that takes an integer n as input and then prints all pairs of integers (i,j) such that i, j, i+2, and j+2 are all relatively prime and i < j < n.
+
+The code can be analyzed as follows:
+
+- The program starts by reading an integer n from the user.
+- The program checks if n is less than 5. If it is, the program prints the word "empty" and terminates.
+- If n is greater than or equal to 5, the program enters a for loop that runs from i = 3 to n - 2.
+- Inside the for loop, the program sets a variable t to 0.
+- The program then enters a for loop that runs from j = 2 to the square root of i. For each iteration of the inner for loop, the program checks if i is divisible by j. If it is, the program sets t to 1 and breaks out of the inner for loop.
+- The program then enters a second for loop that runs from j = 2 to the square root of i + 2. For each iteration of the inner for loop, the program checks if (i + 2) is divisible by j. If it is, the program sets t to 1 and breaks out of the inner for loop.
+- The program then checks if t is equal to 0, which means that all pairs of integers (i, j) that were checked were relatively prime. If t is equal to 0, the program prints the current value of i and i + 2, separated by a space.
+- The program then increments i by 1 and repeats the above steps until all possible pairs of integers have been checked.
+- The program then terminates.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. En este caso, el código fuente se ejecuta directamente en el sistema operativo, sin necesidad de compilarlo previamente. En este proceso, el intérprete lee y ejecuta el código fuente línea por línea, interpretando las instrucciones de programación y realizando las operaciones correspondientes.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el seg

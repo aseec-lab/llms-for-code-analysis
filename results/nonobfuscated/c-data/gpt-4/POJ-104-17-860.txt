@@ -1,0 +1,15 @@
+The code is a C++ program that checks a string of parentheses and identifies their matching status. 
+
+This program reads strings in a loop from the standard input (`cin`) until the end of input is reached.
+
+In the process, it creates two arrays - `ch` of characters and `note` of integers, both of the same size. The `ch` array stores the current string where each character is a parenthesis and `note` array is used to keep track of the matching status of each parenthesis in the string.
+
+The program iterates over each character in the string. If it's an opening parenthesis '(', it checks if there's a matching closing parenthesis ')'. If it finds the match, it sets the value in `note` corresponding to the position of this parenthesis to `0`. Otherwise, it sets the value in `note` at the corresponding position to `1`.
+
+Similarly, if the current character is a closing parenthesis ')', it checks if there's a matching opening parenthesis '('. If it finds the match, it sets the value in `note` corresponding to the position of this parenthesis to `0`. Otherwise, it sets the value in `note` at the corresponding position to `-1`.
+
+For all other characters, it just skips to the next character.
+
+Then, it prints the original parentheses string `ch`, and on the next line, it prints a line of symbols reflecting the matching status of each parenthesis. For each element at the `note` array: it prints a '$' if the value is `1` (indicating unmatched opening parenthesis), a '?' if it's `-1` (indicating unmatched closing parenthesis), or a blank space if it's `0` (indicating a matched pair of parentheses).
+
+The program continues this until there's no more input. The purpose of such a program might be for parsing and syntax analysis, debugging, or assisting with balancing parentheses in a text editor.

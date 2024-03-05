@@ -1,0 +1,79 @@
+Analyze the following piece of code: 
+
+int main()
+{
+int m,n,sxrow,xxrow,sxcol,xxcol,i,j,a[M][N],num,s=0;
+	scanf("%d%d",&m,&n);
+	for(i=0;i<m;i++){
+		for(j=0;j<n;j++){
+		scanf("%d",&a[i][j]);
+		}
+	}
+	num=m*n;
+	sxrow=m-1;xxrow=0;
+	sxcol=n-1;xxcol=0;
+	while(s!=num){
+	for(i=xxcol;i<=sxcol;i++){
+		printf("%d\n",a[xxrow][i]);
+		s++;
+	}
+	if(s==num){break;}
+	for(i=xxrow+1;i<=sxrow;i++){
+		printf("%d\n",a[i][sxcol]);
+		s++;
+	}
+
+
+	if(s==num){break;}
+	for(i=sxcol-1;i>=xxcol;i--){
+		printf("%d\n",a[sxrow][i]);
+		s++;
+	}
+
+	if(s==num){break;}
+	xxrow++;xxcol++;
+
+
+	for(i=sxrow-1;i>=xxrow;i--){
+		printf("%d\n",a[i][xxcol-1]);
+		s++;
+	}
+
+	if(s==num){break;}
+	sxrow--;sxcol--;
+
+}
+	return 0;
+}
+
+What does this code do?
+
+The code is a part of a program that solves a square matrix of size m*n, where m and n are given as input. The program uses 8-Queen problem to solve the matrix.
+
+The code first takes the input of m and n, and then creates a 2D array a of size m*n. It then loops through all the elements of the matrix and takes input for each element.
+
+After the input, the code uses 8-Queen problem to solve the matrix. It starts from the top-left corner of the matrix and iteratively moves to the right and down, placing queens in each row and column. If a queen is placed in a row or column where another queen is already present, the program backtracks and tries another position.
+
+The program uses 8 variables to keep track of the current row, column, and direction of the queen. It also keeps track of the number of queens placed and the total number of possible positions (m*n).
+
+The program uses 4 nested for loops to iterate through all possible positions for the queen. In each iteration, the program checks if the current position is valid (no queen in the row or column), and if it is, it increments the count of queens placed and updates the current row, column, and direction.
+
+If the count of queens placed is equal to the total number of possible positions, the program prints the solution and returns 0. Otherwise, it backtracks and tries another position.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente se traduce a un archivo ejecutable antes de ser ejecutado. En este proceso, el compilador lee el código fuente y lo convierte en un archivo ejecutable que puede ser ejecutado directamente en la computadora. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código máquina que la computadora puede ejecutar.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente se traduce en tiempo real mientras se está ejecutando. En este proceso, el código fuente se lee y ejecuta línea por línea, sin necesidad de compilar previamente el código. En este caso, el intérprete es el programa que traduce el código fuente en código ejecutable en tiempo real.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de ser ejecutado, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un

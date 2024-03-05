@@ -1,0 +1,49 @@
+This code appears to be a system-specific implementation of several memory operating functions for different environments such as DOS 16-bit, MacOS and another environment using the default malloc function (probably Unix-like systems).
+
+The functions provided are:
+
+1. `AllocateMemory(nbytes, errorcode)`: This function is used to allocate a specified number of bytes. It handles memory management in three ways depending on the specific environment. In the DOS16 environment, it uses `intdos` to make a DOS system call to allocate memory. For MAC environments, it uses the `NewPtr` function to allocate memory. For cases using malloc (like Unix-like environments), it uses the `malloc` function.
+
+2. `FreeMemory(mempointer, errorcode)`: This function is used to release used memory pointed by `mempointer`. Similar to `AllocateMemory`, this also has handling methods for the three specified environments.
+
+3. `MoveMemory(destination, source, nbytes)`: This function is used to copy `nbytes` of memory from `source` to `destination`. In DOS16, a special custom function called `FarDOSmemmove` is implemented to handle special characteristics of memory management in DOS. For non-DOS16 environments, the standard `memmove` function is being used.
+
+4. `FarDOSmemmove(destination, source, nbytes)`: This function is a custom memmove function implementation that is designed to handle memory moves in the DOS 16-bit environment.
+
+5. `InitMemArray()`: This function initializes the memory array entries. 
+
+Error codes are returned by several functions for checking and handling of potential exceptions, but the actual definition and use require the complete context of the software. 
+
+Note: The code and structure are dated and may not be compatible with modern operating systems such as Linux, Windows, or MacOS.This part of code continues providing file processing functions tailored for different environments, DOS 16-bit and Linux specifically. The defined functions include:
+
+1. `AddMemArray(true_addr, adj_addr)`: A function for adding entries to a memory mapping array `mem_array`. It maintains a mapping between adjusted addresses and true addresses, which is likely specific to the unique memory management needs of the software or the specific operating environment.
+
+2. `RemoveMemArray(adj_addr, true_addr)`: A function for removing a specific mapping from the memory array. It uses `adj_addr` to locate the mapping and `true_addr` to retrieve the original address before removal.
+
+3. `CreateFile(filename, errorcode)`: A function for creating a new file. This operation varies depending on the operating system. For DOS16, the `open` function is used. For Linux, the `fopen` function is used.
+
+4. `bmOpenFile(fname, errorcode)`: A function for opening an existing file. Similar to `CreateFile`, the function used depends on the environment. 
+
+5. `CloseFile(fhandle, errorcode)`: A function for closing a previously opened file. The file handle differs between environments as well.
+
+6. `readfile(fhandle, offset, nbytes, buffer, errorcode)`: A function for reading data from a file. The function accepts a file handle, data offset, number of bytes to read, and a buffer for storing read data. The method differs based on the environment used. On DOS16, the `read` function is used whereas on Linux, the `fread` function is used.
+
+7. `writefile(fhandle, offset, nbytes, buffer, errorcode)`: A function for writing data to a file. Like the previous functions, it also accepts file handle, data offset, number of bytes to write, and a buffer for the data to write. The used method depends on the environment.
+
+The error codes defined and returned such as `ERROR_FILEOPEN`, `ERROR_FILESEEK`, `ERROR_FILEREAD`, and `ERROR_FILEWRITE` aren't included in this code snippet, you need to refer to their actual definitions elsewhere in the software. 
+
+Remember that this code seems dated, and doesn't consider other modern operating environments like MacOS, or Windows.This part of the code is providing several more functions:
+
+1. `ReportError(char *errorcontext, int errorcode)`: This function is used for handling and reporting errors. It accepts a context (description of the situation where the error occurred) and an error code. It prints these values as part of an “ERROR CONDITION” report.
+
+2. `ErrorExit()`: A function to end the program runtime with error status 1. Special handling for profiling with MACCWPROF is added.
+
+3. `StartStopwatch()`: This function is used for starting a stopwatch timer. The method of time tracking depends on the operating system or the availability of certain Timing Managers or APIs.
+   
+4. `StopStopwatch(unsigned long startticks)`: This function is used for stopping the stopwatch timer that was started by `StartStopwatch`. The function returns the difference in time between start and stop. It takes the start time as a parameter to calculate the elapsed time.
+
+5. `TicksToSecs(unsigned long tickamount)`: This function is used to convert the amount of ticks into seconds. The conversion depends on the constants defined in the specific operating system.
+
+6. `TicksToFracSecs(unsigned long tickamount)`: This function converts the amount of ticks into fractional seconds. The conversion depends on the same defined constants as in `TicksToSecs`. 
+
+This code snippet continues to showcase the handling of low-level tasks tailored to specific operating systems and appears to be quite dated. The stopwatch functions and error handling likely perform important roles in the overall software system.

@@ -1,0 +1,19 @@
+This JavaScript code manages a task list, represented by an array of objects. Each task object contains an activity and a status attribute.
+
+`formularioUI` and `listaActividadesUI` are pointers to HTML DOM (Document Object Model) identified by 'formulario' and 'listaActividades' respectively.
+
+`CrearTask` function accepts an activity adds it to `arrayActividades` with status as 'false'
+
+`GuardarDB` function saves the current state of `arrayActividades` to the local storage of the web browser, serialized as a JSON string.
+
+`PintarDB` function repopulates `arrayActividades` from the local storage, and renders each of activities to `listaActividadesUI`.
+
+`EditarDB ` function updates the activity status to 'true'.
+
+`EliminarDB` function removes an activity based on its name.
+
+A 'submit' event listens to form submission and adds user inputs as tasks to the task list, saves the new task list to the local storage, and cleans up the form fields.
+
+A 'DOMContentLoaded' event populates activities on the list when the page is fully loaded.
+
+A 'click' event on `listaActividadesUI` differentiates the click target and either edits or deletes the corresponding task.

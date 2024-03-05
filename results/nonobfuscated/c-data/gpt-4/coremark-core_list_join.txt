@@ -1,0 +1,25 @@
+This code is from the CoreMark benchmarking suite used to measure the performance of central processing units (CPUs). It includes definitions for data structures, functions for manipulating linked lists, and operations to benchmark the performance of certain operations. 
+
+The first set of functions operate on a linked list. This includes functions for copying list data (`copy_info`), finding elements in a list (`core_list_find`), reversing a list (`core_list_reverse`), removing items from a list (`core_list_remove`), undoing previous removals (`core_list_undo_remove`), and merging sorted lists (`core_list_mergesort`).
+
+`calc_func` is a helper function which calculates a return value based on binary operations on the input data. It appears to be part of the logic of the benchmarking code.
+
+`cmp_complex` and `cmp_idx` are comparison functions used to sort the lists in certain ways. They both call the `calc_func` function to prepare their input data for comparison. The logic for how they compare the data is different, giving alternative methods of ordering the data.
+
+`core_bench_list` seems to be the main benchmarking function. It performs a series of list operations and keeps running track of found and missed search results. The result is calculated and returned as a 16-bit integer.
+
+`core_list_init` is used to initialize the linked list with a sequence of test data. It also sorts the list using the `cmp_idx` function before returning it.
+
+The `ee_u16`, `ee_s16`, and `ee_s32` are typedefined integers (unsigned and signed) of 16-bits and 32-bits respectively. These are part of the EEMBC’s CoreMark benchmarking suite and are used to enable the same code run on various hardware architectures with different data sizes.The final set of methods defined here serve to manipulate elements of a linked list.
+
+The `core_list_insert_new` function will insert a new list element into the list at the position of `insert_point`. The function checks if the memory blocks provided have space for this operation and if not, returns NULL. The newly inserted item will be added beyond `insert_point` in the list and it will be populated with the data from `info`. 
+
+The `core_list_remove` function will remove an item from the linked list and return it separately with its next pointer set to NULL. It does this by swapping the info of the item to be removed with its next item and then bypassing the item in the list by linking its previous node with the node after it. 
+
+The `core_list_undo_remove` function undoes the removal of an item to a linked list. This function assumes that the `item_modified` corresponds to the item that was ahead in the list of the item to be recovered (`item_removed`). The function first swaps the info of the two items then it inserts the removed item into the list after the modified item.
+
+The `core_list_find` function searches a linked-list for an item. If `info->idx` is bigger than or equals 0, the search is done comparing `info->idx` with the index of the items in the list. Otherwise, it uses `info->data16` to find the item.
+
+The `core_list_reverse` function returns a reversed copy of the list. 
+
+The `core_list_mergesort` function implements the mergesort algorithm to sort a linked list. It uses a helper function `cmp` to decide the order of elements.

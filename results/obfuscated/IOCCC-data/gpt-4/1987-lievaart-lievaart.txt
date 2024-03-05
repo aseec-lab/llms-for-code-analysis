@@ -1,0 +1,18 @@
+The provided code is a minimalistically written computer version of the classic game Reversi (also known as Othello). The code uses several macros to simplify function names and then implements the game logic.
+
+Below is the behavior of the program:
+- The program creates a 100x11 board and places the initial game pieces for both players. 
+- It then prompts users to choose the level of the game AI. The level affects how many steps ahead the AI will think before making its decision. 
+- Each turn, player enters the position where they want to put their piece. If the move is not legal (does not turn over any opponent piece), player is prompted to input again. Each incorrect input will decrease the available moves by one.
+- If the player inputs '99', the turn ends prematurely.
+- As long as moves are still available (initially 60, but can decrease with each invalid input), the board situation is evaluated from the perspective of the AI. The program calculates the value of the board based on different positions: corners are most valuable, positions next to the corners are least valuable, and the rest are neutral.
+- Then, for each possible move, the program uses a recursive algorithm to look a certain number of steps ahead (determined by the level), evaluate the possible situations, and choose the best move based on a 'minimax' strategy: it assumes that the player will always choose the move that most disadvantages the AI.
+- Finally, the AI makes the move calculated as the best and prints the updated score and move.
+
+As the code utilizes C preprocessor commands to define some function and variable names, it might be a bit cryptic. For example:
+- `I` is `printf`,
+- `s` is `scanf` for an integer,
+- `e` is a `while` loop,
+- `l` is `int`, etc. 
+
+This shorthand method makes the code more difficult to read, but it essentially provides a somewhat unique way of implementing the Reversi game in C.

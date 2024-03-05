@@ -1,0 +1,21 @@
+The provided C code is the infamous "Tiny Chess" program created by Oscar Toledo G. You can also find this program by its commonly known name "Nanochess". This program is recognized for its extremely small size and ability to run a full game of chess, albeit without any complex rules such as castling or en-passant.
+
+Here's a more detailed breakdown of what it does:
+
+1. The program uses a string `l` for encryption/decryption of move sequences and the board representation.
+2. It defines several macros:
+   - `F` is used to get the lower 4 bits from a character from stdin.
+   - `R(a)` is used in the evaluation function `X`.
+   - `P` is used to return `y =~y`.
+   - `a` is used to call the `X` function with starting parameters.
+   - `H` represents `while`.
+   - `D` represents `if`.
+
+3. It initializes a number of int variables, which are used to define the state of the game, store the move sequences, and other relevant data.
+4. In the `main` function, it runs an infinite loop which constantly checks for player input to make a move on the board. The updates of the board state and move sequences are encrypted/decrypted using string `l`.
+5. It uses the function `X(w,c,h,e,S,s)` as the recursive Chess position evaluation function. This function has several important roles:
+   - It decodes and generates possible moves.
+   - It evaluates board positions and assigns numeric scores to them.
+   - It controls the AI decision-making by optimizing for the position with the highest score.
+
+Despite the compact size and non-standard coding style, the program can run a functional game of chess using text-based inputs and outputs in the terminal.

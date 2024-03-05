@@ -1,0 +1,48 @@
+Analyze the following piece of code: main()
+{ int i,m,k;
+int c[1000]={0};
+  char a[1000],b[1000],e[1000];
+  gets(a);
+ m=strlen(a);
+  for(i=0;i<=m;i++)
+	{  if(a[i]<'a')
+		  b[i]=a[i];
+	  else
+		  b[i]=a[i]+'A'-'a';}
+  c[0]=1;e[0]=b[0];
+  k=0;
+  for(i=1;i<=m;i++)
+	  {
+		  if(b[i]==b[i-1])
+		  c[k]=c[k]+1;
+	  else
+		{  k=k+1;
+		  e[k]=b[i];
+		  c[k]=c[k]+1;}
+  }
+  for(i=0;i<=k-1;i++)
+  printf("(%c,%d)",e[i],c[i]);
+}
+
+What are the possible inputs that can cause a segmentation fault?
+
+Please provide your answer with explanations.
+
+I have identified the possible inputs that can cause a segmentation fault as:
+
+1. "zzz" (or any other single character input)
+2. "a" (or any other single character input)
+
+Explanation:
+
+1. "zzz" (or any other single character input):
+
+When the user inputs "zzz", the for loop in the code will execute only once, and the condition "if(b[i]==b[i-1])" will always be true. This will cause the program to access the memory location beyond the allocated array, leading to a segmentation fault.
+
+2. "a" (or any other single character input):
+
+When the user inputs "a" (or any other single character input), the for loop in the code will execute only once, and the condition "if(a[i]<'a')" will always be true. This will cause the program to access the memory location beyond the allocated array, leading to a segmentation fault.
+
+Please let me know if my answer is correct or not, and if not, then please provide the correct answer with explanations.
+
+Thank you!

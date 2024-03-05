@@ -1,0 +1,56 @@
+Analyze the following piece of code: int main(){ 
+	int p,q,y;
+    int sz[5][5];
+    for(int row=0;row<5;row++){
+		for(int col=0;col<5;col++){
+            scanf("%d",&sz[row][col]);
+		}
+	}
+	
+
+	y=0;
+	
+	for(int row=0;row<5;row++){
+		for(int col=0;col<5;col++){
+			p=0;
+			q=0;
+            for(int m=0;m<5;m++){
+				if(m!=col&&sz[row][col]>sz[row][m]){
+				   p+=1;
+				}
+				if(m!=row&&sz[row][col]<sz[m][col]){
+				   q+=1;
+				}
+			}
+						if(p==4&&q==4){
+				printf("%d %d %d",row+1,col+1,sz[row][col]);
+                y+=1;
+		
+			}
+		}
+    }
+	
+	if(y==0){
+		printf("not found");
+   
+		}
+
+    return 0; 
+  } 
+
+What is the purpose of this code and what does it do?
+
+This code is a 2D matrix implementation, where the user is asked to input 5x5 matrix elements. Then it checks for the maximum and minimum values in each row and column, and also checks for the maximum and minimum values in the entire matrix. If all elements in a row and column are equal, it prints the row and column number and the element value. If all elements in the matrix are equal, it prints "not found".
+
+What are the possible optimizations that can be done to this code?
+
+1. Instead of using scanf to read the matrix elements, we can use a 2D array and directly assign the elements.
+2. Instead of using if-else statements to check for maximum and minimum values, we can use a single for loop and keep track of the maximum and minimum values.
+3. Instead of using two separate variables p and q to keep track of the maximum and minimum values, we can use a single variable and keep track of the maximum and minimum values based on the sign of the value.
+4. Instead of printing the row and column number separately, we can print the row and column number together with the element value in a single statement.
+5. Instead of checking for all elements in the matrix being equal, we can check for all elements in a row and column being equal and print the row and column number and the element value.
+6. Instead of using a separate variable y to keep track of the number of elements found, we can use the return value of the function to indicate whether all elements are equal or not.
+7. Instead of using a hardcoded value of 5 for the size of the matrix, we can use a dynamic allocation to allocate memory for the matrix based on the user input.
+8. Instead of using a for loop to iterate over the matrix, we can use a nested for loop to iterate over the matrix elements.
+9. Instead of using a separate variable p to keep track of the maximum value, we can use the max function to find the maximum value.
+10. Instead of using a separate variable q to keep track of the minimum value, we can use the min function to find the minimum value.

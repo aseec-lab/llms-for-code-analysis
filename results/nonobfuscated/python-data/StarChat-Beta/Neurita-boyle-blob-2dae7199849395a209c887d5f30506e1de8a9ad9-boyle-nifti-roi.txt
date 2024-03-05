@@ -1,0 +1,562 @@
+Analyze the following piece of code: 
+
+
+
+
+
+
+
+
+
+
+import numpy            as np
+import nibabel          as nib
+import scipy.ndimage    as scn
+from   collections      import OrderedDict
+
+from .check           import check_img_compatibility, repr_imgs, check_img
+from .read            import read_img, get_img_data, get_img_info
+from .mask            import binarise, load_mask
+from ..utils.strings  import search_list
+
+
+def drain_rois(img):
+    
+
+    img_data = get_img_data(img)
+
+    out = np.zeros(img_data.shape, dtype=img_data.dtype)
+
+    krn_dim = [3] * img_data.ndim
+    kernel  = np.ones(krn_dim, dtype=int)
+
+    vals = np.unique(img_data)
+    vals = vals[vals!= 0]
+
+    for i in vals:
+        roi  = img_data == i
+        hits = scn.binary_hit_or_miss(roi, kernel)
+        roi[hits] = 0
+        out[roi > 0] = i
+
+    return out
+
+
+def pick_rois(rois_img, roi_values, bg_val=0):
+    
+
+    img = read_img(rois_img)
+    img_data = img.get_data()
+
+    if bg_val == 0:
+        out = np.zeros(img_data.shape, dtype=img_data.dtype)
+    else:
+        out = np.ones(img_data.shape, dtype=img_data.dtype) * bg_val
+
+    for r in roi_values:
+        out[img_data == r] = r
+
+    return nib.Nifti2Image(out, affine=img.affine, header=img.header)
+
+
+def largest_connected_component(volume):
+    
+
+    
+    volume = np.asarray(volume)
+    labels, num_labels = scn.label(volume)
+    if not num_labels:
+        raise ValueError('No non-zero values: no connected components found.')
+
+    if num_labels == 1:
+        return volume.astype(np.bool)
+
+    label_count = np.bincount(labels.ravel().astype(np.int))
+    
+    label_count[0] = 0
+    return labels == label_count.argmax()
+
+
+def large_clusters_mask(volume, min_cluster_size):
+    
+
+    labels, num_labels = scn.label(volume)
+
+    labels_to_keep = set([i for i in range(num_labels)
+                         if np.sum(labels == i) >= min_cluster_size])
+
+    clusters_mask = np.zeros_like(volume, dtype=int)
+    for l in range(num_labels):
+        if l in labels_to_keep:
+            clusters_mask[labels == l] = 1
+
+    return clusters_mask
+
+
+def create_rois_mask(roislist, filelist):
+    
+
+    roifiles = []
+
+    for roi in roislist:
+        try:
+            roi_file = search_list(roi, filelist)[0]
+        except Exception as exc:
+            raise Exception('Error creating list of roi files. \n {}'.format(str(exc)))
+        else:
+            roifiles.append(roi_file)
+
+    return binarise(roifiles)
+
+
+def get_unique_nonzeros(arr):
+    
+
+    rois = np.unique(arr)
+    rois = rois[np.nonzero(rois)]
+    rois.sort()
+
+    return rois
+
+
+def get_roilist_from_atlas(atlas_img):
+    
+
+    return get_unique_nonzeros(check_img(atlas_img).get_data())
+
+
+def get_rois_centers_of_mass(vol):
+    
+
+    from scipy.ndimage.measurements import center_of_mass
+
+    roisvals = np.unique(vol)
+    roisvals = roisvals[roisvals!= 0]
+
+    rois_centers = OrderedDict()
+    for r in roisvals:
+        rois_centers[r] = center_of_mass(vol, vol, r)
+
+    return rois_centers
+
+
+def partition_timeseries(image, roi_img, mask_img=None, zeroe=True, roi_values=None, outdict=False):
+    
+
+    img  = read_img(image)
+    rois = read_img(roi_img)
+
+    
+    check_img_compatibility(img, rois, only_same_affine=True)
+
+    if mask_img:
+        mask = load_mask(mask_img)
+    else:
+        mask = np.ones(img.shape, dtype=bool)
+
+    if roi_values is None:
+        roi_values = get_unique_nonzeros(rois.get_data())
+
+    if zeroe:
+        out = np.zeros((len(roi_values),) + img.shape[1:], dtype=img.get_data_dtype())
+    else:
+        out = img.get_data() * 0
+
+    for i, r in enumerate(roi_values):
+        roi = rois.get_data() == r
+        if mask_img:
+            roi *= mask
+        out[i] = img.get_fdata() * roi
+
+    if outdict:
+        return {r: out[i] for i, r in enumerate(roi_values)}
+    else:
+        return out
+
+
+def get_rois_from_mask(mask_img):
+    
+
+    mask = load_mask(mask_img)
+    labels, num_labels = scn.label(mask)
+
+    if num_labels == 1:
+        return [0], mask
+
+    rois = []
+    for i in range(1, num_labels):
+        roi = mask == i
+        if np.sum(roi) > 0:
+            rois.append(i)
+
+    return rois, mask
+
+
+def get_rois_from_labels(labels_img):
+    
+
+    labels = load_mask(labels_img)
+    rois = []
+    for i in range(1, np.max(labels) + 1):
+        roi = labels == i
+        if np.sum(roi) > 0:
+            rois.append(i)
+
+    return rois
+
+
+def get_rois_from_annotation(annotation_file):
+    
+
+    rois = []
+    with open(annotation_file, 'r') as f:
+        for line in f:
+            if line.startswith('ROI '):
+                roi = int(line.split(' ')[1])
+                if roi not in rois:
+                    rois.append(roi)
+
+    return rois
+
+
+def get_rois_from_label_file(label_file):
+    
+
+    rois = []
+    with open(label_file, 'r') as f:
+        for line in f:
+            if line.startswith('label '):
+                roi = int(line.split(' ')[1])
+                if roi not in rois:
+                    rois.append(roi)
+
+    return rois
+
+
+def get_rois_from_csv(csv_file):
+    
+
+    rois = []
+    with open(csv_file, 'r') as f:
+        for line in f:
+            if line.startswith('roi_name'):
+                continue
+            roi = int(line.split(',')[0])
+            if roi not in rois:
+                rois.append(roi)
+
+    return rois
+
+
+def get_rois_from_directory(directory):
+    
+
+    rois = []
+    for filename in os.listdir(directory):
+        if filename.endswith('.nii.gz') or filename.endswith('.nii'):
+            img = nib.load(os.path.join(directory, filename))
+            rois += get_rois_from_labels(img)
+
+    return rois
+
+
+def get_rois_from_mask_directory(directory):
+    
+
+    rois = []
+    for filename in os.listdir(directory): Analyze the following piece of code: check_3d=True)
+
+    
+    roi_data = rois.get_data()
+    if roi_values is not None:
+        for rv in roi_values:
+            if not np.any(roi_data == rv):
+                raise ValueError('Could not find value {} in rois_img {}.'.format(rv, repr_imgs(roi_img)))
+    else:
+        roi_values = get_unique_nonzeros(roi_data)
+
+    
+    if mask_img is None:
+        mask_data = None
+    else:
+        mask = load_mask(mask_img)
+        check_img_compatibility(img, mask, only_check_3d=True)
+        mask_data = mask.get_data()
+
+    
+    if outdict:
+        extract_data = _extract_timeseries_dict
+    else:
+        extract_data = _extract_timeseries_list
+
+    
+    try:
+        return extract_data(img.get_data(), rois.get_data(), mask_data,
+                            roi_values=roi_values, zeroe=zeroe)
+    except:
+        raise
+
+
+def partition_volume(*args, **kwargs):
+    
+
+    return partition_timeseries(*args, **kwargs)
+
+
+def _check_for_partition(datavol, roivol, maskvol=None):
+    if datavol.ndim!= 4 and datavol.ndim!= 3:
+        raise AttributeError('Expected a volume with 3 or 4 dimensions. '
+                             '`datavol` has {} dimensions.'.format(datavol.ndim))
+
+    if datavol.shape[:3]!= roivol.shape:
+        raise AttributeError('Expected a ROI volume with the same 3D shape as the timeseries volume. '
+                             'In this case, datavol has shape {} and roivol {}.'.format(datavol.shape, roivol.shape))
+
+    if maskvol is not None:
+        if datavol.shape[:3]!= maskvol.shape:
+            raise AttributeError('Expected a mask volume with the same 3D shape as the timeseries volume. '
+                                 'In this case, datavol has shape {} and maskvol {}.'.format(datavol.shape,
+                                                                                             maskvol.shape))
+
+
+def _partition_data(datavol, roivol, roivalue, maskvol=None, zeroe=True):
+    
+
+    if maskvol is not None:
+        
+        indices = (roivol == roivalue) * (maskvol > 0)
+    else:
+        
+        indices = roivol == roivalue
+
+    if datavol.ndim == 4:
+        ts = datavol[indices, :]
+    else:
+        ts = datavol[indices]
+
+    
+    if zeroe:
+        if datavol.ndim == 4:
+            ts = ts[ts.sum(axis=1)!= 0, :]
+
+    return ts
+
+
+def _extract_timeseries_dict(tsvol, roivol, maskvol=None, roi_values=None, zeroe=True):
+    
+
+    _check_for_partition(tsvol, roivol, maskvol)
+
+    
+    if roi_values is None:
+        roi_values = get_unique_nonzeros(roivol)
+
+    ts_dict = OrderedDict()
+    for r in roi_values:
+        ts = _partition_data(tsvol, roivol, r, maskvol, zeroe)
+
+        if len(ts) == 0:
+            ts = np.zeros(tsvol.shape[-1])
+
+        ts_dict[r] = ts
+
+    return ts_dict
+
+
+def _extract_timeseries_list(tsvol, roivol, maskvol=None, roi_values=None, zeroe=True):
+    
+
+    _check_for_partition(tsvol, roivol, maskvol)
+
+    if roi_values is None:
+        roi_values = get_unique_nonzeros(roivol)
+
+    ts_list = []
+    for r in roi_values:
+        ts = _partition_data(tsvol, roivol, r, maskvol, zeroe)
+
+        if len(ts) == 0:
+            ts = np.zeros(tsvol.shape[-1])
+
+        ts_list.append(ts)
+
+    return ts_list
+
+
+def get_3D_from_4D(image, vol_idx=0):
+    
+
+    img      = check_img(image)
+    hdr, aff = get_img_info(img)
+
+    if len(img.shape)!= 4:
+        raise AttributeError('Volume in {} does not have 4 dimensions.'.format(repr_imgs(img)))
+
+    if not 0 <= vol_idx < img.shape[3]:
+        raise ValueError('Volume index {} out of range for 4D volume {}.'.format(vol_idx, repr_imgs(img)))
+
+    return img[..., vol_idx], hdr, aff
+
+
+def get_4D_from_3D(image, add_dim=True):
+    
+
+    img      = check_img(image)
+    hdr, aff = get_img_info(img)
+
+    if len(img.shape)!= 3:
+        raise AttributeError('Image in {} does not have 3 dimensions.'.format(repr_imgs(img)))
+
+    if add_dim:
+        return img[np.newaxis,...], hdr, aff
+    else:
+        return img, hdr, aff
+
+
+def get_unique_nonzeros(arr):
+    u, c = np.unique(arr[arr>0], return_counts=True)
+    return u[c>0]
+
+
+def check_img_compatibility(img1, img2, only_check_3d=False):
+    if img1.ndim!= img2.ndim:
+        raise ValueError('Images have different dimensions: {} and {}.'.format(img1.ndim, img2.ndim))
+
+    if only_check_3d and img1.ndim!= 3:
+        return
+
+    if img1.shape!= img2.shape:
+        raise ValueError('Images have different shapes: {} and {}.'.format(img1.shape, img2.shape))
+
+
+def check_same_spacing(img1, img2):
+    hdr1, aff1 = get_img_info(img1)
+    hdr2, aff2 = get_img_info(img2)
+
+    if hdr1['pixdim']!= hdr2['pixdim']:
+        raise ValueError('Images have different spacing: {} and {}.'.format(hdr1['pixdim'], hdr2['pixdim']))
+
+
+def check_same_orientation(img1, img2):
+    hdr1, aff1 = get_img_info(img1)
+    hdr2, aff2 = get_img_info(img2)
+
+    if aff1!= aff2:
+        raise ValueError('Images have different orientations: {} and {}.'.format(aff1, aff2))
+
+
+def check_same_affine(img1, img2):
+    hdr1, aff1 = get_img_info(img1)
+    hdr2, aff2 = get_img_info(img2)
+
+    if not np.allclose(aff1, aff2):
+        raise ValueError('Images have different affines: {} and {}.'.format(aff1, aff2))
+
+
+def check_same_header(img1, img2):
+    hdr1, aff1 = get_img_info(img1)
+    hdr2, aff2 = get_img_info(img2)
+
+    if hdr1!= hdr2:
+        raise ValueError('Images have different headers: {} and {}.'.format(hdr1, hdr2))
+
+
+def check_same_type(img1, img2):
+    if not isinstance(img1, type(img2)):
+        raise ValueError('Images are not of the same type: {} and {}.'.format(type(img1), type(img2)))
+
+
+def check_same_nifti(img1, img2):
+    check_same_type(img1, img2)
+    check_same_header(img1, img2)
+    check_same_spacing(img1, img2)
+    check_same_orientation(img Analyze the following piece of code: ]:
+        raise IndexError('IndexError: 4th dimension in volume {} has {} volumes, '
+                         'not {}.'.format(repr_imgs(img), img.shape[3], vol_idx))
+
+    img_data = img.get_data()
+    new_vol  = img_data[:, :, :, vol_idx].copy()
+
+    hdr.set_data_shape(hdr.get_data_shape()[:3])
+
+    return new_vol, hdr, aff
+
+def concat_volumes(img_list, axis=3):
+    """
+    Concatenate a list of 3D images along the fourth axis (axis=3).
+    """
+    if axis!= 3:
+        raise ValueError('axis must be 3 for 4D images')
+
+    # Check that all images have the same dimensions
+    img_shape = img_list[0].shape
+    for img in img_list[1:]:
+        if img.shape!= img_shape:
+            raise ValueError('All images must have the same dimensions')
+
+    # Get dimensions of images
+    n_vols = len(img_list)
+    img_dims = img_shape[:3]
+
+    # Create new image with enough dimensions for all volumes
+    new_img = nb.Nifti1Image(np.zeros(img_shape, dtype=img_list[0].get_data().dtype), img_list[0].affine)
+
+    # Loop through volumes and concatenate along axis=3
+    for vol_idx in range(n_vols):
+        vol_data, _, _ = get_volume(img_list[vol_idx], vol_idx)
+        new_img.set_data(np.concatenate((new_img.get_data(), vol_data), axis=axis))
+
+    return new_img
+
+def split_volume(img, vol_idx):
+    """
+    Split a 4D image into a list of 3D images along the fourth axis (axis=3).
+    """
+    if axis!= 3:
+        raise ValueError('axis must be 3 for 4D images')
+
+    # Check that image is 4D
+    if len(img.shape)!= 4:
+        raise ValueError('Image must be 4D')
+
+    # Get dimensions of images
+    n_vols = img.shape[3]
+
+    # Create list of new images
+    new_img_list = []
+    for vol_idx in range(n_vols):
+        new_img_list.append(nb.Nifti1Image(img_data[:, :, :, vol_idx], img.affine))
+
+    return new_img_list
+
+def main():
+    # Load input image
+    img = nb.load('input_image.nii.gz')
+
+    # Get list of volumes
+    vol_list = split_volume(img, 0)
+
+    # Loop through volumes and do something to each one
+    for vol_idx in range(len(vol_list)):
+        vol_data, _, _ = get_volume(img, vol_idx)
+        # Do something to volume data
+        #...
+        # Save volume
+        save_volume(vol_data, img, vol_idx)
+
+    # Concatenate volumes back into a 4D image
+    new_img = concat_volumes(vol_list)
+
+    # Save output image
+    nb.save(new_img, 'output_image.nii.gz')
+
+if __name__ == '__main__':
+    main()
+
+Explanation:
+
+This code first loads an input Nifti1Image object (img) from input_image.nii.gz.
+It then splits the image into a list of 3D volumes along the fourth axis (axis=3).
+Next, it loops through each volume and does something to it (e.g., applies a transformation, filters the data, etc.).
+After processing each volume, the code saves it back to a new Nifti1Image object using save_volume().
+Finally, the code concatenates the

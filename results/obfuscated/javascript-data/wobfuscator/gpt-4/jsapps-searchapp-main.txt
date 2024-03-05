@@ -1,0 +1,49 @@
+This JavaScript code is using the WebAssembly (Wasm) Binary format to manipulate data. 
+
+The 'atob' function is used to decode a Base64-encoded string. 
+
+__universalAtob function:
+
+This function accepts a Base64-encoded string as input, attempts to decode this string, and then turns the result into a Uint8Array of bytes (an array of 8-bit unsigned integers). If the decoding fails, it returns a new Uint8Array from a global Buffer.
+
+__ifWasmModule and __callWasmModule:
+
+These constants contain the results of executing a function on invocation (an immediately invoked function expression, or IIFE), which decodes a Base64 string (__ifWasmBuffer and __callWasmBuffer) and returns them as Uint8Array of bytes.
+
+__wasmStringModules:
+
+This variable is an array where each entry is a new instance of a WebAssembly module. The Base64 strings from an array are decoded by __universalAtob function and converted into binary format for the WebAssembly constructor.
+
+lS function:
+
+This function is somewhat complex. It operates depending on whether its first parameter 'wI' is an array or not. It's iterating over memory segments `data${pos}` of WebAssembly modules and constructs a string. It uses memory buffer of modules and special positional keys (`data${pos}`) to get starting points for segments. Then it constructs strings until it encounters a byte with the set most significant bit (means it's a negative number when interpreted as a signed byte) or until it encounters an empty byte. All the characters gathered this way are put into a string which is then URI-decoded and returned.
+
+The intent of this beat seems to be converting some hidden data (encoded as Base64) into a format that can be executed or manipulated using WebAssembly capabilities. From function `lS` usage it could be gathered that `__wasmStringModules` has modules that hold some sort of string data in consecutive "dataX" memory segments, with this function allowing to fetch this data to JavaScript environment.
+
+The use of WebAssembly suggests that the code could be performing some highly performant tasks or computational operations that benefit from the speed and efficiency of WebAssembly, or making use of capabilities not available or efficient in JavaScript, or it might be used for obfuscation purposes to hide the true intent or functionality of the code.This part of the code continues from where the previous part stopped. Here, characters are continually fetched from the memory buffer and added to our string until we encounter a byte where the most significant bit is set (when interpreted as a signed byte). This is done using a bitwise AND with `128` (`10000000` in binary), which would only give a resulting truthy value if the most significant bit of `__c` is set. Once this condition is met or there is no more data left to read (`__mem[i]` is `null` or `undefined`), we add the last character to our string and finish reading.
+
+Next, it applies URI-decoding on all characters after the first one, and returns the result.
+
+After that are import statements, pulling functions from other modules ('search-bar.js', 'data-functions.js', 'search-results.js') which presumably are being used further down to set up some functionality of this application.
+
+Then, it creates a new Wasm instance "__callInstance13". This instance provides some functionality for the event listener of the document. The event type it listens to is pulled from a Wasm module using `lS(0,0)`. When the event triggers, it spins up a new Wasm module instance (`__ifInstance0`), and based on the `readyState` of the `event.target`, it calls `__exports.data()` with 1 or 0 as a parameter.
+
+The `initApp` function initializes the application. It's an IIFE(Immediately Invoked Function Expression) which creates several instances of WebAssembly modules to provide various functionalities such as `setSearchFocus` or attaching event listeners to certain HTML elements. The event names or element IDs used in this function are gotten from the Wasm modules using the `lS` function as seen throughout the beginning of this code.
+
+Lastly, it gets an element with the id that comes from running `lS(0, 4)` and assigns it to the `clear` constant. 
+
+The use of WebAssembly in this context is likely due to the potential benefits of code compactness, loading speed, execution speed, and security provided by Wasm.This part of the code is continuing the setup of event listeners and interactions for the web page, again using WebAssembly for implementation of certain functionalities.
+
+In the function `initApp()`, an element with an id determined by the result of `lS(0, 7)` is retrieved and stored in a constant, `form`. A new WebAssembly instance is then created which attaches an event listener (the type obtained by running `lS(0, 8)`) on this `form` element, which calls the `submitSearch` function when triggered. Once these initializations are done inside the IIFE, the `exports.data()` function of the instance is returned. This is done in all the other WebAssembly instance creations, further hinting that a value needs to be returned after performing the necessary initializations.
+
+The function `submitSearch(e)` is defined next. It's triggered when the form is submitted. The function contains a sequence of WebAssembly instances that encapsulate the behavior of its logic: preventing form submission, deleting previous search results, processing the new search, and setting the search focus again. All of these steps take place in their own WebAssembly instances and are likely functions that have been compiled from another language to Wasm.
+
+Lastly, a function, `processSearch()`, has been defined but not finished that appears to be an asynchronous process, potentially involving network communication or other I/O because of its asynchronous nature. A WebAssembly instance is created inside this function that clears the statistics line, probably as a result of initiating the search process.
+
+The WebAssembly instances in these functions are initialized with an `env` object that contains an `impFunc` key. This seems to be a sector where functionality written in Javascript can be executed inside the wasm context, by including it in the environment, letting the wasm instance call these functions when needed. It seems like the previously defined functions are run in this way.The processSearch function is continued here. The function retrieves the search term and checks whether it's empty. If it is, the function exits. If it is not, the function retrieves the notion of search results based on the search term by using an await keyword highlighting an asynchronous operation is occurring here.
+
+Next, it creates a new WebAssembly instance which has two functions - `impFunc1`, `impFunc2`. The `impFunc1` function builds search results by using resultArray. This function is encapsulated in another IIFE and WebAssembly. `impFunc2` is defined but it doesn't do anything.
+
+The WebAssembly instance exports a function, `data`, which, after being invoked, returns either 1 if the `resultArray` is non-zero i.e., there are search results or returns 0 if `resultArray` is empty i.e., there are no search results.
+
+Finally, a new WebAssembly instance is created which sets the statistics line with the number of search results obtained. The data function of this instance's exports is invoked similar to the previous WebAssembly instances. This function displays the number of search results.

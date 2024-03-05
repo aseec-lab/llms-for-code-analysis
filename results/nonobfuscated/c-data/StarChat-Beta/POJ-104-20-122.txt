@@ -1,0 +1,59 @@
+Analyze the following piece of code: int main()
+{
+	char str[11],subs[4];
+	int l1,i,j,max;
+	while(scanf("%s%s",str,subs)!=EOF)
+	{
+		l1=strlen(str);
+	
+		max=0;
+		for(i=0;i<l1;i++)
+		{
+			if(str[i]>str[max])
+				max=i;
+		}
+		for(i=0;i<=max;i++)
+		{
+			printf("%c",str[i]);
+		}
+		printf("%s",subs);
+		for(i=max+1;i<l1;i++)
+			printf("%c",str[i]);
+		printf("\n");
+	}
+	return 0;
+}
+
+What does this code do?
+
+The code is a part of a program that takes in a string and a substring as input from the user, and then prints the longest substring of the string that is also a prefix of the given substring.
+
+The code starts by declaring several variables:
+
+- str: A character array of size 11 to store the input string.
+- subs: A character array of size 4 to store the input substring.
+- l1: An integer to store the length of the input string.
+- i, j: Integers to help with loop iterations.
+- max: An integer to store the index of the longest character in the input string.
+
+The code then enters a while loop that continues until the end-of-file (EOF) is reached. Inside the loop, the code reads in a string and a substring from the user using the scanf function.
+
+The code then calculates the length of the input string (l1) and finds the index of the longest character in the string (max).
+
+The code then loops through each character in the input string, starting from the longest character and moving towards the left. For each character, the code checks if the current character is also a part of the input substring. If it is, the code updates the maximum length of the substring so far (max).
+
+Once the code has found the maximum length of the substring, it prints out the characters of the longest substring that is also a prefix of the input substring. The code then replaces the characters of the longest substring with the characters of the input substring, starting from the index of the longest character in the input string.
+
+The code then repeats this process for each input string and substring until the end-of-file is reached.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando el programa. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce a código ejecutable inmediatamente antes de ser ejecutada.
+
+La elección entre un lenguaje de programación compilado o interpretado depende de factores como la facilidad de uso, la velocidad de ejecución, la seguridad y la escalabilidad. Los lenguajes de programación compilados suelen ser más rápidos y eficientes en términos de recursos, mientras que los lenguajes interpretados suelen ser más fáciles de usar y desarroll

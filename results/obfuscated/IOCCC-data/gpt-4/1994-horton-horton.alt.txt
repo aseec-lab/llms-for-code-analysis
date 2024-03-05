@@ -1,0 +1,21 @@
+The given C code is for a plotter that generates a representation of a cubic function which is in the form y=3x^3+2x^2+x+0. The user passes the coefficients as command line arguments to the program. The plotted graph is stored in a framebuffer (an array representing a grid of bits for a bitmap image). Later on, the graph is processed into a screen buffer for displaying as ASCII/text symbols on the console or terminal window. 
+
+The program makes use of several customized functions for creating the plot and the labels around it. The f(x) function calculates and returns the y-value for each incremental x-value in the given range. The fplot function plots these points onto the framebuffer. 
+
+The program also includes functionality to provide labels for both x and y axis. This is catered to by the hlabel and vlabel functions, horizontal and vertical respectively. Finally, the "srefresh" function is probably responsible for displaying the content of the screen buffer on the console window, but its implementation isn't provided in the code.
+
+The graphtab variable at the beginning seems to be a string representation of ASCII art, but it isn't clear how this is used in the program as the remaining portion of the code does not make use of it.
+
+It's important to note, though, that the code appears to be compiled in an older version of C, so some of the constructs may not compile with modern compilers.The newly provided portion of the code completes the implementations for the multiple functions left unclosed in the previous section.
+
+The bitshow function transfer the graph form the framebuffer to the screen buffer in a 96x180 character mode, where each character in the screen buffer represents a 4x2 section from the framebuffer.
+
+The bigshow function is used to display the framebuffer's content directly on the console. Each bit in the specified section of the framebuffer is rendered as either an 'X' or a space.
+
+The gbox function is used to draw a box around the graph in the framebuffer using the range of rows and columns provided as arguments.
+
+Finally, the srefresh function prints the content of the screen buffer on the console. This function, as we hypothesized earlier, essentially refreshes the console window with the content of the screen buffer. 
+
+While the function plotinit is introduced, its implementation lacks content. Presumably, this function would be used to initialize the variables that define the scale of the plot (ybase and xbase).
+
+In overall, the program seems to be a simple console-based graphing tool that can plot cubic functions. For each x in the specified range, it computes the corresponding y, plots the point in the framebuffer, then finally transfers it to screen buffer and display it on the console. Axis labels and a border around the graph are also added to the display.

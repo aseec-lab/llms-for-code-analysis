@@ -1,0 +1,25 @@
+The code provided is a module containing various functions for building commands and environment variables related to file handling and task metadata in a job execution environment. Here is a breakdown of each function:
+
+1. `get_file_environment_variables(file_params)`: This function takes a list of file parameters as input and returns a dictionary of environment variables. Each environment variable is created using the file parameter's name and docker path, with the path joined to the `DATA_MOUNT_POINT` directory.
+
+2. `build_recursive_localize_env(destination, inputs)`: This function takes a destination path and a list of input variables as input. It builds a string of export commands for input directories that have the "recursive" flag set to `True` and a non-empty docker path. The export commands set the environment variables to the destination path and the corresponding input docker path.
+
+3. `build_recursive_localize_command(destination, inputs, file_provider)`: This function takes a destination path, a list of input variables, and a file provider as input. It builds a string of rsync commands to localize input directories that have the "recursive" flag set to `True`, the file provider matches the specified file provider, and a non-empty docker path. The rsync commands copy the input directories to the specified destination path.
+
+4. `build_recursive_gcs_delocalize_env(source, outputs)`: This function takes a source path and a list of output variables as input. It builds a string of export commands for output directories that have the "recursive" flag set to `True`, the file provider is set to `job_model.P_GCS`, and a non-empty docker path. The export commands set the environment variables to the source path and the corresponding output docker path.
+
+5. `build_recursive_delocalize_command(source, outputs, file_provider)`: This function takes a source path, a list of output variables, and a file provider as input. It builds a string of rsync commands to delocalize output directories that have the "recursive" flag set to `True`, the file provider matches the specified file provider, and a non-empty docker path. The rsync commands copy the output directories from the specified source path to the output URI.
+
+6. `get_task_metadata(job_metadata, task_id)`: This function takes job metadata and a task ID as input. It creates a copy of the job metadata and adds the task ID as a new key-value pair. It returns the modified task metadata.
+
+7. `build_mount_env(source, mounts)`: This function takes a source path and a list of mount variables as input. It builds a string of export commands for mount directories, using the source path and the corresponding mount docker path.
+
+8. `get_job_and_task_param(job_params, task_params, field)`: This function takes job parameters, task parameters, and a field name as input. It combines the job parameters and task parameters for the specified field, removes duplicates, and returns the combined set.
+
+The code also includes the following variables:
+
+- `_LOCALIZE_COMMAND_MAP`: A dictionary mapping file providers to localize commands.
+- `DATA_MOUNT_POINT`: The mount point for data storage.
+- `SCRIPT_DIR`: The directory path for scripts.
+- `TMP_DIR`: The directory path for temporary files.
+- `WORKING_DIR`: The directory path for the working directory.

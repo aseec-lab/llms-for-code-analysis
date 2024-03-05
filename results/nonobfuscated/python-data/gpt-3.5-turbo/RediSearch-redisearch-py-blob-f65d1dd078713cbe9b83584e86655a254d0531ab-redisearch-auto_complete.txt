@@ -1,0 +1,17 @@
+This code defines a class called `Suggestion` and a class called `SuggestionParser` which are used in the `AutoCompleter` class.
+
+The `Suggestion` class represents a suggestion with a string, a score, and an optional payload. The `__init__` method initializes the instance variables and the `__repr__` method returns a string representation of the suggestion.
+
+The `SuggestionParser` class is used to parse the results of the `FT.SUGGET` command. It determines the size of each suggestion based on whether scores and payloads are included, and yields instances of the `Suggestion` class.
+
+The `AutoCompleter` class represents an autocomplete engine. It has methods for adding suggestions, getting the length of the autocomplete key, deleting a suggestion, and getting suggestions based on a prefix.
+
+The `add_suggestions` method adds one or more suggestions to the autocomplete engine. It uses a Redis pipeline to efficiently execute multiple commands at once.
+
+The `len` method returns the number of suggestions in the autocomplete engine.
+
+The `delete` method deletes a suggestion from the autocomplete engine.
+
+The `get_suggestions` method retrieves suggestions from the autocomplete engine based on a given prefix. It supports fuzzy matching, specifies the maximum number of suggestions to return, and can include scores and payloads in the results. The method uses the `SuggestionParser` class to parse the results.
+
+Overall, this code provides an interface for interacting with a Redis-based autocomplete engine.

@@ -1,0 +1,1062 @@
+Analyze the following piece of code: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from __future__ import absolute_import, division
+
+__docformat__="restructuredtext en"
+
+raise ImportError("{0} is not yet rewritten for PyXMPP2".format(__name__))
+
+import warnings
+
+import libxml2
+
+from..xmlextra import common_doc,common_root
+from..jid import JID
+from.. import cache
+
+from..utils import to_utf8
+from..objects import StanzaPayloadWrapperObject
+from..exceptions import ProtocolError
+
+DISCO_NS="http://jabber.org/protocol/disco"
+DISCO_ITEMS_NS=DISCO_NS+"
+DISCO_INFO_NS=DISCO_NS+"
+
+class DiscoItem(StanzaPayloadWrapperObject):
+    
+
+    def __init__(self,disco,xmlnode_or_jid,node=None,name=None,action=None):
+        
+
+        self.disco=disco
+        if isinstance(xmlnode_or_jid,JID):
+            if disco:
+                self.xmlnode=disco.xmlnode.newChild(None,"item",None)
+            else:
+                self.xmlnode=common_root.newChild(None,"item",None)
+                ns=self.xmlnode.newNs(DISCO_ITEMS_NS,None)
+                self.xmlnode.setNs(ns)
+            self.set_jid(xmlnode_or_jid)
+            self.set_name(name)
+            self.set_node(node)
+            self.set_action(action)
+        else:
+            if disco is None:
+                self.xmlnode=xmlnode_or_jid.copyNode(1)
+            else:
+                self.xmlnode=xmlnode_or_jid
+            if name:
+                self.set_name(name)
+            if node:
+                self.set_node(node)
+            if action:
+                self.set_action(action)
+        self.xpath_ctxt=common_doc.xpathNewContext()
+        self.xpath_ctxt.setContextNode(self.xmlnode)
+        self.xpath_ctxt.xpathRegisterNs("d",DISCO_ITEMS_NS)
+
+    def __del__(self):
+        if self.disco is None:
+            if self.xmlnode:
+                self.xmlnode.unlinkNode()
+                self.xmlnode.freeNode()
+                self.xmlnode=None
+        if self.xpath_ctxt:
+            self.xpath_ctxt.xpathFreeContext()
+
+    def __str__(self):
+        return self.xmlnode.serialize()
+
+    def remove(self):
+        
+
+        if self.disco is None:
+            return
+        self.xmlnode.unlinkNode()
+        oldns=self.xmlnode.ns()
+        ns=self.xmlnode.newNs(oldns.getContent(),None)
+        self.xmlnode.replaceNs(oldns,ns)
+        common_root.addChild(self.xmlnode())
+        self.disco=None
+
+    def get_name(self):
+        
+
+        name = self.xmlnode.prop("name")
+        if name is None:
+            return None
+        return name.decode("utf-8")
+
+    def set_name(self, name):
+        
+
+        if name is None:
+            if self.xmlnode.hasProp("name"):
+                self.xmlnode.unsetProp("name")
+            return
+        name = unicode(name)
+        self.xmlnode.setProp("name", name.encode("utf-8"))
+
+    name = property(get_name, set_name)
+
+    def get_node(self):
+        
+
+        node = self.xmlnode.prop("node")
+        if node is None:
+            return None
+        return node.decode("utf-8")
+
+    def set_node(self,node):
+        
+
+        if node is None:
+            if self.xmlnode.hasProp("node"):
+                self.xmlnode.unsetProp("node")
+            return
+        node = unicode(node)
+        self.xmlnode.setProp("node", node.encode("utf-8"))
+
+    node = property(get_node, set_node)
+
+    def get_action(self):
+        
+
+        action=self.xmlnode.prop("action")
+        if action is None:
+            return None
+        return action.decode("utf-8")
+
+    def set_action(self,action):
+        
+
+        if action is None:
+            if self.xmlnode.hasProp("action"):
+                self.xmlnode.unsetProp("action")
+            return
+        if action not in ("remove","update"):
+            raise ValueError("Action must be 'update' or'remove'")
+        action = unicode(action)
+        self.xmlnode.setProp("action", action.encode("utf-8"))
+
+    action = property(get_action, set_action)
+
+    def get_jid(self):
+        
+
+        jid_node=self.xmlnode.xpathEval("d:jid",self.xpath_ctxt)
+        if jid_node.size()==0:
+            return None
+        jid_str=jid_node.item(0).getContent()
+        return JID.from_str(jid_str)
+
+    def set_jid(self,jid):
+        
+
+        if jid is None:
+            if self.xmlnode.xpathEval("d:jid",self.xpath_ctxt).size()>0:
+                self.xmlnode.xpathEval("d:jid",self.xpath_ctxt).unlinkNode()
+            return
+        jid_str=jid.as_str()
+        jid_node=self.xmlnode.xpathEval("d:jid",self.xpath_ctxt)
+        if jid_node.size()>0:
+            jid_node.item(0).setContent(jid_str)
+        else:
+            jid_node=self.xmlnode.newChild(None,"jid",None)
+            jid_node.setContent(jid_str)
+
+    jid = property(get_jid, set_jid)
+
+    def get_features(self):
+        
+
+        features_node=self.xmlnode.xpathEval("d:feature",self.xpath_ctxt)
+        features=[]
+        for feature_node in features_node:
+            features.append(feature_node.getContent())
+        return features
+
+    def set_features(self,features):
+        
+
+        if features is None:
+            self.xmlnode.xpathEval("d:feature",self.xpath_ctxt).unlinkNode()
+            return
+        features_node=self.xmlnode.xpathEval("d:feature",self.xpath_ctxt)
+        for feature_node in features_node:
+            feature_node.unlinkNode()
+        for feature in features:
+            feature_node=self.xmlnode.newChild(None,"feature",None)
+            feature_node.setContent(feature)
+
+    features = property(get_features, set_features)
+
+    def get_info(self):
+        
+
+        info_node=self.xmlnode.xpathEval("d:info",self.xpath_ctxt)
+        if info_node.size()==0:
+            return None
+        return info_node.item(0).getContent()
+
+    def set_info(self,info):
+        
+
+        if info is None:
+            self.xmlnode.xpathEval("d:info",self.xpath_ctxt).unlinkNode()
+            return
+        info_node=self.xmlnode.xpathEval("d:info",self.xpath_ctxt)
+        if info_node.size()>0:
+            info_node.item(0).setContent(info)
+        else:
+            info_node=self.xmlnode.newChild(None,"info",None)
+            info_node.setContent(info)
+
+    info = property(get_info, set_info)
+
+class DiscoInfo(object):
+
+    def __init__(self,xmlnode):
+        
+
+        self.xmlnode=xmlnode
+        self.xpath_ctxt=common_doc.xpathNewContext()
+        self.xpath_ctxt.setContextNode(self.xmlnode)
+        self.xpath_ctxt.xpathRegisterNs("d",DISCO_INFO_NS)
+
+    Analyze the following piece of code: '")
+        action = unicode(action)
+        self.xmlnode.setProp("action", action.encode("utf-8"))
+
+    action = property(get_action, set_action)
+
+    def get_jid(self):
+        
+
+        jid = self.xmlnode.prop("jid")
+        return JID( jid.decode("utf-8") )
+
+    def set_jid(self,jid):
+        
+
+        self.xmlnode.setProp("jid", jid.as_unicode().encode("utf-8"))
+
+    jid = property(get_jid, set_jid)
+
+class DiscoIdentity(StanzaPayloadWrapperObject):
+    
+
+    def __init__(self, disco, xmlnode_or_name, item_category=None, item_type=None, replace=False):
+        
+
+        self.disco=disco
+        if disco and replace:
+            old=disco.xpath_ctxt.xpathEval("d:identity")
+            if old:
+                for n in old:
+                    n.unlinkNode()
+                    n.freeNode()
+        if isinstance(xmlnode_or_name,libxml2.xmlNode):
+            if disco is None:
+                self.xmlnode=xmlnode_or_name.copyNode(1)
+            else:
+                self.xmlnode=xmlnode_or_name
+        elif not item_category:
+            raise ValueError("DiscoInfo requires category")
+        elif not item_type:
+            raise ValueError("DiscoInfo requires type")
+        else:
+            if disco:
+                self.xmlnode=disco.xmlnode.newChild(None,"identity",None)
+            else:
+                self.xmlnode=common_root.newChild(None,"identity",None)
+                ns=self.xmlnode.newNs(DISCO_INFO_NS,None)
+                self.xmlnode.setNs(ns)
+            self.set_name(xmlnode_or_name)
+            self.set_category(item_category)
+            self.set_type(item_type)
+        self.xpath_ctxt=common_doc.xpathNewContext()
+        self.xpath_ctxt.setContextNode(self.xmlnode)
+        self.xpath_ctxt.xpathRegisterNs("d",DISCO_INFO_NS)
+
+    def __del__(self):
+        if self.disco is None:
+            if self.xmlnode:
+                self.xmlnode.unlinkNode()
+                self.xmlnode.freeNode()
+                self.xmlnode=None
+        if self.xpath_ctxt:
+            self.xpath_ctxt.xpathFreeContext()
+
+    def __str__(self):
+        return self.xmlnode.serialize()
+
+    def remove(self):
+        
+
+        if self.disco is None:
+            return
+        self.xmlnode.unlinkNode()
+        oldns=self.xmlnode.ns()
+        ns=self.xmlnode.newNs(oldns.getContent(),None)
+        self.xmlnode.replaceNs(oldns,ns)
+        common_root.addChild(self.xmlnode())
+        self.disco=None
+
+    def get_name(self):
+        
+
+        var = self.xmlnode.prop("name")
+        if not var:
+            var = ""
+        return var.decode("utf-8")
+
+    def set_name(self,name):
+        
+
+        if not name:
+            raise ValueError("name is required in DiscoIdentity")
+        name = unicode(name)
+        self.xmlnode.setProp("name", name.encode("utf-8"))
+
+    name = property(get_name, set_name)
+
+    def get_category(self):
+        
+
+        var = self.xmlnode.prop("category")
+        if not var:
+            var = "?"
+        return var.decode("utf-8")
+
+    def set_category(self, category):
+        
+
+        if not category:
+            raise ValueError("Category is required in DiscoIdentity")
+        category = unicode(category)
+        self.xmlnode.setProp("category", category.encode("utf-8"))
+
+    category = property(get_category, set_category)
+
+    def get_type(self):
+        
+
+        item_type = self.xmlnode.prop("type")
+        if not item_type:
+            item_type = "?"
+        return item_type.decode("utf-8")
+
+    def set_type(self, item_type):
+        
+
+        if not item_type:
+            raise ValueError("Type is required in DiscoIdentity")
+        item_type = unicode(item_type)
+        self.xmlnode.setProp("type", item_type.encode("utf-8"))
+
+    type = property(get_type, set_type)
+
+class DiscoInfo(StanzaPayloadWrapperObject):
+    
+
+    def __init__(self, xmlnode_or_name, replace=False):
+        
+
+        if isinstance(xmlnode_or_name,libxml2.xmlNode):
+            self.xmlnode=xmlnode_or_name.copyNode(1)
+        else:
+            self.xmlnode=common_root.newChild(None,"query",None)
+            ns=self.xmlnode.newNs(DISCO_INFO_NS,None)
+            self.xmlnode.setNs(ns)
+            if not replace:
+                self.set_node(xmlnode_or_name)
+
+    def __del__(self):
+        if self.xmlnode:
+            self.xmlnode.unlinkNode()
+            self.xmlnode.freeNode()
+            self.xmlnode=None
+
+    def __str__(self):
+        return self.xmlnode.serialize()
+
+    def remove(self):
+        
+
+        self.xmlnode.unlinkNode()
+        oldns=self.xmlnode.ns()
+        ns=self.xmlnode.newNs(oldns.getContent(),None)
+        self.xmlnode.replaceNs(oldns,ns)
+        common_root.addChild(self.xmlnode())
+
+    def get_node(self):
+        
+
+        node = self.xmlnode.prop("node")
+        if not node:
+            node = ""
+        return node.decode("utf-8")
+
+    def set_node(self, node):
+        
+
+        if not node:
+            raise ValueError("node is required in DiscoInfo")
+        node = unicode(node)
+        self.xmlnode.setProp("node", node.encode("utf-8"))
+
+    node = property(get_node, set_node)
+
+    def add_identity(self, xmlnode_or_name, item_category=None, item_type=None):
+        
+
+        if isinstance(xmlnode_or_name, DiscoIdentity):
+            self.xmlnode.addChild(xmlnode_or_name.xmlnode)
+        else:
+            identity=DiscoIdentity(self,xmlnode_or_name,item_category,item_type)
+            self.xmlnode.addChild(identity.xmlnode)
+
+    def get_identities(self):
+        
+
+        identities = []
+        for n in self.xmlnode.children:
+            if n.name == "identity":
+                identities.append(DiscoIdentity(None,n))
+        return identities
+
+class Message(StanzaObject):
+    
+
+    def __init__(self, to=None, from_=None, id=None, type_=None, subject=None, body=None, thread=None, error=None, replace=False):
+        
+
+        self.xmlnode=common_root.newChild(None,"message",None)
+        if to:
+            self.set_to(to)
+        if from_:
+            self.set_from(from_)
+        if id:
+            self.set_id(id)
+        if type_:
+            self.set_type(type_)
+        if subject:
+            self.set_subject(subject)
+        if body:
+            self.set_body(body)
+        if thread:
+            self.set_thread(thread)
+        if error:
+            self.set_error(error)
+        if replace:
+            self.replace()
+
+    def __del__(self):
+        if self.xmlnode:
+            self.xmlnode.unlinkNode()
+            self.xmlnode.freeNode()
+            self.xmlnode=None
+
+    def Analyze the following piece of code:  DiscoItems(StanzaPayloadWrapperObject):
+    
+
+    def __init__(self,xmlnode_or_node=None):
+        
+
+        self.xmlnode=None
+        self.xpath_ctxt=None
+        if isinstance(xmlnode_or_node,libxml2.xmlNode):
+            ns=xmlnode_or_node.ns()
+            if ns.getContent()!= DISCO_ITEMS_NS:
+                raise ValueError("Bad disco-items namespace")
+            self.xmlnode=xmlnode_or_node.docCopyNode(common_doc,1)
+            common_root.addChild(self.xmlnode)
+            self.ns=self.xmlnode.ns()
+        else:
+            self.xmlnode=common_root.newChild(None,"query",None)
+            self.ns=self.xmlnode.newNs(DISCO_ITEMS_NS,None)
+            self.xmlnode.setNs(self.ns)
+            self.set_node(xmlnode_or_node)
+        self.xpath_ctxt=common_doc.xpathNewContext()
+        self.xpath_ctxt.setContextNode(self.xmlnode)
+        self.xpath_ctxt.xpathRegisterNs("d",DISCO_ITEMS_NS)
+
+    def __del__(self):
+        if self.xmlnode:
+            self.xmlnode.unlinkNode()
+            self.xmlnode.freeNode()
+            self.xmlnode=None
+        if self.xpath_ctxt:
+            self.xpath_ctxt.xpathFreeContext()
+            self.xpath_ctxt=None
+
+    def get_node(self):
+        
+
+        node = self.xmlnode.prop("node")
+        if not node:
+            return None
+        return node.decode("utf-8")
+
+    def set_node(self, node):
+        
+
+        if node is None:
+            if self.xmlnode.hasProp("node"):
+                self.xmlnode.unsetProp("node")
+            return
+        node = unicode(node)
+        self.xmlnode.setProp("node", node.encode("utf-8"))
+
+    node = property(get_node, set_node)
+
+    def get_items(self):
+        
+
+        ret=[]
+        l=self.xpath_ctxt.xpathEval("d:item")
+        if l is not None:
+            for i in l:
+                ret.append(DiscoItem(self, i))
+        return ret
+
+    def set_items(self, item_list):
+        
+
+        for item in self.items:
+            item.remove()
+        for item in item_list:
+            try:
+                self.add_item(item.jid,item.node,item.name,item.action)
+            except AttributeError:
+                self.add_item(*item)
+
+    items = property(get_items, set_items, doc = "List of `DiscoItems`")
+
+    def invalidate_items(self):
+        
+
+        warnings.warn("DiscoItems.invalidate_items() is deprecated and not needed any more.", DeprecationWarning, stacklevel=1)
+
+    def add_item(self,jid,node=None,name=None,action=None):
+        
+
+        return DiscoItem(self,jid,node,name,action)
+
+    def has_item(self,jid,node=None):
+        
+
+        l=self.xpath_ctxt.xpathEval("d:item")
+        if l is None:
+            return False
+        for it in l:
+            di=DiscoItem(self,it)
+            if di.jid==jid and di.node==node:
+                return True
+        return False
+
+class DiscoInfo(StanzaPayloadWrapperObject):
+    
+
+    def __init__(self,xmlnode_or_node=None, parent=None, doc=None):
+        
+
+        self.xmlnode=None
+        self.xpath_ctxt=None
+        if not doc:
+            doc=common_doc
+        if not parent:
+            parent=common_root
+        if isinstance(xmlnode_or_node,libxml2.xmlNode):
+            ns=xmlnode_or_node.ns()
+            if ns.getContent()!= DISCO_INFO_NS:
+                raise ValueError("Bad disco-info namespace")
+            self.xmlnode=xmlnode_or_node.docCopyNode(doc,1)
+            parent.addChild(self.xmlnode)
+        else:
+            self.xmlnode=parent.newChild(None,"query",None)
+            self.ns=self.xmlnode.newNs(DISCO_INFO_NS,None)
+            self.xmlnode.setNs(self.ns)
+            self.set_node(xmlnode_or_node)
+
+        self.xpath_ctxt=doc.xpathNewContext()
+        self.xpath_ctxt.setContextNode(self.xmlnode)
+        self.xpath_ctxt.xpathRegisterNs("d",DISCO_INFO_NS)
+
+    def __del__(self):
+        if self.xmlnode:
+            self.xmlnode.unlinkNode()
+            self.xmlnode.freeNode()
+            self.xmlnode=None
+        if self.xpath_ctxt:
+            self.xpath_ctxt.xpathFreeContext()
+            self.xpath_ctxt=None
+
+    def get_node(self):
+        
+
+        node = self.xmlnode.prop("node")
+        if not node:
+            return None
+        return node.decode("utf-8")
+
+    def set_node(self, node):
+        
+
+        if node is None:
+            if self.xmlnode.hasProp("node"):
+                self.xmlnode.unsetProp("node")
+            return
+        node = unicode(node)
+        self.xmlnode.setProp("node", node.encode("utf-8"))
+
+    node = property(get_node, set_node)
+
+    def get_info(self):
+        
+
+        ret={}
+        l=self.xpath_ctxt.xpathEval("d:feature")
+        if l is not None:
+            for i in l:
+                ret[i.prop("var")]=i.getContent()
+        return ret
+
+    def set_info(self, info_dict):
+        
+
+        for k in self.info:
+            self.remove_feature(k)
+        for k,v in info_dict.items():
+            self.add_feature(k,v)
+
+    info = property(get_info, set_info, doc = "Dict of info")
+
+    def invalidate_info(self):
+        
+
+        warnings.warn("DiscoInfo.invalidate_info() is deprecated and not needed any more.", DeprecationWarning, stacklevel=1)
+
+    def add_feature(self,var,value=None):
+        
+
+        if value is None:
+            value=var
+            var=None
+        f=self.xmlnode.newChild(None,"feature",None)
+        if var:
+            f.setProp("var",var)
+        f.setContent(value)
+        return f
+
+    def remove_feature(self,var):
+        
+
+        l=self.xpath_ctxt.xpathEval("d:feature[@var='%s']"%var)
+        if l is not None:
+            for i in l:
+                i.unlinkNode()
+
+    def has_feature(self,var):
+        
+
+        l=self.xpath_ctxt.xpathEval("d:feature[@var='%s']"%var)
+        if l is not None:
+            return True
+        return False
+
+class DiscoItem(object):
+    
+
+    def __init__(self,parent,jid=None,node=None,name=None,action=None):
+        
+
+        self.parent=parent
+        self.jid=jid
+        self.node=node
+        self.name=name
+        self.action=action
+
+    def remove(self):
+        
+
+        self.parent.remove_item(self.jid,self.node)
+
+    def __eq__(self,other):
+        
+
+        if not isinstance(other,DiscoItem):
+            return False
+        return self.jid==other.jid and self.node==other.node
+
+    def __ne__(self,other):
+        
+
+        return not self.__eq__(other)
+
+    def __hash__(self):
+        
+
+        return hash((self.jid,self.node))
+
+The code defines a number of classes that represent the XML elements of a disco Analyze the following piece of code: Context()
+        self.xpath_ctxt.setContextNode(self.xmlnode)
+        self.xpath_ctxt.xpathRegisterNs("d",DISCO_INFO_NS)
+
+    def __del__(self):
+        if self.xmlnode:
+            self.xmlnode.unlinkNode()
+            self.xmlnode.freeNode()
+            self.xmlnode=None
+        if self.xpath_ctxt:
+            self.xpath_ctxt.xpathFreeContext()
+            self.xpath_ctxt=None
+
+    def get_node(self):
+        
+
+
+        node=self.xmlnode.prop("node")
+        if not node:
+            return None
+        return node.decode("utf-8")
+
+    def set_node(self,node):
+        
+
+        if node is None:
+            if self.xmlnode.hasProp("node"):
+                self.xmlnode.unsetProp("node")
+            return
+        node = unicode(node)
+        self.xmlnode.setProp("node", node.encode("utf-8"))
+
+    node = property(get_node, set_node)
+
+    def get_features(self):
+        
+
+        l = self.xpath_ctxt.xpathEval("d:feature")
+        ret = []
+        for f in l:
+            if f.hasProp("var"):
+                ret.append( f.prop("var").decode("utf-8") )
+        return ret
+
+    def set_features(self, features):
+        
+
+        for var in self.features:
+            self.remove_feature(var)
+
+        for var in features:
+            self.add_feature(var)
+
+    features = property(get_features, set_features)
+
+    def has_feature(self,var):
+        
+
+        if not var:
+            raise ValueError("var is None")
+        if 
+ not in var:
+            expr=u"d:feature[@var='%s']" % (var,)
+        else:
+            raise ValueError("Invalid feature name")
+
+        l=self.xpath_ctxt.xpathEval(to_utf8(expr))
+        if l:
+            return True
+        else:
+            return False
+
+    def invalidate_features(self):
+        
+
+        warnings.warn("DiscoInfo.invalidate_features() is deprecated and not needed any more.", DeprecationWarning, stacklevel=1)
+
+    def add_feature(self,var):
+        
+
+        if self.has_feature(var):
+            return
+        n=self.xmlnode.newChild(None, "feature", None)
+        n.setProp("var", to_utf8(var))
+
+    def remove_feature(self,var):
+        
+
+        if not var:
+            raise ValueError("var is None")
+        if 
+ not in var:
+            expr="d:feature[@var='%s']" % (var,)
+        else:
+            raise ValueError("Invalid feature name")
+
+        l=self.xpath_ctxt.xpathEval(expr)
+        if not l:
+            return
+
+        for f in l:
+            f.unlinkNode()
+            f.freeNode()
+
+    def get_identities(self):
+        
+
+        ret=[]
+        l=self.xpath_ctxt.xpathEval("d:identity")
+        if l is not None:
+            for i in l:
+                ret.append(DiscoIdentity(self,i))
+        return ret
+
+    def set_identities(self,identities):
+        
+
+        for identity in self.identities:
+            identity.remove()
+        for identity in identities:
+            try:
+                self.add_identity(identity.name,identity.category,identity.type)
+            except AttributeError:
+                self.add_identity(*identity)
+
+    identities = property(get_identities, set_identities)
+
+    def identity_is(self,item_category,item_type=None):
+        
+
+        if not item_category:
+            raise ValueError("bad category")
+        if not item_type:
+            type_expr=u""
+        elif 
+ not in type:
+            type_expr=u" and @type='%s'" % (item_type,)
+        else:
+            raise ValueError("Invalid type name")
+        if 
+ not in item_category:
+            expr=u"d:identity[@category='%s'%s]" % (item_category,type_expr)
+        else:
+            raise ValueError("Invalid category name")
+
+        l=self.xpath_ctxt.xpathEval(to_utf8(expr))
+        if l:
+            return True
+        else:
+            return False
+
+    def invalidate_identities(self):
+        
+
+        warnings.warn("DiscoInfo.invalidate_identities() is deprecated and not needed any more.", DeprecationWarning, stacklevel=1)
+
+    def add_identity(self,item_name,item_category=None,item_type=None):
+        
+
+        if not item_name:
+            raise ValueError("bad name")
+        if not item_category:
+            category_expr=u""
+        elif 
+ not in item_category:
+            category_expr=u" @category='%s'" % (item_category,)
+        else:
+            raise ValueError("Invalid category name")
+        if not item_type:
+            type_expr=u""
+        elif 
+ not in item_type:
+            type_expr=u" @type='%s'" % (item_type,)
+        else:
+            raise ValueError("Invalid type name")
+        if 
+ not in item_name:
+            expr=u"d:identity[text()='%s'%s%s]" % (item_name,category_expr,type_expr)
+        else:
+            raise ValueError("Invalid name")
+
+        l=self.xpath_ctxt.xpathEval(to_utf8(expr))
+        if l:
+            return
+        n=self.xmlnode.newChild(None, "identity", to_utf8(item_name))
+        if category_expr:
+            n.setProp("category", to_utf8(item_category))
+        if type_expr:
+            n.setProp("type", to_utf8(item_type))
+
+    def remove_identity(self,item_name,item_category=None,item_type=None):
+        
+
+        if not item_name:
+            raise ValueError("bad name")
+        if not item_category:
+            category_expr=u""
+        elif 
+ not in item_category:
+            category_expr=u" @category='%s'" % (item_category,)
+        else:
+            raise ValueError("Invalid category name")
+        if not item_type:
+            type_expr=u""
+        elif 
+ not in item_type:
+            type_expr=u" @type='%s'" % (item_type,)
+        else:
+            raise ValueError("Invalid type name")
+        if 
+ not in item_name:
+            expr=u"d:identity[text()='%s'%s%s]" % (item_name,category_expr,type_expr)
+        else:
+            raise ValueError("Invalid name")
+
+        l=self.xpath_ctxt.xpathEval(to_utf8(expr))
+        if not l:
+            return
+        for i in l:
+            i.unlinkNode()
+            i.freeNode()
+
+class DiscoIdentity:
+    def __init__(self,parent,xmlnode):
+        self.parent=parent
+        self.xmlnode=xmlnode
+        self.xpath_ctxt=parent.xpath_ctxt
+
+    def __del__(self):
+        if self.xmlnode:
+            self.xmlnode.unlinkNode()
+            self.xmlnode.freeNode()
+            self.xmlnode=None
+        if self.xpath_ctxt:
+            self.xpath_ctxt.xpathFreeContext()
+            self.xpath_ctxt=None
+
+    def get_name(self):
+        
+
+        node=self.xmlnode.prop("name")
+        if not node:
+            return None
+        return node.decode("utf-8")
+
+    def set_name(self,name):
+        
+
+        if name is None:
+            if self.xmlnode.hasProp("name"):
+                self.xmlnode.unsetProp("name")
+            return
+        name = unicode(name)
+        self.xmlnode.setProp("name", name.encode("utf-8"))
+
+    name = property(get_name, set_name)
+
+    def get_category(self):
+        
+
+        node=self.xmlnode. Analyze the following piece of code:  return DiscoIdentity(self,item_name,item_category,item_type)
+
+class DiscoCacheFetcherBase(cache.CacheFetcher):
+    
+
+    stream=None
+    disco_class=None
+    def fetch(self):
+        
+
+        from..iq import Iq
+        jid,node = self.address
+        iq = Iq(to_jid = jid, stanza_type = "get")
+        disco = self.disco_class(node)
+        iq.add_content(disco.xmlnode)
+        self.stream.set_response_handlers(iq,self.__response, self.__error,
+                self.__timeout)
+        self.stream.send(iq)
+
+    def __response(self,stanza):
+        
+
+        try:
+            d=self.disco_class(stanza.get_query())
+            self.got_it(d)
+        except ValueError,e:
+            self.error(e)
+
+    def __error(self,stanza):
+        
+
+        try:
+            self.error(stanza.get_error())
+        except ProtocolError:
+            from..error import StanzaErrorNode
+            self.error(StanzaErrorNode("undefined-condition"))
+
+    def __timeout(self,stanza):
+        
+
+        pass
+
+def register_disco_cache_fetchers(cache_suite,stream):
+    
+
+    tmp=stream
+    class DiscoInfoCacheFetcher(DiscoCacheFetcherBase):
+        
+
+        stream=tmp
+        disco_class=DiscoInfo
+    class DiscoItemsCacheFetcher(DiscoCacheFetcherBase):
+        
+
+        stream=tmp
+        disco_class=DiscoItems
+    cache_suite.register_fetcher(DiscoInfo,DiscoInfoCacheFetcher)
+    cache_suite.register_fetcher(DiscoItems,DiscoItemsCacheFetcher)
+
+
+
+This code is part of the SleekXMPP library. It defines a class DiscoCacheFetcherBase, which is a base class for two other classes: DiscoInfoCacheFetcher and DiscoItemsCacheFetcher. Both of these classes inherit from DiscoCacheFetcherBase and override the fetch method. The fetch method creates an Iq stanza with a DiscoInfo or DiscoItems element as its content, sets up response handlers for the stanza, sends the stanza, and then waits for a response.
+
+The __response method handles the response by trying to parse the stanza as a DiscoInfo or DiscoItems element. If the parsing fails, the method raises a ValueError. If the parsing succeeds, the method calls the got_it method, which is defined in the base class and must be implemented by subclasses.
+
+The __error method handles any errors that occur while waiting for a response. It tries to parse the error stanza as a StanzaErrorNode, and if the parsing fails, it raises a ProtocolError.
+
+The __timeout method is a placeholder method that does nothing.
+
+The register_disco_cache_fetchers function takes a cache_suite object and a stream object and registers the DiscoInfo and DiscoItems fetchers with the cache_suite object. The stream object is used to send the Iq stanzas.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. El intérprete es un programa que lee y ejecuta el código fuente directamente, sin necesidad de compilarlo previamente. En este caso, el código fuente se ejecuta línea por línea, lo que significa que el intérprete lee y ejecuta cada instrucción en el código fuente en cuestión de segundos.
+
+La elección entre un lenguaje de programación compilado o interpretado depende de factores como la facilidad de uso, la velocidad de ejecución, la seguridad y la escalabilidad. Los lenguajes de programación compilados suelen ser más rápidos y eficientes que los lenguajes interpretados, pero requieren un proceso de compilación adicional y pueden ser más difíciles de usar. Por otro lado, los lenguajes interpretados suelen ser más fáciles de usar y depurar, pero pueden ser más lentos y menos eficientes que los lenguajes compilados

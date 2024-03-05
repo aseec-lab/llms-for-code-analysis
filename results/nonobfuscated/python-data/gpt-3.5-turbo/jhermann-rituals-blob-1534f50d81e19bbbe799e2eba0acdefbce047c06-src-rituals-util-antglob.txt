@@ -1,0 +1,14 @@
+The code is a Python module that provides functionality for working with file patterns. Here is a breakdown of what each part of the code does:
+
+- The code imports a few modules and defines the `__all__` variable to specify the publicly visible objects of the module.
+- The `glob2re` function takes a string `part` and converts it into a regular expression pattern that matches filenames based on glob-style wildcards.
+- The `parse_glob` function takes a glob pattern and splits it into directory and filename parts. It then converts each part into a regular expression using the `glob2re` function and yields the resulting patterns.
+- The `compile_glob` function takes a glob pattern and compiles it into a regular expression object. It calls the `parse_glob` function to get the individual patterns and concatenates them into a single pattern string.
+- The `Pattern` class represents a file pattern. It takes a `spec` (glob pattern) and `inclusive` (boolean indicating whether the pattern is inclusive or exclusive). It compiles the glob pattern into a regular expression and stores it along with the inclusive/exclusive flag.
+- The `FileSet` class represents a set of files defined by a root directory and a list of patterns. It takes a `root` directory and a `patterns` list (or a single pattern as a string). It stores the root and patterns, converting any pattern strings into `Pattern` objects.
+- The `included` method of the `FileSet` class determines whether a given path (file or directory) should be included based on the patterns. It iterates over the patterns and checks if the path matches the pattern and has the same directory/file type. It returns the inclusive flag of the first matching pattern.
+- The `walk` method of the `FileSet` class performs a directory tree walk starting from the root directory. It yields paths that are included based on the patterns. It also supports additional kwargs that are passed to `os.walk`.
+- The `includes` function creates a `Pattern` object with an inclusive flag set to `True`.
+- The `excludes` function creates a `Pattern` object with an inclusive flag set to `False`.
+
+Overall, the code provides a way to define file patterns using glob syntax and determine which paths are included based on those patterns. It also provides a convenient way to walk a directory tree and only yield paths that match the patterns.

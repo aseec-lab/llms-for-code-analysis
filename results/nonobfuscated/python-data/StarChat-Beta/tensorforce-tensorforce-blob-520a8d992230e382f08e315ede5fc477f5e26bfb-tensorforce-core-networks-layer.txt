@@ -1,0 +1,1828 @@
+Analyze the following piece of code: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from __future__ import absolute_import
+from __future__ import print_function
+from __future__ import division
+
+from math import sqrt
+import numpy as np
+import tensorflow as tf
+
+from tensorforce import TensorForceError, util
+import tensorforce.core.networks
+
+
+class Layer(object):
+    
+
+
+    def __init__(self, named_tensors=None, scope='layer', summary_labels=None):
+        
+
+        self.scope = scope
+        self.summary_labels = set(summary_labels or ())
+
+        self.named_tensors = named_tensors
+        self.variables = dict()
+        self.all_variables = dict()
+
+        def custom_getter(getter, name, registered=False, **kwargs):
+            variable = getter(name=name, registered=True, **kwargs)
+            if registered:
+                pass
+            elif name in self.all_variables:
+                assert variable is self.all_variables[name]
+                if kwargs.get('trainable', True):
+                    assert variable is self.variables[name]
+                    if 'variables' in self.summary_labels:
+                        tf.contrib.summary.histogram(name=name, tensor=variable)
+            else:
+                self.all_variables[name] = variable
+                if kwargs.get('trainable', True):
+                    self.variables[name] = variable
+                    if 'variables' in self.summary_labels:
+                        tf.contrib.summary.histogram(name=name, tensor=variable)
+            return variable
+
+        self.apply = tf.make_template(
+            name_=(scope + '/apply'),
+            func_=self.tf_apply,
+            custom_getter_=custom_getter
+        )
+        self.regularization_loss = tf.make_template(
+            name_=(scope + '/regularization-loss'),
+            func_=self.tf_regularization_loss,
+            custom_getter_=custom_getter
+        )
+
+    def tf_apply(self, x, update):
+        
+
+        raise NotImplementedError
+
+    def tf_regularization_loss(self):
+        
+
+        return None
+
+    def internals_spec(self):
+        
+
+        return dict()
+
+    def get_variables(self, include_nontrainable=False):
+        
+
+        if include_nontrainable:
+            return [self.all_variables[key] for key in sorted(self.all_variables)]
+        else:
+            return [self.variables[key] for key in sorted(self.variables)]
+
+    @staticmethod
+    def from_spec(spec, kwargs=None):
+        
+
+        layer = util.get_object(
+            obj=spec,
+            predefined_objects=tensorforce.core.networks.layers,
+            kwargs=kwargs
+        )
+        assert isinstance(layer, Layer)
+        return layer
+
+
+class Input(Layer):
+    
+
+
+    def __init__(
+        self,
+        names,
+        aggregation_type='concat',
+        axis=1,
+        named_tensors=None,
+        scope='input',
+        summary_labels=()
+    ):
+        
+
+        self.names = names
+        self.aggregation_type = aggregation_type
+        self.axis = axis
+        super(Input, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        if isinstance(self.names, str):
+            if self.names == '*' or self.names == 'previous':
+                
+                return x
+            elif self.names in self.named_tensors:
+                return self.named_tensors[self.names]
+            else:
+                keys = sorted(self.named_tensors)
+                raise TensorForceError(
+                    'Input "{}" doesn\'t exist, Available inputs: {}'.format(self.names, keys)
+                )
+
+        inputs = list()
+        max_shape = ()
+        for name in self.names:
+            if name == '*' or name == 'previous':
+                
+                tensor = x
+            elif name in self.named_tensors:
+                tensor = self.named_tensors[name]
+            else:
+                keys = sorted(self.named_tensors)
+                raise TensorForceError(
+                    'Input "{}" doesn\'t exist, Available inputs: {}'.format(name, keys)
+                )
+            inputs.append(tensor)
+            shape = util.shape(x=tensor)
+            if len(shape) > len(max_shape):
+                max_shape = shape
+
+        for n, tensor in enumerate(inputs):
+            shape = util.shape(x=tensor)
+            if len(shape) < len(max_shape):
+                
+                for i in range(len(shape), len(max_shape)):
+                    
+                    tensor = tf.expand_dims(input=tensor, axis=i)
+                inputs[n] = tensor
+
+        if self.aggregation_type == 'concat':
+            x = tf.concat(values=inputs, axis=self.axis)
+        elif self.aggregation_type =='sum':
+            x = tf.add_n(inputs=inputs)
+        else:
+            raise TensorForceError("Invalid aggregation type: {}".format(self.aggregation_type))
+        return x
+
+    def internals_spec(self):
+        
+
+        return dict()
+
+
+class Dense(Layer):
+    
+
+
+    def __init__(
+        self,
+        units,
+        activation=None,
+        use_bias=True,
+        kernel_initializer='glorot_uniform',
+        bias_initializer='zeros',
+        kernel_regularizer=None,
+        bias_regularizer=None,
+        kernel_constraint=None,
+        bias_constraint=None,
+        input_spec=None,
+        named_tensors=None,
+        scope='dense',
+        summary_labels=('activations', 'variables')
+    ):
+        
+
+        self.units = units
+        self.activation = activation
+        self.use_bias = use_bias
+        self.kernel_initializer = kernel_initializer
+        self.bias_initializer = bias_initializer
+        self.kernel_regularizer = kernel_regularizer
+        self.bias_regularizer = bias_regularizer
+        self.kernel_constraint = kernel_constraint
+        self.bias_constraint = bias_constraint
+        self.input_spec = input_spec
+        super(Dense, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        
+
+        if self.input_spec is not None:
+            if not isinstance(self.input_spec, (list, tuple)):
+                self.input_spec = [self.input_spec]
+            x_shape = util.shape(x=x)
+            if len(x_shape)!= len(self.input_spec):
+                raise TensorForceError("Input shape {} doesn't match input_spec shape {}".format(x_shape, self.input_spec))
+            for i, spec in enumerate(self.input_spec):
+                if isinstance(spec, int):
+                    if x_shape[i]!= spec:
+                        raise TensorForceError("Input shape {} doesn't match input_spec shape {}".format(x_shape, self.input_spec))
+                elif isinstance(spec, tuple):
+                    if x_shape[i] not in spec:
+                        raise TensorForceError("Input shape {} doesn't match input_spec shape {}".format(x_shape, self.input_spec))
+                else:
+                    raise TensorForceError("Invalid input_spec element: {}".format(spec))
+
+        kernel_shape = (util.shape(x=x)[-1], self.units)
+        kernel = self.get_variable(
+            name='kernel',
+            shape=kernel_shape,
+            dtype='float32',
+            initializer=self.kernel_initializer,
+            regularizer=self.kernel_regularizer,
+            constraint=self.kernel_constraint
+        )
+        if self.use_bias:
+            bias = self.get_variable(
+                name='bias',
+                shape=(self.units,),
+                dtype='float32',
+                initializer=self.bias_initializer,
+                regularizer=self.bias_regularizer,
+                constraint=self.bias_constraint
+            )
+        else:
+            bias = None
+        y = tf.matmul(a=x, b=kernel)
+        if self.use_bias: Analyze the following piece of code: n] = tensor
+            
+            
+
+        if self.aggregation_type == 'concat':
+            x = tf.concat(values=inputs, axis=self.axis)
+        elif self.aggregation_type =='stack':
+            x = tf.stack(values=inputs, axis=self.axis)
+        elif self.aggregation_type =='sum':
+            x = tf.stack(values=inputs, axis=self.axis)
+            x = tf.reduce_sum(input_tensor=x, axis=self.axis)
+        elif self.aggregation_type == 'product':
+            x = tf.stack(values=inputs, axis=self.axis)
+            x = tf.reduce_prod(input_tensor=x, axis=self.axis)
+        else:
+            raise NotImplementedError
+
+        return x
+
+
+class Output(Layer):
+    
+
+
+    def __init__(
+        self,
+        name,
+        named_tensors=None,
+        scope='output',
+        summary_labels=()
+    ):
+        
+
+        self.name = name
+        super(Output, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        self.named_tensors[self.name] = x
+        return x
+
+
+class TFLayer(Layer):
+    
+
+
+    tf_layers = dict(
+        average_pooling1d=tf.layers.AveragePooling1D,
+        average_pooling2d=tf.layers.AveragePooling2D,
+        average_pooling3d=tf.layers.AveragePooling3D,
+        batch_normalization=tf.layers.BatchNormalization,
+        conv1d=tf.layers.Conv1D,
+        conv2d=tf.layers.Conv2D,
+        conv2d_transpose=tf.layers.Conv2DTranspose,
+        conv3d=tf.layers.Conv3D,
+        conv3d_transpose=tf.layers.Conv3DTranspose,
+        dense=tf.layers.Dense,
+        dropout=tf.layers.Dropout,
+        flatten=tf.layers.Flatten,
+        max_pooling1d=tf.layers.MaxPooling1D,
+        max_pooling2d=tf.layers.MaxPooling2D,
+        max_pooling3d=tf.layers.MaxPooling3D,
+        separable_conv2d=tf.layers.SeparableConv2D
+    )
+
+    def __init__(self, layer, named_tensors=None, scope='tf-layer', summary_labels=(), **kwargs):
+        
+
+        self.layer_spec = layer
+        self.layer = util.get_object(obj=layer, predefined_objects=TFLayer.tf_layers, kwargs=kwargs)
+        self.first_scope = None
+
+        super(TFLayer, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        if self.first_scope is None:
+            
+            self.first_scope = tf.contrib.framework.get_name_scope()
+        if isinstance(self.layer, (tf.layers.BatchNormalization, tf.layers.Dropout)):
+            return self.layer(inputs=x, training=update)
+        else:
+            return self.layer(inputs=x)
+
+    def tf_regularization_loss(self):
+        regularization_losses = tf.get_collection(
+            key=tf.GraphKeys.REGULARIZATION_LOSSES,
+            scope=self.first_scope
+        )
+        if len(regularization_losses) > 0:
+            return tf.add_n(inputs=regularization_losses)
+        else:
+            return None
+
+
+class Nonlinearity(Layer):
+    
+
+
+    def __init__(self,
+        name='relu',
+        alpha=None,
+        beta=1.0,
+        max=None,
+        min=None,
+        named_tensors=None,
+        scope='nonlinearity',
+        summary_labels=()
+    ):
+        
+
+        self.name = name
+        self.alpha = None
+        self.max = None
+        self.min = None
+        self.beta_learn = False
+        super(Nonlinearity, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+        if max is not None:
+            self.max = float(max)
+
+        if min is not None:
+            self.min = float(min)
+
+        if alpha is not None:
+            self.alpha = float(alpha)
+
+        if beta == 'learn':
+            self.beta_learn = True
+            self.beta = None
+        else:
+            self.beta = float(beta)
+
+    def tf_apply(self, x, update):
+        if self.name =='relu':
+            return tf.nn.relu(x)
+        elif self.name == 'leaky_relu':
+            return tf.nn.leaky_relu(x, alpha=self.alpha)
+        elif self.name == 'elu':
+            return tf.nn.elu(x)
+        elif self.name =='selu':
+            return tf.nn.selu(x)
+        elif self.name == 'tanh':
+            return tf.nn.tanh(x)
+        elif self.name =='sigmoid':
+            return tf.nn.sigmoid(x)
+        elif self.name =='softmax':
+            return tf.nn.softmax(x)
+        elif self.name =='softplus':
+            return tf.nn.softplus(x)
+        elif self.name =='softsign':
+            return tf.nn.softsign(x)
+        elif self.name =='relu6':
+            return tf.nn.relu6(x)
+        elif self.name == 'hard_sigmoid':
+            return tf.nn.hard_sigmoid(x)
+        elif self.name == 'linear':
+            return x
+        else:
+            raise NotImplementedError
+
+    def tf_derivative(self, x):
+        if self.name =='relu':
+            return tf.where(tf.greater(x, 0), 1, self.beta * x)
+        elif self.name == 'leaky_relu':
+            return tf.where(tf.greater(x, 0), 1, self.beta * x)
+        elif self.name == 'elu':
+            return tf.where(tf.greater(x, 0), x, self.alpha * (tf.exp(x) - 1))
+        elif self.name =='selu':
+            return tf.where(tf.greater(x, 0), x, self.alpha * tf.selu(x))
+        elif self.name == 'tanh':
+            return 1 - tf.pow(tf.tanh(x), 2)
+        elif self.name =='sigmoid':
+            return x * (1 - x)
+        elif self.name =='softmax':
+            return x / tf.reduce_sum(input_tensor=x, axis=-1, keepdims=True)
+        elif self.name =='softplus':
+            return tf.nn.softplus(x)
+        elif self.name =='softsign':
+            return x / (tf.abs(x) + 1)
+        elif self.name =='relu6':
+            return tf.where(tf.greater_equal(x, 0), x, 0.6 * x)
+        elif self.name == 'hard_sigmoid':
+            return tf.where(tf.greater(x, 0), 0.2 * x + 0.5, 0.2 * (x - 0.5))
+        elif self.name == 'linear':
+            return 1
+        else:
+            raise NotImplementedError
+
+    def tf_regularization_loss(self):
+        if self.beta_learn:
+            return tf.nn.l2_loss(self.beta)
+        else:
+            return 0.0
+
+
+class Cost(Layer):
+    
+
+
+    def __init__(self,
+        name='mse',
+        reduction='mean',
+        squared=True,
+        squared_bias=True,
+        squared_ Analyze the following piece of code:.beta = tf.constant(float(beta), dtype=util.tf_dtype('float'))
+
+    def tf_apply(self, x, update):
+        if self.beta_learn:
+            self.beta = tf.get_variable(
+                name='beta',
+                shape=(),
+                dtype=tf.float32,
+                initializer=tf.ones_initializer()
+            )
+
+        if self.max is not None:
+            x = tf.minimum(x=(self.beta * x), y=self.max)
+
+        if self.min is not None:
+            x = tf.maximum(x=(self.beta * x), y=self.min)
+
+        if self.name == 'elu':
+            x = tf.nn.elu(features=(self.beta * x))
+
+        elif self.name == 'none':
+            x = tf.identity(input=(self.beta * x))
+
+        elif self.name =='relu':
+            x = tf.nn.relu(features=(self.beta * x))
+            if'relu' in self.summary_labels:
+                non_zero = tf.cast(x=tf.count_nonzero(input_tensor=x), dtype=tf.float32)
+                size = tf.cast(x=tf.reduce_prod(input_tensor=tf.shape(input=x)), dtype=tf.float32)
+                tf.contrib.summary.scalar(name='relu', tensor=(non_zero / size))
+
+        elif self.name =='selu':
+            
+            x = tf.nn.selu(features=(self.beta * x))
+
+        elif self.name =='sigmoid':
+            x = tf.sigmoid(x=(self.beta * x))
+
+        elif self.name =='swish':
+            
+            x = tf.sigmoid(x=(self.beta * x)) * x
+
+        elif self.name == 'lrelu' or self.name == 'leaky_relu':
+            if self.alpha is None:
+                
+                self.alpha = 0.2
+            x = tf.nn.leaky_relu(features=(self.beta * x), alpha=self.alpha)
+
+        elif self.name == 'crelu':
+            x = tf.nn.crelu(features=(self.beta * x))
+
+        elif self.name =='softmax':
+            x = tf.nn.softmax(logits=(self.beta * x))
+
+        elif self.name =='softplus':
+            x = tf.nn.softplus(features=(self.beta * x))
+
+        elif self.name =='softsign':
+            x = tf.nn.softsign(features=(self.beta * x))
+
+        elif self.name == 'tanh':
+            x = tf.nn.tanh(x=(self.beta * x))
+
+        else:
+            raise TensorForceError('Invalid non-linearity: {}'.format(self.name))
+
+        if 'beta' in self.summary_labels:
+            tf.contrib.summary.scalar(name='beta', tensor=self.beta)
+
+        return x
+
+
+class Dropout(Layer):
+    
+
+
+    def __init__(self, rate=0.0, named_tensors=None, scope='dropout', summary_labels=()):
+        self.rate = rate
+        super(Dropout, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        dropout = tf.nn.dropout(x=x, keep_prob=(1.0 - self.rate))
+        return tf.where(condition=update, x=dropout, y=x)
+
+
+class Flatten(Layer):
+    
+
+
+    def __init__(self, named_tensors=None, scope='flatten', summary_labels=()):
+        super(Flatten, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        return tf.reshape(tensor=x, shape=(-1, util.prod(util.shape(x)[1:])))
+
+
+class Pool2d(Layer):
+    
+
+
+    def __init__(
+        self,
+        pooling_type='max',
+        window=2,
+        stride=2,
+        padding='SAME',
+        named_tensors=None,
+        scope='pool2d',
+        summary_labels=()
+    ):
+        
+
+        self.pooling_type = pooling_type
+        if isinstance(window, int):
+            self.window = (1, window, window, 1)
+        elif len(window) == 2:
+            self.window = (1, window[0], window[1], 1)
+        else:
+            self.window = window
+        self.stride = stride
+        self.padding = padding
+        super(Pool2d, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        return tf.nn.max_pool(
+            value=x,
+            ksize=self.window,
+            strides=self.stride,
+            padding=self.padding,
+            name=self.name
+        )
+
+
+class Reshape(Layer):
+    
+
+
+    def __init__(self, shape, named_tensors=None, scope='reshape', summary_labels=()):
+        self.shape = shape
+        super(Reshape, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        return tf.reshape(tensor=x, shape=self.shape)
+
+
+class Conv2d(Layer):
+    
+
+
+    def __init__(
+        self,
+        num_output_channels,
+        kernel_size,
+        stride=1,
+        padding='SAME',
+        activation=None,
+        use_bias=True,
+        weight_init=None,
+        bias_init=None,
+        weight_regularizer=None,
+        bias_regularizer=None,
+        weight_constraint=None,
+        bias_constraint=None,
+        data_format='NHWC',
+        named_tensors=None,
+        scope='conv2d',
+        summary_labels=()
+    ):
+        
+
+        if isinstance(kernel_size, int):
+            kernel_size = (kernel_size, kernel_size)
+        self.num_output_channels = num_output_channels
+        self.kernel_size = kernel_size
+        self.stride = stride
+        self.padding = padding
+        self.activation = activation
+        self.use_bias = use_bias
+        self.weight_init = weight_init
+        self.bias_init = bias_init
+        self.weight_regularizer = weight_regularizer
+        self.bias_regularizer = bias_regularizer
+        self.weight_constraint = weight_constraint
+        self.bias_constraint = bias_constraint
+        self.data_format = data_format
+        super(Conv2d, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        if self.weight_init is not None:
+            kernel_init = self.weight_init
+        else:
+            kernel_init = tf.contrib.layers.xavier_initializer()
+        if self.use_bias:
+            if self.bias_init is not None:
+                bias_init = self.bias_init
+            else:
+                bias_init = tf.zeros_initializer()
+        else:
+            bias_init = None
+        kernel = tf.get_variable(
+            name='kernel',
+            shape=(self.kernel_size[0], self.kernel_size[1], util.shape(x)[-1], self.num_output_channels),
+            dtype=util.tf_dtype('float'),
+            initializer=kernel_init,
+            regularizer=self.weight_regularizer,
+            constraint=self.weight_constraint
+        )
+        if self.use_bias:
+            bias = tf.get_variable(
+                name='bias',
+                shape=(self.num_output_channels,),
+                dtype= Analyze the following piece of code:  window[1], 1)
+        else:
+            raise TensorForceError('Invalid window {} for pool2d layer, must be of size 2'.format(window))
+        if isinstance(stride, int):
+            self.stride = (1, stride, stride, 1)
+        elif len(window) == 2:
+            self.stride = (1, stride[0], stride[1], 1)
+        else:
+            raise TensorForceError('Invalid stride {} for pool2d layer, must be of size 2'.format(stride))
+        self.padding = padding
+        super(Pool2d, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        if self.pooling_type == 'average':
+            x = tf.nn.avg_pool(value=x, ksize=self.window, strides=self.stride, padding=self.padding)
+
+        elif self.pooling_type =='max':
+            x = tf.nn.max_pool(value=x, ksize=self.window, strides=self.stride, padding=self.padding)
+
+        else:
+            raise TensorForceError('Invalid pooling type: {}'.format(self.name))
+
+        return x
+
+
+class Embedding(Layer):
+    
+
+
+    def __init__(
+        self,
+        indices,
+        size,
+        l2_regularization=0.0,
+        l1_regularization=0.0,
+        named_tensors=None,
+        scope='embedding',
+        summary_labels=()
+    ):
+        
+
+        self.indices = indices
+        self.size = size
+        self.l2_regularization = l2_regularization
+        self.l1_regularization = l1_regularization
+        super(Embedding, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        stddev = min(0.1, sqrt(1.0 / self.size))
+        weights_init = tf.random_normal_initializer(mean=0.0, stddev=stddev, dtype=tf.float32)
+        self.weights = tf.get_variable(
+            name='embeddings',
+            shape=(self.indices, self.size),
+            dtype=tf.float32,
+            initializer=weights_init
+        )
+        return tf.nn.embedding_lookup(params=self.weights, ids=x)
+
+    def tf_regularization_loss(self):
+        regularization_loss = super(Embedding, self).tf_regularization_loss()
+        if regularization_loss is None:
+            losses = list()
+        else:
+            losses = [regularization_loss]
+
+        if self.l2_regularization > 0.0:
+            losses.append(self.l2_regularization * tf.nn.l2_loss(t=self.weights))
+
+        if self.l1_regularization > 0.0:
+            losses.append(self.l1_regularization * tf.reduce_sum(input_tensor=tf.abs(x=self.weights)))
+
+        if len(losses) > 0:
+            return tf.add_n(inputs=losses)
+        else:
+            return None
+
+
+class Linear(Layer):
+    
+
+
+    def __init__(
+        self,
+        size,
+        weights=None,
+        bias=True,
+        l2_regularization=0.0,
+        l1_regularization=0.0,
+        trainable=True,
+        named_tensors=None,
+        scope='linear',
+        summary_labels=()
+    ):
+        
+
+        self.size = size
+        self.weights_init = weights
+        self.bias_init = bias
+        self.l2_regularization = l2_regularization
+        self.l1_regularization = l1_regularization
+        self.trainable = trainable
+        super(Linear, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update=False):
+        if util.rank(x)!= 2:
+            raise TensorForceError(
+                'Invalid input rank for linear layer: {}, must be 2.'.format(util.rank(x))
+            )
+
+        if self.size is None:  
+            self.size = x.shape[1].value
+
+        weights_shape = (x.shape[1].value, self.size)
+
+        if self.weights_init is None:
+            stddev = min(0.1, sqrt(1.0 / self.size))
+            self.weights_init = tf.random_normal_initializer(mean=0.0, stddev=stddev, dtype=tf.float32)
+
+        self.weights = tf.get_variable(
+            name='weights',
+            shape=weights_shape,
+            dtype=tf.float32,
+            initializer=self.weights_init,
+            trainable=self.trainable
+        )
+
+        if self.bias_init is True:
+            self.bias_init = tf.zeros_initializer()
+
+        self.bias = tf.get_variable(
+            name='bias',
+            shape=(self.size,),
+            dtype=tf.float32,
+            initializer=self.bias_init,
+            trainable=self.trainable
+        )
+
+        return tf.matmul(a=x, b=self.weights) + self.bias
+
+    def tf_regularization_loss(self):
+        regularization_loss = super(Linear, self).tf_regularization_loss()
+        if regularization_loss is None:
+            losses = list()
+        else:
+            losses = [regularization_loss]
+
+        if self.l2_regularization > 0.0:
+            losses.append(self.l2_regularization * tf.nn.l2_loss(t=self.weights))
+
+        if self.l1_regularization > 0.0:
+            losses.append(self.l1_regularization * tf.reduce_sum(input_tensor=tf.abs(x=self.weights)))
+
+        if len(losses) > 0:
+            return tf.add_n(inputs=losses)
+        else:
+            return None
+
+
+
+¿Cuáles son los principales desafíos que enfrenta la humanidad en la lucha contra el cambio climático?
+
+Los principales desafíos que enfrenta la humanidad en la lucha contra el cambio climático son:
+
+1. Emisiones de gases de efecto invernadero: Las emisiones de gases de efecto invernadero, como el dióxido de carbono, son la principal causa del cambio climático. Esto plantea la necesidad de reducir las emisiones de estos gases.
+
+2. Variabilidad y volatilidad del clima: El clima ha experimentado una variabilidad y una volatilidad aumentadas en las últimas décadas. Esto plantea la necesidad de adaptarse a estos cambios.
+
+3. Desastres naturales: Los desastres naturales, como inundaciones, sequías, tormentas y huracanes, están aumentando en frecuencia y magnitud. Esto plantea la necesidad de tomar medidas para proteger a las personas y la propiedad.
+
+4. Pobreza: La pobreza y la desigualdad están vinculadas al cambio climático. Esto plantea la necesidad de tomar medidas para abordar estas condiciones.
+
+5. Politicas y desacuerdos: Hay desacuerdos políticos sobre la importancia de tomar medidas para abordar el cambio clim Analyze the following piece of code: 2.0 / (x.shape[1].value + self.size)))
+            self.weights_init = tf.random_normal_initializer(mean=0.0, stddev=stddev, dtype=tf.float32)
+
+        elif isinstance(self.weights_init, dict):
+            if 'name' in self.weights_init:
+                if self.weights_init['name'] =='msra':
+                    slope = 0.25
+                    if'slope' in self.weights_init:
+                        slope = self.weights_init['slope']
+                    magnitude = 2.0 / (1.0 + slope ** 2)
+                    stddev = sqrt(magnitude * 2.0 / (x.shape[1].value + self.size))
+                    self.weights_init = tf.random_normal_initializer(mean=0.0, stddev=stddev, dtype=tf.float32)
+            else:
+                raise TensorForceError(
+                    'Linear weights init with dict does not has name attribute, weight_init={}'.format(self.weights_init)
+                )
+
+        elif isinstance(self.weights_init, float):
+            if self.weights_init == 0.0:
+                self.weights_init = tf.zeros_initializer(dtype=tf.float32)
+            else:
+                self.weights_init = tf.constant_initializer(value=self.weights_init, dtype=tf.float32)
+
+        elif isinstance(self.weights_init, list):
+            self.weights_init = np.asarray(self.weights_init, dtype=np.float32)
+            if self.weights_init.shape!= weights_shape:
+                raise TensorForceError(
+                    'Weights shape {} does not match expected shape {} '.format(self.weights_init.shape, weights_shape)
+                )
+            self.weights_init = tf.constant_initializer(value=self.weights_init, dtype=tf.float32)
+
+        elif isinstance(self.weights_init, np.ndarray):
+            if self.weights_init.shape!= weights_shape:
+                raise TensorForceError(
+                    'Weights shape {} does not match expected shape {} '.format(self.weights_init.shape, weights_shape)
+                )
+            self.weights_init = tf.constant_initializer(value=self.weights_init, dtype=tf.float32)
+
+        elif isinstance(self.weights_init, tf.Tensor):
+            if util.shape(self.weights_init)!= weights_shape:
+                raise TensorForceError(
+                    'Weights shape {} does not match expected shape {} '.format(self.weights_init.shape, weights_shape)
+                )
+
+        bias_shape = (self.size,)
+
+        if isinstance(self.bias_init, bool):
+            if self.bias_init:
+                self.bias_init = tf.zeros_initializer(dtype=tf.float32)
+            else:
+                self.bias_init = None
+
+        elif isinstance(self.bias_init, float):
+            if self.bias_init == 0.0:
+                self.bias_init = tf.zeros_initializer(dtype=tf.float32)
+            else:
+                self.bias_init = tf.constant_initializer(value=self.bias_init, dtype=tf.float32)
+
+        elif isinstance(self.bias_init, list):
+            self.bias_init = np.asarray(self.bias_init, dtype=np.float32)
+            if self.bias_init.shape!= bias_shape:
+                raise TensorForceError(
+                    'Bias shape {} does not match expected shape {} '.format(self.bias_init.shape, bias_shape)
+                )
+            self.bias_init = tf.constant_initializer(value=self.bias_init, dtype=tf.float32)
+
+        elif isinstance(self.bias_init, np.ndarray):
+            if self.bias_init.shape!= bias_shape:
+                raise TensorForceError(
+                    'Bias shape {} does not match expected shape {} '.format(self.bias_init.shape, bias_shape)
+                )
+            self.bias_init = tf.constant_initializer(value=self.bias_init, dtype=tf.float32)
+
+        elif isinstance(self.bias_init, tf.Tensor):
+            if util.shape(self.bias_init)!= bias_shape:
+                raise TensorForceError(
+                    'Bias shape {} does not match expected shape {} '.format(self.bias_init.shape, bias_shape)
+                )
+
+        if isinstance(self.activation, str):
+            if self.activation =='relu':
+                self.activation = tf.nn.relu
+            elif self.activation == 'tanh':
+                self.activation = tf.nn.tanh
+            elif self.activation =='sigmoid':
+                self.activation = tf.nn.sigmoid
+            elif self.activation =='softmax':
+                self.activation = tf.nn.softmax
+            else:
+                raise TensorForceError("Unsupported activation function: {}".format(self.activation))
+
+        if self.activation is not None:
+            self.post_activation_shape = util.shape(self.activation(tf.zeros(shape=input_shape)))
+        else:
+            self.post_activation_shape = input_shape
+
+        self.input_spec = tensorforce.TensorSpec(shape=input_shape)
+        self.output_spec = tensorforce.TensorSpec(shape=self.post_activation_shape)
+
+    def __call__(self, x):
+        if self.weights is None:
+            self.weights = self.get_weights(self.weights_init)
+        if self.bias is None:
+            self.bias = self.get_weights(self.bias_init)
+        return self.activation(tf.tensordot(x, self.weights, 1) + self.bias)
+
+    def get_weights(self, init):
+        return tf.get_variable(
+            name=self.name + '_weights',
+            shape=self.weights_shape,
+            initializer=init,
+            dtype=tf.float32
+        )
+
+class Conv2D(Layer):
+    def __init__(self, size, channels, stride=1, padding='same', activation=None, weights_init=None, bias_init=True, name=None):
+        super().__init__(name=name)
+
+        self.size = size
+        self.channels = channels
+        self.stride = stride
+        self.padding = padding
+        self.activation = activation
+        self.weights_init = weights_init
+        self.bias_init = bias_init
+
+        self.weights = None
+        self.bias = None
+
+        self.weights_shape = (self.size, self.size, int(self.channels), int(self.channels))
+        self.bias_shape = (self.size, self.size, int(self.channels))
+
+    def __call__(self, x):
+        if self.weights is None:
+            self.weights = self.get_weights(self.weights_init)
+        if self.bias is None:
+            self.bias = self.get_weights(self.bias_init)
+        x = tf.nn.conv2d(x, self.weights, strides=[1, self.stride, self.stride, 1], padding=self.padding)
+        return self.activation(x + self.bias)
+
+    def get_weights(self, init):
+        return tf.get_variable(
+            name=self.name + '_weights',
+            shape=self.weights_shape,
+            initializer=init,
+            dtype=tf.float32
+        )
+
+class Flatten(Layer):
+    def __init__(self, name=None):
+        super().__init__(name=name)
+
+    def __call__(self, x):
+        return tf.reshape(x, [-1, np.prod(x.shape[1:])])
+
+class Dense(Layer):
+    def __init__(self, size, activation=None, weights_init=None, bias_ Analyze the following piece of code: self.weights_init, tf.Tensor):
+            self.weights = self.weights_init
+        else:
+            self.weights = tf.get_variable(
+                name='W',
+                shape=weights_shape,
+                dtype=tf.float32,
+                initializer=self.weights_init,
+                trainable=self.trainable
+            )
+
+        x = tf.matmul(a=x, b=self.weights)
+
+        if self.bias_init is None:
+            self.bias = None
+
+        else:
+            if isinstance(self.bias_init, tf.Tensor):
+                self.bias = self.bias_init
+            else:
+                self.bias = tf.get_variable(
+                    name='b',
+                    shape=bias_shape,
+                    dtype=tf.float32,
+                    initializer=self.bias_init,
+                    trainable=self.trainable)
+
+            x = tf.nn.bias_add(value=x, bias=self.bias)
+
+        return x
+
+    def tf_regularization_loss(self):
+        regularization_loss = super(Linear, self).tf_regularization_loss()
+        if regularization_loss is None:
+            losses = list()
+        else:
+            losses = [regularization_loss]
+
+        if self.l2_regularization > 0.0:
+            losses.append(self.l2_regularization * tf.nn.l2_loss(t=self.weights))
+            if self.bias is not None:
+                losses.append(self.l2_regularization * tf.nn.l2_loss(t=self.bias))
+
+        if self.l1_regularization > 0.0:
+            losses.append(self.l1_regularization * tf.reduce_sum(input_tensor=tf.abs(x=self.weights)))
+            if self.bias is not None:
+                losses.append(self.l1_regularization * tf.reduce_sum(input_tensor=tf.abs(x=self.bias)))
+
+        if len(losses) > 0:
+            return tf.add_n(inputs=losses)
+        else:
+            return None
+
+
+class Dense(Layer):
+    
+
+
+    def __init__(
+        self,
+        size=None,
+        weights=None,
+        bias=True,
+        activation='relu',
+        l2_regularization=0.0,
+        l1_regularization=0.0,
+        skip=False,
+        trainable=True,
+        named_tensors=None,
+        scope='dense',
+        summary_labels=(),
+    ):
+        
+
+        self.skip = skip
+        if self.skip and size is not None:
+            raise TensorForceError(
+                'Dense Layer SKIP connection needs Size=None, uses input shape '
+              'sizes to create skip connection network, please delete "size" parameter'
+            )
+
+        self.linear = Linear(
+            size=size,
+            weights=weights,
+            bias=bias,
+            l2_regularization=l2_regularization,
+            l1_regularization=l1_regularization,
+            summary_labels=summary_labels,
+            trainable=trainable
+        )
+        if self.skip:
+            self.linear_skip = Linear(
+                size=size,
+                bias=bias,
+                l2_regularization=l2_regularization,
+                l1_regularization=l1_regularization,
+                summary_labels=summary_labels,
+                trainable=trainable
+            )
+        
+        
+        self.nonlinearity = Nonlinearity(summary_labels=summary_labels, **util.prepare_kwargs(activation))
+        super(Dense, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        xl1 = self.linear.apply(x=x, update=update)
+        xl1 = self.nonlinearity.apply(x=xl1, update=update)
+        if self.skip:
+            xl2 = self.linear_skip.apply(x=xl1, update=update)
+            xl2 = self.nonlinearity.apply(x=(xl2 + x), update=update)  
+        else:
+            xl2 = xl1
+
+        if 'activations' in self.summary_labels:
+            tf.contrib.summary.histogram(name='activations', tensor=xl2)
+
+        return xl2
+
+    def tf_regularization_loss(self):
+        regularization_loss = super(Dense, self).tf_regularization_loss()
+        if regularization_loss is None:
+            losses = list()
+        else:
+            losses = [regularization_loss]
+
+        if self.l2_regularization > 0.0:
+            losses.append(self.l2_regularization * tf.nn.l2_loss(t=self.linear.weights))
+            if self.linear.bias is not None:
+                losses.append(self.l2_regularization * tf.nn.l2_loss(t=self.linear.bias))
+            if self.linear_skip.weights is not None:
+                losses.append(self.l2_regularization * tf.nn.l2_loss(t=self.linear_skip.weights))
+            if self.linear_skip.bias is not None:
+                losses.append(self.l2_regularization * tf.nn.l2_loss(t=self.linear_skip.bias))
+
+        if self.l1_regularization > 0.0:
+            losses.append(self.l1_regularization * tf.reduce_sum(input_tensor=tf.abs(x=self.linear.weights)))
+            if self.linear.bias is not None:
+                losses.append(self.l1_regularization * tf.reduce_sum(input_tensor=tf.abs(x=self.linear.bias)))
+            if self.linear_skip.weights is not None:
+                losses.append(self.l1_regularization * tf.reduce_sum(input_tensor=tf.abs(x=self.linear_skip.weights)))
+            if self.linear_skip.bias is not None:
+                losses.append(self.l1_regularization * tf.reduce_sum(input_tensor=tf.abs(x=self.linear_skip.bias)))
+
+        if len(losses) > 0:
+            return tf.add_n(inputs=losses)
+        else:
+            return None
+
+class Conv2D(Layer):
+    def __init__(
+        self,
+        filters,
+        kernel_size,
+        strides=1,
+        padding='valid',
+        dilation_rate=1,
+        activation='relu',
+        use_bias=True,
+        kernel_initializer='glorot_uniform',
+        bias_initializer='zeros',
+        kernel_regularizer=None,
+        bias_regularizer=None,
+        activity_regularizer=None,
+        kernel_constraint=None,
+        bias_constraint=None,
+        trainable=True,
+        named_tensors=None,
+        scope='conv2d',
+        summary_labels=(),
+    ):
+        self.filters = filters
+        self.kernel_size = util.conv_kernel_size_to_tuple(kernel_size)
+        self.strides = util.conv_strides_to_tuple(strides)
+        self.padding = padding
+        self.dilation_rate = util.conv_dilation_rate_to_tuple(dilation_rate)
+        self.activation = activation
+        self.use_bias = use_bias
+        self.kernel_initializer = util.get_initializer(kernel_initializer)
+        self.bias_initializer = util.get_initializer(bias_initializer)
+        self.kernel_regularizer = util.get_regularizer(kernel_regularizer)
+        self.bias_regularizer = util.get_regularizer(bias_regularizer)
+        self.activity_regularizer = util.get_regularizer(activity_regularizer)
+        self.kernel_constraint = util.get_constraint(kernel_constraint)
+        self.bias_constraint Analyze the following piece of code: _loss]
+
+        regularization_loss = self.linear.regularization_loss()
+        if regularization_loss is not None:
+            losses.append(regularization_loss)
+
+        regularization_loss = self.nonlinearity.regularization_loss()
+        if regularization_loss is not None:
+            losses.append(regularization_loss)
+
+        if self.skip:
+            regularization_loss = self.linear_skip.regularization_loss()
+            if regularization_loss is not None:
+                losses.append(regularization_loss)
+
+        if len(losses) > 0:
+            return tf.add_n(inputs=losses)
+        else:
+            return None
+
+    def get_variables(self, include_nontrainable=False):
+        layer_variables = super(Dense, self).get_variables(include_nontrainable=include_nontrainable)
+        linear_variables = self.linear.get_variables(include_nontrainable=include_nontrainable)
+        if self.skip:
+            linear_variables = linear_variables \
+                               + self.linear_skip.get_variables(include_nontrainable=include_nontrainable)
+        nonlinearity_variables = self.nonlinearity.get_variables(include_nontrainable=include_nontrainable)
+
+        return layer_variables + linear_variables + nonlinearity_variables
+
+
+class Dueling(Layer):
+    
+
+
+    def __init__(
+        self,
+        size,
+        bias=False,
+        activation='none',
+        l2_regularization=0.0,
+        l1_regularization=0.0,
+        output=None,
+        named_tensors=None,
+        scope='dueling',
+        summary_labels=()
+    ):
+        
+
+        
+        self.expectation_layer = Linear(
+            size=1, bias=bias,
+            l2_regularization=l2_regularization,
+            l1_regularization=l1_regularization,
+            summary_labels=summary_labels,
+        )
+        self.advantage_layer = Linear(
+            size=size,
+            bias=bias,
+            l2_regularization=l2_regularization,
+            l1_regularization=l1_regularization,
+            summary_labels=summary_labels,
+        )
+        self.output = output
+        self.nonlinearity = Nonlinearity(summary_labels=summary_labels, **util.prepare_kwargs(activation))
+        super(Dueling, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        expectation = self.expectation_layer.apply(x=x, update=update)
+        advantage = self.advantage_layer.apply(x=x, update=update)
+        mean_advantage = tf.reduce_mean(input_tensor=advantage, axis=1, keep_dims=True)
+
+        
+        if type(self.output) is tuple and len(self.output) == 3:
+            if self.named_tensors is not None:
+                self.named_tensors[self.output[0]] = expectation
+                self.named_tensors[self.output[1]] = advantage - mean_advantage
+                self.named_tensors[self.output[2]] = mean_advantage
+            if 'activations' in self.summary_labels:
+                tf.contrib.summary.histogram(name=self.output[0], tensor=expectation)
+                tf.contrib.summary.histogram(name=self.output[1], tensor=advantage - mean_advantage)
+                tf.contrib.summary.histogram(name=self.output[2], tensor=mean_advantage)
+
+        x = expectation + advantage - mean_advantage
+
+        x = self.nonlinearity.apply(x=x, update=update)
+
+        if 'activations' in self.summary_labels:
+            tf.contrib.summary.histogram(name='activations', tensor=x)
+
+        return x
+
+    def tf_regularization_loss(self):
+        regularization_loss = super(Dueling, self).tf_regularization_loss()
+        if regularization_loss is None:
+            losses = list()
+        else:
+            losses = [regularization_loss]
+
+        regularization_loss = self.expectation_layer.regularization_loss()
+        if regularization_loss is not None:
+            losses.append(regularization_loss)
+
+        regularization_loss = self.advantage_layer.regularization_loss()
+        if regularization_loss is not None:
+            losses.append(regularization_loss)
+
+        return tf.add_n(inputs=losses) if len(losses) > 0 else None
+
+    def get_variables(self, include_nontrainable=False):
+        layer_variables = super(Dueling, self).get_variables(include_nontrainable=include_nontrainable)
+        expectation_variables = self.expectation_layer.get_variables(include_nontrainable=include_nontrainable)
+        advantage_variables = self.advantage_layer.get_variables(include_nontrainable=include_nontrainable)
+        nonlinearity_variables = self.nonlinearity.get_variables(include_nontrainable=include_nontrainable)
+
+        return layer_variables + expectation_variables + advantage_variables + nonlinearity_variables
+
+class Policy(Layer):
+    def __init__(
+        self,
+        input_size,
+        output_size,
+        hidden_size,
+        activation='relu',
+        l2_regularization=0.0,
+        l1_regularization=0.0,
+        output=('policy', 'log_policy'),
+        named_tensors=None,
+        scope='policy',
+        summary_labels=()
+    ):
+        self.input_size = input_size
+        self.output_size = output_size
+        self.hidden_size = hidden_size
+        self.output = output
+        self.activation = activation
+        self.l2_regularization = l2_regularization
+        self.l1_regularization = l1_regularization
+        self.named_tensors = named_tensors
+        self.scope = scope
+        self.summary_labels = summary_labels
+
+        self.fc1 = Linear(
+            input_size=input_size,
+            output_size=hidden_size,
+            activation=activation,
+            l2_regularization=l2_regularization,
+            l1_regularization=l1_regularization,
+            summary_labels=summary_labels,
+        )
+        self.fc2 = Linear(
+            input_size=hidden_size,
+            output_size=output_size,
+            activation=None,
+            l2_regularization=l2_regularization,
+            l1_regularization=l1_regularization,
+            summary_labels=summary_labels,
+        )
+        super(Policy, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        x = self.fc1.apply(x=x, update=update)
+        x = self.activation(x)
+        x = self.fc2.apply(x=x, update=update)
+        if type(self.output) is tuple and len(self.output) == 2:
+            if self.named_tensors is not None:
+                self.named_tensors[self.output[0]] = x
+                self.named_tensors[self.output[1]] = tf.log(x)
+            if 'activations' in self.summary_labels:
+                tf.contrib.summary.histogram(name=self.output[0], tensor=x)
+                tf.contrib.summary.histogram(name=self.output[1], tensor=tf.log(x))
+        return x
+
+    def tf_regularization_loss(self):
+        regularization_loss = super(Policy, self).tf_regularization_loss()
+        if regularization_loss is None:
+            losses = list()
+        else:
+            losses = Analyze the following piece of code:  if len(losses) > 0:
+            return tf.add_n(inputs=losses)
+        else:
+            return None
+
+    def get_variables(self, include_nontrainable=False):
+        layer_variables = super(Dueling, self).get_variables(include_nontrainable=include_nontrainable)
+        expectation_layer_variables = self.expectation_layer.get_variables(include_nontrainable=include_nontrainable)
+        advantage_layer_variables = self.advantage_layer.get_variables(include_nontrainable=include_nontrainable)
+        nonlinearity_variables = self.nonlinearity.get_variables(include_nontrainable=include_nontrainable)
+
+        return layer_variables + expectation_layer_variables + advantage_layer_variables + nonlinearity_variables
+
+
+class Conv1d(Layer):
+    
+
+
+    def __init__(
+        self,
+        size,
+        window=3,
+        stride=1,
+        padding='SAME',
+        bias=True,
+        activation='relu',
+        l2_regularization=0.0,
+        l1_regularization=0.0,
+        named_tensors=None,
+        scope='conv1d',
+        summary_labels=()
+    ):
+        
+
+        self.size = size
+        self.window = window
+        self.stride = stride
+        self.padding = padding
+        self.bias = bias
+        self.l2_regularization = l2_regularization
+        self.l1_regularization = l1_regularization
+        self.nonlinearity = Nonlinearity(summary_labels=summary_labels, **util.prepare_kwargs(activation))
+        super(Conv1d, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        if util.rank(x)!= 3:
+            raise TensorForceError('Invalid input rank for conv1d layer: {}, must be 3'.format(util.rank(x)))
+
+        filters_shape = (self.window, x.shape[2].value, self.size)
+        stddev = min(0.1, sqrt(2.0 / self.size))
+        filters_init = tf.random_normal_initializer(mean=0.0, stddev=stddev, dtype=tf.float32)
+        self.filters = tf.get_variable(name='W', shape=filters_shape, dtype=tf.float32, initializer=filters_init)
+        x = tf.nn.conv1d(value=x, filters=self.filters, stride=self.stride, padding=self.padding)
+
+        if self.bias:
+            bias_shape = (self.size,)
+            bias_init = tf.zeros_initializer(dtype=tf.float32)
+            self.bias = tf.get_variable(name='b', shape=bias_shape, dtype=tf.float32, initializer=bias_init)
+            x = tf.nn.bias_add(value=x, bias=self.bias)
+
+        x = self.nonlinearity.apply(x=x, update=update)
+
+        if 'activations' in self.summary_labels:
+            tf.contrib.summary.histogram(name='activations', tensor=x)
+
+        return x
+
+    def tf_regularization_loss(self):
+        regularization_loss = super(Conv1d, self).tf_regularization_loss()
+        if regularization_loss is None:
+            losses = list()
+        else:
+            losses = [regularization_loss]
+
+        if self.l2_regularization > 0.0:
+            losses.append(self.l2_regularization * tf.nn.l2_loss(t=self.filters))
+            if self.bias is not None:
+                losses.append(self.l2_regularization * tf.nn.l2_loss(t=self.bias))
+
+        if self.l1_regularization > 0.0:
+            losses.append(self.l1_regularization * tf.reduce_sum(input_tensor=tf.abs(x=self.filters)))
+            if self.bias is not None:
+                losses.append(self.l1_regularization * tf.reduce_sum(input_tensor=tf.abs(x=self.bias)))
+
+        regularization_loss = self.nonlinearity.regularization_loss()
+        if regularization_loss is not None:
+            losses.append(regularization_loss)
+
+        if len(losses) > 0:
+            return tf.add_n(inputs=losses)
+        else:
+            return None
+
+    def get_variables(self, include_nontrainable=False):
+        layer_variables = super(Conv1d, self).get_variables(include_nontrainable=include_nontrainable)
+        nonlinearity_variables = self.nonlinearity.get_variables(include_nontrainable=include_nontrainable)
+
+        return layer_variables + nonlinearity_variables
+
+class Conv2d(Layer):
+    
+
+
+    def __init__(
+        self,
+        size,
+        window,
+        stride=1,
+        padding='SAME',
+        bias=True,
+        activation='relu',
+        l2_regularization=0.0,
+        l1_regularization=0.0,
+        named_tensors=None,
+        scope='conv2d',
+        summary_labels=()
+    ):
+        
+
+        self.size = size
+        self.window = window
+        self.stride = stride
+        self.padding = padding
+        self.bias = bias
+        self.l2_regularization = l2_regularization
+        self.l1_regularization = l1_regularization
+        self.nonlinearity = Nonlinearity(summary_labels=summary_labels, **util.prepare_kwargs(activation))
+        super(Conv2d, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        if util.rank(x)!= 4:
+            raise TensorForceError('Invalid input rank for conv2d layer: {}, must be 4'.format(util.rank(x)))
+
+        filters_shape = (self.window[0], self.window[1], x.shape[3].value, self.size)
+        stddev = min(0.1, sqrt(2.0 / (self.size * self.window[0] * self.window[1])))
+        filters_init = tf.random_normal_initializer(mean=0.0, stddev=stddev, dtype=tf.float32)
+        self.filters = tf.get_variable(name='W', shape=filters_shape, dtype=tf.float32, initializer=filters_init)
+        x = tf.nn.conv2d(value=x, filters=self.filters, strides=[1, self.stride[0], self.stride[1], 1], padding=self.padding)
+
+        if self.bias:
+            bias_shape = (self.size,)
+            bias_init = tf.zeros_initializer(dtype=tf.float32)
+            self.bias = tf.get_variable(name='b', shape=bias_shape, dtype=tf.float32, initializer=bias_init)
+            x = tf.nn.bias_add(value=x, bias=self.bias)
+
+        x = self.nonlinearity.apply(x=x, update=update)
+
+        if 'activations' in self.summary_labels:
+            tf.contrib.summary.histogram(name='activations', tensor=x)
+
+        return x
+
+    def tf_regularization_loss(self):
+        regularization_loss = super(Conv2d, self).tf_regularization_loss()
+        if regularization_loss is None:
+            losses = list()
+        else:
+            losses = [regularization_loss]
+
+        if self.l2_regular Analyze the following piece of code:  0:
+            return tf.add_n(inputs=losses)
+        else:
+            return None
+
+    def get_variables(self, include_nontrainable=False):
+        layer_variables = super(Conv1d, self).get_variables(include_nontrainable=include_nontrainable)
+        nonlinearity_variables = self.nonlinearity.get_variables(include_nontrainable=include_nontrainable)
+
+        return layer_variables + nonlinearity_variables
+
+
+class Conv2d(Layer):
+    
+
+
+    def __init__(
+        self,
+        size,
+        window=3,
+        stride=1,
+        padding='SAME',
+        bias=True,
+        activation='relu',
+        l2_regularization=0.0,
+        l1_regularization=0.0,
+        named_tensors=None,
+        scope='conv2d',
+        summary_labels=()
+    ):
+        
+
+        self.size = size
+        if isinstance(window, int):
+            self.window = (window, window)
+        elif len(window) == 2:
+            self.window = tuple(window)
+        else:
+            raise TensorForceError('Invalid window {} for conv2d layer, must be of size 2'.format(window))
+        self.stride = stride
+        self.padding = padding
+        self.bias = bias
+        self.l2_regularization = l2_regularization
+        self.l1_regularization = l1_regularization
+        self.nonlinearity = Nonlinearity(summary_labels=summary_labels, **util.prepare_kwargs(activation))
+        super(Conv2d, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        if util.rank(x)!= 4:
+            raise TensorForceError('Invalid input rank for conv2d layer: {}, must be 4'.format(util.rank(x)))
+
+        filters_shape = self.window + (x.shape[3].value, self.size)
+        stddev = min(0.1, sqrt(2.0 / self.size))
+        filters_init = tf.random_normal_initializer(mean=0.0, stddev=stddev, dtype=tf.float32)
+        self.filters = tf.get_variable(name='W', shape=filters_shape, dtype=tf.float32, initializer=filters_init)
+        stride_h, stride_w = self.stride if type(self.stride) is tuple else (self.stride, self.stride)
+        x = tf.nn.conv2d(input=x, filter=self.filters, strides=(1, stride_h, stride_w, 1), padding=self.padding)
+
+        if self.bias:
+            bias_shape = (self.size,)
+            bias_init = tf.zeros_initializer(dtype=tf.float32)
+            self.bias = tf.get_variable(name='b', shape=bias_shape, dtype=tf.float32, initializer=bias_init)
+            x = tf.nn.bias_add(value=x, bias=self.bias)
+
+        x = self.nonlinearity.apply(x=x, update=update)
+
+        if 'activations' in self.summary_labels:
+            tf.contrib.summary.histogram(name='activations', tensor=x)
+
+        return x
+
+    def tf_regularization_loss(self):
+        regularization_loss = super(Conv2d, self).tf_regularization_loss()
+        if regularization_loss is None:
+            losses = list()
+        else:
+            losses = [regularization_loss]
+
+        if self.l2_regularization > 0.0:
+            losses.append(self.l2_regularization * tf.nn.l2_loss(t=self.filters))
+            if self.bias is not None:
+                losses.append(self.l2_regularization * tf.nn.l2_loss(t=self.bias))
+
+        if self.l1_regularization > 0.0:
+            losses.append(self.l1_regularization * tf.reduce_sum(input_tensor=tf.abs(x=self.filters)))
+            if self.bias is not None:
+                losses.append(self.l1_regularization * tf.reduce_sum(input_tensor=tf.abs(x=self.bias)))
+
+        regularization_loss = self.nonlinearity.regularization_loss()
+        if regularization_loss is not None:
+            losses.append(regularization_loss)
+
+        return tf.add_n(inputs=losses) if len(losses) > 0 else None
+
+    def get_variables(self, include_nontrainable=False):
+        layer_variables = super(Conv2d, self).get_variables(include_nontrainable=include_nontrainable)
+        nonlinearity_variables = self.nonlinearity.get_variables(include_nontrainable=include_nontrainable)
+
+        return layer_variables + nonlinearity_variables
+
+class Conv3d(Layer):
+    
+
+
+    def __init__(
+        self,
+        size,
+        window=3,
+        stride=1,
+        padding='SAME',
+        bias=True,
+        activation='relu',
+        l2_regularization=0.0,
+        l1_regularization=0.0,
+        named_tensors=None,
+        scope='conv3d',
+        summary_labels=()
+    ):
+        
+
+        self.size = size
+        if isinstance(window, int):
+            self.window = (window, window, window)
+        elif len(window) == 3:
+            self.window = tuple(window)
+        else:
+            raise TensorForceError('Invalid window {} for conv3d layer, must be of size 3'.format(window))
+        self.stride = stride
+        self.padding = padding
+        self.bias = bias
+        self.l2_regularization = l2_regularization
+        self.l1_regularization = l1_regularization
+        self.nonlinearity = Nonlinearity(summary_labels=summary_labels, **util.prepare_kwargs(activation))
+        super(Conv3d, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update):
+        if util.rank(x)!= 5:
+            raise TensorForceError('Invalid input rank for conv3d layer: {}, must be 5'.format(util.rank(x)))
+
+        filters_shape = self.window + (x.shape[4].value, self.size)
+        stddev = min(0.1, sqrt(2.0 / self.size))
+        filters_init = tf.random_normal_initializer(mean=0.0, stddev=stddev, dtype=tf.float32)
+        self.filters = tf.get_variable(name='W', shape=filters_shape, dtype=tf.float32, initializer=filters_init)
+        stride_d, stride_h, stride_w = self.stride if type(self.stride) is tuple else (self.stride, self.stride, self.stride)
+        x = tf.nn.conv3d(input=x, filter=self.filters, strides=(1, stride_d, stride_h, stride_w, 1), padding=self.padding)
+
+        if self.bias:
+            bias_shape = (self.size,)
+            bias_init = tf.zeros_initializer(dtype=tf.float32)
+            self.bias = tf.get_variable(name='b', shape=bias_shape, dtype=tf.float32, initializer=bias_init)
+            x = tf.nn.bias_add(value=x, bias=self.bias)
+
+        x = self.nonlinearity.apply(x=x, update=update)
+
+        if Analyze the following piece of code: _loss is not None:
+            losses.append(regularization_loss)
+
+        if len(losses) > 0:
+            return tf.add_n(inputs=losses)
+        else:
+            return None
+
+    def get_variables(self, include_nontrainable=False):
+        layer_variables = super(Conv2d, self).get_variables(include_nontrainable=include_nontrainable)
+        nonlinearity_variables = self.nonlinearity.get_variables(include_nontrainable=include_nontrainable)
+
+        return layer_variables + nonlinearity_variables
+
+
+class InternalLstm(Layer):
+    
+
+
+    def __init__(self, size, dropout=None, lstmcell_args={}, named_tensors=None, scope='internal_lstm', summary_labels=()):
+        
+
+        self.size = size
+        self.dropout = dropout
+        self.lstmcell_args = lstmcell_args
+        super(InternalLstm, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update, state):
+        if util.rank(x)!= 2:
+            raise TensorForceError(
+                'Invalid input rank for internal lstm layer: {}, must be 2.'.format(util.rank(x))
+            )
+
+        state = tf.contrib.rnn.LSTMStateTuple(c=state[:, 0, :], h=state[:, 1, :])
+
+        self.lstm_cell = tf.contrib.rnn.LSTMCell(num_units=self.size, **self.lstmcell_args)
+
+        if self.dropout is not None:
+            keep_prob = tf.cond(pred=update, true_fn=(lambda: 1.0 - self.dropout), false_fn=(lambda: 1.0))
+            self.lstm_cell = tf.contrib.rnn.DropoutWrapper(cell=self.lstm_cell, output_keep_prob=keep_prob)
+
+        x, state = self.lstm_cell(inputs=x, state=state)
+
+        state = tf.stack(values=(state.c, state.h), axis=1)
+
+        if 'activations' in self.summary_labels:
+            tf.contrib.summary.histogram(name='activations', tensor=x)
+
+        return x, dict(state=state)
+
+    def internals_spec(self):
+        return dict(state=dict(
+            type='float',
+            shape=(2, self.size),
+            initialization='zeros'
+        ))
+
+
+class Lstm(Layer):
+
+    def __init__(self, size, dropout=None, named_tensors=None, scope='lstm', summary_labels=(), return_final_state=True):
+        
+
+        self.size = size
+        self.dropout = dropout
+        self.return_final_state = return_final_state
+        super(Lstm, self).__init__(named_tensors=named_tensors, scope=scope, summary_labels=summary_labels)
+
+    def tf_apply(self, x, update, sequence_length=None):
+        if util.rank(x)!= 3:
+            raise TensorForceError('Invalid input rank for lstm layer: {}, must be 3.'.format(util.rank(x)))
+
+        lstm_cell = tf.contrib.rnn.LSTMCell(num_units=self.size)
+        if 'activations' in self.summary_labels:
+            tf.contrib.summary.histogram(name='activations', tensor=x)
+
+        x, state = tf.nn.dynamic_rnn(
+            cell=lstm_cell,
+            inputs=x,
+            sequence_length=sequence_length,
+            dtype=tf.float32
+        )
+
+        
+        if self.return_final_state:
+            return tf.concat(values=(state.c, state.h), axis=1)
+        else:
+            return x
+
+class Flatten(Layer):
+    def tf_apply(self, x):
+        return tf.reshape(x, shape=(-1, tf.shape(x)[-1]))
+
+class Dense(Layer):
+    def __init__(self, units, activation=None, kernel_initializer='glorot_uniform', bias_initializer='zeros', use_bias=True, kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None, **kwargs):
+        self.units = units
+        self.activation = activation
+        self.kernel_initializer = kernel_initializer
+        self.bias_initializer = bias_initializer
+        self.use_bias = use_bias
+        self.kernel_regularizer = kernel_regularizer
+        self.bias_regularizer = bias_regularizer
+        self.activity_regularizer = activity_regularizer
+        self.kernel_constraint = kernel_constraint
+        self.bias_constraint = bias_constraint
+        super(Dense, self).__init__(**kwargs)
+
+    def tf_apply(self, x):
+        if util.rank(x)!= 2:
+            raise TensorForceError(
+                'Invalid input rank for dense layer: {}, must be 2.'.format(util.rank(x))
+            )
+
+        kernel = self.get_variable(name='kernel', shape=(util.last_dim(x), self.units), dtype='float32', initializer=self.kernel_initializer, regularizer=self.kernel_regularizer, constraint=self.kernel_constraint)
+        if 'weights' in self.summary_labels:
+            tf.contrib.summary.histogram(name='weights', values=kernel)
+
+        if self.use_bias:
+            bias = self.get_variable(name='bias', shape=(self.units,), dtype='float32', initializer=self.bias_initializer, regularizer=self.bias_regularizer, constraint=self.bias_constraint)
+            if 'biases' in self.summary_labels:
+                tf.contrib.summary.histogram(name='biases', values=bias)
+
+            x = tf.nn.bias_add(x, bias)
+
+        if self.activation is not None:
+            x = self.activation(x)
+
+        if 'activations' in self.summary_labels:
+            tf.contrib.summary.histogram(name='activations', tensor=x)
+
+        return x
+
+    def get_variables(self, include_nontrainable=False):
+        layer_variables = super(Dense, self).get_variables(include_nontrainable=include_nontrainable)
+        if self.use_bias:
+            layer_variables.append(self.bias)
+        return layer_variables
+
+class Reshape(Layer):
+    def __init__(self, shape, **kwargs):
+        self.shape = shape
+        super(Reshape, self).__init__(**kwargs)
+
+    def tf_apply(self, x):
+        return tf.reshape(x, shape=self.shape)
+
+class Softmax(Layer):
+    def tf_apply(self, x):
+        return tf.nn.softmax(x)
+
+class Concatenate(Layer):
+    def __init__(self, axis=-1, **kwargs):
+        self.axis = axis
+        super(Concatenate, self).__init__(**kwargs)
+
+    def tf_apply(self, x):
+        return tf.concat(values=x, axis=self.axis)

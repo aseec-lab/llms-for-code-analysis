@@ -1,0 +1,25 @@
+The code is a Python script that defines a class called "WorldScientific". This class inherits from the "JatsPackage" class and is used to parse XML files from the World Scientific publisher. 
+
+The code begins with importing necessary modules and defining a custom exception called "DateNotFoundException". 
+
+The "WorldScientific" class has several methods that are used to extract specific information from the XML document and create a BibTeX record. 
+
+Here is a summary of the important methods:
+
+1. `_get_date()`: This method extracts the publication date from the XML document by searching for specific tags and attributes.
+
+2. `get_date(filename)`: This method takes a filename as input, parses the XML document using the `parse()` method from the `xml.dom.minidom` module, and calls the `_get_date()` method to extract the date.
+
+3. `_get_authors()`: This method extracts information about the authors of the publication from the XML document.
+
+4. `_add_authors(rec)`: This method adds author information to the BibTeX record.
+
+5. `_get_related_article()`: This method extracts the DOI of a related article, if it exists, from the XML document.
+
+6. `get_collection(journal)`: This method determines the collection of the publication based on the journal and article type.
+
+7. `get_record(filename, ref_extract_callback=None)`: This method takes a filename as input, parses the XML document, and creates a BibTeX record using the extracted information.
+
+8. `_attach_fulltext(rec, doi)`: This method adds a full-text URL to the BibTeX record.
+
+The last part of the code is executed when the script is run directly. It takes a filename as a command line argument, creates an instance of the "WorldScientific" class, and calls the `get_record()` method to print the resulting BibTeX record.

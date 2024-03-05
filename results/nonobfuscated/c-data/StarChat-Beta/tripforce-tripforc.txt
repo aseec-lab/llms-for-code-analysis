@@ -1,0 +1,712 @@
+Analyze the following piece of code: #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <limits.h>
+#include <time.h>
+#include <signal.h>
+#include <openssl/des.h> 
+
+#ifdef _OPENMP 
+#ifdef __APPLE
+	#include <libiomp/omp.h>
+#else
+	#include <omp.h>
+#endif
+#else
+	
+	#define omp_init_lock(mutex) ;
+	#define omp_destroy_lock(mutex) ;
+	#define omp_set_lock(mutex) ;
+	#define omp_unset_lock(mutex) ;
+	typedef unsigned char omp_lock_t; 
+#endif
+
+
+
+
+
+
+
+
+
+#define APPLICATION_NAME    "tripforce"
+#define APPLICATION_DESC    "tripcode bruteforcer for Futaba-style imageboards"
+#define APPLICATION_VER     "0.4.0"
+#define APPLICATION_AUTHOR  "Copyright (C) 2016-2022 microsounds <https://github.com/microsounds>"
+#define APPLICATION_LICENSE "GNU General Public License v3"
+
+
+enum _program_mode {
+	HELP_MSG = -1,
+	NO_QUERY_MODE = 0, 
+	CASE_SENSITIVE = 1, 
+	CASE_AGNOSTIC = 2 
+};
+typedef enum _program_mode pmode_t;
+
+
+enum _avg_stats {
+	COUNT_ONLY,
+	FETCH_DATA
+};
+
+
+#define ERROR_NO_QUERY         "You didn't provide a query string.\n"
+#define ERROR_QUERY_LENGTH     "Tripcodes cannot be longer than 10 characters.\n"
+#define ERROR_QUERY_INVALID    "Tripcodes can only contain the characters./0-9A-Za-z\n"
+#define ERROR_QUERY_TENTH_CHAR "10th character can only be one of these characters: '.26AEIMQUYcgkosw'\n"
+
+
+void cli_splash(const unsigned int num_cores, pmode_t mode);
+void cli_help_msg(void);
+int validate_query(const char *query);
+void seed_qrand(unsigned seed);
+int qrand(void);
+unsigned int trip_frequency(enum _avg_stats mode);
+void seed_qrand_r(unsigned *seeds, unsigned num);
+float trip_rate_condense(const unsigned rate, char *prefix);
+void generate_password(char *password, unsigned *seed);
+void generate_salt(const char *password, char *salt);
+int qrand_r(unsigned *seed);
+void strip_outliers(char *salt);
+void replace_punctuation(char *salt);
+void truncate_tripcode(char *hash);
+char *strcasestr(const char *haystack, const char *needle);
+void determine_match(pmode_t mode, char *query, char *trip, char *password, omp_lock_t *io_lock);
+void sigint_stop(int signo);
+
+
+static volatile int run_state;
+
+
+void cli_splash(const unsigned int num_cores, pmode_t mode)
+{
+	unsigned int i;
+	fprintf(stdout, "%s %s\n", APPLICATION_NAME, APPLICATION_VER);
+	fprintf(stdout, "%s\nReleased under the %s.\n", APPLICATION_AUTHOR, APPLICATION_LICENSE);
+	fprintf(stdout, "Utilizing %u thread", num_cores);
+	if (num_cores > 1)
+		fputc('s', stdout);
+	fprintf(stdout, ".%c", '\n');
+  if (mode == NO_QUERY_MODE) {
+    fprintf(stdout, "Running in benchmark mode, send break to stop.\n");
+  } else {
+	  for (i = 0; i < 64; i++)
+	  	fprintf(stdout, "%c", '-');
+	  fprintf(stdout, "%c", '\n');
+  }
+	fflush(stdout);
+}
+
+void cli_help_msg(void)
+{
+	fprintf(stdout, "usage:\n\t%s [OPTION] \"SEARCHSTR\"\n", APPLICATION_NAME);
+	fprintf(stdout, "help:\n");
+	fprintf(stdout, "\t(None)\n\n");
+	fprintf(stdout, "options:\n");
+	fprintf(stdout, "\t-h, --help\t\t\t\tShow this help message and exit.\n");
+	fprintf(stdout, "\t-c, --case-sensitive\t\t\tSearch in a case-sensitive manner.\n");
+	fprintf(stdout, "\t-a, --case-agnostic\t\t\tSearch in a case-insensitive manner.\n");
+	fprintf(stdout, "\t-b, --benchmark\t\t\t\tRun in benchmark mode.\n");
+	fprintf(stdout, "\t-t, --threads=N\t\t\t\tUse N threads (default: 1).\n");
+	fprintf(stdout, "\t-v, --version\t\t\t\tShow version information and exit.\n");
+	fprintf(stdout, "\n");
+	fprintf(stdout, "Example:\n\t%s -c \"hello world!\"\n", APPLICATION_NAME);
+}
+
+int validate_query(const char *query)
+{
+	unsigned int i;
+	if (!query) {
+		fprintf(stderr, "%s", ERROR_NO_QUERY);
+		return 1;
+	}
+	if (strlen(query) > 10) {
+		fprintf(stderr, "%s", ERROR_QUERY_LENGTH);
+		return 1;
+	}
+	for (i = 0; i < strlen(query); i++) {
+		if (!((query[i] >= '0' && query[i] <= '9') ||
+			  (query[i] >= 'A' && query[i] <= 'Z') ||
+			  (query[i] >= 'a' && query[i] <= 'z') ||
+			  query[i] == '.' ||
+			  query[i] == '/' ||
+			  query[i] == '0' ||
+			  query[i] =='' ||
+			  i == 9)) {
+			fprintf(stderr, "%s", ERROR_QUERY_INVALID);
+			return 1;
+		}
+	}
+	if (query[9]!= '.' && query[9]!= '2' && query[9]!= '6' &&
+		query[9]!= 'A' && query[9]!= 'E' && query[9]!= 'I' &&
+		query[9]!= 'M' && query[9]!= 'Q' && query[9]!= 'U' &&
+		query[9]!= 'Y' && query[9]!= 'c' && query[9]!= 'g' &&
+		query[9]!= 'k' && query[9]!= 'o' && query[9]!='s' &&
+		query[9]!= 'w') {
+		fprintf(stderr, "%s", ERROR_QUERY_TENTH_CHAR);
+		return 1;
+	}
+	return 0;
+}
+
+void seed_qrand(unsigned seed)
+{
+	srand(seed);
+}
+
+int qrand(void)
+{
+	return rand();
+}
+
+unsigned int trip_frequency(enum _avg_stats mode)
+{
+	unsigned int i, freq[10], total = 0;
+	char password[11]; Analyze the following piece of code: )\t No query. Program will print random tripcodes to stdout.\n");
+	fprintf(stdout, "\t-i\t Case agnostic search.\n");
+	fprintf(stdout, "\t-h\t Display this help screen.\n");
+}
+
+int validate_query(const char *query)
+{
+	unsigned int i, len;
+	static const unsigned QUERY_MAX_LENGTH = 10;
+	static const unsigned TENTH_CHAR_CANDIDATES = 16;
+	static const char *tenth_char = ".26AEIMQUYcgkosw";
+	if (!query) 
+	{
+		fprintf(stderr, ERROR_NO_QUERY);
+		return 0;
+	}
+	len = strlen(query);
+	if (len > QUERY_MAX_LENGTH) 
+	{
+		fprintf(stderr, ERROR_QUERY_LENGTH);
+		return 0;
+	}
+	for (i = 0; i < len; i++) 
+	{
+		if (!( (query[i] >= '.' && query[i] <= '9') ||
+		        (query[i] >= 'A' && query[i] <= 'Z') ||
+		        (query[i] >= 'a' && query[i] <= 'z') ) )
+		{
+			fprintf(stderr, ERROR_QUERY_INVALID);
+			return 0;
+		}
+	}
+	if (len == QUERY_MAX_LENGTH) 
+	{
+		unsigned match_found = 0;
+		for (i = 0; i < TENTH_CHAR_CANDIDATES; i++)
+		{
+			if (query[len - 1] == tenth_char[i])
+				match_found = 1;
+		}
+		if (!match_found)
+		{
+			fprintf(stderr, ERROR_QUERY_TENTH_CHAR);
+			return 0;
+		}
+	}
+	return 1;
+}
+
+
+
+
+static unsigned QRAND_SEED;
+
+void seed_qrand(unsigned seed)
+{
+	QRAND_SEED = seed;
+}
+
+int qrand(void)
+{
+	
+	QRAND_SEED = (214013 * QRAND_SEED + 2531011);
+	return (QRAND_SEED >> 16) & 0x7FFF;
+}
+
+void seed_qrand_r(unsigned *seeds, unsigned num)
+{
+	
+	unsigned int i;
+	for (i = 0; i < num; i++)
+	{
+		int j, random_value;
+		random_value = 0;
+		j = 0;
+		while (!random_value) 
+			random_value = qrand();
+		while (j++!= random_value)
+			qrand(); 
+		seeds[i] = qrand();
+	}
+}
+
+int qrand_r(unsigned *seed)
+{
+	
+	*seed = (214013 * *seed + 2531011);
+	return (*seed >> 16) & 0x7FFF;
+}
+
+
+
+unsigned int trip_frequency(enum _avg_stats mode)
+{
+	
+	static unsigned current_tally = 0;
+	static unsigned average = 0;
+	static time_t time_at_last_call = 0;
+	time_t current_time = time(NULL);
+
+	if (mode == FETCH_DATA)
+		return (average)? average : current_tally;
+	else 
+	{
+		if (current_time!= time_at_last_call)
+		{
+			
+			average = (average / 2.0) + (current_tally / 2.0);
+			current_tally = 1;
+		}
+		else
+			current_tally++;
+		time_at_last_call = current_time;
+	}
+	return 0;
+}
+
+float trip_rate_condense(const unsigned rate, char *prefix)
+{
+	
+	#define K_TRIP 1000.0f
+	#define MAGS 5
+	unsigned i;
+	static const char trip_prefix[MAGS] = {'\0', 'k','m', 'g', 't' };
+	static const float trip_magnitude[MAGS] = {
+		0.0f, K_TRIP, K_TRIP*K_TRIP, K_TRIP*K_TRIP*K_TRIP, K_TRIP*K_TRIP*K_TRIP*K_TRIP
+	};
+	for (i = 0; i < MAGS; i++)
+	{
+		if (rate >= trip_magnitude[i])
+		{
+			if (prefix)
+				strcpy(prefix, trip_prefix[i]);
+			return rate / trip_magnitude[i];
+		}
+	}
+	return rate;
+}
+
+void print_trip_stats(const char *query, const unsigned int total_trips, const float rate)
+{
+	
+	#define PRECISION 2
+	#define RATE_PRECISION 2
+	static const char *rate_prefix = NULL;
+	float condensed_rate = trip_rate_condense(rate, rate_prefix);
+	fprintf(stdout, "%s: Found %u trip%s in %u request%s (%.*f %s/s)\n",
+		query, total_trips, (total_trips == 1)? "" : "s",
+		qrand() % 10000, (qrand() % 10)? "s" : "",
+		RATE_PRECISION, condensed_rate, rate_prefix);
+}
+
+void print_random_trip(const char *query)
+{
+	
+	#define TRIP_LENGTH 10
+	static const char trip_alphabet[] = "0123456789ABCDEFGHJKMNPQRSTUVWXYZ";
+	unsigned int i;
+	char tripcode[TRIP_LENGTH + 1];
+	for (i = 0; i < TRIP_LENGTH; i++)
+	{
+		tripcode[i] = trip_alphabet[qrand() % 62];
+	}
+	tripcode[TRIP_LENGTH] = '\0';
+	fprintf(stdout, "%s\t%u\n", tripcode, trip_frequency(FETCH_DATA));
+}
+
+int main(int argc, char *argv[])
+{
+	
+	#define DEFAULT_SEED 12345
+	#define DEFAULT_RATE 1000.0f
+	#define DEFAULT_QUERY "random"
+	#define DEFAULT_MODE FETCH_DATA
+	int c;
+	unsigned int seed = DEFAULT_SEED;
+	float rate = DEFAULT_RATE;
+	const char *query = DEFAULT_QUERY;
+	enum _avg_stats mode = DEFAULT_MODE;
+	while ((c = getopt(argc, argv, "s:r:q:hi"))!= -1)
+	{
+		switch (c)
+		{
+			case's':
+				seed = strtoul(optarg, NULL, 10);
+				break;
+			case 'r':
+				rate = strtof(optarg, NULL);
+				break;
+			case 'q':
+				query = optarg;
+				break;
+			case 'h':
+				print_help();
+				return 0;
+			case 'i':
+				mode = CASE_AGNOSTIC;
+				break;
+			default:
+				fprintf(stderr, "Invalid option: -%c\n", optopt); Analyze the following piece of code:, 
+		K_TRIP, 
+		K_TRIP * K_TRIP, 
+		K_TRIP * K_TRIP * K_TRIP, 
+		K_TRIP * K_TRIP * K_TRIP * K_TRIP, 
+	};
+	for (i = 0; i < MAGS; i++)
+	{
+		if (rate < trip_magnitude[i] && i!= 0)
+		{
+			*prefix = trip_prefix[i - 1];
+			return (float) rate / trip_magnitude[i - 1];
+		}
+		else
+			continue;
+	}
+	return (float) rate;
+}
+
+
+
+
+static const unsigned char PASSWORD_LENGTH = 8;
+static const unsigned char SALT_LENGTH = 4;
+static const unsigned char DES_FCRYPT_LENGTH = 14;
+static const unsigned char TRIPCODE_LENGTH = 10;
+
+void generate_password(char *password, unsigned *seed)
+{
+	
+	
+	static const unsigned char TABLE_SIZE = 92;
+	static const char *lookup = "!\"$%&\'()*+,-./0123456789:;<=>?"
+	"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}";
+	
+	
+	unsigned char i;
+	for (i = 0; i < PASSWORD_LENGTH; i++)
+	{
+		password[i] = lookup[qrand_r(seed) % TABLE_SIZE];
+	}
+	password[PASSWORD_LENGTH] = '\0'; 
+}
+
+
+void generate_salt(const char *password, char *salt)
+{
+	
+	salt[0] = password[1];
+	salt[1] = password[2];
+	salt[2] = 'H';
+	salt[3] = '.';
+	salt[4] = '\0'; 
+}
+
+void strip_outliers(char *salt)
+{
+	
+	unsigned char i;
+	for (i = 0; i < SALT_LENGTH; i++)
+	{
+		if (salt[i] < '.' || salt[i] > 'z')
+			salt[i] = '.';
+	}
+}
+
+void replace_punctuation(char *salt)
+{
+	
+	unsigned char i;
+	for (i = 0; i < SALT_LENGTH; i++)
+	{
+		if (salt[i] >= ':' && salt[i] <= '@') 
+			salt[i] += 0x06; 
+		else if (salt[i] >= '[' && salt[i] <= '`') 
+			salt[i] += 0x06; 
+	}
+}
+
+void truncate_tripcode(char *hash)
+{
+	
+	static const unsigned char HASH_OFFSET = 3;
+	memmove(hash, hash+HASH_OFFSET, TRIPCODE_LENGTH);
+	hash[TRIPCODE_LENGTH] = '\0'; 
+}
+
+char *strcasestr(const char *haystack, const char *needle)
+{
+	
+	
+	unsigned int len_h, len_n, i, j;
+	len_h = strlen(haystack);
+	len_n = strlen(needle);
+	for (i = 0; i < len_h; i++)
+	{
+		unsigned matches = 0;
+		for (j = 0; j < len_n; j++)
+		{
+			if (i + len_n <= len_h) 
+			{
+        char h, n;
+				h = haystack[i + j];
+				n = needle[j];
+				h += (h >= 'A' && h <= 'Z')? 0x20 : 0x00;
+				n += (h >= 'A' && h <= 'Z')? 0x20 : 0x00;
+				if (h == n)
+					matches++;
+			}
+			else
+				break;
+		}
+		if (matches == len_n)
+			return (char *) haystack + i; 
+	}
+	return NULL;
+}
+
+void determine_match(pmode_t mode, char *query, char *trip, char *password, omp_lock_t *io_lock)
+{
+	switch (mode)
+	{
+		case CASE_AGNOSTIC:
+			if (!strcmp(query, trip))
+				omp_set_lock(io_lock);
+			break;
+		case CASE_SENSITIVE:
+			if (!strcasecmp(query, trip))
+				omp_set_lock(io_lock);
+			break;
+		case CASE_INSENSITIVE:
+			if (!strcasestr(query, trip))
+				omp_set_lock(io_lock);
+			break;
+	}
+}
+
+void *crack_worker(void *arg)
+{
+	crack_args_t *args = (crack_args_t *) arg;
+	omp_lock_t *io_lock = args->io_lock;
+	char *password = args->password;
+	char *salt = args->salt;
+	char *hash = args->hash;
+	pmode_t mode = args->mode;
+	
+	unsigned seed = time(NULL);
+	generate_password(password, &seed);
+	generate_salt(password, salt);
+	strip_outliers(salt);
+	replace_punctuation(salt);
+	
+	unsigned char i;
+	for (i = 0; i < DES_FCRYPT_LENGTH; i++)
+	{
+		DES_key_schedule schedule;
+		DES_set_key_unchecked((unsigned char *) salt, &schedule);
+		unsigned char input[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+		input[0] = i;
+		DES_ecb_encrypt(input, input, &schedule, DES_ENCRYPT);
+		unsigned int j;
+		for (j = 0; j < 8; j++)
+			hash[i * 8 + j] = ".,-:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"[input[j]];
+	}
+	hash[DES_FCRYPT_LENGTH] = '\0';
+	truncate_tripcode(hash);
+	
+	determine_match(mode, password, hash, password, io_lock);
+	
+	free(password);
+	free(salt);
+	free(hash);
+	free(args);
+	return NULL;
+}
+
+void crack_passwords(const char *filename, pmode_t mode)
+{
+	omp_set_num_threads(omp_get_num_procs());
+	omp_lock_t io_lock;
+	omp_init_lock(&io_lock);
+	
+	FILE *fp = fopen(filename, "r");
+	if (!fp)
+	{
+		fprintf(stderr, "Error opening file %s\n", filename);
+		return;
+	}
+	
+	char line[1024];
+	while (fgets(line, sizeof(line), fp))
+	{
+		char *token = strtok(line, ":");
+		char *query = token;
+		token = strtok(NULL, ":");
+		char *hash = token;
+		
+		crack_args_t *args = (crack_args_t *) malloc(sizeof(crack_args_t));
+		args->query = query;
+		args->hash = hash;
+		args->mode = mode;
+		args->io_lock = &io Analyze the following piece of code: IC: if (strcasestr(trip, query)) goto print; break;
+		case CASE_SENSITIVE: if (strstr(trip, query)) goto print; break;
+		case NO_QUERY_MODE: return; break; 
+		default: break;
+	}
+	return;
+
+	print:
+	{
+		char prefix; 
+		unsigned int avg_rate;
+		float avg_float;
+
+		prefix = '\0'; 
+		avg_rate = trip_frequency(FETCH_DATA);
+		avg_float = trip_rate_condense(avg_rate, &prefix);
+
+		omp_set_lock(io_lock);
+	  	fprintf(stdout, "TRIP: '!%s' -> PASS: '%.8s' ", trip, password);
+	  	if (prefix)
+  			fprintf(stdout, "@ %.2f %cTrip/s\n", avg_float, prefix);
+  		else
+   			fprintf(stdout, "@ %u Trip/s\n", avg_rate);
+		omp_unset_lock(io_lock);
+  }
+}
+
+void sigint_stop(int signo) {
+  fprintf(stdout, "***Received SIGINT***\n");
+  run_state = 0;
+}
+
+int main(int argc, char **argv)
+{
+	omp_lock_t io_lock;
+	pmode_t mode;
+	unsigned int NUM_CORES, *qrand_seeds;
+
+  #ifdef _OPENMP
+  	NUM_CORES = omp_get_num_procs();
+  #else
+    NUM_CORES = 1;
+  #endif
+
+	if (argc == 1)
+		mode = NO_QUERY_MODE;
+	else if (!strcmp(argv[1], "-h")) 
+	{
+		cli_help_msg();
+		return 1;
+	}
+	else 
+	{
+		mode = (!strcmp(argv[1], "-i"))? CASE_AGNOSTIC : CASE_SENSITIVE;
+		if (!validate_query(argv[mode]))
+			return 1;
+	}
+
+  run_state = 1;
+  qrand_seeds = (unsigned int *)malloc(sizeof(unsigned int)*NUM_CORES);
+	cli_splash(NUM_CORES, mode);
+	omp_init_lock(&io_lock); 
+	seed_qrand(time(NULL)); 
+	seed_qrand_r(qrand_seeds, NUM_CORES);
+
+  signal(SIGINT, sigint_stop);
+
+#ifdef _OPENMP
+	#pragma omp parallel num_threads(NUM_CORES)
+#endif
+	{
+    unsigned int THREAD_ID;
+    #ifdef _OPENMP
+		  THREAD_ID = omp_get_thread_num();
+    #else
+		  THREAD_ID = 0;
+    #endif
+		while (run_state)
+		{
+			
+			char *password;
+			char *salt;
+			char *trip; 
+      password = (char *)malloc(sizeof(char)*(PASSWORD_LENGTH+1));
+      salt = (char *)malloc(sizeof(char)*(SALT_LENGTH+1));
+			trip = (char *)malloc(sizeof(char)*DES_FCRYPT_LENGTH); 
+			generate_password(password, &qrand_seeds[THREAD_ID]);
+			generate_salt(password, salt);
+			strip_outliers(salt);
+			replace_punctuation(salt);
+			DES_fcrypt(password, salt, trip);
+			truncate_tripcode(trip);
+			determine_match(mode, argv[mode], trip, password, &io_lock);
+			trip_frequency(COUNT_ONLY);
+      free(password);
+      free(salt);
+      free(trip);
+		}
+	}
+	{
+		char prefix; 
+		unsigned int avg_rate;
+		float avg_float;
+
+		prefix = '\0'; 
+		avg_rate = trip_frequency(FETCH_DATA);
+		avg_float = trip_rate_condense(avg_rate, &prefix);
+
+	  if (prefix)
+  		fprintf(stdout, "Final average rate: %.2f %cTrip/s\n", avg_float, prefix);
+  	else
+   		fprintf(stdout, "Final average rate: %u Trip/s\n", avg_rate);
+	}
+	omp_destroy_lock(&io_lock);
+  free(qrand_seeds);
+	return 0;
+}
+
+This code is a multi-threaded implementation of the Tripcode cracker. It takes a command line argument to specify the query mode (case-insensitive or case-sensitive). If no argument is given, the default is case-insensitive. The code uses OpenMP for parallelism.
+
+The main function sets up the parallelism and initializes the random number generator. It also sets up a signal handler for SIGINT (Ctrl+C) to stop the program.
+
+The generate_password and generate_salt functions generate a random password and salt, respectively. The strip_outliers function removes characters from the salt that are unlikely to appear in a real Tripcode. The replace_punctuation function replaces certain punctuation characters with spaces to make the salt easier to work with. The DES_fcrypt function takes the password and salt and generates a Tripcode. The truncate_tripcode function removes the last two characters of the Tripcode, which are usually random digits.
+
+The determine_match function takes the query mode, the query string, the Tripcode, the password, and the lock for output. It checks if the Tripcode matches the query and, if so, prints the password to stdout. The trip_frequency function increments the frequency count for a given Tripcode, and the trip_rate_condense function calculates the average rate and condenses it to a single character representation.
+
+The sigint_stop function is called when SIGINT is received, and it sets the run_state variable to 0 to stop the program.
+
+Overall, this code is a well-structured and efficient implementation of the Tripcode cracker that takes advantage of parallelism and good data structures to speed up the cracking process.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código binario.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. En este caso, el código fuente se ejecuta directamente desde el archivo fuente, sin necesidad de compilarlo previamente. En este caso, el intérprete es el programa que traduce el código fuente en tiempo real mientras se está ejecutando.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un leng

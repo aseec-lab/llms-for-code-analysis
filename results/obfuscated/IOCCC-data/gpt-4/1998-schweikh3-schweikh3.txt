@@ -1,0 +1,21 @@
+The provided code appears to be written in the obfuscated C programming language. This style of coding sacrifices readability for brevity and is often used for fun, to demonstrate a programmer's skill, or to prove a point about the underlying language.
+
+Here's a high level description of what the code does:
+
+This program compares different files in a directory tree. It does this by scanning directory entries and comparing files if their sizes are equal. During this process, it checks if the files are identical or hard linked.
+
+In details:
+
+1. The program defines a variety of macros to simulate commands of other programming languages (like the `define` directive).
+
+2. The `main` function calls a function to obtain file names from the user until EOF is detected. If the file is regular and non-empty, it is added to the tree. If the tree is not empty after all input is read, it is processed to generate the output.
+
+3. When the file names are received, they are stored in a binary tree (which is defined by the `struct` `t` and `f`). For each file, the program checks if it has the same inode or if it exists in the tree already. If it exists, it increases the count, if not, it creates a new node.
+
+4. For each node in the tree with count more than 1 (meaning there is another file similar to it), the script creates an array of strings for the file names and calls the function `C` to compare every pair of files via the function `Q`.
+
+5. The `Q` function manually compares the content of two files by reading their content into a buffer (after size comparison) and then uses `memcmp` function to do the comparison.
+
+6. The output of the program shows the comparison results, with file names, file size, inode number, and device number.
+
+This code also includes a mocking comment at the end: "IS FREE THINKS MONEY GROWS ON DIRECTORY TREE". This is likely humorous commentary included by the original coder.

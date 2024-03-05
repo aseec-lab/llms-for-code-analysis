@@ -1,0 +1,17 @@
+The C code does the following:
+
+1. It declares a 2-dimensional character array `a` with 50 rows and 20 columns, a character array `b` with 50 elements, and integer variables `n`, `i`, `j`, `c`.
+
+2. It reads an integer input from the user representing the number of values to be processed.
+
+3. The `n` strings are then read from the standard input and stored in the rows of the 2D character array `a`.
+
+4. For each string, the `strlen` function determines the length of the string and stores this value in the `b` array.
+
+5. For each string, it subtracts 1 from the length value `c` and checks the character at position `c-1` in the string. If this character is 'g', the characters at indices `c-1`, `c-2`, and `c-3` are changed to null characters (`\0`). If the character at position `c-1` is not 'g', it changes only the characters at indices `c-1` and `c-2` to null characters. 
+
+6. Then the string is printed.
+
+In essence, the code reads a certain number (`n`) of strings, checks their lengths, and if the last character of the string is 'g', removes the last three characters; otherwise it removes the last two characters for each string and prints out the shortened strings.
+
+It should be noted that the code has no control on the input string's size, if a string is less than 2 characters or less than 3 for strings ending with 'g' the code will generate a buffer underflows leading to undefined behaviour. Also `void main()` is a poor practice, it should be `int main()` in modern C.

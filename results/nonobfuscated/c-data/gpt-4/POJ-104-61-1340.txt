@@ -1,0 +1,26 @@
+The code is written in C++. It appears to calculate Fibonacci numbers for a set of integers provided as input.
+
+To break it down:
+
+- The user is prompted to input a number `n`. This will serve as the size of the arrays `a` and `b`.
+
+- An array `a` is created of length `n`, and the user is prompted to enter `n` numbers, which are stored in this array.
+
+- The loop then iterates through `j` from 0 to `n`. 
+
+    - Within this loop, variables `p` and `q` are initialized to 0 and 1.
+
+    - A second loop runs `b[j]` times, with `b[j]` being set to each integer from 0 to `a[j]-1`. For each iteration,
+        - The current `p` value is stored in `r`.
+        - The `p` is updated to hold the current value of `q`.
+        - `q` is updated with the sum of `q` and `r` (which holds the previous `p` value).
+
+    - This second loop essentially calculates Fibonacci numbers `a[j]` times with `q` always holding the next Fibonacci number.
+
+- At the end of each `j` iteration, `q` should hold the `a[j]`-th Fibonacci number (if we consider the first two Fibonacci numbers to be 0 and 1, and `a[j]` to be 1-indexed).
+
+So, in summary, the code receives `n` numbers from the user and then prints the `a[j]`-th Fibonacci number for each received number. 
+
+However there seems to be a bug: it actually calculates first `a[j]-1` Fibonacci numbers which is probably not intended behavior. It can be fixed by substitifying `a[j]-1` with `a[j]` in the inner loop condition.
+
+This code might not work correctly for negative numbers or too large numbers given that it doesn't have any range checks and it could overflow int datatype for large `a[j]`.

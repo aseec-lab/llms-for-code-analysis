@@ -1,0 +1,70 @@
+Analyze the following piece of code: 
+
+
+!function ($) {
+
+  $(function () {
+
+    "use strict"; 
+
+    
+
+    $.support.transition = (function () {
+
+      var transitionEnd = (function () {
+
+        var el = document.createElement('bootstrap')
+         , transEndEventNames = {
+               'WebkitTransition' : 'webkitTransitionEnd'
+           ,  'MozTransition'    : 'transitionend'
+           ,  'OTransition'      : 'oTransitionEnd'
+           , 'msTransition'     : 'MSTransitionEnd'
+           ,  'transition'       : 'transitionend'
+            }
+         , name
+
+        for (name in transEndEventNames){
+          if (el.style[name]!== undefined) {
+            return transEndEventNames[name]
+          }
+        }
+
+      }())
+
+      return transitionEnd && {
+        end: transitionEnd
+      }
+
+    })()
+
+  })
+
+}(window.jQuery);
+
+What does this code do?
+
+This code is a function that is being run when the document is ready. It is using the jQuery library, which is a popular JavaScript library for working with HTML documents.
+
+The function starts by declaring a variable called $, which is a reference to the jQuery library. This is a common practice in JavaScript and allows us to access jQuery functions and methods without having to type the entire library name every time.
+
+The function then defines a new function called $(function(){...}) which is a shorthand for saying "run this code when the document is ready".
+
+Within the inner function, the code starts by checking if the browser supports CSS transitions. This is done by creating a new element called el, adding a CSS class of "bootstrap", and then checking if the element's style property contains the property name that we are looking for (in this case, "transition").
+
+If the browser supports CSS transitions, the code then creates an object called transitionEnd that contains the name of the event that is triggered when a CSS transition ends. This is done by creating an object called transEndEventNames that contains different event names for different browsers (e.g. "WebkitTransition" for Chrome, "MozTransition" for Firefox, etc.). The code then loops through each of the keys in the object, checking if the element's style property contains the key (i.e. if the browser supports the specified CSS transition). When a supported event name is found, the code stores it in the transitionEnd object and breaks out of the loop.
+
+Finally, the code sets a global variable called $.support.transition that contains the transitionEnd object (if a supported event name was found, otherwise it is set to false). This allows other parts of the code to check if the browser supports CSS transitions without having to repeat the code that checks for support.
+
+Overall, this code is setting up a global variable that stores information about whether the browser supports CSS transitions, and it is doing so in a way that is optimized for performance and readability.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código binario.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable inmediatamente antes de ser ejecutada. Esto significa que el código fuente se puede escribir y modificar en tiempo real, y se puede verificar inmediatamente mientras se está escribiendo.
+
+En resumen, la principal diferencia entre

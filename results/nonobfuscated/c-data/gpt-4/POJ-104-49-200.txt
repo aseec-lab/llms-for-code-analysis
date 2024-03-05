@@ -1,0 +1,25 @@
+This C code prompts the user to input a string and then it finds all palindromic substrings in this input string. Palindromes are words or phrases that are the same when read forwards and backwards.
+
+Here is a breakdown of the program:
+
+1. A character array `s[550]` is declared. This array holds the string entered by the user. 
+
+2. It then uses a `for` loop to read in the characters the user inputs, which are stored in the `s` array. The loop keeps track of the number of characters entered and ends when it receives a newline character ('\n').
+
+3. The program then declares two character pointers `*p1` and `*p2`, which will be used to hold substrings of the user's input. 
+
+4. The outer `for` loop iterates from 2 to the length of the input string. For each iteration, it creates two strings of length `i+1` using `malloc()`, storing the memory addresses in `p1` and `p2`.
+
+5. The next `for` loop iterates over the `s` array, creating all possible substrings of length `i`.
+
+6. In the nested `for` loop, the program fills `p1` with the substrings directly from `s` and `p2` with the reverse of this substring.
+
+7. The program then terminates each string with a null character ('\0').
+
+8. The `strcmp()` function compares `p1` and `p2`. If they are identical (i.e., the substring is a palindrome), it prints out the palindrome.
+
+9. The strings `p1` and `p2` are then deallocated from memory using `free()`.
+
+10. The program repeats these steps for each possible substring length in the input string.
+
+Note that as input is taken using `scanf()`, it will stop at first encounter of white space. So this code will work properly for a single word without spaces. If the input potentially contains spaces, `fgets()` function would be a better choice for reading the input. Also, this program doesn't handle memory allocation failure situations (if `malloc` returns `NULL`), which should be handled in a robust program.

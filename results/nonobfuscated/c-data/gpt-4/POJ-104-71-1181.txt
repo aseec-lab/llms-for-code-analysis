@@ -1,0 +1,17 @@
+This is a C program that accepts as input a series of dates in the form (year, month1, month2) and checks whether the total number of days between month1 and month2 (non-inclusive) in that specific year is a multiple of 7. If it is, it prints "YES", otherwise it prints "NO". 
+
+Here's a step-by-step breakdown on what the code does:
+
+1. It first takes an integer n as input. n here represents the number of test cases that will be input.
+
+2. Then it enters a loop that takes 3 integers a[i], b[i], c[i] at every iteration. In this code, a[i] represents the year, b[i] and c[i] represents the two months. 
+
+3. The code makes sure b[i] <= c[i]. If originally b[i] > c[i], the code will swap b[i] and c[i]. 
+
+4. It checks, whether the a[i] (year) is a leap year or not. If the year is evenly divisible by 4 and isn’t divisible by 100, or the year is divisible by 400, then it is a leap year, hence for leap years, it considers February as 29 days long. For other years, it considers February as 28 days long.
+
+5. For each month between b[i] and c[i], it sums up the days considering the month's length (uses switch method to identify number of days in a month, considering leap years). 
+
+6. If the total sum of the days is a multiple of 7, it proceeds to print "YES", otherwise it prints "NO".
+
+The purpose of this code could be to check if the total days between two given months in a specific year add up to weeks precisely, as it checks if the total days are divisible by 7. This can be useful in numerous scenarios involving date and time management.

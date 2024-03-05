@@ -1,0 +1,13 @@
+The provided Python code defines a class called SequenceMachine with a variety of methods for handling and manipulating sequences of numbers (or other elements). 
+
+When initialized, a SequenceMachine object takes in a "patternMachine" (another object which has specific methods to handle patterns), and a seed (default 42) for random number generation.
+
+The `generateFromNumbers` method iterates over a given list of numbers, and for each number, it uses the `get` method of the `patternMachine` to generate a pattern, adding it to a separate list called `sequence`.
+
+The `addSpatialNoise` method applies "noise" to a given sequence with a specified "amount". If the element in the sequence is not `None`, it adds noise to the element (where the actual noise function is defined in `patternMachine`) and adds it to the new sequence. 
+
+The `prettyPrintSequence` method nicely formats (pretty prints) the sequence. For each pattern in the sequence, if there is no pattern (None), it adds a reset ("") to the text. Otherwise, it adds the `prettyPrintPattern` of the pattern from `patternMachine`.
+
+The `generateNumbers` method creates a sequence of shuffled numbers with an optional range of shared numbers among the sequences, taking in the number of sequences (`numSequences`), the length of each sequence (`sequenceLength`), and an optional tuple (`sharedRange`) specifying the range of numbers that are shared among the created sequences.
+
+In summary, this class seems to be part of a larger system that deals with sequences of patterns, possibly for some sort of analysis or machine learning application.

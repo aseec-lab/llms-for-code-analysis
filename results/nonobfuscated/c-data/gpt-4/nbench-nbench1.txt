@@ -1,0 +1,153 @@
+The code appears to be a part of a benchmarking or testing program, and it contains the functions DoNumSort, DoNumSortIteration, LoadNumArrayWithRand, NumHeapSort, NumSift, and DoStringSort. Here's a brief description:
+
+- "DoNumSort" function: This function sorts a series of numeric arrays. It begins by allocating memory for these arrays and checks for any system errors. If there is an error, it is reported and the program exits. Once memory is allocated, the arrays are sorted and the time taken to do this is measured. The function calculates the number of sorts performed per second and stores this in 'numsortstruct->sortspersec'.
+
+- "DoNumSortIteration" function: This function performs a single iteration of the numeric sort. It generates a random sequence of numbers, sorts them using the NumHeapSort method, and returns the time taken.
+
+- "LoadNumArrayWithRand" function: This function populates a given array with a series of random numbers for the sorting program to work on.
+
+- "NumHeapSort" and "NumSift" functions: These are helper functions invoked by 'DoNumSortIteration'. They implement a heap sort algorithm, that organizes an array into a heap and then sorts it.
+
+- "DoStringSort" function: This seems to be an unfinished function. Given the pattern of the previously defined functions, it's likely intended to sort a series of strings in a similar style to the numeric sort, adjusting the size of the array as needed until an error occurs.The remaining part, similar to the preceding part, focuses on string sorting. Here's a brief description:
+
+- "DoStringSortIteration" function: It appears to be analogous to the "DoNumSortIteration" function in the numeric sort. It loads an array of strings, sorts them, and then measures and returns the time taken. 
+
+- "LoadStringArray" function: This function appears to generate a series of random strings of variable lengths and then loads them into an array. It also allocates space in memory for an array of offsets, each pointing to an individual string in the array. 
+
+- "stradjust" function: It seems to adjust the length of a string and moves the following strings accordingly. This function is likely involved in the string sorting process, as adjusting a string's length might require moving the following strings to prevent them from being overwritten.
+
+- "StrHeapSort" function: It uses a similar algorithm as before but optimized for strings. It is likely to implement a heap sort again for sorting strings. The function takes an array of strings and a range (bottom to top) in which to sort.
+
+Please note, there's a syntax error in the last line. The definition for function "StrHeapSort" is not complete, as it ends suddenly after defining a temporary variable. This will cause an error if you try to compile the program.The remaining code completes the function definitions for the string array sorting. Here is a summary of each function:
+
+1. "str_is_less" function: This function is used to compare two elements indicated by the indices, a and b, in the 'optrarray'. It uses string comparison (strncmp function) to compare two strings and returns a boolean value based on the result of the comparison operation.
+
+2. "strsift" function: The sift operation is a part of the heap sort algorithm, and this function appears to implement the sift operation for the heap sort of the string array. It compares elements and does the swaps as necessary to maintain the heap property.
+
+3. "DoBitops" function: This function appears to control the execution of the Bitfield operation. It orchestrates allocating memory, performing iterations of operations, and logging results, among other functions.
+
+4. "DoBitfieldIteration" function: This function appears to run a single iteration of Bitfield operations. It uses a pseudo-random number generating function 'randnum' and a 'for' loop to iterate over 'bitfieldarraysize' elements calculated by 'bitoparraysize'.
+
+The code appears to have an abrupt cut-off and seems to be not complete. Due to the incomplete context, some specific details may not be entirely accurate.The remaining part of the function definition includes some more specific operations involved in performing bitfield operations, and the initial part of what appears to be the computation of a floating-point emulation (DoEmFloat) and Fourier transform (DoFourier).
+
+In `DoBitfieldIteration` function, the code seems to be performing a bitwise operation on an array of bits. It uses 'for' loop to iterate over 'bitoparraysize', and in each iteration, it performs different bitwise operations (bit toggling and bit flipping) based on the remainder when the current index is divided by 3.
+
+Two helper functions, `ToggleBitRun`, and `FlipBitRun` are used to manipulate bits in the bitmap. Both functions use bitwise operators to toggle or flip bits at a given address.
+
+In `DoEmFloat` function, it appears to be performing a floating-point emulation. It starts by allocating memory for several arrays used in the emulation process. If the 'adjust' field of the 'locemfloatstruct' is 0, it performs an initial adjustment of the 'loops' field to ensure that each iteration of the emulation lasts for at least 'global_min_ticks' ticks. Then it performs the emulation operations for a certain amount of time determined by the 'request_secs' field of the 'locemfloatstruct'.
+
+The `DoFourier` function appears to perform a Fourier Transform on an array of complex numbers. This function isn't complete in the provided code, but it begins by setting up an array size for the Fourier Transform and allocating memory for the necessary arrays.
+
+Except for missing parts and possible context, the overview of each function is a general interpretation from the given C++ codes.The remaining part of the function definition for `DoFourier` begins by allocating memory for two arrays, 'abase' and 'bbase'. If there is a problem during allocation, the function will report an error and terminate.
+
+The function then measures the runtime of Fourier Transform operations performed by `DoFPUTransIteration` function, with the number of iterations adjusted to at least meet 'request_secs'. This process is repeated until the accumulated time 'accumtime' reaches the requested number of seconds.
+
+The arrays 'abase' and 'bbase' are finally deallocated and the results (floating-point operations per second) are calculated and assigned to the 'fflops' field of the 'locfourierstruct' object. If the 'adjust' field of 'locfourierstruct' is zero, it is set to one before the function returns.
+
+The `DoFPUTransIteration` function performs one iteration of a Fourier Transform process on complex numbers stored in the 'abase' and 'bbase' arrays. It begins by recording the start time and performs a series of calculations including the Fourier Transform. The stopwatch time is then stopped and the elapsed time is returned.
+
+The `TrapezoidIntegrate` function is a helper function to perform trapezoidal integration, which approximates the definite integral of a function. It uses the Trapezoidal Rule.
+
+The `thefunction` that is used inside `TrapezoidIntegrate` calculates a specific expression based on the 'select' parameter.
+
+The `DoAssign` function simulates assignment operations. Just like the previous functions, it starts by allocating memory and then adjusting 'numarrays' based on whether 'adjust' is set or not. It uses the `DoAssignIteration` function to iterate the assignment operations. After the iterations, the memory is freed and the result is calculated.
+
+The code snippet for `DoAssignIteration` function is incomplete but it starts by defining a pointer 'abase' to a long integer.The code defines a `DoAssignIteration` function that measures the runtime for a sequence of assignment operations on a large, two-dimensional array. `DoAssignIteration` uses a stopwatch function to track elapsed time, and performs the assignments using a function called `Assignment`. The assignments are then written into a designated part of an array in memory.
+
+The `LoadAssignArrayWithRand` function populates the memory with random values, using the `LoadAssign` and `CopyToAssign` functions to generate and propagate the values respectively. The `Assignment` function subsequently manipulates this data, simulating a compute-intensive task.
+
+The "assignment" in the context of this function is implemented as a problem of assigning tasks to workers, using an algorithm known as the Hungarian Algorithm. The `Assignment` function makes use of helper functions `calc_minimum_costs`, `first_assignments`, and `second_assignments` to perform steps of the Hungarian algorithm - minimizing costs, making initial assignments, and refining assignments respectively. 
+
+The `calc_minimum_costs` function attempts to reduce the cost of assignments by adjusting the values in the assignment cost matrix.
+
+The `first_assignments` function tries to assign each task to a worker in a way that no task is assigned to more than one worker and no worker is assigned more than one task. If this cannot be done, then the function returns, and the `second_assignments` function will be called.
+
+The `second_assignments` function is used to refine the assignment if `first_assignments` could not make a perfect assignment.
+
+There are several variables and arrays that are part of this calculation. The tableau contains the costs of all possible assignments. The assignedtableau tracks which assignments have been made. The linesrow and linescol arrays are used in the second phase of the assignment process. 
+
+The provided code cut-off after the initialization of `numassigns` in the `second_assignments` function.The completion of previous partition is the definition of function `en_key_idea`.
+
+```
+for(i=0;i<8;i++)
+    Z[i]=*userkey++;
+
+for(i=0;i<(KEYLEN-8);i++)
+{       j=i%8;
+        if(j < 6)
+            Z[i+8]=(Z[i]>>9)|(Z[i+1]<<7);
+        if(j==6)
+            Z[i+8]=(Z[i]>>9)|(Z[i-2]<<7);
+        if(j==7)
+            Z[i+8]=(Z[i]<<23)|(Z[i-6]>>9);
+}
+
+return;
+}
+```
+
+This function generates an encryption key Z from the user's key.
+
+In the next `de_key_idea` function, it generates a decryption key from the encryption key. 
+
+The `mul` function, seems to implement a modulo multiplication operation, with special handling for zero operands.
+
+The `inv` function appears to implement a modulo multiplicative inverse operation, using an extended Euclidean algorithm.
+
+The `DoIDEA` function allocates memory for and populates three byte arrays 'plain1', 'crypt1', and 'plain2'. It then uses these arrays, along with the encryption and decryption keys, as inputs to the `DoIDEAIteration` function. It computes iterations elapsed time for a given amount of iterations; if it is less than a minimum, the loop count is increased and the operation is repeated with a higher loop count until the elapsed time is greater than a certain amount. When the sufficient elapsed time has been reached, a number of iterations is performed to get the total elapsed time close to a desired requested time. The function then frees the memory used by the byte arrays and returns the achieved iterations per second. 
+
+The `DoIDEAIteration` function performs an iteration of the encrypt-decrypt process. It uses a stopwatch to measure execution time, so the speed of execution of the iteration loop can be gauged. An iteration consists of encrypting segments of 'plain1' with the encryption key, storing the result in 'crypt1', then decrypting the segments in 'crypt1' with the decryption key, and storing the result in 'plain2'. After the iteration has completed, the stopwatch is stopped and the elapsed time is returned.
+
+The `en_key_idea` and `de_key_idea` functions are used to generate the encryption and decryption keys, from the user-supplied key. These keys are stored in state arrays 'Z' and 'DK', which are used by the cipher_idea function.
+
+The debugging code in `DoIDEAIteration` checks that the data in 'plain2' matches the original data in 'plain1'. If they don't match then an error has occurred in the encryption-decryption process.The `cipher_idea` function is the main algorithm of the IDEA cipher and performs a single block encryption. It takes as input the plaintext block (consisting of four 16-bit values, stored in the array `in`), the output ciphertext block (also consisting of four 16-bit values, to be stored in the array `out`), and the encryption key (to be used in the encryption process, stored in the array `Z`). The function makes use of a number of key-independent operations (addition, multiplication, and bitwise XOR) to perform the encryption, and ends by writing the resulting ciphertext block to the `out` array.
+
+The function `DoHuffman` is the main driver function that performs the Huffman encoding and decoding. It first allocates and initializes the necessary data structures and arrays including the Huffman tree `hufftree`, and the plaintext array `plaintext`, `comparray` for storing compressed data and `decomparray` for storing decompressed data. It then creates a random text block as a plaintext using the `create_text_block` function. The function then performs Huffman Compression / Decompression for a varying number of iterations until the elapsed time exceeds a minimum threshold defined by `global_min_ticks`. Once this threshold is reached, it performs the operation for roughly the requested number of seconds. It uses the `DoHuffIteration` to perform each iteration, which includes both compression and decompression. The function then frees all allocated memory and calculates the iterations per second based on the time taken and iterations performed.
+
+The `create_text_line` function generates a line of random text by concatenating random words together until the line reaches a specified length (`nchars`). The random words are fetched from the `wordcatarray` using a random array index.
+
+The `create_text_block` function generates a paragraph of random text by repeatedly calling `create_text_line` until the total length of the generated text (`tblen`) is reached. The length of each line is randomly assigned but doesn't exceed the `maxlinlen`. This function is used in `DoHuffman` to generate the initial plaintext block.The `DoHuffIteration` function carries out the steps of Huffman encoding and decoding over an array several times or loops. It first sets the frequency of occurrence of every byte in the plaintext to zero. Then, it compares the frequency of each byte in the plaintext with its occurrence. Byte frequencies are calculated by dividing the frequency of occurrence of a given byte by the array size. The function then sets up the Huffman tree by marking byte frequencies that are zero as excluded from the Huffman tree. It then forms a tree by taking two elements with the lowest frequencies and placing them as left and right children of a new node. The new node is then given the frequency which is the sum of the frequencies of its children. This process continues until there are no more elements left to be attached.
+
+The `SetCompBit` function sets the value of a specific bit in the compressed array to the specific bit character. The `GetCompBit` function returns the value of a bit at a specific offset in the compressed array.
+
+The `DoNNET` function initializes and prepares the parameters for the Feedforward Backpropagate Neural Network benchmark. It first sets the random number seed to 3. Then, it reads the data file with the neural network data sets. If there's no need to adjust the size of the data set, the function will run the network training and testing for a number of loops that doesn't exceed the maximum limit `MAXNNETLOOPS`. Later, it calculates the time taken by the network training/testing for that number of iterations. This is used to determine the final iterations per second performance of the algorithm.The `DoNNetIteration` function conducts the training for the backpropagation neural network in a loop. The weights of the neural network are randomized using the `randomize_wts` function, and the changes in weights are initialized to zero with `zero_changes`. The main loop of this function is a while loop where for each pattern, the forward and back pass functions are called. The `learned` flag is then set as per the error results with the `check_out_error` function. This continues until learned is `F`.
+
+In the `do_mid_forward` function, the sum of the product of weights and input patterns is calculated for each mid layer node. The activation function (sigmoid function here) is then applied to the sum for the mid layer output. The `do_out_forward` function does the same but for the output layer nodes using the mid layer output as input.
+
+Each backpropagation starts with a forward pass (`do_forward_pass`), which is done by calling the `do_mid_forward` and `do_out_forward` functions. The `do_out_error` function calculates the output error by subtracting the actual output from the desired output. The average output error and total output error are also calculated here.
+
+Functions such as `worst_pass_error`, `do_mid_error`, `adjust_out_wts`, `adjust_mid_wts` and `do_back_pass` work together to adjust the weights of the network based on the error calculated. These weights adjustments, using the learning algorithm, continue until the error is minimized, indicating that the network is trained. 
+
+The `move_wt_changes` function updates the weight changes of the neural network in preparation for the next iteration of training. The accumulated changes (`mid_wt_cum_change` and `out_wt_cum_change`) are moved to the current changes (`mid_wt_change` and `out_wt_change`) and then reset to zero for the next round of changes.In the `check_out_error` function, the `worst_pass_error` is evaluated and if it exceeds a predefined stopping value, it restarts the learning on that training sample. If the total error is more than 16, then the error is set to true. If there was any error, it returns ERR otherwise TRUE.
+
+The `zero_changes` function initialize the mid-layer and output-layer weight changes to 0.
+
+The `randomize_wts` function is used to initialize the weights with random values. For each neuron in the middle and output layers, weights are assigned a random value between -0.5 and 0.5.
+
+The `read_data_file` function reads data from a file to train the neural network. It reads the number of patterns, input patterns and output patterns. Negative input patterns are raised to 0.1 and positive ones decreased to 0.9 to ensure they stay within a suitable range. The output patterns are simply translated to double values.
+
+The remaining code is not exactly relevant to the backpropagation neural network described previously. It seems to relate to a LU (lower-upper) decomposition method, which is a different algorithm for solving linear equation systems. Despite the differences, it seems they might both be part of a larger codebase for running various numerical algorithms, including neural network training and linear system solving. The LU decomposition is an efficient method typically used when the same matrix (A) is used multiple times with different right-hand vectors (B), like in finite-element analysis or in lagrange interpolation. The LU decomposition separates the matrix A into a lower triangular matrix and an upper triangular matrix, making the solving of these equations quicker.In these functions, memory allocation and deallocation operations are performed for the LU instruction set. The `AllocateMemory` function allocates memory for the created LU arrays and `FreeMemory` frees up the reserved memory space. If there is a system error, the `ReportError` function is called and the program is terminated.
+
+The `DoLUIteration` function calculates the LU decomposition of a given system on multiple arrays in parallel. These calculations are timed with `StartStopwatch` and `StopStopwatch` functions to determine the time it took for all given calculations.
+
+In `build_problem`, the elements of the matrix (a) and the vector (b) used in the LU decomposition are randomly generated and their values are used across different computations.
+
+The `ludcmp` function implements the main LU decomposition algorithm. It accepts a matrix (a), an output array for row permutations (indx) and a pointer to get the number of row exchanges (*d). Its purpose is to decompose the given matrix into lower and upper matrix components. 
+
+The `lubksb` function performs back-substitution using the results of `ludcmp` to solve the given system of linear equations. It is not fully included in the above code snippet.
+
+Overall, both the backpropagation and LU decomposition components can be used together to learn and solve problems of different natures: the neural network can learn to recognize patterns, while the LU decomposition can be used to solve systems of linear equations, often used in optimization problems. Both can be essential parts of numerical computing software. However, they do not interact in the provided code, they operate as independent functions within the program.The above code is a continuation of the previous `lubksb` function and a new `lusolve` function.
+
+Firstly, `lubksb` concludes by iterating over the 1D array `b` in reverse order, performing a back-substitution of the results from the lower and upper matrix computations. This substitution is used to update `b` and helps to solve the equations.
+
+The `lusolve` function is the main function that is used by other parts of the program to solve a given system of linear equations by LU decomposition. 
+
+The function first runs `ludcmp` to perform LU decomposition on the given input matrix `a` and then uses `lubksb` to back-substitute and solve the system of equations.
+
+If `ludcmp` returns zero, signifying an error, `lusolve` will also return zero to indicate failure.
+
+After the back-substitution is completed, `lusolve` checks for the definition of DEBUG. If DEBUG is defined, it will print the solution, otherwise, this step is skipped.
+
+Finally, `lusolve` returns 1 to indicate a successful solution to the system of linear equations.
+
+Together with the previously provided functions, it provides a complete system for solving linear equation systems with LU decomposition, useful in various numerical techniques.

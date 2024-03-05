@@ -1,0 +1,333 @@
+The code defines a function called "__universalAtob" which takes a base64-encoded string as input and converts it to a Uint8Array. 
+
+The code then defines three base64-encoded strings: "__forWasmBuffer", "__ifWasmBuffer", and "__callWasmBuffer". These strings are then decoded using the "__universalAtob" function, and the result is stored in "__forWasmModule", "__ifWasmModule", and "__callWasmModule" respectively. These variables contain WebAssembly modules.
+
+The code also defines an array called "__wasmStringModules" which contains a single base64-encoded string. This string is decoded using the "__universalAtob" function, and the resulting Uint8Array is used to create a WebAssembly instance. This instance is then stored in "__wasmStringModules" as an element of the array.
+
+Lastly, the code defines a function called "lS" which takes three arguments: "wI", "pos", and "iWC". This function creates an empty string called "__str". If the "wI" argument is not an array, it retrieves a module from "__wasmStringModules" based on the index specified by the "wI" argument. It then creates a Uint8Array called "__mem" which represents the memory of the target module. The function sets the "__stringKey" variable based on the concatenation of the string "data" and the "pos" argument. It then subtracts 1 from the value exported by the target module at the "__stringKey" index and assigns it to the "__start" variable. Finally, the function initializes the "__str" variable with an empty string.
+
+Overall, the code decodes base64-encoded strings into WebAssembly modules and creates instances of those modules. It also defines a function for manipulating strings within WebAssembly modules.The remaining code defines event listeners and initializes the application.
+
+The code creates a new instance of the WebAssembly module "__callWasmModule" and assigns it to the variable "__callInstance36". This module contains an "impFunc" function that listens for a specific event. When the event is triggered, it calls another WebAssembly instance "__ifInstance0" using the "__ifWasmModule". The "__ifInstance0" instance also has two "impFunc" functions.
+
+Within the first "impFunc" of "__ifInstance0", there is another nested instance called "__callInstance35" which is created using the "__callWasmModule". This instance has an "impFunc" that calls the "initApp" function.
+
+The second "impFunc" of "__ifInstance0" is empty.
+
+The "initApp" function retrieves an HTML element with the ID "itemEntryForm" and assigns it to the variable "itemEntryForm".
+
+Another instance "__callInstance34" is created using the "__callWasmModule". This instance has an "impFunc" that adds an event listener to the "itemEntryForm". When the event is triggered, it calls another WebAssembly instance "__callInstance33" using the "__callWasmModule". This instance has an "impFunc" that prevents the default behavior of the event.The remaining code adds an event listener to the "clearItems" element. When the event is triggered, it calls another WebAssembly instance "__ifInstance1" using the "__ifWasmModule". This instance has two "impFunc" functions.
+
+Within the first "impFunc" of "__ifInstance1", there is another nested instance called "__ifInstance2" which is created using the "__ifWasmModule". This instance has two "impFunc" functions.
+
+The first "impFunc" of "__ifInstance2" clears the to-do list using the "clearList" method of the "toDoList" object.
+
+The second "impFunc" of "__ifInstance2" updates persistent data using the "updatePersistentData" function.
+
+The third "impFunc" of "__ifInstance2" refreshes the page using the "refreshPage" function.
+
+The "impFunc" of "__ifInstance1" returns a value based on whether the list is empty or not.
+
+The "impFunc2" functions of "__ifInstance2" and "__ifInstance1" are empty.
+
+The code also uses the "__callInstance31" instance to call the WebAssembly module "__callWasmModule" with an "impFunc" that triggers the "impFunc" of "__ifInstance1".
+
+The code inside the "processSubmission" function and the "updatePersistentData" function is not shown here.}
+
+        const __exports = __callInstance21.exports
+
+        return __exports.data()
+
+    })()
+
+}
+
+// Event listener for the clearItems element
+clearItems.addEventListener('click', () => {
+    (() => {
+        const __ifInstance1 = new WebAssembly.Instance(__ifWasmModule, {
+            env: {
+                impFunc: () => {
+                    (() => {
+                        const __ifInstance2 = new WebAssembly.Instance(__ifWasmModule, {
+                            env: {
+                                impFunc: () => {
+                                    toDoList.clearList()
+                                }
+                            }
+                        })
+
+                        const __exports = __ifInstance2.exports
+
+                        return __exports.data()
+
+                    })()
+
+                    (() => {
+                        const __ifInstance2 = new WebAssembly.Instance(__ifWasmModule, {
+                            env: {
+                                impFunc: () => {
+                                    updatePersistentData()
+                                }
+                            }
+                        })
+
+                        const __exports = __ifInstance2.exports
+
+                        return __exports.data()
+
+                    })()
+
+                    (() => {
+                        const __ifInstance2 = new WebAssembly.Instance(__ifWasmModule, {
+                            env: {
+                                impFunc: () => {
+                                    refreshPage()
+                                }
+                            }
+                        })
+
+                        const __exports = __ifInstance2.exports
+
+                        return __exports.data()
+
+                    })()
+                }
+            }
+        })
+
+        const __exports = __ifInstance1.exports
+
+        return __exports.data()
+
+    })()
+})(() => {
+    const __callInstance21 = new WebAssembly.Instance(__callWasmModule, {
+        env: {
+            impFunc: () => {
+                if (toDoList.getList().length === 0) {
+                    clearListDisplay()
+                } else {
+                    renderList()
+                }
+            }
+        }
+    })
+
+    const __exports = __callInstance21.exports
+
+    return __exports.data()
+
+})()
+
+(() => {
+    const __callInstance20 = new WebAssembly.Instance(__callWasmModule, {
+        env: {
+            impFunc: () => {
+                setFocusItemEntry()
+
+            }
+        }
+    })
+
+    const __exports = __callInstance20.exports
+
+    return __exports.data()
+
+})()
+
+}
+
+const clearListDisplay = () => {
+const parentElement = document.getElementById(lS(0, 9))
+
+(() => {
+    const __callInstance19 = new WebAssembly.Instance(__callWasmModule, {
+        env: {
+            impFunc: () => {
+                deleteContents(parentElement)
+
+            }
+        }
+    })
+
+    const __exports = __callInstance19.exports
+
+    return __exports.data()
+
+})()
+
+}
+
+const deleteContents = parentElement => {
+let child = parentElement.lastElementChild
+
+(() => {
+    const __forInstance0 = new WebAssembly.Instance(__forWasmModule, {
+        env: {
+            test: () => {
+                return child ? 1 : 0
+
+            },
+            update: () => {
+            },
+            body: () => {
+                {
+                    (() => {
+                        const __callInstance18 = new WebAssembly.Instance(__callWasmModule, {
+                            env: {
+                                impFunc: () => {
+                                    parentElement.removeChild(child)
+
+                                }
+                            }
+                        })
+
+                        const __exports = __callInstance18.exports
+
+                        return __exports.data()
+
+                    })()
+
+                    child = parentElement.lastElementChild
+
+                }
+            }
+        }
+    })
+
+    const __exports = __forInstance0.exports
+
+    return __exports.data()
+
+})()
+
+}
+
+const renderList = () => {
+const list = toDoList.getList()
+
+(() => {
+    const __callInstance17 = new WebAssembly.Instance(__callWasmModule, {
+        env: {
+            impFunc: () => {
+                list.forEach(item => {
+                    (() => {
+                        const __callInstance16 = new WebAssembly.Instance(__callWasmModule, {
+                            env: {
+                                impFunc: () => {
+                                    buildListItem(item)
+
+                                }
+                            }
+                        })
+
+                        const __exports = __callInstance16.exports
+
+                        return __exports.data()
+
+                    })()
+
+                })
+
+            }
+        }
+    })
+
+    const __exports = __callInstance17.exports
+
+    return __exports.data()```javascript
+                        const __exports = __callInstance9.exports
+
+                        return __exports.data()
+``````javascript
+        return __exports.data()
+    })()
+
+    updatePersistentData(toDoList.getListArray())
+
+    clearItemEntryField()
+
+    setFocusItemEntry()
+
+    loadList()
+
+    return
+}
+```The remaining part of the function includes the following code:
+
+```javascript
+const getNewEntry = () => {
+    return document.getElementById(lS(0, 21)).value.trim()
+}
+
+const calcNetItemId = () => {
+    let nextItemId = 1
+
+    const list = toDoList.getList()
+
+    (() => {
+        const __ifInstance3 = new WebAssembly.Instance(__ifWasmModule, {
+            env: {
+                impFunc1: () => {
+                    {
+                        nextItemId = list[list.length - 1].getId() + 1
+
+                    }
+                },
+                impFunc2: () => {
+                }
+            }
+        })
+
+        const __exports = __ifInstance3.exports
+
+        return __exports.data(list.length > 0 ? 1 : 0)
+
+    })()
+
+    return nextItemId
+
+}
+
+const createNewItem = (itemId, itemText) => {
+    const toDo = new ToDoItem()
+
+    (() => {
+        const __callInstance1 = new WebAssembly.Instance(__callWasmModule, {
+            env: {
+                impFunc: () => {
+                    toDo.setId(itemId)
+
+                }
+            }
+        })
+
+        const __exports = __callInstance1.exports
+
+        return __exports.data()
+
+    })()
+
+    (() => {
+        const __callInstance0 = new WebAssembly.Instance(__callWasmModule, {
+            env: {
+                impFunc: () => {
+                    toDo.setItem(itemText)
+
+                }
+            }
+        })
+
+        const __exports = __callInstance0.exports
+
+        return __exports.data()
+
+    })()
+
+    return toDo
+
+}
+```
+
+These functions are responsible for getting the new item input value, calculating the next item id based on the existing list, and creating a new item object with the id and text provided.

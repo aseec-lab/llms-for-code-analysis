@@ -1,0 +1,19 @@
+This code defines a class ConvertPHP that transforms PHP serialized data into other programming language formats. It also accounts for basic data types such as 'True', 'False', 'None' and transforms these to their equivalent in the target language. 
+
+The code utilizes the 'phpserialize' package to deserialize the PHP serialized data into Python's native datatypes.
+
+All the mappings for the different programming languages are defined in 'lang_specific_values' and 'outer_templates'.
+
+The function 'get_built_in' checks if the target language is Python or JSON, if it is, it uses either the 'pprint' package or the 'json' package to format the data.
+
+The function 'get_inner_template' matches the target language and returns the appropriate template for keys and values.
+
+The function 'translate_val' transforms 'True', 'False', 'None' to their equivalent in the target language.
+
+The function 'is_iterable' checks whether the input data is iterable (can be looped over) or not.
+
+The function 'translate_array' is the main function of this class. It first deserializes the PHP serialized string. Then if the target language is Python or JSON, uses the 'get_built_in' function. If not, it loops over the data and formats it according to the language template and indent level. It uses the 'translate_val' function to transform basic data types and the 'get_inner_template' function to get and format the pairs of keys and values correctly.
+
+Overall, this is a utility class that can be used for converting PHP serialized data into different programming languages. It only supports the languages that are defined in 'lang_specific_values' and 'outer_templates', which currently are Python, JSON, PHP, JavaScript, and OCaml. Other languages can be added to these dictionaries for this class to support them. 
+
+It's important to note that this class only converts serialized arrays, and not any other PHP serialized data, and it assumes that the input PHP serialized string will always be an array.

@@ -1,0 +1,26 @@
+This code defines the base functionality for a multi-threaded web server using Python's standard libraries. It is primarily made up of two classes: 
+
+1. `ExtHandler(BaseHTTPServer.BaseHTTPRequestHandler)`
+2. `ExtServer(socketserver.ThreadingMixIn, BaseHTTPServer.HTTPServer)`
+
+The `ExtHandler` class is derived from the `BaseHTTPRequestHandler` and is used to handle requests that come into the server. It supports various HTTP methods like GET, POST, PUT, OPTIONS, etc., and handles them according to some defined application logic.
+
+The `ExtHandler` class essentially serves as an HTTP-to-WSGI adapter which translates an HTTP request into a WSGI application call. This is done through the `do_method()` and `runWSGIApp()` functions. The `handlerFunctionClosure()` and `__getattr__()` functions are used to dynamically create 'do_' methods for the supported HTTP methods.
+
+The `ExtServer` class extends `BaseHTTPServer.HTTPServer` along with `socketserver.ThreadingMixIn` allowing the server to handle requests in separate threads for improved performance. It has a `handle_error()` method defined to handle any exceptions while processing a request.
+
+The `_logger` object is used for logging different events, and exceptions occurring during the execution of web server-related tasks. The try-except blocks are used to import modules with different names in different versions of Python. 
+
+A few environment variables are defined in the `runWSGIApp()` method for the WSGI application to use. Writing data to the client is done through the `wsgiWriteData()` method, catching socket errors and handling them. The `wsgiStartResponse()` method takes care of sending the response headers to the client.
+
+This code is part of WsgiDAV, a Python WebDAV server and compliant framework. The classes implemented in this code form the core infrastructure for the server.The completion of the code contains the remaining methods of ExtServer class and a `serve()` function. 
+
+- `stop_serve_forever()`: This method is used to stop the server. It sends a shutdown request to the server. If the handle for shutdown, `do_SHUTDOWN`, doesn't exist in the `ExtHandler`, it is created. 
+
+- `serve_forever_stoppable()`: This method starts an infinite loop to handle requests until a stop request is encountered.
+
+- `__init__()` method: This is the constructor for the `ExtServer`. It initializes the `ExtHandler` with the applications and paths provided, sets up whether files should be served, and sets the server to not shutdown.
+
+- `serve(conf, app)`: This function creates an instance of the `ExtServer` with the given host and port, and starts serving requests. It also logs information regarding the server.
+
+At the end, an if-statement checks if the module is being run directly, and if so, raises a `RuntimeError`. This is most likely done to prevent the server from being started accidentally, as the server should instead be started using another file, `run_server.py`.

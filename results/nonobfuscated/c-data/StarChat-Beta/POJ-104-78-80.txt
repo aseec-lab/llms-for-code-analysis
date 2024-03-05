@@ -1,0 +1,81 @@
+Analyze the following piece of code: int main()
+{
+    int z,q,s,l,j;
+    char rank[6];
+    
+    for(z=1;z<=5;z++)
+    {
+        for(q=1;q<=5;q++)
+        {
+            if(z!=q)
+            {
+                    for(s=1;s<=5;s++)
+                    {
+                        if(s!=z&&s!=q)
+                        {
+                            for(l=1;l<=5;l++)
+                            {
+                              if(l!=z&&l!=q&&l!=s)
+                              {
+                                memset(rank,0,sizeof(rank));
+                                rank[z]='z';
+                                rank[q]='q';
+                                rank[s]='s';
+                                rank[l]='l';
+                                
+                                if((z+q==s+l)&&(z+l>s+q)&&(z+s<q))
+                                {
+                                    
+                                    for(j=5;j>=1;j--)
+                                    {
+                                                 if(rank[j]!=0)
+                                                 {
+                                                               cout<<rank[j]<<' '<<j*10<<endl;
+                                                 }
+                                    }
+                                }
+                                                
+                              }
+                            }         
+                        }
+                    }
+            }
+        }
+    } 
+  
+    return 0;                 
+}
+
+The code is a part of a program to find the highest scorer in a five-a-side football match. The program uses a nested for loop to check all possible combinations of three players and their scores. The program stores the results in an array, and the highest scorer is printed at the end of the program.
+
+The code is written in C programming language and it is a part of a program to find the highest scorer in a five-a-side football match. The code uses a nested for loop to check all possible combinations of three players and their scores. The program stores the results in an array, and the highest scorer is printed at the end of the program.
+
+Here is a detailed analysis of the code:
+
+1. The code starts with the function main() that initializes some variables and calls the for loop.
+
+2. The for loop starts with z=1 and ends with z=5, which means that the program will check all possible combinations of three players with z as one of the players.
+
+3. The for loop inside the first for loop starts with q=1 and ends with q=5, which means that the program will check all possible combinations of three players with z and q as two of the players.
+
+4. The if statement inside the second for loop checks if z and q are not equal, which means that the program will not consider z and q as the same player in the same combination.
+
+5. The for loop inside the second for loop starts with s=1 and ends with s=5, which means that the program will check all possible combinations of three players with z, q, and s as three of the players.
+
+6. The if statement inside the third for loop checks if s is not equal to z and q, which means that the program will not consider s and z or s and q as the same player in the same combination.
+
+7. The memset function is used to initialize the rank array with zeros.
+
+8. The next three lines of code assign the values 'z', 'q', and's' to the corresponding positions in the rank array.
+
+9. The if statement inside the fourth for loop checks if z+q is equal to s+l, which means that the program will check if the sum of the scores of z and q is equal to the sum of the scores of s and l.
+
+10. The next two lines of code check if z+l is greater than s+q and if z+s is less than q, which means that the program will only consider combinations where the score of z is greater than the sum of the scores of q and l, and the score of s is less than the score of q.
+
+11. The for loop inside the fourth for loop starts with j=5 and ends with j=1, which means that the program will print the results in decreasing order.
+
+12. The if statement inside the for loop checks if the value at the current position of the rank array is not zero, which means that the program will only print the values of the rank array that have a non-zero value.
+
+13. The program ends with a return statement, which means that the function returns a value of 0 to the calling function.
+
+In summary, the code is a part of a program to find the highest scorer in a five-a-side football match. The program uses a nested for loop to check all possible combinations of three players and their scores. The program stores the results in an array, and the highest scorer is printed

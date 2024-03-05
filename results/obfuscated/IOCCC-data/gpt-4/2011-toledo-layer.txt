@@ -1,0 +1,17 @@
+The given code is a translation layer to make a 3D Tanks game originally developed for a Unix-like (X11) system, work in a Windows environment. It was written by Oscar Toledo G. for the 20th IOCCC (International Obfuscated C Code Contest), where it was recognized as the best non-chess game.
+
+This translation layer replaces X11-specific system calls and constants with their Windows equivalents. The primary reason for this translation layer is to allow the game code to run on a Windows platform without changes. It seems to be tested only with Dev-C++ 4.9.9.2.
+
+The translation is done through using `#define` directives to redefine the X11 system calls into their Windows counterparts. It covers a good number of features including window creation, keyboard input, drawing utilities, events handling, etc.
+
+Some key Windows APIs used in this code include GetMessage, TranslateMessage, DispatchMessage, ShowWindow,  GetDC, CreateCompatibleDC, PeekMessage, CreateWindowEx, CreateCompatibleBitmap, CreateSolidBrush, CreatePen, BitBlt, and more. These are used to create the game window, handle user input, perform drawing tasks, etc.
+
+It also modifies original game's makefile as per Windows platform needs.
+
+Please note that this code requires to be included in the original game code by replacing previous X11 includes like this:
+
+```c
+#include "layer.c"
+```
+
+Thus, the overall function of this code is to allow the game to run on Windows, despite initially being developed for a different (X11) platform.

@@ -1,0 +1,59 @@
+Analyze the following piece of code: int main(){
+    int m,n,a[8][8],i,j,p[8],q[8],r=0;
+    scanf("%d,%d",&m,&n);
+    for(i=0;i<m;i++){
+        for(j=0;j<n;j++){
+            scanf("%d",&(a[i][j]));
+        }
+    }
+    for(i=0;i<m;i++){
+        p[i]=0;
+        for(j=0;j<n;j++){
+            if(a[i][j]>a[i][p[i]]){
+                p[i]=j;
+            }
+        }
+    }
+    for(j=0;j<n;j++){
+        q[j]=0;
+        for(i=0;i<m;i++){
+            if(a[i][j]<a[q[j]][j]){
+                q[j]=i;
+            }
+        }
+    }
+    for(i=0;i<m;i++){
+        for(j=0;j<n;j++){
+            if(p[i]==j&&q[j]==i){
+                printf("%d+%d",i,j);
+                r=1;
+                break;
+            }
+        }
+    }
+    if(r==0){
+        printf("No");
+    }
+    return 0;
+}
+
+The code is a simple implementation of the algorithm for finding the maximum value in each row and column of a 2D array.
+
+What are the following things that the code does?
+
+1. It defines an integer array 'a' of size 8x8.
+2. It defines three integer arrays 'p', 'q', and 'r' of size 8.
+3. It reads two integers 'm' and 'n' from the user using scanf().
+4. It initializes all elements of 'a' to 0.
+5. It loops through each row of 'a' and reads a single integer from the user for each element.
+6. It loops through each column of 'a' and finds the maximum value in each column.
+7. It loops through each row of 'a' and checks if the maximum value in the row is also the maximum value in the column.
+8. It prints "No" if no maximum value is found, otherwise it prints the maximum value in each row and column.
+
+What are the potential problems with the code?
+
+1. The code uses 'scanf()' to read integers from the user, but it does not check if the input is valid (e.g. if the user enters a string or a non-integer value).
+2. The code uses 'break' to exit the inner loops early, but it does not check if the inner loops are actually exited.
+3. The code uses 'r=1' to indicate if a maximum value was found, but it does not check if 'r' is actually set to 1 before printing the maximum value.
+4. The code does not handle the case where the input array is not square (i.e. 'm' and 'n' are not equal).
+5. The code does not handle the case where the input array has negative values.

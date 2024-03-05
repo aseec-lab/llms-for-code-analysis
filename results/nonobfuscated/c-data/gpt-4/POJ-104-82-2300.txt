@@ -1,0 +1,22 @@
+This C code is designed to read in a series of pairs of integer values, specified by the user. It then tests each pair to see if it meets certain conditions 
+
+For a pair to meet the conditions:
+
+- The first value should be between 90 and 140 (inclusive).
+- The second value should be greater than 59 and up to 90 (inclusive). 
+
+The code will then find the longest consecutive sequence of pairs that meet these conditions and output the length of this sequence. 
+
+So, this program behaves somewhat like a counter, checking for certain conditions in successive pairs of integers and then determining the length of the longest subsequence for which these conditions are met. 
+
+Here is a slightly broken down explanation of the code process:
+
+- It takes an integer 'n' as input which defines the number of pairs it's going to take.
+- It reads these 'n' number of pairs and stores in arrays a and b.
+- It starts a loop for pressing condition which is First value should be in range of [90, 140] and the second value should be in range of (59, 90].
+- If pair at i-th position meets above the condition then it assigns the value of 'i' to 'd' and checks for the consecutive values in the array which match the condition as well. 
+- If any number in this set doesn't match the condition it breaks the inner loop.
+- The variable 'e' at the end stores the index value at the end of the sequence.
+- 'f' calculates the length of this sequence by subtracting start index from the end index and adds 1 to consider the start index as well.
+- If 'f' at any point becomes greater than 'c', 'c' stores the value of 'f' making 'c' the length of the longest sequence.
+- At the end, it prints the value of 'c' which is the length of the longest sequence meets the condition.

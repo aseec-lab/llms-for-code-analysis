@@ -1,0 +1,11 @@
+The given C++ program is comparing two strings entered by the user in a case-insensitive manner.
+
+Here are the program details stepwise:
+- It declares two character arrays, str1 and str2, each having a size of 80. These are to store the two strings that will be input by the user.
+- It uses the getline() function from cin (the standard input stream) to get a line of text (a string) from the user and stores it in these arrays.
+- It then uses a for loop to iterate over each character in these strings. If a character is uppercase (ASCII values between 'A' and 'Z'), it converts the uppercase letter into lowercase by adding 32 (the ASCII value difference between 'A' and 'a' or any corresponding pair of uppercase-lowercase English letters) to it.
+- After this, it compares the two strings using the strcmp() function from the C++ standard library. The strcmp() function returns 0 if both strings are equal, a value greater than 0 if the first non-matching character in str1 is greater than the corresponding character in str2, and a value less than 0 otherwise.
+- If the strings are equal, it outputs '=', if str1 is lexicographically greater it outputs '>' and if str2 is lexicographically greater, it outputs '<'.
+- Finally, the main function returns 0 indicating successful completion of the program.
+
+Please note: This program doesn't handle the case where the user input exceeds the array limit of 80 characters. Also, looping through the arrays up to 80 can lead to undefined behavior if the strings are less than 80 characters long, because of the way C/C++ arrays work. It's better to use the string length for this purpose.

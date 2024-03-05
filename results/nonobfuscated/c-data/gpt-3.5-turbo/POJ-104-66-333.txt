@@ -1,0 +1,25 @@
+This code is a program that takes input for a date (day, month, and year) from the user and then determines the corresponding day of the week.
+
+Here is the step-by-step analysis of the code:
+
+1. The code declares and initializes variables "a", "b", "c", "i", "x", and "y". "a", "b", and "c" are used to store the input for day, month, and year respectively. "i" is used as a loop counter. "x" and "y" are used for calculations related to determining the day of the week.
+
+2. The code uses scanf() to take input for "a", "b", and "c" from the user.
+
+3. The code checks if the year "a" is a leap year. If it is, it sets "x" to 1. (Leap years have special rules for determining the day of the week.)
+
+4. The code reduces the value of "a" to the remainder when divided by 400.
+
+5. If "a" is equal to 0 (indicating a year divisible by 400), it sets "y" to 5. (This again relates to the leap year calculation.)
+
+6. If "a" is not 0, the code enters a loop that runs from 1 to "a-1". This loop calculates the number of day offset (represented by "y") based on the number of leap years within the range.
+
+7. Inside the loop, the code checks if the current year (represented by "i") is a leap year, and if it is not divisible by 100. If it is, it increases "y" by 2 (since leap years have 2 extra days) and if not, it increases "y" by 1.
+
+8. After the loop, the code takes into account the current month (represented by "b") to update the "y" value. It uses a series of if-else statements to add the appropriate number of days to "y" based on the number of days in each month.
+
+9. Finally, the code takes into account the additional days in the current year (represented by "c"), adds it to "y", and reduces the result to the remainder when divided by 7.
+
+10. The code then uses a switch statement to print the corresponding day of the week based on the value of "y".
+
+11. The program ends with a return statement.

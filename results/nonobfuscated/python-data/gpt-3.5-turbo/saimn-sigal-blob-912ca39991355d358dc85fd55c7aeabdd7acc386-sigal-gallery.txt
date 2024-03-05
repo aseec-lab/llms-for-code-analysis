@@ -1,0 +1,31 @@
+The code provided is a part of a larger project that deals with creating a static photo gallery. 
+
+The code defines classes for Media, Image, Video, and Album.
+
+The Media class is the base class for Image and Video classes. It defines common attributes and methods such as filename, path, settings, ext, src_path, dst_path, thumb_name, thumb_path, logger, and _get_metadata(). It also defines properties for url, big, big_url, and thumbnail. The class has a constructor that initializes these attributes and calls _get_metadata().
+
+The Image class inherits from Media class and adds additional attributes and methods specific to images such as date, exif, raw_exif, size, thumb_size, and has_location(). It overrides the _get_metadata() method of the Media class to extract image-specific metadata. 
+
+The Video class inherits from Media class and adds additional attributes and methods specific to videos. It overrides the constructor of the Media class to initialize video-specific attributes such as mime and date.
+
+The Album class represents a photo album. It has attributes for path, name, gallery, settings, subdirs, output_file, thumbnail, src_path, dst_path, logger, and _get_metadata(). It also defines methods for creating output directories, sorting subdirectories, sorting media, and generating URLs for the album. The class has properties for images, videos, and sub-albums. 
+
+Overall, the code provides a framework for managing and organizing media files (images and videos) in a static photo gallery.The remaining part of the code provides additional methods and properties for the Album class and the Gallery class.
+
+In the Album class:
+- The thumbnail property returns the thumbnail for the album. If a thumbnail is already set, it is returned. Otherwise, it checks if the album has a thumbnail defined in its metadata. If a valid thumbnail is found, it is returned. Otherwise, it checks the media in the album and selects the first landscape image as the thumbnail. If no landscape image is found, it selects the first image as the thumbnail. If no thumbnail is found, it checks subdirectories of the album and selects the first thumbnail from the subdirectories. If no thumbnail is found in the subdirectories, an error message is logged and None is returned.
+- The random_thumbnail property returns a random thumbnail from the album. If there are no thumbnails in the album, it returns the default thumbnail.
+- The breadcrumb property generates a breadcrumb list for the album. It starts from the current album and goes up to the root album, adding each album's URL and title to the list. The list is reversed and returned.
+- The show_map property checks if any image in the album has location information. If at least one image has location information, it returns True. Otherwise, it returns False.
+- The zip property generates a ZIP archive of all the media files in the album. It uses the configured ZIP gallery settings and the media files in the album to create the ZIP archive. If the ZIP archive already exists and the 'zip_skip_if_exists' setting is enabled, it skips creating the ZIP archive. After creating the ZIP archive, it logs a debug message and returns the ZIP archive filename.
+
+In the Gallery class:
+- The __init__ method initializes the Gallery object with the provided settings and creates the necessary directories.
+- The title property returns the title of the gallery by checking the 'title' setting. If the 'title' setting is not set, it returns the title of the root album.
+- The init_pool method initializes the multiprocessing pool based on the number of CPU cores specified in the 'ncpu' argument. It gets the number of CPU cores using the 'multiprocessing.cpu_count()' function. If the 'ncpu' argument is not provided or is not a valid integer, it defaults to the number of CPU cores on the system.
+- The get_albums method generates a generator that yields each subdirectory and its corresponding album recursively for the given path.
+- The build method builds the image gallery by collecting files, processing them, and writing HTML pages. It uses a progressbar to show the progress of each step. It first collects files from all albums using the process_dir method. Then it processes the collected files in parallel using multiprocessing or sequentially if multiprocessing is not available. If any files fail to process, it removes the failed files and logs an error message. Finally, it writes the HTML pages for each album using the AlbumPageWriter and AlbumListPageWriter classes. It also sends a gallery_build signal at the end.
+- The remove_files method logs an error message for any files that fail to process.
+- The process_dir method generates a generator that yields each media file in the album along with its corresponding processing arguments.
+- The process_file function is used as a worker function for multiprocessing. It calls either process_image or process_video function depending on the type of media file being processed. It returns the path and filename of any failed files.
+- The worker function catches any KeyboardInterrupt exceptions that might occur during multiprocessing.

@@ -1,0 +1,14 @@
+This code is written in the C programming language. It reads a string from the standard input, and then assigns to each character in a new string the sum of it and the next character from the input string (in terms of their ASCII values). The last character in the new string is the sum of the first and last character from the input string. Finally, it prints this new string.
+
+Note that this program can lead to undefined behavior, as it does not provide any protection against buffer overflow (with the gets() function) and does not properly terminate the string in s2. It also uses malloc() to dynamically allocate memory but does not free the memory afterward, hence it is a memory leak. 
+
+Here is a step by step analysis:
+
+1. The program starts execution from the main function.
+2. Two pointers, s1 and s2 to a character, are declared along with two integers i and len.
+3. Memory is allocated dynamically to hold 100 characters for each of the two declared character pointers.
+4. The program then asks for user input and that input is stored in the block of memory pointed to by s1.
+5. The length of the entered string is calculated using the strlen function and stored in the variable len.
+6. A for loop runs from 0 to len-1. In each iteration, the ASCII value of the character from s1 at the current index is added with that at the next index and the sum is stored at the current index location in s2.
+7. Outside the loop, the ASCII value of the first character and the last character from s1 is added and stored at the last index location in s2.
+8. Lastly, another for loop runs over len and prints each element from s2.

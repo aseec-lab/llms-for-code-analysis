@@ -1,0 +1,15 @@
+This code is a JavaScript function that fetches data from a JSON file and displays it in an HTML table when a button is clicked.
+
+- The first line of code logs the string ":D" to the console.
+- The `const boton` line selects the HTML element with the ID "boton" and assigns it to the variable `boton`.
+- The `boton.addEventListener('click', traerDatos)` line adds an event listener to the `boton` element. When the button is clicked, the `traerDatos` function will be executed.
+- The `traerDatos` function starts by creating a new `XMLHttpRequest` object called `xhttp`.
+- The `xhttp.open('GET', 'catalogo.json', true)` line opens a GET request to the file "catalogo.json" with the `xhttp` object.
+- The `xhttp.send()` line sends the request.
+- The `xhttp.onreadystatechange` function is a callback that is executed whenever the state of the `xhttp` object changes.
+- In the `xhttp.onreadystatechange` function, there is a condition `if (this.readyState == 4 && this.status == 200)` that checks if the request is complete and successful.
+- Inside that condition, the code parses the response text as JSON and assigns it to the `datos` variable.
+- The `let respuesta = document.querySelector('#respuesta')` line selects the HTML element with the ID "respuesta" and assigns it to the `respuesta` variable.
+- The `respuesta.innerHTML = ''` line clears the contents of the `respuesta` element.
+- The code then loops through each item in the `datos` array and creates an HTML table row (`<tr>`) with the item's `title` and `artist`.
+- Each HTML table row is added to the `respuesta` element using `respuesta.insertAdjacentHTML("beforebegin", listItem)`.

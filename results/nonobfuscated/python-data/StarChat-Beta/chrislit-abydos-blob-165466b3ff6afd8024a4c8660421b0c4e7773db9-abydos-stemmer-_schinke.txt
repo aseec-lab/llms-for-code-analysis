@@ -1,0 +1,341 @@
+Analyze the following piece of code: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from __future__ import (
+    absolute_import,
+    division,
+    print_function,
+    unicode_literals,
+)
+
+from unicodedata import normalize
+
+from six import text_type
+from six.moves import range
+
+from._stemmer import _Stemmer
+
+__all__ = ['Schinke','schinke']
+
+
+class Schinke(_Stemmer):
+    
+
+
+    _keep_que = {
+        'at',
+        'quo',
+        'ne',
+        'ita',
+        'abs',
+        'aps',
+        'abus',
+        'adae',
+        'adus',
+        'deni',
+        'de',
+      'sus',
+        'obli',
+        'perae',
+        'plenis',
+        'quando',
+        'quis',
+        'quae',
+        'cuius',
+        'cui',
+        'quem',
+        'quam',
+        'qua',
+        'qui',
+        'quorum',
+        'quarum',
+        'quibus',
+        'quos',
+        'quas',
+        'quotusquis',
+        'quous',
+        'ubi',
+        'undi',
+        'us',
+        'uter',
+        'uti',
+        'utro',
+        'utribi',
+        'tor',
+        'co',
+        'conco',
+        'contor',
+        'detor',
+        'deco',
+        'exco',
+        'extor',
+        'obtor',
+        'optor',
+      'retor',
+      'reco',
+        'attor',
+        'inco',
+        'intor',
+        'praetor',
+    }
+
+    _n_endings = {
+        4: {'ibus'},
+        3: {'ius'},
+        2: {
+            'is',
+            'nt',
+            'ae',
+            'os',
+            'am',
+            'ud',
+            'as',
+            'um',
+            'em',
+            'us',
+            'es',
+            'ia',
+        },
+        1: {'a', 'e', 'i', 'o', 'u'},
+    }
+
+    _v_endings_strip = {
+        6: {},
+        5: {},
+        4: {'mini', 'ntur','stis'},
+        3: {'mur','mus', 'ris','sti', 'tis', 'tur'},
+        2: {'ns', 'nt', 'ri'},
+        1: {'m', 'r','s', 't'},
+    }
+    _v_endings_alter = {
+        6: {'iuntur'},
+        5: {'beris', 'erunt', 'untur'},
+        4: {'iunt'},
+        3: {'bor', 'ero', 'unt'},
+        2: {'bo'},
+        1: {},
+    }
+
+    def stem(self, word):
+        
+
+        word = normalize('NFKD', text_type(word.lower()))
+        word = ''.join(
+            c
+            for c in word
+            if c
+            in {
+                'a',
+                'b',
+                'c',
+                'd',
+                'e',
+                'f',
+                'g',
+                'h',
+                'i',
+                'j',
+                'k',
+                'l',
+              'm',
+                'n',
+                'o',
+                'p',
+                'q',
+                'r',
+              's',
+                't',
+                'u',
+                'v',
+                'w',
+                'x',
+                'y',
+                'z',
+            }
+        )
+
+        
+        word = word.replace('j', 'i').replace('v', 'u')
+
+        
+        if word[-3:] == 'que':
+            
+            
+            if word[:-3] in self._keep_que or word == 'que':
+                return {'n': word, 'v': word}
+            else:
+                word = word[:-3]
+
+        
+        noun = word
+        verb = word
+
+        
+        for endlen in range(4, 0, -1):
+            if word[-endlen:] in self._n_endings[endlen]:
+                if len(word) - 2 >= endlen:
+                    noun = word[:-endlen]
+                else:
+                    noun = word
+                break
+
+        for endlen in range(6, 0, -1):
+            if word[-endlen:] in self._v_endings_strip[endlen]:
+                if len(word) - 2 >= endlen:
+                    verb = word[:-endlen]
+                else:
+                    verb = word
+                break
+            if word[-endlen:] in self._v_endings_alter[endlen]:
+                if word[-endlen:] in {
+                    'iuntur',
+                    'erunt',
+                    'untur',
+                    'iunt',
+                    'unt',
+                }:
+                    verb = word[:-endlen] + 'nt'
+                else:
+                    verb = word[:-endlen]
+                break
+
+        if noun == verb:
+            if word[-2:] == 'us':
+                return {'n': word[:-2], 'v': word[:-2]}
+            elif word[-2:] == 'es':
+                return {'n': word[:-2], 'v': word[:-2]}
+            elif word[-2:] == 'um':
+                return {'n': word[:-2], 'v': word[:-2]}
+            elif word[-2:] == 'em':
+                return {'n': word[:-2], 'v': word[:-2]}
+            elif word[-2:] == 'on':
+                return {'n': word[:-2], 'v': word[:-2]}
+            elif word[-2:] == 'in':
+                return {'n': word[:-2], 'v': word[:-2]}
+            elif word[-2:] == 'is':
+                return {'n': word[:-2], 'v': word[:-2]}
+            elif word[-2:] == 'it':
+                return {'n': word[:-2], 'v': word[:-2]}
+            elif word[-2:] == 'os':
+                return {'n': word[:-2], 'v': word[:-2]}
+            elif word[-2:] == 'am':
+                return {'n': word[:-2], 'v': word[:-2]}
+            elif word[-2:] == 'ud':
+                return {'n': word[:-2], 'v': word[:-2]}
+            elif word[-2:] == 'as':
+                return {'n': word[:-2], 'v': word[:-2]}
+            elif word[-2:] == 'um':
+                return {'n': word[:-2], 'v': word[:-2]}
+            elif word[-2:] == 'um':
+                return {'n': word[:-2], 'v': word[:-2]}
+            elif word[-2:] == 'ae':
+                return {'n': word[:-2], 'v': word[:-2]}
+            elif word[-2:] == 'es':
+                return {'n': word[:-2], 'v': word[:-2]}
+            elif word[-2:] == 'ia':
+                return {'n': word[:-2], 'v': word[:-2]}
+            else:
+                return {'n': word, 'v': word}
+        else:
+            return {'n': noun, 'v': verb}
+
+schinke = Schinke()
+
+The code appears to be a Python implementation of the Schinke stemmer. It imports several modules, including `unicodedata`, `six`, and the `_stemmer` module, which contains the actual stemmer code. The code is heavily commented, and appears to be well-structured and easy to follow.
+
+The stemmer is designed to handle Latin-script words in the Romanian language, and is based on a set of rules and exceptions. The code includes several dictionaries and sets, which are used to store common words, inflectional endings, and other information.
+
+The main function, `stem`, takes a word as input and applies the stemming rules to it. The code is well-structured and easy to read, with clear variable names and logical flow. The code uses several techniques to handle exceptions and edge cases, and includes tests to ensure that the stemmer works as expected.
+
+Overall, the code is well-structured, well-documented, and easy to follow. It Analyze the following piece of code: 
+                    'erunt',
+                    'untur',
+                    'iunt',
+                    'unt',
+                }:
+                    new_word = word[:-endlen] + 'i'
+                    addlen = 1
+                elif word[-endlen:] in {'beris', 'bor', 'bo'}:
+                    new_word = word[:-endlen] + 'bi'
+                    addlen = 2
+                else:
+                    new_word = word[:-endlen] + 'eri'
+                    addlen = 3
+
+                
+                
+                if len(new_word) >= 2 + addlen:
+                    verb = new_word
+                else:
+                    verb = word
+                break
+
+        return {'n': noun, 'v': verb}
+
+
+def schinke(word):
+    
+
+    return Schinke().stem(word)
+
+
+if __name__ == '__main__':
+    import doctest
+
+    doctest.testmod()
+
+```
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente sin necesidad de un intérprete adicional. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código binario.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. El código fuente se lee y se ejecuta línea por línea, lo que significa que el intérprete traduce el código fuente en código ejecutable mientras se está ejecutando. Esto significa que el código fuente se puede modificar y ejecutar inmediatamente sin necesidad de volver a compilar.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lenguajes de programación se utilizan para escribir programas, que son secuencias de instrucciones que un computador puede entender y ejecutar.
+
+Los lenguajes de programación se utilizan para resolver diferentes tipos de problemas, como la automatización de tareas, la creación de software, la manipulación de datos y la programación de dispositivos electrónicos. Hay muchos lenguajes de programación diferentes en el mercado, cada uno con sus propias fortalezas y debilidades.
+
+Algunos ejemplos de lenguajes de programación populares son:
+
+- Python
+- Java
+- C++
+- JavaScript
+- PHP
+
+Cada lenguaje de programación tiene su propia sintaxis (la forma en que se escriben las instrucciones), su propio conjunto de librerías (funciones y herramientas predefinidas) y su propio paradigma (un conjunto de reglas y principios que guían cómo se debe escribir el código).
+
+En resumen, un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas, y se utiliza para escribir programas que pueden ser ejecutados por computadores.
+
+
+
+¿Qué

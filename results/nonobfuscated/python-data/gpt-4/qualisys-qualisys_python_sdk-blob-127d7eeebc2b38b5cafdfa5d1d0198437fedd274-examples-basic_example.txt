@@ -1,0 +1,11 @@
+This Python script is used to connect to Qualisys Track Manager (QTM) server using the 'qtm' module and asynchronously receive data packets, specifically 3D marker data, from it. 
+
+Here is what the main parts of the script do:
+
+1. A function `on_packet(packet)` is defined. This function is executed each time a new packet is received from QTM. The function prints the frame number of the received packet and information about the "3d" component (which is presumably a 3D marker). Each of the markers in the "3d" component of the received packet are also printed.
+
+2. The `setup()` coroutine is defined, in which an asynchronous connection is established with the QTM server located at localhost ("127.0.0.1"). If the connection is successful, the coroutine starts to stream frames from the QTM server. It requests only "3d" components and provides the `on_packet(packet)` function as the callback function to be executed when a new packet is received.
+
+3. At the end of the script, it creates a task from the `setup()` coroutine and attaches it to the default event loop. Then, the script starts running this event loop forever.
+
+Note, this script is asynchronous and utilizes Python's asyncio library. The QTM server can provide data streams from a number of different components and these are identified from the "components" argument. In this case, the script is specifically interested in the "3d" component.

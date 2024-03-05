@@ -1,0 +1,15 @@
+This code implements the ROOM (Relaxation of Objective on Metabolism) method in metabolic modeling. The `room` function is the main function that applies the ROOM method to a metabolic model. It takes in a metabolic model, an optional solution, and other parameters such as whether to use a linear approximation, the delta value, and the epsilon value. 
+
+The `add_room` function is a helper function called within the `room` function. It adds the necessary constraints and variables to the model to apply the ROOM method. It takes similar parameters as the `room` function. 
+
+The main steps of the code are as follows:
+
+1. If the model has already been adjusted for ROOM (indicated by the presence of the 'room_old_objective' variable), an error is raised.
+2. If no solution is provided, the pFBA (parsimonious flux balance analysis) method is used to obtain an initial solution.
+3. The variables and constraints for the ROOM method are created and added to the model. 
+4. The objective function of the model is set to minimize a constant value, effectively removing the original objective.
+5. The variables and constraints related to the reactions in the model are created.
+6. The variables, constraints, and objective coefficients are added to the model.
+7. The new objective coefficients for the ROOM variables are set to 1. 
+
+Overall, this code modifies a metabolic model to implement the ROOM method, which adjusts the objective function to relax constraints and allow for alternative optimal solutions.

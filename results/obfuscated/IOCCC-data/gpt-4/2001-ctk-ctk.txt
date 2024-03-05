@@ -1,0 +1,16 @@
+This code is a console-based game developed in C language.
+
+Here's a breakdown of what the program does:
+
+1. The code starts by including the necessary headers.
+2. Several preprocessor definitions are used to simplify the code, such as a macro that assigns a variable's value and another macro that handles a specific type of console output.
+3. Global variables are declared, including character arrays for various elements and control mechanisms in the game, and integers for aspects such as game mode, score, flags for whether outputs are allowed, and others.
+4. The 'u(int i)' function is responsible for rendering the game interface and managing key aspects like score calculation, game termination condition, special object handling, game speed variation, and signal resetting. 
+5. The 'e()' function is an exit routine that is called when the program ends. It resets the terminal characteristics to the pre-game settings and prints the final score.
+6. The 'main' function begins by preparing the terminal for the game (setting it to cbreak mode, turning off echo mode, and setting the exit routine). It then enters a loop in which it accepts character input from the user and responds accordingly. Here are the cases:
+   - 113: quitting the game
+   - 91 and 98: left movement
+   - 32 and 110: no movement
+   - 93 and 109: right movement
+   - 49, 50, 51, 52: controlling the speed of the game
+7. The game ends when the left or right boundary is reached (`abs(p-x[21])>=w[21])`).

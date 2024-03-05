@@ -1,0 +1,63 @@
+Analyze the following piece of code: int main(){ 
+	int p,q,y;
+    int sz[5][5];
+    for(int row=0;row<5;row++){
+		for(int col=0;col<5;col++){
+            scanf("%d",&sz[row][col]);
+		}
+	}
+	
+
+	y=0;
+	
+	for(int row=0;row<5;row++){
+		for(int col=0;col<5;col++){
+			p=0;
+			q=0;
+            for(int m=0;m<5;m++){
+				if(m!=col&&sz[row][col]>sz[row][m]){
+				   p+=1;
+				}
+				if(m!=row&&sz[row][col]<sz[m][col]){
+				   q+=1;
+				}
+			}
+						if(p==4&&q==4){
+				printf("%d %d %d",row+1,col+1,sz[row][col]);
+                y+=1;
+		
+			}
+		}
+    }
+	
+	if(y==0){
+		printf("not found");
+   
+		}
+
+    return 0; 
+  } 
+
+What does this code do?
+
+The code is a part of a program in C programming language. It is a part of a function that takes a 2D array of integers as input and searches for a square sub-matrix with all elements in non-decreasing order. The function uses a nested for loop to iterate over all elements of the 2D array and check if the current element is greater than all elements in the same row and less than all elements in the same column. If all elements in the same row and column are in non-decreasing order, the function prints the row and column index of the element along with its value.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente escrito en un lenguaje de programación a código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente escrito en un lenguaje de alto nivel se traduce a código ejecutable en un lenguaje de bajo nivel llamado código objeto o código máquina. El código objeto se puede ejecutar directamente sin necesidad de volver a compilar el código fuente. Estos lenguajes de programación suelen ser más rápidos que los lenguajes interpretados porque el código ya ha sido compilado y optimizado. Algunos ejemplos de lenguajes compilados son C, C++ y Go.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente escrito en un lenguaje de alto nivel se traduce a código ejecutable en tiempo real mientras el programa se está ejecutando. En este proceso, el intérprete lee y ejecuta línea por línea el código fuente. Esto significa que el código fuente se ejecuta mucho más lentamente que en los lenguajes compilados, ya que el intérprete tiene que traducir cada línea de código en tiempo real. Algunos ejemplos de lenguajes interpretados son Python, Ruby y Lisp.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a código ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras el programa se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Está compuesto por un conjunto de reglas y construcciones que permiten a los programadores escribir instrucciones que se pueden entender y ejecutar por una computadora.
+
+Los lenguajes de programación se utilizan para escribir programas que se ejecutan en computadoras y dispositivos electrónicos. Estos programas pueden realizar

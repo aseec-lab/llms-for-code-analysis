@@ -1,0 +1,11 @@
+The code includes a header file "coremark.h" and defines functions that help generate random seeds for the Coremark benchmark. The behavior of the code depends on the value of the macro `SEED_METHOD`.
+
+If `SEED_METHOD` is set to `SEED_VOLATILE`, the code defines a function `get_seed_32` that takes an argument `i` and returns the value of one of the volatile seed variables `seed1_volatile`, `seed2_volatile`, `seed3_volatile`, `seed4_volatile`, or `seed5_volatile`, depending on the value of `i`.
+
+If `SEED_METHOD` is set to `SEED_ARG`, the code defines a function `parseval` that takes a string `valstring` as input and converts it to an `ee_s32` value. The function handles negative numbers, hexadecimal mode, and suffixes "K" and "M" to denote kilobytes and megabytes respectively. The code also defines a function `get_seed_args` that takes arguments `i`, `argc`, and `argv[]` and returns the value of the `i`-th command line argument converted to an `ee_s32` value. If `argc` is less than or equal to `i`, the function returns 0.
+
+If `SEED_METHOD` is set to `SEED_FUNC`, the code defines a function `get_seed_32` that calls different system-specific functions (`portme_sys1`, `portme_sys2`, `portme_sys3`, `portme_sys4`, and `portme_sys5`) based on the value of `i` and returns the value returned by that function.
+
+The code also defines several utility functions for calculating CRC (cyclic redundancy check) values. These functions include `crcu8`, `crcu16`, `crcu32`, and `crc16`, which perform CRC calculations on different input data types.
+
+Lastly, the code includes a function `check_data_types` that verifies the sizes of different data types (`ee_u8`, `ee_u16`, `ee_s16`, `ee_s32`, `ee_u32`, and `ee_ptr_int`) and reports any errors.

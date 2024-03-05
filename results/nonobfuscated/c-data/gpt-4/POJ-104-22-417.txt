@@ -1,0 +1,23 @@
+This C program takes a list of integers as input that are separated by commas. It then identifies the second largest number in the list and prints it out. 
+
+Here is a detailed operation of each part:
+
+1) The program starts by initializing an array of 300 integers all set to 0. It has other variables `i`, `j`, `n`, `max2`, and `t` all are integers and `c` of character type.
+
+2) Then it goes into a while loop reading in integers using `scanf`. After reading each integer, it increments `i`, `n`, and then reads a character which is expected to be a comma.
+
+3) It keeps repeating these steps until it encounters a character that is not a comma, or the number of integers read reaches 300. The variable `n` keeps track of the number of integers read.
+
+4) If only one integer is read, which implies that there is no comma after the first integer, the program will print out "No" and end.
+
+5) If more than one integer is read, the program goes into a nested loop (essentially a bubble sort algorithm) to sort the integers in decreasing order.
+
+6) After sorting, if the last integer (smallest as per decreasing order) is equal to the first integer (largest), which implies all integers are the same, it prints out "No".
+
+7) If all integers are not the same, the program goes through the sorted list from the start until it finds the first integer that is not equal to the biggest integer (`a[0]`). This integer will be the second largest.
+
+8) The second largest number is then printed out.
+
+It should be noted that the program has an error in situations where all numbers are the same. In such cases, it will print out "No" instead of the duplicated number.
+
+So, this code can find the second-largest number in a list of distinct numbers. In a list of identical numbers, it will not give accurate output.

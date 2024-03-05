@@ -1,0 +1,57 @@
+Analyze the following piece of code: int main()
+{  int i,j,n,k,l,t1,t2,t3=0,t4,t5=0;
+   int a[5000][2];
+   scanf("%d",&n);
+   for(k=0;k<n;k++)
+	   for(l=0;l<2;l++)
+   {scanf("%d",&a[k][l]);}
+	   for(j=0;j<n-1;j++)
+		for(i=0;i<n-1-j;i++)
+		{   if(a[i][0]>a[i+1][0])
+			{t1=a[i][0];
+			a[i][0]=a[i+1][0];
+			a[i+1][0]=t1;
+			t2=a[i][1];
+			a[i][1]=a[i+1][1];
+			a[i+1][1]=t2;}
+		}
+  for(i=1;i<n;i++)
+	{for(j=0;j<n;j++)
+    {if((a[i][0]<=a[j][1])&(a[i][0]>=a[j][0])) {t5=t5;}
+	else {t5=t5+1;}}
+     
+	
+    if (t5==n-1){t3=0; 
+	          printf("no"); 
+	          break;}
+	else{t3=1;
+	t5=0;}
+    }
+t4=a[0][1];
+if(t3!=0)
+	{   for(i=0;i<n;i++)
+	    { 
+	      if (a[i][1]>=t4)
+	      {t4=a[i][1];}
+	    }
+	printf("%d %d",a[0][0],t4);}
+return 0;
+}
+
+This code is a sorting algorithm, specifically a variation of insertion sort. It takes an array of integers as input and sorts it in ascending order.
+
+Here's a breakdown of the code:
+
+1. The first line declares the main function, which takes no arguments.
+2. The next line declares several variables: int i, j, n, k, l, t1, t2, t3, and t4.
+3. The scanf() function is used to read an integer value from the standard input and store it in the variable n.
+4. The next loop reads the values of the array a[k][l] for k=0 to n-1 and l=0 to 1.
+5. The inner loop (for j=0 to n-1) sorts the subarray a[i..j] by inserting the element a[i+1][0] into its proper position.
+6. The outer loop (for i=0 to n-1) checks if the element a[i][1] is greater than or equal to the current maximum value in the subarray a[0..i-1]. If it is, then the maximum value is updated and the loop continues.
+7. If the maximum value is not updated, then the loop exits and the variable t5 is incremented.
+8. After the outer loop finishes, the variable t5 is compared to n-1. If t5==n-1, then the array is sorted and the program prints "no" and exits. Otherwise, the program continues to the next step.
+9. The inner loop (for i=0 to n-1) checks if the element a[i][1] is greater than or equal to the current maximum value in the subarray a[0..i-1]. If it is, then the maximum value is updated and the loop continues.
+10. If the maximum value is not updated, then the loop exits and the program prints "yes" and exits.
+11. The program then prints the sorted array using the variables a[0][0] and a[0][1].
+
+Overall, this code is a simple sorting algorithm that is easy to understand and implement. However, it has a time complexity of O(n^2) and is not the most efficient sorting algorithm available.

@@ -1,0 +1,35 @@
+The code you provided is a collection of functions for memory allocation, file operations, and timing. 
+
+The AllocateMemory function is used to allocate memory. The implementation depends on the compiler being used, as different implementations are provided for DOS16, MACMEM, and MALLOCMEM.
+
+The FreeMemory function is used to free memory that was previously allocated with the AllocateMemory function. Again, the implementation depends on the compiler being used.
+
+The MoveMemory function is used to move a block of memory from one location to another. It uses the memmove function, but has a special implementation for DOS16MEM.
+
+The CreateFile function is used to create a file. The implementation depends on the operating system being used, with different implementations for DOS16 and LINUX.
+
+The bmOpenFile function is used to open a file for reading and writing. The implementation again depends on the operating system being used, with different implementations for DOS16 and LINUX.
+
+The CloseFile function is used to close a file that was previously opened with the bmOpenFile function. The implementation depends on the operating system, with different implementations for DOS16 and LINUX.
+
+The readfile function is used to read data from a file. The implementation depends on the operating system, with different implementations for DOS16 and LINUX.
+
+The writefile function is used to write data to a file. The implementation depends on the operating system, with different implementations for DOS16 and LINUX.
+
+The ReportError function is used to print an error message. It takes an error context and an error code as input.
+
+The ErrorExit function is used to terminate the program.
+
+The StartStopwatch function is used to start a stopwatch timer. The implementation depends on the operating system being used, with different implementations for MACTIMEMGR, WIN31TIMER, and default behavior.
+
+The StopStopwatch function is used to stop a stopwatch timer and return the elapsed time. The implementation depends on the operating system being used, with different implementations for MACTIMEMGR, WIN31TIMER, and default behavior.
+
+The TicksToSecs function is used to convert a number of timer ticks to seconds. The implementation depends on the operating system being used, with different implementations for CLOCKWCT.The TicksToSecs function takes in a number of timer ticks (tickamount) and converts it to seconds. The implementation depends on the operating system being used.
+
+For MACTIMEMGR, it divides the tickamount by 1000000 to convert it to seconds.
+
+For CLOCKWCPS, it divides the tickamount by CLOCKS_PER_SEC to convert it to seconds.
+
+For WIN31TIMER, it divides the tickamount by 1000L to convert it to seconds.
+
+The TicksToFracSecs function is similar to the TicksToSecs function, but it returns the result as a double instead of an unsigned long. It performs the same calculations as the TicksToSecs function.

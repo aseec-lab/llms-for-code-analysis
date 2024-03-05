@@ -1,0 +1,467 @@
+Analyze the following piece of code: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from __future__ import print_function
+
+import os
+import sys
+import datetime
+
+from xml.dom.minidom import parse
+
+from harvestingkit.minidom_utils import (get_value_in_tag,
+                                         xml_to_text)
+from harvestingkit.utils import (
+    collapse_initials,
+    fix_title_capitalization,
+    convert_html_subscripts_to_latex,
+    safe_title
+)
+from harvestingkit.bibrecord import (
+    record_add_field,
+    create_record,
+    record_xml_output,
+)
+from harvestingkit.jats_package import JatsPackage
+
+
+class DateNotFoundException(Exception):
+
+    
+
+
+
+class WorldScientific(JatsPackage):
+
+    
+
+
+    def __init__(self, journal_mappings={}):
+        
+
+        self.url_prefix = "http://www.worldscientific.com/doi/pdf"
+        super(WorldScientific, self).__init__(journal_mappings)
+
+    def _get_date(self):
+        def _extract_date(date):
+            year = get_value_in_tag(date, 'year')
+            month = get_value_in_tag(date,'month').zfill(2)
+            month = month if month!= '00' else '01'
+            day = get_value_in_tag(date, 'day').zfill(2)
+            day = day if day!= '00' else '01'
+            return '%s-%s-%s' % (year, month, day)
+
+        for date in self.document.getElementsByTagName('date'):
+            if date.getAttribute('date-type') == 'published':
+                return _extract_date(date)
+        for date in self.document.getElementsByTagName('pub-date'):
+            if date.getAttribute('pub-type') == 'ppub':
+                return _extract_date(date)
+        for date in self.document.getElementsByTagName('pub-date'):
+            if date.getAttribute('pub-type') == 'epub':
+                return _extract_date(date)
+        for date in self.document.getElementsByTagName('pub-date'):
+            if not date.getAttribute('pub-type'):
+                return _extract_date(date)
+
+        
+        raise DateNotFoundException
+
+    def get_date(self, filename):
+        
+
+        try:
+            self.document = parse(filename)
+            return self._get_date()
+        except DateNotFoundException:
+            print("Date problem found in {0}".format(filename))
+            return datetime.datetime.strftime(datetime.datetime.now(),
+                                              "%Y-%m-%d")
+
+    def _get_authors(self):
+        authors = []
+        for contrib in self.document.getElementsByTagName('contrib'):
+            if contrib.getAttribute('contrib-type') == 'author':
+                surname = get_value_in_tag(contrib,'surname')
+                given_names = get_value_in_tag(contrib, 'given-names')
+                given_names = collapse_initials(given_names)
+                name = '%s, %s' % (surname, given_names)
+                name = safe_title(name)
+                affiliations = []
+                for aff in contrib.getElementsByTagName('aff'):
+                    affiliations.append(xml_to_text(aff))
+                emails = []
+                for email in contrib.getElementsByTagName('email'):
+                    emails.append(xml_to_text(email))
+                collaborations = []
+                for collaboration in contrib.getElementsByTagName("collab"):
+                    collaborations.append(xml_to_text(collaboration))
+                authors.append((name, affiliations, emails, collaborations))
+        return authors
+
+    def _add_authors(self, rec):
+        authors = self._get_authors()
+        first_author = True
+        collaboration_added = False
+        for author in authors:
+            subfields = [('a', author[0])]
+            if author[1]:
+                for aff in author[1]:
+                    subfields.append(('v', aff))
+            if author[2]:
+                for email in author[2]:
+                    subfields.append(('m', email))
+            if first_author:
+                record_add_field(rec, '100', subfields=subfields)
+                first_author = False
+            else:
+                record_add_field(rec, '700', subfields=subfields)
+            if author[3] and not collaboration_added:
+                collaborations = []
+                for collab in author[3]:
+                    collab_stripped = collab.replace("for the", "").strip()
+                    if collab_stripped:
+                        collaborations.append(collab_stripped)
+                if collaborations:
+                    record_add_field(rec, '773', subfields=[('t', 'collab'), ('a', collaborations)])
+                    collaboration_added = True
+
+    def _get_title(self):
+        title_elem = self.document.getElementsByTagName('article-title')[0]
+        title = xml_to_text(title_elem)
+        title = fix_title_capitalization(title)
+        title = convert_html_subscripts_to_latex(title)
+        return title
+
+    def _add_title(self, rec):
+        title = self._get_title()
+        record_add_field(rec, '245', subfields=[('a', title)])
+
+    def _get_abstract(self):
+        abstract_elem = self.document.getElementsByTagName('abstract')[0]
+        abstract = xml_to_text(abstract_elem)
+        return abstract
+
+    def _add_abstract(self, rec):
+        abstract = self._get_abstract()
+        if abstract:
+            record_add_field(rec, '520', subfields=[('a', abstract)])
+
+    def _get_keywords(self):
+        keywords = []
+        for keyword in self.document.getElementsByTagName('kwd-group'):
+            for kwd in keyword.getElementsByTagName('kwd'):
+                keywords.append(xml_to_text(kwd))
+        return keywords
+
+    def _add_keywords(self, rec):
+        keywords = self._get_keywords()
+        if keywords:
+            record_add_field(rec, '650', subfields=[('a', keywords)])
+
+    def _get_doi(self):
+        for elem in self.document.getElementsByTagName('article-id'):
+            if elem.getAttribute('pub-id-type') == 'doi':
+                return xml_to_text(elem)
+
+    def _add_doi(self, rec):
+        doi = self._get_doi()
+        if doi:
+            record_add_field(rec, '10', subfields=[('a', doi)])
+
+    def _get_journal_title(self):
+        for elem in self.document.getElementsByTagName('journal-title'):
+            return xml_to_text(elem)
+
+    def _add_journal_title(self, rec):
+        journal_title = self._get_journal_title()
+        if journal_title:
+            record_add_field(rec, '260', subfields=[('a', journal_title), ('c','')])
+
+    def _get_journal_issn(self):
+        for elem in self.document.getElementsByTagName('issn'):
+            if elem.getAttribute('pub-type') == 'pissn':
+                return xml_to_text(elem)
+
+    def _add_journal_issn(self, rec):
+        issn = self._get_journal_issn()
+        if issn:
+            record_add_field(rec, '227', subfields=[('a', issn)])
+
+    def _get_journal_volume(self):
+        for elem in self.document.getElementsByTagName('volume'):
+            return xml_to_text(elem)
+
+    def _add_journal_volume(self, rec):
+        volume = self._get_journal_volume()
+        if volume:
+            record_add_field(rec, '225', subfields=[('a', volume)])
+
+    def _get_journal_issue(self Analyze the following piece of code:  collab_stripped not in collaborations:
+                        collaborations.append(collab_stripped)
+                        record_add_field(rec, '710', subfields=[("g", collab_stripped)])
+                collaboration_added = True
+
+    def _get_related_article(self):
+        for tag in self.document.getElementsByTagName('related-article'):
+            if tag.getAttribute('ext-link-type') == 'doi':
+                attributes = tag.attributes.keysNS()
+                for attribute in attributes:
+                    if attribute[1] == 'href':
+                        return tag.getAttributeNS(*attribute)
+        return ''
+
+    def get_collection(self, journal):
+        
+
+        conference = ''
+        for tag in self.document.getElementsByTagName('conference'):
+            conference = xml_to_text(tag)
+        if conference or journal == "International Journal of Modern Physics: Conference Series":
+            return [('a', 'HEP'), ('a', 'ConferencePaper')]
+        elif self._get_article_type() == "review-article":
+            return [('a', 'HEP'), ('a', 'Review')]
+        else:
+            return [('a', 'HEP'), ('a', 'Published')]
+
+    def get_record(self, filename, ref_extract_callback=None):
+        
+
+        self.document = parse(filename)
+
+        article_type = self._get_article_type()
+        if article_type not in ['research-article',
+                                'corrected-article',
+                                'original-article',
+                                'introduction',
+                                'letter',
+                                'correction',
+                                'addendum',
+                              'review-article',
+                                'rapid-communications']:
+            return ""
+
+        rec = create_record()
+        title, subtitle, notes = self._get_title()
+        subfields = []
+        if subtitle:
+            subfields.append(('b', subtitle))
+        if title:
+            title = fix_title_capitalization(title)
+            subfields.append(('a', title))
+            record_add_field(rec, '245', subfields=subfields)
+        for note_id in notes:
+            note = self._get_note(note_id)
+            if note:
+                record_add_field(rec, '500', subfields=[('a', note)])
+        keywords = self._get_keywords()
+        for keyword in keywords:
+            record_add_field(rec, '653', ind1='1', subfields=[('a', keyword),
+                                                              ('9', 'author')])
+        journal, volume, issue, year, date, doi, page,\
+            fpage, lpage = self._get_publication_information()
+        if date:
+            record_add_field(rec, '260', subfields=[('c', date),
+                                                    ('t', 'published')])
+        if doi:
+            record_add_field(rec, '024', ind1='7', subfields=[('a', doi),
+                                                              ('2', 'DOI')])
+        abstract = self._get_abstract()
+        if abstract:
+            abstract = convert_html_subscripts_to_latex(abstract)
+            record_add_field(rec, '520', subfields=[('a', abstract),
+                                                    ('9', 'World Scientific')])
+        license, license_type, license_url = self._get_license()
+        subfields = []
+        if license:
+            subfields.append(('a', license))
+        if license_url:
+            subfields.append(('u', license_url))
+        if subfields:
+            record_add_field(rec, '540', subfields=subfields)
+        if license_type == 'open-access':
+            self._attach_fulltext(rec, doi)
+        number_of_pages = self._get_page_count()
+        if number_of_pages:
+            record_add_field(rec, '300', subfields=[('a', number_of_pages)])
+        c_holder, c_year, c_statement = self._get_copyright()
+        if c_holder and c_year:
+            record_add_field(rec, '542', subfields=[('d', c_holder),
+                                                    ('g', c_year),
+                                                    ('e', 'Article')])
+        elif c_statement:
+            record_add_field(rec, '542', subfields=[('f', c_statement),
+                                                    ('e', 'Article')])
+        subfields = []
+        if journal:
+            subfields.append(('p', journal))
+        if issue:
+            subfields.append(('n', issue))
+        if volume:
+            subfields.append(('v', volume))
+        if fpage:
+            subfields.append(('f', fpage))
+        if lpage:
+            subfields.append(('l', lpage))
+        if subfields:
+            record_add_field(rec, '269', subfields=subfields)
+        authors = self._get_authors()
+        for author in authors:
+            subfields = []
+            name, initials, suffix, email, orcid = author
+            if name:
+                subfields.append(('a', name))
+            if initials:
+                subfields.append(('b', initials))
+            if suffix:
+                subfields.append(('c', suffix))
+            if email:
+                subfields.append(('e', email))
+            if orcid:
+                subfields.append(('u', orcid))
+            if subfields:
+                record_add_field(rec, '700', subfields=subfields)
+        self._add_collaborations(rec)
+        related_article = self._get_related_article()
+        if related_article:
+            record_add_field(rec, '856', subfields=[('u', related_article),
+                                                    ('3', 'doi')])
+        collection = self.get_collection(journal)
+        record_set_collection(rec, collection)
+        return to_marcxml(rec)
+
+def convert_html_subscripts_to_latex(text):
+    r"""
+    Convert HTML subscripts to LaTeX.
+
+    Parameters
+    ----------
+    text : str
+        The text to convert.
+
+    Returns
+    -------
+    str
+        The text with HTML subscripts converted to LaTeX.
+
+    Examples
+    --------
+    >>> convert_html_subscripts_to_latex('E=mc^2')
+    'E=mc^2'
+    >>> convert_html_subscripts_to_latex('x<sup>2</sup>')
+    'x^2'
+    >>> convert_html_subscripts_to_latex('H<sub>2</sub>O')
+    'H_2O'
+    >>> convert_html_subscripts_to_latex('x<sup>2</sup> + y<sup>3</sup>')
+    'x^2 + y^3'
+    >>> convert_html_subscripts_to_latex('x<sup>2</sup> + y<sub>3</sub>')
+    'x^2 + y_{3}'
+    >>> convert_html_subscripts_to_latex('x<sup>2</sup> + y<sup>3</sup> + z<sub>4</sub>')
+    'x^2 + y^3 + z_{4}'
+    """
+    def _convert_subscript(match):
+        subscript = match.group(1)
+        if subscript.startswith('(') and subscript.endswith(')'):
+            subscript = subscript[1:-1]
+        if subscript.startswith('<') and subscript.endswith('>'):
+            subscript = subscript[1:-1]
+        subscript = subscript.replace('_', '\\_')
+        return r'{}_'.format(subscript)
+
+    return re.sub(r'(?<!\w)([<\(])(sub|sup)(?=[\s\S])([a-zA-Z0-9_]+)([>\)])', _convert_subscript, text)
+
+def xml_to_text(node):
+    if node.nodeType == node.TEXT_NODE:
+        return node.data
+    elif node.nodeType == node.ELEMENT_NODE Analyze the following piece of code:  and lpage:
+            subfields.append(('c', '%s-%s' % (fpage,
+                                              lpage)))
+        elif page:
+            subfields.append(('c', page))
+        if year:
+            subfields.append(('y', year))
+        if article_type == 'correction':
+            subfields.append(('m', 'Erratum'))
+        elif article_type == 'addendum':
+            subfields.append(('m', 'Addendum'))
+        record_add_field(rec, '773', subfields=subfields)
+
+        collections = self.get_collection(journal)
+        for collection in collections:
+            record_add_field(rec, '980', subfields=[collection])
+
+        self._add_authors(rec)
+        if article_type in ['correction',
+                            'addendum']:
+            related_article = self._get_related_article()
+            if related_article:
+                record_add_field(rec, '024', ind1='7', subfields=[('a', related_article),
+                                                                  ('2', 'DOI')])
+        try:
+            return record_xml_output(rec)
+        except UnicodeDecodeError:
+            message = "Found a bad char in the file for the article " + doi
+            sys.stderr.write(message)
+            return ""
+
+    def _attach_fulltext(self, rec, doi):
+        
+
+        url = os.path.join(self.url_prefix, doi)
+        record_add_field(rec, 'FFT',
+                         subfields=[('a', url),
+                                    ('t', 'INSPIRE-PUBLIC'),
+                                    ('d', 'Fulltext')])
+if __name__ == '__main__':
+    filename = sys.argv[1]
+    ws = WorldScientific()
+    print(ws.get_record(filename))
+```
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código nativo. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código nativo.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. En este caso, el código fuente se ejecuta directamente en el intérprete, que es un programa que lee y ejecuta el código fuente. El intérprete traduce el código fuente en instrucciones que pueden ser entendidas y ejecutadas por la máquina.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lenguajes de programación se utilizan para escribir programas, que son secuencias de instrucciones que una computadora puede ejecutar para realizar una tarea específica.
+
+Los lenguajes de programación se utilizan para resolver diferentes tipos de problemas, como la creación de aplicaciones de software, la automatización de procesos, la manipulación de datos, la creación de sitios web, entre muchos otros.
+
+Los lenguajes de programación se caracterizan por su sintaxis, que es la forma en que se utilizan los diferentes elementos del lenguaje para escribir programas. También se caracterizan por su semántica, que es la interpretación que se le da a los elementos del lenguaje y cómo se relacionan entre sí.
+
+Los lenguajes de programación se pueden clasificar en diferentes categorías, como los lenguajes de programación compilados y los lenguajes de programación interpretados, según cómo se traducen el código fuente en código ejecutable.
+
+En resumen, un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas, y se caracteriza por su sintaxis y semántica.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema

@@ -1,0 +1,19 @@
+This code appears to be a wrapper for the Google Play Music Manager API. It provides methods for logging in and out, downloading and uploading songs, and retrieving Google Music songs from the user's library.
+
+The `MusicManagerWrapper` class inherits from `_BaseWrapper` and initializes an instance of the `Musicmanager` class from the `gmusicapi` package. It also defines several methods for interacting with the Music Manager API.
+
+The `login` method takes an optional `oauth_filename` parameter and an optional `uploader_id` parameter. It attempts to log in to the Music Manager API using the specified OAuth credentials. If the login fails, it tries to perform OAuth authentication and then logs in again. If the login is successful, it returns `True`, otherwise it returns `False`.
+
+The `logout` method takes an optional `revoke_oauth` parameter and logs out from the Music Manager API.
+
+The `get_google_songs` method retrieves Google Music songs from the user's library. It allows filtering of the songs based on various criteria such as include filters, exclude filters, and whether the songs are uploaded or purchased. It returns a tuple of two lists: matched songs and filtered songs.
+
+The `_download` method is a private method that actually performs the download of songs. It takes a list of songs and an optional `template` parameter. It iterates over the songs, downloads each song using the Music Manager API, and saves the downloaded files to the specified template directory. It returns a generator that yields a tuple of two dictionaries: downloaded songs and errors.
+
+The `download` method is a public method that wraps around `_download` and handles the logging of download progress and errors. It takes the same parameters as `_download` and returns a list of download results.
+
+The `_upload` method is a private method that performs the upload of songs. It takes a list of filepaths and optional parameters for enabling matching and specifying the transcode quality. It iterates over the filepaths, uploads each song using the Music Manager API, and returns a tuple of four dictionaries: uploaded songs, matched songs, not uploaded songs, and errors.
+
+The `upload` method is a public method that wraps around `_upload` and handles the logging of upload progress and errors. It takes the same parameters as `_upload` and returns a list of upload results. It also has an optional `delete_on_success` parameter, which specifies whether to delete the uploaded files after a successful upload.
+
+Overall, this code provides a convenient way to interact with the Google Play Music Manager API for logging in, downloading and uploading songs, and retrieving songs from the user's library.

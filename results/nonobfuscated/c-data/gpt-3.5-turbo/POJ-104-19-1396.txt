@@ -1,0 +1,23 @@
+This code takes user input as a string 's' and splits it into individual words, which are then stored in a 2D array 'word'. 
+
+First, the code initializes variables and arrays. 'word' is a 2D array of characters that can store up to 50 words with a maximum length of 20 characters each. 's' is a character array that can hold up to 100 characters. 'a' and 'b' are also character arrays with a capacity of 100 each. 'i', 'j', and 'k' are integer variables used as counters.
+
+The 'gets()' function is called to read the input provided by the user, which is stored in the 's' array.
+
+A while loop starts with a condition 'while(1)' which means it will continue indefinitely until a break statement is encountered.
+
+Within the loop, the code checks the characters in the 's' array one by one. If the character is not a space (' ') or the null character ('\0'), it is copied to the 'e' array at the position 'j' and the 'j' counter is incremented. This process continues until a space or the null character is encountered.
+
+If a space is encountered, the 'e' array adds the null character '\0' at position 'j', indicating the end of a word. Then, the 'e' array is copied into the 'word' array at position 'k'. The 'j' counter is reset to 0, and the 'k' counter is incremented.
+
+If the null character is encountered, the 'e' array adds the null character '\0' at position 'j', indicating the end of a word. This last word is then copied into the 'word' array at position 'k'. The while loop is exited using the 'break' statement.
+
+After that, the 'gets()' function is called again to read user input into the 'a' array. This array is used to store a word to search for.
+
+Then, another 'gets()' function is called to read user input into the 'b' array. This array is used to store a word to replace the searched word with.
+
+A for loop starts that iterates from 0 to 'k', which is the number of words stored in the 'word' array. Inside the loop, it checks if the word at the current position 'i' in the 'word' array is the same as the word stored in the 'a' array using the 'strcmp()' function. If they are the same, the word at position 'i' in the 'word' array is replaced with the word stored in the 'b' array using the 'strcpy()' function.
+
+Finally, another for loop is used to output the words stored in the 'word' array. The loop iterates from 0 to 'k-1' and prints each word followed by a space. Then, it prints the last word at position 'k' without a space. 
+
+Overall, this program takes a sentence as input, splits it into individual words, allows the user to search for a specific word, and replaces occurrences of that word with another user-specified word. The modified sentence is then printed as output.

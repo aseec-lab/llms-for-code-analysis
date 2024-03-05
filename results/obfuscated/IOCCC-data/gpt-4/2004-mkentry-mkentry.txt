@@ -1,0 +1,43 @@
+The program is designed to create an entry for the International Obfuscated C Code Contest (IOCCC). It works by reading in a code file and auxiliary remarks and build instructions, and then formats these into an entry file suitable for submission to the contest.
+
+It takes four command-line arguments:
+1. -r remarks: This is a file with remarks about the entry.
+2. -b build: This is a file containing instructions on how the program should be compiled and built.
+3. -p prog.c: This is the source code file of the program.
+4. -o ioccc.entry: This is the output file for the IOCCC entry.
+
+In the global declarations, several function prototypes are declared including functions to parse command-line arguments, open different files (such as the remarks file, build file, program source file, and output file), output different sections of the entry file, and a function to uuencode a file.
+
+The 'main' function begins by checking the date to print a warning if the program is being used in a different year than the one to which it was geared. It then parses the command line arguments, opens the necessary input and output files, and writes various sections to the output file. It also ends by outputting instructions to the console about how to send the resulting entry file via email to the contest organizers.
+
+As for the 'open_remark' function, it attempts to open a file with remarks about the code, intended to be included in the contest entry. If successful, it returns a pointer to the opened file. Otherwise, it returns NULL. This function also gives a warning if any lines in the file are too long or not indented by four spaces - however, this does not prevent the function from working, as these are not strict requirements.Continuing from the previous explanation, the 'open_build' function attempts to open a file with the instructions to build the code. The function checks whether the build file exceeds the maximum allowed file size and throws an error in case it does.
+
+The 'open_program' function opens the source code file for the obfuscated program. This function checks whether the program exceeds the maximum allowed size for an IOCCC entry, and also whether it exceeds the maximum allowed number of non-whitespace and brace characters not followed by whitespace. If a trailing control-M character (ASCII 13, also known as a carriage return) is found this is considered a warning rather than an error.
+
+The 'open_output' function opens the output file for the contest entry. If an error occurs while opening the file the program exits with error code 8.
+
+The 'output_entry' function writes the entry section to the output file. It prompts the user to answer multiple questions to guide them in preparing their contest entry. It continues by asking if the entry is an update or resubmission of a previous entry, and prompts the user to enter a title for the entry. It repeatedly asks for a response until one is given that fits the required format, starting with an ASCII alphanumeric or underscore or equals sign, and continuing with up to MAX_TITLE_LEN-1 more characters that can also include plus signs and hyphens. It gives some advice on how to choose a good title, considers this but not required to include the user's username. It also handles the invalid input cases.
+
+Overall, this code reads and checks a program that is intended for the International Obfuscated C Code Contest (IOCCC), to help prepare an entry from that program that complies with the IOCCC's rules and requirements.The function 'output_remark' writes the '---remark---' section to the output file. It reads from the remark file and copies its contents to the output file. If the last character of the remark section is not a newline, it ensures to add one. 
+
+'output_author' function prompts the user for details about each author of the entry. It writes multiple '---author---' sections for each author's information, including name, organization, postal address, email address, URL of the author's homepage, and the author's preference for anonymity. 
+
+In the 'output_info' function, info files are added to supplement the entry with additional information such as sample input or detailed explanation about the entry. The function prompts the user for filenames of the info files and uuencodes each file. The uuencoding is a form of binary-to-text encoding to include it within the text-based output file.
+ 
+Overall, these functions assist in generating a proper IOCCC contest entry by guiding the user to input information as per the contest rules. They make sure to format the output file correctly while handling section by section.These series of functions aim to complete the input process, finalize the output, and handle the UUencoding of files.
+
+'output_build' writes the build section of the output file. This includes UUencoding the build file which contains instructions for building the program.
+
+In 'output_program', the program section gets written, which includes UUencoding of the program file.
+
+'output_end' marks the end of the output file by writing the section terminator '---end---'.
+
+In 'get_line', the function gets an answer from 'stdin'. If a line is too long, the function does not return and reports 'ERROR' or 'EOF'.
+
+'output_till_dot' outputs a set of lines until a single period is entered by the user. The captured text is written in a specific indent format.
+
+'check_io' checks for EOF or I/O error on a stream and reports it.
+
+Lastly, 'uuencode' implements the UUencoding algorithm which converts binary data into ASCII. It is used to embed information about the entry that is required in the IOCCC entry file. The 'uuencode' function writes the output in a form identifiable by the 'uudecode' utility.
+
+These functions work together to capture and organize necessary information for the IOCCC entry file, ensuring its accurate construction and adherence to the contest's rules.

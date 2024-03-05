@@ -1,0 +1,13 @@
+This code is written in Python and creates a simple network tunnel over a serial port. The overarching class is `Faraday`, which represents the device at the end of the serial link from the tunnel perspective. `Monitor` is a threading class that monitors the tunnel and the serial port. The `SerialTestClass` is merely a test class to simulate a serial port. 
+
+Following are brief descriptions of three main classes:
+
+- The `Faraday` class performs the conversion between the SLIP protocol and the serial port. SLIP is the Serial Line Internet Protocol, a simple protocol for sending IP packets over a serial link. 
+
+- `TunnelServer` is a wrapper around a TunTap device, which is a common way on Unix-like systems to create a network interface that just forwards packets to a user-space program. This creates an interface that looks like a network interface to the rest of the system, but is actually just a pipe into our Python program. 
+
+- `Monitor` is a class that actually performs the work of moving packets between the serial and tunnel interfaces. It runs in a thread and spends most of its time in the run() method, looking for packets to move in either direction.
+
+Overall, this code appears to be a fairly low-level networking task. It could be a part of an IoT gateway, a remote sensor platform, some type of encrypted communication link, or any settings where you need to pass network traffic over a serial link.
+
+However, note that this code does not handle stream synchronization, error detection or correction, packet ordering, etc. The error handling is also exceedingly basic and the code would fail loudly in many situations. It is certainly not "production ready".

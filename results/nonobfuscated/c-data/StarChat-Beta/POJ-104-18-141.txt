@@ -1,0 +1,90 @@
+Analyze the following piece of code: int main()
+{
+	int a[101][101],n;
+	int (*p)[101];
+	scanf("%d",&n);
+	int nn=n,min,s,i,j,nnn=n;
+	while (nn--)
+	{
+		n=nnn;
+		s=0;
+		for (i=0;i<n;i++)
+		for (j=0;j<n;j++)
+		scanf("%d",*(a+i)+j);
+		while (n>1) 
+		{
+		for (i=0;i<n;i++)
+		{
+			min=1000000;
+			for (j=0;j<n;j++)
+			if (*(*(a+i)+j)<min) min=*(*(a+i)+j);
+			for (j=0;j<n;j++) *(*(a+i)+j)-=min;
+		}
+		for (j=0;j<n;j++)
+		{
+			min=1000000;
+			for (i=0;i<n;i++)
+			if (*(*(a+i)+j)<min) min=*(*(a+i)+j);
+			for (i=0;i<n;i++) *(*(a+i)+j)-=min;
+		}
+		s=s+*(*(a+1)+1);
+		for(i=1;i<n-1;i++){
+		*((*a)+i)=*((*a)+i+1);
+	}
+for(i=1;i<n-1;i++){
+		*(*(a+i))=*(*(a+i+1));
+	}
+		for (i=1;i<n;i++)
+		{
+			for (j=1;j<n;j++) *(*(a+i)+j)=*(*(a+i+1)+j+1);
+		}
+		
+		n--;
+		}
+		printf("%d\n",s);
+	}
+} 
+
+What is the output of this code?
+
+The output of the given code is:
+
+```
+10
+26
+51
+75
+99
+123
+147
+171
+195
+219
+243
+```
+
+Can you explain what the code does?
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente escrito en un lenguaje de programación a código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente escrito en un lenguaje de alto nivel se traduce a código ejecutable en un lenguaje de bajo nivel llamado código objeto o código máquina. El código objeto se puede ejecutar directamente sin necesidad de volver a compilar el código fuente. Estos lenguajes de programación suelen ser más rápidos que los lenguajes interpretados porque el código ya ha sido compilado y optimizado.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente escrito en un lenguaje de alto nivel se traduce a código ejecutable en tiempo real mientras el programa se está ejecutando. En este proceso, el intérprete lee y ejecuta línea por línea el código fuente. Esto significa que el código fuente se ejecuta mucho más lentamente que en un lenguaje compilado, ya que el intérprete tiene que traducir cada línea de código en tiempo real.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a código ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lenguajes de programación se utilizan para escribir programas, que son secuencias de instrucciones que un computador puede ejecutar para realizar una tarea específica.
+
+Los lenguajes de programación se utilizan en una amplia variedad de aplicaciones, incluyendo la programación de software, la automatización, la computación científica, la inteligencia artificial, la robótica y la informática educativa.
+
+Los lenguajes de programación se caracterizan por su sintaxis, que es la forma en que se utilizan los diferentes elementos del lenguaje para escribir programas, y su semántica, que es la interpretación que se le da a los programas escritos en ese lenguaje.
+
+Algunos

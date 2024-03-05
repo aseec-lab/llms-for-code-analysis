@@ -1,0 +1,82 @@
+This script provides a python implementation of a physics system with classes defining `Bodies` (such as boxes) and a `Registrar` to keep track of instances of each body. Each Body has various physical properties such as position, rotation, quaternion, linear velocity, angular velocity, force, and torque.
+
+In the context of this code:
+
+1. `BodyState` is a named tuple used to encapsulate properties of a body such as name, position, quaternion, linear_velocity, and angular_velocity.
+
+2. `Registrar` is a metaclass that acts like a registry for class instances. It implements a `build` method to create instances of its subclasses and stores them in a dictionary.
+
+3. `Body` is a base class for physical objects in the world. It uses the Open Dynamics Engine (`ode`) to simulate physical interactions. It includes various methods to interact with and modify the state of the body. It uses the `Registrar` metaclass to automatically register each body. It includes methods for manipulating the physical state of the body such as its position, velocity, and forces acting on it.
+
+4. `Box` is a subclass of `Body`, representing a specific kind of body in the world. It introduces additional properties specific to a box, like length.
+
+The properties length and dimensions are defined in the `Box` class but the implementation of these properties is missing in the provided code. 
+
+The entire code simulates a 3D physical world using the Open Dynamics Engine, where you can add physical objects and manipulate their properties and states. Objects can have forces and torques applied to them, and their position and velocity can be queried and updated. The resulting states would accurately obey the laws of physics according to the properties assigned to each object (mass, shape, inertia, etc.).self.ode_obj.setFeedback(1)
+
+    def disable_feedback(self):
+        self.ode_obj.setFeedback(0)
+
+class Fixed(Joint):
+    TYPE = ode.dJointTypeFixed
+    ADOF = 0
+    LDOF = 0
+
+    def set(self):
+        self.ode_obj.set()
+
+class Hinge(Joint):
+    TYPE = ode.dJointTypeHinge
+    ADOF = 1
+    LDOF = 0
+
+class Slider(Joint):
+    TYPE = ode.dJointTypeSlider
+    ADOF = 0
+    LDOF = 1
+
+class Universal(Joint):
+    TYPE = ode.dJointTypeUniversal
+    ADOF = 2
+    LDOF = 0
+
+class Hinge2(Joint):
+    TYPE = ode.dJointTypeHinge2
+    ADOF = 2
+    LDOF = 1
+
+This script continues to define more types of `Body` objects, including `Sphere`, `Cylinder` and `Capsule`. 
+
+Then it defines several types of `Joint` objects, including `Fixed`, `Hinge`, `Slider`, `Universal` and `Hinge2`. Joints are physical connections between two bodies, which allow for specified types of relative movement (or no movement, in the case of a Fixed joint).
+
+Moreover, in `Joint` class there are several methods to get/set parameters of the joint including position, angle, axes, velocities, max forces, etc using the Open Dynamics Engine's functions.
+
+In general, this script seems to be part of a larger system for simulating physics in a 3D environment, where objects (`Bodies`) can be connected by `Joints` and the resulting system can evolve over time according to the laws of physics.The script seems to be defining several classes associated with different types of joint objects for a physics engine.
+
+- The `Dynamic` joint class represents joints that are affected by forces and torques, have degrees of freedom (dof) and can be used to connect two bodies.
+- `AMotor` and `LMotor` classes create angular and linear motors respectively in a physics simulation which are types of dynamic joints. 
+- `Kinematic` joints represent those that are not affected by forces and only defined by their constraints in a physics simulation. The motions are controlled programmatically and not by the solution of the physics.
+- `Fixed`, `Slider`, `Hinge`, `Piston`, and `Universal` classes are all types of `Kinematic` joints with various specific characteristics and degrees of freedom represented. For example, `Piston` can rotate like a hinge and also slide along the axis, hence has angular and linear degrees of freedom.
+
+In general, this library seems to be built on top of the PyODE (Python bindings for the Open Dynamics Engine), and it provides functionalities for joints, bodies, and degree of freedom, enabling the configuration of flexible robotic systems or physics simulations.The `Ball` class extends the `Kinematic` class and it represents a ball joint in the physics engine which has 3 angular degrees of freedom. It has properties like `angles`, `angle_rates`, and `axes` with associated getters and setters. The angular properties are managed by an `AMotor` instance `alimit`.
+
+The `make_quaternion` function likely produces a quaternion from an angle and axis vector, probably for 3D rotations. Quaternions are used in physics engines to avoid the gimbal lock issue with Euler angles.
+
+The `center_of_mass` function calculates the center of mass from a list of bodies.
+
+The `World` class likely represents the physics world or environment. It contains a list of bodies and joints and manages their interactions. It provides methods for stepping the simulation, handling collisions, creating new bodies/joints, and accessing or manipulating world properties such as gravity and error reduction parameter (erp).
+It uses the Python Open Dynamics Engine (ODE) to manage the physics simulation, doing things like setting gravity, stepping the physics simulation, handling collisions, and so forth.
+
+Also, the `are_connected` function in the `World` class checks if two bodies are connected (likely through a joint), and `on_collision` handles collision responses when two bodies collide in the simulation.
+
+In summary, these classes enable users to represent and manipulate various components of a physics simulation, such as bodies, joints, and the world itself.This remaining part of the function is part of the `on_collision` method in the `World`class. It calculates collisions between two objects in the 3D physics world and creates a new ODE contact joint at the point of the collision. 
+
+The `ode.collide(geom_a, geom_b)` returns a list of contact points as `Contact` instances, indicating where and how the two bodies (geoms) collide.
+
+For each of these contact points, the method configures a `ContactJoint` with bounce parameters (elasticity) and friction. The bounce parameter represents how bouncy the collision is, while the friction simulates the resistance to sliding that occurs when two bodies come into contact. 
+
+An ODE `ContactJoint` joins two bodies together at a contact point, effectively simulating the physical contact between them. These joints are temporary and only exist during the time step they were created in. 
+
+Finally, `ode.ContactJoint(self.ode_world, self.ode_contactgroup, c).attach( geom_a.getBody(), geom_b.getBody())` is attaching the created contact joint to the two bodies that have collided. This enables the physics engine to account for the collision in the next simulation step. 
+
+So, essentially, this part of the code is simulating physical interactions between objects in the World when they collide. This includes setting the properties of the collision (like elasticity and friction) and creating a joint at the point of collision.

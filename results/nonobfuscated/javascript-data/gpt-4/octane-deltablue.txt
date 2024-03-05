@@ -1,0 +1,41 @@
+This code represents pieces of a DeltaBlue constraint solving algorithm which is used to solve constraints in a program. 
+
+- It has a benchmark suite that tracks the execution of the `deltaBlue` function and measures its performance.
+
+- It uses Object's `defineProperty` method to implement a rudimentary inheritance pattern in JavaScript (this is not recommended in actual practice because it modifies Object.prototype which can affect all objects in JS leading to unexpected results). 
+
+- `OrderedCollection` is a simple data structure that wraps an array and provides methods for adding, accessing, and removing elements. 
+
+- `Strength` is a class representing the strength of a constraint. It has several static methods for comparing strengths and static instances representing fixed strength levels.
+
+- `Constraint`, `UnaryConstraint`, `StayConstraint` and `EditConstraint` are classes that define the properties and behaviors of different constraints. Other constraint classes like `BinaryConstraint` inherit from these base classes.
+
+- `Direction` is an object that represents the direction of a binary constraint.
+
+It's worth mentioning that this code only represents a small part of the DeltaBlue algorithm. The overall algorithm also includes a main DeltaBlue planner and additional classes such as Variables, Constraints, and other necessary functions to make the algorithm function in full.This code continues to define structures and functions that constitute the DeltaBlue algorithm.
+
+- `BinaryConstraint` extends `Constraint` and represents binary constraints. It has methods that allow manipulating, checking, executing, and managing the constraint's representation in the constraint graph.
+
+- `ScaleConstraint` extends `BinaryConstraint` and defines a constraint that scales and offsets a variable.
+
+- `EqualityConstraint` extends `BinaryConstraint` to define an equality constraint between two variables. 
+
+- `Variable` is used to represent variables in the system that are to be constrained. It provides methods for adding or removing a constraint from a variable.
+
+- `Planner` drives the entire process, providing incremental methods to add and remove constraints, as well as mark and plan methods necessary for the DeltaBlue algorithm. 
+
+- The `Planner` class has methods like `incrementalAdd`, `incrementalRemove`, `newMark`, `makePlan`, `extractPlanFromConstraints`, `addPropagate`, and `removePropagateFrom` that coordinates the implementation of the algorithm.
+
+Again, it's important to note that while comprehensive, this code snippet still lacks some elements needed for a full implementation of the DeltaBlue algorithm.This extra code adds definitions for a few more supporting functions and structures, and also defines two test functions (`chainTest` and `projectionTest`) and a `deltaBlue` function that calls these tests.
+
+- `Planning` represents a sequence of constraints that can be executed in a specified order with `addConstraint`, `size`, `constraintAt`, and `execute`.
+
+- `chainTest(n)` sets up a chain of variables from `v0` through `vN` such that `vi == vi+1` and then tests that this constraint holds after repeatedly changing the initial and final variables in the chain.
+
+- `projectionTest(n)` sets up a set of variables `srci` and `dsti` with `dsti = scale * srci + offset`, then tests that changing `srci`, `dsti`, `scale`, or `offset` results in the appropriate changes to the other variables.
+
+- `change(v, newValue)` changes the value of a variable with an edit constraint and maintains the system's constraints.
+
+- `deltaBlue()` is the main function in this script. It initially calls `chainTest(100)` and `projectionTest(100)`. 
+
+These test and main functions exercise the DeltaBlue algorithm and implementation using a set of constraints and then checking to see if the constraints hold after they've been modified.

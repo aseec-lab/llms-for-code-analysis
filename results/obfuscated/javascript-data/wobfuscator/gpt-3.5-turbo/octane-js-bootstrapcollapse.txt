@@ -1,0 +1,51 @@
+This code is a JavaScript implementation of a WebAssembly module. It includes functions to decode base64 encoded strings, load WebAssembly modules, and retrieve strings from the loaded modules.
+
+The first function, `__universalAtob`, takes a base64 encoded string as input and returns the decoded bytes as a Uint8Array. It uses the `atob` function to decode the string if it is available, and falls back to using `Buffer.from` if it is not.
+
+The code then defines two base64 encoded strings, `__ifWasmBuffer` and `__callWasmBuffer`, which contain the binary data for two WebAssembly modules. These strings are decoded using the `__universalAtob` function and converted into Uint8Arrays.
+
+The `__wasmStringModules` array is then created by iterating over the decoded Uint8Arrays and creating instances of the WebAssembly.Module using the WebAssembly.Instance constructor. These instances are stored in the `__wasmStringModules` array.
+
+The `lS` function is defined, which takes three arguments - `wI`, `pos`, and `iWC`. This function is used to retrieve strings from the loaded WebAssembly modules. If `wI` is not an array, it is treated as an index into the `__wasmStringModules` array. The function then retrieves the target WebAssembly module from `__wasmStringModules` and extracts the string from its memory using the provided position (`pos`) and length (`iWC`).
+
+If `wI` is an array, the function iterates over the elements and retrieves strings from the corresponding WebAssembly modules. The retrieved strings are then returned.
+
+Overall, this code helps to load and retrieve strings from WebAssembly modules encoded as base64 strings.The remaining part of the code defines the `Collapse` prototype, which is used to create collapsible elements.
+
+The `show` method of the `Collapse` prototype is defined, which is responsible for showing the collapsed element. It starts by checking if there is already a transition in progress, and if so, it returns without doing anything.
+
+The `dimension` method is called to determine the dimension of the element to be collapsed. It checks if the element has a class indicating that its width should be used, and if so, returns the string "width", otherwise, it returns the string "height".
+
+The `scroll` variable is then set by combining the strings "scroll", the result of the `dimension` method, and converting it to camel case.
+
+The `actives` variable is used to store a jQuery object containing the collapsible elements that are currently active within the parent element.
+
+If there are active collapsible elements, the `hasData` variable is used to store the value of the "data" attribute of the active element. If the active element has a "transitioning" property set to true, indicating that a transition is in progress, the method returns without doing anything.
+
+If there are active collapsible elements and no transition is in progress, the `collapse` method is called on the active elements to hide them.
+
+The "data" attribute of the active element is then set to null to indicate that it is no longer active.
+
+The `collapse` method is called on the current element to show it, using the dimension as the argument.
+
+Overall, this code sets up the functionality for collapsing and showing elements when certain events occur. It uses WebAssembly modules to perform certain operations related to the collapsible elements.This code defines the `hide`, `reset`, and `transition` methods of the `Collapse` prototype.
+
+The `hide` method is called when the collapsible element needs to be hidden. It checks if a transition is already in progress, and if so, it returns without doing anything. It determines the dimension of the element (width or height), and then calls the `reset` method to reset the size of the element to its original size. It then calls the `transition` method to perform the hiding transition.
+
+The `reset` method is called to reset the size of the element after it has been hidden. It removes a class from the element, sets its size to the provided size or a default size if no size is provided, and then performs an additional operation on the element.
+
+The `transition` method is called to perform the actual hiding transition. It takes three arguments: the method to be used for the transition, the start event, and the complete event. It creates a function called `complete` that is called after the transition is complete. Inside the `complete` function, it calls the `reset` method to reset the size of the element.
+
+Overall, this code defines the necessary methods for hiding and resetting the size of the collapsible element, as well as performing the actual hiding transition.This code defines the `toggle` and `$.fn.collapse` methods.
+
+The `toggle` method is called when the collapsible element needs to be toggled between hidden and shown states. It checks if the element has a certain class, and if so, it calls the `hide` method; otherwise, it calls the `show` method.
+
+The `$.fn.collapse` method is a jQuery plugin that can be used to initialize the collapse functionality on a set of elements. It takes an optional `option` argument, which can be used to provide additional options for the collapse. Inside the `.each` loop, it retrieves the current data object for each element, and initializes a new `Collapse` object if one does not already exist.This part of the code exports the necessary functions and initializes the collapse functionality on the specified elements.
+
+The first part defines the default options for the collapse plugin.
+
+The second part initializes the collapse functionality on the elements with the specified selectors. It attaches an event listener to each element, so that when the event is triggered, the collapse method is called on the target element.
+
+The third part creates a new WebAssembly instance and calls the necessary functions to initialize the collapse functionality.
+
+Overall, this code sets up the necessary functionality for the collapse plugin, allowing users to toggle the visibility of elements by triggering events.

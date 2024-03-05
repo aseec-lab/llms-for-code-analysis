@@ -1,0 +1,119 @@
+This code is for a PDF viewer using the PdfJS library. 
+
+The code initializes some variables and sets up the PdfJS benchmark suite. The `pdf_file` variable stores the name of the PDF file to be loaded. The `canvas_logs` array will store logs of canvas operations. The `PdfJS` benchmark suite is created with one benchmark called "PdfJS". 
+
+The `setupPdfJS` function is called before running the benchmark. It checks if the required array types are supported and throws an error if not. It then adds the PDF file to the `__resources__` object in the `PdfJS_window`. 
+
+The `runPdfJS` function is the main function that runs the benchmark. It gets a PDF document using the `getDocument` method of `PDFJS`, and then retrieves the canvas element and its context from the HTML document. It creates a `renderContext` object for rendering the pages of the PDF. It pushes the context's log to the `canvas_logs` array. 
+
+The `renderPages` function is a recursive function that iterates through the pages of the PDF and renders them on the canvas. It first clears the canvas, then gets a page from the PDF and sets the viewport and size of the canvas based on the page's dimensions. It then renders the page using the `renderContext` and recursively calls itself with the next page number. 
+
+After rendering all the pages, the `tearDownPdfJS` function is called. It iterates through the `canvas_logs` array and checks the length and hash of each log against expected values. If any log does not match, an error is thrown. Finally, the `PDFJS` and `PdfJS_window` objects are deleted. 
+
+The `buffer` function converts a string to an `ArrayBuffer` object by creating a Uint8Array and filling it with the ASCII codes of the characters in the string. 
+
+The `hash` function calculates a numerical hash value for a string using a rolling hash algorithm. 
+
+The code then creates the `PdfJS_window` object as a clone of the global `this` object. It adds some properties and methods to the `PdfJS_window` object, including `setTimeout`, `flushTimeouts`, and `window`. It also defines the `btoa` and `atob` functions for base64 encoding and decoding. 
+
+The `__to64__` and `__from64__` arrays are used for base64 encoding and decoding. 
+
+Overall, this code sets up the PdfJS library, runs a benchmark to render a PDF on a canvas, and provides additional utility functions for base64 encoding and decoding.This code continues the implementation of the `Context` class for logging canvas operations. The `clearRect` function logs the `clearRect` operation with the provided coordinates and dimensions.
+
+The `getShaderParameter` function logs the `getShaderParameter` operation with the provided shader and parameter names.
+
+The `getProgramParameter` function logs the `getProgramParameter` operation with the provided program and parameter names.
+
+The `getActiveUniform` function logs the `getActiveUniform` operation with the provided program and uniform index.
+
+The `getActiveAttrib` function logs the `getActiveAttrib` operation with the provided program and attribute index.
+
+The `uniformMatrix4fv` function logs the `uniformMatrix4fv` operation with the provided uniform location and matrix array.
+
+The `bindFramebuffer` function logs the `bindFramebuffer` operation with the provided target and framebuffer.
+
+The `createFramebuffer` function logs the `createFramebuffer` operation.
+
+The `deleteFramebuffer` function logs the `deleteFramebuffer` operation with the provided framebuffer.
+
+The `framebufferTexture2D` function logs the `framebufferTexture2D` operation with the provided target, attachment, texture target, and texture.
+
+The `getAttribLocation` function logs the `getAttribLocation` operation with the provided program and attribute name.
+
+The `bindRenderbuffer` function logs the `bindRenderbuffer` operation with the provided target and renderbuffer.
+
+The `createRenderbuffer` function logs the `createRenderbuffer` operation.
+
+The `deleteRenderbuffer` function logs the `deleteRenderbuffer` operation with the provided renderbuffer.
+
+The `renderbufferStorage` function logs the `renderbufferStorage` operation with the provided target, internal format, width, and height.
+
+The `generateMipmap` function logs the `generateMipmap` operation with the provided target.
+
+The `vertexAttribPointer` function logs the `vertexAttribPointer` operation with the provided index, size, type, normalized, stride, and offset.
+
+The `PDFFont` function is defined as an empty function.
+
+The `addImage` function logs the `addImage` operation with the provided image data.
+
+The `fillStyle` function logs the `fillStyle` operation with the provided style.
+
+The `textAlign` function logs the `textAlign` operation with the provided alignment.
+
+The `textBaseline` function logs the `textBaseline` operation with the provided baseline.
+
+The `measureText` function logs the `measureText` operation with the provided text and returns an object with the `width` property set to the length of the text.
+
+The `save` function logs the `save` operation.
+
+The `__log__` function logs the `__log__` operation with the provided arguments.
+
+The `moveTo` function logs the `moveTo` operation with the provided coordinates.
+
+The `lineTo` function logs the `lineTo` operation with the provided coordinates.
+
+The `closePath` function logs the `closePath` operation.
+
+The `fill` function logs the `fill` operation.
+
+The `font` function logs the `font` operation with the provided font.
+
+The `drawImage` function logs the `drawImage` operation with the provided image, source coordinates, destination coordinates, and optionally flipX and flipY flags.
+
+The `clip` function logs the `clip` operation.
+
+The `scale` function logs the `scale` operation with the provided scales in the x and y directions.
+
+The `rotate` function logs the `rotate` operation with the provided angle.
+
+The `translate` function logs the `translate` operation with the provided distances in the x and y directions.
+
+The `arc` function logs the `arc` operation with the provided coordinates, radius, start angle, end angle, and optionally an anticlockwise flag.
+
+The `stroke` function logs the `stroke` operation.
+
+The `fillRect` function logs the `fillRect` operation with the provided coordinates and dimensions.
+
+The `clear` function logs the `clear` operation with the provided mask.
+
+The `setImageSmoothingEnabled` function logs the `setImageSmoothingEnabled` operation with the provided flag.
+
+The `translateconvert` function converts the provided translate values to a CSS transform string.
+
+The `scaleconvert` function converts the provided scale values to a CSS transform string.
+
+The `rotateconvert` function converts the provided rotate value to a CSS transform string.
+
+The `__toUnit__` object maps unit names to conversion functions.
+
+The `__gradientTypes__` object maps gradient types to conversion functions.
+
+The `toCss` function converts the provided transform values to a CSS transform string.
+
+The `flush` function logs the `flush` operation with the `__log__` array and clears the `__log__` array.
+
+The `getLog` function returns the `__log__` array.
+
+The `tearDownPdfJS` function deletes the `PDFJS` and `PdfJS_window` objects.
+
+The `canvas_logs.length` check has been removed from the last part of the code because of usage elsewhere.##########

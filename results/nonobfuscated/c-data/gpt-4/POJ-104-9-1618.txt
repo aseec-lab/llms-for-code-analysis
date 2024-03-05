@@ -1,0 +1,19 @@
+This C program implements a linked list data structure to manage information related to patients. Here's what each part of the code does:
+
+The `struct Patient` is a structure that represents a patient with its `num` attribute as a unique identifier with max length 10 characters, an `age` attribute for the patient's age, and a `next` pointer that points to the next node (patient) in the linked list.
+
+The `main()` function:
+1. Initializes a variable `n` to store the number of patients.
+2. After taking the number of patients as input from the user, it calls `creat(n)` function to create a linked list of `n` patients (nodes) taking the patients' information as input.
+3. Then it calls the `paixu(n, head)` function to sort the patients' list based on their ages.
+4. Afterwards, it prints the unique identifier (num) of each patient following the sorted order.
+
+The `creat(int n)` function:
+1. Allocates dynamic memory for `n` patients, taking their information as input from the user.
+2. It creates a linked list of patients, setting the `next` pointer of each node to point to the next patient.
+
+The `paixu(int n, struct Patient *head)` function:
+1. Sorts the patients' linked list firstly based on whether the patients' age is less than or equal to 60.
+2. It then further performs sorting among patients whose age is greater than 59 based on their ages in descending order.
+
+So overall, this program creates a patient registry list, organizes the list by age (patients older than 59 come before those who are younger), and then within those older than 59, it organizes by age in descending order. The program then prints all the patient identifiers in that order.

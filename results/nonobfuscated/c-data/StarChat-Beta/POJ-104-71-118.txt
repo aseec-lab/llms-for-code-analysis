@@ -1,0 +1,103 @@
+Analyze the following piece of code: int main()
+{
+	int n, i, a[200], b[200], c[200], sum=0, d, e;
+     scanf("%d", &n);
+     for (sum=0,i=0; i<n; i++) {
+	     scanf("%d%d%d", &a[i], &b[i], &c[i]);
+		 if (b[i]>c[i]) {
+			 d=c[i];
+			 c[i]=b[i];
+			 b[i]=d;
+		 }
+		 if (a[i]%4==0&&a[i]%100!=0||a[i]%400==0) {
+			 for (sum=0,e=b[i]; e<c[i]; e++) {
+				 switch(e){
+					case 1:
+				    case 3:
+				    case 5:
+			        case 7:
+				    case 8:
+				    case 10:
+			    	case 12:
+						sum+=31;
+						break;
+					case 2:
+						sum+=29;
+						break;
+
+					case 4:
+			     	case 6:
+			    	case 9:
+				    case 11:
+				     	sum+=30;
+					    break;
+				}
+			 }
+				 if(sum%7==0) {
+					 printf("YES\n");
+				 }
+					 else {
+						 printf("NO\n");
+					 }
+			 
+		 }
+			 else  {
+
+                   for (sum=0,e=b[i]; e<c[i]; e++) {
+				 switch(e){
+					case 1:
+				    case 3:
+				    case 5:
+			        case 7:
+				    case 8:
+				    case 10:
+			    	case 12:
+						sum+=31;
+						break;
+					case 2:
+						sum+=28;
+						break;
+
+					case 4:
+			     	case 6:
+			    	case 9:
+				    case 11:
+				     	sum+=30;
+					    break;
+				}
+				   }
+				 if(sum%7==0) {
+					 printf("YES\n");
+				 }
+					 else {
+						 printf("NO\n");
+					 }
+			 
+			 }
+	 }
+	return 0;
+}
+
+What does this code do?
+
+The code is a solution to the problem of checking whether a given set of dates falls on a Monday, which is a holiday in many countries. The code takes as input a list of dates (represented by the variables a, b, and c) and checks whether each date falls on a Monday. If it does, the code calculates the number of days between the start and end dates and checks whether the number of days is divisible by 7. If the number of days is divisible by 7, the code outputs "YES" to indicate that the given set of dates falls on a Monday, which is a holiday. If the number of days is not divisible by 7, the code outputs "NO" to indicate that the given set of dates does not fall on a Monday, which is a holiday.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente se traduce a un archivo ejecutable antes de ser ejecutado. Este proceso de traducción se lleva a cabo por un compilador, que es una herramienta que traduce el código fuente en código objeto o código máquina que puede ser ejecutado directamente en la computadora. El archivo ejecutable resultante se puede ejecutar sin necesidad de volver a compilar el código fuente cada vez que se desea ejecutar la aplicación.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente se traduce en tiempo real mientras se está ejecutando la aplicación. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable antes de ser ejecutada. Esto significa que el código fuente se puede modificar y ejecutar inmediatamente sin necesidad de volver a compilar.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de ser ejecutado, mientras que el segundo se traduce en tiempo real mientras se está ejecutando la aplicación.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lenguajes de programación se utilizan para escribir programas, que son secuencias de instrucciones que una computadora puede ejecutar para realizar una tarea específica.
+
+Los lenguajes de programación se utilizan para resolver problemas y para crear aplicaciones de software, como programas de escritorio, aplicaciones web, juegos y más. Hay muchos lenguajes de programación diferentes disponibles, cada uno con sus propias fortalezas y debilidades

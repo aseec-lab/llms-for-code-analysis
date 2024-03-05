@@ -1,0 +1,25 @@
+This code appears to be using WebAssembly to load and execute binary code. It defines two functions, `__universalAtob` and `lS`, and initializes two WebAssembly modules, `__ifWasmModule` and `__callWasmModule`.
+
+The `__universalAtob` function is a modified version of the `atob` function, which decodes a base64 encoded string into a binary string. It first tries to decode the string using the `atob` function. If the decoding is successful, it converts the binary string into a Uint8Array and returns it. If an error occurs, it falls back to using the `Buffer.from` function to decode the string and returns the resulting Uint8Array.
+
+The code then defines two base64 encoded strings, `__ifWasmBuffer` and `__callWasmBuffer`, which contain the binary code for the WebAssembly modules. It uses the `__universalAtob` function to decode the strings and convert them into Uint8Arrays. It then creates WebAssembly modules from the Uint8Arrays using the `WebAssembly.Module` constructor.
+
+Next, the code defines an array of base64 encoded strings, `__wasmStringModules`, and uses the `__universalAtob` function to decode each string into a Uint8Array. It then creates a WebAssembly instance for each Uint8Array using the `WebAssembly.Instance` constructor. The instances are stored in the `__wasmStringModules` array.
+
+Finally, the code defines the `lS` function, which takes three arguments: `wI`, `pos`, and `iWC`. It first checks if the `wI` argument is an array. If it is not, it retrieves the WebAssembly module at the index `wI` from the `__wasmStringModules` array. It then accesses the memory buffer of the module and extracts a string from it using a specified position. The string is decoded and returned.
+
+If the `wI` argument is an array, the function iterates over each value in the array and retrieves the corresponding WebAssembly module from the `__wasmStringModules` array. It does not use the `pos` and `iWC` arguments in this case.
+
+Overall, the code decodes and initializes WebAssembly modules and provides a function to retrieve strings from the modules' memory buffers.The remaining code defines an event listener for the `filtrar` function. When the button is clicked, the `filtrar` function is called and the results are displayed in the `resultado` element.
+
+The code also defines an event listener for the `filtrar` function on the `formulario` element. When the input value changes, the `filtrar` function is called and the results are displayed in the `resultado` element.
+
+The `filtrar` function filters the `productos` array based on the input text. It loops through each product and checks if the product's name contains the input text. If a match is found, it adds the product's name and value to the `resultado` element.
+
+There are two sets of WebAssembly instances created within nested anonymous functions. These instances have defined `env` objects with `impFunc1` and `impFunc2` functions.
+
+The first set of instances calls the `impFunc1` function when a match is found, and the second set of instances calls the `impFunc1` function when no match is found. The `impFunc2` functions are not used in this code.
+
+Overall, the code initializes WebAssembly instances and sets up event listeners to filter and display product information based on user input.This section of code calls the `data()` function on the WebAssembly instance to retrieve the final filtered data. The `__exports` variable holds the `exports` object of the WebAssembly instance, which contains the exported functions and memory of the module.
+
+Finally, the filtered data is returned as the result of the immediately-invoked function expression (IIFE).

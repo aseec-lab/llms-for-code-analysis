@@ -1,0 +1,29 @@
+The provided code appears to be a common benchmarking program known as STREAM. This C program is widely used in the field of High Performance Computing (HPC) to measure the memory bandwidth (in MB/s) that a computer can sustain while performing simple vector operations. The benchmark establishes four different memory access patterns (Copy, Scale, Add, Triad) that it times and reports performance for.
+
+At the beginning, the program defines various constants, performs some checks, and defines the main arrays that are used in the benchmark. It then initializes these arrays in the main function. The core of the work happens in a timing loop, which benchmarks each of the four operations, storing the times in an array to later process and print out. 
+
+The actual computation work in this chunk is divided into sections depending on preprocessor flags. These flags would potentially be set at compile time based on capabilities or properties of the machine and compiler. These include checks for the use of OpenMP for parallelism and possible hardware or compiler-specific optimization versions of the benchmark (identified by "TUNED").
+
+The script also takes care of tracking memory used by the array and prints warning if the clock granularity is less than one microsecond. Overall, this particular piece of code is focused on measuring the memory bandwidth of the system it is run on, and the performance of basic scalar/vector operations.This second part of the code continues the process of benchmarking and runs the remaining two out of the total four functions, Add and Triad, following the similar pattern as the first two. 
+
+It then calculates the average, minimum, and maximum times obtained for each of the four functions, figures out the corresponding memory bandwidth (in MB/s) and prints these results.
+
+After this, it executes check_STREAM_results() function to validate the results obtained from the four main operations.
+
+The checktick() function is used to find out the minimum time difference that a system clock can detect, which is important for the accuracy of measurement. 
+
+mysecond() function just returns the current time in seconds with microsecond precision.
+
+The checkSTREAMresults() function verifies that the results of the operations (copy, scale, add, triad) executed on the arrays are as expected.
+
+This section has several instances of conditional compilation. For example, if "TUNED" is defined during compilation, optimised versions (tuned_STREAM_Add, tuned_STREAM_Scale etc) of the four main operations are used.
+
+If the macro VERBOSE is defined during compilation, the error details for each of the elements is printed for debugging. If not, just the count of total errors found is printed.
+
+The last set of functions (tuned_STREAM_Copy, tuned_STREAM_Scale, tuned_STREAM_Add) are compiler optimized versions of the main operations. These are only compiled if 'TUNED' is defined.This portion of the code continues with compiler optimized versions of the original functions. The `tuned_STREAM_Add` function adds each corresponding pair of elements from the arrays `a` and `b` and saves the result in array `c`. The `tuned_STREAM_Triad` function performs three operations - it multiplies each element of an array `c` with a scalar, adds the corresponding element from array `b`, and saves the result in array `a`. 
+
+Both of these operations are done in a parallel manner using OpenMP with each iteration of the loop potentially running on different processors. 
+
+These tuned versions are only compiled if the `TUNED` macro is defined during compilation. If not, the compiler uses the original (unoptimized) versions of the functions. 
+
+In the `tuned_STREAM_Triad` function, if the `DIS_OPENMP` macro is defined it will disable the OpenMP `pragma omp parallel for` directive, forcing the iterations to execute serially instead.

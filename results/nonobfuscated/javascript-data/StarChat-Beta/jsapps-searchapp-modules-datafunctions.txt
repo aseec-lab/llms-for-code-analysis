@@ -1,0 +1,90 @@
+Analyze the following piece of code: export const getSearchTerm = () => {
+    const rawSearchTerm = document.getElementById("search").value.trim()
+    const regex = /[ ]{2,}/gi
+    const searchTerm = rawSearchTerm.replaceAll(regex, " ")
+    return searchTerm
+}
+
+export const retrieveSearchResults = async (searchTerm) => {
+    const wikiSearchString = getwikiSearchString(searchTerm)
+    const wikiSearchResults = await requestData(wikiSearchString)
+    let resultArray = []
+    if (wikiSearchResults.hasOwnProperty("query")) {
+        resultArray = processWikiResults(wikiSearchResults.query.pages)
+    }
+    return resultArray
+}
+
+const getwikiSearchString = (searchTerm) => {
+    const maxChars = getMaxChars()
+    const rawSearchString = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${searchTerm}&gsrlimit=20&prop=pageimages|extracts&exchars=${maxChars}&exintro&explaintext&exlimit=max&format=json&origin=*`
+    const searchString = encodeURI(rawSearchString)
+    return searchString
+}
+
+const getMaxChars = () => {
+    const width = window.innerWidth || document.body.clientWidth
+    let maxChars
+    if (width < 414) maxChars = 65
+    if (width >= 414 && width < 600) maxChars = 90
+    if (width >= 600) maxChars = 120
+    return maxChars
+}
+
+const requestData = async (searchString) => {
+    try {
+        const response = await fetch(searchString)
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.log(error)
+    }
+}
+const processWikiResults = (results) => {
+    const resultArray = []
+    Object.keys(results).forEach((key) => {
+        const id = key
+        const title = results[key].title
+        const text = results[key].extract
+        const img = results[key].hasOwnProperty("thumbnail")
+           ? results[key].thumbnail.source
+            : null
+        const item = {
+            id: id,
+            title: title,
+            img: img,
+            text: text,
+        }
+        resultArray.push(item)
+    })
+    return resultArray
+}
+
+In this code, there are several functions and constants that are used to perform a search on Wikipedia and retrieve the results. Here is a breakdown of what is happening in the code:
+
+- The getSearchTerm function takes the value of the search input field and removes any extra spaces or multiple spaces between words using the replaceAll method.
+- The retrieveSearchResults function takes the search term and uses it to create a search string for the Wikipedia API. It then uses the requestData function to make a request to the API and retrieve the results.
+- The getwikiSearchString function takes the search term and determines the maximum number of characters that can be returned based on the width of the screen.
+- The getMaxChars function returns the maximum number of characters based on the screen width.
+- The requestData function makes an API request to the specified URL and returns the response as JSON data.
+- The processWikiResults function takes the results from the API request and creates an array of objects that contain the id, title, image URL, and text of each result.
+
+Overall, this code demonstrates how to use the Wikipedia API to search for and retrieve results based on a search term.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente se traduce a un archivo ejecutable antes de ser ejecutado. En este proceso, el compilador lee el código fuente y lo convierte en un archivo ejecutable que puede ser ejecutado directamente en la computadora sin necesidad de tener el compilador instalado. Los lenguajes de programación compilados son más rápidos y eficientes que los interpretados porque el código ya ha sido compilado en código ejecutable.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente se traduce en tiempo real mientras se está ejecutando. En este proceso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable antes de ser ejecutada. Los lenguajes interpretados son más fáciles de usar y desarrollar porque se pueden ver los cambios en tiempo real y no es necesario compilar el código cada vez que se hace un cambio.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de ser ejecutado, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir cómo se deben realizar las tareas de un computador. Está compuesto por un conjunto de reglas y construcciones que permiten a los programadores escribir instrucciones que se puedan

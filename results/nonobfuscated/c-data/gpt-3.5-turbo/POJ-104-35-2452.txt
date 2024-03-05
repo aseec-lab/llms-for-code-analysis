@@ -1,0 +1,38 @@
+This code takes input for a 2D array `a` of size 8x8, where each element represents a number. The code also takes input for the size of the array, `m` and `n`. It then proceeds to find the positions (i,j) of any elements in the array that are both the maximum element in their respective rows and the minimum element in their respective columns.
+
+Let's analyze the code in more detail:
+
+1. The code starts with the main function signature `int main()`.
+
+2. It declares several variables:
+   - `m` and `n` are integers representing the size of the array.
+   - `a` is a 2D array of size 8x8 to store the numbers.
+   - `i` and `j` are loop variables for iterating through the array.
+   - `p` and `q` are arrays of size 8 to store the positions.
+   - `r` is a flag variable initialized to 0.
+
+3. `scanf("%d,%d",&m,&n);` takes the input for `m` and `n` from the user.
+
+4. Nested for loop `for(i=0;i<m;i++){ for(j=0;j<n;j++){ ... } }` is used to take input for each element of the array using `scanf("%d",&(a[i][j]));`.
+
+5. The next loop is for finding the maximum element in each row using the index array `p`:
+   - `for(i=0;i<m;i++){ p[i]=0; for(j=0;j<n;j++){ ... } }`.
+   - The inner loop iterates through each column of the array for a given row `i`.
+   - If any element `a[i][j]` is greater than the current maximum element `a[i][p[i]]`, it updates the index `p[i]` to `j`.
+   - At the end of this loop, `p[i]` will store the column index with the maximum element for the corresponding row `i`.
+
+6. The next loop is for finding the minimum element in each column using the index array `q`:
+   - `for(j=0;j<n;j++){ q[j]=0; for(i=0;i<m;i++){ ... } }`.
+   - The inner loop iterates through each row of the array for a given column `j`.
+   - If any element `a[i][j]` is less than the current minimum element `a[q[j]][j]`, it updates the index `q[j]` to `i`.
+   - At the end of this loop, `q[j]` will store the row index with the minimum element for the corresponding column `j`.
+
+7. The final loop is used to check if any element matches the conditions of being the maximum in its row and minimum in its column:
+   - `for(i=0;i<m;i++){ for(j=0;j<n;j++){ ... } }`.
+   - If the row index `i` matches with `p[i]` (maximum in row) and the column index `j` matches with `q[j]` (minimum in column), the conditions are satisfied.
+   - In such a case, it prints the position `i` and `j` using `printf("%d+%d",i,j);`, sets the flag variable `r` to 1, and breaks out of the loop.
+   - If no such element is found, the flag variable `r` remains 0.
+
+8. After the loop, it checks the value of the flag variable `r` and prints "No" if it is still 0.
+
+9. Finally, it returns 0 to indicate successful execution of the program.

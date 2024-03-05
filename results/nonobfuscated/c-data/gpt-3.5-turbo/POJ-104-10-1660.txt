@@ -1,0 +1,35 @@
+This code finds the length of the longest increasing subsequence in an array.
+
+Here is a step-by-step analysis of the code:
+
+1. Define two arrays `a` and `f`, both of size 36, to store the input values and the lengths of increasing subsequences, respectively.
+
+2. Define a function `max` that returns the maximum value between two integers.
+
+3. Define the `main` function.
+
+4. Declare variables `k`, `i`, `j`, and `ans`. 
+   - `k` is used to store the number of elements in the array `a`.
+   - `i` is a loop variable.
+   - `j` is a loop variable.
+   - `ans` stores the length of the longest increasing subsequence.
+
+5. Read the value of `k` from the input.
+
+6. Read `k` elements and store them in the `a` array.
+
+7. Initialize `f[0]` to 0.
+
+8. Start a loop from `i=1` to `k`.
+
+9. Set `f[i]` to 1.
+
+10. Start a nested loop from `j=1` to `i-1`.
+
+11. If `a[i]` is less than or equal to `a[j]`, update `f[i]` to the maximum value between `f[i]` and `f[j]+1`, which means that we have found a longer increasing subsequence.
+
+12. Update `ans` to the maximum value between `ans` and `f[i]`.
+
+13. Print the value of `ans`, which is the length of the longest increasing subsequence.
+
+14. Return 0 to signal successful execution of the program.

@@ -1,0 +1,35 @@
+This code defines a Python class `ipfn` which implements an Iterative Proportional Fitting Procedure (IPFP), also known as Raking or Biproportional Fitting.
+
+The code is split into several functions:
+
+1. `__init__`: Initializes the instance of the class with properties such as original dataset, aggregates, dimensions, convergence rate, maximum iterations, verbosity level etc.
+
+2. `index_axis_elem`: A static method which constructs an index based on the dimensions and the elements passed to the method. 
+
+3. `ipfn_np`: This method performs the Iterative Proportional Fitting Procedure (IPFP) on a numpy multi-dimensional array. 
+
+3. `ipfn_df`: This method performs the Iterative Proportional Fitting Procedure (IPFP) on a pandas DataFrame.
+
+4. `iteration`: The main method of IPFP which chooses whether to use the numpy array or pandas DataFrame method and executes the iterative procedure until a desired level of accuracy (convergence) is achieved.
+
+Please note that the main function is empty. It seems like the original code might have been truncated or portions of it are missing.
+
+The Iterative Proportional Fitting Procedure (IPFP) is used in statistics to adjust the cells of a contingency table so that they match known marginal totals, while maintaining the ratios of the original data as much as possible. This is widely used in survey sampling, machine learning, econometrics and transport modelling.The remaining part of the code provided is using the `ipfn` class defined beforehand to perform the Iterative Proportional Fitting Procedure (IPFP) with real data.
+
+Here's a breakdown of the components of the code:
+
+1. The code first creates a variety of numpy arrays that form the basis for the various dimensions and data.
+
+2. The dimensions include: `dma`, `size`, and `age`. `total` is the main variable whose values are adjusted by IPFP.
+
+3. Performs the aggregations for each dimension.
+
+4. The aggregates 'xipp', 'xpjp', 'xppk', 'xijp', and 'xpjk' are updated with new target totals.
+
+5. The `ipfn` class is then initialized with the original dataset, the aggregates, the dimensions, and the main variable.
+
+6. The `iteration` method is called to start the IPFP process. The resulting dataframe (after all iterations) is stored back in 'df'.
+
+7. The resulting dataframe is printed out, as well as the total for each size group in the resulting and original dataframe.
+
+The Iterative Proportional Fitting Procedure is thus used to adjust the 'total' values in the original dataset to match the predefined aggregates, while maintaining the relationships in the original data. This could be useful for example in survey sampling where you might want to adjust your sample data to known population parameters.

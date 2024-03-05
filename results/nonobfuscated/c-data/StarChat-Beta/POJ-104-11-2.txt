@@ -1,0 +1,46 @@
+Analyze the following piece of code: int main(int argc, char* argv[])
+{
+	int a,b,c;
+	scanf("%d%d%d",&a,&b,&c);
+	int d[12]={31,28,31,30,31,30,31,31,30,31,30,31};
+    if((a%4==0&&a%100!=0)||a%400==0)
+	{
+		d[1]++;
+	}
+	int g=c;
+	int i=0;
+	while(i>=b)
+	{
+		d[i]++;
+	}
+	for(i=0;i<b-1;i++)
+	{
+		g=g+d[i];
+	}
+    printf("%d",g);
+	return 0;
+}
+
+What does this code do?
+
+This code is a program in C that takes three integers as input from the user through the command line, and then outputs the day of the month that corresponds to the third integer, given the first two integers.
+
+The code starts by declaring four variables: a, b, c, and d, of type int. Then, it uses the scanf function to read in the three integers from the command line.
+
+The next part of the code initializes an array called d with 12 elements, where each element represents the number of days in a month, except for February, which has 29 days in a leap year. The code then checks if the year is a leap year by checking if the year is divisible by 4 and if it is not divisible by 100, or if it is divisible by 400. If the year is a leap year, the code adds 1 to the value of d[1], which represents the number of days in February in a leap year.
+
+The code then sets a variable g to the value of the third input integer, c. It then loops through each element of the array d, starting from the end, and increments the value of the current element by 1 if the current value of g is greater than or equal to the current element. This is done to ensure that if the user inputs a date that is beyond the maximum possible date (e.g., 32 for the day value), the code will still increment the correct month value.
+
+Finally, the code loops through the array d again, starting from the beginning, and adding up the values of each element to get the total number of days from the beginning of the year until the given date. The code then outputs the value of g, which is the day of the month that corresponds to the third input integer.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación compilado y uno interpretado?
+
+La principal diferencia entre un lenguaje de programación compilado y uno interpretado es el proceso de traducción del código fuente en código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente es traducido a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es una herramienta que traduce el código fuente en código objeto o código binario.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente es traducido en tiempo real mientras se está ejecutando. En este caso, el código fuente no se traduce a código ejecutable antes de su ejecución, sino que se traduce en línea mientras se está ejecutando. El intérprete es la herramienta que realiza la traducción en tiempo real.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y uno interpretado es que el primero se traduce a código ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.

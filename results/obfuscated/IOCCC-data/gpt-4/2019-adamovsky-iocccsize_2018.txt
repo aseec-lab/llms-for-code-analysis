@@ -1,0 +1,42 @@
+This source code is a tool used to analyse and validate source code submissions to the International Obfuscated C Code Contest (IOCCC). 
+
+Here are various functions of the code:
+
+1. It computes the size of the source code file according to the IOCCC contest rules. The IOCCC contest rules have specific restrictions for the size of the source code like the number of octets excluding whitespaces must not exceed 2048.
+
+2. The tool counts C language keywords all other octets excluding ASCII whitespace.
+
+3. It filters or strips out C comment blocks from the source code. There is an option "-k" which is used to keep the comment blocks.
+
+4. It has the ability to count the C reserved words as 1 byte when "-r" option is used.
+
+5. When "-s" option is used, it suppresses the source output and only writes the IOCCC 2nd size count.
+
+6. The program's official length is written to the standard error.
+
+Here are the output counts to the standard error:
+- lcount: line count (same as wc command in UNIX)
+- wcount: word count (same as wc command in UNIX)
+- bcount: byte count (same as wc command in UNIX)
+- icount: IOCCC secondary size rule countThe provided code is the main function of the C program for the International Obfuscated C Code Contest source code analysis tool.
+
+This function does the following:
+
+1. It parses command-line arguments given to the tool.
+
+The program recognizes the following command-line options:
+
+- `-k`: Retain comments in the analyzed source code.
+- `-i`: Use IOCCC size count for analyzed source code.
+- `-r`: Count C reserved words as single bytes.
+- `-s`: Suppress source output, and only write the IOCCC secondary size count.
+- `-c`: This is a non-standard flag, "silly" flag to recognize this is C source code.
+- `-h`: This is a non-standard flag, "silly" flag to recognize includes help for the tool.
+
+2. It handles invalid command-line options and provides usage instructions if an unrecognized option is provided.
+
+3. It provides humorous and friendly feedback under various test cases, including when all flags are used together or when non-standard flags are used.
+
+4. Finally, it calls the `count` function, passing the set `flags` as an argument to perform the source code analysis according to the specified options.
+
+5. The function concludes by returning 0, indicating successful program execution.

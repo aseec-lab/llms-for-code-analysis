@@ -1,0 +1,25 @@
+This appears to be a part of a console based game written in C, possibly a variant of the snake game. The game uses the Curses library to create a graphical interface in the terminal.
+
+Firstly, some post processors macros defined which seem to be used for various purposes like setting color, moving the cursor etc.
+
+The main function initializes the game state, sets initial positions, creates resources and then sets up the main game loop. Depending on the user input, it responds to different key presses. It handles game logic like movement, collision detection, game winning condition checks etc.
+
+There are some dynamic aspects of the game controlled by environment variables such as MAXSIZE, GROW, SIZE, WAIT, EVADE, WALLS, CANNIBAL, SHEDS which can be used to tweak game settings like the size of the field, the speed of the snake, the rate at which it grows etc.
+
+The game loop continues until the player presses 'Q' or 'q' key to quit.This portion of code continues to handle the game logic. It seems to be responsible for the change of direction, collision detection, score calculation and ending conditions. 
+
+Highlights:
+
+1. The code continues to process the key presses. Each case corresponds to a direction taken by the player. It alters the X and Y coordinate based on the input key.
+
+2. It checks for boundary conditions, i.e., if the player is within the bounds of the game field. If the player goes outside the boundaries, it deduces that as a failure condition and quits the game. This only happens when the `*p` flag is not set and the boundary conditions are violated. If the game setting is such that it allows boundary wrapping (determined by `*p`), then the snake's position wraps around to the other side of the field.
+
+3. It then checks for collision. If the player collides with an object, it shows a message "OW!" and ends the game.
+
+4. If the snake eats the food (determined by the snake’s position coinciding with the food's position), the snake grows. 
+
+5. Checks contact with the own body, with `3[p]`. The snake grows if condition is fulfilled or stays stagnant.
+
+6. Repeats until some conditions (flagged by Q or P) are met or 'Q'/'q' is pressed. Once game completes, it handles the cleanup - prints a message,  deallocates the dynamically allocated memory and ends the program using return. 
+
+Again it's hard to follow due to obfuscation and use of obfuscated identifiers. Overall, it seems to be a highly customized variant of a `terminal-based` snake game with lots of dynamic settings.

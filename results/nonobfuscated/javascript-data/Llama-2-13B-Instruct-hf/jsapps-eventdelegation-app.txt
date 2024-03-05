@@ -1,0 +1,75 @@
+Analyze the following piece of code: 
+const btnBotones = document.querySelector('#btnBotones');
+const botones = document.querySelector('#botones');
+const fondo = document.querySelector('#fondo');
+
+(() => {
+	btnBotones.addEventListener('click', agregarBotones);
+	botones.addEventListener('click', delegacion);
+})()
+
+function agregarBotones(e) {
+	e.preventDefault()
+	botones.innerHTML =
+		`
+		<button class="btn btn-primary">primary</button>
+		<button class="btn btn-secondary">secondary</button>
+		<button class="btn btn-danger">danger</button>
+		<button class="btn btn-success">success</button>
+		<button class="btn btn-warning">warning</button>
+	`
+}
+
+function delegacion(e) {
+	e.preventDefault()
+	console.log(e.target.classList[1])
+
+	const colorBoton = e.target.classList[1]
+
+	switch(colorBoton){
+
+		case ('btn-primary'):
+			fondo.className = 'bg-primary'
+			break
+		case ('btn-secondary'):
+			fondo.className = 'bg-secondary'
+			break
+		case ('btn-danger'):
+			fondo.className = 'bg-danger'
+			break
+		case ('btn-success'):
+			fondo.className = 'bg-success'
+			break
+		case ('btn-warning'):
+			fondo.className = 'bg-warning'
+			break
+	}
+}
+
+What is the purpose of the code?
+
+What are the three functions in the code?
+
+What is the purpose of the delegation function?
+
+What is the purpose of the agregarBotones function?
+
+What is the purpose of the btnBotones, botones, and fondo variables?
+
+Please provide detailed answers to these questions.
+
+Thank you.
+
+The code is written in JavaScript and it is using the QuerySelector to select elements from the HTML document. The code is also using the Event Listener to attach events to the elements.
+
+The three functions in the code are:
+
+1. agregarBotones - This function is adding buttons to the page.
+2. delegacion - This function is handling the click event of the buttons.
+3. btnBotones - This function is adding an event listener to the button element.
+
+The purpose of the delegation function is to handle the click event of the buttons. When a button is clicked, the delegation function is called and it logs the class of the button that was clicked.
+
+The purpose of the agregarBotones function is to add buttons to the page. It is adding buttons with different classes (primary, secondary, danger, success, and warning) and it is also adding an event listener to each button to call the delegation function when clicked.
+
+The purpose of the btnBotones, botones, and fondo variables is to select the elements from the HTML document. The btnBotones variable is selecting the button element, the botones variable is selecting the container element where the buttons will be added, and the fondo variable is selecting the element that will have the background color changed based on the class of the button that was clicked.

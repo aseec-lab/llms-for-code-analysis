@@ -1,0 +1,36 @@
+Analyze the following piece of code: int a[36],f[36];
+int max(int a,int b)
+{
+	if(a>b)return a;else return b;
+}
+int main()
+{
+	int k,i,j;
+	int ans=0;
+	scanf("%d",&k);
+	for(i=1;i<=k;i++)scanf("%d",&a[i]);
+	f[0]=0;
+	for(i=1;i<=k;i++)
+	{
+		f[i]=1;
+		for(j=1;j<i;j++)
+			if(a[i]<=a[j])
+				f[i]=max(f[i],f[j]+1);
+		ans=max(ans,f[i]);
+	}
+	cout<<ans<<endl;
+	return 0;
+}
+What does the code do?
+
+The code defines two arrays: `a` and `f`. Array `a` stores 36 integers, and array `f` stores 36 integers as well. The code also defines two functions: `max` and `main`.
+
+The `max` function takes two integers as input and returns the larger of the two. It does this by comparing the two integers and returning the larger one if the first integer is greater than the second, or the second integer if the first integer is less than or equal to the second.
+
+The `main` function reads an integer `k` from the user using `scanf`, and then reads `k` integers from the user and stores them in the `a` array. It then initializes the `f` array with all elements set to 1.
+
+Next, the code enters a loop that iterates `k` times. Inside the loop, it sets the current element of the `f` array to 1. Then, it checks if the current element of the `a` array is less than or equal to the current element of the `f` array. If it is, the code sets the current element of the `f` array to the maximum of the current element of the `f` array and the next element of the `f` array.
+
+After the loop finishes, the code computes the maximum value of the `f` array and prints it to the console using `cout`.
+
+In summary, the code reads `k` integers from the user, computes the maximum value of a subarray of the `a` array, and prints the result to the console.

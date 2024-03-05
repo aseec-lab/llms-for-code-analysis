@@ -1,0 +1,497 @@
+This code appears to be manipulating and working with WebAssembly modules and buffers. 
+
+The code defines a function called "__universalAtob" that takes a base64 encoded string as input and tries to convert it to a Uint8Array. It does this by first trying to use the "atob" function to decode the base64 string directly. If that fails, it falls back to using the global Buffer object to decode the string. The result is then returned.
+
+The code also defines a variable "__aB" that stores a base64 encoded string. This string is later used to create a new instance of a WebAssembly module using the WebAssembly.Instance constructor. The constructor takes a WebAssembly.Module as input, which is created by first decoding the base64 string using the same method as described above. 
+
+The code also defines a Map object called "ac". The purpose of this map is not clear from the provided code, as it is not used or referenced elsewhere.
+
+The code also defines a function "__lA" that takes parameters "pos", "stIdx", and "eIdx". This function checks if the "ac" map has a value at the "pos" key. If it does, it returns that value. Otherwise, it generates a string key "sK" based on the "pos" value, calls a function "__wAM.exports[sK]()", creates a new Uint32Array using a portion of the memory buffer from "eIdx" to "stIdx", converts it to an array, sets the value of "pos" key in the "ac" map to the array, and returns the array.
+
+The code also defines two variables "__forWasmBuffer" and "__ifWasmBuffer" that store base64 encoded strings. These strings are later used to create WebAssembly modules using the same process as described above.
+
+Finally, the code defines a variable "__callWasmBuffer" that stores another base64 encoded string. The purpose of this string is not clear from the provided code, as it is not used or referenced elsewhere.In the remaining part of the code, there are several function calls and variable assignments.
+
+1. The code creates a new WebAssembly module called "__callWasmModule" using a base64 encoded string "__callWasmBuffer". The code tries to decode the string using the "atob" function, and if that fails, it falls back to using the global Buffer object. The decoded bytes are then used to create a new WebAssembly module.
+
+2. The code creates an array "__wasmStringModules" that stores instances of WebAssembly modules. The array is created by mapping over another array of base64 encoded strings. For each string, the "__universalAtob" function is called to decode it, and then a new WebAssembly module is created using the decoded bytes.
+
+3. The code defines a function "lS" that takes parameters "wI", "pos", and "iWC". In the function, an empty string "__str" is defined. If "wI" is not an array, the code gets a target WebAssembly module from "__wasmStringModules" based on "wI" and creates a new Uint8Array "__mem" that points to the memory buffer of the module. The code then uses a string key "__stringKey" to get the index of the start of the desired string in the memory buffer. It iterates over the memory buffer, accumulating characters of the string until it reaches the end of the string or a character with the 8th bit set. The accumulated string is then decoded and returned.
+
+4. If "wI" is an array, the code iterates over the elements of the array and performs the same string extraction process as described above. The extracted strings are accumulated into "__str" and then decoded and returned.
+
+5. The code creates a new BenchmarkSuite object called "NavierStokes" with the first argument being the result of calling the "lS" function with specific parameters. The second argument is the result of calling the "__lA" function with specific parameters. The third argument is an array that contains a single Benchmark object. The Benchmark object is created with specific arguments and is used to specify the behavior of the benchmark.
+
+6. The code assigns "null" to the variable "solver".
+
+7. The code assigns "0" to the variable "nsFrameCounter".
+
+8. The code defines a function called "runNavierStokes" that creates a new WebAssembly instance "__callInstance44" using "__callWasmModule". The instance is created with an object containing an "env" property. The "env" property has a single function "impFunc" that calls a method "update()" on the "solver" object.
+
+Note: Without further context or the definition of certain variables and functions, it is difficult to understand the complete functionality and purpose of this code.In the remaining part of the code:
+
+1. The code creates a new WebAssembly instance "__callInstance44" using the "__callWasmModule" with the "impFunc" function defined in its environment. The "impFunc" function calls the "update()" method on the "solver" object.
+
+2. The code accesses the exports of "__callInstance44" and returns the result of calling the "data()" function on the exports.
+
+3. The "nsFrameCounter" variable is incremented by 1.
+
+4. The code creates a new WebAssembly instance "__ifInstance0" using the "__ifWasmModule" with the "impFunc1" and "impFunc2" functions defined in its environment. The "impFunc1" function contains another nested WebAssembly instance "__callInstance43" which calls the "checkResult" function with the result of calling the "getDens()" method on the "solver" object.
+
+5. The code accesses the exports of "__ifInstance0" and returns the result of calling the "data()" function on the exports, which depends on whether "nsFrameCounter" is equal to 15.
+
+6. The "checkResult" function is defined. It sets "this.result" to 0 and then contains another nested WebAssembly instance "__forInstance0" which calls the "test", "update", and "body" functions defined in its environment. The "body" function calculates the result by accumulating the "dens[i] * 10" values.
+
+7. If the result is not equal to 77, an error is thrown using the "lS" function with specific parameters.
+
+8. The "setupNavierStokes" function is defined. It sets "solver" to a new instance of the "FluidField" class and contains several nested WebAssembly instances that call different methods on the "solver" object using the "impFunc" function defined in their environments.
+
+Note: The functionality and purpose of this code can be better understood with the complete definition and implementation of the missing classes and functions.In the remaining part of the code:
+
+1. The code defines a function "tearDownNavierStokes" that sets the "solver" variable to null.
+
+2. The code defines a function "addPoints" that takes a "field" parameter. It initializes a variable "n" with the value 64.
+
+3. Inside the function, the code sets "i" to 1.
+
+4. The code creates a new WebAssembly instance "__forInstance1" using the "__forWasmModule" with the "test", "update", and "body" functions defined in its environment. The "test" function returns 1 if "i" is less than or equal to "n" and 0 otherwise. The "update" function increments "i" by 1, and the "body" function contains several nested WebAssembly instances that call different methods on the "field" object using the "impFunc" function defined in their environments.
+
+5. The nested WebAssembly instances call the "setVelocity" and "setDensity" methods on the "field" object with different parameters.
+
+6. The nested instances access the exports of the instances and return the result of calling the "data()" function on the exports.
+
+7. The "addPoints" function is called with the "field" object as an argument.In the remaining part of the code:
+
+1. The code defines a function "addFields" that takes parameters "x", "s", and "dt". It initializes a variable "i" with the value 0.
+
+2. Inside the function, the code creates a new WebAssembly instance "__forInstance2" using the "__forWasmModule" with the "test", "update", and "body" functions defined in its environment. The "test" function returns 1 if "i" is less than "size" and 0 otherwise. The "update" function increments "i" by 1, and the "body" function adds the product of "dt" and "s[i]" to "x[i]".
+
+3. The function "set_bnd" is defined that takes parameters "b" and "x". It creates a new WebAssembly instance "__ifInstance2" using the "__ifWasmModule" with the "impFunc1" function defined in its environment.
+
+4. The "impFunc1" function defines a nested WebAssembly instance "__forInstance3" using the "__forWasmModule" with the "test", "update", and "body" functions defined in its environment. The "test" function returns 1 if "i" is less than or equal to "width" and 0 otherwise. The "update" function increments "i" by 1, and the "body" function sets "x[i]" to "x[i + rowSize]" and "x[i + (height + 1) * rowSize]" to "x[i + height * rowSize]".
+
+5. The code also defines a variable "j" inside the "set_bnd" function.
+
+Note: The remaining code and functions depend on the definitions and usage of "size", "width", "height", and "rowSize" variables, which are not present in the given code snippet.The remaining part of the code defines nested WebAssembly instances and functions for the "set_bnd" function.
+
+1. A WebAssembly instance "__forInstance4" is created using the "__forWasmModule" with the "test", "update", and "body" functions defined in its environment. The "test" function returns 1 if "j" is less than or equal to "height" and 0 otherwise. The "update" function increments "j" by 1, and the "body" function sets "x[j * rowSize]" to "-" multiplied by "x[1 + j * rowSize]" and "x[width + 1 + j * rowSize]" to "-" multiplied by "x[width + j * rowSize]".
+
+2. The code exports the data from "__forInstance4" and returns it.
+
+3. For the "impFunc2" function, a nested WebAssembly instance "__ifInstance3" is created using the "__ifWasmModule" with the "impFunc1" function defined in its environment.
+
+4. The "impFunc1" function defines nested WebAssembly instances "__forInstance5" and "__forInstance6" using the "__forWasmModule" with the "test", "update", and "body" functions defined in their environments. The "__forInstance5" handles the outer loop with index "i" from 1 to "width", and the "__forInstance6" handles the inner loop with index "j" from 1 to "height". The "body" functions in both instances perform operations on the "x" array.
+
+5. The code exports the data from "__forInstance5" and "__forInstance6" and returns it.
+
+6. For the "impFunc2" function again, a new WebAssembly instance "__forInstance7" is created for the outer loop with index "i" from 1 to "width". Another instance "__forInstance8" is created for the inner loop with index "j" from 1 to "height". The "body" functions in both instances perform operations on the "x" array.
+
+7. The code exports the data from "__forInstance7" and "__forInstance8" and returns it.
+
+Note: The remaining parts of the code snippet may contain operations and functions specific to the context and variables used in the code, which are not provided in the given snippet.The remaining part of the code includes a function "lin_solve" that solves a linear equation using the Gauss-Seidel method.
+
+1. An inner function is defined as the body of the outer loop. It starts by setting the variable "j" to 1. Then, a nested WebAssembly instance "__forInstance9" is created with the "__forWasmModule" and functions "test", "update", and "body" defined in its environment. The "test" function returns 1 if "j" is less than or equal to "height" and 0 otherwise. The "update" function increments "j" by 1, and the "body" function sets the current row of "x" to the current row of "x0" and increments the current row variable. The data from "__forInstance9" is exported and returned.
+
+2. After the inner loop, a new nested WebAssembly instance "__callInstance30" is created with the "__callWasmModule" and the "impFunc" function defined in its environment. The "impFunc" function calls the "set_bnd" function with arguments "b" and "x". The data from "__callInstance30" is exported and returned.
+
+Note: The remaining parts of the code snippet may contain operations and functions specific to the context and variables used in the code, which are not provided in the given snippet.The remaining part of the code snippet includes a function "diffuse" that performs diffusion on the array "x" using the linear solve function "lin_solve". 
+
+1. The function starts by setting the variable "a" to 0.
+
+2. A nested WebAssembly instance "__callInstance28" is created with the "__callWasmModule" and the "impFunc" function defined in its environment. The "impFunc" function calls the "lin_solve" function with arguments "b", "x", "x0", "a", and "1 + 4 * a".
+
+3. The data from "__callInstance28" is exported and returned.
+
+Note: The remaining parts of the code snippet may contain operations and functions specific to the context and variables used in the code, which are not provided in the given snippet.const __forInstance18 = new WebAssembly.Instance(__forWasmModule, {
+                                                        env: {
+                                                            test: () => {
+                                                                return lastRow <= j * rowSize ? 1 : 0
+
+                                                            },
+                                                            update: () => {
+                                                                lastRow++
+
+                                                            },
+                                                            body: () => {
+                                                                {
+                                                                    x[lastRow] = (x0[lastRow] + a * (x[lastRow - 1] + x[lastRow + 1] + x[lastRow - rowSize] + x[lastRow + rowSize])) * invC
+                                                                    y[lastRow] = (y0[lastRow] + a * (y[lastRow - 1] + y[lastRow + 1] + y[lastRow - rowSize] + y[lastRow + rowSize])) * invC
+
+                                                                }
+                                                            }
+                                                        }
+                                                    })
+
+                                                    const __exports = __forInstance18.exports
+
+                                                    return __exports.data()
+
+                                                })()
+
+                                            }
+                                        }
+                                    })
+
+                                    const __exports = __forInstance16.exports
+
+                                    return __exports.data()
+
+                                })()
+
+                            }
+                        }
+                    }
+                }
+            })
+
+            const __exports = __ifInstance5.exports
+
+            return __exports.data()
+
+        })()
+
+    }
+    function diffuse(b, x, x0, a, c) {
+        lin_solve2(x, x0, b, 0, a, c)
+    }The remaining part of the previous function is:
+
+```javascript
+    return __exports.data()
+})()
+```
+
+This means that the function `diffuse2` will return the data computed by the WebAssembly module.The remaining code computes the value of `s1` based on the values of `x` and `i0`.The remaining code defines a function called `project` that takes in parameters `u`, `v`, `p`, and `div`. The function calculates the value of `h` and then initializes a loop that iterates over the pixels in the grid. 
+
+Inside the loop, the function calculates values for `row`, `previousRow`, `prevValue`, `currentRow`, `nextValue`, and `nextRow`. 
+
+Then, another loop is initialized that iterates over the pixels in the current row. Inside this loop, the function calculates the value for `div[currentRow]` and `p[currentRow]`. 
+
+Finally, the function returns the data computed inside the loop.The remaining part of the code initializes WebAssembly instances and calls functions from the instances to perform calculations. 
+
+First, an instance is created using the `__callWasmModule` module, and the `set_bnd` function is called with parameters `0` and `div`.
+
+Then, another instance is created using the `__callWasmModule` module, and the `set_bnd` function is called with parameters `0` and `p`.
+
+Next, another instance is created using the `__callWasmModule` module, and the `lin_solve` function is called with parameters `0`, `p`, `div`, `1`, and `4`.
+
+After that, the values for `wScale` and `hScale` are calculated.
+
+Then, a loop is initialized using an instance created with the `__forWasmModule` module. The loop iterates over the rows of the grid, starting from `j = 1` and ending at `height`. Inside the loop, the values for `prevPos`, `currentPos`, `nextPos`, `prevRow`, `currentRow`, and `nextRow` are calculated. 
+
+Inside another loop created using an instance created with the `__forWasmModule` module, the loop iterates over the pixels in the current row, starting from `i = 1` and ending at `width`. Inside the loop, the values for `u[currentPos]` and `v[currentPos]` are updated using the values of `p[nextPos]`, `p[prevPos]`, `p[nextRow]`, and `p[prevRow]`.
+
+Finally, the computed data is returned.v0 = v
+
+        v = temp
+
+        (() => {
+            const __callInstance11 = new WebAssembly.Instance(__callWasmModule, {
+                env: {
+                    impFunc: () => {
+                        diffuse(1, u0, u, dt)
+
+                    }
+                }
+            })
+
+            const __exports = __callInstance11.exports
+
+            return __exports.data()
+
+        })()
+
+        (() => {
+            const __callInstance10 = new WebAssembly.Instance(__callWasmModule, {
+                env: {
+                    impFunc: () => {
+                        diffuse(2, v0, v, dt)
+
+                    }
+                }
+            })
+
+            const __exports = __callInstance10.exports
+
+            return __exports.data()
+
+        })()
+
+        (() => {
+            const __callInstance9 = new WebAssembly.Instance(__callWasmModule, {
+                env: {
+                    impFunc: () => {
+                        project(u0, v0, u, v)
+
+                    }
+                }
+            })
+
+            const __exports = __callInstance9.exports
+
+            return __exports.data()
+
+        })()
+
+        var temp = u0
+
+        u0 = u
+
+        u = temp
+
+        var temp = v0
+
+        v0 = v
+
+        v = temp
+
+        (() => {
+            const __callInstance8 = new WebAssembly.Instance(__callWasmModule, {
+                env: {
+                    impFunc: () => {
+                        advect(1, u, u0, u0, v0, dt)
+
+                    }
+                }
+            })
+
+            const __exports = __callInstance8.exports
+
+            return __exports.data()
+
+        })()
+
+        (() => {
+            const __callInstance7 = new WebAssembly.Instance(__callWasmModule, {
+                env: {
+                    impFunc: () => {
+                        advect(2, v, v0, u0, v0, dt)
+
+                    }
+                }
+            })
+
+            const __exports = __callInstance7.exports
+
+            return __exports.data()
+
+        })()
+
+        (() => {
+            const __callInstance6 = new WebAssembly.Instance(__callWasmModule, {
+                env: {
+                    impFunc: () => {
+                        project(u, v, u0, v0)
+
+                    }
+                }
+            })
+
+            const __exports = __callInstance6.exports
+
+            return __exports.data()
+
+        })()
+
+    }The remaining part of the code is as follows:
+
+```javascript
+    var temp = u0;
+    
+    u0 = u;
+    
+    u = temp;
+    
+    var temp = v0;
+    
+    v0 = v;
+    
+    v = temp;
+    
+    (() => {
+        const __callInstance11 = new WebAssembly.Instance(__callWasmModule, {
+            env: {
+                impFunc: () => {
+                    diffuse2(u, u0, v, v0, dt);
+                }
+            }
+        });
+        
+        const __exports = __callInstance11.exports;
+        
+        return __exports.data();
+    })();
+    
+    (() => {
+        const __callInstance10 = new WebAssembly.Instance(__callWasmModule, {
+            env: {
+                impFunc: () => {
+                    project(u, v, u0, v0);
+                }
+            }
+        });
+        
+        const __exports = __callInstance10.exports;
+        
+        return __exports.data();
+    })();
+    
+    var temp = u0;
+    
+    u0 = u;
+    
+    u = temp;
+    
+    var temp = v0;
+    
+    v0 = v;
+    
+    v = temp;
+    
+    (() => {
+        const __callInstance9 = new WebAssembly.Instance(__callWasmModule, {
+            env: {
+                impFunc: () => {
+                    advect(1, u, u0, u0, v0, dt);
+                }
+            }
+        });
+        
+        const __exports = __callInstance9.exports;
+        
+        return __exports.data();
+    })();
+    
+    (() => {
+        const __callInstance8 = new WebAssembly.Instance(__callWasmModule, {
+            env: {
+                impFunc: () => {
+                    advect(2, v, v0, u0, v0, dt);
+                }
+            }
+        });
+        
+        const __exports = __callInstance8.exports;
+        
+        return __exports.data();
+    })();
+    
+    (() => {
+        const __callInstance7 = new WebAssembly.Instance(__callWasmModule, {
+            env: {
+                impFunc: () => {
+                    project(u, v, u0, v0);
+                }
+            }
+        });
+        
+        const __exports = __callInstance7.exports;
+        
+        return __exports.data();
+    })();
+}
+
+var uiCallback = function (d, u, v) {
+}
+
+function Field(dens, u, v) {
+    this.setDensity = function (x, y, d) {
+        dens[x + 1 + (y + 1) * rowSize] = d;
+    }
+    
+    this.getDensity = function (x, y) {
+        return dens[x + 1 + (y + 1) * rowSize];
+    }
+    
+    this.setVelocity = function (x, y, xv, yv) {
+        u[x + 1 + (y + 1) * rowSize] = xv;
+        v[x + 1 + (y + 1) * rowSize] = yv;
+    }
+}
+```
+
+This code contains the remaining part of the previous function and defines the `Field` constructor function and `uiCallback` function.The remaining part of the code is as follows:
+
+```javascript
+            return __exports.data();
+
+        })();
+    }
+
+    this.update = function () {
+        (() => {
+            const __callInstance1 = new WebAssembly.Instance(__callWasmModule, {
+                env: {
+                    impFunc: () => {
+                        queryUI(dens_prev, u_prev, v_prev);
+                    }
+                }
+            });
+            
+            const __exports = __callInstance1.exports;
+            
+            return __exports.data();
+            
+        })();
+        
+        (() => {
+            const __callInstance0 = new WebAssembly.Instance(__callWasmModule, {
+                env: {
+                    impFunc: () => {
+                        vel_step(u, v, u_prev, v_prev, dt);
+                    }
+                }
+            });
+            
+            const __exports = __callInstance0.exports;
+            
+            return __exports.data();
+            
+        })();
+        
+        (() => {
+            const __callInstance = new WebAssembly.Instance(__callWasmModule, {
+                env: {
+                    impFunc: () => {
+                        dens_step(dens, dens_prev, u, v, dt);
+                    }
+                }
+            });
+            
+            const __exports = __callInstance.exports;
+            
+            return __exports.data();
+            
+        })();
+        
+        (() => {
+            const __callInstance = new WebAssembly.Instance(__callWasmModule, {
+                env: {
+                    impFunc: () => {
+                        displayFunc(new Field(dens, u, v));
+                    }
+                }
+            });
+            
+            const __exports = __callInstance.exports;
+            
+            return __exports.data();
+        })();
+    }
+}
+```
+
+This code defines the `update` method for the `Field` constructor function.The remaining code defines the `reset` function, which initializes the field variables `dens`, `dens_prev`, `u`, `u_prev`, and `v` to empty arrays. It also sets the `rowSize` and `size` variables based on the width and height.
+
+The `reset` function also contains a for loop that initializes the `i` variable to 0 and increases it after each iteration. The loop uses the `size` variable as the conditional for the loop, checks if `i < size`, and returns `1` if true and `0` if false. This loop is used to iterate over the field arrays and initialize their values.The remaining code also defines the `getDens` and `setResolution` functions.
+
+The `getDens` function simply returns the `dens` array.
+
+The `setResolution` function takes in two parameters `hRes` and `wRes`, which represent the new height and width of the resolution. It calculates the new total number of cells `res` by multiplying `wRes` and `hRes`.
+
+If `res` is greater than 0, less than 1000000, and the new width or height is different from the current width or height, the function updates the `width` and `height` variables with the new values.
+
+The function then creates a WebAssembly instance and calls the `reset` function to reset the field variables.
+
+Finally, the function returns `true` if the resolution was successfully updated, and `false` otherwise.
+
+The code also includes a self-invoking function that calls the `setResolution` function with initial values of 64 for both height and width.

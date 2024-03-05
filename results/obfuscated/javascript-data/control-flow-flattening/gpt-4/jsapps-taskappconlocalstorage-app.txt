@@ -1,0 +1,16 @@
+This code is used to perform simple to-do list operations. The features of this to-do list include:
+
+1. Add tasks: Every task has a `title` and `description`.
+2. Display tasks: It fetches tasks from the local storage, parses them and then displays them.
+3. Delete tasks: You can delete a task by its `title`.
+
+This is how it works:
+
+- When the form with id `formTask` is submitted, the `saveTask` function is called. It gets the values of the inputs with ids `#title` and `#description`, and then it saves them in an object with properties `title` and `description`. This object is then saved into the local storage with key `tasks`. If there were tasks in the local storage, it adds the new task to the old ones; otherwise, it starts a new list.
+- The `saveTask` function calls the `getTask` function after saving a task to refresh the task list.
+- The `getTask` function gets the `tasks` from the local storage, parses them, and appends them into the element with id `#tasks`, using a predetermined HTML structure. 
+- The `deleteTask` function is also invoked from the HTML structure. It deletes the specific task from the array of tasks and updates the `tasks` in the local storage. After deleting a task, the `getTask` function is called again to refresh the tasks.
+- The `getTask` function is also called when the document loads, displaying the tasks from the local storage, if any.
+- The `inputEmpty` function just logs "empty" to the console.
+
+Note: The code is minified and some variable and function names were contaminated which makes it look confusing but all it does is create, display and delete tasks.

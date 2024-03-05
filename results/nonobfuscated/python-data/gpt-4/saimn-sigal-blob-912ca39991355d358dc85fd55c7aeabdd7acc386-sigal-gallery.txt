@@ -1,0 +1,57 @@
+The given code defines classes that handle media files, specifically image and video files, in a gallery setting. Here is a detailed breakdown of the classes and some of their important methods:
+
+1. `Media`: This is the base class for different types of media. It has properties such as `filename`, `path`, `settings`, `url`, `big`, `big_url`, `thumbnail`, etc. It also contains methods for getting metadata and dates of the files.
+
+2. `Image`: This class inherits from the `Media` class, represents image files, and overloads some of its methods. The `Image` class also extracts information specifically related to images like size, Exif data (metadata embedded within the image file), and IPTC data (a standard for metadata in images).
+
+3. `Video`: This class also inherits from the `Media` class, and represents video files. It overloads the initialisation method from the `Media` class. The `Video` class checks the video file's extension for compatibility and updates the destination path and file format if needed.
+
+4. `Album`: This class has properties such as `path`, `name`, `gallery`, `settings`, `subdirs`, `output_file`, and others. It seems to represent an album that can contain multiple media files.
+
+Note: The provided code includes various imports from local libraries, and the code for these isn't provided. Therefore, a complete understanding of how these classes behave may depend on other code not presented here.
+
+Also, without having the entire usage or application itself, it would be a guess to explain the exact purpose of the code. But from the given code, it seems related to a media processing library or media server software, where media files are processed, metadata is extracted, thumbnails generated, and files get organised into albums.In the continuation of the code provided, there are several methods defined for the `Album` class. These include:
+
+1. `create_output_directories`: This method is dedicated to managing output directories based upon rules provided by the settings and whether or not media exists to place into the directory.
+
+2. `sort_subdirs`, `sort_medias`: Both of these methods handle sorting subdirectories and medias based on attributes defined in the settings.
+
+3. `images`, `videos`, `albums`: These are Python properties (like getters in other OOP languages), which return lists of media objects with specific types.
+
+4. `url`: Returns the url-encoded album name.
+
+5. `thumbnail`: This property calculates and returns the image to use as a thumbnail for the album. It may choose one based on defined metadata, or try to select the image with landscape orientation, or the first image, or an image from a sub-album.
+
+6. `random_thumbnail`: Returns a random thumbnail from this album.
+
+7. `breadcrumb`: This property returns a breadcrumb-style path to this album, (e.g., `Home / Photos / 2021 / Album`). 
+
+8. `show_map`: This property returns a boolean to show whether or not to display a location map for the album, based on whether any images in the album have location data set.
+
+The Album class essentially creates an object to organize, manipulate, and interact with a collection of media files.
+
+It's important to note that following Python conventions, any method starting with `_` (like `_get_metadata`) is a private method. This means that it's only meant to be called inside the class itself, not directly from outside it.The remaining piece of the code is comprised of several additional methods associated with the `Gallery` class:
+
+1. `zip`: This method creates a ZIP archive of the album's media files.
+
+2. `__init__`: Initialises an instance of the `Gallery` object, which represents and manages the entire gallery of albums.
+
+3. `title`: A property that retrieves the title of the gallery.
+
+4. `init_pool`: This method initializes a pool of worker processes for potential parallel processing, with the number of processes being dependent on the number of CPUs.
+
+5. `get_albums`: A generator method that loops through and yields each album in the gallery.
+
+6. `build`: This method is called to generate the entire image gallery. It handles the collection of albums and files, processes them (possibly in parallel), removes any failed files, and writes out the HTML pages if required.
+
+7. `remove_files`: This removes files that have failed to be processed.
+
+8. `process_dir`: This processes an individual album directory, handling skipping existing files and adding to statistics on the different file types.
+
+Also, in Python, methods starting and ending with double underscore characters have a special meaning. Here, the `__init__` method is invoked when an object of the class is instantiated. On the other hand, the method `zip` is a decorator, it caches the value of the property once it is resolved, so future accesses are faster. 
+
+This class also uses the multiprocessing Python library to parallelize operations and speed up the processing of images.The remaining functions are designed to process the media files (images or videos) and perform some operations using multiprocessing.
+
+1. `process_file(args)`: This function determines whether the file to be processed is an image or video then calls an appropriate function to process the file. If the processing is successful, it returns relevant file data. If the processing fails, it returns `None`.
+
+2. `worker(args)`: This function calls the `process_file` function and returns its results. If a keyboard interrupt (`CTRL+C`) is detected, it passes the exception as it is, without raising it further. This is common in multiprocessor functions as a way of providing a mechanism to halt the execution. The `try` and `except` blocks are to ensure the function doesn't crash in case it's interrupted. The `pass` statement means it will do nothing if it encounters a `KeyboardInterrupt` exception.

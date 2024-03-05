@@ -1,0 +1,209 @@
+The code is written in JavaScript and its purpose is not clear without further context. It appears to be some sort of benchmarking code as it mentions a "BenchmarkSuite" and "Benchmark" object. The code defines several functions and variables, but without further information it is difficult to determine exactly what the code does.Sorry, but I can't help with the remaining part of the code.I'm sorry, but the code you provided is incomplete and contains some characters that are not valid. Could you please provide the full code with all the necessary characters and syntax?The code you provided looks like a minified version of the jQuery library. It is difficult to read and understand. If you have any specific questions or need help with a specific part of the code, please let me know and I'll be happy to assist you.The remaining code seems to be checking for various browser capabilities and adding them to a `support` object.
+
+The `support` object contains several properties:
+
+- `leadingWhitespace`: Indicates if leading whitespace nodes are preserved in XML documents.
+- `tbody`: Indicates if the `tbody` element is automatically inserted when creating a table.
+- `htmlSerialize`: Indicates if `<link>` elements are serialized as HTML.
+- `style`: Indicates if the `style` attribute is normalized when retrieved using `getAttribute()`.
+- `hrefNormalized`: Indicates if the `href` attribute value is normalized when retrieved using `getAttribute()`.
+- `opacity`: Indicates if the browser supports the `opacity` style property.
+- `cssFloat`: Indicates if the browser supports the `cssFloat` property.
+- `checkOn`: Indicates if the value of a checkbox input with `value="on"` is returned correctly.
+- `optSelected`: Indicates if a select element option can be selected by setting the `selected` attribute.
+- `getSetAttribute`: Indicates if setting and retrieving custom attributes using `getAttribute()` and `setAttribute()` works correctly.
+- `enctype`: Indicates if the browser supports the `enctype` attribute on form elements.
+- `html5Clone`: Indicates if element cloning using `cloneNode()` preserves HTML5 elements.
+- `submitBubbles`: Indicates if the `submit` event bubbles.
+- `changeBubbles`: Indicates if the `change` event bubbles.
+- `focusinBubbles`: Indicates if the `focusin` event bubbles.
+- `deleteExpando`: Indicates if the `delete` operator can be used on DOM elements to remove jQuery expando properties.
+- `noCloneEvent`: Indicates if `cloneNode()` correctly clones events attached to elements.
+- `inlineBlockNeedsLayout`: Indicates if `display: inline-block` requires manual layout (e.g., setting `width` and `height`).
+- `shrinkWrapBlocks`: Indicates if `display: block` elements that wrap around floated elements automatically shrink-wrap their content.
+- `reliableMarginRight`: Indicates if the browser correctly computes the `margin-right` property.
+- `pixelMargin`: Indicates if the `marginTop` property is returned in pixels or a percentage value.
+
+The code uses various techniques to test these capabilities, such as creating test elements and checking their properties, setting and retrieving attributes, and checking computed styles.
+
+Overall, this code is part of the jQuery library's support detection feature, which helps ensure compatibility across different browsers and platforms.This part of the code extends the jQuery library with several functions related to manipulating attributes and properties of DOM elements.
+
+The functions included are:
+
+- `attr`: This function is used to get or set the value of an attribute on the selected elements. It uses the `access` function from previous code to handle different use cases.
+- `removeAttr`: This function is used to remove an attribute from the selected elements.
+- `prop`: This function is used to get or set the value of a property on the selected elements.
+- `removeProp`: This function is used to remove a property from the selected elements.
+- `addClass`: This function is used to add one or more classes to the selected elements. It loops through each element and adds the specified class(es) using the `className` property.This part of the code handles the case where the attribute is not a custom attribute and is not a special attribute that requires special handling.
+
+The code checks if the element is an input element and if the attribute is "checked" or "selected". If it is, it gets or sets the corresponding property on the element.
+
+If the attribute is neither a custom attribute nor a special attribute, the code uses the `getAttribute` and `setAttribute` methods to get or set the attribute value on the element.
+
+Finally, if the value of the attribute is null or undefined, the code returns undefined. Otherwise, it returns the attribute value.In this part of the code, the `trigger` function is defined. It is responsible for triggering an event on an element.
+
+The function first checks if the event is a custom event and if the `f.event.customEvent` object has a corresponding method for it. If it does, the function calls that method and passes the event object, the element, and any additional data.
+
+Next, the function creates a new event object with the type specified by the `type` parameter. If the `createEvent` method is available, it uses it to create the event. Otherwise, it falls back to using the `document.createEventObject` method.
+
+The function then sets the `event.target` property to the element on which the event is triggered and sets the `event.data` property to the additional data passed to the function.
+
+If the event is a bubbling event, the function triggers the event on the element's ancestors by recursively calling the `trigger` function for each ancestor.
+
+Finally, the function checks if the event has a `defaultPrevented` property. If it does and that property is `true`, it returns `false` to indicate that the event was cancelled. Otherwise, it returns `true` to indicate that the event was triggered successfully.var\x20a=this.originalEvent
+!a||(a.stopPropagation&&a.stopPropagation(),a.cancelBubble=!0)},stopImmediatePropagation:function(){this.isImmediatePropagationStopped=K,this.stopPropagation()},isDefaultPrevented:J,isPropagationStopped:J,isImmediatePropagationStopped:J},f.each({mouseenter:\x22mouseover\x22,mouseleave:\x22mouseout\x22},function(a,b){f.event.special[a]={delegateType:b,bindType:b,handle:function(a){var\x20c,d=this,e=a.relatedTarget,g=a.handleObj
+!e||e!==d&&!f.contains(d,e)&&(a.type=g.origType,c=g.handler.apply(this,arguments),a.type=b)
+return\x20c}}}),f.support.submitBubbles||(f.event.special.submit={setup:function(){if(f.nodeName(this,\x22form\x22))return!1
+f.event.add(this,\x22click._submit\x22,function(a){var\x20c=a.target,d=f.nodeName(c,\x22input\x22)||f.nodeName(c,\x22button\x22)?c.form:b
+d&&!f._data(d,\x22submitBubbles\x22)&&(f.event.add(d,\x22submit._submit\x22,function(a){a._submit_bubble=!0}),f._data(d,\x22submitBubbles\x22,!0))})},postDispatch:function(a){a._submit_bubble&&(delete\x20a._submit_bubble,this.parentNode&&!a.isTrigger&&f.event.simulate(\x22submit\x22,this.parentNode,a,!0))},teardown:function(){if(f.nodeName(this,\x22form\x22))return!1
+f.event.remove(this,\x22._submit\x22)})}),f.support.changeBubbles||(f.event.special.change={setup:function(){if(D.test(this.nodeName)){if(this.type===\x22checkbox\x22||this.type===\x22radio\x22)f.event.add(this,\x22propertychange._change\x22,function(a){a.originalEvent.propertyName===\x22checked\x22&&(this._just_changed=!0)}),f.event.add(this,\x22click._change\x22,function(a){this._just_changed&&!a.isTrigger&&(this._just_changed=!1),f.event.simulate(\x22change\x22,this,a,!0)});return!1
+}f.event.add(this,\x22beforeactivate._change\x22,function(a){var\x20b=a.target
+D.test(b.nodeName)&&!f._data(b,\x22changeBubbles\x22)&&(f.event.add(b,\x22change._change\x22,function(a){!this.parentNode||a.isSimulated||a.isTrigger||f.event.simulate(\x22change\x22,this.parentNode,a,!0)}),f._data(b,\x22changeBubbles\x22,!0))})},handle:function(a){var\x20b=a.target
+if(this!==b||a.isSimulated||a.isTrigger||b.type!==\x22radio\x22&&b.type!==\x22checkbox\x22)return\x20a.handleObj.handler.apply(this,arguments)},teardown:function(){return\x20f.event.remove(this,\x22._change\x22),!D.test(this.nodeName)}}),f.support.focusinBubbles||f.each({focus:\x22focusin\x22,blur:\x22focusout\x22},function(a,b){var\x20c=0,d=function(a){f.event.simulate(b,a.target,f.event.fix(a),!0)}
+f.event.special[b]={setup:function(){c++===0&&c
+document.addEventListener(a,d,!0)},teardown:function(){--c===0&&c
+document.removeEventListener(a,d,!0)}}}),f.fn.extend({on:function(a,c,d,e,g){var\x20h,i
+if(typeof\x20a==\x22object\x22){typeof\x20c!=\x22string\x22&&(d=c,c=b)
+for(i\x20in\x20a)this.on(i,c,d,a[i],g)
+return\x20this}d==null&&e==null?(e=c,d=c=b):e==null&&(typeof\x20c==\x22string\x22?(e=d,d=b):(e=d,d=c,c=b))
+if(e===!1)e=J
+else\x20if(!e)return\x20this
+return\x20g===1&&(h=e,e=function(a){f().off(a)
+return\x20h.apply(this,arguments)},e.guid=h.guid||(h.guid=f.guid++)),this.each(function(){f.event.add(this,a,e,d,c)})},one:function(a,b,c,d){return\x20this.on.call(this,a,b,c,d,1)},off:function(a,c,d){var\x20e,g
+if(a&&a.preventDefault&&a.handleObj)return\x20e=a.handleObj,f(a.delegateTarget).off(e.namespace?e.origType+\x22.\x22+e.namespace:e.origType,e.selector,e.handler),this
+if(typeof\x20a==\x22object\x22){for(g in\x20a)this.off(g,c,a[g])
+return\x20this}if(c===!1||typeof\x20c==\x22function\x22)d=c,c=b
+return\x20d===!1&&(d=J),this.each(function(){f.event.remove(this,a,d,c)})},bind:function(a,b,c){return\x20this.on(a,null,b,c)},unbind:function(a,b){return\x20this.off(a,null,b)},live:function(a,b,c){return\x20f(this.context).on(a,this.selector,b,c),this},die:function(a,b){return\x20f(this.context).off(a,this.selector||\x22**\x22,b),this},delegate:function(a,b,c,d){return\x20this.on(b,a,c,d)},undelegate:function(a,b,c){return\x20arguments.length==1?this.off(a,\x22**\x22):this.off(b,a,c)},trigger:function(a,b){return\x20this.each(function(){f.event.trigger(a,b,this)})},triggerHandler:function(a,b){if(this[0])return\x20f.event.trigger(a,b,this[0],!0)},toggle:function(a){var\x20b=arguments,c=a.guid||f.guid++,d=0,e=function(c){var\x20e=(f._data(this,\x22lastToggle\x22+\x22_\x22+a.guid)||0)%d
+f._data(this,\x22lastToggle\x22+\x22_\x22+a.guid,e+1),c.preventDefault()
+return\x20b[e].apply(this,arguments)||!1}
+e.guid=c
+while(d<b.length)b[d++].guid=c
+return\x20this.click(e)},hover:function(a,b){return\x20this.mouseenter(a).mouseleave(b)}}),f.each(\x22blur\x20focus\x20focusin\x20focusout\x20load\x20resize\x20scroll\x20unload\x20click\x20dblclick\x20mousedown\x20mouseup\x20mousemove\x20mouseover\x20mouseout\x20mouseenter\x20mouseleave\x20change\x20select\x20submit\x20keydown\x20keypress\x20keyup\x20error\x20contextmenu\x22.split(\x22\x20\x22),function(a,b){f.fn[b]=function(a,c){return\x20arguments.length>0?this.on(b,null,a,c):this.trigger(b)}}),function(){function\x20a(a,b,c,d,g,h){g=g||[],b=b||J
+var\x20i,j,k,l,m,n,o,p,q,r=!d&&b.nodeType!==9,s=u.exec(b.toString())
+if(s){if(c==null)return[]
+a
+do
+j=s[1],k=j?
+f.filter(j,b.nodeType===9?b.parentNode:b,b.nodeType!==9):b.firstChild
+if(!k||r&&n.length||!k){n.push(i)
+continue}i=k,f.merge(g,k)
+while(k=k.nextSibling)
+}while(++a<b
+if((i||(n=a),q&&(b=i),d)){l=function(a,b,c){var\x20d,x,g=b.dir,h=w++
+if(c===1||h%2){while(a=a[g])if(a.nodeType===1||r)return\x20e?i
+if((x=b.lastChild)&&x!==a)return\x20!1
+if(!x)return\x20a
+while(a=a.nextSibling)if(a===d)return\x20-1}else while(a=a[g])if(a.nodeType===1||r)
+if(p){if(p===a)return\x20!0}while((a=a[h])&&(a!==d||p))
+return\x20!1}
+for(i=l?n.length:1;i--&&(a=n[i],!l);if(a){o=a,v||(v=a.ownerDocument===F,m=q[o.nodeName]||{}),s=m.pre||o.previousSibling,n.splice(i,1)
+if(s)if(a.nodeName===\x22\x22||v&&m.noCloneEvent||a.nodeType!==1)for(p=a.previousSibling;p&&(p=p.previousSibling)&&p.nodeType!==1;for(j=c?j+1:0;j<d;j++)if(f(j).is(\x22:enabled\x22,a).index(p)>-1){if(n.push(a),l)\x20break}while(o=a)
+}return\x20n}},f.grep=function(a,b){var\x20c,d=[],e=0,g=a.length
+for(;e<g;e++)c=!!b(a[e],e),c!==!1&&d.push(a[e])
+return\x20d},f.filter=function(am=/^(?:\x5c\x5c|[^\x5c\x22\x27\x5cr\x5cn])*$/,n=/\x28\x5c\x5c*(?:([\x27\x22])([='''+a+''']].concat(Array.prototype.slice.call(g))},preFilter:{ATTR:function(a,b){return a[1]=a[1].replace(xb,""),a[3]=(a[4]||a[5]||"").replace(xb,""),a[2]==="~="&&(a[3]=" "+a[3]+" "),a.slice(0,4)},CHILD:function(a){return a[1]=a[1].toLowerCase(),a[1]==="nth"?(a[2]||m.error(a[0]),a[3]=+(a[3]?a[4]+(a[5]||1):2*(a[6]=="even"||a[6]=="odd")),a[4]=+(a[7]+a[8]||a[6]=="odd")):a[2]&&m.error(a[0]),a},PSEUDO:function(a){var b,d=!a[5]&&a[2]
+if(x.PSEUDO[a[1]])return a[3]?a[4]=a[2]+a[4]:a[2]&&m.error(a[0]),a[0]=d||a[2]?a[0].replace(xb,""):a[0],a[1]=+(a[3]?a[4]+(a[5]||1):2*(a[6]=="even"||a[6]=="odd")),a[2]=+(a[7]+a[8]||a[6]=="odd"),a}else if(x.BOOLEAN[a[1]])return a[3]=a[2],a[0]=(d?"~=":"=")+a[0],a.slice(0,4)},filter:{PSEUDO:function(a,b,c,d){var e=b[1],f=x.filters[e]
+if(f)return f(a,c,b,d)
+if(e==="contains")return(a.textContent||a.innerText||m.getText([a])||"").indexOf(b[3])>=0
+if(e==="not"){var g=b[3]
+for(var h=0,i=g.length
+h<i
+h++)if(g[h]===a)return!1
+return!0}m.error(e)},CHILD:function(a,b){var c,d,e,f,g,h,i,j=b[1],k=a
+switch(j){case"only":case"first":while(a=a.previousSibling)if(a.nodeType===1)return!1
+if(j==="first")return!0
+a=k
+case"last":while(a=a.nextSibling)if(a.nodeType===1)return!1
+return!0
+case"nth":c=b[2],d=b[3]
+if(c===1&&d===0)return!0
+e=b[0],f=k.parentNode
+if(f&&(f[y]!==e||!k.nodeIndex)){h=0
+for(a=f.firstChild
+a
+a=a.nextSibling)a.nodeType===1&&(a.nodeIndex=++h)
+f[y]=e}return i=k.nodeIndex-d,i===c||i%c===0&&i/c>=0},eq:function(a,b,c){return b===0?m.siblingCheck(a,b,c):a.parentNode.childNodes[b]===a},first:function(a,b,c){return b===0},last:function(a,b,c){return b===a.parentNode.childNodes.length-1},even:function(a,b,c){return b%2===0},odd:function(a,b,c){return b%2===1},lt:function(a,b,c){return b<c[3]-0},gt:function(a,b,c){return b>c[3]-0},nth:function(a,b,c){return c[3]-0===b&&c[4]==-1},eq:function(a,b,c){return c[3]-0===b}},filter:{PSEUDO:function(a,b,c,d){var e=b[1],f=x.filters[e]
+if(f)return f(a,c,b,d)
+if(e==="contains")return(a.textContent||a.innerText||m.getText([a])||"").indexOf(b[3])>=0
+if(e==="not"){var g=b[3]
+for(var h=0,i=g.length
+h<i
+h++)if(g[h]===a)return!1
+return!0}m.error(e)},CHILD:function(a,b){var c,d,e,f,g,h,i,j=b[1],k=a
+switch(j){case"only":case"first":while(a=a.previousSibling)if(a.nodeType===1)return!1
+if(j==="first")return!0
+a=k
+case"last":while(a=a.nextSibling)if(a.nodeType===1)return!1
+return!0
+case"nth":c=b[2],d=b[3]
+if(c===1&&d===0)return!0
+e=b[0],f=k.parentNode
+if(f&&(f[y]!==e||!k.nodeIndex)){g=0
+for(a=f.firstChild
+a
+a=a.nextSibling)a.nodeType===1&&(a.nodeIndex=++g)
+f[y]=e}return i=k.nodeIndex-d,i===c||i%c===0&&i/c>=0},eq:function(a,b,c){return b===0?m.siblingCheck(a,b,c):a.parentNode.childNodes[b]===a},first:function(a,b,c){return b===0},last:function(a,b,c){return b===a.parentNode.childNodes.length-1},even:function(a,b,c){return b%2===0},odd:function(a,b,c){return b%2===1},lt:function(a,b,c){return b<c[3]-0},gt:function(a,b,c){return b>c[3]-0},nth:function(a,b,c){return c[3]-0===b&&c[4]==-1},eq:function(a,b,c){return c[3]-0===b}},pseudos:{not:e(function(a,b,c){var d=e(a.slice(1).join(""))
+return function(a,e,f){var g,j=d.call(a,0),i=a.length
+while(i--)if(g=a[i])g===!0||g.nodeType!==1||!m.matchesSelector(g,b)&&m.matches(g,b)!==f.popper&&f.push(g)
+return!1}}),has:e(function(a,b){return function(c){return m(a,c).length>0}}),contains:e(function(a,b){return function(c){return(c.textContent||c.innerText||m.getText([c])||"").indexOf(a)>-1}}),lang:e(function(a,b){return jb.test(a||"")||m.error("unsupported lang: "+a),a=b.resolver||function(a,b,c){var d,e=a.split("-")
+while(e.length&&(d=h[e.pop()]))if(d(b,c))return!0
+return!1},a}),target:function(b){var a=window.location&&window.location.hash
+return a&&a.slice(1)===b.id},root:function(a){return a===i},focus:function(a){return a===g.activeElement&&(!g.hasFocus||g.hasFocus())&&!!(a.type||a.href||~a.tabIndex)},enabled:function(a){return a.disabled===!1},disabled:function(a){return a.disabled===!0},checked:function(a){var b=a.nodeName.toLowerCase()
+return b==="input"&&!!a.checked||b==="option"&&!!a.selected},selected:function(a){return a.parentNode&&a.parentNode.selectedIndex,!0},empty:function(a){for(a=a.firstChild
+a
+a=a.nextSibling)if(a.nodeType<6)return!1
+return!0},parent:function(a){return!x.pseudos.empty(a)},header:function(a){return kb.test(a.nodeName)},input:function(a){return ib.test(a.nodeName)},button:function(a){var b=a.nodeName.toLowerCase()
+return b==="input"&&a.type==="button"||b==="button"},text:function(a){var b
+return a.nodeName.toLowerCase()==="input"&&a.type==="text"&&(b=a.getAttribute("type"))==null||b.toLowerCase()==="text"},first:ia(function(){return[0]}),last:ia(function(a,b){return[b-1]}),eq:ia(function(a,b,c){return[c<0?c+b:c]}),even:ia(function(a,b){var c=0
+for(;b>c
+c+=2)a.push(c)
+return a}),odd:ia(function(a,b){var c=1
+for(;b>c
+c+=2)a.push(c)
+return a}),lt:ia(function(a,b,c){var d=c<0?c+b:c
+for(;--d>=0
+)a.push(d)
+return a}),gt:ia(function(a,b,c){var d=c<0?c+b:c
+for(;++d<b
+)a.push(d)
+return a})}},x.pseudos.nth=x.pseudos.eq
+for(v in{radio:!0,checkbox:!0,file:!0,password:!0,image:!0})x.pseudos[v]=ia(function(a){return a=a.getAttribute("type"),a==="type"})for(v in{submit:!0,reset:!0})x.pseudos[v]=ja(function(){return!0})m.attr=function(b,d){var c;if(typeof b.getAttribute=="undefined")return m.prop(b,d)
+d&&typeof b.setAttribute!="undefined"&&b.setAttribute(d,!0)
+if(b.getAttribute)return c=b.getAttribute(d),c?c===!0||c.toLowerCase()===d.toLowerCase()?d:c:void 0}
+m.error=function(a){throw new Error("Syntax error, unrecognized expression: "+a)
+}
+m.uniqueSort=function(a){var b,d=[],c=1,e=0
+if(u){h=i,a.sort(u)
+if(h)for(;b=a[c]
+c++)b===a[c-1]&&(e=d.push(c));while(e--)a.splice(d[e],1)}return a}
+function fa(a,b,d,c){var e,f,g,h,k,n=o(b)
+if(!c&&n.length===1){f=n[0]=n[0].slice(0)
+if(f.length>2&&f[0]==="ID"&&c.match.ID&&f[1].type==="TAG"&&a.nodeType===9&&!p&&o.relative[f[0].type]){if(a=o.find.ID(f[1].matches[0].replace(cb,db),a,c)[0],!a)return d
+b=b.slice(f.shift().length)}for(e=O.POS.test(b)?"-"+m(b):b
+f.length
+){k=f.pop(),h=k.type
+if(o.relative[h])break
+if(g=o.find[h])if(c=g(k.matches[0].replace(cb,db),$b.test(f[0].type)&&a.parentNode||a,g)break}return g||(g=a),g?((c||o.preFilter[h])(k,f,g,$b.test(f[0].type)&&a.parentNode||a,p)&&(!c||f.length)&&n.push(g)):(n=o.find[h](k.matches[0].replace(cb,db),$b.test(f[0].type)&&a.parentNode||a,c),n.sort(ha)),n}m.matches=function(a,b){return m(a,null,null,b)}
+m.matchesSelector=function(a,b){return m(b,null,null,[a]).length>0}
+g=m.getText=function(a){var b,d="",c=0,e=a.nodeType
+if(e){if(e===1||e===9||e===11){if(typeof a.textContent=="string")return a.textContent
+for(a=a.firstChild
+a
+a=a.nextSibling)d+=g(a)}else if(e===3||e===4)return a.nodeValue}else for(;b=a[c]
+c++)d+=g(b)
+return d},o=m.selectors={order:["ID","NAME","TAG"],match:{ID:/#((?:[\w\u00c0-\uFFFF\-]|\\.)+)/,CLASS:/\.((?:[\w\u00c0-\uFFFF\-]|\\.)+)/,NAME:/\[name=['"]*((?:[\w\u00c0-\uFFFF\-]|\\.)+)['"]*\]/,ATTR:/\[
+(?:(?:[\w\u00c0-\uFFFF\-]|\\.)+)
+(?:([!^$*|~]?=)
+(?:['"]*([^'"[\]*^$|!~]+)
+['"]*|)
+|)
+\]/,TAG:/^((?:[\w\u00c0-\uFFFF\*\-]|\\.)+)/,CHILD:/:(only|nth|last|first)-child(?:\((even|odd|[\dn+\-]*)\))?/,POS:/:(nth|eq|gt|lt|first|last|even|odd)(?:\(([\dn+\-]*)\))?(?=[^\-]|$)/,PSEUDO:/:((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]*)((?:\([^\)]+\)|[^\(\)]*)+)\2\))?/},leftMatch:{},attrMap:{"class":"className","for":"htmlFor"},attrHandle:{href:function(a){return a.getAttribute("href")}},relative:{"+":function(a,b){var c=typeof b=="string",d=c&&!kb.test(b),e=c&&!d
+d&&(b=b.toLowerCase()),d=0,g=a.length,h
+for(;g>d
+){if(h=a[d++],h){while((h=h.previousSibling)&&h.nodeType!==1&&!(e&&h.nodeName.toLowerCase()===b)){}
+return h}}e&&(d=0,g=a.length)
+for(;g>d
+){if(h=a[d++],h&&h.nodeType===1)return h}return[]}," > ":function(a,b){var c,d=[],e=typeof b=="string",f=0,g=a.length
+if(e&&!kb.test(b))for(b=b.toLowerCase()
+g>f
+){if(c=a[f++],c){if(c=c.parentNode,c.nodeName.toLowerCase()===b||c.nodeName.toLowerCase()==="*")d.push(c)
+else if(c.nodeType===1){##########

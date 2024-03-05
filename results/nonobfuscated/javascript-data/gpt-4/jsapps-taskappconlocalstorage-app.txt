@@ -1,0 +1,19 @@
+This JavaScript code is for a basic task manager application which lets you add, view and delete tasks. Here's what each part does:
+
+1. `let formTask = document.querySelector('#formTask'); formTask.addEventListener('submit', saveTask);`
+It sets an event listener to handle the form submission and call the `saveTask` function each time the form is submitted.
+
+2. `function saveTask(e) {...}`
+It's the function that saves a new task using browser's local storage. It gets the task title and description from the form, then saves a new task object. Before saving it checks whether there are already tasks in the local storage. If not, it creates a new array for the tasks then add the new task to the list. If there are already tasks, it retrieves them, push the new task to the list then saves again.
+
+3. `function inputEmpty() {...}`
+It logs the message 'empty' to the console when the title of a task is not provided.
+
+4. `function getTask() {...}`
+It retrieves the list of tasks from the local storage then populates the user interface with cards for each task, each containing the task title, description, and a delete button.
+
+5. `function deleteTask(title) {...}`
+It deletes a task with the provided title from the local storage, updates local storage and rerenders the tasks on the page.
+
+6. `getTask();`
+Lastly, it calls the `getTask()` function to load and display any tasks saved in the storage when the page loads.

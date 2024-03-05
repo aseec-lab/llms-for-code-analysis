@@ -1,0 +1,13 @@
+The code is defining a class called SpreadingStop. 
+
+The __init__ method initializes the object with a stop index and minimum transfer time. It also initializes an empty list for visit events.
+
+The get_min_visit_time method returns the minimum arrival time of the visit events in the list. If the list is empty, it returns infinity.
+
+The get_min_event method returns the visit event with the minimum arrival time. If the list is empty, it returns None.
+
+The visit method takes an event and determines if it needs to be visited based on its arrival time and the minimum visit time of existing visit events. If it needs to be visited, the event is added to the visit events list and any visit events that have arrival times greater than the new minimum visit time plus the minimum transfer time are removed from the list.
+
+The has_been_visited method returns True if there are visit events in the list, otherwise False.
+
+The can_infect method determines if an event can infect the current stop. It checks if the event is departing from the same stop, if there are any visit events, and if the time separation between the event's departure time and the minimum visit time is greater than or equal to the minimum transfer time. If the event has a trip index of -1 and the time separation is greater than or equal to 0, it is also considered infectious. It loops through all visit events and checks if the event has the same trip index and the time separation is greater than or equal to 0. If any of these conditions are met, the method returns True. Otherwise, it returns False.

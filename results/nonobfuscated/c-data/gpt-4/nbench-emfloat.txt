@@ -1,0 +1,65 @@
+This code appears to be implementing operations on "Internal Floating-Point Format" (InternalFPF) arrays. In computing, a floating-point number is a non-integer number that can be represented in a fractional or exponential format. Based on the provided code, InternalFPF is expected to be a custom floating-point implementation. 
+
+The main functions and their brief descriptions:
+
+1. SetupCPUEmFloatArrays: This function takes in 3 pointers to InternalFPF arrays (abase, bbase, cbase) and a number indicating array size (arraysize). It initializes the indexes of these arrays using some random values and operations.
+
+2. DoEmFloatIteration: This function performs a series of operations (addition, subtraction, multiplication, division) on arrays passed to it. The specific operation performed is stored in 'jtable' and selected based on index.
+
+3. SetInternalFPFZero: Sets a passed InternalFPF instance to zero (floating point representation of zero).
+
+4. SetInternalFPFInfinity: Sets a passed InternalFPF instance to represent infinity. 
+
+5. SetInternalFPFNaN: Sets a passed InternalFPF instance to Not a Number (NaN).
+
+6. IsMantissaZero: Function to check if a passed array of 16-bit unsigned integers (presumably the mantissa of the floating point representation) is all zeros.
+
+7. Add16Bits: Function to add two 16-bit numbers with a carry.
+
+8. Sub16Bits: Function to subtract two 16-bit numbers with borrowing.
+
+9. ShiftMantLeft1: Function to shift the mantissa of the floating point representation to the left.
+
+10. ShiftMantRight1: Function to shift the mantissa of the floating point representation to the right.
+
+It should be noted that many details of the functioning of this code would depend on the details of several undefined functions and structure definitions which are not included in the code snippet. Also, the usage of this code would depend on a correct implementation of 'InternalFPF' and necessary functions, which don't appear in the provided code.The remaining functions of the code provided are as follows:
+
+1. normalize: This function normalizes an InternalFPF by shifting the mantissa until the most significant bit of the leading coefficient is set, while decrementing the exponent in every step where a left shift operation is performed.
+
+2. denormalize: This function de-normalizes an InternalFPF pointer to a minimum exponent value. It reduces the exponent to a specific minimum value. If the exponent can't be reduced to the minimum because the mantissa would overflow, the function sets the InternalFPF instance to zero.
+
+3. StickyShiftRightMant: This function shifts the mantissa of an InternalFPF instance to the right 'amount' times. If 'amount' is bigger than the precision of the InternalFPF instance, the mantissa will be set to 1 in its least significant bit. If 'amount' is less than the precision of the InternalFPF instance, the function performs a right shift while 'or-ing' 1 into the most significant bit if a carry from the right shift operation is produced.
+
+4. RoundInternalFPF: This function takes in an InternalFPF whichever is normal or subnormal and if it isn't zero it "rounds" the floating-point number by setting the least significant bits of the mantissa part to zero.
+
+5. AddSubInternalFPF: Performs the addition or subtraction of two InternalFPF instances 'x' and 'y' and stores the result in a third InternalFPF instance 'z', using the operation parameter to determine whether to perform addition or subtraction.
+
+6. choose_nan: This function chooses between two 'Not a Number' (NaN) InternalFPF instances. If the mantissa of 'x' is greater than the mantissa of 'y', it copies the 'z' into the 'x'. If the mantissa of 'x' is less than the mantissa of 'y', it copies the 'z' into the 'x'. If the mantissas of both 'x' and 'y' are equal and the intel_flag is false, it copies the 'z' into the 'x', else copies the 'z' into the 'y'.
+
+Note: In the context of floating point computation, NaN is a special value to represent 'undefined' or 'unrepresentable' results. The 'NaN' values are propagated through arithmetic operations according to prescribed rules, this might be useful in situations where you want to continue a computation in the presence of errors.The remaining functions of the code provided are as follows:
+
+1. MultiplyInternalFPF: This function multiplies an InternalFPF instance 'x' and 'y' and stores the result in a third InternalFPF instance 'z'. For this, it checks the type of 'x' and 'y' i.e whether they are zero, infinity, normal, subnormal, or not a number (NaN). Based on their types, different operations are performed.
+
+2. DivideInternalFPF: This function divides an InternalFPF instance 'x' by 'y' and stores the result in a third InternalFPF instance 'z'. Like the multiplication function, it also checks the type of 'x' and 'y' and based on their types, different operations are performed.
+
+Please note that parts of the code in both the MultiplyInternalFPF and DivideInternalFPF functions are missing in the provided code. So it's not possible to understand the full logic and operation of these functions without the full code.
+
+Also note that both the MultiplyInternalFPF and DivideInternalFPF functions use helper function like ShiftMantRight1, ShiftMantLeft1, SetInternalFPFInfinity, SetInternalFPFZero, etc. These functions presumably perform the mathematical operations indicated by their names on the mantissa of the InternalFPF instances. However as those function definitions are not provided, a full understanding of their operations is not possible.The functions in this section are:
+
+4. n_int32ToInternalFPF:
+This function converts an integer to an InternalFPF representation. 
+- If the number is negative, the `sign` of `dest` is set to 1 and the number is made positive. 
+- For zero, `IFPF_IS_ZERO` type is set. 
+- For non-zero numbers, it sets the type as `IFPF_IS_NORMAL` and sets the `exp` value to 32. 
+- It then uses bit shifting and logical & to get the 16 most significant bits and 16 least significant bits and store them in `dest->mantissa`. Then, it calls `normalize(dest)`.
+    
+5. InternalFPFToString:
+This function takes an InternalFPF number, `src` and converts it into a string representation. 
+- If the number is NaN, +Inf, -Inf, +0, or -0, it sets those respective strings directly. 
+- It uses functions like AddSubInternalFPF, MultiplyInternalFPF and DivideInternalFPF to manipulate the mantissa and exponent of the number to get the string representation in scientific notation.
+
+It is important to note that the detailed operations of all these functions are not fully clear without the full code but this analysis is based on the code segments available.This code appears to be the ending part of one of the previous functions, likely InternalFPFToString. The function is returning `ccount` which likely represents the count of characters in the resultant string representation of the InternalFPF number.
+
+The `#endif` indicates the end of a preprocessor conditional directive. It is often used in C/C++ to include or exclude part of the code based on certain conditions. In this context, it likely closes a condition that started before the first function we've examined, possibly to check if these functions should be included or to check certain conditions relating to the data types or the target environment.
+
+Without the entirety of the code or more context, it's hard to speculate more accurately about this part.

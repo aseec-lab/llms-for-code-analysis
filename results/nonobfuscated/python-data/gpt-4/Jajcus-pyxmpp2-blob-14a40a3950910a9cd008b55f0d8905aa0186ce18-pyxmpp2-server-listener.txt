@@ -1,0 +1,23 @@
+The provided code is used to create a TCP listener in Python. The TCPListener class, which inherits from IOHandler, is using a socket framework to listen to incoming TCP connections. Here is a detailed breakdown of the functions used in the class:
+
+- `__init__(self, family, address, target)`: Constructor of the class that initiates a socket with a given address, sets reusing of address socket option, binds the socket to the given address, and sets target (a callback function that handles accepted connections).
+
+- `__del__(self)`: Destructor of the class that closes the open socket.
+
+- `close(self)`: Method to explicitly close the open socket with proper thread safety using a lock.
+
+- `prepare(self)`: This function makes the listener socket start listening for connections. The maximum connection queue (`SOMAXCONN`) is set to the system maximum. Also, the blocking mode of the socket is set to non-blocking.
+
+- `fileno(self)`: This function returns the file descriptor of the socket.
+
+- `is_readable(self)` and `wait_for_readability(self)`: These functions check if the socket is readable which means it has a new connection request.
+
+- `is_writable(self)` and `wait_for_writability(self)`: These functions are always returning False as a listener socket is not used to send data, so it doesn't have to be writable.
+
+- `handle_write(self)`: This function is empty because a listener socket does not need to handle write events.
+
+- `handle_read(self)`: This function handles the reading from the socket which is checking for new connections and when a new connection is accepted, it's handing it over to the `target` function set in the constructor.
+
+- `handle_hup(self)`, `handle_err(self)`, `handle_nval(self)`: These functions handle hangup, error, and invalid file descriptor events respectively on the socket by closing the socket and throwing an exception for error and invalid file descriptor. 
+
+In conclusion, this class can be used to create a TCP server that listens to a certain port number for incoming connections, accepts them, and sends them to a designated function to handle the communication with the client.

@@ -1,0 +1,12 @@
+The given code defines several functions to generate random account numbers, bik numbers, and identification numbers for individuals and legal entities.
+
+1. The `account_number()` function generates a random string of 20 digits, representing an account number.
+2. The `bik()` function generates a random BIK (Bank Identification Code) number. It starts with "04" and then adds 5 randomly generated digits, followed by a randomly generated digit between 50 and 99.
+3. The `inn(type="legal")` function generates a random INN (Taxpayer Identification Number) depending on the type specified. If the type is "person", it calls the `person_inn()` function, which generates a random 12-digit INN for individuals. Otherwise, it calls the `legal_inn()` function, which generates a random 10-digit INN for legal entities.
+4. The `legal_inn()` function generates a random 10-digit INN for legal entities. It uses a predefined mask and applies a weighted sum to the generated digits, resulting in the final digit being calculated based on the mod 11 and mod 10 operations.
+5. The `legal_ogrn()` function generates a random OGRN (Primary State Registration Number) for legal entities. It generates a 12-digit number and appends the final digit, which is calculated based on the mod 11 and mod 10 operations.
+6. The `ogrn(type="legal")` function generates a random OGRN depending on the type specified. If the type is "person", it calls the `person_ogrn()` function, which generates a random 14-digit OGRN for individuals. Otherwise, it calls the `legal_ogrn()` function.
+7. The `person_inn()` function generates a random 12-digit INN for individuals. It uses two different masks depending on the position of the digits. It applies weighted sums to the generated digits, resulting in the final two digits being calculated based on the mod 11 and mod 10 operations.
+8. The `person_ogrn()` function generates a random 14-digit OGRN for individuals. It generates a 14-digit number and appends the final digit, which is calculated based on the mod 13 and mod 10 operations.
+
+Overall, this code allows for the generation of random account numbers, bik numbers, INNs, and OGRNs for both individuals and legal entities.

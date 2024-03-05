@@ -1,0 +1,51 @@
+This piece of code appears to be part of a larger system using Tensorflow, a popular machine learning framework. The classes defined here provide a framework for defining neural network layers in a more organized and reusable way. 
+
+Here is a brief description of each of the key classes:
+
+1. `Layer` - This is a base class for different types of neural network layers. It defines common attributes and methods that will be needed by all types of layers. It also includes methods for combining (applying) layers, and for retrieving the regularization loss (a common component of the loss function when training models).
+
+2. `Input` - This is a subclass of `Layer`. An `Input` layer is the first layer in a neural network model, it's where you feed in your training and testing data.
+
+3. `Output` - This is another subclass of `Layer`. An `Output` layer is usually the last layer in a neural network model, it contains the final predictions or classifications produced by the model.
+
+4. `TFLayer` - This is another subclass of `Layer` which is designed to integrate with standard layer types provided by Tensorflow (`tf.layers`).
+
+Generally, every type of neural network layer will have an "apply" method that defines how to combine (apply) the layer with an existing network, and it may also provide a regularization loss if it has trainable parameters.
+
+This code only provides the framework for defining specific types of layers; it doesn't actually create a neural network model by itself. In practice, these classes would be extended with subclasses for specific types of neural network layers (like convolutional layers, fully connected layers, etc.). This code then provides a clear, organized way of defining and connecting neural network layers.This additional portion of the code completes the machine learning framework started in the first part. It includes:
+
+1. `Nonlinearity` - This class represents non-linearity layers. Initialization parameters include type (`name`), the parameters `alpha`, `beta`, `max`, `min`, and others. The `tf_apply` method applies the appropriate non-linear function based on `self.name`.
+
+2. `Dropout`, `Flatten`, `Pool2d` - These subclasses of `Layer` represent standard types of layers that can be used in a neural network. The `tf_apply` method for each of these classes describes how to apply the operation associated with the layer (dropout, flatten, or 2D pooling, respectively).
+
+3. `Embedding` - This class represents an embedding layer. Embdings are a way of representing categorical variables in a continuous vector space - very useful in fields like natural language processing. This class's `tf_apply` method uses `tf.nn.embedding_lookup` to retrieve the embeddings for the given inputs.
+
+4. `Linear` - This class represents a fully-connected layer with linear activation - meaning, every node in the layer is connected to every node in the preceding layer. 
+
+These classes provide the essential components to build various types of neural network models, such as feed-forward, convolutional, and recurrent neural networks.
+
+Training control is implemented via automatic differentiation and optimization provided by the TensorFlow framework. Losses due to some regularization techniques (L1, L2) are also accounted for in classes like `Embedding` and `Linear`. Such regularization techniques are used to prevent overfitting by penalizing large weights. L1 regularization results in sparser weights, while L2 regularization results in smaller, more distributed weights.The `Linear` class is a fully connected layer where each input is connected to each output by a matrix multiply. It also can handle different types of weight initializations and bias initializations and the L1 and L2 regularizations.
+
+The `Dense` layer in TensorFlow is also a fully connected layer, but unlike Linear, it handles the application of activation function as well, in this particular architecture, it also handles skip connections, a common operation in residual networks that helps in training deeper models by allowing the gradients to propagate further. Here it applies the activation function on the output of the linear operation of the `Linear` class with the help of the `NonLinearity` class and if specified also create a skip connection.
+
+An important point to note about the architecture above is the separation of operations. In TensorFlow's `tf.layers.Dense`, the linear operation and the application of the activation function are both done within the same class. But in this architecture, the responsibilities are separated into different classes. While creating an instance of a `Dense` layer, it creates an instance of `Linear` and `Nonlinearity` within it and uses those instances. This makes it more flexible to use, you can use `Linear` without `Nonlinearity` and vice versa, and `Dense` just becomes a combination of those two operations.
+
+In both the `Linear` and `Dense` classes, the `tf_apply` method applies the operation associated with the layer (matrix multiplication in `Linear`, matrix multiplication followed by an activation function in `Dense`), and the `tf_regularization_loss` calculates the regularization loss if specified. Regularization loss is a penalty added to the total loss function to reduce the complexity of the model and to avoid overfitting. It is calculated using the weights of the neural network. In this architecture, L1 (Lasso regression) and L2 (Ridge regression) regularization are used.The `Dueling` class implements the dueling architecture. It separates the representation of state into two streams, one for the state's value function and one for determining the advantage of each action. This architecture computes the Q-value of a state-action pair by combining these two streams. 
+
+The `Conv1d` and `Conv2d` classes are convolutional layers for neural networks. They perform a convolution operation on the input and pass the result through an activation function if one is specified. In a Convolutional layer, parameter sharing scheme is used which reduces the number of parameters, and thus it reduces overfitting. It also makes the Deep Learning model translation invariant. In these classes, they handle multiple dimensions(1-d at `Conv1d` and 2-d at `Conv2d`) of input data and handle filters(both weights and bias of them). The function that applies the convolution is `tf_apply`. 
+
+Lastly, we have the `Dense` class that implements a fully connected Neural Network layer. It is standard Neural Network layer with neurons be fully connected to all activations in the previous layer. `Dense` can be used in the hidden layers as well as for the output layer. The `tf_apply` function performs the matrix multiplication followed by the specified activation function and if specified, adds a skip connection. The class also has an `l1_regularization` and `l2_regularization` which are penalties on the complexity of the Neural Network. 
+
+For the layers, the method get_variables returns all the trainable variables, default is False. In this case, the convolutional layers don't have biases.
+
+Regularization loss is calculated through the method `tf_regularization_loss`, it's a penalty added to the total loss function to reduce the complexity of the model and avoid overfitting. 
+
+In summary, these classes represent components of a neural network that can be used to build complex models with varying architectures.The `InternalLstm` class represents an internal LSTM (Long Short Term Memory) layer used within a network model, which is effective in processing sequences of data with long-range dependencies. The LSTM cell prevents the neural network from forgetting the learned information and processes the sequence element-wise with a gating mechanism.
+
+The `tf_apply` method applies the LSTM cell to the input tensor. If the rank of the input tensor isn't 2, a `TensorForceError` is thrown. A rank 2 tensor is required because the LSTM requires input with shape (batch_size, input_size) where `batch_size` is the number of sequences in a batch and `input_size` is the dimensionality of one sequence element. If dropout is specified, it is applied to the LSTM cell.
+
+The `internals_spec` method is used to describe the internal tensors (i.e., hidden state tensors) used in computation.
+
+The `Lstm` class is similar to `InternalLstm` but processes the entire input sequence at once using `tf.nn.dynamic_rnn`. If `self.return_final_state` is true, it returns the state (i.e., memory) of the LSTM cell after processing the last element in the sequence; otherwise, it returns the processed sequence. The output from the LSTM can be the full unrolled sequence of outputs (`return_final_state=False`) or just the last output in the sequence (`return_final_state=True`). For example, the former is often used in sequence labelling tasks while the latter is common in many other tasks e.g., sentiment analysis.
+
+These classes provide flexibility in creating complex deep learning models that incorporate LSTM for memory preservation and sequence processing capabilities.

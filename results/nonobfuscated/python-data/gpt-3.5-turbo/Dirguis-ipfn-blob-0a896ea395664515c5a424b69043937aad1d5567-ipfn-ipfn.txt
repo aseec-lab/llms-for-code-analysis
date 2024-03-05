@@ -1,0 +1,21 @@
+The code is implementing a class called "ipfn" that performs the iterative proportional fitting procedure (IPFP). The IPFP is a method used for estimation in multidimensional contingency tables.
+
+The class has two main methods - "ipfn_np" and "ipfn_df" - that perform the IPFP algorithm on Numpy arrays and Pandas DataFrames, respectively. The choice of method depends on the type of data passed to the class constructor.
+
+The "ipfn_np" method takes a Numpy array, along with aggregates, dimensions, and weight columns, as parameters. It initializes several variables and creates a list of tables. It then iterates through each step (aggregates) and dimension, calculating the values for each table using the IPFP algorithm. Finally, it calculates the maximum convergence value and returns the manipulated array and the maximum convergence value.
+
+The "ipfn_df" method is similar to "ipfn_np" but operates on Pandas DataFrames instead. It performs additional operations such as grouping and indexing to manipulate the DataFrame.
+
+The "iteration" method is the main driver of the IPFP algorithm. It initializes variables, determines the input type (Numpy or DataFrame), and performs the IPFP iteration until either the maximum number of iterations is reached or the convergence condition is met. It keeps track of the convergence values and returns the manipulated data, convergence status, and convergence values (if verbose mode is enabled).
+
+The code also includes a main block that is empty in this case.
+
+Overall, the code provides an implementation of the IPFP algorithm that can be used on Numpy arrays or Pandas DataFrames.The remaining part of the code creates a sample dataset using the given values. It defines several lists and a DataFrame to represent the data. The lists represent the values for dma, size, and age, while the DataFrame combines these values along with the 'total' column that represents the aggregated values.
+
+Next, the code calculates the aggregates using the groupby function in pandas. It calculates the sum of 'total' for each dma, size, and age combination, as well as totals for each individual dimension (dma, size, age).
+
+The code then modifies some of the aggregate values to create an inconsistent dataset. For example, it changes the total for dma 501 to 52 (originally 51) and dma 502 to 48 (originally 49). Similarly, it modifies the totals for size and age dimensions.
+
+Finally, the code creates an instance of the 'ipfn' class using the created DataFrame and the calculated aggregates as input. It then performs the IPFP iteration by calling the 'iteration' method on the 'ipfn_df' object. The result is stored in the 'df' variable.
+
+After the iteration, the code prints the manipulated DataFrame 'df' and compares the sum of 'total' for each size dimension in 'df' with the original aggregates stored in 'xpjp'.

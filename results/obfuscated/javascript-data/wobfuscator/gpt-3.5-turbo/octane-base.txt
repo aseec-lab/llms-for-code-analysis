@@ -1,0 +1,162 @@
+The code appears to be a JavaScript implementation of WebAssembly modules. 
+
+The function `__universalAtob` is a base64 decoder. It takes a base64 encoded string as input, decodes it using the built-in `atob` function, and returns an array of bytes.
+
+The code defines three WebAssembly modules: `__forWasmModule`, `__ifWasmModule`, and `__callWasmModule`. Each module is created using a base64 encoded string, which is decoded using the `__universalAtob` function and converted to a byte array. These modules are then instantiated using the `WebAssembly.Instance` constructor.
+
+The variable `__wasmStringModules` is an array of WebAssembly modules created from base64 encoded strings. Each module is instantiated using the `WebAssembly.Instance` constructor and stored in the array.
+
+The `lS` function takes three arguments: `wI`, `pos`, and `iWC`. Within the function, a new variable `__str` is declared and initialized as an empty string. If `wI` is not an array, the function retrieves a WebAssembly module from the `__wasmStringModules` array based on the value of `wI`. It then accesses the memory of the module and assigns it to the `__mem` variable.
+
+The function then constructs a string key using the `pos` value and retrieves the corresponding value from the module's exports. It subtracts 1 from the value and assigns it to the `__start` variable.
+
+Finally, the function returns the constructed string.The remaining part of the code defines a `Benchmark` class and a `BenchmarkResult` class, and then a `BenchmarkSuite` class.
+
+The `Benchmark` class represents a benchmark test. It has properties such as `name`, `doWarmup`, `doDeterministic`, `deterministicIterations`, `run`, `Setup`, `TearDown`, `rmsResult`, and `minIterations`. It is instantiated with these properties.
+
+The `BenchmarkResult` class represents the result of a benchmark test. It has properties such as `benchmark`, `time`, and `latency`. It is instantiated with these properties and also has a `valueOf` method that returns the value of the `time` property.
+
+The `BenchmarkSuite` class represents a suite of benchmark tests. It has properties such as `name`, `reference`, and `benchmarks`. It is instantiated with these properties. The `benchmarks` property is an array of `Benchmark` instances.
+
+The `BenchmarkSuite` class also defines a static array `suites` and a static method `createWork`, which adds the current `BenchmarkSuite` instance to the `suites` array.
+
+In summary, this part of the code sets up the structure and classes for running benchmark tests and creating benchmark suites.This part of the code defines the `BenchmarkSuite.RunSuites` function. This function takes two parameters: `runner` and `skipBenchmarks`. It is used to run the benchmark suites.
+
+The `skipBenchmarks` parameter is optional and defaults to an empty array.
+
+The function starts by initializing some variables: `continuation` as `null`, `suites` as the `BenchmarkSuite.suites` array, `length` as the length of the `suites` array, and `index` as 0.
+
+The `BenchmarkSuite.scores` array is initialized as an empty array.
+
+The `RunStep` function is defined inside the `BenchmarkSuite.RunSuites` function. This function is used to run the benchmark suites step by step.
+
+Inside the `while` loop, there is an immediately invoked anonymous function that creates a new `WebAssembly.Instance` with the given `__ifWasmModule` and an environment object. This environment object defines two function properties: `impFunc1` and `impFunc2`.
+
+The `impFunc1` function is called when the continuation is not `null`. It assigns the result of `continuation()` to `continuation`.
+
+The `impFunc2` function is called when the continuation is `null`. It increments the `index` variable and assigns the `suites[index]` benchmark suite to the `suite` variable.
+
+Inside the `suite` block, there is another immediately invoked anonymous function that creates a new `WebAssembly.Instance` with the given `__ifWasmModule` and an environment object. This environment object defines two function properties: `impFunc1` and `impFunc2`.
+
+The `impFunc1` function is called and checks if `runner.NotifyStart` is defined. If it is, it creates another `WebAssembly.Instance` with the given `__callWasmModule` and an environment object. This environment object defines one function property: `impFunc`. Inside this function, `runner.NotifyStart(suite.name)` is called.
+
+The `impFunc2` function is empty and not used.
+
+After running the `impFunc1` function, another immediately invoked anonymous function creates a new `WebAssembly.Instance` with the given `__ifWasmModule` and an environment object. This environment object defines two function properties: `impFunc1` and `impFunc2`.
+
+The `impFunc1` function is called and checks if `suite.NotifySkipped` is defined. If it is, it creates another `WebAssembly.Instance` with the given `__callWasmModule` and an environment object. This environment object defines one function property: `impFunc`. Inside this function, `suite.NotifySkipped(runner)` is called.
+
+The `impFunc2` function is empty and not used.
+
+This code represents the logic for running the benchmark suites and notifying the runner about the start and skipped benchmarks.The remaining part of the `BenchmarkSuite.RunSuites` function is as follows:
+
+```
+BenchmarkSuite.CountBenchmarks = function () {
+    var result = 0
+
+    var suites = BenchmarkSuite.suites
+
+    (() => {
+        var i = 0
+
+        const __forInstance0 = new WebAssembly.Instance(__forWasmModule, {
+            env: {
+                test: () => {
+                    return i < suites.length ? 1 : 0
+                },
+                update: () => {
+                    i++
+                },
+                body: () => {
+                    result += suites[i].benchmarks.length
+                }
+            }
+        })
+
+        const __exports = __forInstance0.exports
+
+        return __exports.data()
+    })()
+
+    return result
+}
+```
+
+The `BenchmarkSuite.CountBenchmarks` function is used to count the number of benchmarks in the benchmark suites. It initializes the `result` variable as 0 and assigns the `BenchmarkSuite.suites` array to the `suites` variable.
+
+Inside the immediately invoked anonymous function, there is a `WebAssembly.Instance` created with the `__forWasmModule` and an environment object. This environment object defines three function properties: `test`, `update`, and `body`.
+
+The `test` function is called repeatedly to check if the index `i` is less than the length of the `suites` array. If it is, the function returns 1. Otherwise, it returns 0.
+
+The `update` function is called after each iteration and increments the index `i` by 1.
+
+The `body` function is called inside the loop and adds the length of the `suites[i].benchmarks` array to the `result` variable.
+
+After running the loop, the `result` variable is returned. This represents the total number of benchmarks in the benchmark suites.The remaining part of the previous code snippet is as follows:
+
+```javascript
+const __exports = __forInstance3.exports
+return __exports.data()
+```
+
+This part of the code establishes the WebAssembly instance `__forInstance3` using the `__forWasmModule` and defines the environment object for the instance. Similar to the previous functions, the environment object has three function properties: `test`, `update`, and `body`.
+
+The `test` function is called repeatedly to check if the index `i` is less than the length of the `measurements` array. If it is, the function returns 1. Otherwise, it returns 0.
+
+The `update` function is called after each iteration and increments the index `i` by 1.
+
+The `body` function is called inside the loop and contains a nested immediately invoked anonymous function. This nested function creates another WebAssembly instance `__ifInstance4` using the `__ifWasmModule` and defines an environment object for it. This environment object has two function properties: `impFunc1` and `impFunc2`.
+
+Inside the `impFunc1` function, if the current measurement's latency is not 0, it calculates and adds the logarithm of the latency value to the `log` variable. It also sets the `hasLatencyResult` flag to true.
+
+The `impFunc2` function is empty, as it is not used in this case.
+
+After running the loop, the `__exports.data()` function is called to retrieve the result of the WebAssembly execution. The result is not used in the code snippet and is discarded.
+
+Finally, the `BenchmarkSuite.GeometricMeanLatency` function returns the geometric mean of the latency measurements, calculated by raising the base of the natural logarithm (`Math.E`) to the power of `log / measurements.length`.The remaining code defines the `NotifyStep` and `NotifyResult` methods of the `BenchmarkSuite` class.
+
+The `NotifyStep` method is called after each step of a benchmark. It creates a new WebAssembly instance `__callInstance20` using the `__callWasmModule` and defines an environment object for it. This environment object has one function property: `impFunc`. Inside the `impFunc` function, the `result` is pushed into the `results` array of the benchmark.
+
+Then, it creates a new WebAssembly instance `__ifInstance5` using the `__ifWasmModule` and defines an environment object for it. This environment object has two function properties: `impFunc1` and `impFunc2`. Inside the `impFunc1` function, it creates another WebAssembly instance `__callInstance19` using the `__callWasmModule` and defines an environment object for it. This environment object has one function property: `impFunc`. Inside the `impFunc` function, the `runner.NotifyStep` function is called with the name of the current benchmark as the argument.
+
+The `NotifyResult` method is called after all benchmarks have been run. It calculates the mean time of the benchmarks using the `GeometricMeanTime` function and calculates the score as the ratio of the reference score to the mean time. It then pushes the score into the `BenchmarkSuite.scores` array.
+
+Similar to the `NotifyStep` method, it creates a new WebAssembly instance `__callInstance18` using the `__callWasmModule` and defines an environment object for it. This environment object has one function property: `impFunc`. Inside the `impFunc` function, the calculated `score` is pushed into the `BenchmarkSuite.scores` array.
+
+Then, it creates a new WebAssembly instance `__ifInstance6` using the `__ifWasmModule` and defines an environment object for it. This environment object has two function properties: `impFunc1` and `impFunc2`. Inside the `impFunc1` function, it creates another WebAssembly instance `__callInstance17` using the `__callWasmModule` and defines an environment object for it. This environment object has one function property: `impFunc`. Inside the `impFunc` function, the `runner.NotifyResult` function is called with the name of the benchmark suite and the formatted score as arguments.
+
+The code snippets ends with the calls to the `data` functions of the WebAssembly instances, which are not used in the code.The remaining code defines the `NotifySkipped` method of the `BenchmarkSuite` class.
+
+The `NotifySkipped` method is called when a benchmark is skipped. It pushes a score of 1 into the `BenchmarkSuite.scores` array.
+
+Then, it creates a new WebAssembly instance `__ifInstance10` using the `__ifWasmModule` and defines an environment object for it. This environment object has two function properties: `impFunc1` and `impFunc2`. Inside the `impFunc1` function, it creates another WebAssembly instance `__callInstance13` using the `__callWasmModule` and defines an environment object for it. This environment object has one function property: `impFunc`. Inside the `impFunc` function, the `runner.NotifyResult` function is called with the name of the benchmark and a string indicating that it was skipped as arguments.
+
+The code snippet ends with the calls to the `data` functions of the WebAssembly instances, which are not used in the code.The remaining code defines the `NotifyError` and `RunSingleBenchmark` methods of the `BenchmarkSuite` class.
+
+The `NotifyError` method is called when there is an error in running a benchmark. It creates a new WebAssembly instance `__ifInstance11` using the `__ifWasmModule` and defines an environment object for it. This environment object has two function properties: `impFunc1` and `impFunc2`. Inside the `impFunc1` function, it creates another WebAssembly instance `__callInstance12` using the `__callWasmModule` and defines an environment object for it. This environment object has one function property: `impFunc`. Inside the `impFunc` function, the `runner.NotifyError` function is called with the name of the benchmark and the error as arguments.
+
+Similarly, the `NotifyStep` method is called to notify the runner about the progress of the benchmark.
+
+The `RunSingleBenchmark` method is called to run a single benchmark. It checks the configuration and benchmark properties to determine whether to warm up and run deterministically. Inside the `Measure` function, the benchmark is executed and the elapsed time is measured.
+
+The code snippet ends with the calls to the `data` functions of the WebAssembly instances, which are not used in the code.The code snippet describes the `RunStep` method of the `BenchmarkSuite` class. 
+
+The `RunStep` method is used to run a step of the benchmark suite. It first calls the `ResetRNG` function to reset the random number generator. Then, it initializes the `this.results` array to store the benchmark results. 
+
+Next, it assigns the `runner` argument to the `this.runner` property. 
+
+After that, it gets the length of the `benchmarks` array using the `length` variable. 
+
+Finally, it initializes the `index` variable to 0, which will be used as the index to access the benchmark in the `benchmarks` array.After the initialization of the variables and functions, the code defines three additional functions: `RunNextSetup`, `RunNextBenchmark`, and `RunNextTearDown`.
+
+The `RunNextSetup` function checks if the `index` variable is less than the `length` variable (which represents the length of the `benchmarks` array). If it is, it tries to execute the `Setup` method of the benchmark at the current `index`. If there is an error, it calls the `NotifyError` method of the `suite` object and returns `null`. Otherwise, it returns the `RunNextBenchmark` function.
+
+The `RunNextBenchmark` function tries to execute the `RunSingleBenchmark` method of the `suite` object with the benchmark at the current `index` as an argument. If there is an error, it calls the `NotifyError` method of the `suite` object and returns `null`. Otherwise, it checks if `data` is `null` and either calls the `RunNextTearDown` function or recursively calls itself.
+
+The `RunNextTearDown` function tries to execute the `TearDown` method of the benchmark at the current `index`. If there is an error, it calls the `NotifyError` method of the `suite` object and returns `null`. Otherwise, it increments the `index` variable and returns the `RunNextSetup` function.
+
+These three functions together represent the logic for running the setup, benchmark, and teardown steps of each benchmark in the suite in sequence.The last part of the function returns the `RunNextSetup` function, which is called immediately. This creates a recursive loop that executes each benchmark in the suite, starting with the setup, then the benchmark, and finally the teardown.
+
+After calling `RunNextSetup`, the function exits and control is passed to the `RunNextSetup` function. This starts the execution of the first benchmark in the suite. Once that benchmark is completed, the flow returns to the `RunNextSetup` function and moves on to the next benchmark in the suite. This process continues until all benchmarks have been executed.
+
+Once all benchmarks have been executed, the `RunNextSetup` function returns `null`, which indicates that the suite execution is complete.

@@ -1,0 +1,58 @@
+Analyze the following piece of code: 
+
+
+!function ($) {
+
+  $(function () {
+
+    "use strict"; 
+
+    
+
+    $.support.transition = (function () {
+
+      var transitionEnd = (function () {
+
+        var el = document.createElement('bootstrap')
+          , transEndEventNames = {
+               'WebkitTransition' : 'webkitTransitionEnd'
+            ,  'MozTransition'    : 'transitionend'
+            ,  'OTransition'      : 'oTransitionEnd'
+            ,  'msTransition'     : 'MSTransitionEnd'
+            ,  'transition'       : 'transitionend'
+            }
+          , name
+
+        for (name in transEndEventNames){
+          if (el.style[name] !== undefined) {
+            return transEndEventNames[name]
+          }
+        }
+
+      }())
+
+      return transitionEnd && {
+        end: transitionEnd
+      }
+
+    })()
+
+  })
+
+}(window.jQuery);
+
+What does this code do?
+
+This code defines a jQuery plugin that tests for browser support of the CSS transition property. It does this by creating an element with the name "bootstrap" (which is not a valid element name) and then checking which transition end event names are supported by that element. The event names are stored in an object, and the plugin returns an object with the transition end event name as its property.
+
+The code also uses the "use strict" directive, which is a feature of JavaScript that helps to prevent errors and improve code quality by defining strict mode semantics.
+
+The plugin is defined as a function that takes no arguments and returns an object. The function is called with the window.jQuery object, which is the jQuery library.
+
+The code is using the feature of window.jQuery to define a plugin, which is a way to extend the functionality of jQuery. The plugin is defined as a function that takes no arguments and returns an object. The function is called with the window.jQuery object, which is the jQuery library.
+
+The plugin is used to test for browser support of the CSS transition property, and it returns an object with the transition end event name as its property. The plugin can be used in a jQuery statement like this:
+
+$('div').supportTransition();
+
+This will return true if the browser supports the CSS transition property, and false otherwise.

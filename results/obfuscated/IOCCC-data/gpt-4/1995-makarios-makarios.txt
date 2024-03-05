@@ -1,0 +1,17 @@
+This C language code represents a program that calculates octal palindromes. A palindromic number is a number that remains the same when its digits are reversed. And an octal number is a number in base 8.
+
+The program starts from 1 and increments upwards continuously, checking each number to see if it is an Octal Palindrome. If a number is found that is an Octal Palindrome, it prints that number in octal format.
+
+Here's how the program functions internally:
+
+1. The loop increments the variable 'n' starting from 1 (due to the while(i=++n) ) until it finds an octal palindrome.
+
+2. For each 'n', the program generates its octal reversed version in the variable 'a' (with a=a*8 + i%8, i/=8) .
+
+3. By the condition 'a==i | a/8==i', it checks whether 'n' is an octal palindrome. It evaluates to true if 'n' in octal format is a palindrome.
+
+4. If this holds, it checks whether the original number has a divisor in the range from 2 to n-1 (using condition n-++m). If 'n' is divisible by any such 'm' (means, n is not prime), it breaks the loop and get next 'n'.
+
+5. The numbers that pass all these checks (octal palindrome and prime) are then printed out in octal format using printf("%o\n",n).
+
+In summary, it prints out octal palindromes. These numbers remain the same even when the order of its digits are reversed, also they are prime numbers.

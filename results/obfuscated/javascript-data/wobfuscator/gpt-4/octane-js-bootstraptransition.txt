@@ -1,0 +1,25 @@
+This script deals with WebAssembly (Wasm), which is a binary instruction format for a stack-based virtual machine. It's designed as a portable target for the compilation of high-level languages such as C and C++, allowing to run on the web at near-native speed without plugins.
+
+1) The `__universalAtob` function takes a base64 encoded string as an argument, turns it into binary data, and returns a Uint8Array of the byte data. If it faces any errors, it decodes the base64 string using the buffer object's 'from' method and again creates a Uint8Array from it.
+
+2) The `__callWasmBuffer` constant is a long string that seems to be encoded in Base64. It represents the raw Wasm module.
+
+3) The `__callWasmModule` variable is a new WebAssembly module created from the `__callWasmBuffer` string. Similarly to `__universalAtob` function, it decodes the base64 encoded Wasm code into byte array and uses it to create the WebAssembly module.
+
+4) The `__wasmStringModules` constant creates an array of WebAssembly instances. Each instance is created from a base64 encoded string by firstly decoding the base64 string to byte array (using the `__universalAtob` function) and using it to create the modules.
+
+5) The `lS` (presumably, loadString) function takes three arguments (an array of WebAssembly module or a single index, a position, and a callback which is not used in provided code). It reads the data from the memory buffer of the specific WebAssembly module (or multiple modules if the first argument is an array) starting from a position provided by the `data${pos}` export of the WebAssembly module.
+
+Overall, the code is meant to deal with WebAssembly instances for some specific operations to fetch and decode data. It can handle data both from single and multiple WebAssembly modules. The actual implementation will vary depending upon the specific exports and the content of the Wasm binary strings.Here, the script wraps some code in a self-invoking or immediately-invoked function expression (IIFE). This is executed immediately when it is defined and is commonly used to create new scope in JavaScript, preventing variable pollution in the global scope.
+
+1) The `__callInstance0` variable is a new WebAssembly instance created from the `__callWasmModule`. The second parameter of the `new WebAssembly.Instance` function is an object that maps the names of the imports in the WebAssembly module to JavaScript values.
+
+2) Inside the `env` object, the `impFunc` function is defined which is presumably an imported function in the WebAssembly module. This function selects an HTML document once it's ready with `$(function(){})` and makes a call to `lS(0,0)` function to load first Wasm module (index 0). 
+
+3) It then sets the `$.support.transition` property to an object encapsulating the browser's compatibility with CSS transition end event. It creates an HTML element and loops over the `transEndEventNames` object to find which CSS transition property the browser supports. It returns the event name when the transition ends. 
+  
+4) After defining the `impFunc`, a new WebAssembly instance is being created named `__callInstance0`. 
+
+5) Another constant `__exports` is defined which would hold the result of the `data` function exported by `__callInstance0`. The result of `data` function is not used in the provided script.
+
+6) Lastly, this script is being executed in the context of `window.jQuery`.

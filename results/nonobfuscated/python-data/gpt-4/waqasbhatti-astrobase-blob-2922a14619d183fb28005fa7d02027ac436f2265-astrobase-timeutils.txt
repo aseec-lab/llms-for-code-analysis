@@ -1,0 +1,18 @@
+This Python script imports required libraries and modules at the start. Modules include logging for tracking events that happen while the program is running, os.path for using path related operations, numpy for handling large, multi-dimensional arrays and matrices of numerical data, astropy.time for manipulation of dates and times, and jplephem.spk for opening a binary SPK file. 
+
+Subsequently, it checks for a file referred to as 'de430.bsp' in a relative path 'data/de430.bsp'. If it fails to find this file, it tries to download this file from a given URL, then attempts to open the file again. If the file is successfully downloaded and opened, a variable HAVEKERNEL is set as True, else it is set as False. 
+
+The script defines a few constants and then defines two functions - precess_coordinates and get_epochs_given_midtimes_and_period. 
+
+The 'precess_coordinates' function takes in parameters regarding coordinates and epochs, and performs a series of mathematical operations and transformations to deliver precessed coordinates. 
+
+The '_single_true' function takes in an input iterable and checks if there is only one instance of 'True' in it.
+
+The 'get_epochs_given_midtimes_and_period' function seems to be defined for calculating epochs given mid-times and the period. But the implementation of this function is not complete in this provided code block. It initializes 'kwargarr', but the function ends abruptly. 
+
+Note that the provided code includes a DEBUG flag. If set to True, detailed debug logs would be recorded by the logging module. If set to False, only key event information is logged.The remainder of the provided function, `get_epochs_given_midtimes_and_period`, calculates the epochs using various methods depending on what type of error is passed as the argument. The function raises an AssertionError if more than one of err_t_mid, t0_fixed, t0_percentile is not None and not all of them are None. After that, it finds the number of mid_times and sets t0 using the method specified by the argument. The epochs are then calculated by subtracting this t0 from each mid-time and dividing by the period. The function also contains several log statements that provide debugging information.
+
+Following this, there are a series of helper functions that convert unixtime to Julian date (jd), datetime to Julian date, Julian date to datetime, get current Julian date, convert from Julian date to modified Julian date (mjd), and mjd to Julian date.
+
+Finally, there is a `jd_corr` function which takes as input a Julian date and other parameters such as right ascension (ra), declination (dec), observer's longitude (obslon), latitude(obslat), and altitude(obslat). Depending on the jd_type specified ('bjd' or 'hjd'), it calculates the corrected Julian Date.
+This function requires a JPL kernel file (the 'de430.bsp' previously mentioned) to compute the locations of various celestial bodies to correct the time for light travel time effects. If the JPL kernel file is not available, it logs an error and terminates.

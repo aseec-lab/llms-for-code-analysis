@@ -1,0 +1,15 @@
+The provided code is written in C++, where it takes as input an integer `n` representing the dimension of a room which is a 2-dimensional square grid of size (`n` x `n`). Also, it inputs a number to represent the number of days.
+
+Each cell in the grid room contains one of three possible characters: '.', '#', and '@'. Each character represents a different state:
+
+  - If it is '.', then it is set as 2 in room array;
+  - If it is '#', then it is set as 0 in room array;
+  - If it is '@', then it is set as 1 in room array;
+
+After setting up the room array, it inspects each cell every day. If the cell  (`i`,`j`) has the value 1 (represented by '@') then it checks its 4 direct neighbours to the North, South, East, and West and if it finds a neighbour with a value of 2 (represented by '.') it sets that neighbour cell's value to be 3 (which indicates it will transform into '@' on the next day).
+
+After processing all cells in this manner it then transforms any cell which was set to 3 into 1 (indicating its new state as '@') and repeats the process for the number of days provided as input.
+
+Finally, the number of cells that have the state '@' in the room after `day` days are counted and printed to the output.
+
+Essentially, this is a simple form of a cellular automaton (similar to 'The Game of Life'), with '@' dots spreading in a room. '#''s are obstacles and '.' are free spaces. After user-provided days, it prints how many dots, there are in the room.

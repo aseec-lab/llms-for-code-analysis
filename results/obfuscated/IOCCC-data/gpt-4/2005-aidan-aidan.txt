@@ -1,0 +1,16 @@
+This code is a command-line program to solve Sudoku puzzles. 
+The given code is mostly written in the form of macros pre-processor in C. Here is a high-level summary of what the code does.
+
+1. The program starts with a series of preprocessor macros definitions. Some of them like 'f' and 'N' are just shorthand to express common structures, but others like 'Su', 'NO', 'Ba', 'O' have specific purposes within the solution-finding process.
+   
+2. 'struct' is used to define a new data type structure with elements for the Sudoku board, and variables for iterating through the cells.
+
+3. The 'main' function reads the initial state of the Sudoku board either from the command line arguments or from the standard input. Then it runs a loop with a depth-first search algorithm to find a solution. It keeps track of the number of attempts and the highest number of recursive calls.
+
+4. Each recursive call to the main body of code assigns the next available value to the first empty cell on the board. If all numbers have been tried for a cell, it resets that cell's value and goes back to the previous empty cell.
+
+5. When all cells are filled correctly, it terminates the recursion and prints the solution. If after all attempts a solution is not found, it prints a message saying there's no solution.
+
+Note:
+* The code is written specifically to be compact, which makes it a bit hard to understand. This style of coding was common in programming competitions but is generally discouraged in real-world projects due to the lack of clarity and maintainability. Also, such programs are tough to debug due to lack of clarity and explicitness.
+* Many of the specific variable and macro names used ('N', 'f', 'Su', 'NO', 'Ba', 'O', etc.) are more confusing than informative. They seem designed to code golf (minimizing the number of characters/sheer size in the source code) rather than encouraging understanding or reusability of the code.

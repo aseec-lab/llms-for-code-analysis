@@ -1,0 +1,49 @@
+The code appears to be decoding and manipulating base64 encoded data and using it to create a WebAssembly module.
+
+The code starts with a function called `__universalAtob` which takes a base64 encoded string as input and decodes it using the `atob` function. This decoded string is then converted into a `Uint8Array` and returned. If an error occurs during decoding, the function falls back to decoding the string using `global.Buffer.from` and returns a `Uint8Array`.
+
+The code then defines a constant called `__callWasmBuffer` which contains a base64 encoded string. This string is decoded using the same `__universalAtob` function and converted into a `Uint8Array`. 
+
+Next, a constant called `__callWasmModule` is defined as a new `WebAssembly.Module` object. The module is created using a self-invoking function that decodes the `__callWasmBuffer` string using the `__universalAtob` function and converts it into a `Uint8Array`. The resulting `Uint8Array` is then passed to the `WebAssembly.Module` constructor.
+
+After that, an array called `__wasmStringModules` is defined. Each element in the array is a base64 encoded string that represents a WebAssembly module. The `__universalAtob` function is used to decode each element in the array and convert it into a `Uint8Array`. Finally, a `WebAssembly.Instance` is created for each `Uint8Array` using the `WebAssembly.Module` constructor, and the instances are stored in the array.
+
+Lastly, there is a function called `lS` defined. This function takes three parameters: `wI`, `pos`, and `iWC`. Inside the function, there is a conditional statement that checks if `wI` is not an array. If `wI` is not an array, it is used as an index to retrieve a target WebAssembly module from the `__wasmStringModules` array. The function then accesses the memory buffer of the target module and retrieves a string using a string key derived from the `pos` parameter. The retrieved string is then decoded and returned.
+
+If `wI` is an array, the function loops through each element in the array and retrieves a target WebAssembly module in the same way. The retrieved strings are concatenated and returned.
+
+Overall, the code decodes base64 encoded data and uses it to create and manipulate WebAssembly modules. The `lS` function is used to retrieve decoded strings from the modules.The remaining part of the function `game()` defines the `playMatch()` function. 
+
+Inside `playMatch()`, the function first selects various elements from the DOM using the `lS()` function to retrieve the necessary strings. The selected elements include the computer's hand, the player's hand, the available options, and all the hands.
+
+Next, an anonymous self-invoking function creates a `WebAssembly.Instance` called `__callInstance14`. This instance is created using the `__callWasmModule` and provides an `env` object with an `impFunc` function.
+
+Inside the `impFunc` function, there is a loop that iterates over each `hand` in the `hands` array. For each `hand`, another anonymous self-invoking function creates a `WebAssembly.Instance` called `__callInstance13`. This instance is created using the `__callWasmModule` and provides an `env` object with an `impFunc` function.
+
+Inside the `impFunc` function of `__callInstance13`, an event listener is added to the current `hand`. When the `hand` is clicked, the event listener sets the `animation` property of the `hand` to the string returned by the `lS(0, 11)` function.
+
+After the loop finishes, the anonymous self-invoking function returns the result of calling `__exports.data()` on `__callInstance14`.
+
+Lastly, an array called `computerOptions` is defined with three strings retrieved using the `lS()` function. These strings represent the available options for the computer.Inside the `compareHands()` function, there is a conditional statement to check if the player's choice and the computer's choice are the same. If they are, the `winner` element's text content is set to a string retrieved using the `lS()` function, and the function returns.
+
+If the player's choice is not the same as the computer's choice, there is another conditional statement to check if the player's choice is a specific option. If it is, another conditional statement checks if the computer's choice is a specific option. Depending on the outcome, the `winner` element's text content is set to a different string retrieved using the `lS()` function.
+
+In both cases where the player's choice is not the same as the computer's choice, the respective score variable (`pScore` or `cScore`) is incremented, and the `updateScore()` function is called.
+
+Lastly, there is an anonymous self-invoking function that creates a `WebAssembly.Instance` called `__callInstance8`. This instance is created using the `__callWasmModule` and provides an `env` object with an `impFunc` function.
+
+Inside the `impFunc` function of `__callInstance8`, the `updateScore()` function is called.
+
+The `compareHands()` function ends there.The remaining part of the `compareHands()` function consists of two more conditional statements, each comparing the player's choice to a specific option. If the player's choice matches the specified option and the computer's choice matches a specific option, the `winner` element's text content is set to a corresponding string retrieved using the `lS()` function.
+
+In both cases, the respective score variable (`pScore` or `cScore`) is incremented, and the `updateScore()` function is called within an anonymous self-invoking function that creates a `WebAssembly.Instance`.
+
+After each conditional statement, the function just returns, ending the function execution.
+
+Below the `compareHands()` function, there is the `updateScore()` function. Inside this function, the player's score is retrieved by selecting the element with a specific ID using the `lS()` function and assigning it to the `playerScore` variable.After the `compareHands()` function, there are three additional self-invoking functions that use WebAssembly to call the respective functions: `startGame()`, `playMatch()`, and `game()`. Each function is invoked within an anonymous self-invoking function that creates a `WebAssembly.Instance` using the `__callWasmModule` module.
+
+Inside each `WebAssembly.Instance`, the `env` object is passed with the `impFunc` property set to the respective function. This allows the WebAssembly code to call the JavaScript function when needed.
+
+After each `WebAssembly.Instance`, the function assigns the exports of the instance to the `__exports` variable, and then returns the result of calling `__exports.data()`.
+
+The purpose of these self-invoking functions is to link the WebAssembly code with the JavaScript code and allow the WebAssembly code to call the necessary JavaScript functions.

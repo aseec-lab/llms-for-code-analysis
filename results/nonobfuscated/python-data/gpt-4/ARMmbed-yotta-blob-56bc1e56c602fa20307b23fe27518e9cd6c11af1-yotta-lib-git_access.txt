@@ -1,0 +1,13 @@
+This script has a great deal of interaction with Git repositories and provides a Python interface for common Git operations such as cloning, fetching available versions (tags, branches), and navigating a working copy of a Git repository.
+
+The code has several classes:
+
+- GitCloneVersion handles operations for a specific version (tag) in a Git repository, such as unpacking it into a directory and removing the version from the working copy.
+- GitWorkingCopy represents a cloned Git repository and enabled operations such as removing the repository, getting available versions (through tags), getting available tags, getting available branches, getting the tip version and getting a commit version based on a commit spec.
+- GitComponent is a remote Git component and can create a component from a source URL and clone the Git component to a local machine.
+
+The `yotta.lib` module seems to be an external package that provides utilities for version control system (VCS) operations and filesystem operations.
+
+The logging module is also used for debugging purposes to track the operations performed on Git repositories. For instance, it helps logging the version of the Git repository being cloned into a directory, available version tags, creation of Git component for a URL, etc. 
+
+Note that the logging in the given module (namely, the `access` module) is set using `logging.getLogger('access')`. This means that, when the messages are logged, the `access` logger is used, which can be configured separately from the root logger and other loggers in your application.

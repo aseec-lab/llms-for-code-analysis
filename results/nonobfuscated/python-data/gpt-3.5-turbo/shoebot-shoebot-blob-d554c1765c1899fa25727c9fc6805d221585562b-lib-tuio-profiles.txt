@@ -1,0 +1,9 @@
+This code defines two classes, `Tuio2DcurProfile` and `Tuio2DobjProfile`, that inherit from a base class called `TuioProfile`. 
+
+The `TuioProfile` class has a `set` method, an `alive` method, and a `fseq` method that are not implemented and simply raise a `NotImplementedError`. It also has an `objs` method that iterates over the `objects` dictionary and yields each object if its `sessionid` is in the `sessions` list.
+
+The `Tuio2DcurProfile` class has an `address` attribute set to "/tuio/2Dcur" and a `list_label` attribute set to "cursors". It overrides the `set` method and the `alive` method to handle messages specific to 2D cursors. In the `set` method, it checks if the `sessionid` of the message is already in the `objects` dictionary, and if not, it creates a new `Tuio2DCursor` object and adds it to the dictionary. It then calls the `update` method of the cursor object with the sessionid and the remaining elements of the message. In the `alive` method, it updates the `sessions` list and removes any objects from the `objects` dictionary that are not in the `sessions` list.
+
+The `Tuio2DobjProfile` class is similar to the `Tuio2DcurProfile` class, but it handles messages specific to 2D objects. Its `address` attribute is set to "/tuio/2Dobj" and its `list_label` attribute is set to "objects". It overrides the `set` and `alive` methods in a similar way to the `Tuio2DcurProfile` class.
+
+Overall, these classes define profiles for processing different types of messages in a TUIO system. They handle the creation, updating, and removal of objects or cursors based on the messages received.

@@ -1,0 +1,66 @@
+Analyze the following piece of code: int main()
+{
+ char word[50][20];
+ char s[100],a[100],b[100],e[100];
+ int i=0,j=0,k=0;
+ gets(s);
+ while (1)
+ {
+  if (s[i]!=' '&&s[i]!='\0')
+  {
+   e[j]=s[i];
+   j++;
+  }
+  else if(s[i]==' ')
+  {
+   e[j] = '\0';
+   strcpy(word[k],e);
+   j=0;
+   k++;
+  }
+   else if(s[i]=='\0')
+  {
+   e[j] = '\0';
+   strcpy(word[k],e);
+   break;
+  }
+  i++;
+ }
+	gets(a);
+	gets(b);
+	for(i=0;i<=k;i++)
+	{
+		if (strcmp(a,word[i])==0)
+			strcpy(word[i],b);
+	}
+	for(i=0;i<k;i++)
+		printf("%s ",word[i]);
+	printf("%s",word[k]);
+	return 0;
+}
+
+What does this code do?
+
+The code appears to be a program that takes in two strings from the user, and replaces all occurrences of one string with another in a third string. The code is written in C, and it appears to have several bugs, so it may not function as intended. However, based on the code and its structure, I can provide an educated guess at what the code is supposed to do:
+
+The code appears to be attempting to read in a series of words from the user, separated by spaces. It does this by using the gets() function, which reads in a string until it reaches a newline character. The words are then stored in an array of character arrays, with each word occupying a single row in the array.
+
+Once the words have been read in, the code loops through each word in the array, checking if the current character is a space or a null character. If it's a space, the code copies the current word into a temporary array element, increments a counter, and moves on to the next word. If it's a null character, the code copies the current word into a temporary array element, increments a counter, and breaks out of the loop.
+
+After the words have been processed, the code prompts the user to enter two strings, and then loops through each word in the array again. This time, the code checks if the current word matches the first string that was entered. If it does, the code replaces the word with the second string.
+
+Finally, the code prints out the modified array of words. However, the code appears to have a bug in the loop that replaces the words, as it only replaces the first word in the array with the second string. Additionally, the code does not handle the case where the second string matches one of the words in the array, but not the first string.
+
+Overall, the code appears to be a work in progress, and may need further development and testing to function as intended.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente se traduce a código ejecutable en tiempo real mientras se está ejecutando el programa. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce a código ejecutable inmediatamente antes de ser ejecutada.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución,

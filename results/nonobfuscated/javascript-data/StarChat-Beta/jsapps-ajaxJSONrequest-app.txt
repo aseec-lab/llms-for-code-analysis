@@ -1,0 +1,62 @@
+Analyze the following piece of code: console.log(':D');
+
+const boton = document.querySelector('#boton')
+boton.addEventListener('click', traerDatos)
+
+function traerDatos(){
+
+	const xhttp = new XMLHttpRequest
+	xhttp.open('GET', 'catalogo.json', true)
+	xhttp.send()
+	xhttp.onreadystatechange = function(){
+
+		if( this.readyState == 4 && this.status == 200 ){
+
+						let datos = JSON.parse(this.responseText)
+
+			let respuesta = document.querySelector('#respuesta')
+			respuesta.innerHTML = ''
+			
+			for(let item of datos){
+				
+				let listItem = `
+					<tr>
+						<td>${item.title}</td>
+						<td>${item.artist}</td>
+					</tr>
+				`
+				respuesta.insertAdjacentHTML("beforebegin", listItem)
+			}
+		}
+	}
+}
+
+The code is written in JavaScript and uses the XMLHttpRequest API to make an asynchronous HTTP request to a JSON file named "catalogo.json". The response from the server is parsed as JSON and used to populate a table with the data from the file.
+
+The code starts by selecting the button element with the id "boton" and adding an event listener to it that calls the traerDatos function when the button is clicked.
+
+The traerDatos function makes an HTTP GET request to the "catalogo.json" file and stores the response in the xhttp variable. It then loops through the data in the response and inserts each item into an HTML table. The table is then appended to the element with the id "respuesta".
+
+Overall, the code demonstrates how to make an asynchronous HTTP request using the XMLHttpRequest API, parse the response as JSON, and use the data to populate an HTML element.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable antes de que se ejecute el programa. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código máquina que el equipo puede ejecutar directamente. El archivo ejecutable resultante se puede ejecutar sin necesidad de volver a compilar el código fuente cada vez que se desea ejecutar el programa.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras el programa se está ejecutando. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable inmediatamente antes de que se ejecute.
+
+La elección entre un lenguaje compilado o interpretado depende de factores como la facilidad de uso, la velocidad de ejecución, la seguridad y la escalabilidad del programa. Por ejemplo, los lenguajes de programación interpretados son más fáciles de usar y desarrollar, mientras que los lenguajes compilados son más rápidos y seguros.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y ejecutar secuencias de instrucciones que realizan una tarea específica. Los lenguajes de programación se utilizan para crear aplicaciones de software, como programas, aplicaciones web, juegos y sistemas operativos.
+
+Los lenguajes de programación se basan en un conjunto de reglas y construcciones que describen cómo se deben escribir y organizar las instrucciones del programa. Estas reglas y construcciones permiten a los programadores escribir código que se puede entender y ejecutar por una computadora.
+
+Hay muchos lengu

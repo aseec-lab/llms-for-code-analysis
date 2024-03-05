@@ -1,0 +1,20 @@
+The provided code defines a class called OrderBook that retrieves and manages order book data for a specific cryptocurrency market. 
+
+The class has the following attributes:
+- WS_URI: the WebSockets URI used to connect to the market.
+- API_URI: the API URI used to make requests to the market's REST API.
+- PRODUCT_ID: the identifier for the cryptocurrency product being traded (e.g. BTC-USD).
+
+The __init__ method initializes the class by connecting to the WebSockets client and retrieving the initial order book data from the MarketClient using the REST API. It also sets up dictionaries for asks and bids from the retrieved order book data.
+
+The class includes several private methods that handle different types of messages received from the WebSockets client. These methods update the order book data accordingly.
+
+The _real_time_thread method runs in a separate thread and continuously receives messages from the WebSockets client. It checks the message type and calls the corresponding private method to handle the message.
+
+The __enter__ and __exit__ methods allow the class to be used as a context manager.
+
+The __str__ method returns a string representation of the order book data in JSON format.
+
+The end, pause, resume, and get_order_book methods provide functionality to control and retrieve the order book data.
+
+Overall, this code is a basic implementation of an order book manager for a cryptocurrency market using WebSockets for real-time updates.

@@ -1,0 +1,22 @@
+The given code is written in C language, and it's a command line program that takes in a series of numbers as arguments when the program is executed. It uses an enumeration to define `Foo` which consists of two identifiers `I` and `O` with values `1` and `2` respectively.
+
+The `main` function is designed to iterate through the passed command line arguments (`av`). It ignores the first argument, which is typically the name of the executed program itself, and starts from the 2nd argument (if any). The function `puts` prints a string to the terminal.
+
+Then, it performs a switch case operation on the first character of each argument it iterates over, after subtracting '0' from it to convert the character to an integer.
+
+- If the inputted number is `1`, equivalent to identifier `I`, it prints the string "input" to the terminal.
+- If the number is `2`, equivalent to identifier `O`, it prints "output" on the terminal.
+- If the input does not fall into these two groups, it prints "whatever" to the terminal.
+
+So if the program is executed like:
+`./program_name 1 1 2 3`
+
+The output will be:
+```
+input
+input
+output
+whatever
+```
+
+Please, remember that you may trigger undefined behavior if you give something different than numbers in range [0-9], because you calculate the difference between the ASCII of character '0' and the ASCII value of the char in question.

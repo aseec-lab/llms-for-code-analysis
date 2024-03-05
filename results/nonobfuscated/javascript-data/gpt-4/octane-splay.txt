@@ -1,0 +1,31 @@
+The code handles the creation and maintenance of a splay tree data structure. A splay tree is a self-adjusting binary search tree with the additional property that recently accessed elements are quick to access again. They are particularly useful for certain types of caches.
+
+The code also includes the following key functionalities:
+
+- `SplayRMS`: A function to calculate the root-mean-square (a statistical method of comparing the magnitude of different events) of the previously recorded samples.
+
+- `InsertNewNode`: A function that creates and inserts a new node into the splay tree, ensuring the key for the new node is unique.
+
+- `SplaySetup`: A function that initializes a new SplayTree and inserts new nodes into it. It’s called before the benchmark run.
+
+- `SplayTearDown`: A function that is executed after the benchmark run. It verifies that the splay tree has the correct size and that the keys are correctly sorted.
+
+- `SplayTree`: A class with methods for inserting and removing nodes, finding nodes, and other tree manipulations.
+
+This code also includes `SplayRun`, which is a benchmark that performs a certain number of insertions and deletions on the splay tree and measures the execution time.
+
+Parameters of the splay such as tree size, number of modifications, and payload depth are defined as constants at the beginning of the script. 
+
+The `splayTree` is being benchmarked by inserting a large number of nodes, performing a certain number of modifications then measuring how long this takes. It collects the time it takes to complete these operations then update statistics. After all the operations, it cleans up and verifies that the splay tree is in the correct state.This remaining part defines mechanics of a splay tree node and methods to manipulate it.
+
+- `SplayTree.Node`: A constructor function that creates a new tree node with a given key and value.
+  
+- `SplayTree.Node.prototype.left`: A property that holds the left child of a node. It's initially null.
+
+- `SplayTree.Node.prototype.right`: A property that holds the right child of a node. It's initially null.
+
+- `SplayTree.Node.prototype.traverse_`: Method to traverse the tree. It calls the function parameter `f` on each node during the traversal. The traversal is in-order, it first visit the left child, then the parent, and finally the right child (`left -> parent -> right`). This property would be extremely useful if we would need to visit all the values in a sorted way. 
+
+The traverse mechanic uses a while loop to keep visiting nodes as long as they exist. If a left child exists, it will traverse down that path first, following the in-order traversal rule. After traversing the left subtree and applying the function `f` to the current node, it will then traverse the right subtree.
+
+Remember, these are all prototypes related to `SplayTree.Node`, and hence would be common to all objects that are created from `SplayTree.Node' constructor.

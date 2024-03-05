@@ -1,0 +1,51 @@
+This is a Python library that provides a range of functions for working with iterable objects.
+
+At the core of the library is a `chunks` class. This class is used to divide a given set of 'items' into smaller 'chunks'. The number of chunks or the number of items per chunk can be specified during initialization. The class also provides different border handling modes. 
+
+- The `noborder` method simply ignores items that don't fit evenly into the chunks, 
+- The `cycle` method loops back to the start of the 'items' list to complete a chunk if necessary,
+- The `replicate` method repeats the last item of the 'items' list to fill the remaining chunk space.
+
+The library also provides several other utility functions to operate on iterable objects:
+
+- `iterable(obj, strok=False)`: validates if an object is iterable,
+- `take(items, indices)`: picks specific items from a list based on their indices,
+- `compress(items, flags)`: filters items based on a set of boolean values (flags),
+- `flatten(nested_list)`: flattens a list of lists into a single list,
+- `unique(items, key=None)`: returns unique items from a list, optionally transforming each item with a provided function (key),
+- `argunique(items, key=None)`: similar to unique, but returns unique indices instead of items,
+- `unique_flags(items, key=None)`: return a mask of booleans indicating the unique items,
+- `boolmask(indices, maxval=None)`: creates a boolean mask based on indices,
+- `iter_window(iterable, size=2, step=1, wrap=False)`: allows sliding window functionality over any iterable,
+- `allsame(iterable, eq=operator.eq)`: checks if all items in a list are equal,
+- `argsort(indexable, key=None, reverse=False)`: returns the indices that would sort an indexable collection,
+- `argmax(indexable, key=None)`: returns the index of the maximum element in an indexable collection,
+- `argmin(indexable, key=None)`: returns the index of the minimum element in an indexable collection.The `peek` function is used to get the first element or 'peek' into an iterable without altering the original iterable or advancing its iterator.
+
+This function is achieved by creating a new iterator from the provided iterable and retrieving the next value. This allows you to preview the first element in an iterable without any side effects.
+
+Here's an example usage of the `peek` function:
+
+```python
+numbers = [1, 2, 3, 4, 5]
+print(peek(numbers)) # output: 1
+```
+
+Despite calling `peek`, we are still able to iterate over all numbers, as the original iterable was not modified:
+
+```python
+for num in numbers:
+    print(num)
+```
+
+Output:
+
+```
+1
+2
+3
+4
+5
+```
+
+`peek` is useful in situations where you need to preview the contents of an iterable before deciding how to process it. For example, if you have a list of tasks that depend on the type of the first task in the list, `peek` allows you to preview the first task without removing it from the list.

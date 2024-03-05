@@ -1,0 +1,29 @@
+This C code appears to be a benchmarking program, used to measure the computing power of the processor it's running on. 
+
+At the start of the program, several mathematical functions are defined using `#define` directives, and a few arrays and integers are initialized for use within the program.
+
+The main application starts by parsing command-line arguments, looking for a -c switch or a number. The -c switch results in a continuous looping mode, while the number modifies the base 'loopstart' number which will be later used to run the benchmarking loop.
+
+In the main calculation phase, there are several different pieces of code that perform calculations on data. They use mathematical functions such as sin(), cos(), and exp(), and various looping and branching structures, designed to test different aspects of the CPU’s performance.
+
+After all calculations, the execution time is evaluated by calculating the difference between the 'startsec' and 'finisec', which are timestamps taken immediately before and after the benchmarking loop. The program then prints a message urging the user to increase the loop count if the elapsed time is zero seconds, which would imply that the CPU was able to complete the calculations so quickly that the time taken was less than a second. 
+
+The behavior of the program can be modified by defining the PRINTOUT preprocesser, for displaying the results of the calculations (it is undefined in the provided code). 
+
+Finally, functions POUT(), PA(), P0(), P3() are declared at the beginning but their implementation is not available in the code provided. These could be the implementations of the calculations being performed, but cannot be analysed without seeing their actual code.The provided code is a continuation of the previously benchmarking application. 
+
+It first calculates and prints the number of "Whetstones" (a measure of CPU performance) per second. It calculates Whetstones by dividing the total number of inner loop iterations by the time taken and then scaling by 100. The result is then displayed in either KWIPS (Kilo-Whetstones Per Second) or MWIPS (Mega-Whetstones Per Second), depending on the magnitude of the figure.
+
+It then has a check for whether the 'continuous' flag is on. If this flag is on, it goes back to the marker LCONT to repeat the benchmark, hence running in a loop until the program is stopped manually. If the flag is not set, the program exits with a return code of 0.
+
+The functions PA(), P0(), P3() and POUT() previously referred to are now defined. 
+
+PA() is a computation that successively updates elements in an array E[] based on the previous elements and a fixed constant T, repeating this operation six times.
+
+P0() is a simple function that permutes the values in an array, swapping the values at index J, K, and L.
+
+P3() performs some mathematical operations on the input values X, Y and outputs the result in Z.
+
+The POUT() function is used to print out the results of the calculations. However, it is wrapped in an 'ifdef' preprocessed directive which means that the function will be compiled and active only if PRINTOUT is defined somewhere else in the code (which does not seem to be the case in the provided code). It would print line by line of several parameters, including the current iteration and four floating-point values. 
+
+Overall, these functions seem to be designed to perform certain calculations that would stress and evaluate different aspects of the processor's arithmetic and logic performance.

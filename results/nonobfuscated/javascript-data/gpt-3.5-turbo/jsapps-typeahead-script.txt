@@ -1,0 +1,17 @@
+This code is for a type-ahead search feature. 
+
+The code first sets the endpoint variable to the URL of a JSON file. It then initializes an empty array called getData. It also selects two elements from the HTML with the IDs "search-input" and "show-suggestions" and assigns them to the searchInput and searchList variables, respectively.
+
+Next, the code adds an event listener to the searchInput element for the 'keyup' event. When this event is triggered, it calls the displayMatches() function.
+
+The code then uses the fetch() function to make a request to the specified endpoint. It chains a .then() method to handle the response. Inside this .then() callback, it extracts the JSON data from the response using .json(). Another .then() callback is chained to the previous one, which receives the parsed data. In this callback, the data is pushed into the getData array, using the spread operator.
+
+After that, there are two function declarations. The first one is findMatches(), which takes a wordToMatch and the getData array as arguments. Inside the function, it filters the getData array based on whether the title or description of each item matches the wordToMatch using a regular expression. The filter() method is called on getData, and for each item, it checks if either title or description matches the regex. If it does, the item is included in the result.
+
+The second function declaration is displayMatches(). Inside this function, it calls findMatches() with the current value of searchInput and the getData array as arguments and assigns the result to the matchArray variable. It then maps over the matchArray to generate HTML for each matching place. Inside the map callback, it creates a regex using the value of searchInput and the 'gi' flags. It then replaces the matching word in the title and description of each place with a <span> element with the class "hl" to highlight it. The resulting HTML is wrapped in a <li> element. The map returns an array of these <li> elements. Finally, the array is joined into a single string using .join(''), and the resulting HTML string is assigned to the innerHTML property of the searchList element.
+
+After that, there is an if statement that checks if the value of searchInput is empty. If it is, the innerHTML of the searchList element is assigned an empty string.
+
+Next, the code selects an element with the ID "open-search-form" and assigns it to the button variable. It also selects an element with the class "search-form" and assigns it to the searchForm variable.
+
+Lastly, the code adds an event listener to the button element for the 'click' event. When this event is triggered, it toggles the 'is-open' class on the searchForm element.

@@ -1,0 +1,21 @@
+This code calculates various characteristic features of astronomical light curves, which are time series of an astronomical object's brightness or flux. Particularly, the code seems to be used for the classification of variable stars based on their light curves.
+
+Initially, it sets up a logging system, handling different logging levels based on whether you're in debug mode or not.
+
+Then, it imports a bunch of libraries including multiprocessing ones and tries to import cPickle, using regular pickle as a fallback. It also attempts to import 'tqdm' library for creating progress bars. The number of CPUs is also determined.
+
+Next, it defines a function called _dict_get that seems to be fetching some data from a nested dictionary called datadict using a list of keys.
+
+The main function is named get_varfeatures which takes a light curve file, an output directory and other parameters as input. It reads the light curve data, checks if it meets some conditions (like certain minimum number of data points), normalizes it, removes non-finite values, and calculates several features of the light curve using a function imported from astrobase.varclass. After a best magnitude column is chosen, the result is then pickled and saved. 
+
+Another function _varfeatures_worker wraps around this function, presumably making it work with multiple processes. 
+
+If any operation fails, then exception handling logs the failure and returns None.This code further extends the concept of computing varfeatures for light curves in a directory. This is executed in both serial and parallel manner. It is implemented using both monolithic and distributed processing.
+
+The serial_varfeatures function processes a list of light curve files one at a time. For each light curve file, it calls _varfeatures_worker. The function uses tqdm to generate a progress bar. The output this function exerts is the result of the final task.
+
+In parallel_varfeatures function, it uses Python's built-in concurrent.futures library to process light curve files in parallel. Before the tasks are distributed among multiple workers, it ensures the existence of the output directory. Results are returned as a dictionary with filenames as keys and their corresponding varfeatures as values.
+
+The function parallel_varfeatures_lcdir is used to calculate varfeatures for every light curve file within a directory and its subdirectories. The light curve format is determined by invoking the get_lcformat function. In case this function fails, an error is logged and None is returned. If the recursive flag is set, it uses the glob module to find all light curve files in a directory and its subdirectories. If Python version is less than 3.4, it uses the os module to walk through the directory structure and find the files. It then calls the parallel_varfeatures function to process these files in parallel. If no light curve files are found, an error is logged and return None. 
+
+In all these functions, you can limit the number of objects to process using the maxobjects parameter, and also specify custom time, magnitude, and error columns, the minimum number of detections a light curve must have, and the format of the light curves.

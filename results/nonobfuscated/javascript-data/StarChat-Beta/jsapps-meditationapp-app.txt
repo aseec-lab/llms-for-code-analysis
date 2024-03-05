@@ -1,0 +1,91 @@
+Analyze the following piece of code: 
+const song = document.querySelector('.song');
+const play = document.querySelector('.play');
+const replay = document.querySelector('.replay');
+const outline = document.querySelector('.moving-outline circle');
+const video = document.querySelector('.vid-container video');
+const sounds = document.querySelectorAll('.sound-picker button');
+const timeDisplay = document.querySelector('.time-display');
+const outlineLength = outline.getTotalLength();
+const timeSelect = document.querySelectorAll('.time-select button');
+let fakeDuration = 600;
+
+outline.style.strokeDasharray = outlineLength;
+outline.style.strokeDashoffset = outlineLength;
+
+play.addEventListener("click", function () {
+	checkPlaying(song);
+});
+
+sounds.forEach(sounds => {
+	sounds.addEventListener('click', function () {
+		song.src = this.getAttribute('data-sound');
+		video.src = this.getAttribute('data-video');
+		checkPlaying(song);
+	})
+})
+
+timeSelect.forEach(option => {
+	option.addEventListener("click", function () {
+		fakeDuration = this.getAttribute("data-time");
+		timeDisplay.textContent = `${Math.floor(fakeDuration / 60)}:${Math.floor(
+			fakeDuration % 60
+		)}`;
+	});
+});
+
+const checkPlaying = song => {
+	if (song.paused) {
+		song.play();
+		video.play();
+		play.src ='svg/pause.svg';
+	} else {
+		song.pause();
+		video.pause();
+		play.src ='svg/play.svg';
+	}
+};
+
+song.ontimeupdate = () => {
+	
+	let currentTime = song.currentTime;
+	let elapsedTime = fakeDuration - currentTime;
+	let seconds = Math.floor(elapsedTime % 60);
+	let minutes = Math.floor(elapsedTime / 60);
+
+	let progress = outlineLength - (currentTime / fakeDuration) * outlineLength;
+	outline.style.strokeDashoffset = progress;
+
+	timeDisplay.textContent = `${minutes}:${seconds}`
+
+	if (currentTime > fakeDuration) {
+		song.pause();
+		song.currentTime = 0;
+		song.src ='svg/play.svg';
+		video.pause();
+	}
+}
+
+The code is written in JavaScript and appears to be part of a larger program. It appears to be related to a music player that has a play/pause button, a replay button, a video element, and several sound options. The code also includes some code for animating a circle that represents the progress of the song.
+
+The code appears to define several constants, including `song`, `play`, `replay`, `outline`, `video`, `sounds`, `timeDisplay`, and `outlineLength`. The `outlineLength` constant appears to be the length of the circle outline, which is used for animation.
+
+The code then appears to define several event listeners. The first event listener is for the play button, which appears to check whether the song is currently playing and then either plays or pauses the song and video based on the current state. The second event listener is for the sound buttons, which appears to set the `src` of the song and video elements to the selected sound when the button is clicked. The third event listener is for the time select buttons, which appears to set the `fakeDuration` constant to the selected time when the button is clicked.
+
+The code then appears to define a function called `checkPlaying` that is used to check whether the song is playing and to update the play button accordingly.
+
+The code also includes some code for updating the progress of the circle outline based on the current time of the song. The progress is calculated by subtracting the current time from the `fakeDuration` constant, and then dividing the result by the `fakeDuration` to get a value between 0 and 1. The progress value is then used to set the `strokeDashoffset` of the outline, which appears to animate the circle outline.
+
+The code also includes some code for updating the time display to show the current time of the song. The time is calculated by subtracting the current time from the `fakeDuration` constant, and then dividing the result by 60 to get the number of minutes and the number of seconds. The minutes and seconds are then formatted and displayed in the time display.
+
+The code also includes some code for pausing the song and video when the current time exceeds the `fakeDuration` constant.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de alto nivel y uno de bajo nivel?
+
+Un lenguaje de alto nivel es aquel en el que los programadores tienen una abstracción más clara de los conceptos y estructuras de datos, y pueden trabajar con ellos de manera más fácil y rápida. En cambio, un lenguaje de bajo nivel implica una abstracción más limitada y una mayor dependencia de la manipulación directa de la memoria y los recursos del sistema.
+
+Los lenguajes de alto nivel suelen ser más fáciles de aprender y utilizar, ya que proporcionan una API (Application Programming Interface) más intuitiva y una mayor cantidad de herramientas y librerías. Esto permite a los desarrolladores centrarse en la lógica de su programa en lugar de en la manipulación de los recursos del sistema subyacentes.
+
+Por otro lado, los lenguajes de bajo nivel pueden ser más rápidos y eficientes en términos de manipulación de datos y

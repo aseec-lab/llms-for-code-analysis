@@ -1,0 +1,19 @@
+This Python script appears to be a part of the Shoebot graphics robot toolkit, a pure Python graphics toolkit for creating 2D designs and animations. It utilizes "Canvas" as its primary object for handling graphic outputs.
+
+The key sections of the code include:
+
+1. `Canvas` class: This class is an abstract base class (ABCMeta), which means it can't be instantiated directly, only subclassed. It has methods and properties like `size`, `reset_canvas`, `get_input_device`, `set_bot`, `reset_transform`, `reset_drawqueue` and so on. It also uses the "sink" object, which likely serves as an output for the processed graphics.
+
+2. It then declares the "set_bot" function which probably links a robot to the canvas, "get_input_device" that currently returns None and "initial_drawqueue" that creates an empty DrawQueue object.
+
+3. Internationalization is also configured in this script with the `gettext` module, and a particular text domain is set for translation purposes.
+
+4. The `snapshot`, `flush`, and `deferred_render` methods are related to rendering the graphics (drawing) in the canvas.
+
+5. It also has a method called `settings`, which allows to modify the settings by supplying the properties as keyword arguments.
+
+6. Two key attributes, width and height, are exposed and managed with Python's `property` function. These properties likely serve to define the dimensions of the canvas. 
+
+This module appears to be designed to be easily integrated with other distinct parts of the shoebot application as it allows changes to settings and bot, and accommodating input devices. 
+
+Please note that interpretation might be slightly off without the wider context or without knowing all the details about the library this code is from.

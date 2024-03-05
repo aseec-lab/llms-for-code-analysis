@@ -1,0 +1,71 @@
+This code represents a C program that helps format an entry for the International Obfuscated C Code Contest (IOCCC), a programming competition where the aim is to produce complex, obfuscated C code. 
+
+The program receives four command line arguments, each specifying the path to a different file:
+- the file containing remarks about the entry (`-r remarks`),
+- the file detailing how the obfuscated code should be built (`-b build`),
+- the source file for the obfuscated program (`-p prog.c`),
+- the destination file for the formatted contest entry (`-o ioccc.entry`).
+
+Upon running, the program first verifies that the current year matches the year set in its `RULE_YEAR` constant. 
+
+It then opens the four provided files, enforcing that they all exist and are readable/writable as needed.
+
+The program then generates a properly formatted IOCCC entry, reading from the provided "remarks", "build", and "program" files and writing to the provided "output" file. 
+
+Finally, the program instructs the user to double-check the created entry and email it to the organizers of the contest. 
+
+Notably, the program heavily comments each step in the process and offers usage details if provided incorrect command line arguments. The code provided does not appear to cover the entire program, as it includes the start of various function declarations without including their definitions. 
+
+Utilizing global constants and functions, the tool ensures that the entries follow the contest rules such as maximum entries per person, maximum column number a line should hit, maximum chars in the title etc.The continuation of the code describes the rest of the functions used in the main program. The functions `open_remark`, `open_build`, `open_program`, and `open_output` open the files provided as arguments and perform various checks on each file. They warn the user and return NULL if any checks fail.
+
+The `open_remark` function checks the formatting in the remarks file. For example, it warns the user if the lines in the remarks file aren't indented by four spaces or if any lines extend beyond the eighth column. 
+
+The `open_build` function checks the build file's size, ensuring it doesn't exceed `MAX_BUILD_SIZE` bytes. If it does, the function alerts the user and returns NULL. 
+
+The `open_program` function verifies the program source file's size, ensuring it doesn't exceed `MAX_PROGRAM_SIZE` bytes. Additionally, it counts the number of unique, non-whitespace characters and makes sure this count isn't more than `MAX_PROGRAM_SIZE2` bytes. If either of these checks fail, the function informs the user and returns NULL.
+
+The `open_output` function tries to open the output file for writing and returns NULL if the file can't be opened.
+
+The `output_entry` function generates the first part of the entry output. It reads necessary details from the user via the command line, such as whether the submission is an update, the contest rule year, and the submission's title. The `output_entry` function then writes this information to the output file in the correct format.
+
+Finally, the code uses the `time_t` data type and the `date_pipe` FILE pointer, suggesting that a time or date functionality might be present in the missing parts of the program. For example, it may note the date and time at which the submission was created.The remaining functions details the way different pieces of information about the user are collected, validated, and written into the output file in the appropriate sections. They include the `output_author`, `output_info`, and `output_remark` functions.
+
+The `output_author` function prompts the user to input author information, like name, organization, address, email address, homepage URL, and anonymous status information for each author and writes them into the output file in the `---author---` section. If the entry has multiple authors, the process is repeated for each author.
+
+The `output_remark` function reads from the remark file, which users can use to add additional comments or information about their submission, and writes its contents into the `---remark---` section of the output file.
+
+The `output_info` function allows the user to add supplemental files to their submission. It prompts the user to input the name of the additional info file and uuencode name, opens the file, checks the file size, and writes the uuencoded content into the `---info---` section of the output file.
+
+During the execution of each function, various checks on the data are performed, making sure all the specifications the program is expecting are satisfied. For example, restrictions on the content of the title (only certain characters are allowed). 
+
+If there is an IOException, it would be captured and reported to the user by the program. Throughout this process, the function also interacts with the user, providing instructions, error messages, and feedback.The remaining functions include the `output_build`, `output_program`, `output_end`, `get_line`, `output_till_dot`, `col_len`, `check_io`, and `uuencode` functions.
+
+The `output_build` function writes the user-generated build file (if any) into the `---build---` section of the output file. It reads the build file, uuencodes it, and writes the uuencoded data into the output file in a separate section.
+
+The `output_program` function does a similar job for the main program file of the entry, writing it in the `---program---` section of the output file. It reads the program file, uuencodes it, and writes the uuencoded data into the output file.
+
+The `output_end` function signals the end of information collection. It writes a `---end---` section tag into the output file, marking the end of the entry.
+
+The `get_line` function reads input from user, checks if the input line is too long and returns 0, and otherwise, returns the length of the line. 
+
+The `output_till_dot` function reads a set of lines until a line with a single period is read. The input lines are written in the output file beneath the leader.
+
+The `col_len` function calculates how far a string would reach if printed at column 1.
+
+The `check_io` function checks the input/output stream for errors. If an error is found, it alerts the user to the nature of the error and exits the program.
+
+Finally, the `uuencode` function performs the uuencoding process identical to the process performed by the uuencode utility. It encodes the input file and writes it into the output file. If any error is encountered during the encoding process, it would alert the user with a corresponding error message.In the second half of the `uuencode` function, the main operation is converting 8-bit characters from the input file into six-bit `uuencoded` characters that will be written into the output file.
+
+First, it writes an initial `uuencode` header into the output file which includes the filetype and filename. The function then allocates a buffer to hold the characters that will be read from the input file.
+
+The function then enters a loop where it reads `UUENCODE_LEN` characters from the input file. These characters are then converted to `uuencode` in groups of 24-bits at a time, producing 4 output `uuencode` characters for each 3 input characters. This is done by bit shifting the input characters to isolate the desired bits and then decoding these bits to the corresponding `uuencode` character.
+
+If the initial read from the file is successful and more than 0 characters are read, the function proceeds to divide the characters into four 6-bit segments and converts each segment to a `uuecode` character by applying the `UUENCODE` function. 
+
+For each successive segment, the function also shifts the bits of the input characters to generate the correct 6-bit segment and then `uuencode`s these bits. 
+
+After `uuencode`ing each group of 24-bits, a newline character is appended to signify the end of each `uuencoded` line.
+
+Then, the input buffer is reset, and the uuencoding process is repeated until no more characters can be read from the input file.
+
+Finally, when no more characters can be read from the input file, the function writes an end marker to signify the end of the `uuencode` section.

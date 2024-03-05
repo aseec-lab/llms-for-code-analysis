@@ -1,0 +1,380 @@
+The code defines a function called `BigInteger` and several other functions. 
+
+The `BigInteger` function takes three arguments (`_0x376634`, `_0x5a784b`, `_0x5cbb28`). It creates a new array (`this[_0x49ceb7(0x200)]`) and checks the type of the first argument. If it is a string, it calls the `fromString` function. If it is not a string, it calls the `fromInt` function.
+
+The `nbi` function simply returns a new instance of the `BigInteger` object.
+
+The `am1`, `am2`, `am3`, and `am4` functions are helper functions for performing arithmetic operations.
+
+The `setupEngine` function sets up the engine for the `BigInteger` object, taking two arguments (`_0x576efd`, `_0x449b64`). It sets several global variables related to the number of bits and the operations.
+
+The code also defines the `BI_RM` and `BI_RC` variables, which are arrays storing characters. 
+
+The `int2char` function converts an integer to a character using the `BI_RM` array.
+
+The `intAt` function takes two arguments (`_0x5a2581`, `_0x2bb8a6`) and returns the integer value of the character at the given index in `_0x5a2581`.
+
+The `bnpCopyTo` function copies the array from the `this` object to the `array` property of the `_0x598085` object.The remaining part of the code defines several more functions.
+
+The `bnpCopyTo` function copies the array from the `this` object to the `array` property of the `_0x598085` object. It iterates over the array in reverse order and assigns the values to the `array` property.
+
+The `bnpFromInt` function takes one argument `_0x1544fe` and initializes the `array` property of the `this` object with the given integer value. It sets the `t` property to 1 and the `s` property based on whether the integer is negative or not.
+
+The `nbv` function takes one argument `_0x2c6434` and returns a new instance of the `BigInteger` object with the given integer value.
+
+The `bnpFromString` function takes two arguments `_0x555e23` and `_0x2910d7` and initializes the `array`, `t`, and `s` properties of the `this` object based on the given string and radix. It uses the `intAt` function to convert each character of the string to an integer value and stores it in the `array` property.
+
+The `bnpClamp` function removes leading zeros from the `array` property of the `this` object.
+
+The `bnToString` function takes one argument `_0x171ff0` and returns a string representation of the `this` object. It converts the `array` property to a string in the specified radix using the `int2char` function and handles negative numbers.The remaining part of the code defines several more functions:
+
+The `bnNegate` function returns a new instance of the `BigInteger` object that represents the negation of the `this` object.
+
+The `bnAbs` function returns a new instance of the `BigInteger` object that represents the absolute value of the `this` object.
+
+The `bnCompareTo` function takes one argument `_0x11bc33` and compares the `this` object with the given object. It returns -1 if the `this` object is less than the given object, 0 if they are equal, and 1 if the `this` object is greater than the given object.
+
+The `nbits` function takes one argument `_0x4c609b` and returns the number of bits required to represent the given integer value.
+
+The `bnBitLength` function returns the number of bits required to represent the `this` object.
+
+The `bnpDLShiftTo` function shifts the `this` object to the left by the given number of bits and stores the result in the `_0x52af5d` object.
+
+The `bnpDRShiftTo` function shifts the `this` object to the right by the given number of bits and stores the result in the `_0x247304` object.
+
+The `bnpLShiftTo` function shifts the `this` object to the left by the given number of bits and stores the result in the `_0x2f3a0d` object.
+
+The `bnpRShiftTo` function shifts the `this` object to the right by the given number of bits and stores the result in the `_0x584b39` object.The remaining part of the code defines several more functions:
+
+The `bnpSubTo` function subtracts the given `_0x488de6` object from the `this` object and stores the result in the `_0x22ac40` object.
+
+The `bnpMultiplyTo` function multiplies the `this` object with the given `_0x273088` object and stores the result in the `_0x31553` object.
+
+The `bnpSquareTo` function squares the `this` object and stores the result in the `_0x5936a3` object.
+
+The `bnpDivRemTo` function divides the `this` object by the given `_0x521252` object and stores the quotient in the `_0x16d824` object and the remainder in the `_0x17f28e` object.The remaining part of the code defines several more functions:
+
+The `bnpInvDigit` function calculates the inverse of the digit at position 0 in the `this` object and returns the result.
+
+The `Montgomery` function creates a Montgomery object with the given `m` value. This object is used for modular multiplication and reduction operations.
+
+The `montConvert` function converts the given `_0x4bbcf9` object to Montgomery representation.
+
+The `montRevert` function converts the given `_0x12fc72` object from Montgomery representation back to regular representation.
+
+The `montReduce` function reduces the given `_0xd71c82` object modulo `m` using Montgomery multiplication.
+
+The `montSqrTo` function squares the given `_0x2be6d3` object using Montgomery multiplication.
+
+The `montMulTo` function multiplies the given `_0x16b711` object with the `_0x33f396` object using Montgomery multiplication.
+
+Each of these functions is added to the respective prototype of the corresponding class (either BigInteger or Montgomery).The remaining part of the code consists of several more functions:
+
+The `bnClone` function creates a new BigInteger object that is a clone of the current object. This is done by creating a new BigInteger object and copying the current object into it.
+
+The `bnIntValue` function returns the integer value of the current BigInteger object. If the object is negative, the function checks if the magnitude is 1, in which case it subtracts the BI_DV constant. If the magnitude is 0, the function returns -1. If the object is positive, it checks if the magnitude is 1, in which case it returns the value of the first element of the magnitude. If the magnitude is 0, the function returns 0.
+
+The `bnByteValue` and `bnShortValue` functions return the byte and short values respectively of the current BigInteger object. If the magnitude is 0, the function returns the sign of the object.
+
+The `bnpChunkSize` function calculates the number of digits in the given base that can be contained in a single digit in radix 2^BI_DB.
+
+The `bnSigNum` function returns the signum of the current BigInteger object. If the sign is negative, the function returns -1. If the magnitude is equal to or less than 0, the function returns 0. Otherwise, it returns 1.
+
+The `bnpToRadix` function converts the current BigInteger object to a string representation in the given radix. It first checks if the magnitude is 0 or if the radix is less than 2 or greater than 36. Then, it calculates the chunk size in the given radix, creates a BigInteger object representing the number of digits inThe remaining part of the code consists of several more functions:
+
+The `bnToByteArray` function converts the current BigInteger object to a byte array. It first calculates the number of bytes needed to represent the object and creates a new array with the size equal to the number of bytes plus one. The first element of the array is set to the sign of the object. Then, it iterates through the magnitude array, shifting the values to the right if necessary and adding them to the byte array. If the most significant bit of a byte is set, the byte is negative. Finally, it returns the byte array.
+
+The `bnEquals` function compares the current BigInteger object with another BigInteger object. It calls the `compareTo` method and checks if the result is equal to 0. If it is, the function returns true, otherwise it returns false.
+
+The `bnMin` and `bnMax` functions return the minimum and maximum of the current BigInteger object and another BigInteger object, respectively. The function uses the `compareTo` method to compare the objects and returns the appropriate object.
+
+The `bnpBitwiseTo` function applies a bitwise operation (AND, OR, etc.) to the current BigInteger object and another BigInteger object, and stores the result in a new BigInteger object. The function first calculates the length of the resulting magnitude array, which is the maximum length between the two objects' magnitudes. Then, it iterates through the magnitude arrays, applying the bitwise operation to the corresponding elements and storing the result in the new magnitude array. Finally, it sets the sign of the new BigInteger object and calls the `clamp` method to remove any unnecessary leading zeros.
+
+The `op_and` and `op_or` functions are helper functions for the `bnpBitwiseTo` function. They perform the bitwise AND and OR operations, respectively, between two values and return the result.
+
+The `bnAnd` and `bnOr` functions apply the AND and OR operations, respectively, to the current BigInteger object and another BigInteger object. They create a new BigInteger object and call the `bnpBitwiseTo` function with the appropriate operation and the new object as the result. Finally, they return the new object.
+
+Note: The code provided is a minified and obfuscated version of the original code. The function and variable names have been changed to random strings and may be difficult to understand. The comments in the original code have also been removed, making it harder to understand the purpose of each function.The remaining part of the code consists of several more functions:
+
+The `bnXor` function applies the XOR operation to the current BigInteger object and another BigInteger object. It creates a new BigInteger object and calls the `bnpBitwiseTo` function with the XOR operation and the new object as the result. Finally, it returns the new object.
+
+The `op_andnot` function applies the AND NOT operation to two values and returns the result.
+
+The `bnAndNot` function applies the AND NOT operation to the current BigInteger object and another BigInteger object. It creates a new BigInteger object and calls the `bnpBitwiseTo` function with the AND NOT operation and the new object as the result. Finally, it returns the new object.
+
+The `bnNot` function calculates the bitwise NOT of the current BigInteger object. It creates a new BigInteger object and iterates through the magnitude array, applying the bitwise NOT operation to each element. It sets the sign of the new BigInteger object to be the opposite of the current object and returns the new object.
+
+The `bnShiftLeft` function shifts the bits of the current BigInteger object to the left by the specified amount. It creates a new BigInteger object and calls either the `bnpShiftLeft` or `bnpShiftRight` function depending on the sign of the amount. Finally, it returns the new object.
+
+The `bnShiftRight` function shifts the bits of the current BigInteger object to the right by the specified amount. It creates a new BigInteger object and calls either the `bnpShiftRight` or `bnpShiftLeft` function depending on the sign of the amount. Finally, it returns the new object.
+
+The `lbit` function calculates the position of the leftmost set bit in a value. It checks each bit from left to right and counts the number of bits until the first set bit is found. If the value is zero, it returns -1.
+
+The `bnGetLowestSetBit` function returns the position of the lowest set bit in the current BigInteger object. It iterates through the magnitude array, checking each element for a non-zero value. If a non-zero value is found, it returns the position of the lowest set bit in that element multiplied by the number of bits in a digit, plus the position of the lowest set bit in that element. If all elements are zero, it returns -1.
+
+The `cbit` function calculates the number of set bits in a value. It repeatedly clears the rightmost set bit of the value and counts the number of times it can do this until the value becomes zero.
+
+The `bnBitCount` function returns the number of set bits in the current BigInteger object. It initializes a counter variable and a bitmask variable with the sign of the object. Then, it iterates through the magnitude array, XOR-ing each element with the bitmask and counting the number of set bits in the result. Finally, it returns the counter variable.
+
+The `bnTestBit` function checks whether a specific bit in the current BigInteger object is set or not. It calculates the index of the element in the magnitude array that contains the bit and checks if the bit is set in that element. If the bit is set, it returns true, otherwise it returns false.
+
+The `bnpChangeBit` function changes the value of a specific bit in the current BigInteger object. It creates a new BigInteger object with the same value and calls the `bnpBitwiseTo` function with either the OR or XOR operation and the new object. Finally, it returns the new object.
+
+The `bnSetBit` function sets a specific bit in the current BigInteger object. It calls the `bnpChangeBit` function with the OR operation and returns the result.
+
+The `bnClearBit` function clears a specific bit in the current BigInteger object. It calls the `bnpChangeBit` function with the AND NOT operation and returns the result.
+
+Note: The code provided is a minified and obfuscated version of the original code. The function and variable names have been changed to random strings and may be difficult to understand. The comments in the original code have also been removed, making it harder to understand the purpose of each function.The remaining functions are as follows:
+
+The `bnFlipBit` function flips the value of a specific bit in the current BigInteger object. It calls the `bnpChangeBit` function with the XOR operation and returns the result.
+
+The `bnpAddTo` function adds the current BigInteger object to another BigInteger object and stores the result in a third BigInteger object. It iterates through the magnitude arrays of both objects, adding the corresponding elements and carrying over any extra digits. If one object has fewer elements than the other, it adds the remaining elements and carries over the sign. Finally, it sets the sign of the result object based on the final carry, normalizes it, and assigns it to the third object.
+
+The `bnAdd` function adds the current BigInteger object to another BigInteger object and returns the result. It creates a new BigInteger object, calls the `bnpAddTo` function with the second object and the new object, and returns the new object.
+
+The `bnSubtract` function subtracts another BigInteger object from the current BigInteger object and returns the result. It creates a new BigInteger object, calls the `bnpSubtract` function with the second object and the new object, and returns the new object.
+
+The `bnMultiply` function multiplies the current BigInteger object by another BigInteger object and returns the result. It creates a new BigInteger object, calls the `bnpMultiply` function with the second object and the new object, and returns the new object.
+
+The `bnDivide` function divides the current BigInteger object by another BigInteger object and returns the result. It creates a new BigInteger object, calls the `bnpDivide` function with the second object and the new object, and returns the new object.
+
+The `bnRemainder` function calculates the remainder of dividing the current BigInteger object by another BigInteger object and returns the result. It creates a new BigInteger object, calls the `bnpDivide` function with the second object and the new object, discarding the quotient, and returns the new object.
+
+The `bnDivideAndRemainder` function calculates both the quotient and remainder of dividing the current BigInteger object by another BigInteger object and returns the results as an array. It creates two new BigInteger objects, calls the `bnpDivide` function with the second object and the two new objects, and returns an array containing the two new objects.
+
+The `bnpDMultiply` function multiplies the current BigInteger object by a small integer and stores the result in the same object. It appends a zero to the magnitude array, calls the `am` function with the multiplication operation, and updates the length of the magnitude array.
+
+The `bnpDAddOffset` function adds a small integer to the current BigInteger object at a specific index. It extends the magnitude array if necessary, adds the integer at the specified index, and handles carrying over any extra digits.
+
+The `NullExp` function is a constructor function for the null exponent used in modular exponentiation. It does not have any functionality and is empty.
+
+The `nNop` function is a no-operation function used as a placeholder for exponentiation algorithms.
+
+The `nMulTo` function multiplies two BigInteger objects and stores the result in a third BigInteger object. It calls the `multiplyTo` function of the first object with the second object and the third object.
+
+The `nSqrTo` function squares a BigInteger object and stores the result in another BigInteger object. It calls the `squareTo` function of the first object with the second object.
+
+The `bnPow` function raises the current BigInteger object to the power of another BigInteger object and returns the result. It creates a new BigInteger object, calls the `bnpPow` function with the second object and the new object, and returns the new object.
+
+The `bnpMultiplyLowerTo` function multiplies the current BigInteger object and another BigInteger object up to a specified index and stores the result in a third BigInteger object. It initializes the result object with zeros, calculates the maximum length of the result array, and calls the `multiplyTo` function of the current object with the second object and the result object.
+
+Note: Some part of the code has been shortened for readability purposes.The remaining part continues as follows:
+
+_0x8ce089['sqrTo'](_0x23e24a[0x1], _0x5eeca1);
+while (_0x31ada7 <= _0x5f8e1a) {
+  _0x23e24a[_0x31ada7] = nbi();
+  _0x8ce089['mulTo'](_0x5eeca1, _0x23e24a[_0x31ada7 - 0x2], _0x23e24a[_0x31ada7]);
+  _0x31ada7 += 0x2;
+}
+var _0x1502f4 = _0x172170['t'] - 0x1,
+  _0x674752, _0x33a8f6 = true,
+  _0x1da91c = nbi(),
+  _0x4433fd;
+_0x3968cd = _0x2605c9[_0x1502f4] | (_0x2605c9[_0x1502f4 - 0x1] & (0x1 << _0x136c0c) - 0x1) << _0x169d58;
+if (_0x3968cd > 0x0) {
+  _0x33a8f6 = false;
+  _0x1da91c['fromInt'](_0x3968cd);
+}
+while (_0x1502f4 >= 0x0) {
+  if (_0x3968cd === 0x0 && !_0x33a8f6) {
+    _0x1502f4--;
+    continue;
+  }
+  _0x674752 = (_0x2605c9[_0x1502f4] | (_0x2605c9[_0x1502f4 - 0x1] & (0x1 << _0x136c0c) - 0x1) << _0x169d58) >>> _0x1502f4 % _0x169d58;
+  if ((_0x1502f4 % _0x169d58) === 0x0) {
+    _0x674752 = (_0x2605c9[_0x1502f4 - 0x1] & (0x1 << _0x136c0c) - 0x1) >>> _0x136c0c;
+    _0x33a8f6 = true;
+  }
+  _0x31ada7 = _0x169d58;
+  while ((_0x674752 & 0x1) === 0x0) {
+    _0x674752 >>= 0x1;
+    _0x31ada7--;
+  }
+  if ((_0x3968cd = _0x31ada7 - _0x169d58) < 0x0) {
+    _0x3968cd += _0x169d58;
+    _0x33a8f6 = true;
+  }
+  _0x1da91c['fromInt'](_0x674752);
+  _0x8ce089['dlShiftTo'](_0x3968cd, _0x5eeca1);
+  if (_0x33a8f6) {
+    _0x5eeca1['subTo'](_0x1da91c, _0x5eeca1);
+  }
+  while (_0x3968cd > 0x0) {
+    _0x8ce089['sqrTo'](_0x5eeca1, _0x1da91c);
+    _0x8ce089['sqrTo'](_0x1da91c, _0x5eeca1);
+    _0x3968cd -= 0x2;
+  }
+  _0x1502f4--;
+}
+
+var _0x31e8e9 = _0x8ce089['revert'](_0x5eeca1);
+return _0x31e8e9;
+}
+
+The `bnModPow` function calculates the modular exponentiation of a BigInteger object raised to the power of another BigInteger object. It first checks if the exponent is zero and returns 1 if true. Then, it determines the appropriate class (Classic, Barrett, or Montgomery) based on the size of the exponent. It initializes an array `_0x23e24a` and sets the first element of the array to the converted value of the base BigInteger object using the appropriate `barrettConvert`, `classicConvert`, or `montConvert` function.
+
+Next, it calculates the remaining elements of the array using the `barrettMulTo`, `classicMulTo`, or `montMulTo` function depending on the class. It then iterates through the bits of the exponent, starting from the most significant bit. If a bit is set, it multiplies the result with the corresponding element in the array. If a bit is not set, it squares the result. Finally, it converts the result back to the original form using the appropriate `barrettRevert`, `classicRevert`, or `montRevert` function and returns the result.
+
+Note: Some part of the code has been shortened for readability purposes.The remaining part of the code continues as follows:
+
+else {
+    if (!_0x142f22['isEven']()) {
+        _0x142f22['addTo'](this, _0x142f22);
+    }
+    _0x142f22['rShiftTo'](0x1, _0x142f22);
+}
+
+while (_0x529f0a['compareTo'](0x0) !== 0x0)The remaining part of the code is as follows:
+
+_0x2894d9=this['S'][this['i']+0x1&_0xff]+this['S'][this['j']&0xff]&0xff,this['S'][this['i']]=_0x2894d9,this['S'][this['j']]=this['S'][this['i']++],this['S'][this['j']++]
+return this['S'][_0x2894d9]
+}Arcfour[a0_0x4670f0(0x151)][a0_0x4670f0(0x16b)]=ARC4init,Arcfour[a0_0x4670f0(0x151)][a0_0x4670f0(0x177)]=ARC4next
+function prng_newstate(){return new Arcfour}
+var rng_psize=0x10000,rng_state,nulls=new Array,rng_pool,rng_pptr
+function rng_seed_int(_0x16abe8){rng_pool[rng_pptr++]=_0x16abe8&0xff,rng_pool[rng_pptr++]=_0x16abe8>>0x8&0xff,rng_pool[rng_pptr++]=_0x16abe8>>0x10&0xff,rng_pool[rng_pptr++]=_0x16abe8>>0x18&0xff,rng_pptr>=rng_psize&&(rng_pptr-=rng_psize)
+}function rng_seed_time(){rng_seed_int((new Date).getTime())
+}if(rng_pool==null){rng_pool=new Array,rng_pptr=0x0
+var t
+if(window&&window[a0_0x4209f0(0x158)]){try{var mouseCoordinates
+mouseCoordinates=window[a0_0x4209f0(0x158)][a0_0x4209f0(0x124)+'ents']||window[a0_0x4209f0(0x158)][a0_0x4209fThe remaining part of the code is as follows:
+
+_0x2894d9=this['S'][this['i']+0x1&_0xff|0]+this['S'][this['j']&0xff|0]&0xff,_0x28bafd=this['S'][this['i']],this['S'][this['i']]=this['S'][this['j']],this['S'][this['j']]=_0x28bafd,this['i']=(this['i']+0x1&0xff|0),this['j']=(this['j']+this['S'][this['i']])&0xff|0
+return this['S'][_0x2894d9]
+}
+
+
+function prng_newstate() {
+  return new Arcfour()
+}
+
+var rng_psize = 0x10000
+var rng_state = null
+var nulls = new Array()
+var rng_pool
+var rng_pptr
+
+function rng_seed_int(_0x16abe8){
+  rng_pool[rng_pptr++] = _0x16abe8 & 0xff
+  rng_pool[rng_pptr++] = _0x16abe8 >> 0x8 & 0xff
+  rng_pool[rng_pptr++] = _0x16abe8 >> 0x10 & 0xff
+  rng_pool[rng_pptr++] = _0x16abe8 >> 0x18 & 0xff
+  if (rng_pptr >= rng_psize) rng_pptr -= rng_psize
+}
+
+function rng_seed_time(){
+  rng_seed_int((new Date).getTime())
+}
+
+if (rng_pool == null) {
+  rng_pool = new Array()
+  rng_pptr = 0x0
+
+  if (window && window.crypto) {
+    try {
+      var mouseCoordinates
+      mouseCoordinates = window.crypto.getRandomValues(new Uint32Array(1))
+      rng_seed_int(mouseCoordinates[0])
+    } catch (f) {}
+  }
+
+  while (rng_pptr < rng_psize) {
+    t = Math.floor(0x10000 * Math.random())
+    rng_pool[rng_pptr++] = t >>> 0x8
+    rng_pool[rng_pptr++] = t & 0xff
+  }
+
+  rng_pptr = 0x0
+  rng_seed_time()
+}
+
+function rng_get_byte() {
+  if (rng_state == null) {
+    rng_seed_time()
+    rng_state = prng_newstate()
+    rng_state['init'](rng_pool)
+
+    for (rng_pptr = 0; rng_pptr < rng_pool['length']; ++rng_pptr) {
+      rng_pool[rng_pptr] = 0x0
+    }
+
+    rng_pptr = 0x0
+  }
+
+  return rng_state['next']()
+}
+
+function rng_get_bytes(_0x3c59a0) {
+  for (_0x59ee47 = 0x0; _0x59ee47 < _0x3c59a0['length']; ++_0x59ee47) {
+    _0x3c59a0[_0x59ee47] = rng_get_byte()
+  }
+}
+
+function SecureRandom() {}
+
+SecureRandom['prototype']['nextBytes'] = rng_get_bytes
+
+function parseBigInt(_0x5c65d0, _0x523122) {
+  return new BigInteger(_0x5c65d0, _0x523122)
+}
+
+function linebrk(_0x5ab0a3, _0xa0e381) {
+  var _0x3cef99 = '',
+    _0x228ad6 = 0x0
+  while (_0x228ad6 + _0xa0e381 < _0x5ab0a3['length']) {
+    _0x3cef99 += _0x5ab0a3['substring'](_0x228ad6, _0x228ad6 + _0xa0e381) + '\x0a'
+    _0x228ad6 += _0xa0e381
+  }
+  return _0x3cef99 + _0x5ab0a3['substring'](_0x228ad6, _0x5ab0a3['length'])
+}
+
+function byte2Hex(_0x5d8a2f) {
+  if (_0x5d8a2f < 0x10) return '0' + _0x5d8a2f['toString'](0x10)
+  else return _0x5d8a2f['toString'](0x10)
+}
+
+function pkcs1pad2(_0x174c5a, _0x206fe5) {
+  if (_0x206fe5 < _0x174c5a['length'] + 0xb) return alert('Message too long for RSA'), null
+
+  var _0x3ea383 = new Array(),
+    _0x2208fc = _0x174c5a['length'] - 0x1
+
+  while (_0x2208fc >= 0x0 && _0x206fe5 > 0x0) _0x3ea383[--_0x206fe5] = _0x174c5a[_0x2208fc--]
+
+  _0x3ea383[--_0x206fe5] = 0x0
+
+  var _0x25c8a1 = new SecureRandom(),
+    _0x1040c1 = new Array()
+
+  while (_0x206fe5 > 0x2) {
+    _0x1040c1[0x0] = 0x0
+    while (_0x1040c1[0x0] == 0x0) _0x25c8a1['nextBytes'](_0x1040c1)
+    _0x3ea383[--_0x206fe5] = _0x1040c1[0x0]
+  }
+
+  return _0x3ea383[--_0x206fe5] = 0x2, _0x3ea383[--_0x206fe5] = 0x0, new BigInteger(_0x3ea383)
+}
+
+function RSAKey() {
+  this['n'] = null
+  this['e'] = 0x0
+  this['d'] = null
+  this['p'] = null
+  this['q'] = null
+  this['dmp1'] = null
+  this['dmq1'] = null
+  this['coeff'] = null
+}
+
+function RSASetPublic(_0x10abfc, _0x27b08b) {
+  if (_0x10abfc != null && _0x27b08b != null && _0x10abfc['length'] > 0x0 && _0x27b08b['length'] > 0x0) this['n'] = parseBigInt(_0x10abfc, 0x10), this['e'] = parseInt(_0x27b08b, 0x10)
+  else alert('Invalid RSA public key')
+}
+
+function RSADoPublic(_0x3abba3) {
+  return _0x3abba3['modPowInt'](this['e'], this['n'])
+}
+
+function RSAEncrypt(_0xae2805) {
+  var _0x6681cf = pkcs1pad2(_0xae2805, this['n']['bitLength']() + 0x7 >> 0x3)
+  if (_0x6681cf == null) return null
+  var _0x5cab3e = this['doPublic'](_0x6681cf)##########

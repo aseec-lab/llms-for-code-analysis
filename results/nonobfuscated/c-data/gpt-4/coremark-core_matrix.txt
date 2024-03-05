@@ -1,0 +1,34 @@
+This code includes numerous matrix manipulation functions whose operations are commonly used in computer graphics, cryptography, signal processing, and more. 
+
+1. Function `matrix_test` and support functions:
+These functions perform a number of operations on matrices "A" and "B" using a scalar value "val" and store the result in matrix "C". The specific operations are adding a constant to a matrix, multiplying a matrix by a constant, multiplying a matrix by a vector, multiplying two matrices, and matrix multiplication using bit extraction.
+
+2. Function `core_init_matrix`:
+This function initializes matrix "A" and "B" with values derived from a seed. It arranges so the matrices fit into a given memory block size. 
+
+3. Function `matrix_sum`:
+This function calculates the sum of all elements in matrix "C" and returns a short integer based on the sum and a comparison against a "clipval".
+
+4. Functions `matrix_mul_const`, `matrix_add_const`, `matrix_mul_vect`, `matrix_mul_matrix`, `matrix_mul_matrix_bitextract`:
+These functions perform the specific matrix operations used in the `matrix_test` function.
+
+5. Functions `printmat` and `printmatC`:
+These functions print the contents of the matrices "A" and "C" to the console. This is used to visualize the matrices' contents while debugging.
+
+6. Function `core_bench_matrix`:
+This function is likely used to run `matrix_test` function taking a matrix parameters and a seed as input and returning the  CRC checksum that is calculated from the results of each matrix operation. 
+
+7. Macros `matrix_test_next`, `matrix_clip`, `matrix_big`, `bit_extract`:
+These macros are used for specific manipulations/calculations on the matrix or on a value.
+
+Please note that there are missing function definitions for `matrix_mul_matrix_bitextract`, `align_mem`, and `crc16`.The provided code appears to be the remaining part of the function `matrix_mul_matrix_bitextract` that multiplies each value in matrix "A" with its corresponding value in matrix "B". 
+
+It uses two loops to ensure each value is handled. In each loop, it takes the i-th value from 'A' and the j-th value from 'B' (where 'i' and 'j' are the corresponding indices). 
+
+The multiplication result is stored in 'tmp' which is of the `MATRES` type (a macro that is used to specify a data type - assumed to be defined elsewhere). 
+
+The code then uses `bit_extract` to isolate and multiply together certain bits from the multiplication result. This result is then added to the corresponding position in matrix "C". 
+
+Note that each implementation of `bit_extract` will somewhat differ depending on the specific bit manipulation requirement. Typically, `bit_extract` takes an integer and two indices as input, and then returns the bits in between the two indices.
+
+Finally, the function doesn't return a value (so it is void) meaning the function "returns" its output through its change in the matrix "C".

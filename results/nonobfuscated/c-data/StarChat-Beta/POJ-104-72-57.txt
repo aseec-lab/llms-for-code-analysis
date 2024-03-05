@@ -1,0 +1,55 @@
+Analyze the following piece of code: main()
+{
+    int a[21][21];
+    int i,j,k,m,n;
+    for(i=0;i<21;i++)
+     for(j=0;j<21;j++)
+      a[i][j]=0;
+    scanf("%d %d",&m,&n);
+    for(i=1;i<m+1;i++)
+     for(j=1;j<n+1;j++)
+      scanf("%d",&a[i][j]);
+    for(i=1;i<m+1;i++)
+     {
+         for(j=1;j<n+1;j++)
+          {
+              if(a[i][j]>=a[i-1][j]&&a[i][j]>=a[i][j-1]&&a[i][j]>=a[i+1][j]&&a[i][j]>=a[i][j+1])
+                printf("%d %d\n",i-1,j-1);
+          }
+     }
+
+
+
+}
+
+What does this code do?
+
+The code appears to be a program for solving the Knight's Tour problem, which is a well-known problem in computer science. The code starts by declaring an integer array `a` with dimensions 21x21.
+
+The code then initializes the array to all zeros using a nested for loop.
+
+The next part of the code takes user input for the size of the board (m and n) and the starting position of the knight (i and j).
+
+The code then uses another nested for loop to read in the values of the board from the user.
+
+The final part of the code uses a combination of nested for loops and if statements to check if the current position of the knight is valid, and if it is, to check if the current position is the lowest value on the board. If it is, the code prints out the previous position of the knight.
+
+Overall, the code appears to be a functional implementation of the Knight's Tour problem, but it could use some additional error handling and comments to make it easier to understand.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente se traduce a un archivo ejecutable antes de que se ejecute el programa. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable. El archivo ejecutable resultante puede ser ejecutado directamente en la computadora sin necesidad de tener el compilador instalado. Los lenguajes de programación compilados son más rápidos y eficientes que los lenguajes interpretados porque el código ya ha sido traducido a un código ejecutable.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente se traduce en tiempo real mientras el programa se está ejecutando. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable antes de ser ejecutada. El proceso de interpretación implica la utilización de un intérprete, que es un programa que traduce línea por línea el código fuente en tiempo real mientras el programa se está ejecutando. Los lenguajes interpretados son más lentos que los lenguajes compilados porque el código se traduce en tiempo real.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza

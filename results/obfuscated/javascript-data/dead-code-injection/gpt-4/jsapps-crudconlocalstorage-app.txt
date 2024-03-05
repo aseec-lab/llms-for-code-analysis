@@ -1,0 +1,19 @@
+The code is written in JavaScript and it's a simple task tracker or to-do list. Below are the step-by-step functionalities:
+
+1. *a0_0x1e1b():* This function returns an array of different constant strings that are used throughout the program.
+
+2. *CrearTask(_0xdbf92a):* This function creates a new task object with the given task name (_0xdbf92a) and a default incomplete status and then it pushes this object into `arrayActividades` array.
+
+3. *GuardarDB():* This function stores 'arrayActividades' in LocalStorage as a JSON string. After storing the data, it calls the 'PintarDB' function to update the UI.
+
+4. *PintarDB():* This function clears the task list in the UI and then repopulates it based on the current 'arrayActividades' from LocalStorage. It also handles the case where 'arrayActividades' is null by initializing it as an empty array.
+
+5. *EditarDB(_0x19c00d):* This function changes the `estado` (status) of a task object in `arrayActividades` with the provided task name (_0x19c00d) to be `true` (done). After it edits the task, it calls the 'GuardarDB' function to save data and update the UI.
+
+6. *EliminarDB(_0x4795b7):* This function removes a task object from `arrayActividades` with the given task name (_0x4795b7). After deleting the task, it calls the 'GuardarDB' function to save the data and update the UI.
+
+7. Event Listeners:
+- A 'submit' event listener on the form that prevents the form from being submitted, retrieves the input activity, creates a new task using that input and calls 'GuardarDB' function to save and update the UI.
+- A 'click' event listener on the list of tasks and depending on the element (task completed icon or task deleted icon) clicked, it edits or deletes the respective task. 
+
+Overall, the code handles creation, reading, editing, and deletion (CRUD) of tasks in a simple task tracker.

@@ -1,0 +1,68 @@
+The presented code is a part of a program titled "mkentry.c", which is employed as an entry utility for an '_International Obfuscated C Code Contest_' also known simply as '_IOCCC_'. The Obfuscated C Code is a programming style that creates code that is hard to understand, mostly for fun or challenge purposes.
+
+The tool performs the following tasks to assist participants to take part in the contest:
+
+1. It accepts command line arguments to get: 
+    - the 'remarks' file about the contest entry,
+    - the 'build' file containing instructions on how the obfuscated C source code has to be built,
+    - the 'program.c' file which has the actual obfuscated C source code, and
+    - the 'ioccc.entry' file which would be the final entry file output.
+
+2. It opens the input files (remarks, build, and program) and checks them. The output file is then opened and truncated first to prevent any issues if it has the same name as any of the input files.
+
+3. Then, each section is outputted to the output file in the given order: Entry, Remarks, Author, Info, Build, Program, and an output ends.
+
+4. It then checks if the output is correctly written into the final file (ioccc.entry), displays information about the location of the entry file, and suggests sending it via E-Mail.
+
+Keep in mind, this code and its usage should conform to the specific contest year's rules. Also, part of the code is presented here, so some functions are declared but not defined within this code chunk.Continuing from the previous description, the remaining part of the code is an implementation of several helper functions used directly or indirectly by the main `mkentry` function of the tool. The tool operates on entry files provided by participants of the Obfuscated C Code Contest:
+
+1. `open_remark` function, which opens and checks the remarks file. The remarks file should be indented by four spaces and should not extend beyond column `MAX_COL`. It reports long lines and non-indented lines.
+    
+2. `open_build` function, which opens and checks the build instructions file. The build file must not be longer than `MAX_BUILD_SIZE` bytes.
+
+3. `open_program` function, which opens and checks the obfuscated C source code file. It verifies that the program source file is not larger than `MAX_PROGRAM_SIZE` bytes.
+
+4. `open_output` function, which opens and checks the output file (entry for the contest). In case of any failures in opening the file or a conflict in the filename, it will result in the termination of the program.
+
+5. `output_entry` function reads the required information from the standard input and writes the entry section to the output file. This function gathers the contestant's input for creating the contest entry, including the entry information like the title, whether it is a new entry or a revised version of a previous entry, etc. Rules year is also hardcoded into the entry by this function.
+
+The contestant's interaction with this tool uses standard input/output (stdin/stdout) for communication, and the tool provides clear instructions and prompts.This remaining part of the function further implements the entering process of an entry. It includes the functionality for submitting multiple entries (up to MAX_ENTRY) for each contestant. 
+
+- It requests the entry number and verifies that it is valid, meaning it has to be in the range from 0 to MAX_ENTRY-1.
+- It also adds a timestamp using the current date and time. 
+- It asks the user to input the machine and OS under which the entry was tested.
+- It then includes a section to input remarks about the entry. 
+
+The output_remark and output_author sections allow contestants to input remarks about their code as well as author information. If there are multiple authors, separate sections will be created for each. 
+
+The output_info section allows input of any supplementary information for the entry. This may include things like sample inputs or detailed information about the code. 
+
+In all of these sections, the user is instructed to enter information which is then stored in a buffer and written to the output file. User input is checked for validity, including checking for proper length. In the case of invalid input, the user is asked to re-enter the information. 
+
+The code then checks if there are more authors or info files and continues the process for each until all have been processed.This code is continuing from the previous snippet which reads user data and writes it to the output file. The functions present are intended to output different sections of the file, i.e., build, program, and end sections. Each function begins by writing the corresponding section commencements, checks for IO errors, then uuencodes the section files.
+
+Uuencode is a form of binary-to-text encoding that originated in the Unix programs uuencode and uudecode written by Mary Ann Horton at UC Berkeley in 1980.
+
+For example, the function 'output_build' starts by writing "---build---\n" to the output file, checks for IO errors (with an EOF_NOT_OK flag), and continues to uuencode the build file. The other functions perform similarly for their respective sections.
+
+The get_line function, which is used by other functions to read input, enhances the reading process by handling long lines, flushing stdout before reading, and managing EOF and errors.
+
+There's also an 'output_till_dot' function that keeps reading and outputting lines until a single line with '.' is read.
+
+The col_len function calculates the column length of a string, taking into considerations tabs which are considered as 8 spaces.
+
+The check_io function checks for an IO error or EOF on a stream. It follows the logic that if there's an IO error then output the error message and exit. If there's EOF and it's not okay then output an EOF error message and exit.
+
+The uuencode function implements the algorithm of the uuencode utility. It begins by writing the uuencode header to the output file. The algorithm is continued in the next snippet of the code.The remaining part of the previous function checks that the output file is still okay, then clears out the input buffer.
+
+The process is as follows:
+- It then enters a while loop (where it reads UUENCODE_LEN chars at a time) which forms a single output line each time. It also outputs the length of the read bytes as the first character of each line.
+- The function is weighted heavily to converting 24 bits at a time. Thus it will convert 3 sets of 8 bits into 4 sets of 6 bits (uuencoded). This conversion from input binary bytes to uuencoded 6-bit groups is done in the inner loop.
+- After the bytes are written as four encoded characters, a newline break is added at the end of the line for formatting of the encoded output.
+- The function then clears out the input buffer again, in preparation for the next read.
+- It checks the last read on the input file. If an error occurred or if we've reached the end of the file (EOF_OK), it will break out of the loop.
+- Lastly, it writes the end of the encoded file with another 'end' line and check_io against output to check I/O error.
+
+The UUENCODE definition is most likely a conversion macro which converts a value in the range [0..63] to an ASCII character according to the uuencode encoding standard.
+
+The resulting encoded output is written to the output file. 'check_io' is run after every operation that could potentially fail, like 'fputc' and 'fprintf', to ensure there aren't any I/O errors. If an error does occur, 'check_io' will print an error message and exit the program.

@@ -1,0 +1,27 @@
+The code is implementing a GLib-based main loop for an application. The main loop handles IO operations, timeouts, and event handling.
+
+The `GLibMainLoop` class is a subclass of `MainLoopBase` and overrides several methods to provide GLib-specific functionality. 
+
+`__init__` initializes the main loop by setting up some internal variables and calling the superclass `MainLoopBase.__init__`. 
+
+`_add_io_handler` and `_remove_io_handler` add and remove IO event handlers respectively. These methods manage the IO sources and use the `glib.io_add_watch` and `gbo.source_remove` methods to register and remove IO event callbacks.
+
+`_add_timeout_handler` and `_remove_timeout_handler` add and remove timeout event handlers respectively. These methods manage the timer sources and use the `glib.timeout_add` and `gbo.source_remove` methods to register and remove timeout event callbacks.
+
+`_configure_io_handler` configures an IO event handler. It checks if there are any pending events and prepares the handler if necessary.
+
+`_io_callback` is the IO event callback method. It handles different IO conditions and calls the appropriate handler methods.
+
+`_prepare_io_handler` prepares an IO event handler. It calls the handler's `prepare` method and checks the return value to determine whether the handler is ready or needs to be prepared again.
+
+`_prepare_pending` prepares any pending IO event handlers.
+
+`_prepare_io_handler_cb` is the callback method for preparing IO event handlers. It configures the handler and removes it from the prepare sources.
+
+`_timeout_cb` is the timeout event callback method. It calls the handler's method and handles recurring timeouts if necessary.
+
+`loop` is the main loop method. It creates a `glib.MainLoop` object and runs the loop. It also handles exceptions if there are any.
+
+`loop_iteration` is a simplified version of the main loop method for single iterations. It uses `glib.main_context_default().iteration(True)` to process events and timeouts.
+
+`check_events` checks if there are any events that need to be processed and returns a boolean indicating whether the main loop should exit or continue processing events.

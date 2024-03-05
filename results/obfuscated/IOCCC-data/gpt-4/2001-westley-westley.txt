@@ -1,0 +1,21 @@
+This certainly isn't the most readable code, but if you take the time to dissect it, you can understand what each piece accomplishes in the larger system. Keep in mind that each function is not necessarily presented in a clear or logical order, so consider each one in isolation before looking at its interactions with others. 
+
+Analyzing some parts of the code:
+
+- `main(i)??<char c??(81??)??(81??) for(i=0 gets(*(c+i)) i++) A(i,c) J(i-1,c)` loops over the characters in a character array (c) and calls the functions A(i,c) and J(i-1,c). 
+
+- `A(i ,c,j ,k) char *c ??< for(j= -1 ++j<i )for (k =j k<i )D(c ,j, k++)` loops through pairs of characters in the array and calls the function `D(c ,j, k++)`.
+
+- `D(c,i,j) char c??(81??)??(D(*(c+i),*(c+j)) = ??>` likely tests the relationship between pairs of characters, corresponding to 'c[i]' and 'c[j]'.
+
+- `V(c,k,i) char*k ??<for (i=0 *(k+i) &&*(k+i)!=c i++) return *(k+i)?i:-1` returns the index of character 'c' in string 'k'. 
+
+The code also contains a lot of calls to string and character related operations indicating that the functions manipulate and analyze given strings in some way. 
+
+However, without complete functions and in context understanding it would be hard to decipher the exact operations as many functions are either incomplete or do not have context how they are used.
+
+Moreover, the use of trigraphs '??<' only obfuscates the code further. Trigraphs are an obsolete feature in C and C++ where sequences of three characters starting with ‘??’ can be replaced with another character. 
+
+Lastly, the code is filled with specific magic numbers and strings, for example "yyzzyzz zz z0y000 zz 00yzz00y00yzz Brian Westley zyy00yy0yy 0", "7831734578 9547693564569528334164263z284106579 52626423135477","gh$j|lm'pq&rv<x>z#) @_winky,.%/+*!=3-284106579 (:obfuscated??/?".
+
+So, this code might be part of an Obfuscated C Code Contest or equivalent model where the goal is to make it as hard as possible for humans to understand what the code does.

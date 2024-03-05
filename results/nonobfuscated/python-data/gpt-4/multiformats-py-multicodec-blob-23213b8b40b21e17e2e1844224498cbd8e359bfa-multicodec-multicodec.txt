@@ -1,0 +1,19 @@
+This Python code appears to be part of a module for handling "multicodec" encoding/decoding, which is a type of multi-format data representation. 
+
+Here's a function-by-function breakdown:
+
+1. `extract_prefix(bytes_)`: This function attempts to decode varint from a given byte sequence. If the decoding fails, it raises a ValueError.
+
+2. `get_prefix(multicodec)`: This function tries to encode a multicodec's name from a lookup table called `NAME_TABLE` into its corresponding varint prefix. If the multicodec isn't found in the lookup table, an exception is raised.
+
+3. `add_prefix(multicodec, bytes_)`: This function appends a given multicodec's varint encoded prefix to a byte sequence.
+
+4. `remove_prefix(bytes_)`: This function removes a varint encoded prefix from a byte sequence and returns the byte sequence without the prefix.
+
+5. `get_codec(bytes_)`: This function retrieves a multicodec based on a varint encoded prefix from a byte sequence. If the prefix isn't found in the lookup table, it raises an exception.
+
+6. `is_codec(name)`: This function checks if a given name is represented as a key in `NAME_TABLE` and returns a boolean value depending on the outcome.
+
+Varint, or variable integer, is a method of serializing integers using one or more bytes. Smaller numbers take a smaller number of bytes.
+
+'Multicodec' is a self-describing multiformat, a way to tell a decoder about the format of given data, thus helping to evolve programs to handle new data formats.

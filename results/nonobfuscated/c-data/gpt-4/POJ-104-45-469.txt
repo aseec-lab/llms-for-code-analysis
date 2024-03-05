@@ -1,0 +1,23 @@
+This C code reads two strings as inputs and then checks if the second string is a substring of the first string. If the second string is a substring of the first string, then it prints out the index where the substring starts in the first string.
+
+Here is how it works:
+
+1. It defines two character arrays `s` and `w` (of maximum length 50 characters) to hold the two input strings. 
+
+2. Also defines a char pointer `p` which is used in the loop to traverse the string `w` which is the string in which we are trying to find the substring.
+
+3. It defines integers `i` and `k` which are used for looping and recording if there is a match respectively.
+
+4. The program then gets the two input strings through the `scanf` function.
+
+5. The outer loop - `for(p=w;p<(w+strlen(w));p++)` traverses through each character of the string `w`. 
+
+6. The inner loop - `for(i=0;i<strlen(s);i++)` is using `i` to traverse through each character of string `s`.
+
+7. Within this inner loop, we compare each character of `w` starting from `p` with each character of `s` using `if(*(p+i)!=s[i])`. If the characters do not match, the value of `k` is set to 1. 
+
+8. After the inner loop, there is an if-statement `if(k==0)`. This statement checks if `k` is zero, which will be the case if all the characters in the potential substring matched the input string, and thus found the substring. When this happens, the program outputs the start position of the substring in the `w` string using `printf("%d\n",p-w);`. 
+
+9. After a match is found, we break the loop  using the `break` statement.
+
+Note: The indexing is zero-based, meaning the first character has an index of 0. If the substring is not found in the string, nothing will be printed. Make sure the input strings do not exceed the maximum characters defined (50 characters here) to avoid buffer overflow.

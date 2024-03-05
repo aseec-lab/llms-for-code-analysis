@@ -1,0 +1,44 @@
+This code appears to be written in JavaScript and is used to decode and initialize multiple WebAssembly modules.
+
+The code starts by defining a function called __universalAtob, which takes a base64 encoded string as input and converts it to a Uint8Array of bytes. It first tries to use the built-in atob function to decode the string, but if that fails, it falls back to using the global Buffer.from function.
+
+The code then defines two base64 encoded strings: __ifWasmBuffer and __callWasmBuffer. These strings are then passed through the __universalAtob function to obtain the corresponding Uint8Array of bytes.
+
+The code then defines two WebAssembly modules using the WebAssembly.Module constructor. The first module is created using the bytes obtained from decoding __ifWasmBuffer, and the second module is created using the bytes obtained from decoding __callWasmBuffer.
+
+Next, an array named __wasmStringModules is defined. This array contains base64 encoded strings that represent the byte code of additional WebAssembly modules. Each string in the array is decoded using __universalAtob and then passed to the WebAssembly.Module constructor to create an instance of the module. These instances are stored in the array.
+
+Finally, a function named lS is defined. This function takes three parameters: wI, pos, and iWC. Inside the function, it first checks if wI is an array or not. If wI is not an array, it treats it as an index to access a specific instance from the __wasmStringModules array. It then retrieves the corresponding module instance and extracts a string from its memory buffer using the provided position (pos). The extracted string is decoded and returned.
+
+If wI is an array, the function iterates over each index in the array and performs the same extraction and decoding process as mentioned above. The resulting strings are then returned as an array.
+
+Overall, this code is used to decode base64 encoded strings and initialize WebAssembly modules. The lS function is used to extract and decode strings from the memory buffers of these modules.The remaining part of the previous function includes:
+- Defining a new Uint8Array called __mem which refers to the memory buffer of the __targetModule.
+- Creating a string key named __stringKey based on the provided position (pos).
+- Initializing a variable named __start with the value of the memory location (__targetModule.exports[__stringKey]) from which the string extraction should start.
+- Initializing a variable named i with the value of __start.
+- Extracting individual characters from the memory buffer (__mem) one by one until a character with its highest bit set or the end of the buffer is reached.
+- Constructing the final extracted string (__str) by appending each character to it.
+- Decoding the extracted string by removing the first character and using decodeURIComponent.
+- Returning the decoded string as the result of the lS function.
+
+The remaining part of the code includes:
+- Assigning the result of the lS function with arguments 0 and 0 to the constant named endpoint.
+- Defining an empty array named getData.
+- Selecting the search input element using the result of the lS function with arguments 0 and 1 and assigning it to the constant named searchInput.
+- Selecting the search list element using the result of the lS function with arguments 0 and 2 and assigning it to the constant named searchList.
+- Defining an anonymous function using the arrow syntax and immediately invoking it. This function initializes a new WebAssembly instance called __callInstance5 using the __callWasmModule and defines an environment object with an impFunc property. The impFunc property is set to an event listener for a specific event (event name obtained using the result of the lS function with arguments 0 and 3). When the event occurs on the searchInput element, the displayMatches function is triggered.
+- Defining another anonymous function using the arrow syntax and immediately invoking it. This function initializes a new WebAssembly instance called __callInstance4 using the __callWasmModule and defines an environment object with an impFunc property. The impFunc property is set to a fetch request to the endpoint obtained earlier. The response from the server is then converted to JSON and processed further using a series of nested anonymous functions and WebAssembly instances. The obtained data is pushed to the getData array.
+- Defining a function called findMatches which takes a wordToMatch parameter and the getData array. This function filters the data array based on whether the title or description of each element of data matches the wordToMatch parameter using a regular expression.
+- Defining a function called displayMatches which is triggered when the input value of the searchInput element changes. It calls the findMatches function with the current value of the input and the getData array to find matching results, and then generates HTML based on the matched results.The remaining part of the code includes:
+
+- Mapping over the filtered results from the findMatches function and creating HTML elements for each match. The title and description of each place are replaced with a highlighted version using the regexWord pattern and the value of the input. The mapped elements are then joined together using the result of the lS function with arguments 0 and 6.
+- Setting the innerHTML of the searchList element to the generated HTML.
+- Creating a new WebAssembly instance called __ifInstance0 using the __ifWasmModule and defining an environment object with two impFunc properties. The impFunc1 property is set to a function that sets the innerHTML of the searchList element to the result of the lS function with arguments 0 and 8. The impFunc2 property is left empty.
+- Calling the data function of the __exports object (which represents the exports of the WebAssembly instance) with an argument of 1 if the value of the searchInput element is equal to the result of the lS function with arguments 0 and 7. This triggers the impFunc1 function defined earlier.
+- Selecting the button element using the result of the lS function with arguments 0 and 9 and assigning it to the constant named button.
+- Selecting the searchForm element using the result of the lS function with arguments 0 and 10 and assigning it to the constant named searchForm.
+- Creating a new WebAssembly instance called __callInstance1 using the __callWasmModule and defining an environment object with an impFunc property. The impFunc property is set to an event listener for the specified event (obtained using the result of the lS function with arguments 0 and 11). When the event occurs on the button element, a nested function is invoked.
+- Inside the nested function, another WebAssembly instance called __callInstance0 is created using the __callWasmModule and defining an environment object with an impFunc property. The impFunc property is set to a function that toggles the class of the searchForm element to the result of the lS function with arguments 0 and 12.
+- Calling the data function of the __exports object with no arguments. This triggers the impFunc function defined earlier.
+- The entire code is immediately invoked.

@@ -1,0 +1,19 @@
+The Python script provides two main classes, FileNumber and FileAge, these classes inherit from a base class called Wmi that is not defined in this provided script. Both classes have arguments parsing functionality for handling specific options through command line input. 
+
+1. `FileNumber`: As the name suggests it handles file-related operations like getting file count inside a directory. In the `filenumber_handle` method, it checks whether to apply the operation for all directories recursively or not based on the 'recursion' argument. It also checks if the total number of files exceeds critical or warning thresholds. 
+
+2. `FileAge`: This class is responsible for age-related operations of files. The `fileage_handle` method operates either on a specific directory or on all directories based on the 'recursion' argument. It collects files and categorizes them into three categories based on their last modified time - ok_file, warn_file, crit_file. 
+
+It looks like these classes are designed to work as Nagios checks or some similar monitoring tool where you would want to monitor the number of files in a directory or the age of files. The actual file handling is calling Windows Management Instrumentation (WMI) queries to interact with the Windows operating system and filesystem. The arguspy.wmi_sh library and its Wmi class are used as the base class in this case.
+
+However, the remaining part of the code which seems to be handling the categorization of files based on their age, and the application of the warning and critical thresholds, is missing.The remaining part of the code provided completes the `FileAge` class and introduces the new `SqlserverLocks` and `Register` classes.
+
+The `FileAge` class goes over each file and checks the time difference between now and the last modification time. If this difference exceeds the warning or critical thresholds specified as command-line arguments, appropriate actions are taken accordingly, building up lists of filenames that correspond to each category (normal, warning, critical) then generates the output status and messages.
+
+The `SqlserverLocks` class deals with SQL Server performance counter data. Based on the specified mode, which could be "LockTimeoutsPersec", "LockWaitsPersec" or "NumberofDeadlocksPersec", it fetches related data by making a WMI query. After retrieving the results, it again applies the warning/critical threshold to the value of the fetched mode. Similar to the `FileAge` class, it generates lists of filenames that correspond to each category (normal, warning, critical) then generates the output status and messages. 
+
+The `Register` class inherits from both `FileNumber` and `FileAge` and `SqlserverLocks`, effectively combining the functionality of these three classes.
+
+The `main()` function intiates a `Register()` object. Depending on the option selected when launching the script (`filenumber`, `fileage`, or `sqlserverlocks`), it calls the related method to perform actions.
+
+This script is designed to be run with Nagios or similar monitoring software to check different parameters (like the file number, file age or SQL Server performance metrics) and return statuses accordingly. These statuses inform Nagios about the health of the particular system being monitored.

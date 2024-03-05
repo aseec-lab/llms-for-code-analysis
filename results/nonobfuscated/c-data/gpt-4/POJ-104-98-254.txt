@@ -1,0 +1,14 @@
+The purpose of the code is to read in a set of strings and format them so that they fit a line length of up to 80 characters per line. If a string cannot fit on the current line, that string is moved to the next line. Each string is separated by a space if they are placed on the same line. The "#" character marks the end of lines where the next string does not fit. 
+
+In more details:
+- The code starts by declaring an integer variable `n` to hold the number of strings, `i` as a counter, `count` to hold the current length of the line and `len` to hold the length of the current string. 
+- An array is also declared to hold strings `str[500][40]`, and a pointer `p` is declared to reference this array later. 
+- Next, it gets the number of strings `n`.
+- Using a for loop, it reads in `n` strings from user input.
+- Starting with the first string, it calculates the length of each string it reads and checks if adding it to the current line length would exceed 80 characters.
+- If it can fit, it outputs the string adding a space for separation and increments the line length.
+- If it can't fit on the current line but can fit on the next line, it outputs a newline followed by the string and resets the line length to the length of the string.
+- If it can't fit on a line at all, it prints a "#" on a new line and then prints the string on a new line then resets the line length to the length of the string plus 1.
+- It then repeats the process for the next string until all strings have been printed.
+- The last printed string is followed by a newline.
+- In the end, it returns 0, consistent with the normal operation of the `main` function.

@@ -1,0 +1,19 @@
+The given code defines functions to convert JHK (J band [1.25 μm], H band [1.65 μm] and K band [2.2 μm]) magnitudes to other photometric systems. The JHK system is a near-infrared system, and the magnitudes represent the amount of light coming from a celestial object in these specific wavelengths.
+
+Firstly, it imports the numpy library.
+
+Next, it sets up several arrays of constants which have been presumably derived from empirical photometry correlation relationships.
+
+The function `convert_constants()` is a general utility function which uses these constants to convert from JHK magnitudes to another photometric system. Depending on the available input magnitudes (J, H, K, two of them, or all), it calculates and returns the magnitude in the target photometric system. If none of the input magnitudes is available, it returns Not a Number (NaN).
+
+Following this, several functions (`jhk_to_bmag()`, `jhk_to_vmag()`, `jhk_to_rmag()`, `jhk_to_imag()`, `jhk_to_sdssu()`, `jhk_to_sdssg()`, `jhk_to_sdssr()`, `jhk_to_sdssi()`, `jhk_to_sdssz()`) are defined. Each of them converts JHK magnitudes using corresponding constants to a specific photometric system: B, V, R, I, SDSS u', g', r', i', z'. The Sloan Digital Sky Survey (SDSS) uses the u'g'r'i'z' system.
+
+In summary, this program is for photometric conversion, changing the magnitudes of celestial bodies observed in the JHK system to several other photometric systems.The last function `absolute_gaia_magnitude()` is used to calculate the absolute magnitude of an object using the Gaia Data Release 2 (Gaia DR2) apparent magnitude and parallax.
+
+Absolute magnitude is the brightness an object would have if it were at a standard distance of 10 parsecs away from the observer, while apparent magnitude is the brightness as observed from Earth. The calculation involves first converting the parallax in milliarcseconds to distance in parsecs (d_pc). 
+
+If parallax error is provided, it also calculates the error in distance computation (d_pc_err). Using these values, it calculates the absolute Gaia magnitude (M_G).
+
+If both distance error and magnitude error are provided, it calculates the error in absolute magnitude computation (M_G_err) using the formula for error propagation. The results are returned.
+
+In summary, this function takes in apparent magnitude and parallax (and optionally their errors) from the Gaia dataset and returns the absolute magnitude (and optionally its error).

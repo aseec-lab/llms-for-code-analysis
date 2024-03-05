@@ -1,0 +1,433 @@
+This code appears to define a JavaScript library for performing cryptographic operations. 
+
+First, there are several variables declared, such as a0_0x9beff, a0_0x1c6f, Crypto, dbits, BI_DB, BI_DM, BI_DV, BI_FP, BI_FV, BI_F1, BI_F2, canary, and j_lm. The purpose and values of these variables are not clear from this code snippet.
+
+Next, there is a function declaration for a0_0x1c6f, which takes two arguments (_0x1ca933 and _0x215d7f). This function uses the value of a0_0x512b() to assign a new value to a0_0x1c6f, which is a recursive function. The purpose of this function is also not clear from this snippet.
+
+Then, there is a self-invoking function that takes _0x1558bd and _0x1a785e as arguments. This function appears to be a loop that tries to execute some code block until a condition is met. The specific condition and purpose of this loop are not clear from this snippet.
+
+After that, there is a variable declaration for Crypto, which is assigned a new instance of a BenchmarkSuite object. The BenchmarkSuite object is given the name 'Crypto' and an array of benchmarks. The purpose of this suite and benchmarks are not clear from this snippet.
+
+Following that, there is a function declaration for BigInteger, which takes three arguments (_0x4d9b1f, _0xb51bf4, _0x255e2f). This function appears to be a constructor for a BigInteger object. The specific details of how this constructor works are not clear from this snippet.
+
+Next, there are several utility functions declared, such as nbi(), am1(), am2(), am3(), and am4(). These functions seem to be used for performing specific mathematical operations, but the exact details are not clear from this snippet.
+
+Finally, there is some setup code that assigns functions and variables to the BigInteger object. The purpose of this setup is not clear from this snippet.
+
+Overall, it seems like this code is part of a larger library for performing cryptographic operations using BigInteger objects. Without more context or additional code, it is difficult to fully understand the purpose and functionality of this code.This remaining part of the code snippet defines several utility functions for the BigInteger object. 
+
+The first function, int2char(), takes an integer as an argument and returns the character representation of that integer by using the charAt() method of the BI_RM variable.
+
+The next function, intAt(), takes two arguments (_0x58692e and _0x2df2f6) and returns the value of BI_RC at the index specified by _0x58692e[_0x1a8c77(0x79)](_0x2df2f6). If the value is null, it returns -1.
+
+The bnpCopyTo() function takes a BigInteger object (_0x5ac0bd) and copies the values from the current object to _0x5ac0bd. It first assigns the length of the current object to _0x1c1805. Then, it iterates over the elements of _0x1c1805 in reverse order and assigns them to _0x28b3b1 (the elements of _0x5ac0bd). Finally, it sets the length and sign of _0x5ac0bd to match the current object.
+
+The bnpFromInt() function takes an integer (_0x218673) as an argument and sets the value of the current object accordingly. It sets the length of the current object to 1 and the sign based on the value of _0x218673. If _0x218673 is greater than 0, it assigns _0x218673 to the first element of the current object. If _0x218673 is less than -1, it assigns _0x218673 + DV to the first element of the current object. If _0x218673 is -1, it sets the length of the current object to 0.
+
+The nbv() function takes an integer (_0x4350c0) as an argument and returns a new BigInteger object with the value of _0x4350c0.
+
+The bnpFromString() function takes a string (_0x5b6963) and a radix (_0x5e0178) as arguments and sets the value of the current object accordingly. The function first initializes some variables based on the radix. Then, it iterates over the characters of the string in reverse order. The function converts each character to an integer using the intAt() function. If the character is negative, indicating a negative number, it sets a flag (_0x1e0253) to true. If the character is not negative, the function checks if the current element index (_0x462ca5) is 0. If so, it assigns the integer value to the current object. If not, it checks if the sum of the current element index and the radix is greater than or equal to BI_DB (the number of bits in a digit). If so, it applies a carry operation to the previous element and assigns the integer value to the current object. Otherwise, it assigns the integer value to the current object. After the loop, the function adjusts the sign, trims leading zeros, and handles negative numbers if necessary.
+
+The bnpClamp() function clamps the current object by removing any leading zeros.
+
+The bnToString() function takes a radix (_0x4dc1ba) as an argument and returns a string representation of the current object. If the sign is negative, it adds a "-" sign to the result. Then, it calls the bnToString() function on the absolute value of the current object and concatenates it with the "-" sign if necessary.The remaining part of the code defines several functions for manipulating BigInteger objects.
+
+The bnNegate() function returns a new BigInteger object that is the negation of the current object. It first creates a new BigInteger object (_0x161e42). Then, it calls the bnpNegate() method on the current object, passing _0x161e42 as an argument. Finally, it returns _0x161e42.
+
+The bnAbs() function returns a new BigInteger object that is the absolute value of the current object. If the sign of the current object is negative, it calls the bnNegate() method on the current object. Otherwise, it returns the current object.
+
+The bnCompareTo() function compares the current object to another BigInteger object (_0x43f77a) and returns -1, 0, or 1 depending on whether the current object is less than, equal to, or greater than _0x43f77a, respectively. The function first initializes some variables based on the lengths and signs of the two objects. It then compares the elements of the two objects in reverse order. If the elements are not equal, it returns the difference between them. If all elements are equal, it returns 0.
+
+The nbits() function calculates the number of bits needed to represent an integer (_0x3de474). The function first initializes a variable (_0x2fe1b8) to 1. Then, it performs bitwise right shifts on _0x3de474 to count the number of bits. The function returns _0x2fe1b8.
+
+The bnBitLength() function returns the number of bits in the current object. If the length of the current object is less than or equal to 0, it returns 0. Otherwise, it calculates the bit length based on the length of the object and the highest element of the object. The function uses the nbits() function to calculate the number of bits in the highest element.
+
+The bnpDLShiftTo() function shifts the elements of the current object to the left by a certain amount (_0x1e7761) and assigns them to another BigInteger object (_0x4eccc9). The function first initializes some variables based on the lengths of the two objects. Then, it iterates over the elements of the current object in reverse order and assigns them to the corresponding indices in the new object (_0x4eccc9) shifted by _0x1e7761. Finally, it sets the length of the new object to the sum of the lengths of the two objects.The bnpSubTo() function subtracts another BigInteger object (_0x2380e4) from the current object and stores the result in another BigInteger object (_0xb05204). The function first initializes some variables based on the lengths of the two objects. Then, it iterates over the elements of the two objects and subtracts them from each other, storing the result in the _0x331179 array. If the result is negative, it borrows from the next element. Finally, it sets the length of the new object to the maximum length of the two objects and clamps it to remove any leading zeroes.The remaining part of the code defines two more functions: bnpMultiplyTo() and bnpSquareTo().
+
+The bnpMultiplyTo() function multiplies the current BigInteger object by another BigInteger object (_0x9ff7e9) and stores the result in another BigInteger object (_0x4deb14). The function initializes some variables based on the lengths of the two objects. Then, it iterates over the elements of the second object and performs the multiplication operation, storing the result in the _0x37060e array. Finally, it sets the length of the new object to the sum of the lengths of the two objects and clamps it to remove any leading zeros.
+
+The bnpSquareTo() function squares the current BigInteger object and stores the result in another BigInteger object (_0x1fe962). The function initializes some variables based on the length of the current object. Then, it iterates over the elements of the current object and performs the squaring operation, storing the result in the _0x4939b2 array. Finally, it sets the length of the new object to twice the length of the current object and clamps it to remove any leading zeros.
+
+These functions are used internally in the BigInteger library to perform various calculations.The remaining code includes the definition of several more functions related to the BigInteger library.
+
+The bnpInvDigit() function calculates the inverse of the first digit of the current BigInteger object modulo the constant BI_DV. It uses bitwise operations and modular arithmetic to perform the calculation.
+
+The Montgomery class is a constructor function that creates an object representing a Montgomery reduction. It takes a single parameter (_0x4f16a0) which is another BigInteger object representing the modulus. The Montgomery object has several properties and methods, including mp (the modulus), m (the modulus as a BigInteger object), um (a constant), and montConvert(), montRevert(), montReduce(), montMulTo(), and montSqrTo() functions.
+
+The montConvert() function converts a regular BigInteger object to a Montgomery representation. It creates a new BigInteger object and applies two operations: first, it multiplies the object by the modulus and then performs a modular reduction. If the original object is negative and the result of the reduction is positive, it adds the modulus to make the result negative again.
+
+The montRevert() function converts a Montgomery representation back to a regular BigInteger object. It creates a new BigInteger object and applies the montReduce() function to reduce the object.
+
+The montReduce() function performs a Montgomery reduction on a given BigInteger object. It extends the object by adding leading zeros until its length is equal to or greater than twice the modulus length. Then, it iteratively performs the Montgomery reduction algorithm, using bitwise operations and modular arithmetic.
+
+The montMulTo() function multiplies two Montgomery representation BigInteger objects and stores the result in another BigInteger object. It uses the montMulTo() function of the first object and then applies the montReduce() function to reduce the result.
+
+The montSqrTo() function squares a Montgomery representation BigInteger object and stores the result in another BigInteger object. It uses the squareTo() function of the first object and then applies the montReduce() function to reduce the result.
+
+The bnpIsEven() function checks if the current BigInteger object is even. It returns true if the first digit of the object is even and false otherwise.
+
+These functions are used internally in the BigInteger library for various calculations and operations.to _0x591296[_0xbaed4a(0xac)];_0x43c2f9<_0x591296[_0xbaed4a(0xac)];_0x43c2f9++){var _0x9b2ad=IntAt(_0x591296,_0x43c2f9)
+if(_0x9b2ad<0x0){if(_0x362bd5(0xe0)=="TWGFj"){var _0x3ee0fb=_0xbaed4a(0x93)['fromCharCode'](_0x9b2ad>>0x18&0xff)+_0xbaed4a(0x93)[_0xbaed4a(0xd)](_0x9b2ad>>0x10&0xff)+_0xbaed4a(0x93)['fromCharCode'](_0x9b2ad>>0x8&0xff)+_0xbaed4a(0x93)[_0xbaed4a(0xd)](_0x9b2ad&0xff)
+_0x1f51ea+=_0x3ee0fb}else{if(_0x3ee0fb['_overflow']==null||!_0x3ee0fb[_0xbaed4a(0x128)]){if(_0xbaed4a(0x8d)!='HnrdC')return base64_._encode(_0x2e3a0f[_0x1e08ec(0x7f)]())}else if(_0x43c2f9-_0x1fa2b0>0x0){_0x3ee0fb[_0xbaed4a(0xe0)](_0x2e3a0f['slice'](_0x1fa2b0,_0x43c2f9))}if(_0x9b2ad==0x2d){if(_0x362bd5(0xc6)=="WOmRd"){if(_0x3d2639)throw new Error(_0x362bd5(0x119))
+_0x2f32ae+=BI_DV0x5,_0x3d2639=![]
+}else{if(_0x5c70d5)throw new Error('unexpected end of input')
+_0x5c70d5=!![]
+}}}}else{if(_0x9b2ad<_0x20bbbd){if(_0xbaed4a(0xc6)=="txEOW"){throw new Error(_0x362bd5+'+"'): true;
+        }
+	    tmp = 0;
+    }
+    return tmp;
+}
+    
+    function bnToString(b) {
+        var self = this,
+            k = self.copy(),
+            i;
+        k.reverse();
+        var i = 1,
+            output = str = i2char(b + 1);
+        while (self.compare(self, k) == 1) {
+            self.divide(self, k);
+            k = self.copy();
+            k.reverse();
+            str = i2char(self.byteValue());
+            output += str;
+            i++;
+        }
+        return output;
+    }
+    
+    function bnNegate() {
+        var r = nbi();
+        BigInteger.ZERO.subTo(this, r);
+        return r;
+    }
+    
+    function bnAbs() {
+        return (this.s < 0) ? this.negate() : this;
+    }
+    
+    function bnCompareTo(that) {
+        var r = this.s - that.s;
+        if (r != 0) {
+            return r;
+        }
+        var i = this.t;
+        r = i - that.t;
+        if (r != 0) {
+            return (this.s < 0) ? -r : r;
+        }
+        while (--i >= 0) {
+            if ((r = this[i] - that[i]) != 0) {
+                return r;
+            }
+        }
+        return 0;
+    }
+    
+    function bnBitLength() {
+        if (this.t <= 0) {
+            return 0;
+        }
+        return BI_DB * (this.t - 1) + nbits(this[this.t - 1] ^ (this.s & BI_DM));
+    }
+    
+    function bnMod(b) {
+        var r = nbi();
+        this.abs().divRemTo(b, null, r);
+        if (this.s < 0 && r.compareTo(BigInteger.ZERO) > 0) {
+            b.subTo(r, r);
+        }
+        return r;
+    }
+    
+    function bnModPowInt(e, m) {
+        var r = this,
+            z = new Classic(m);
+        return r.exp(e, z);
+    }
+    
+    BigInteger.prototype.copyTo = bnpCopyTo;
+    BigInteger.prototype.fromInt = bnpFromInt;
+    BigInteger.prototype.fromString = bnpFromString;
+    BigInteger.prototype.clamp = bnpClamp;
+    BigInteger.prototype.dlShiftTo = bnpDLShiftTo;
+    BigInteger.prototype.drShiftTo = bnpDRShiftTo;
+    BigInteger.prototype.lShiftTo = bnpLShiftTo;
+    BigInteger.prototype.rShiftTo = bnpRShiftTo;
+    BigInteger.prototype.subTo = bnpSubTo;
+    BigInteger.prototype.multiplyTo = bnpMultiplyTofunction bnShiftLeft(_0x4d6fab){
+  const _0x2637c5=a0_0x9beff;
+  const _0x5e7813=nbi();
+  if(_0x4d6fab<0x0){
+    this[_0x2637c5(0xb9)](-_0x4d6fab,_0x5e7813);
+  }else{
+    this[_0x2637c5(0x11c)](_0x4d6fab,_0x5e7813);
+  }
+  return _0x5e7813;
+}
+
+function bnShiftRight(_0x3eb405){
+  const _0x189e9d=a0_0x9beff;
+  const _0x456686=nbi();
+  if(_0x3eb405<0x0){
+    this[_0x189e9d(0x11c)](-_0x3eb405,_0x456686);
+  }else{
+    this[_0x189e9d(0xb9)](_0x3eb405,_0x456686);
+  }
+  return _0x456686;
+}Here is the remaining part of the previous function:
+
+```javascript
+while (_0x2f0d7f < this['t']) {
+  _0x2a250f += _0x49584a[_0x2f0d7f] + _0x13f637[_0x2f0d7f];
+  _0x752800[_0x2f0d7f++] = _0x2a250f & BI_DM;
+  _0x2a250f >>= BI_DB;
+}
+
+if (_0x3ff656['t'] < this['t']) {
+  _0x2a250f += _0x3ff656['s'];
+  while (_0x2f0d7f < this['t']) {
+    _0x2a250f += _0x49584a[_0x2f0d7f];
+    _0x752800[_0x2f0d7f++] = _0x2a250f & BI_DM;
+    _0x2a250f >>= BI_DB;
+  }
+  _0x2a250f += this['s'];
+} else {
+  var _0x2def3e = _0x259276();
+  return this[_0x13d3bc(0x10b)](_0x1ba4aa, _0x37c648, _0x2def3e), _0x2def3e;
+}
+```
+
+This part of the code calculates the sum of two `BigInteger` objects and stores the result in `_0x752800`. It first iterates through the arrays `_0x49584a` and `_0x13f637` and adds the corresponding elements together, carrying over any overflow to the next element. If the length of `_0x3ff656` is smaller than the length of `this`, it adds the remaining elements of `this` to the sum. If the length of `_0x3ff656` is greater than or equal to the length of `this`, it calls the `op_add` method to perform the addition.
+
+The resulting sum is then returned.Here is the remaining part of the previous function:
+
+```javascript
+if (_0x2502c2 < _0x29459b['t']) {
+  _0x49287d[_0x2502c2+this['t']] = this['am'](0x0, _0x59a1c9[_0x2502c2], _0x17a70e, _0x2502c2, 0x0, _0x29459b['t']-_0x2502c2);
+}
+
+_0x17a70e['_clamp']();
+
+if (this['s'] != _0x29459b['s']) {
+  _0x17a70e[_0x56a38f(0xcd)](_0x17a70e, _0x17a70e);
+}
+
+return _0x17a70e;
+}
+function bnMultiplyUpperTo(_0x4b6036, _0x558f01, _0x2e4cd9) {
+  var _0x5081ac = a0_0x9beff;
+  _0x558f01[_0x5081ac(0xde)](_0x4b6036, _0x2e4cd9);
+  _0x2e4cd9[_0x5081ac(0xcd)]();
+}
+
+function Barrett(_0x2802da) {
+  var _0x2efff5 = a0_0x9beff;
+  this[_0x2efff5(0x1f2)] = nbi();
+  this[_0x2efff5(0xa4)] = _0x2802da[_0x2efff5(0xf7)](0x2*this['m'][_0x2efff5(0xd1)],-0x1);
+  this['um'] = _0x2802da;
+  this[_0x2efff5(0x222)] = this['mu']['multiply'](this[_0x2efff5(0x1f2)]);
+  this[_0x2efff5(0x212)] = this[_0x2efff5(0x222)][_0x2efff5(0xf7)](this[_0x2efff5(0x1f2)]['t']+0x1,-0x1);
+  this[_0x2efff5(0xed)] = 0x2710;
+  this[_0x2efff5(0x94)] = 0xc8;
+  this['remainder'] = nbi();
+  this[_0x2efff5(0xbd)]['divRemTo'](this[_0x2efff5(0x1f2)],null,this[_0x2efff5(0xbd)]);
+  this[_0x2efff5(0x212)][_0x2efff5(0xbd)](this['remainder'],null,this[_0x2efff5(0x222)]);
+}
+```
+
+This part of the code defines the `bnMultiplyUpperTo` and `Barrett` functions.
+
+`bnMultiplyUpperTo` multiplies two `BigInteger` objects and storesThe remaining part of the code defines the `bnpMultiplyUpperTo`, `barrettConvert`, `barrettRevert`, `barrettReduce`, `barrettSqrTo`, `barrettMulTo`, and `bnModPow` functions.
+
+`bnpMultiplyUpperTo` multiplies two `BigInteger` objects and stores the result in a third `BigInteger` object.
+
+`barrettConvert` converts a `BigInteger` object to a `Barrett` object.
+
+`barrettRevert` reverts a `Barrett` object back to a `BigInteger` object.
+
+`barrettReduce` reduces a `BigInteger` object modulo a `Barrett` object.
+
+`barrettSqrTo` squares a `BigInteger` object using a `Barrett` object.
+
+`barrettMulTo` multiplies two `BigInteger` objects using a `Barrett` object.
+
+`bnModPow` calculates the modular exponentiation of a `BigInteger` object to a given power using the Barrett reduction algorithm.The remaining part of the code defines the `bnGCD` function.
+
+`bnGCD` calculates the greatest common divisor (GCD) of two `BigInteger` objects. It first ensures that both numbers are positive. Then it finds the lowest set bit (LSB) of each number and shifts them right until they have the same number of bits. It then repeatedly subtracts the smaller number from the larger number until the larger number becomes zero, and returns the smaller number, which is the GCD.The remaining part of the code includes the `bnModInverse` and `bnIsProbablePrime` functions.
+
+`bnModInverse` calculates the modular inverse of a `BigInteger` object with respect to another `BigInteger`. It first checks if the two numbers are even or if the second number is zero, and returns `BigInteger.ZERO` in those cases. It then initializes four `BigInteger` objects: `a`, `b`, `x`, and `y`. It starts a loop that continues until the second number becomes zero. In each iteration, it performs several operations to update the values of `a`, `b`, `x`, and `y`. At the end of the loop, it checks if the first number has a negative sign, and adds the second number to it if it does. It then checks if `y` has a negative sign and adds the second number to it if it does. Finally, it returns `y` as the modular inverse.
+
+`bnIsProbablePrime` determines if a `BigInteger` object is a probable prime number. It first checks if the number is less than 2 or if it is divisible by any of the low prime numbers. If any of these conditions are true, it returns `false`. Otherwise, it performs a Miller-Rabin primality test. It initializes variables `_0x4c72a6` and `_0x2a26b9`. Then, it starts a loop that continues until `_0x47ff84` is greater than or equal to the square root of the number. In each iteration, it checks if `_0x47ff84` is divisible by the current low prime number. If it is, it returns `false` as the number is composite. Finally, it returns `true` as the number is probably prime.to `_0x52f08b['length'];++_0x3f46eb){_0x268d22=_0x268d22+this['S'][_0x3f46eb]+_0x52f08b[_0x3f46eb]%0x100}&0xff
+_0x2be07e=0x0
+for(_0x3f46eb=0x0
+_0x3f46eb<0x100
+++_0x3f46eb){_0x2be07e=_0x2be07e+_0x268d22+this['S'][_0x3f46eb]}&0xff
+_0x3f46eb=0x0
+for(_0x3f46eb=0x0
+_0x3f46eb<0x100
+++_0x3f46eb){_0x3f46eb%0x2==0x0?(_0x268d22=_0x268d22+_0x2be07e):(_0x2be07e=_0x2be07e+_0x268d22)}&0xff
+this['i']=0x0
+this['j']=0x0
+for(_0x3f46eb=0x0
+_0x3f46eb<0x100
+++_0x3f46eb){var _0x3337b7=this['i']&0xff,_0x417ca5=this['j']&0xff,_0x269513=this['S'][_0x3337b7]
+this['S'][_0x3337b7]=this['S'][_0x417ca5]
+this['S'][_0x417ca5]=_0x269513
+this['i']=(this['i']+0x1)&0xff
+this['j']=(this['j']+_0x268d22)&0xff}}function ARC4next(){var _0x1770c0
+this['i']=(this['i']+0x1)&0xff
+this['j']=(this['j']+this['S'][this['i']])&0xff
+_0x1770c0=this['S'][this['i']]
+this['S'][this['i']]=this['S'][this['j']]
+this['S'][this['j']]=_0x1770c0
+return this['S'][(_0x1770c0+this['S'][this['i']])&0xff]}Arcfour[a0_0x9beff(0x80)][a0_0x9beff(0xe7)]=ARC4next
+function prng_newstate(){return new Arcfour}
+var rng_psize=256,rng_state,rng_pool,rng_pptr
+if(rng_pool==null){rng_pool=new Array(),rng_pptr=0x0
+var t
+if(typeof window!=='undefined'&&window['crypto']){var _0x3e288d=window['crypto']['randomBytes'](rng_psize)
+for(t=0x0
+t<rng_psize;++t)rng_pool[rng_pptr++]=_0x3e288d[t]&0xff}if(typeof navigator!=='undefined'&&navigator['appVersion']
+.indexOf('MSIE')!==-0x1){var _0x1dc15c=1
+var _0x44609e,newseed=function(){var _0xb56a68=0x10000*_0x3b21b7Remaining part of the previous code:
+
+else alert(_0x29ff00(0x14a))
+}
+else alert(_0x29ff00(0x14a))
+}RSAKey[a0_0x9beff(0x80)][a0_0x9beff(0xcf)]=RSASetPublic
+
+function RSADoPublic(_0x2613db) {
+    return _0x2613db[a0_0x9beff(0xf1)](this['e'], this['n']);
+}
+RSAKey[a0_0x9beff(0x80)][a0_0x9beff(0x9f)]=RSADoPublic;
+
+function RSAEncrypt(_0x3ed106) {
+    var _0x351eb4 = a0_0x9beff;
+    var _0x29ccfe = pkcs1pad2(_0x3ed106, (this['n'][_0x351eb4(0x7b)] + 0x7) >> 0x3);
+    if (_0x29ccfe == null) {
+        return null;
+    }
+    var _0x10aa9b = this['doPublic'](_0x29ccfe);
+    if (_0x10aa9b == null) {
+        return null;
+    }
+    var _0x3d268d = _0x10aa9b[a0_0x9beff(0x126)](0x10);
+    return linebrk(_0x3d268d, 0x44);
+}
+RSAKey['prototype'][a0_0x9beff(0x123)]=RSAEncrypt;
+
+function hex2b64(_0x262ad7) {
+    var _0x35a6a2 = a0_0x9beff;
+    var _0x3229ec, _0x185bb1, _0x276924 = "";
+    for (_0x185bb1 = 0x0; _0x185bb1 + 0x3 <= _0x262ad7[_0x35a6a2(0x7b)]; _0x185bb1 += 0x3) {
+        _0x3229ec = parseInt(_0x262ad7[_0x35a6a2(0x7e)](_0x185bb1, _0x185bb1 + 0x3), 0x10);
+        _0x276924 += b64map.charAt(_0x3229ec >> 0x6) + b64map.charAt(_0x3229ec & 0x3f);
+    }
+    if (_0x185bb1 + 0x1 == _0x262ad7[_0x35a6a2(0x7b)]) {
+        _0x3229ec = parseInt(_0x262ad7[_0x35a6a2(0x7e)](_0x185bb1, _0x185bb1 + 0x1), 0x10);
+        _0x276924 += b64map.charAt(_0x3229ec << 0x2);
+    }
+    else if (_0x185bb1 + 0x2 == _0x262ad7[_0x35a6a2(0x7b)]) {
+        _0x3229ec = parseInt(_0x262ad7[_0x35a6a2(0x7e)](_0x185bb1, _0x185bb1 + 0x2), 0x10);
+        _0x276924 += b64map.charAt(_0x3229ec >> 0x2) + b64map.charAt((_0x3229ec & 0x3) << 0x4);
+    }
+    while ((_0x276924[_0x35a6a2(0x7b)] & 0x3) > 0x0) {
+        _0x276924 += b64pad;
+    }
+    return _0x276924;
+}
+
+function b64tohex(_0x4a2500) {
+    var _0x470ac2 = a0_0x9beff;
+    var _0x23fedc, _0x680de2 = "", _0x48ee23 = 0x0;
+    for (_0x23fedc = 0x0; _0x23fedc < _0x4a2500[_0x470ac2(0x7b)] && _0x4a2500['charAt'](_0x23fedc) != b64pad; ++_0x23fedc) {
+        if (true !== true) {
+            if ('ZAOlN' !== _0x470ac2(0xf6)) {
+                _0x48ee23 = _0x48ee23 << 0x6 | b64map.indexOf(_0x4a2500[_0x23fedc]);
+                if ((_0x23fedc & 0x3) == 0x3) {
+                    _0x680de2 += String[_0x470ac2(0x4)](_0x48ee23 >> 0x10 & 0xff) + String[_0x470ac2(0x4)](_0x48ee23 >> 0x8 & 0xff) + String[_0x470ac2(0x4)](_0x48ee23 & 0xff);
+                }
+            }
+            else return null;
+        }
+        else {
+            _0x48ee23 = _0x48ee23 << 0x6 | b64map[_0x470ac2(0xc8)](_0x4a2500[_0x23fedc]);
+            if ((_0x23fedc & 0x3) == 0x3) {
+                _0x680de2 += String[_0x470ac2(0x4)](_0x48ee23 >> 0x10 & 0xff) + String[_0x470ac2(0x4)](_0x48ee23 >> 0x8 & 0xff) + String[_0x470ac2(0x4)](_0x48ee23 & 0xff);
+            }
+        }
+    }
+    if ((_0x23fedc & 0x3) == 0x1) {
+        _0x680de2 += String[_0x470ac2(0x4)](_0x48ee23 >> 0x4 & 0xff);
+    }
+    else if ((_0x23fedc & 0x3) == 0x2) {
+        _0x680de2 += String[_0x470ac2(0x4)](_0x48ee23 >> 0xa & 0xff) + String[_0x470ac2(0x4)](_0x48ee23 >>The remaining part of the code:
+
+var _0x3f58ee = _0x184f36[_0x2eb75c(0x102)](this['p'])[_0x2eb75c(0xf8)](this['q'])
+if (_0x3f58ee['compareTo'](BigInteger[_0x2eb75c(0xd5)]) < 0x0) {
+    _0x3f58ee = _0x3f58ee[_0x2eb75c(0x10b)](this['p'])
+}
+var _0xca5e70 = _0x3f58ee[_0x2eb75c(0x11f)](this[_0x2eb75c(0xef)]),
+    _0x488e91 = _0x3f58ee[_0x2eb75c(0x11f)](this[_0x2eb75c(0xe8)])
+var _0x2a6064 = _0x488e91[_0x2eb75c(0x102)](this['p'])[_0x2eb75c(0xf8)](this['q'])
+if (_0x2a6064[_0x2eb75c(0xfc)](BigInteger[_0x2eb75c(0xd5)]) < 0x0) {
+    _0x2a6064 = _0x2a6064[_0x2eb75c(0x10b)](this['p'])
+}
+while (_0x2a6064[_0x2eb75c(0x7b)] < this['q']['_bitLength']) {
+    _0x2a6064[_0x2eb75c(0xfa)](0x0)
+}
+var _0x5c9fe6 = this['q']['modInverse'](this['p'])[_0x2eb75c(0xf8)](this['p'])
+while (_0x5c9fe6The remaining part of the code:
+
+var _0x305dff = _0x184f36['mod'](this['p'])['modPow'](this['_d'], this['p']),
+    _0xb34a87 = _0x184f36['mod'](this['q'])['modPow'](this['_d'], this['q'])
+while (_0x305dff['compareTo'](_0xb34a87) < 0x0) {
+    _0x305dff = _0x305dff['add'](this['p'])
+}
+return _0x305dff['multiply'](_0xb34a87)['mod'](this['n'])['add'](this['_d'])
+}
+
+function RSADecrypt(_0x11d640){
+    var _0x43a58f = a0_0x9beff,
+        _0x2219b3 = parseBigInt(_0x11d640, 0x10),
+        _0x5d41e0 = this[_0x43a58f(0x90)](_0x2219b3)
+    if (_0x5d41e0 == null) return null
+    return pkcs1unpad2(_0x5d41e0, this['n']['bitLength']() + 0x7 >> 0x3)
+}
+
+RSAKey[a0_0x9beff(0x80)][a0_0x9beff(0x90)] = RSADoPrivate,
+RSAKey['prototype'][a0_0x9beff(0x105)] = RSASetPrivate,
+RSAKey[a0_0x9beff(0x80)][a0_0x9beff(0xf6)] = RSASetPrivateEx,
+RSAKey[a0_0x9beff(0x80)][a0_0x9beff(0x10a)] = RSAGenerate,
+RSAKey['prototype'][a0_0x9beff(0x109)] = RSADecrypt,
+nValue = 'a5261939975948bb7a58dffe5ff54e65f0498f9175f5a09288810b8975871e99af3b5dd94057b0fc07535f5f97444504fa35169d461d0d30cf0192e307727c065168c788771c561a9400fb49175e9e6aa4e23fe11af69e9412dd23b0cb6684c4c2429bce139e848ab26d0829073351f4acd36074eafd036a5eb83359d2a698d3',
+eValue = '10001',
+dValue = '<rsa_private_key>',
+pValue = '<rsa_p_value>',
+qValue = '<rsa_q_value>',
+dmp1Value = '1a24bca8e273df2f0e47c199bbf678604e7df7215480c77c8db39f49b000ce2cf7500038acfff5433b7d582a01f1826e6f4d42e1c57f5e1fef7b12aabc59fd25',
+dmq1Value = '<rsa_dmq1_value>',
+coeffValue = '3a3e731acd8960b7ff9eb81a7ff93bd1cfa74cbd56987db58b4594fb09c09084db1734c8143f98b602b981aaa9243ca28deb69b5b280ee8dcee0fd2625e53250',
+setupEngine(am3, 0x1c)
+
+var TEXT = 'a string to be encrypted',
+    encrypted
+
+function encrypt(){
+    var _0x535319 = a0_0x9beff,
+        _0x2e631d = new RSAKey()
+    _0x2e631d[a0_0x9beff(0xcf)](nValue, eValue),
+    _0x2e631d['setPrivateEx'](nValue, eValue, dValue, pValue, qValue, dmp1Value, dmq1Value, coeffValue),
+    encrypted = _0x2e631d[a0_0x9beff(0xda)](TEXT)
+}
+
+function decrypt(){
+    var _0x4c47f9 = a0_0x9beff,
+        _0x2343e8 = new RSAKey()
+    _0x2343e8[a0_0x9beff(0xcf)](nValue, eValue),
+    _0x2343e8[a0_0x9beff(0xf6)](nValue, eValue, dValue, pValue, qValue, dmp1Value, dmq1Value, coeffValue)
+    var _0x5283c2 = _0x2343e8['decrypt'](encrypted)
+    if (_0x5283c2 != TEXT) throw new Error(a0_0x4c47f9(0xc4))
+}

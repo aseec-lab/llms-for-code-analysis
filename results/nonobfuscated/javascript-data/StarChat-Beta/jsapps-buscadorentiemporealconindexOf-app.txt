@@ -1,0 +1,62 @@
+Analyze the following piece of code: 
+const productos = [
+	{ nombre:'manzana', valor: 500 },
+	{ nombre: 'pera', valor: 300 },
+	{ nombre:'mango', valor: 250 },
+	{ nombre: 'naranja', valor: 300 },
+	{ nombre: 'uvas', valor: 400 },
+	{ nombre: 'ciruela', valor: 550 },
+]
+const formulario = document.querySelector('#formulario');
+const boton = document.querySelector('#boton');
+const resultado = document.querySelector('#resultado');
+
+const filtrar = () => {
+
+	resultado.innerHTML = '';
+
+	const text = formulario.value.toLowerCase();
+
+	for (let producto of productos) {
+		let nombre = producto.nombre.toLocaleLowerCase();
+		if (nombre.indexOf(text)!== -1) {
+			resultado.innerHTML += 
+				`<li>${producto.nombre} - Valor ${producto.valor}</li>`
+		}
+	}
+	if (resultado.innerHTML === '') {
+		resultado.innerHTML +=
+			`<li>Producto no encontrado</li>`
+	}
+}
+
+boton.addEventListener('click', filtrar);
+formulario.addEventListener('keyup', filtrar);
+
+filtrar();
+
+The code is written in JavaScript and it defines an array of objects called "productos" that contains information about different products. The code also defines a form with an input field, a button, and a div element to display the results.
+
+The code defines a function called "filtrar" that is triggered when the button is clicked or when the user types into the input field. The function loops through each product in the array and checks if its name contains the text in the input field. If the name contains the text, the function adds an list item to the div element with the product name and price. If the name does not contain the text, the function adds an list item with the message "Producto no encontrado".
+
+The code adds event listeners to the button and input field to call the "filtrar" function when they are clicked or when they are typed into. Finally, the code calls the "filtrar" function to filter the products based on the text in the input field when the page loads.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación compilado y uno interpretado?
+
+La principal diferencia entre un lenguaje de programación compilado y uno interpretado es el proceso de traducción del código fuente en código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce completamente a código ejecutable en un proceso llamado compilación. Este proceso implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código máquina que el equipo puede ejecutar directamente. El código objeto o código máquina se puede ejecutar sin necesidad de volver a compilar el código fuente cada vez que se desea ejecutar la aplicación.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce a código ejecutable línea por línea en tiempo de ejecución. Este proceso implica la utilización de un intérprete, que es un programa que lee y ejecuta el código fuente directamente en el momento de la ejecución. El intérprete traduce el código fuente en código ejecutable en tiempo real, lo que significa que el código se puede ejecutar inmediatamente sin necesidad de compilarlo previamente.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y uno interpretado es que el primero se traduce a código ejecutable antes de su ejecución, mientras que el segundo se traduce a código ejecutable en tiempo de ejecución.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lenguajes de programación se utilizan para escribir programas, que son secuencias de instrucciones que un computador puede ejecutar para realizar una tarea específica.
+
+Los lenguajes de programación se utilizan para resolver diferentes tipos de problemas, desde la creación de aplicaciones de software hasta la investigación científica. Hay muchos lenguajes de programación diferentes disponibles, cada uno con sus propias fort

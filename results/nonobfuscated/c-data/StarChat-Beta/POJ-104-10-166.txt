@@ -1,0 +1,49 @@
+Analyze the following piece of code: int a[36],f[36];
+int max(int a,int b)
+{
+	if(a>b)return a;else return b;
+}
+int main()
+{
+	int k,i,j;
+	int ans=0;
+	scanf("%d",&k);
+	for(i=1;i<=k;i++)scanf("%d",&a[i]);
+	f[0]=0;
+	for(i=1;i<=k;i++)
+	{
+		f[i]=1;
+		for(j=1;j<i;j++)
+			if(a[i]<=a[j])
+				f[i]=max(f[i],f[j]+1);
+		ans=max(ans,f[i]);
+	}
+	cout<<ans<<endl;
+	return 0;
+}
+
+The above code is a dynamic programming solution to the knapsack problem. The knapsack problem is a problem in combinatorial optimization where you are given a set of items, each with a weight and a value, and you need to choose a subset that maximizes the total value while staying within a certain weight limit.
+
+In this code, we are given an array a[] of size 36, which represents the weights of the items. We also have an array f[] of size 36, which will store the results of the dynamic programming solution. The function max() is a built-in function in C that returns the larger of two numbers.
+
+The main function starts by reading the number of items k from the user. Then, we loop through each item, starting from 1 and up to k, and read its weight and value from the user.
+
+We start by initializing f[0] to 0, since we don't have any items in our knapsack and we can't have a weight of 0. Then, we loop through each item from 1 to k, and update f[i] based on the values of f[j] (for j from 1 to i-1):
+
+If a[i] is greater than or equal to a[j], we set f[i] to max(f[i], f[j] + 1), which means that we include a[i] in our solution if it gives us a better solution than not including it.
+
+This is the core of the knapsack problem solution. We keep track of the maximum value that we have found so far in ans.
+
+Finally, we print the maximum value found.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que el sistema operativo o el intérprete puede ejecutar directamente. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce en tiempo real mientras se está ejecutando. El intérprete lee y ejecuta el código fuente directamente, sin necesidad de compilarlo previamente. En este caso, el código fuente se lee y ejecuta línea por línea, lo que significa que el intérprete traduce el código fuente en código ejecutable mientras se está ejecutando.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecut

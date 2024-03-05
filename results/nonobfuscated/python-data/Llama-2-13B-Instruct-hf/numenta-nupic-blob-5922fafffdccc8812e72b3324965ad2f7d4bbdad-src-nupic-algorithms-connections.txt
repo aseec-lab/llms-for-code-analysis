@@ -1,0 +1,725 @@
+Analyze the following piece of code: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from bisect import bisect_left
+from collections import defaultdict
+
+from nupic.serializable import Serializable
+try:
+  import capnp
+except ImportError:
+  capnp = None
+if capnp:
+  from nupic.proto.ConnectionsProto_capnp import ConnectionsProto
+
+EPSILON = 0.00001 
+                  
+
+
+
+class Segment(object):
+  
+
+
+  __slots__ = ["cell", "flatIdx", "_synapses", "_ordinal"]
+
+  def __init__(self, cell, flatIdx, ordinal):
+    self.cell = cell
+    self.flatIdx = flatIdx
+    self._synapses = set()
+    self._ordinal = ordinal
+
+
+  def __eq__(self, other):
+    
+
+
+    return (self.cell == other.cell and
+            (sorted(self._synapses, key=lambda x: x._ordinal) ==
+             sorted(other._synapses, key=lambda x: x._ordinal)))
+
+
+
+class Synapse(object):
+  
+
+
+  __slots__ = ["segment", "presynapticCell", "permanence", "_ordinal"]
+
+  def __init__(self, segment, presynapticCell, permanence, ordinal):
+    self.segment = segment
+    self.presynapticCell = presynapticCell
+    self.permanence = permanence
+    self._ordinal = ordinal
+
+
+  def __eq__(self, other):
+    
+
+    return (self.segment.cell == other.segment.cell and
+            self.presynapticCell == other.presynapticCell and
+            abs(self.permanence - other.permanence) < EPSILON)
+
+
+
+class CellData(object):
+  
+
+  __slots__ = ["_segments"]
+
+  def __init__(self):
+    self._segments = []
+
+  def __eq__(self, other):
+      return self._segments == other._segments
+
+  def __ne__(self, other):
+    return not self.__eq__(other)
+
+
+
+def binSearch(arr, val):
+  
+
+  i = bisect_left(arr, val)
+  if i != len(arr) and arr[i] == val:
+    return i
+  return -1
+
+
+
+class Connections(Serializable):
+  
+
+
+  def __init__(self, numCells):
+
+    
+    self.numCells = numCells
+
+    self._cells = [CellData() for _ in xrange(numCells)]
+    self._synapsesForPresynapticCell = defaultdict(set)
+    self._segmentForFlatIdx = []
+
+    self._numSynapses = 0
+    self._freeFlatIdxs = []
+    self._nextFlatIdx = 0
+
+    
+    
+    self._nextSynapseOrdinal = long(0)
+    self._nextSegmentOrdinal = long(0)
+
+
+  def segmentsForCell(self, cell):
+    
+
+
+    return self._cells[cell]._segments
+
+
+  def synapsesForSegment(self, segment):
+    
+
+
+    return segment._synapses
+
+
+  def dataForSynapse(self, synapse):
+    
+
+    return synapse
+
+
+  def dataForSegment(self, segment):
+    
+
+    return segment
+
+
+  def getSegment(self, cell, idx):
+    
+
+
+    return self._cells[cell]._segments[idx]
+
+
+  def segmentForFlatIdx(self, flatIdx):
+    
+
+    return self._segmentForFlatIdx[flatIdx]
+
+
+  def segmentFlatListLength(self):
+    
+
+    return self._nextFlatIdx
+
+
+  def synapsesForPresynapticCell(self, presynapticCell):
+    
+
+    return self._synapsesForPresynapticCell[presynapticCell]
+
+
+  def createSegment(self, cell):
+    
+
+    cellData = self._cells[cell]
+
+    if len(self._freeFlatIdxs) > 0:
+      flatIdx = self._freeFlatIdxs.pop()
+    else:
+      flatIdx = self._nextFlatIdx
+      self._segmentForFlatIdx.append(None)
+      self._nextFlatIdx += 1
+
+    ordinal = self._nextSegmentOrdinal
+    self._nextSegmentOrdinal += 1
+
+    segment = Segment(cell, flatIdx, ordinal)
+    cellData._segments.append(segment)
+    self._segmentForFlatIdx[flatIdx] = segment
+
+    return segment
+
+
+  def destroySegment(self, segment):
+    
+
+    
+    for synapse in segment._synapses:
+      self._removeSynapseFromPresynapticMap(synapse)
+    self._numSynapses -= len(segment._synapses)
+
+    
+    segments = self._cells[segment.cell]._segments
+    i = segments.index(segment)
+    del segments[i]
+
+    
+    
+    self._freeFlatIdxs.append(segment.flatIdx)
+    self._segmentForFlatIdx[segment.flatIdx] = None
+
+
+  def createSynapse(self, segment, presynapticCell, permanence):
+    
+
+    idx = len(segment._synapses)
+    synapse = Synapse(segment, presynapticCell, permanence,
+                      self._nextSynapseOrdinal)
+    self._nextSynapseOrdinal += 1
+    segment._synapses.add(synapse)
+
+    self._synapsesForPresynapticCell[presynapticCell].add(synapse)
+
+    self._numSynapses += 1
+
+    return synapse
+
+
+  def _removeSynapseFromPresynapticMap(self, synapse):
+    
+
+
+    self._synapsesForPresynapticCell[synapse.presynapticCell].discard(synapse)
+
+
+  def __len__(self):
+    
+
+    return self._numCells * self._numSynapses
+
+
+  def __getitem__(self, key):
+    
+
+    if isinstance(key, int):
+      return self.dataForSegment(self.segmentsForCell(key))
+    elif isinstance(key, Cell):
+      return self.dataForCell(key)
+    else:
+      raise ValueError("Invalid key type")
+
+
+  def __setitem__(self, key, value):
+    
+
+    if isinstance(key, int):
+      self.dataForSegment(self.segmentsForCell(key)) = value
+    elif isinstance(key, Cell):
+      self.dataForCell(key) = value
+    else:
+      raise ValueError("Invalid key type")
+
+
+  def __delitem__(self, key):
+    
+
+    if isinstance(key, int):
+      del self.dataForSegment(self.segmentsForCell(key))
+    elif isinstance(key, Cell):
+      del self.dataForCell(key)
+    else:
+      raise ValueError("Invalid key type")
+
+
+  def __iter__(self):
+    
+
+    return iter(self.segmentsForCell(self.numCells - 1))
+
+
+  def __len__(self):
+    
+
+    return self.numCells
+
+
+  def __getitem__(self, key):
+    
+
+    return self.dataForCell(key)
+
+
+  def __setitem__(self, key, value):
+    
+
+    self.dataForCell(key) = value
+
+
+  def __delitem__(self, key):
+    
+
+    del self.dataForCell(key)
+
+
+  def __eq__(self, other):
+    
+
+    return self.numCells == other.numCells and self.synapsesForPresynapticCell == other.synapsesForPresynapticCell
+
+
+  def __ne__(self, other):
+    
+
+    return not self.__eq__(other)
+
+
+
+def test_connections():
+    
+
+    connections = Connections(10)
+
+    cell1 = Cell(1)
+    cell2 = Cell(2)
+    cell3 = Cell(3)
+
+    connections.createSegment(cell1)
+    connections.createSegment(cell2)
+    connections.createSegment(cell3)
+
+    synapse1 = connections.createSynapse(connections.segmentsForCell(cell1)[0], cell2, 1.0)
+    synapse2 = connections.createSynapse(connections.segmentsForCell(cell2)[0], cell3, 2.0)
+    synapse3 = connections.createSynapse(connections.segmentsForCell(cell3)[0], cell1, 3.0)
+
+    print(connections.dataForSynapse(synapse1))
+    print(connections.dataForSynapse(syn Analyze the following piece of code: self, synapse):
+    inputSynapses = self._synapsesForPresynapticCell[synapse.presynapticCell]
+
+    inputSynapses.remove(synapse)
+
+    if len(inputSynapses) == 0:
+      del self._synapsesForPresynapticCell[synapse.presynapticCell]
+
+
+  def destroySynapse(self, synapse):
+    
+
+
+    self._numSynapses -= 1
+
+    self._removeSynapseFromPresynapticMap(synapse)
+
+    synapse.segment._synapses.remove(synapse)
+
+
+  def updateSynapsePermanence(self, synapse, permanence):
+    
+
+
+    synapse.permanence = permanence
+
+
+  def computeActivity(self, activePresynapticCells, connectedPermanence):
+    
+
+
+    numActiveConnectedSynapsesForSegment = [0] * self._nextFlatIdx
+    numActivePotentialSynapsesForSegment = [0] * self._nextFlatIdx
+
+    threshold = connectedPermanence - EPSILON
+
+    for cell in activePresynapticCells:
+      for synapse in self._synapsesForPresynapticCell[cell]:
+        flatIdx = synapse.segment.flatIdx
+        numActivePotentialSynapsesForSegment[flatIdx] += 1
+        if synapse.permanence > threshold:
+          numActiveConnectedSynapsesForSegment[flatIdx] += 1
+
+    return (numActiveConnectedSynapsesForSegment,
+            numActivePotentialSynapsesForSegment)
+
+
+  def numSegments(self, cell=None):
+    
+
+    if cell is not None:
+      return len(self._cells[cell]._segments)
+
+    return self._nextFlatIdx - len(self._freeFlatIdxs)
+
+
+  def numSynapses(self, segment=None):
+    
+
+    if segment is not None:
+      return len(segment._synapses)
+    return self._numSynapses
+
+
+  def segmentPositionSortKey(self, segment):
+    
+
+    return segment.cell + (segment._ordinal / float(self._nextSegmentOrdinal))
+
+
+  def write(self, proto):
+    
+
+    protoCells = proto.init('cells', self.numCells)
+
+    for i in xrange(self.numCells):
+      segments = self._cells[i]._segments
+      protoSegments = protoCells[i].init('segments', len(segments))
+
+      for j, segment in enumerate(segments):
+        synapses = segment._synapses
+        protoSynapses = protoSegments[j].init('synapses', len(synapses))
+
+        for k, synapse in enumerate(sorted(synapses, key=lambda s: s._ordinal)):
+          protoSynapses[k].presynapticCell = synapse.presynapticCell
+          protoSynapses[k].permanence = synapse.permanence
+
+
+  @classmethod
+  def getSchema(cls):
+    return ConnectionsProto
+
+
+  @classmethod
+  def read(cls, proto):
+    
+
+    
+    protoCells = proto.cells
+    connections = cls(len(protoCells))
+
+    for cellIdx, protoCell in enumerate(protoCells):
+      protoCell = protoCells[cellIdx]
+      protoSegments = protoCell.segments
+      connections._cells[cellIdx] = CellData()
+      segments = connections._cells[cellIdx]._segments
+
+      for segmentIdx, protoSegment in enumerate(protoSegments):
+        segment = Segment(cellIdx, connections._nextFlatIdx,
+                          connections._nextSegmentOrdinal)
+
+        segments.append(segment)
+        connections._segmentForFlatIdx.append(segment)
+        connections._nextFlatIdx += 1
+        connections._nextSegmentOrdinal += 1
+
+        synapses = segment._synapses
+        protoSynapses = protoSegment.synapses
+
+        for synapseIdx, protoSynapse in enumerate(protoSynapses):
+          presynapticCell = protoSynapse.presynapticCell
+          synapse = Synapse(segment, presynapticCell, protoSynapse.permanence,
+                            ordinal=connections._nextSynapseOrdinal)
+          connections._nextSynapseOrdinal += 1
+          synapses.add(synapse)
+          connections._synapsesForPresynapticCell[presynapticCell].add(synapse)
+
+          connections._numSynapses += 1
+
+    
+    return connections
+
+
+  def __eq__(self, other):
+    
+
+    
+    for i in xrange(self.numCells):
+      segments = self._cells[i]._segments
+      otherSegments = other._cells[i]._segments
+
+      if len(segments) != len(otherSegments):
+        return False
+
+      for j in xrange(len(segments)):
+        segment = segments[j]
+        otherSegment = otherSegments[j]
+        synapses = segment._synapses
+        otherSynapses = otherSegment._synapses
+
+        if len(synapses) != len(otherSynapses):
+          return False
+
+        for synapse in synapses:
+          found = False
+          for candidate in otherSynapses:
+            if synapse == candidate:
+              found = True
+              break
+
+          if not found:
+            return False
+
+    if (len(self._synapsesForPresynapticCell) !=
+        len(self._synapsesForPresynapticCell)):
+      return False
+
+    for i in self._synapsesForPresynapticCell.keys():
+      synapses = self._synapsesForPresynapticCell[i]
+      otherSynapses = other._synapsesForPresynapticCell[i]
+      if len(synapses) != len(otherSynapses):
+        return False
+
+      for synapse in synapses:
+        found = False
+        for candidate in otherSynapses:
+          if synapse == candidate:
+            found = True
+            break
+
+        if not found:
+          return False
+
+    return True
+
+
+  def __ne__(self, other):
+    
+
+    
+    return not self == other
+
+
+  def __hash__(self):
+    
+
+    
+    return hash((self.numCells, self.numSynapses))
+
+
+  def __str__(self):
+    
+
+    
+    return "Connections(numCells=%d, numSynapses=%d)" % (
+        self.numCells, self.numSynapses)
+
+
+  def __len__(self):
+    
+
+    
+    return self.numCells
+
+
+  def __getitem__(self, key):
+    
+
+    
+    if isinstance(key, slice):
+      return self._cells[key]
+    elif isinstance(key, int):
+      return self._cells[key]
+    else:
+      raise KeyError
+
+
+  def __setitem__(self, key, value):
+    
+
+    
+    if isinstance(key, slice):
+      for i in xrange(len(value)):
+        self._cells[key]._segments.append(value[i])
+    elif isinstance(key, int):
+      self._cells[key]._segments.append(value)
+    else:
+      raise KeyError
+
+
+  def __delitem__(self, key):
+    
+
+    
+    if isinstance(key, slice):
+      for i in xrange(len(key)):
+        del self._cells[key[i]]
+    elif isinstance(key, int):
+      del self._cells[key]
+    else:
+      raise KeyError
+
+
+  def __iter__(self):
+    
+
+    
+    return iter(self._cells)
+
+
+  def __contains__(self, item):
+    
+
+    
+    return item in self._cells
+
+
+  def __getattr__(self, name):
+    
+
+    
+    if name in ['numCells', 'numSynapses', 'segmentPositionSortKey',
+                 'write', 'read', 'destroySynapse', 'updateSynapsePermanence',
+                 'computeActivity', 'numSegments', 'numSynapses', '__eq__',
+                 '__ne__', '__hash__', '__str__', '__len__', '__getitem__',
+                 '__setitem__', '__delitem__', '__iter__', '__contains__']:
+      return self._getattr(name)
+    else:
+      raise AttributeError
+
+
+  def _getattr(self, name):
+    
+
+    
+    if name == 'segmentForFlatIdx':
+      return self._segmentForFlatIdx
+    elif name == 'synapsesForPresynapticCell':
+      return self._synapsesForPresynapticCell
+    elif name == 'freeFlatIdxs':
+      return self._freeF Analyze the following piece of code: if len(synapses) != len(otherSynapses):
+        return False
+
+      for synapse in synapses:
+        found = False
+        for candidate in otherSynapses:
+          if synapse == candidate:
+            found = True
+            break
+
+        if not found:
+          return False
+
+    if self._numSynapses != other._numSynapses:
+      return False
+
+    
+    return True
+
+
+  def __ne__(self, other):
+    
+
+    return not self.__eq__(other)
+
+
+  def __str__(self):
+    return f"SynapseGroup({self.numSynapses})"
+
+
+  def __len__(self):
+    return self.numSynapses
+
+
+  def __getitem__(self, index):
+    return self.synapses[index]
+
+
+  def __setitem__(self, index, value):
+    self.synapses[index] = value
+
+
+  def addSynapse(self, synapse):
+    self.synapses.append(synapse)
+
+
+  def removeSynapse(self, synapse):
+    self.synapses.remove(synapse)
+
+
+  @classmethod
+  def fromList(cls, synapseList):
+    return cls(synapseList)
+
+
+  def toList(self):
+    return list(self.synapses)
+
+
+  def __init__(self, numSynapses=0):
+    self.numSynapses = numSynapses
+    self.synapses = []
+
+
+
+
+
+
+The code is a Python class called SynapseGroup that represents a group of synapses. It has the following attributes and methods:
+
+* `numSynapses`: an integer representing the number of synapses in the group
+* `synapses`: a list of synapse objects
+* `__eq__()`: checks if two SynapseGroup objects have the same number of synapses and the same synapses
+* `__ne__()`: checks if two SynapseGroup objects do not have the same number of synapses or the same synapses
+* `__str__()`: returns a string representation of the SynapseGroup object
+* `__len__()`: returns the number of synapses in the group
+* `__getitem__()`: allows accessing a synapse in the group by index
+* `__setitem__()`: allows setting a synapse in the group by index
+* `addSynapse()`: adds a synapse to the group
+* `removeSynapse()`: removes a synapse from the group
+* `fromList()`: creates a SynapseGroup object from a list of synapse objects
+* `toList()`: returns a list of synapse objects in the group
+
+The class also has a few private variables:
+
+* `found`: a boolean indicating whether a synapse was found in the other group
+* `candidate`: the synapse being checked for membership in the other group
+
+Please analyze the code and explain what it does, and what are the possible use cases for this class.

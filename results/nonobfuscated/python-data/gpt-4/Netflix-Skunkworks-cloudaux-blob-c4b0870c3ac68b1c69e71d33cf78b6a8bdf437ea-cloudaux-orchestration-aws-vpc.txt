@@ -1,0 +1,23 @@
+The script is used to interact with the Amazon Web Services (AWS) cloud services. It is set up to communicate with Amazon's Elastic Compute Cloud (EC2) service to get details about Virtual Private Clouds (VPCs). 
+
+The key functions serve to retrieve different types of information about a VPC including:
+
+1. `get_vpc_flow_logs()`: Retrieves the flow logs for the VPC, which can be used to monitor network traffic.
+   
+2. `get_classic_link()`: Retrieves information about whether the VPC is linked with EC2-Classic instances, and whether the classic link DNS is supported.
+
+3. `get_internet_gateway()`: Retrieves the internet gateway details such as state, id, and tags associated with the VPC.
+
+4. `get_vpc_peering_connections()`: Retrieves VPC peering connections where the VPC under consideration is either the accepter or requester.
+
+5. `get_subnets()`: Retrieves all the subnets associated with the VPC.
+
+6. `get_route_tables()`: Retrieves all the route tables associated with the VPC.
+
+7. `get_network_acls()`: Retrieves all the network Access Control Lists associated with the VPC.
+
+8. `get_base()`: Retrieves some basic information about the VPC.
+
+All this information is then centralized and used by `get_vpc()`, which needs a VPC id and constructs the Amazon Resource Name (ARN) for it. 
+
+The functions described above use various flags to allow the end-user to customize which types of information they would like to retrieve, making the script flexible and adjustable. Errors related to missing necessary parameters are also captured and reported.

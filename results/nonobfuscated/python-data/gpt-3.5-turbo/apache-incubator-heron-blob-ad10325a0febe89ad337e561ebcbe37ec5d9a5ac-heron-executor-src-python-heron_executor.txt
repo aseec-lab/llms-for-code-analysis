@@ -1,0 +1,96 @@
+The code appears to be defining a Python class called "HeronExecutor". This class seems to be responsible for initializing and running Heron Executor processes. 
+
+The code first imports several modules and defines various functions and variables. 
+
+The `print_usage()` function prints out the usage instructions for the Heron Executor. 
+
+The `id_map()` function is used to create a mapping between container IDs and names based on a prefix and a list of container plans. 
+
+The `stmgr_map()`, `metricsmgr_map()`, `ckptmgr_map()`, and `heron_shell_map()` functions utilize the `id_map()` function to create specific mappings for stmgr, metricsmgr, ckptmgr, and heron-shell containers. 
+
+The `get_heron_executor_process_name()` function returns the process name for the Heron Executor based on a given shard ID. 
+
+The `get_process_pid_filename()` function returns the file name for storing the process ID of a given process. 
+
+The `get_tmp_filename()` function generates a temporary file name. 
+
+The `atomic_write_file()` function is used to write content to a file atomically, meaning that the content is written to a temporary file and then renamed to the final file. 
+
+The `log_pid_for_process()` function logs the process ID of a given process to a file. 
+
+The `is_docker_environment()` function checks if the code is running in a Docker environment by checking for the existence of a specific file. 
+
+The `stdout_log_fn()` function returns a function that logs the STDOUT of a command with the given command name. 
+
+The `Command` class represents a command to be executed, including its arguments and environment variables. 
+
+The `ProcessInfo` class represents information about a running process, including its process ID, name, command, and number of attempts. 
+
+The `HeronExecutor` class is the main class and represents the Heron Executor. It is initialized with command-line arguments and a shell environment. The class has several methods for initializing and running the Heron Executor. The `parse_args()` method is used to parse the command-line arguments and returns the parsed arguments. 
+
+Overall, the code seems to define a class and functions for initializing and running the Heron Executor processes.The remaining part of the code defines several private helper functions within the `HeronExecutor` class.
+
+The `_load_logging_dir()` function is used to load the logging directory from the Heron internals configuration file.
+
+The `_get_metricsmgr_cmd()` function returns the command for running the Metrics Manager process.
+
+The `_get_metrics_cache_cmd()` function returns the command for running the Metrics Cache Manager process.
+
+The `_get_healthmgr_cmd()` function returns the command for running the Health Manager process.
+
+The `_get_tmaster_processes()` function returns a dictionary of TMaster and related processes.
+
+The `_get_java_instance_cmd()` function returns a dictionary of commands for running Java instances.
+
+The `_get_jvm_instance_cmd()` function returns the command for running a JVM instance.
+
+The `_get_jvm_instance_options()` function returns a list of options for the JVM instance.
+
+The `_get_jvm_instance_arguments()` function returns a list of arguments for the JVM instance.
+
+The `_get_jvm_version()` function is used to determine the version of the JVM being used.
+
+These helper functions help in initializing and running different Heron Executor processes, such as the Metrics Manager, Metrics Cache Manager, Health Manager, TMaster, and Java instances.updated_commands[current_name] is not None:
+            commands_to_keep[current_name] = current_command
+        else:
+            commands_to_kill[current_name] = current_command
+
+    
+    
+    for updated_name, updated_command in updated_commands.items():
+        if updated_name not in current_commands.keys() or \
+            updated_command != current_commands[updated_name]:
+            commands_to_start[updated_name] = updated_command
+
+    return commands_to_kill, commands_to_keep, commands_to_start
+
+  def update_processes(self):
+    
+
+    current_commands = self.get_commands_to_run()
+    commands_to_kill, commands_to_keep, commands_to_start = \
+        self.get_command_changes(self.current_commands, current_commands)
+    self.current_commands = current_commands
+
+    Log.debug("Kill=%s, Keep=%s, Start=%s" % (
+        commands_to_kill, commands_to_keep, commands_to_start))
+
+    self._kill_processes(commands_to_kill)
+
+    self._start_processes(commands_to_start)
+
+  def start_execution(self):
+    
+    self.update_processes()
+    self.start_process_monitor()
+
+  def stop_executor(self):
+    
+    with self.process_lock:
+      self._kill_processes(self.current_commands)The remaining part of the code defines the setup, start, and main functions. The setup function is responsible for setting up the signal handler and cleanup function. The signal handler is used to handle the SIGTERM signal and stop the state manager watches before exiting. The cleanup function is used to terminate all processes in the executor before exiting.
+
+The start function is responsible for setting up the executor, starting the state manager watches, and starting the process monitor.
+
+The main function is the entry point of the script. It initializes the executor and starts it.
+
+To summarize, the code sets up and starts the HeronExecutor, which monitors and manages the execution of Heron processes, based on the packing plan and topology. It also handles signals and cleanup when the executor is terminated.

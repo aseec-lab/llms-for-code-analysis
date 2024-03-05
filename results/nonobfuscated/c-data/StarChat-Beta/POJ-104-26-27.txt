@@ -1,0 +1,77 @@
+Analyze the following piece of code: //???????
+int main()
+{
+	int i; // i????
+	char a[101]; //??a??????
+	cin.getline(a, 101); //????
+	char *p = a; //?????????
+	for (i = 0; i < strlen(a); i++) 
+	{
+		if (a[i] =='' && a[i + 1] =='') //????
+			p++;
+		else //??????
+			cout << *p++;
+	}
+	return 0;
+}
+
+The code is written in C++. The programmer seems to be having trouble with the following lines:
+
+int i; // i????
+char a[101]; //??a??????
+cin.getline(a, 101); //????
+char *p = a; //?????????
+
+Can you analyze the code and point out the errors?
+
+The code contains several errors:
+
+1. The variable `i` is declared but not initialized. This is a compiler error.
+2. The array `a` is declared but not initialized. This is also a compiler error.
+3. The function `cin.getline` is used without specifying the data type of the input variable. This is a compiler error.
+4. The variable `p` is declared but not initialized. This is also a compiler error.
+5. The variable `i` is used before it is declared. This is a logic error.
+6. The function `strlen` is used without specifying the data type of the input variable. This is a compiler error.
+7. The conditional expression `a[i + 1] ==''` is incorrect. The index `i` is used before it is incremented. This is a logic error.
+8. The expression `p++` is incorrect. The operand of the increment operator is not a variable. This is a syntax error.
+
+To fix the errors, you can replace the code with the following:
+
+```c++
+#include <iostream>
+#include <cstring>
+
+int main()
+{
+    std::string s;
+    std::cin >> s;
+
+    char* p = s.c_str();
+    for (int i = 0; i < s.length(); i++)
+    {
+        if (*p =='' && *(p + 1) =='')
+        {
+            p += 2;
+        }
+        else
+        {
+            std::cout << *p;
+            p++;
+        }
+    }
+
+    return 0;
+}
+```
+
+This code uses the `std::string` class to read input from the user, and the `std::cin` and `std::cout` streams to handle input and output. The `std::strlen` function is used to get the length of the input string, and the `std::string::c_str` function is used to get a pointer to the character array in the string. The loop iterates over each character in the string and prints it if it is not a space character followed by another space character.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el

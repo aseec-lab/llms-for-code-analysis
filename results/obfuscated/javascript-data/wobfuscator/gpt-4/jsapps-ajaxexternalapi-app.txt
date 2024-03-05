@@ -1,0 +1,43 @@
+This JavaScript code consists of several parts that work together to accomplish its final functionality:
+
+- `__universalAtob` is a function to decode a base64 string. It tries to use the `atob` method and if it fails (due to an error), it falls back to using a Buffer method (suited for a Node.js environment) to decode the base64 string. The decoded data is then converted to a Uint8Array and returned. 
+
+- `__callWasmBuffer` seems to be a base64 encoded WebAssembly binary module.
+
+- `__callWasmModule` is an instance of a WebAssembly Module created from the base64 decoded buffer (`__callWasmBuffer`).
+
+- `__wasmStringModules` is an array of base64 encoded WebAssembly binaries which are decoded and instantiated as WebAssembly Instances.
+
+- `lS` function seems to access the memory buffer of a specified WebAssembly Instance (identified by the index `wI`) and reads bytes from a specified position up to a point where it encounters a byte whose value's most significant bit is 1 (or the byte is null). The `pos` parameter determines the data key to be accessed in the module memory (like `data1`, `data2`, etc.), in order to retrieve a string from the byte array.
+
+It seems that the purpose of this code snippet is to execute and interact with various WebAssembly modules by loading them from base64 encoded strings, decoding them, and creating instances of the modules. The function `lS` is used to retrieve and decode strings from the memory of these modules.The additional code you provided further elaborates on the behavior of the initial snippet. This piece of code shows how the various WebAssembly modules are utilised:
+
+1. Some strings, presumably identifiers, are pulled from the memory of the WebAssembly instance at index 0 using the `ls` function.
+
+2. These identifiers are used to locate elements in the DOM and bind them to `botonDolar` and `botonBitcoin`.
+
+3. For each of these buttons, they add an event listener to them which upon triggering, create new WebAssembly instances and run their `data` exported function. These instances also include an imported function `impFunc` that calls a function `obtenerDatos` with a specified argument.
+
+4. The `obtenerDatos` function takes a `valor` parameter and creates an XMLHttpRequest object `api`. Then, it creates a WebAssembly instance and uses its `data` function to open the `api` object with method 'GET' and a URL constructed based on `valor`.
+
+5. It creates another WebAssembly instance to send the API request.
+
+The code snippet seems to showcase the interplay between several asynchronously loaded WebAssembly modules and JavaScript code used to bootstrap them and interact with their memory. It appears to be part of an application that responds to click events on two buttons ("dollar" and "bitcoin") to make API requests to an endpoint and presumably perform some other operations. The requirements for the interactions with the modules and their specifics appear to be encoded as strings in the memory of the modules.The remaining part of the JavaScript function completes the HTTP request execution and deals with the server response:
+
+1. A `respuesta()` function is introduced, which is the callback for `api.onreadystatechange`. This function is triggered each time the `readyState` of the `XMLHttpRequest()` changes.
+
+2. Inside the `if` condition, the function checks if the HTTP status returned is `200` (which means "OK") and if the `readyState` is `4` (which means that the entire operation is complete). 
+
+3. If both conditions are met, it means that the server has returned a valid response, and the program proceeds to handle this response. `this.responseText` is parsed using `JSON.parse()` and stored as `datos`.
+
+4. After that, a new WebAssembly instance is created and the `data` function is called from its exports.
+
+5. The newly added WebAssembly instance's `impFunc` function is now set to a function that, when called, prints the `datos` JSON to the console.
+
+6. The code then queries the DOM for an element identified by the string in the memory of the first WebAssembly instance at index 0 and length 8. If found, this element's inner HTML is replaced with the string stored at memory index 0 and length 9 of the same instance. 
+
+7. Then the code enters a loop that cycles through `datos.serie` which appears to be a JSON array. For every item in the array, it appends an HTML list item element `<li>` to the `resultado` element, featuring the date (`item.fecha`) and value (`item.valor`).
+
+8. The loop ends after 15 iterations.
+
+All in all, the remaining part of the JavaScript function reads the response from the HTTP request, runs a final WebAssembly instance, and manipulates the HTML document based on the response. It seems to be part of a larger application that uses WebAssembly and JavaScript to fetch data from the internet and update the web page based on this data.

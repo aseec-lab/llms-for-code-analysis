@@ -1,0 +1,10 @@
+This JavaScript code forms part of a To-Do List Application. 
+
+- It first grabs 3 important HTML elements: the form for a to-do item, the input box for a new to-do, and the list where all the to-dos are displayed.
+- A `submit` event listener is set on the form. This event is triggered when a user inputs their to-do into the form and hits Enter or the Submit button.
+- When the form is submitted, the page prevents its default action (reloading) using `e.preventDefault();`.
+- It then checks if the input box is empty. If it is, it calls the function `inputoEmpty()`, which logs 'empty' to the console and stops the rest of the function running by returning false.
+- If the input is not empty, it passes its value (the new to-do item) to the function `addItem(item)`.
+- Here, this function generates a new list item, including the input item and a button to delete the item. This is inserted at the start of the existing list using `"afterbegin"`, which means new items will appear at the top.
+- It then resets the form by making the input box value empty and returning the focus to it for the next item to be entered.
+- When the delete button for a list item is clicked, the `removeItem()` function is called for that list item, which then gets removed from the dom.

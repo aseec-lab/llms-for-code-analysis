@@ -1,0 +1,519 @@
+Analyze the following piece of code: 
+
+
+
+
+
+
+
+
+
+
+import logging
+from astrobase import log_sub, log_fmt, log_date_fmt
+
+DEBUG = False
+if DEBUG:
+    level = logging.DEBUG
+else:
+    level = logging.INFO
+LOGGER = logging.getLogger(__name__)
+logging.basicConfig(
+    level=level,
+    style=log_sub,
+    format=log_fmt,
+    datefmt=log_date_fmt,
+)
+
+LOGDEBUG = LOGGER.debug
+LOGINFO = LOGGER.info
+LOGWARNING = LOGGER.warning
+LOGERROR = LOGGER.error
+LOGEXCEPTION = LOGGER.exception
+
+
+
+
+
+
+try:
+    import cPickle as pickle
+except Exception as e:
+    import pickle
+
+import os
+import sys
+import os.path
+import glob
+import multiprocessing as mp
+from concurrent.futures import ProcessPoolExecutor
+
+from tornado.escape import squeeze
+
+
+
+from functools import reduce
+from operator import getitem
+def _dict_get(datadict, keylist):
+    return reduce(getitem, keylist, datadict)
+
+import numpy as np
+
+try:
+    from tqdm import tqdm
+    TQDM = True
+except Exception as e:
+    TQDM = False
+    pass
+
+
+
+
+
+
+NCPUS = mp.cpu_count()
+
+
+
+
+
+
+
+from astrobase.lcmath import normalize_magseries
+from astrobase.varclass import varfeatures
+
+from astrobase.lcproc import get_lcformat
+
+
+
+
+
+
+
+def get_varfeatures(lcfile,
+                    outdir,
+                    timecols=None,
+                    magcols=None,
+                    errcols=None,
+                    mindet=1000,
+                    lcformat='hat-sql',
+                    lcformatdir=None):
+    
+
+
+    try:
+        formatinfo = get_lcformat(lcformat,
+                                  use_lcformat_dir=lcformatdir)
+        if formatinfo:
+            (dfileglob, readerfunc,
+             dtimecols, dmagcols, derrcols,
+             magsarefluxes, normfunc) = formatinfo
+        else:
+            LOGERROR("can't figure out the light curve format")
+            return None
+    except Exception as e:
+        LOGEXCEPTION("can't figure out the light curve format")
+        return None
+
+    
+    
+    if timecols is None:
+        timecols = dtimecols
+    if magcols is None:
+        magcols = dmagcols
+    if errcols is None:
+        errcols = derrcols
+
+    try:
+
+        
+        lcdict = readerfunc(lcfile)
+
+        
+        
+        
+        if ( (isinstance(lcdict, (list, tuple))) and
+             (isinstance(lcdict[0], dict)) ):
+            lcdict = lcdict[0]
+
+        resultdict = {'objectid':lcdict['objectid'],
+                      'info':lcdict['objectinfo'],
+                      'lcfbasename':os.path.basename(lcfile)}
+
+
+        
+        if normfunc is not None:
+            lcdict = normfunc(lcdict)
+
+        for tcol, mcol, ecol in zip(timecols, magcols, errcols):
+
+            
+            if '.' in tcol:
+                tcolget = tcol.split('.')
+            else:
+                tcolget = [tcol]
+            times = _dict_get(lcdict, tcolget)
+
+            if '.' in mcol:
+                mcolget = mcol.split('.')
+            else:
+                mcolget = [mcol]
+            mags = _dict_get(lcdict, mcolget)
+
+            if '.' in ecol:
+                ecolget = ecol.split('.')
+            else:
+                ecolget = [ecol]
+            errs = _dict_get(lcdict, ecolget)
+
+            
+            if normfunc is None:
+                ntimes, nmags = normalize_magseries(
+                    times, mags,
+                    magsarefluxes=magsarefluxes
+                )
+
+                times, mags, errs = ntimes, nmags, errs
+
+
+            
+            finind = np.isfinite(times) & np.isfinite(mags) & np.isfinite(errs)
+
+            
+            if mags[finind].size < mindet:
+
+                LOGINFO('not enough LC points: %s in normalized %s LC: %s' %
+                        (mags[finind].size, mcol, os.path.basename(lcfile)))
+                resultdict[mcol] = None
+
+            else:
+
+                
+                lcfeatures = varfeatures.all_nonperiodic_features(
+                    times, mags, errs
+                )
+                resultdict[mcol] = lcfeatures
+
+        
+        
+        
+
+        try:
+            magmads = np.zeros(len(magcols))
+            for i, mcol in enumerate(magcols):
+                if resultdict[mcol] is not None:
+                    magmads[i] = np.nanmedian(np.abs(resultdict[mcol]))
+        except Exception as e:
+            magmads = np.zeros(len(magcols))
+            LOGEXCEPTION("failed to get magmads")
+
+        resultdict['magmads'] = magmads
+
+        outfn = os.path.join(outdir,
+                            '%s.pkl' % resultdict['objectid'])
+        with open(outfn, 'wb') as outfd:
+            pickle.dump(resultdict, outfd)
+        LOGINFO('wrote varfeatures to: %s' % outfn)
+
+    except Exception as e:
+        LOGEXCEPTION("failed on file: %s" % lcfile)
+        return None
+
+    return resultdict
+
+
+
+
+def main(lcdir, outdir, nproc=None):
+    if nproc is None:
+        nproc = NCPUS
+    LOGINFO('using %i processes' % nproc)
+
+    = mp.Value('i', 0)
+    pool = ProcessPoolExecutor(max_workers=nproc)
+    futures = []
+    for lcfile in tqdm(glob.glob(os.path.join(lcdir, '*.pkl'))):
+        futures.append(pool.submit(get_varfeatures, lcfile, outdir))
+        #futures.append(get_varfeatures(lcfile, outdir))
+        #pool.submit(get_varfeatures, lcfile, outdir)
+        #pool.map(get_varfeatures, glob.glob(os.path.join(lcdir, '*.pkl')))
+        #pool.map(get_varfeatures, [lcfile])
+        #pool.starmap(get_varfeatures, [(lcfile, outdir) for i in range(10)])
+        #pool.submit(get_varfeatures, *args, **kwargs)
+        #pool.submit(get_varfeatures, lcfile, outdir, nproc=nproc)
+        #pool.submit(get_varfeatures, lcfile, outdir, nproc=nproc).add_done_callback(lambda x: print(x))
+        #pool.submit(get_varfeatures, lcfile, outdir, nproc=nproc).add_done_callback(lambda x: print(x.result()))
+        #pool.submit(get_varfeatures, lcfile, outdir, nproc=nproc).add_done_callback(lambda x: print(x.result()['objectid']))
+        #pool.submit(get_varfeatures, lcfile, outdir, nproc=nproc).add_done_callback(lambda x: print(x.result()['magmads']))
+        #pool.submit(get_varfeatures, lcfile, outdir, nproc=nproc).add_done_callback(lambda x: print(x.exception()))
+        #pool.submit(get_varfeatures, lcfile, outdir, nproc=nproc).add_done_callback(lambda x: print(x.exception() is not None))
+        #pool.submit(get_varfeatures, lcfile, outdir, nproc=nproc).add_done_callback(lambda x: print(x.exception() is not None, x.result()))
+        #pool.submit(get_varfeatures, lcfile, outdir, nproc=n Analyze the following piece of code: ))
+            for mind, mcol in enumerate(magcols):
+                if '.' in mcol:
+                    mcolget = mcol.split('.')
+                else:
+                    mcolget = [mcol]
+
+                magmads[mind] = resultdict[mcol]['mad']
+
+            
+            bestmagcolind = np.where(magmads == np.min(magmads))[0]
+            resultdict['bestmagcol'] = magcols[bestmagcolind]
+
+        except Exception as e:
+            resultdict['bestmagcol'] = None
+
+        outfile = os.path.join(outdir,
+                               'varfeatures-%s.pkl' %
+                               squeeze(resultdict['objectid']).replace(' ','-'))
+
+        with open(outfile, 'wb') as outfd:
+            pickle.dump(resultdict, outfd, protocol=4)
+
+        return outfile
+
+    except Exception as e:
+
+        LOGEXCEPTION('failed to get LC features for %s because: %s' %
+                     (os.path.basename(lcfile), e))
+        return None
+
+
+
+def _varfeatures_worker(task):
+    
+
+
+    try:
+        (lcfile, outdir, timecols, magcols, errcols,
+         mindet, lcformat, lcformatdir) = task
+        return get_varfeatures(lcfile, outdir,
+                               timecols=timecols,
+                               magcols=magcols,
+                               errcols=errcols,
+                               mindet=mindet,
+                               lcformat=lcformat,
+                               lcformatdir=lcformatdir)
+
+    except Exception as e:
+        return None
+
+
+def serial_varfeatures(lclist,
+                       outdir,
+                       maxobjects=None,
+                       timecols=None,
+                       magcols=None,
+                       errcols=None,
+                       mindet=1000,
+                       lcformat='hat-sql',
+                       lcformatdir=None):
+    
+
+
+    if maxobjects:
+        lclist = lclist[:maxobjects]
+
+    tasks = [(x, outdir, timecols, magcols, errcols,
+              mindet, lcformat, lcformatdir)
+             for x in lclist]
+
+    for task in tqdm(tasks):
+        result = _varfeatures_worker(task)
+
+    return result
+
+
+
+def parallel_varfeatures(lclist,
+                         outdir,
+                         maxobjects=None,
+                         timecols=None,
+                         magcols=None,
+                         errcols=None,
+                         mindet=1000,
+                         lcformat='hat-sql',
+                         lcformatdir=None,
+                         nworkers=NCPUS):
+    
+
+    
+    if not os.path.exists(outdir):
+        os.makedirs(outdir)
+
+    if maxobjects:
+        lclist = lclist[:maxobjects]
+
+    tasks = [(x, outdir, timecols, magcols, errcols, mindet,
+              lcformat, lcformatdir) for x in lclist]
+
+    with ProcessPoolExecutor(max_workers=nworkers) as executor:
+        resultfutures = executor.map(varfeatures_worker, tasks)
+
+    results = [x for x in resultfutures]
+    resdict = {os.path.basename(x):y for (x,y) in zip(lclist, results)}
+
+    return resdict
+
+
+
+def parallel_varfeatures_lcdir(lcdir,
+                               outdir,
+                               fileglob=None,
+                               maxobjects=None,
+                               timecols=None,
+                               magcols=None,
+                               errcols=None,
+                               recursive=True,
+                               mindet=1000,
+                               lcformat='hat-sql',
+                               lcformatdir=None,
+                               nworkers=NCPUS):
+    
+
+
+    try:
+        formatinfo = get_lcformat(lcformat,
+                                  use_lcformat_dir=lcformatdir)
+        if formatinfo:
+            (dfileglob, readerfunc,
+             dtimecols, dmagcols, derrcols,
+             magsarefluxes, normfunc) = formatinfo
+        else:
+            LOGERROR("can't figure out the light curve format")
+            return None
+    except Exception as e:
+        LOGEXCEPTION("can't figure out the light curve format")
+        return None
+
+    if not fileglob:
+        fileglob = dfileglob
+
+    
+    LOGINFO('searching for %s light curves in %s...' % (lcformat, lcdir))
+
+    if recursive is False:
+        matching = glob.glob(os.path.join(lcdir, fileglob))
+
+    else:
+        
+        if sys.version_info[:2] > (3,4):
+
+            matching = glob.glob(os.path.join(lcdir,
+                                              '**',
+                                              fileglob),
+                                 recursive=True)
+
+        
+        else:
+
+            
+            walker = os.walk(lcdir)
+            matching = []
+            for root, dirs, files in walker:
+                for name in files:
+                    if fnmatch.fnmatch(name, fileglob):
+                        matching.append(os.path.join(root, name))
+                        
+                        
+    if maxobjects:
+        matching = matching[:maxobjects]
+
+    tasks = [(x, outdir, timecols, magcols, errcols, mindet,
+              lcformat, lcformatdir) for x in matching]
+
+    with ProcessPoolExecutor(max_workers=nworkers) as executor:
+        resultfutures = executor.map(varfeatures_worker, tasks)
+
+    results = [x for x in resultfutures]
+    resdict = {os.path.basename(x):y for (x,y) in zip(matching, results)}
+
+    return resdict
+
+```
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente se traduce a un archivo ejecutable estático antes de ser ejecutado. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable en una sola operación. El archivo ejecutable resultante contiene instrucciones en lenguaje de máquina, que puede ser entendida directamente por el sistema operativo o el intérprete.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente se traduce en tiempo real mientras se está ejecutando. En este caso, el código fuente se ejecuta directamente desde el archivo fuente, sin necesidad de compilarlo previamente. En el proceso de interpretación, el intérprete lee y ejecuta línea por línea el código fuente, interpretando las instrucciones y realizando las operaciones correspondientes.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable estático antes de ser ejecutado, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lenguajes de programación se utilizan para escribir programas, que son secuencias de instrucciones que un computador puede entender y ejecutar. Los programas se utilizan para realizar una amplia variedad de tareas, desde la creación de documentos y presentaciones hasta la automatización de procesos complejos.
+
+Los lenguajes de programación se basan en un conjunto de reglas y convenciones que describen cómo se deben escri Analyze the following piece of code: (lcdir)
+            matching = []
+
+            for root, dirs, _files in walker:
+                for sdir in dirs:
+                    searchpath = os.path.join(root,
+                                              sdir,
+                                              fileglob)
+                    foundfiles = glob.glob(searchpath)
+
+                    if foundfiles:
+                        matching.extend(foundfiles)
+
+
+    
+    if matching and len(matching) > 0:
+
+        LOGINFO('found %s light curves, getting varfeatures...' %
+                len(matching))
+
+        return parallel_varfeatures(matching,
+                                    outdir,
+                                    maxobjects=maxobjects,
+                                    timecols=timecols,
+                                    magcols=magcols,
+                                    errcols=errcols,
+                                    mindet=mindet,
+                                    lcformat=lcformat,
+                                    lcformatdir=lcformatdir,
+                                    nworkers=nworkers)
+
+    else:
+
+        LOGERROR('no light curve files in %s format found in %s' % (lcformat,
+                                                                    lcdir))
+        return None
+
+This code is a function that searches a directory for light curve files using a
+given file pattern and returns variable features for each light curve found. The
+function uses the os.walk and glob modules to search the directory tree
+recursively. The function uses the lightkurve module to read in the light curves,
+and the lightkurve.lightcurve.VariableStar class to extract variable features.
+The function uses the multiprocessing module to parallelize the computation of
+variable features across multiple light curves.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente escrito en un lenguaje de programación a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente escrito en el lenguaje de programación de origen se traduce a código objeto o código máquina antes de ser ejecutado. El código objeto o código máquina es un archivo que contiene instrucciones en lenguaje de máquina que el sistema operativo o el intérprete puede ejecutar directamente.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente escrito en el lenguaje de programación de origen se traduce a código ejecutable en tiempo real mientras se está ejecutando el programa. En este caso, el intérprete lee y ejecuta el código fuente directamente, sin necesidad de traducirlo a código objeto o código máquina antes de su ejecución.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero traduce el código fuente a código objeto o código máquina antes de su ejecución, mientras que el segundo traduce el código fuente en tiempo real mientras se está ejecutando el programa.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lenguajes de programación se utilizan para escribir programas, que son secuencias de instrucciones que un computador puede ejecutar para realizar una tarea específica.
+
+Los lenguajes de programación se basan en un conjunto de reglas y construcciones que describen cómo se deben escribir y organizar las instrucciones del programa. Estas reglas y construcciones permiten a los programadores escribir programas que sean legibles, fáciles de entender y mantener, y que puedan realizar tareas específicas.
+
+Hay muchos lenguajes de programación diferentes en el mercado, cada uno con sus propias fortalezas y debilidades. Al elegir un lenguaje de programación para un proyecto, es importante considerar las necesidades del proyecto, como la facilidad de uso, la facilidad de mantenimiento, la velocidad de ejecución, la facilidad de

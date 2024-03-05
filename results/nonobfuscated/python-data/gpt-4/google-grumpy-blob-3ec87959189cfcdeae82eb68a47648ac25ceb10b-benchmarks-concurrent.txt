@@ -1,0 +1,15 @@
+This Python code seems to be a multi-threaded benchmarking tool that performs two operations; an arithmetic operation (`Arithmetic`) and a Fibonacci sequence calculation(`Fib`), and measures their execution times.
+
+The `Arithmetic` function takes an integer as an argument, multiplies it by 3, and then adds 2 to the result.
+
+The `Fib` function calculates the Fibonacci number at the given index recursively.
+
+The `_WORKLOADS` array holds two tuples, first one contains the `Arithmetic` function and an argument `1001`, and the second one consists of the `Fib` function and an argument `10`.
+
+The `_MakeParallelBenchmark` function creates a benchmark that will run the specified workload function, either `Arithmetic` or `Fib`, in multiple parallel threads. The number of threads is determined by the input `p`. 
+
+The `_RegisterBenchmarks` function registers the created benchmarks for the `_WORKLOADS` with varying degrees of parallelism (from 1 to 12 threads).
+
+In the `if __name__ == '__main__':` section, the code uses the Weetest framework to run these registered benchmarks when the script is executed directly.
+
+Weetest is a lightweight Python testing and benchmarking framework similar to Googletest and it is used for performance testing.

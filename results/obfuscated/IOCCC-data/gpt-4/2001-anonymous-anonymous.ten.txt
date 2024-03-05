@@ -1,0 +1,34 @@
+This code is a simple implementation of the song "Ten Green Bottles" in C. Given a number of bottles, it will print out the lyrics accordingly.
+
+In detail:
+
+1. `#define PLURAL(bottles) bottles==1?"bottle":"bottles"`: This is a preprocessor macro that takes an integer and returns the string "bottle" if the integer is 1, "bottles" otherwise. This is used to ensure correct grammar in the lyrics.
+
+2. `void sing(int bottles)`: This is a function that takes an integer `bottles` and prints out a line of the song. It uses the `PLURAL` macro to print out "bottle" or "bottles" as appropriate.
+
+3. `int main()`: This is the main function.
+
+4. `int bottles = 10`: This creates an integer `bottles` and initializes it to 10.
+
+5. `while(bottles)`: This is a loop that will continue as long as `bottles` is non-zero.
+
+6. `sing(bottles)`: This calls the `sing` function twice to print out a line of the song.
+
+7. `printf("And if one green bottle should accidently fall,\nThere'd be " sing(--bottles))`: This prints out a line of the song and then calls `sing` with `bottles` decremented by 1.
+
+8. `printf("\n")`: This prints out a newline character, effectively starting a new line of the song.
+
+The `main` function ends by returning 0, indicating successful execution. After ten cycles of the loop, `bottles` will be decremented to 0, causing the loop to end and the program to terminate.
+
+Note: There seems to be syntax errors in your code, for instance semi-colons are missing at the end of some statements and it's lacking a concatenation operator to bind print functions with `sing(--bottles)`. It should read like this:
+
+```c
+printf("And if one green bottle should accidently fall,\nThere'd be ");
+sing(--bottles);
+printf("\n");
+```
+Also, the call to `sing` function needs to be terminated properly:
+
+```c
+sing(bottles);
+```

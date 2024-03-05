@@ -1,0 +1,27 @@
+This code has been written in a rather unreadable way, but it appears to be implementing a simulation of the Enigma machine, which was a device used for encryption and decryption by Germany during World War II. 
+
+As per the code, the Enigma machine is represented by rotor and reflector arrays (`Y`). There are specific arrays to represent the rotor settings and corresponding mappings `Y<:20:><:27:>=<% "EKMFLGDQVZNTOWYHXUSPAIBRCJ", ..., "Mcromlhxo"}`. 
+
+The character arrays `S` and `r` are used for transliteration and conversion respectively, whereas `e`, `g` and `P` are used as counters.
+
+`w` function increments rotors. 
+
+`Q` initializes rotor settings.
+
+`m` does the actual ciphering process -- it converts each character of a string into the corresponding encrypted character as per the rotors' settings, this includes the stepping of the rotors.
+
+`E` function is for uppercase conversion.
+
+`p` function checks if a given character has a reflector.
+
+The `main` function reads the command-line arguments passed to the program, initializes the settings for rotors, and passes the text message to the `m` function for encryption or decryption.The rest of the main function is reading further command-line arguments to modify the mappings between the rotors, as denoted by `Y<:14:><:i:> = a ; 15<:Y:><:i:> = b`. 
+
+These mappings are acceptable if they do not exist as default mappings (`!p(b) && !p(a)`), and they are not an attempt to map a character to itself (`a!=b`). The verification is done through the `n` function.
+
+Once it has finished initialising all required parameters, the function reads a text from the standard input using `getdelim` function till an End of File (`EOF`) is detected. This loaded string is then passed to `m` function for the encryption or decryption.
+
+After `m` function has returned the encrypted or decrypted message, it is printed to the user using `printf` command.
+
+Finally, `free` function is called to release or free the memory that was dynamically allocated to hold the input. 
+
+The function `Q()` seems to initialise or reset the rotor settings after all mappings are set.

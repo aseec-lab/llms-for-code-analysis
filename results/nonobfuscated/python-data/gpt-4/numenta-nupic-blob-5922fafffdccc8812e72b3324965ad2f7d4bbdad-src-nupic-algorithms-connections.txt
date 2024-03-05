@@ -1,0 +1,45 @@
+This Python code defines various classes and methods specific to Neural Networks. Each class stores and manipulates data related to a specific part of the neural network:
+
+1. Class `Segment` represents a segment of a neural network which contains multiple synapses. This class contains methods for initializing the segment and comparing it with other segments.
+
+2. Class `Synapse` represents a synapse in the neural network which connects different neurons. This class contains methods for initializing the synapse and comparing it with other synapses.
+
+3. Class `CellData` represents a cell in the network, containing multiple segments.
+
+4. A simple binary search function `binSearch` is provided to search for a value in a sorted collection.
+
+5. The `Connections` class is seems to be the crux that brings everything together. This class is made to manage a group of cells, their segments and the connections(synapses) between them. 
+
+Some important methods within `Connections` class are:
+
+   - `segmentsForCell`: The method returns all the segments for a particular cell.
+ 
+   - `synapsesForSegment`: This method returns all the synapses for a particular segment.
+
+   - `createSegment`: The method creates a new segment within the given cell.
+
+   - `destroySegment`: This function deletes a segment from a cell and does the necessary cleanup.
+   
+   - `createSynapse`: This function creates a new synapse in a given segment. 
+  
+   - `destroySynapse`: This function deletes a synapse and does the necessary cleanup.
+
+A good understanding of how neurons, synapses, and segments work is necessary to fully comprehend this code.This Python code further extends the operations for the `Connections` class that manages the groups of cells, their segments (containing synapses), and the connections between them in a neural network. 
+
+- `updateSynapsePermanence`: This function updates the permanence (the strength of the connection between cell and other cells) of the synapse.
+
+- `computeActivity`: This method computes the activity of cells in the network based on the count of active presynaptic cells.
+
+- `numSegments` and `numSynapses` returns the number of segments in a cell and synapses in a segment respectively.
+
+- `segmentPositionSortKey`: This function keys to sort the segments.
+
+- `write`: This function writes one or more proto-object mapping to cells, segments, and synapses.
+
+- `getSchema`: This is a class method that gets the schema for the Connections class.
+
+- `read`: This is a method that reads the Connections class schema, creating new cells, segments, and synapses as specified.
+
+- `__eq__` and `__ne__` methods are implemented to respectively check for equality and non-equality between Connections objects. It cross-verifies if the number of segments, synapses, presynaptic cells, and total synapses are the same in both objects. 
+
+A good understanding of neural network operations is necessary to fully comprehend what this code does. It is also necessary to understand that the code uses various terminologies and abstractions specific to a neural network.

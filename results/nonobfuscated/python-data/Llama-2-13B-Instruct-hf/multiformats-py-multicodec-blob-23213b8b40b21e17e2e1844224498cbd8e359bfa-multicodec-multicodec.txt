@@ -1,0 +1,79 @@
+Analyze the following piece of code: import varint
+
+from .constants import NAME_TABLE, CODE_TABLE
+
+
+def extract_prefix(bytes_):
+    
+
+    try:
+        return varint.decode_bytes(bytes_)
+    except TypeError:
+        raise ValueError('incorrect varint provided')
+
+
+def get_prefix(multicodec):
+    
+
+    try:
+        prefix = varint.encode(NAME_TABLE[multicodec])
+    except KeyError:
+        raise ValueError('{} multicodec is not supported.'.format(multicodec))
+    return prefix
+
+
+def add_prefix(multicodec, bytes_):
+    
+
+    prefix = get_prefix(multicodec)
+    return b''.join([prefix, bytes_])
+
+
+def remove_prefix(bytes_):
+    
+
+    prefix_int = extract_prefix(bytes_)
+    prefix = varint.encode(prefix_int)
+    return bytes_[len(prefix):]
+
+
+def get_codec(bytes_):
+    
+
+    prefix = extract_prefix(bytes_)
+    try:
+        return CODE_TABLE[prefix]
+    except KeyError:
+        raise ValueError('Prefix {} not present in the lookup table'.format(prefix))
+
+
+def is_codec(name):
+    
+
+    return name in NAME_TABLE
+
+
+def main():
+    
+
+    print(get_codec(b'hello world'))
+
+
+if __name__ == '__main__':
+    main()
+
+What does this code do?
+
+This code defines a set of functions for working with a variable-length integer (varint) encoding scheme. It includes functions for encoding and decoding varints, as well as functions for adding and removing varint prefixes from binary data.
+
+Here's a breakdown of each function:
+
+1. `extract_prefix(bytes_)`: Takes a binary data bytes and extracts the varint prefix from it. If the prefix is not present or cannot be decoded, it raises a `ValueError`.
+2. `get_prefix(multicodec)`: Takes a multicodec (a string representing a codec) and returns the corresponding varint prefix. If the multicodec is not supported, it raises a `ValueError`.
+3. `add_prefix(multicodec, bytes_)`: Takes a multicodec and binary data bytes and adds the varint prefix to the binary data.
+4. `remove_prefix(bytes_)`: Takes binary data with a varint prefix and removes the prefix, returning the remaining binary data.
+5. `get_codec(bytes_)`: Takes binary data and returns the codec (a string) that produced the data, based on the varint prefix. If the prefix is not present or cannot be decoded, it raises a `ValueError`.
+6. `is_codec(name)`: Takes a codec name and returns `True` if the codec is supported, `False` otherwise.
+7. `main()`: A sample function that demonstrates how to use the other functions. It prints the codec that produced the binary data "hello world".
+
+Overall, this code provides a set of functions for working with a variable-length integer (varint) encoding scheme, including functions for encoding and decoding varints, as well as functions for adding and removing varint prefixes from binary data.

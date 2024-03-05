@@ -1,0 +1,17 @@
+The code is implementing a class called DeputiesDataset that fetches data about deputies from the Brazilian Chamber of Deputies and saves it to a CSV file. 
+
+Here's a breakdown of the code:
+
+1. The code imports the necessary libraries: `urllib`, `xml.etree.ElementTree`, `pandas`, `serenata_toolbox.log`, and the `save_to_csv`, `translate_column`, and `xml_extract_text` helper functions from `serenata_toolbox.datasets.helpers`.
+
+2. The code defines a class called `DeputiesDataset` with a static variable `URL` which stores the URL to fetch the data from.
+
+3. The `fetch` method of the `DeputiesDataset` class is defined. It fetches the XML data from the URL, parses it using the `xml.etree.ElementTree` library, and then creates a DataFrame using the records extracted from the XML data. The DataFrame is then returned.
+
+4. The `_parse_deputies` method is a static method of the `DeputiesDataset` class. It takes the root element of the XML data as input and iterates over each deputy element, extracting the required information using the `xml_extract_text` helper function. It yields a tuple of the extracted information for each deputy.
+
+5. The `_translate` method is a static method of the `DeputiesDataset` class. It takes a DataFrame as input and translates the values in the 'gender' and 'condition' columns using the `translate_column` helper function. It then returns the translated DataFrame.
+
+6. The `fetch_deputies` function is defined. It creates an instance of the `DeputiesDataset` class, calls the `fetch` method to fetch the data, saves the DataFrame to a CSV file using the `save_to_csv` helper function, and then performs some logging operations.
+
+Overall, the code fetches data about deputies from the Brazilian Chamber of Deputies, processes it, and saves it to a CSV file. It also performs some logging operations to provide information about the fetched data.

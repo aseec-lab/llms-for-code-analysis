@@ -1,0 +1,63 @@
+Analyze the following piece of code: int f(int n){
+	int sz[15];
+	int i,k,m=0,t;
+	if(n<0){
+		t=-1;
+	}else if(n>0){
+		t=1;
+	}else{
+		t=0;
+	}
+	n=fabs(n);
+	for(i=1;;i++){
+		if(n<pow(10,i)){
+			break;
+		}
+	}
+	for(k=0;k<i;k++){
+		sz[k]=n/pow(10,i-k-1);
+		n-=sz[k]*pow(10,i-k-1);
+	}
+	for(k=0;k<i;k++){
+		m+=sz[k]*pow(10,k);
+	}
+	return m*t;
+}
+int main(){
+	int n,i;
+	for(i=1;i<=6;i++){
+		scanf("%d",&n);
+		printf("%d\n",f(n));
+	}
+
+}
+
+The code appears to be a function definition for a C program. The function takes an integer argument n and returns an integer value.
+
+The function begins by declaring an array of 15 integers named sz.
+
+The next few lines of code check whether n is negative, positive, or zero, and sets a variable t to either -1, 1, or 0, depending on the result.
+
+The next line of code takes the absolute value of n and stores the result in a new variable n.
+
+The for loop iterates through each index i from 1 to the largest integer such that n is less than or equal to 10^i.
+
+The next few lines of code use a second for loop to iterate through each index k from 0 to i-1. In each iteration of the inner loop, the code takes the integer portion of n divided by 10 to the power i-k-1, stores the result in the sz array, and then subtracts the product from n.
+
+The next few lines of code use a third for loop to iterate through each index k from 0 to i-1. In each iteration of the inner loop, the code multiplies the value of sz[k] by 10 to the power k, adds the product to a new variable m, and then sets the value of sz[k] to 0.
+
+The code then returns the value of m multiplied by t.
+
+The main function begins by declaring a variable n of type int. The code then enters a loop that reads 7 integers from the standard input and passes them as arguments to the function f. The function returns the result and prints it to the standard output.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente del programa a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que el sistema operativo o el intérprete puede ejecutar directamente. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en un archivo ejecutable.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente se traduce a código ejecutable en tiempo real mientras se está ejecutando el programa. El intérprete es un programa que lee y ejecuta el código fuente directamente, sin necesidad de compilarlo previamente. En este caso, el código fuente se lee y ejecuta línea por línea, lo que significa que el programa se ejecuta mucho más rápido que en un lenguaje de programación compilado.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de su ejecución, mientras que el segundo se traduce en tiempo real m

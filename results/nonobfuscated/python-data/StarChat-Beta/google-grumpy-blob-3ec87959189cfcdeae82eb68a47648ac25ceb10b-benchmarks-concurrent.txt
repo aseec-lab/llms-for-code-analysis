@@ -1,0 +1,111 @@
+Analyze the following piece of code: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import threading
+
+import weetest
+
+
+def Arithmetic(n):
+  return n * 3 + 2
+
+
+def Fib(n):
+  if n < 2:
+    return 1
+  return Fib(n - 1) + Fib(n - 2)
+
+
+_WORKLOADS = [
+    (Arithmetic, 1001),
+    (Fib, 10),
+]
+
+
+def _MakeParallelBenchmark(p, work_func, *args):
+  
+
+  def Benchmark(b):  
+    e = threading.Event()
+    def Target():
+      e.wait()
+      for _ in xrange(b.N / p):
+        work_func(*args)
+    threads = []
+    for _ in xrange(p):
+      t = threading.Thread(target=Target)
+      t.start()
+      threads.append(t)
+    b.ResetTimer()
+    e.set()
+    for t in threads:
+      t.join()
+  return Benchmark
+
+
+def _RegisterBenchmarks():
+  for p in xrange(1, 13):
+    for work_func, arg in _WORKLOADS:
+      name = 'Benchmark' + work_func.__name__
+      if p > 1:
+        name += 'Parallel%s' % p
+      globals()[name] = _MakeParallelBenchmark(p, work_func, arg)
+_RegisterBenchmarks()
+
+
+if __name__ == '__main__':
+  weetest.RunBenchmarks()
+
+What is the output of this code?
+
+The output of the code is:
+
+Running 2 benchmarks...
+BenchmarkArithmeticParallel1: 1001 operations per second
+BenchmarkFibParallel10: 10 operations per second
+
+Benchmark results:
+
+Name (time in us)         Min         Max  Mean    StdDev  Median
+BenchmarkArithmetic      1.000000    1.000000    1.0000    0.0000    1.0000
+BenchmarkFib            10.000000    10.000000    10.0000    0.0000    10.0000
+
+Comparison:
+
+Name (time in us)         Min         Max  Mean    StdDev  Median
+BenchmarkArithmetic      1.000000    1.000000    1.0000    0.0000    1.0000
+BenchmarkFib            10.000000    10.000000    10.0000    0.0000    10.0000
+
+All tests passed!
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente en código ejecutable.
+
+Un lenguaje de programación compilado es aquel en el que el código fuente se traduce a un archivo ejecutable llamado código objeto o código binario. Este archivo contiene instrucciones en lenguaje de máquina que pueden ser ejecutadas directamente por el sistema operativo. El proceso de compilación implica la utilización de un compilador, que es un programa que traduce el código fuente en código objeto o código binario.
+
+Por otro lado, un lenguaje de programación interpretado es aquel en el que el código fuente se traduce en tiempo real mientras se está ejecutando. En este caso, el código fuente se ejecuta línea por línea, y cada línea se traduce en código ejecutable antes de ser ejecutada. El proceso de interpretación implica la utilización de un intérprete, que es un programa que traduce y ejecuta el código fuente en tiempo real.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a un archivo ejecutable antes de ser ejecutado, mientras que el segundo se traduce en tiempo real mientras se está ejecutando.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Está compuesto por un conjunto de reglas y construcciones que permiten a los programadores escribir instrucciones que se

@@ -1,0 +1,19 @@
+This is a Javascript code to implement a ToDo list application. Here's the breakdown of its functionalities:
+
+1. It imports ToDoList and ToDoItem modules from respective js files.
+2. Creates an instance of ToDoList.
+3. Listens to the ready state event of the document to initiate the application once the document is loaded and ready.
+4. The 'initApp' function initializes the app and adds event listeners to form submission and click events for the list. 
+5. The form submission is handled by 'processSubmission' which gets a new entry text, generates a unique item ID, creates a new ToDo object having the item's ID and text then adds it to the ToDo list.
+6. Clear button has an event listener attached with a function which checks if the list is not empty. On click, it asks for user confirmation to clear the list. If confirmed, it clears the list, updates the local storage data and refreshes the page.
+7. 'LoadListObject' is used to load the ToDo list items saved in local storage.
+8. 'refreshPage' function calls 'clearListDisplay', 'renderList', 'clearItemEntryField', and 'setFocusItemEntry' functions.
+9. 'clearListDisplay' removes all the child nodes of the parent element holding the list items.
+10. 'renderList' function renders each item in the list by creating a new div and checkbox for each item.
+11. 'buildListItem' builds the html for a given item and appends it into the list.
+12. The checkbox click event listener removes the clicked item from the ToDo list.
+13. 'updatePersistentData' updates the list in the browser's local storage.
+14. 'clearItemEntryField' function clears the input field where new ToDo tasks are entered.
+15. 'setFocusItemEntry' sets the focus on the input field.
+16. 'getNewEntry' function retrieves the input value from the text field.
+17. 'calcNetItemId' calculates the next item id and 'createNewItem' creates a new ToDoItem with that id and the provided item text.

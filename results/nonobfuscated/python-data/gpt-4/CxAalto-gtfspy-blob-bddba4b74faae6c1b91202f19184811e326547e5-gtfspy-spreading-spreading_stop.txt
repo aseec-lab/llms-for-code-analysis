@@ -1,0 +1,19 @@
+This code defines a Python class named `SpreadingStop` which appears to be modeling a stop in a transportation network (like a bus or train station), with a focus on spreading of some sort - perhaps COVID-19. 
+
+Attributes of the class are internal unique identifier of the stop(`stop_I`), the minimum time required for a transfer at this stop (`min_transfer_time`), and a list of visitations (`visit_events`).
+
+The following methods are defined within this class:
+
+1. `__init__` : It is a constructor that initializes the class attributes.
+
+2. `get_min_visit_time`: This method returns the smallest arrival time of all visit events. If no events exist, it returns a value representing infinity.
+
+3. `get_min_event`: This method returns the visit event with the smallest arrival time. If no visitations have occurred, it returns `None`.
+
+4. `visit`: This method accepts an event as an argument and based on some conditions, it either adds the event to the visit event list or leaves it as it is. Previously saved events that are beyond a time threshold get removed from the `visit_events` list. Also, it returns whether the event triggered a visit or not.
+
+5. `has_been_visited`: This method checks if any visitations have occurred. It returns `True` if at least one visitation has occurred, otherwise it returns `False`.
+
+6. `can_infect`: This function checks whether an incoming event would be able to spread infection at the stop based on several conditions related to time of visit and trip identifiers, returning a Boolean (`True` or `False`).
+
+This seems to be a part of a simulation of the spread of an infection (like a virus) through a public transport system.

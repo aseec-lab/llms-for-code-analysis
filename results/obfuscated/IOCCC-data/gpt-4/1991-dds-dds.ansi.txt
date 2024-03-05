@@ -1,0 +1,13 @@
+This code is a short but very complex obfuscated C code, written by Simon Whitechapel for the 1990 International Obfuscated C Code Contest (IOCCC).
+
+The objective of the IOCCC is to write the most obscure or obfuscated C program in under 4096 bytes, whilst showcasing creative and unusual ways to utilize the C language.
+
+At its core, the code takes in a single command line argument, treats it as a file name, and opens the file for reading. It then opens a series of other files for writing. The file names and the operations it performs on these files are dictated by the obfuscated data in the large string array.
+
+The string contains encoded instructions. These instructions are read in a loop: one character at a time. During this loop, it executes one of five actions based on the encoded instruction it read: copying characters from the input file to memory, writing characters from memory to an output file, repeating a character multiple times, jumping to a different part of the encoded instructions, or incrementing a memory location.
+
+When all instructions are executed, it uses the system function to execute a shell command. The command that gets executed is contained in the string but is obfuscated.
+
+It should also be noted that to further obfuscate what the code is doing, the author has used #define to redefine the keywords "while", "break", and "case", which can make following the control flow of the program very confusing for someone trying to analyze this code. 
+
+Without the original files that this program works with, determining exactly what this code does is quite challenging.

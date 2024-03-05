@@ -1,0 +1,270 @@
+Analyze the following piece of code: #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define BUF_SIZ 1024
+
+
+static void output_string(const char *buffer, const int write_to_file,
+                          FILE *global_ofile){
+  printf("%s",buffer);
+  if(write_to_file!=0)
+    fprintf(global_ofile,"%s",buffer);
+  return;
+}
+
+
+
+static void removeNewLine(char * s) {
+  if(strlen(s)>0 && s[strlen(s)-1] == '\n') {
+    s[strlen(s)-1] = '\0';
+  }
+}
+
+
+
+static void runCommand (const char *command, char *result) {
+  FILE * pipe;
+
+  pipe = (FILE*)popen(command, "r");
+  if(pipe == NULL) {
+    
+    result[0] = '\0';
+  } else {
+    if(NULL == fgets(result, BUF_SIZ, pipe)){
+      
+      result[0] = '\0';
+    }
+    pclose(pipe);
+  }
+  removeNewLine(result);
+}
+
+
+
+static void readProcCpuInfo (char *model, char *cache) {
+  FILE * info;
+  char * cp;
+  int cpus = 0;
+  char * buffer_end;
+  char buffer[BUF_SIZ];
+  char vendor_id[BUF_SIZ];
+  char model_name[BUF_SIZ];
+  char cpu_MHz[BUF_SIZ];
+  int i;
+  float f;
+
+  vendor_id[0] = model_name[0] = cpu_MHz[0] = model[0] = cache[0] = '\0';
+  info = fopen("/proc/cpuinfo", "r");
+  if(info!= NULL) {
+    
+    while(NULL!= fgets(buffer, BUF_SIZ, info)){
+      buffer_end = buffer + strlen(buffer);
+      cp = buffer;
+      if(! strncmp(buffer, "processor", 9)) {
+        cpus++;
+      } else if(! strncmp(buffer, "vendor_id", 9)) {
+        cp+=strlen("vendor_id");
+        while(cp < buffer_end && ( *cp =='' || *cp == ':'|| *cp == '\t'))
+          cp++;
+        if(cp<buffer_end) {
+          strcpy(vendor_id, cp);
+        }
+        removeNewLine(vendor_id);
+      } else if(! strncmp(buffer, "model name", 10)) {
+        cp+=strlen("model name");
+        while(cp < buffer_end && ( *cp =='' || *cp == ':'|| *cp == '\t'))
+          cp++;
+        if(cp<buffer_end) {
+          strcpy(model_name, cp);
+        }
+        removeNewLine(model_name);
+      } else if(! strncmp(buffer, "cpu MHz", 7)) {
+        cp+=strlen("cpu MHz");
+        while(cp < buffer_end && ( *cp =='' || *cp == ':'|| *cp == '\t'))
+          cp++;
+        if(cp<buffer_end) {
+          strcpy(cpu_MHz, cp);
+        }
+        removeNewLine(cpu_MHz);
+      } else if(! strncmp(buffer, "cache size", 10)) {
+        cp+=strlen("cache size");
+        while(cp < buffer_end && ( *cp =='' || *cp == ':'|| *cp == '\t'))
+          cp++;
+        if(cp<buffer_end) {
+          strcpy(cache, cp);
+        }
+        removeNewLine(cache);
+      }
+    }
+    if(cpus>1) {
+      if (cpus==2) {
+        strcpy(model, "Dual");
+      } else {
+        sprintf(model, "%d CPU", cpus);
+      }
+    }
+    cp = model + strlen(model);
+    if(vendor_id[0]!= '\0'){
+      if(cp!= model){
+        *cp++ ='';
+      }
+      strcpy(cp, vendor_id);
+      cp += strlen(vendor_id);
+    }
+    if(model_name[0]!= '\0'){
+      if(cp!= model){
+        *cp++ ='';
+      }
+      strcpy(cp, model_name);
+      cp += strlen(model_name);
+    }
+    if(cpu_MHz[0]!= '\0'){
+      if(cp!= model){
+        *cp++ ='';
+      }
+      f = atof(cpu_MHz);
+      i = (int)f;
+      if(i==f){
+        sprintf(cp, "%d MHz", i);
+      } else {
+        sprintf(cp, "%.1f MHz", f);
+      }
+      cp += strlen(cp);
+    }
+    fclose(info);
+  }
+}
+
+
+
+int main(int argc, char *argv[]) {
+  char buffer[BUF_SIZ];
+  char result[BUF_SIZ];
+  int i;
+  FILE *ofile;
+
+  ofile = fopen("output.txt", "w");
+  if(ofile == NULL) {
+    printf("Error opening file for writing\n");
+    return 1;
+  }
+  readProcCpuInfo(buffer, result);
+  output_string(buffer, 1, ofile);
+  output_string("\n", 1, ofile);
+  runCommand("pwd", result);
+  output_string(result, 1, ofile);
+  output_string("\n", 1, ofile);
+  for(i=1; i<argc; i++) {
+    runCommand(argv[i], result);
+    output_string(result, 1, ofile);
+    output_string("\n", 1, ofile);
+  }
+  fclose(ofile);
+  return 0;
+}
+
+What does this code do?
+
+The code is a simple program that includes several header files and defines several macros. It then defines a function called output_string that prints a string to the console and writes it to a file. The function takes three arguments: the buffer to print, a flag indicating whether to write the string to a file, and a pointer to the global output file.
+
+The code then defines a second function called removeNewLine that removes the last character of a string if it is a new line.
+
+The code then defines a third function called runCommand that runs a system command and stores the output in a result buffer. The function takes two arguments: the command to run and a pointer to the result buffer.
+
+The code then defines a fourth function called readProcCpuInfo that reads the /proc/cpuinfo file and stores the processor model, cache size, and other information in three buffers. The function takes two arguments: a pointer to the model buffer, a pointer to the cache buffer, and a pointer to the global output file.
+
+The main function then opens an output file for writing, calls the readProcCpuInfo function to retrieve the processor information, and writes the output to the output file. The main function then calls the runCommand function for each argument passed on the command line, writing the output to the output file. The program then closes the output file and returns 0.
+
+
+
+¿Cuál es la diferencia entre un lenguaje de alto nivel y uno de bajo nivel?
+
+Un lenguaje de alto nivel es aquel que se centra en la legibilidad, la claridad y la simplicidad de la sintaxis, en lugar de en la eficiencia de la implementación. Los lenguajes de alto nivel suelen ser más fáciles de aprender y utilizar, y se enfocan en la comunicación clara y concisa de ideas y conceptos.
+
+Por otro lado, un lenguaje de bajo nivel es aquel que se enfoca en la eficiencia de la implementación, la velocidad y la capacidad de manipular Analyze the following piece of code:  (int)(f+0.5f);
+      sprintf(cpu_MHz, "%dMHz", i);
+      strcpy(cp, cpu_MHz);
+      cp += strlen(cpu_MHz);
+    }
+    fclose(info);
+  }
+}
+
+
+
+void hardware(const int write_to_file, FILE *global_ofile) {
+  char buffer[BUF_SIZ];
+  char os[BUF_SIZ];
+  char model[BUF_SIZ];
+  char cache[BUF_SIZ];
+  char os_command[] = "uname -s -r";
+#ifdef NO_UNAME
+  os[0] = '\0';
+#else
+  runCommand(os_command, os);
+#endif
+  if(NULL!= strstr(os, "Linux")) {
+    readProcCpuInfo (model, cache);
+  } else {
+    model[0] = '\0';
+    cache[0] = '\0';
+  }
+  sprintf(buffer, "CPU                 : %s\n", model);
+  output_string(buffer, write_to_file, global_ofile);
+  sprintf(buffer, "L2 Cache            : %s\n", cache);
+  output_string(buffer, write_to_file, global_ofile);
+  sprintf(buffer, "OS                  : %s\n", os);
+  output_string(buffer, write_to_file, global_ofile);
+}
+
+
+
+
+
+int main(int argc, char *argv[]) {
+  int write_to_file = 0;
+  FILE *global_ofile = stdout;
+  if (argc == 2) {
+    if (strcmp(argv[1], "-o") == 0) {
+      write_to_file = 1;
+      if (argc == 4) {
+        global_ofile = fopen(argv[3], "w");
+        if (global_ofile == NULL) {
+          fprintf(stderr, "Error opening file %s for writing\n", argv[3]);
+          exit(1);
+        }
+      } else {
+        fprintf(stderr, "Error: expected file name after -o\n");
+        exit(1);
+      }
+    } else {
+      fprintf(stderr, "Error: unrecognized argument %s\n", argv[1]);
+      exit(1);
+    }
+  }
+  hardware(write_to_file, global_ofile);
+  return 0;
+}
+
+```
+
+
+
+¿Cuál es la diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compliado?
+
+La principal diferencia entre un lenguaje de programación interpretado y un lenguaje de programación compilado es el proceso de traducción del código fuente escrito en el lenguaje de programación a código ejecutable.
+
+En un lenguaje de programación compilado, el código fuente escrito en el lenguaje de programación se traduce a código objeto o código máquina antes de ser ejecutado. El código objeto o código máquina es un archivo que contiene instrucciones en lenguaje de máquina que el sistema operativo o el intérprete puede ejecutar directamente.
+
+Por otro lado, en un lenguaje de programación interpretado, el código fuente escrito en el lenguaje de programación se traduce a código ejecutable en tiempo real mientras se está ejecutando el programa. En este caso, el intérprete lee y ejecuta el código fuente directamente sin necesidad de traducirlo a código objeto o código máquina antes de su ejecución.
+
+En resumen, la principal diferencia entre un lenguaje de programación compilado y un lenguaje de programación interpretado es que el primero se traduce a código objeto o código máquina antes de su ejecución, mientras que el segundo se traduce en tiempo real mientras se está ejecutando el programa.
+
+
+
+¿Qué es un lenguaje de programación?
+
+Un lenguaje de programación es un sistema de comunicación que se utiliza para describir y realizar tareas específicas. Los lenguajes de programación se utilizan para escribir programas que se pueden ejecutar en computadoras y otros dispositivos electrónicos.
+
+Los lenguajes de programación se basan en un conjunto de reglas y convenciones que describen cómo se debe escribir y organizar el código para que pueda ser entendido y ejecutado por una computadora. Estas reglas y convenciones incluyen la sintaxis, que es la forma en que se escriben los elementos básicos del código,

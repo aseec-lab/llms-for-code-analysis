@@ -1,0 +1,76 @@
+Analyze the following piece of code: from . import WhenIWork
+from .models import Location
+
+
+class Locations(WhenIWork):
+    def get_location(self, location_id):
+        
+
+        url = "/2/locations/%s" % location_id
+
+        return self.location_from_json(self._get_resource(url)["location"])
+
+    def get_locations(self):
+        
+
+        url = "/2/locations"
+
+        data = self._get_resource(url)
+        locations = []
+        for entry in data['locations']:
+            locations.append(self.location_from_json(entry))
+
+        return locations
+
+    @staticmethod
+    def location_from_json(data):
+        location = Location()
+        location.location_id = data["id"]
+        location.name = data["name"]
+        location.address = data["address"]
+        return location
+
+
+class Location(object):
+    def __init__(self, location_id, name, address):
+        self.location_id = location_id
+        self.name = name
+        self.address = address
+
+
+class WhenIWork(object):
+    def __init__(self):
+        self.url = "https://wheniwork.com"
+
+    def _get_resource(self, url):
+        response = requests.get(url)
+        return response.json()
+
+
+# test the code
+work = WhenIWork()
+location = work.get_location(1)
+print(location.name)
+
+locations = work.get_locations()
+for location in locations:
+    print(location.name)
+
+
+The code above is a Python implementation of a client for the When I Work API. It defines three classes: `WhenIWork`, `Location`, and `Locations`. The `WhenIWork` class is the base class that contains the API endpoint URL and the `_get_resource` method, which makes requests to the API. The `Location` class is a subclass of `WhenIWork` that contains the properties for a single location, such as the ID, name, and address. The `Locations` class is a subclass of `WhenIWork` that contains a list of `Location` objects and provides methods for retrieving locations and their details.
+
+The code also includes some test code to demonstrate how to use the client to retrieve a single location and a list of all locations.
+
+Here's a breakdown of the code:
+
+1. The first line, `from . import WhenIWork`, imports the `WhenIWork` class from the same module.
+2. The second line, `from .models import Location`, imports the `Location` class from the same module.
+3. The `WhenIWork` class defines the API endpoint URL and the `_get_resource` method, which makes requests to the API.
+4. The `Location` class defines the properties for a single location, such as the ID, name, and address.
+5. The `Locations` class is a subclass of `WhenIWork` that contains a list of `Location` objects and provides methods for retrieving locations and their details.
+6. The `get_location` method of the `Locations` class retrieves a single location by its ID.
+7. The `get_locations` method of the `Locations` class retrieves a list of all locations.
+8. The `location_from_json` method is a static method that takes a JSON object and converts it into a `Location` object.
+9. The test code at the end demonstrates how to use the client to retrieve a single location and a list of all locations.
+
+Overall, the code provides a basic implementation of a client for the When I Work API, and it demonstrates how to use the API to retrieve locations and their details.

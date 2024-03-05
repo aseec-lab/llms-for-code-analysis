@@ -1,0 +1,11 @@
+The code is written in C programming language. It collects some basic hardware and software information from an operating system and then prints it on a console, also provides an option to write the collected information into a file. 
+
+1. `output_string`: This function is to print a string to a console and, if indicated by the `write_to_file` parameter, to a global file defined as `global_ofile`.
+
+2. `removeNewLine`: This function removes the newline character from the end of a string if it exists.
+
+3. `runCommand`: This function runs a command indicated by the `command` parameter and saves the result into the `result` parameter. If the command fails, an empty string will be returned.
+
+4. `readProcCpuInfo`: This function reads the file `/proc/cpuinfo` from a Linux system, which contains detailed information about the CPUs of the system. It extracts the number of processors, vendor id, model name, CPU frequency (MHz), and cache size. It collects these figures into a format and passes them into the `model` and `cache` parameters.
+
+5. `hardware`: This function collects CPU and OS information using the `runCommand` and `readProcCpuInfo` functions. If OS is Linux, it reads detailed CPU information from `/proc/cpuinfo`, else it simply clears the model and cache. After gathering the data, it formats the information into an easily readable string and sends it to `output_string` to be printed to console and potentially written to a file.

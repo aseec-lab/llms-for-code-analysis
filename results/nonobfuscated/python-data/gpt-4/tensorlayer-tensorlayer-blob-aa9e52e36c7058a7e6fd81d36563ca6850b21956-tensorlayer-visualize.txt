@@ -1,0 +1,35 @@
+The provided code is a set of image processing tools. It includes functions to read and save images, draw boxes and labels on images, illustrate human poses and to display images. The code uses the following libraries:
+
+- os: This Standard Python Library is used for accessing the operating system’s functionalities. It is using `os.path.join` function to combine path and filename.
+  
+- imageio: External library which provides an easy interface to read and write a wide range of image data, including animated images, volumetric data, and scientific formats.
+  
+- numpy: NumPy is a python library used for working with arrays. It also has functions for working in the domain of linear algebra, Fourier transform, and matrices.
+  
+- tensorlayer: A Deep Learning and Reinforcement Learning library for Researchers and Engineers based on TensorFlow.
+  
+- cv2 (OpenCV): Open source computer vision and machine learning software library with more than 2500 optimized algorithms. It is used here to draw rectangles and texts to an image.
+
+From the high level, this piece of code performs operations in image processing such as:
+
+- 'read_image' and 'read_images': Using imageio library to read an image and a group of images from a path respectively.
+
+- 'save_image' and 'save_images': These are function to save a single image and multiple images in a batch. Images can be saved in the path provided.
+
+- 'draw_boxes_and_labels_to_image': This function is used to draw bounding boxes and corresponding labels on images. It is commonly used for the task of object detection where you want to identify the objects present in the image.
+
+- 'draw_mpii_people_to_image' or 'draw_mpii_pose_to_image': This function is designed to draw human poses on image based on the "MPII Human Poses dataset".
+
+- Lastly, 'frame' function is used to display an image or frame in a matplotlib figure window with an option to save it as well.The remaining code provided includes various data visualization methods specifically for images and deep learning models:
+
+- 'CNN2d': This function visualizes a 2D Convolutional Neural Network (CNN). It uses matplotlib to plot each filter as an image. The number of images is equal to the number of filters in CNN.
+
+- 'images2d': This function is used to visualize a 2D array of images with subplots using matplotlib. This is helpful in understanding visual patterns in layers of a Convolutional Neural Network (CNN).
+
+- 'tsne_embedding': This function is used for visualizing high-dimensional data. It converts similarities between data points to joint probabilities and tries to minimize the divergence between the joint probabilities in the low-dimensional representation and the high-dimensional data.
+
+- 'draw_weights': This function visualizes the learned weights of a model. This function is often used in a neural network to inspect what features the model has learned.
+
+The variable `W` at the end is just setting an alias for the `draw_weights` function, so the function could be called by either `draw_weights` or `W`.
+
+These data visualization methods are essential in Machine Learning or Deep Learning tasks, especially when we want to understand how our model works and how our data looks like. The better we understand our model and our data, the better we can improve our model performance.

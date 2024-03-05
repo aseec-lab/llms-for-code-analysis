@@ -1,0 +1,39 @@
+This script is a comprehensive testing suite. It seems to be a tool for benchmarking performance testing of JavaScript code. The provided functions allow to create a set of tests or benchmarks, run them, and get results to analyze the performance.
+
+Here's a breakdown of some specific parts of the code:
+
+1. The first part ensures `performance.now` method is available in the browser, it is used to get the current time in sub-millisecond resolution.
+
+2. The `Benchmark` function is a constructor for creating new benchmarks. 
+
+3. Similarly, `BenchmarkResult` and `BenchmarkSuite` are constructors for results of a benchmark and a group of benchmarks respectively.
+
+4. `alert` function is redefined to throw an error when invoked. It seems like a precaution against accidentally mistaking browser's alert function with a custom one.
+   
+5. The `ResetRNG` function is resetting the random number generator in JavaScript.
+    
+6. `RunSuites` function cycles through all of the defined test suites and runs the tests.
+
+7. There are `GeometricMean`, `GeometricMeanTime`, `GeometricMeanLatency` functions for calculating statistical values from test results.
+
+8. The suite also includes functions for formatting the resulting scores and notifying about different steps, results, errors, etc.
+
+9.  The `RunSingleBenchmark` function runs a single benchmark, taking into consideration whether it should be run deterministically or not, and whether it needs a warmup run. 
+
+This code, therefore, is more of a utility for performance testing rather than doing a specific task. It allows users to define their own benchmarks, then performs those benchmarks, and finally outputs the statistical analysis on the results.This is the remaining part of the `BenchmarkSuite`'s method called `RunStep`. This method is responsible for running each benchmark in the suite, including the benchmark's setup and teardown phases.
+
+Let's break this down:
+
+1. The function `RunStep` takes a `runner` parameter. At the start of the function, a reset of the Random Number Generator is done using `BenchmarkSuite.ResetRNG()`.
+
+2. The benchmarks from the suite are sequentially prepared and executed with the help of three nested functions: `RunNextSetup()`, `RunNextBenchmark()`, and `RunNextTearDown()`.
+
+3. `RunNextSetup()` function attempts to set up the next benchmark at the current `index`. If the setup throws an error, it gets logged and execution stops. If the setup is successful, the function returns a reference to `RunNextBenchmark`.
+
+4. `RunNextBenchmark()` function runs the benchmark and checks the return value of the benchmark run. If running the benchmark throws an error, it gets logged and execution is halted. If the benchmark completes successfully and signals that no more runs are needed, it proceeds to the teardown phase and thus returns `RunNextTearDown`.
+
+5. `RunNextTearDown()` function performs the teardown. It increments the `index` to point to the next benchmark and attempts to perform the teardown of the current benchmark. If the teardown operation throws an error, it gets logged and execution stops. If teardown is successful, the function returns `RunNextSetup` thereby moving to the next benchmark.
+
+6. The last line of the function triggers the first setup and starts the described loop. After all benchmarks have been run, `suite.NotifyResult()` is called to output the final result. 
+
+This structure allows for an elegant, linear progression of setup, run, teardown phases of benchmarks despite the asynchronous nature of operation.
