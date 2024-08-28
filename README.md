@@ -20,10 +20,11 @@ Results of our analysis include responses of different models on different code 
 ![WannaCry Case Study](images/FigWannaCry.jpg) -->
 ## Citation
 ```
-@article{fang2023large,
+@inproceedings{fang2024large,
   title={Large language models for code analysis: Do llms really do their job?},
-  author={Fang, Chongzhou and Miao, Ning and Srivastav, Shaurya and Liu, Jialin and Zhang, Ruoyu and Fang, Ruijie and Asmita, Asmita and Tsang, Ryan and Nazari, Najmeh and Wang, Han and others},
-  journal={arXiv preprint arXiv:2310.12357},
-  year={2023}
-}
+  author={Fang, Chongzhou and Miao, Ning and Srivastav, Shaurya and Liu, Jialin and Zhang, Ruoyu and Fang, Ruijie and Asmita and Tsang, Ryan and Nazari, Najmeh and Wang, Han and Homayoun, Houman},
+  booktitle={Usenix Security Symposium},
+  year={2024}
+};
+
 ```
